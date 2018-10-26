@@ -1,0 +1,11 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+suppress_comment= \\(.\\|\n\\)*\\silence-error
+[strict]

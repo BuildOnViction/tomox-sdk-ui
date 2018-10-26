@@ -1,0 +1,48 @@
+@import "vars";
+
+.main-chart {
+  .chart-container {
+    label, select {
+      display: none !important;
+    }
+    g.react-stockcharts-moving-average-tooltip, g.react-stockcharts-tooltip-hover {
+      text {
+        tspan.react-stockcharts-tooltip-label {
+          fill: $hoverBlue !important;
+        }
+        tspan {
+          fill: $primary !important;
+        }
+      }
+    }
+    g.react-stockcharts-tooltip {
+      text {
+        tspan.react-stockcharts-tooltip-label {
+          fill: $hoverBlue !important;
+        }
+        tspan {
+          fill: $primary;
+        }
+        tspan[fill="#4682B4"] {
+          fill: $primary;
+        }
+        tspan[fill="#FF0000"] {
+          fill: #FF0000;
+        }
+        tspan[fill="#00F300"] {
+          fill: #00F300;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1530px) {
+  .main-chart {
+    .toolbar {
+      button.right-btn {
+        display: none;
+      }
+    }
+  }
+}
