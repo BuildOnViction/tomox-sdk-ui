@@ -1,10 +1,11 @@
 // @flow
 import type { AccountAllowances, AccountBalances, AccountBalancesState } from '../../types/accountBalances';
 import { round } from '../../utils/helpers';
+import { ether, ALLOWANCE_MINIMUM } from '../../utils/constants';
 import { utils } from 'ethers';
+import { formatNumber } from 'accounting-js';
 // eslint-disable-next-line
 const initialState = {};
-const MAX_ALLOWANCE = '115792089237316195423570985008687907853269984665640564039457.584007913129639935';
 
 export function initialized() {
   const initialState = {};
@@ -93,6 +94,9 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     tokenBalance(symbol: string) {
       return state[symbol] ? state[symbol].balance : null;
     },
+    formattedTokenBalance(symbol: string) {
+      return state[symbol] ? formatNumber(state[symbol].balance, { precision: 2 }) : null;
+    },
     getBigNumberBalance(symbol: string) {
       if (!state[symbol]) return null;
 
@@ -102,7 +106,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       let precisionMultiplier = 1e4;
       let balancePoints = round(state[symbol].balance * precisionMultiplier, 0);
 
-      let etherMultiplier = utils.bigNumberify('1000000000000000000');
+      let etherMultiplier = ether;
       let balance = utils
         .bigNumberify(balancePoints)
         .mul(etherMultiplier)
@@ -117,7 +121,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return state[symbol] ? state[symbol].subscribed : false;
     },
     isAllowed(symbol: string) {
-      return state[symbol] ? state[symbol].allowance === MAX_ALLOWANCE : false;
+      return state[symbol] ? state[symbol].allowance > ALLOWANCE_MINIMUM : false;
     },
     isAllowancePending(symbol: string) {
       return state[symbol] ? state[symbol].allowance === 'pending' : false;
@@ -126,9 +130,9 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return (tokens: any).map(token => {
         return {
           ...token,
-          balance: state[token.symbol] ? state[token.symbol].balance : null,
+          balance: state[token.symbol] ? formatNumber(state[token.symbol].balance, { precision: 2 }) : null,
           // explicit true/false
-          allowed: state[token.symbol] ? state[token.symbol].allowance === MAX_ALLOWANCE : false,
+          allowed: state[token.symbol] ? state[token.symbol].allowance > ALLOWANCE_MINIMUM : false,
           allowancePending: state[token.symbol] && state[token.symbol].allowance === 'pending',
         };
       });
@@ -137,8 +141,8 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return (Object.values(state): any).map(item => {
         return {
           symbol: item.symbol,
-          balance: item.balance,
-          allowed: item.allowance === MAX_ALLOWANCE,
+          balance: formatNumber(item.balance, { precision: 2 }),
+          allowed: item.allowance > ALLOWANCE_MINIMUM,
           allowancePending: item.allowance === 'pending',
         };
       });
@@ -147,8 +151,8 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return (Object.values(state): any).map(item => {
         return {
           symbol: item.symbol,
-          balance: item.balance,
-          allowed: parseFloat(item.allowance) > 0,
+          balance: formatNumber(item.balance, { precision: 2 }),
+          allowed: parseFloat(item.allowance) > ALLOWANCE_MINIMUM,
         };
       });
     },

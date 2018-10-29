@@ -2,13 +2,13 @@
 
 import * as appActionCreators from '../actions/app';
 import * as actionCreators from '../actions/socketManager';
-import { updateTokensList } from '../models/tokens';
 import { getAccountDomain } from '../domains';
 import { getSigner } from '../services/signer';
 import { getRandomNonce } from '../../utils/crypto';
-import { signOrder } from '../services/signer/methods';
+import { parseOrder, parseTrades, parseOrderBookData, parseOHLCV } from '../../utils/parsers';
 
-import type { Token } from '../../types/token';
+import type { State, ThunkAction } from '../../types/';
+import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket';
 
 export default function socketManagerSelector(state: State) {
   return {
@@ -17,42 +17,13 @@ export default function socketManagerSelector(state: State) {
 }
 
 // eslint-disable-next-line
-export function subscribeChart(pair: string, increment: number): ThunkAction {
-  return (dispatch, getState, { socket }) => {
-    dispatch(actionCreators.subscribeChart(pair));
-
-    //add something to verify if the subscribtion is needed
-    const unsubscribe = socket.subscribeChart(pair, increment);
-
-    return () => {
-      dispatch(actionCreators.unsubscribeChart(pair));
-      unsubscribe();
-    };
-  };
-}
-
-export function subscribeOrderBook(pair: string): ThunkAction {
-  return (dispatch, getState, { socket }) => {
-    dispatch(actionCreators.subscribeOrderBook(pair));
-
-    const unsubscribe = socket.subscribeOrderBook(pair);
-
-    return () => {
-      dispatch(actionCreators.unsubscribeOrderBook(pair));
-      unsubscribe();
-    };
-  };
-}
-
-// eslint-disable-next-line
-export function openConnection(callback): ThunkAction {
+export function openConnection(): ThunkAction {
   return (dispatch, getState, { socket }) => {
     socket.createConnection();
 
     dispatch(actionCreators.createConnection());
 
     const closeConnection = socket.openConnection(event => {
-      callback && callback(event.type);
       switch (event.type) {
         case 'close':
           return handleWebsocketCloseMessage(dispatch, event, closeConnection);
@@ -65,20 +36,22 @@ export function openConnection(callback): ThunkAction {
       }
     });
 
-    socket.onMessage((channel, payload) => {
+    socket.onMessage((message: WebsocketMessage) => {
+      let { channel, event } = message;
+
+      console.log(channel, event);
+
       switch (channel) {
         case 'orders':
-          return handleOrderMessage(dispatch, payload);
-        case 'tokens':
-          return handleTokenMessage(dispatch, payload);
+          return handleOrderMessage(dispatch, event);
         case 'orderbook':
-          return handleOrderBookMessage(dispatch, payload);
+          return handleOrderBookMessage(dispatch, event);
         case 'trades':
-          return handleTradesMessage(dispatch, payload);
+          return handleTradesMessage(dispatch, event);
         case 'ohlcv':
-          return handleOHLCVMessage(dispatch, payload);
+          return handleOHLCVMessage(dispatch, event);
         default:
-          console.log('Receiving unknown message');
+          console.log(channel, event);
           break;
       }
     });
@@ -101,78 +74,227 @@ const handleWebsocketErrorMessage = (dispatch, event, closeConnection) => {
   console.log(event);
 };
 
-const handleOrderMessage = (dispatch, payload) => {
-  const { type, hash, data } = payload;
+const handleOrderMessage = (dispatch, event: WebsocketEvent) => {
+  const { type } = event;
 
   switch (type) {
     case 'ORDER_ADDED':
-      return dispatch(appActionCreators.addSuccessNotification({ message: 'Order added' }));
-    case 'ORDER_CANCELED':
-      return dispatch(appActionCreators.addSuccessNotification({ message: 'Order canceled' }));
-    case 'REQUEST_SIGNATURE':
-      dispatch(appActionCreators.addSuccessNotification({ message: 'Signing trade' }));
-      dispatch(handleRequestSignature(payload));
+      return dispatch(handleOrderAdded(event));
+    case 'ORDER_CANCELLED':
+      return dispatch(handleOrderCancelled(event));
     case 'ORDER_SUCCESS':
-      return dispatch(appActionCreators.addSuccessNotification({ message: 'Order success' }));
+      return dispatch(handleOrderSuccess(event));
     case 'ORDER_PENDING':
-      return dispatch(appActionCreators.addSuccessNotification({ message: 'Order executed' }));
-    case 'ORDER_ERROR':
-      return dispatch(appActionCreators.addDangerNotification({ message: 'Order error' }));
+      return dispatch(handleOrderPending(event));
+    case 'REQUEST_SIGNATURE':
+      return dispatch(handleRequestSignature(event));
+    case 'ERROR':
+      return dispatch(handleOrderError(event));
     default:
-      console.log('Unknown');
+      console.log('Unknown', event);
       return;
   }
 };
 
-const handleTokenMessage = (dispatch, payload) => {
-  const { type, hash, data } = payload;
-
-  switch (type) {
-    case 'UPDATE':
-      const tokens: Array<Token> = data.map(item => ({
-        image: item.image,
-        symbol: item.symbol,
-        address: item.contractAddress,
-      }));
-      console.log(tokens);
-      return dispatch(updateTokensList(tokens));
-    default:
-      console.log('Unknown');
-      return;
-  }
-};
-
-function handleRequestSignature(payload): ThunkAction {
+function handleOrderAdded(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
-    let { data, hash, type } = payload;
-    let signer = getSigner();
+    try {
+      console.log(event);
 
-    if (data.matches != null) {
-      data.matches.map(match => (match.trade.tradeNonce = getRandomNonce()));
-      let promises = data.matches.map(match => signer.signTrade(match.trade));
-      await Promise.all(promises);
+      let order = parseOrder(event.payload);
+
+      dispatch(appActionCreators.addSuccessNotification({ message: 'Order added' }));
+      dispatch(actionCreators.updateOrdersTable([order]));
+    } catch (e) {
+      console.log(e);
+      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
     }
-
-    if (data.order != null) {
-      signer.signOrder(data.order);
-    }
-
-    socket.sendNewSubmitSignatureMessage(hash, data.matches, data.order);
   };
 }
 
-const handleOrderBookMessage = payload => {
-  console.log('Receiving orderbook message', payload);
+function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      let order = parseOrder(event.payload);
+
+      dispatch(appActionCreators.addSuccessNotification({ message: 'Order cancelled' }));
+      dispatch(actionCreators.updateOrdersTable([order]));
+    } catch (e) {
+      console.log(e);
+      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    }
+  };
+}
+
+function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      //TODO handle logic differently depending depending on whether the user is the maker or the taker
+      let signer = getSigner();
+      let signerAddress = await signer.getAddress();
+      let matches = event.payload.matches;
+      let orders = [];
+
+      matches.map(match => {
+        let { order, trade } = match;
+        console.log(trade);
+        if (order.userAddress === signerAddress) orders.push(parseOrder(order));
+      });
+
+      dispatch(appActionCreators.addSuccessNotification({ message: 'Order success' }));
+      dispatch(actionCreators.updateOrdersTable(orders));
+    } catch (e) {
+      console.log(e);
+      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    }
+  };
+}
+
+function handleOrderPending(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      let signer = getSigner();
+      let signerAddress = await signer.getAddress();
+      let matches = event.payload.matches;
+      let orders = [];
+
+      matches.map(match => {
+        let { order, trade } = match;
+        console.log(trade);
+        if (order.userAddress === signerAddress) orders.push(parseOrder(order));
+      });
+
+      dispatch(actionCreators.updateOrdersTable(orders));
+      dispatch(appActionCreators.addSuccessNotification({ message: 'Order pending' }));
+    } catch (e) {
+      console.log(e);
+      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    }
+  };
+}
+
+function handleOrderError(event: WebsocketEvent): ThunkAction {
+  return async dispatch => {
+    dispatch(appActionCreators.addDangerNotification({ message: `Error: ${event.payload}` }));
+  };
+}
+
+function handleRequestSignature(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      let { payload, hash } = event;
+      let { order, remainingOrder, matches } = payload;
+      let signer = getSigner();
+
+      // the order that was originally sent is added to the orders table
+      if (order) {
+        let parsedOrder = parseOrder(order);
+        dispatch(actionCreators.updateOrdersTable([parsedOrder]));
+      }
+
+      // sign the remaining order in case the taker order was partially filled
+      if (remainingOrder) {
+        remainingOrder.nonce = getRandomNonce();
+        await signer.signOrder(remainingOrder);
+      }
+
+      // signed every individual trade
+      if (matches) {
+        matches.map(match => (match.trade.tradeNonce = getRandomNonce()));
+        let promises = matches.map(match => signer.signTrade(match.trade));
+
+        await Promise.all(promises);
+      }
+
+      dispatch(appActionCreators.addSuccessNotification({ message: 'Signing trade' }));
+      socket.sendNewSubmitSignatureMessage(hash, order, remainingOrder, matches);
+    } catch (e) {
+      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      console.log(e);
+    }
+  };
+}
+
+const handleOrderBookMessage = (dispatch, event: WebsocketMessage) => {
+  try {
+    switch (event.type) {
+      // make switch case closure
+      case 'INIT': {
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        const { bids, asks } = parseOrderBookData(event.payload);
+        dispatch(actionCreators.initOrderBook(bids, asks));
+        break;
+      }
+      case 'UPDATE': {
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        const { bids, asks } = parseOrderBookData(event.payload);
+        dispatch(actionCreators.updateOrderBook(bids, asks));
+        break;
+      }
+      default:
+        return;
+    }
+  } catch (e) {
+    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    console.log(e);
+  }
 };
 
-const handleTradesMessage = payload => {
-  console.log('Receiving trades message', payload);
+const handleTradesMessage = (dispatch, event: WebsocketMessage) => {
+  let trades;
+
+  try {
+    switch (event.type) {
+      case 'INIT':
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        trades = parseTrades(event.payload);
+        dispatch(actionCreators.initTradesTable(trades));
+        break;
+      case 'UPDATE':
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        trades = parseTrades(event.payload);
+        dispatch(actionCreators.updateTradesTable(trades));
+        break;
+      default:
+        return;
+    }
+  } catch (e) {
+    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    console.log(e);
+  }
 };
 
-const handleOHLCVMessage = payload => {
-  console.log('Receiving OHLCV message', payload);
+const handleOHLCVMessage = (dispatch, event: WebsocketMessage) => {
+  let ohlcv;
+
+  try {
+    switch (event.type) {
+      case 'INIT':
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        ohlcv = parseOHLCV(event.payload);
+        dispatch(actionCreators.initOHLCV(ohlcv));
+        break;
+      case 'UPDATE':
+        if (!event.payload) return;
+        if (event.payload === []) return;
+        ohlcv = parseOHLCV(event.payload);
+        dispatch(actionCreators.updateOHLCV(ohlcv));
+        break;
+      // return dispatch()
+      default:
+        return;
+    }
+  } catch (e) {
+    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    console.log(e);
+  }
 };
 
-const handleRawOrdersMessage = payload => {
-  console.log('Receiving raw order message', payload);
+const handleRawOrdersMessage = (dispatch, event: WebsocketMessage) => {
+  console.log('Receiving raw order message', event);
 };

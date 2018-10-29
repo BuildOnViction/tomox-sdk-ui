@@ -1,7 +1,7 @@
 // @flow
-import type { TokenPairDataMap } from '../../types/tokens'
-import type { Orders } from '../../types/orders'
-import type { Trades } from '../../types/trades'
+// import type { TokenPairDataMap } from '../../types/tokens';
+import type { Orders } from '../../types/orders';
+import type { Trades } from '../../types/trades';
 import type {
   CreateConnectionAction,
   OpenConnectionAction,
@@ -11,13 +11,15 @@ import type {
   UpdateOrdersTableAction,
   InitTradesTableAction,
   UpdateTradesTableAction,
-  SubscribeChartAction,
-  UnsubscribeChartAction,
-  InitChartAction,
-  UpdateChartAction,
+  SubscribeOHLCVAction,
+  UnsubscribeOHLCVAction,
+  InitOHLCVAction,
+  UpdateOHLCVAction,
   InitOrderBookAction,
-  UpdateOrderBookAction
-} from '../../types/socketManager'
+  UpdateOrderBookAction,
+  SubscribeOrderBookAction,
+  UnsubscribeOrderBookAction,
+} from '../../types/socketManager';
 
 const actionTypes = {
   createConnection: 'socketManager/CREATE_CONNECTION',
@@ -25,134 +27,134 @@ const actionTypes = {
   connectionError: 'socketManager/CONNECTION_ERROR',
   openConnection: 'socketManager/OPEN_CONNECTION',
 
-  initializeTradesTable: 'socketManager/UPDATE_TRADES_TABLE',
+  initTradesTable: 'socketManager/INIT_TRADES_TABLE',
   updateTradesTable: 'socketManager/UPDATE_TRADES_TABLE',
-  initializeOrdersTable: 'socketManager/INIT_ORDERS_TABLE',
+  initOrdersTable: 'socketManager/INIT_ORDERS_TABLE',
   updateOrdersTable: 'socketManager/UPDATE_ORDERS_TABLE',
 
-  subscribeChart: 'socketManager/SUBSCRIBE_CHART',
-  unsubscribeChart: 'socketManager/UNSUBSCRIBE_CHART',
-  initializeChart: 'socketManager/INIT_CHART',
-  updateChart: 'socketManager/UPDATE_CHART',
+  subscribeOHLCV: 'socketManager/SUBSCRIBE_OHLCV',
+  unsubscribeOHLCV: 'socketManager/UNSUBSCRIBE_OHLCV',
+  initOHLCV: 'socketManager/INIT_OHLCV',
+  updateOHLCV: 'socketManager/UPDATE_OHLCV',
 
   subscribeOrderbook: 'socketManager/SUBSCRIBE_ORDERBOOK',
   unsubscribeOrderbook: 'socketManager/UNSUBSCRIBE_ORDERBOOK',
-  initializeOrderBook: 'socketManager/INIT_ORDERBOOK',
-  updateOrderBook: 'socketManager/UPDATE_ORDERBOOK'
-}
+  initOrderBook: 'socketManager/INIT_ORDERBOOK',
+  updateOrderBook: 'socketManager/UPDATE_ORDERBOOK',
+};
 
 export function createConnection(): CreateConnectionAction {
   return {
-    type: actionTypes.createConnection
-  }
+    type: actionTypes.createConnection,
+  };
 }
 
 export function connectionError(): ConnectionErrorAction {
   return {
-    type: actionTypes.connectionError
-  }
+    type: actionTypes.connectionError,
+  };
 }
 
 export function openConnection(): OpenConnectionAction {
   return {
-    type: actionTypes.openConnection
-  }
+    type: actionTypes.openConnection,
+  };
 }
 
 export function closeConnection(): CloseConnectionAction {
   return {
-    type: actionTypes.closeConnection
-  }
+    type: actionTypes.closeConnection,
+  };
 }
 
 // ORDERS TABLE ACTIONS
 // TODO add subscribtions ?
-export function initializeOrdersTable(orders: Orders): InitOrdersTableAction {
+export function initOrdersTable(orders: Orders): InitOrdersTableAction {
   return {
-    type: actionTypes.initializeOrdersTable,
-    payload: { orders }
-  }
+    type: actionTypes.initOrdersTable,
+    payload: { orders },
+  };
 }
 
 export function updateOrdersTable(orders: Orders): UpdateOrdersTableAction {
   return {
     type: actionTypes.updateOrdersTable,
-    payload: { orders }
-  }
+    payload: { orders },
+  };
 }
 
 // TRADES TABLE ACTIONS
 // TODO add subscribtions ?
-export function initializeTradesTable(trades: Trades): InitTradesTableAction {
+export function initTradesTable(trades: Trades): InitTradesTableAction {
   return {
-    type: actionTypes.initializeTradesTable,
-    payload: { trades }
-  }
+    type: actionTypes.initTradesTable,
+    payload: { trades },
+  };
 }
 
 export function updateTradesTable(trades: Trades): UpdateTradesTableAction {
   return {
     type: actionTypes.updateTradesTable,
-    payload: { trades }
-  }
+    payload: { trades },
+  };
 }
 
 // CHART ACTIONS
-export function subscribeChart(pair: string): SubscribeChartAction {
+export function subscribeOHLCV(pair: string): SubscribeOHLCVAction {
   return {
-    type: actionTypes.subscribeChart,
-    payload: { pair }
-  }
+    type: actionTypes.subscribeOHLCV,
+    payload: { pair },
+  };
 }
 
-export function unsubscribeChart(pair: string): UnsubscribeChartAction {
+export function unsubscribeOHLCV(pair: string): UnsubscribeOHLCVAction {
   return {
-    type: actionTypes.unsubscribeChart,
-    payload: { pair }
-  }
+    type: actionTypes.unsubscribeOHLCV,
+    payload: { pair },
+  };
 }
 
-export function initializeChart(data: Object): InitChartAction {
+export function initOHLCV(data: Object): InitOHLCVAction {
   return {
-    types: actionTypes.initializeChart,
-    payload: { data }
-  }
+    type: actionTypes.initOHLCV,
+    payload: { data },
+  };
 }
 
-export function updateChart(data: Object): UpdateChartAction {
+export function updateOHLCV(data: Object): UpdateOHLCVAction {
   return {
-    types: actionTypes.updateChart,
-    payload: { data }
-  }
+    type: actionTypes.updateOHLCV,
+    payload: { data },
+  };
 }
 
 // ORDERBOOK ACTIONS
 export function subscribeOrderBook(pair: string): SubscribeOrderBookAction {
   return {
     type: actionTypes.subscribeOrderbook,
-    payload: { pair }
-  }
+    payload: { pair },
+  };
 }
 
 export function unsubscribeOrderBook(pair: string): UnsubscribeOrderBookAction {
   return {
     type: actionTypes.unsubscribeOrderbook,
-    payload: { pair }
-  }
+    payload: { pair },
+  };
 }
 
-export function initializeOrderBook(data: Object): InitOrderBookAction {
+export function initOrderBook(bids: Array<Object>, asks: Array<Object>): InitOrderBookAction {
   return {
-    types: actionTypes.initializeOrderBook,
-    payload: { data }
-  }
+    type: actionTypes.initOrderBook,
+    payload: { bids, asks },
+  };
 }
 
 export function updateOrderBook(bids: Array<Object>, asks: Array<Object>): UpdateOrderBookAction {
   return {
     type: actionTypes.updateOrderBook,
-    payload: { bids, asks }
-  }
+    payload: { bids, asks },
+  };
 }
 
-export default actionTypes
+export default actionTypes;

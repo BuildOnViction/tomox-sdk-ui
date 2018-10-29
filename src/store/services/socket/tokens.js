@@ -3,7 +3,7 @@ export const sendGetTokenMessage = async () => {
 
   let message = JSON.stringify({
     channel: 'tokens',
-    payload: {
+    event: {
       type: 'GET_TOKENS',
     },
   });
