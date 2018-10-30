@@ -87,8 +87,8 @@ describe('Parsers', () => {
         price: '90742.2304',
         createdAt: 1509632726412,
         filledAmount: '3326.0597',
-        amountBuy: '3326.0597',
-        amountSell: 301814075.62155485
+        buyAmount: '3326.0597',
+        sellAmount: 301814075.62155485
       },
       {
         userAddress: '0xf73b2e3a92c2920db9905d0e1e319a184f7b1c96',
@@ -104,8 +104,8 @@ describe('Parsers', () => {
         price: '54663.3351',
         createdAt: 1515226280440,
         filledAmount: '7086.9957',
-        amountBuy: '7086.9957',
-        amountSell: 387398820.80135906
+        buyAmount: '7086.9957',
+        sellAmount: 387398820.80135906
       },
       {
         userAddress: '0x8bd3e4556d9da4f033c10cc46b98efe31690c567',
@@ -121,8 +121,8 @@ describe('Parsers', () => {
         price: '8779.7196',
         createdAt: 1506551515816,
         filledAmount: 158.22270468000002,
-        amountBuy: '213.6124',
-        amountSell: 1875456.97508304
+        buyAmount: '213.6124',
+        sellAmount: 1875456.97508304
       }
     ]
 

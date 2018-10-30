@@ -71,7 +71,7 @@ export async function queryExchangeTokenAllowances(owner: string, tokens: Array<
   const provider = getProvider()
 
   const exchange = EXCHANGE_ADDRESS[provider.chainId]
-  console.log(tokens, exchange)
+  // console.log(tokens, exchange)
   const allowancePromises = tokens.map(async token => {
     try {
       const contract = new Contract(token.address, ERC20Token.abi, provider)

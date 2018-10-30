@@ -1,7 +1,7 @@
 // @flow
 import * as appActionCreators from '../actions/app'
 import { getTokenPairsDomain, getOrderBookDomain, getAccountBalancesDomain } from '../domains/'
-import * as orderService from '../services/orders'
+// import * as orderService from '../services/orders'
 
 import { utils } from 'ethers'
 import type { State, ThunkAction } from '../../types'

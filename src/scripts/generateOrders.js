@@ -48,8 +48,8 @@ for (let i = 0; i < 200; i++) {
     order.filledAmount = order.amount
   }
 
-  order.amountBuy = order.amount
-  order.amountSell = order.amount * order.price
+  order.buyAmount = order.amount
+  order.sellAmount = order.amount * order.price
   orderHistory.push(order)
 }
 

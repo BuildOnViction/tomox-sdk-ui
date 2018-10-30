@@ -1,880 +1,880 @@
 {
-  "buys": [
+  "bids": [
     {
-      "price": "381.8041",
-      "volume": 59
+      "pricepoint": "381.8041",
+      "amount": 59
     },
     {
-      "price": "383.5157",
-      "volume": 8
+      "pricepoint": "383.5157",
+      "amount": 8
     },
     {
-      "price": "392.4154",
-      "volume": 43
+      "pricepoint": "392.4154",
+      "amount": 43
     },
     {
-      "price": "399.9478",
-      "volume": 32
+      "pricepoint": "399.9478",
+      "amount": 32
     },
     {
-      "price": "382.2960",
-      "volume": 7
+      "pricepoint": "382.2960",
+      "amount": 7
     },
     {
-      "price": "396.3415",
-      "volume": 81
+      "pricepoint": "396.3415",
+      "amount": 81
     },
     {
-      "price": "381.1055",
-      "volume": 96
+      "pricepoint": "381.1055",
+      "amount": 96
     },
     {
-      "price": "385.4690",
-      "volume": 19
+      "pricepoint": "385.4690",
+      "amount": 19
     },
     {
-      "price": "384.1613",
-      "volume": 32
+      "pricepoint": "384.1613",
+      "amount": 32
     },
     {
-      "price": "382.8144",
-      "volume": 84
+      "pricepoint": "382.8144",
+      "amount": 84
     },
     {
-      "price": "398.6784",
-      "volume": 84
+      "pricepoint": "398.6784",
+      "amount": 84
     },
     {
-      "price": "396.1443",
-      "volume": 83
+      "pricepoint": "396.1443",
+      "amount": 83
     },
     {
-      "price": "384.1426",
-      "volume": 60
+      "pricepoint": "384.1426",
+      "amount": 60
     },
     {
-      "price": "383.2630",
-      "volume": 23.12
+      "pricepoint": "383.2630",
+      "amount": 23.12
     },
     {
-      "price": "393.0649",
-      "volume": 9
+      "pricepoint": "393.0649",
+      "amount": 9
     },
     {
-      "price": "384.2152",
-      "volume": 2
+      "pricepoint": "384.2152",
+      "amount": 2
     },
     {
-      "price": "385.3359",
-      "volume": 63
+      "pricepoint": "385.3359",
+      "amount": 63
     },
     {
-      "price": "383.2223",
-      "volume": 88
+      "pricepoint": "383.2223",
+      "amount": 88
     },
     {
-      "price": "384.1867",
-      "volume": 66
+      "pricepoint": "384.1867",
+      "amount": 66
     },
     {
-      "price": "383.3886",
-      "volume": 41.81
+      "pricepoint": "383.3886",
+      "amount": 41.81
     },
     {
-      "price": "383.5033",
-      "volume": 27
+      "pricepoint": "383.5033",
+      "amount": 27
     },
     {
-      "price": "394.2673",
-      "volume": 51
+      "pricepoint": "394.2673",
+      "amount": 51
     },
     {
-      "price": "396.1200",
-      "volume": 8
+      "pricepoint": "396.1200",
+      "amount": 8
     },
     {
-      "price": "390.5779",
-      "volume": 63
+      "pricepoint": "390.5779",
+      "amount": 63
     },
     {
-      "price": "395.3516",
-      "volume": 45.04
+      "pricepoint": "395.3516",
+      "amount": 45.04
     },
     {
-      "price": "397.3649",
-      "volume": 10
+      "pricepoint": "397.3649",
+      "amount": 10
     },
     {
-      "price": "387.1826",
-      "volume": 92
+      "pricepoint": "387.1826",
+      "amount": 92
     },
     {
-      "price": "389.0233",
-      "volume": 35
+      "pricepoint": "389.0233",
+      "amount": 35
     },
     {
-      "price": "386.8709",
-      "volume": 60
+      "pricepoint": "386.8709",
+      "amount": 60
     },
     {
-      "price": "391.2691",
-      "volume": 65
+      "pricepoint": "391.2691",
+      "amount": 65
     },
     {
-      "price": "391.5125",
-      "volume": 82
+      "pricepoint": "391.5125",
+      "amount": 82
     },
     {
-      "price": "382.1216",
-      "volume": 69
+      "pricepoint": "382.1216",
+      "amount": 69
     },
     {
-      "price": "395.3655",
-      "volume": 46
+      "pricepoint": "395.3655",
+      "amount": 46
     },
     {
-      "price": "395.6482",
-      "volume": 92.39
+      "pricepoint": "395.6482",
+      "amount": 92.39
     },
     {
-      "price": "391.0722",
-      "volume": 34
+      "pricepoint": "391.0722",
+      "amount": 34
     },
     {
-      "price": "388.3773",
-      "volume": 69
+      "pricepoint": "388.3773",
+      "amount": 69
     },
     {
-      "price": "399.2941",
-      "volume": 27
+      "pricepoint": "399.2941",
+      "amount": 27
     },
     {
-      "price": "394.1972",
-      "volume": 78
+      "pricepoint": "394.1972",
+      "amount": 78
     },
     {
-      "price": "380.0985",
-      "volume": 14
+      "pricepoint": "380.0985",
+      "amount": 14
     },
     {
-      "price": "385.5141",
-      "volume": 53
+      "pricepoint": "385.5141",
+      "amount": 53
     },
     {
-      "price": "383.0074",
-      "volume": 31
+      "pricepoint": "383.0074",
+      "amount": 31
     },
     {
-      "price": "392.2701",
-      "volume": 71
+      "pricepoint": "392.2701",
+      "amount": 71
     },
     {
-      "price": "388.8074",
-      "volume": 27
+      "pricepoint": "388.8074",
+      "amount": 27
     },
     {
-      "price": "382.9352",
-      "volume": 32
+      "pricepoint": "382.9352",
+      "amount": 32
     },
     {
-      "price": "394.6729",
-      "volume": 43
+      "pricepoint": "394.6729",
+      "amount": 43
     },
     {
-      "price": "399.5955",
-      "volume": 44
+      "pricepoint": "399.5955",
+      "amount": 44
     },
     {
-      "price": "382.9497",
-      "volume": 10.5
+      "pricepoint": "382.9497",
+      "amount": 10.5
     },
     {
-      "price": "397.5219",
-      "volume": 45
+      "pricepoint": "397.5219",
+      "amount": 45
     },
     {
-      "price": "380.6104",
-      "volume": 9
+      "pricepoint": "380.6104",
+      "amount": 9
     },
     {
-      "price": "394.4023",
-      "volume": 27.7
+      "pricepoint": "394.4023",
+      "amount": 27.7
     },
     {
-      "price": "394.3235",
-      "volume": 70
+      "pricepoint": "394.3235",
+      "amount": 70
     },
     {
-      "price": "381.5005",
-      "volume": 17
+      "pricepoint": "381.5005",
+      "amount": 17
     },
     {
-      "price": "388.6836",
-      "volume": 47.22
+      "pricepoint": "388.6836",
+      "amount": 47.22
     },
     {
-      "price": "380.3678",
-      "volume": 33.85
+      "pricepoint": "380.3678",
+      "amount": 33.85
     },
     {
-      "price": "385.3358",
-      "volume": 1
+      "pricepoint": "385.3358",
+      "amount": 1
     },
     {
-      "price": "391.1781",
-      "volume": 28
+      "pricepoint": "391.1781",
+      "amount": 28
     },
     {
-      "price": "382.0539",
-      "volume": 20
+      "pricepoint": "382.0539",
+      "amount": 20
     },
     {
-      "price": "383.8040",
-      "volume": 98
+      "pricepoint": "383.8040",
+      "amount": 98
     },
     {
-      "price": "392.6085",
-      "volume": 89
+      "pricepoint": "392.6085",
+      "amount": 89
     },
     {
-      "price": "395.0673",
-      "volume": 4
+      "pricepoint": "395.0673",
+      "amount": 4
     },
     {
-      "price": "392.0709",
-      "volume": 11
+      "pricepoint": "392.0709",
+      "amount": 11
     },
     {
-      "price": "391.9555",
-      "volume": 24
+      "pricepoint": "391.9555",
+      "amount": 24
     },
     {
-      "price": "386.2561",
-      "volume": 35
+      "pricepoint": "386.2561",
+      "amount": 35
     },
     {
-      "price": "395.4655",
-      "volume": 88.76
+      "pricepoint": "395.4655",
+      "amount": 88.76
     },
     {
-      "price": "392.7392",
-      "volume": 2
+      "pricepoint": "392.7392",
+      "amount": 2
     },
     {
-      "price": "396.9534",
-      "volume": 58
+      "pricepoint": "396.9534",
+      "amount": 58
     },
     {
-      "price": "393.8634",
-      "volume": 61
+      "pricepoint": "393.8634",
+      "amount": 61
     },
     {
-      "price": "389.4147",
-      "volume": 89
+      "pricepoint": "389.4147",
+      "amount": 89
     },
     {
-      "price": "394.5936",
-      "volume": 23
+      "pricepoint": "394.5936",
+      "amount": 23
     },
     {
-      "price": "392.3580",
-      "volume": 17
+      "pricepoint": "392.3580",
+      "amount": 17
     },
     {
-      "price": "382.6439",
-      "volume": 67
+      "pricepoint": "382.6439",
+      "amount": 67
     },
     {
-      "price": "388.7600",
-      "volume": 84
+      "pricepoint": "388.7600",
+      "amount": 84
     },
     {
-      "price": "382.4887",
-      "volume": 48
+      "pricepoint": "382.4887",
+      "amount": 48
     },
     {
-      "price": "384.9800",
-      "volume": 77
+      "pricepoint": "384.9800",
+      "amount": 77
     },
     {
-      "price": "380.9898",
-      "volume": 63
+      "pricepoint": "380.9898",
+      "amount": 63
     },
     {
-      "price": "397.8072",
-      "volume": 39
+      "pricepoint": "397.8072",
+      "amount": 39
     },
     {
-      "price": "394.2874",
-      "volume": 65
+      "pricepoint": "394.2874",
+      "amount": 65
     },
     {
-      "price": "392.3066",
-      "volume": 23.71
+      "pricepoint": "392.3066",
+      "amount": 23.71
     },
     {
-      "price": "388.5547",
-      "volume": 81
+      "pricepoint": "388.5547",
+      "amount": 81
     },
     {
-      "price": "384.4024",
-      "volume": 62
+      "pricepoint": "384.4024",
+      "amount": 62
     },
     {
-      "price": "398.1821",
-      "volume": 49
+      "pricepoint": "398.1821",
+      "amount": 49
     },
     {
-      "price": "391.2960",
-      "volume": 72
+      "pricepoint": "391.2960",
+      "amount": 72
     },
     {
-      "price": "390.6114",
-      "volume": 79
+      "pricepoint": "390.6114",
+      "amount": 79
     },
     {
-      "price": "386.5350",
-      "volume": 35
+      "pricepoint": "386.5350",
+      "amount": 35
     },
     {
-      "price": "392.2525",
-      "volume": 8
+      "pricepoint": "392.2525",
+      "amount": 8
     },
     {
-      "price": "386.0355",
-      "volume": 10.17
+      "pricepoint": "386.0355",
+      "amount": 10.17
     },
     {
-      "price": "380.8714",
-      "volume": 68
+      "pricepoint": "380.8714",
+      "amount": 68
     },
     {
-      "price": "398.1965",
-      "volume": 57
+      "pricepoint": "398.1965",
+      "amount": 57
     },
     {
-      "price": "394.5325",
-      "volume": 56.02
+      "pricepoint": "394.5325",
+      "amount": 56.02
     },
     {
-      "price": "397.8989",
-      "volume": 36.43
+      "pricepoint": "397.8989",
+      "amount": 36.43
     },
     {
-      "price": "383.7715",
-      "volume": 80
+      "pricepoint": "383.7715",
+      "amount": 80
     },
     {
-      "price": "398.0922",
-      "volume": 56.87
+      "pricepoint": "398.0922",
+      "amount": 56.87
     },
     {
-      "price": "393.3284",
-      "volume": 25
+      "pricepoint": "393.3284",
+      "amount": 25
     },
     {
-      "price": "390.7715",
-      "volume": 20
+      "pricepoint": "390.7715",
+      "amount": 20
     },
     {
-      "price": "397.3247",
-      "volume": 51
+      "pricepoint": "397.3247",
+      "amount": 51
     },
     {
-      "price": "387.4904",
-      "volume": 7
+      "pricepoint": "387.4904",
+      "amount": 7
     },
     {
-      "price": "386.4328",
-      "volume": 87
+      "pricepoint": "386.4328",
+      "amount": 87
     },
     {
-      "price": "386.1924",
-      "volume": 95
+      "pricepoint": "386.1924",
+      "amount": 95
     },
     {
-      "price": "394.7393",
-      "volume": 83
+      "pricepoint": "394.7393",
+      "amount": 83
     },
     {
-      "price": "394.0581",
-      "volume": 85
+      "pricepoint": "394.0581",
+      "amount": 85
     },
     {
-      "price": "398.5198",
-      "volume": 14
+      "pricepoint": "398.5198",
+      "amount": 14
     },
     {
-      "price": "396.2621",
-      "volume": 80
+      "pricepoint": "396.2621",
+      "amount": 80
     },
     {
-      "price": "381.3386",
-      "volume": 29
+      "pricepoint": "381.3386",
+      "amount": 29
     },
     {
-      "price": "388.2354",
-      "volume": 18
+      "pricepoint": "388.2354",
+      "amount": 18
     },
     {
-      "price": "383.8894",
-      "volume": 59.59
+      "pricepoint": "383.8894",
+      "amount": 59.59
     },
     {
-      "price": "392.5066",
-      "volume": 3
+      "pricepoint": "392.5066",
+      "amount": 3
     },
     {
-      "price": "388.1146",
-      "volume": 13
+      "pricepoint": "388.1146",
+      "amount": 13
     },
     {
-      "price": "399.8595",
-      "volume": 60
+      "pricepoint": "399.8595",
+      "amount": 60
     },
     {
-      "price": "382.6801",
-      "volume": 5.13
+      "pricepoint": "382.6801",
+      "amount": 5.13
     },
     {
-      "price": "380.2424",
-      "volume": 72
+      "pricepoint": "380.2424",
+      "amount": 72
     },
     {
-      "price": "384.8984",
-      "volume": 20
+      "pricepoint": "384.8984",
+      "amount": 20
     },
     {
-      "price": "388.0525",
-      "volume": 9
+      "pricepoint": "388.0525",
+      "amount": 9
     },
     {
-      "price": "386.7943",
-      "volume": 23
+      "pricepoint": "386.7943",
+      "amount": 23
     },
     {
-      "price": "386.6030",
-      "volume": 22
+      "pricepoint": "386.6030",
+      "amount": 22
     }
   ],
-  "sells": [
+  "asks": [
     {
-      "price": "401.0035",
-      "volume": 27
+      "pricepoint": "401.0035",
+      "amount": 27
     },
     {
-      "price": "401.3239",
-      "volume": 17
+      "pricepoint": "401.3239",
+      "amount": 17
     },
     {
-      "price": "404.8382",
-      "volume": 59
+      "pricepoint": "404.8382",
+      "amount": 59
     },
     {
-      "price": "407.3873",
-      "volume": 80.87
+      "pricepoint": "407.3873",
+      "amount": 80.87
     },
     {
-      "price": "418.4920",
-      "volume": 87
+      "pricepoint": "418.4920",
+      "amount": 87
     },
     {
-      "price": "402.1083",
-      "volume": 45
+      "pricepoint": "402.1083",
+      "amount": 45
     },
     {
-      "price": "415.6757",
-      "volume": 92
+      "pricepoint": "415.6757",
+      "amount": 92
     },
     {
-      "price": "400.0680",
-      "volume": 46
+      "pricepoint": "400.0680",
+      "amount": 46
     },
     {
-      "price": "407.7455",
-      "volume": 50
+      "pricepoint": "407.7455",
+      "amount": 50
     },
     {
-      "price": "412.2640",
-      "volume": 21.57
+      "pricepoint": "412.2640",
+      "amount": 21.57
     },
     {
-      "price": "406.1617",
-      "volume": 74
+      "pricepoint": "406.1617",
+      "amount": 74
     },
     {
-      "price": "417.4775",
-      "volume": 35.12
+      "pricepoint": "417.4775",
+      "amount": 35.12
     },
     {
-      "price": "402.9137",
-      "volume": 96
+      "pricepoint": "402.9137",
+      "amount": 96
     },
     {
-      "price": "400.1158",
-      "volume": 56.28
+      "pricepoint": "400.1158",
+      "amount": 56.28
     },
     {
-      "price": "407.8678",
-      "volume": 36
+      "pricepoint": "407.8678",
+      "amount": 36
     },
     {
-      "price": "407.5466",
-      "volume": 100
+      "pricepoint": "407.5466",
+      "amount": 100
     },
     {
-      "price": "415.4537",
-      "volume": 9
+      "pricepoint": "415.4537",
+      "amount": 9
     },
     {
-      "price": "414.9246",
-      "volume": 33
+      "pricepoint": "414.9246",
+      "amount": 33
     },
     {
-      "price": "407.0933",
-      "volume": 32
+      "pricepoint": "407.0933",
+      "amount": 32
     },
     {
-      "price": "404.1143",
-      "volume": 33
+      "pricepoint": "404.1143",
+      "amount": 33
     },
     {
-      "price": "418.5845",
-      "volume": 5
+      "pricepoint": "418.5845",
+      "amount": 5
     },
     {
-      "price": "400.8143",
-      "volume": 65
+      "pricepoint": "400.8143",
+      "amount": 65
     },
     {
-      "price": "417.0617",
-      "volume": 55
+      "pricepoint": "417.0617",
+      "amount": 55
     },
     {
-      "price": "409.3778",
-      "volume": 69
+      "pricepoint": "409.3778",
+      "amount": 69
     },
     {
-      "price": "407.4012",
-      "volume": 3
+      "pricepoint": "407.4012",
+      "amount": 3
     },
     {
-      "price": "414.7232",
-      "volume": 96
+      "pricepoint": "414.7232",
+      "amount": 96
     },
     {
-      "price": "418.5675",
-      "volume": 63
+      "pricepoint": "418.5675",
+      "amount": 63
     },
     {
-      "price": "401.5107",
-      "volume": 50.15
+      "pricepoint": "401.5107",
+      "amount": 50.15
     },
     {
-      "price": "414.0194",
-      "volume": 31
+      "pricepoint": "414.0194",
+      "amount": 31
     },
     {
-      "price": "407.7581",
-      "volume": 14
+      "pricepoint": "407.7581",
+      "amount": 14
     },
     {
-      "price": "407.7279",
-      "volume": 19
+      "pricepoint": "407.7279",
+      "amount": 19
     },
     {
-      "price": "408.2502",
-      "volume": 8
+      "pricepoint": "408.2502",
+      "amount": 8
     },
     {
-      "price": "410.8228",
-      "volume": 63
+      "pricepoint": "410.8228",
+      "amount": 63
     },
     {
-      "price": "415.9062",
-      "volume": 58
+      "pricepoint": "415.9062",
+      "amount": 58
     },
     {
-      "price": "401.1448",
-      "volume": 89
+      "pricepoint": "401.1448",
+      "amount": 89
     },
     {
-      "price": "414.2579",
-      "volume": 25
+      "pricepoint": "414.2579",
+      "amount": 25
     },
     {
-      "price": "404.0314",
-      "volume": 63
+      "pricepoint": "404.0314",
+      "amount": 63
     },
     {
-      "price": "408.1379",
-      "volume": 100
+      "pricepoint": "408.1379",
+      "amount": 100
     },
     {
-      "price": "418.0837",
-      "volume": 3
+      "pricepoint": "418.0837",
+      "amount": 3
     },
     {
-      "price": "409.8268",
-      "volume": 22
+      "pricepoint": "409.8268",
+      "amount": 22
     },
     {
-      "price": "403.2118",
-      "volume": 93
+      "pricepoint": "403.2118",
+      "amount": 93
     },
     {
-      "price": "413.1989",
-      "volume": 96
+      "pricepoint": "413.1989",
+      "amount": 96
     },
     {
-      "price": "415.9275",
-      "volume": 40
+      "pricepoint": "415.9275",
+      "amount": 40
     },
     {
-      "price": "418.8020",
-      "volume": 18
+      "pricepoint": "418.8020",
+      "amount": 18
     },
     {
-      "price": "410.3924",
-      "volume": 100
+      "pricepoint": "410.3924",
+      "amount": 100
     },
     {
-      "price": "418.8940",
-      "volume": 68
+      "pricepoint": "418.8940",
+      "amount": 68
     },
     {
-      "price": "413.6097",
-      "volume": 87
+      "pricepoint": "413.6097",
+      "amount": 87
     },
     {
-      "price": "414.4615",
-      "volume": 37
+      "pricepoint": "414.4615",
+      "amount": 37
     },
     {
-      "price": "411.5141",
-      "volume": 18
+      "pricepoint": "411.5141",
+      "amount": 18
     },
     {
-      "price": "408.7387",
-      "volume": 14
+      "pricepoint": "408.7387",
+      "amount": 14
     },
     {
-      "price": "418.9863",
-      "volume": 37
+      "pricepoint": "418.9863",
+      "amount": 37
     },
     {
-      "price": "403.8723",
-      "volume": 64
+      "pricepoint": "403.8723",
+      "amount": 64
     },
     {
-      "price": "408.3533",
-      "volume": 68
+      "pricepoint": "408.3533",
+      "amount": 68
     },
     {
-      "price": "418.9636",
-      "volume": 48
+      "pricepoint": "418.9636",
+      "amount": 48
     },
     {
-      "price": "401.2561",
-      "volume": 21
+      "pricepoint": "401.2561",
+      "amount": 21
     },
     {
-      "price": "406.0944",
-      "volume": 80
+      "pricepoint": "406.0944",
+      "amount": 80
     },
     {
-      "price": "412.6521",
-      "volume": 96
+      "pricepoint": "412.6521",
+      "amount": 96
     },
     {
-      "price": "418.0258",
-      "volume": 59
+      "pricepoint": "418.0258",
+      "amount": 59
     },
     {
-      "price": "416.6362",
-      "volume": 36
+      "pricepoint": "416.6362",
+      "amount": 36
     },
     {
-      "price": "419.2475",
-      "volume": 43.51
+      "pricepoint": "419.2475",
+      "amount": 43.51
     },
     {
-      "price": "405.8858",
-      "volume": 68
+      "pricepoint": "405.8858",
+      "amount": 68
     },
     {
-      "price": "416.3282",
-      "volume": 6
+      "pricepoint": "416.3282",
+      "amount": 6
     },
     {
-      "price": "415.6892",
-      "volume": 5
+      "pricepoint": "415.6892",
+      "amount": 5
     },
     {
-      "price": "409.0760",
-      "volume": 9.95
+      "pricepoint": "409.0760",
+      "amount": 9.95
     },
     {
-      "price": "416.9933",
-      "volume": 12
+      "pricepoint": "416.9933",
+      "amount": 12
     },
     {
-      "price": "419.1601",
-      "volume": 95
+      "pricepoint": "419.1601",
+      "amount": 95
     },
     {
-      "price": "409.9823",
-      "volume": 54
+      "pricepoint": "409.9823",
+      "amount": 54
     },
     {
-      "price": "418.0437",
-      "volume": 36
+      "pricepoint": "418.0437",
+      "amount": 36
     },
     {
-      "price": "403.9083",
-      "volume": 44
+      "pricepoint": "403.9083",
+      "amount": 44
     },
     {
-      "price": "401.4564",
-      "volume": 6
+      "pricepoint": "401.4564",
+      "amount": 6
     },
     {
-      "price": "409.3804",
-      "volume": 80.93
+      "pricepoint": "409.3804",
+      "amount": 80.93
     },
     {
-      "price": "404.5009",
-      "volume": 25
+      "pricepoint": "404.5009",
+      "amount": 25
     },
     {
-      "price": "416.9599",
-      "volume": 6
+      "pricepoint": "416.9599",
+      "amount": 6
     },
     {
-      "price": "401.7624",
-      "volume": 49
+      "pricepoint": "401.7624",
+      "amount": 49
     },
     {
-      "price": "401.4804",
-      "volume": 14
+      "pricepoint": "401.4804",
+      "amount": 14
     },
     {
-      "price": "415.0256",
-      "volume": 12
+      "pricepoint": "415.0256",
+      "amount": 12
     },
     {
-      "price": "416.6589",
-      "volume": 74.65
+      "pricepoint": "416.6589",
+      "amount": 74.65
     },
     {
-      "price": "404.0784",
-      "volume": 75
+      "pricepoint": "404.0784",
+      "amount": 75
     },
     {
-      "price": "415.5864",
-      "volume": 48
+      "pricepoint": "415.5864",
+      "amount": 48
     },
     {
-      "price": "405.5061",
-      "volume": 18
+      "pricepoint": "405.5061",
+      "amount": 18
     },
     {
-      "price": "410.8498",
-      "volume": 95
+      "pricepoint": "410.8498",
+      "amount": 95
     },
     {
-      "price": "419.1386",
-      "volume": 22
+      "pricepoint": "419.1386",
+      "amount": 22
     },
     {
-      "price": "403.8981",
-      "volume": 82
+      "pricepoint": "403.8981",
+      "amount": 82
     },
     {
-      "price": "403.4467",
-      "volume": 54
+      "pricepoint": "403.4467",
+      "amount": 54
     },
     {
-      "price": "410.9122",
-      "volume": 54
+      "pricepoint": "410.9122",
+      "amount": 54
     },
     {
-      "price": "402.3843",
-      "volume": 76.85
+      "pricepoint": "402.3843",
+      "amount": 76.85
     },
     {
-      "price": "404.4072",
-      "volume": 55.46
+      "pricepoint": "404.4072",
+      "amount": 55.46
     },
     {
-      "price": "411.7282",
-      "volume": 97
+      "pricepoint": "411.7282",
+      "amount": 97
     },
     {
-      "price": "405.1067",
-      "volume": 44
+      "pricepoint": "405.1067",
+      "amount": 44
     },
     {
-      "price": "412.4069",
-      "volume": 28.62
+      "pricepoint": "412.4069",
+      "amount": 28.62
     },
     {
-      "price": "407.7154",
-      "volume": 13
+      "pricepoint": "407.7154",
+      "amount": 13
     },
     {
-      "price": "410.9786",
-      "volume": 3.46
+      "pricepoint": "410.9786",
+      "amount": 3.46
     },
     {
-      "price": "407.4744",
-      "volume": 3
+      "pricepoint": "407.4744",
+      "amount": 3
     },
     {
-      "price": "419.4449",
-      "volume": 99
+      "pricepoint": "419.4449",
+      "amount": 99
     },
     {
-      "price": "410.7262",
-      "volume": 38
+      "pricepoint": "410.7262",
+      "amount": 38
     },
     {
-      "price": "403.6928",
-      "volume": 55.36
+      "pricepoint": "403.6928",
+      "amount": 55.36
     },
     {
-      "price": "414.0084",
-      "volume": 42
+      "pricepoint": "414.0084",
+      "amount": 42
     },
     {
-      "price": "402.1857",
-      "volume": 74
+      "pricepoint": "402.1857",
+      "amount": 74
     },
     {
-      "price": "409.1202",
-      "volume": 31
+      "pricepoint": "409.1202",
+      "amount": 31
     },
     {
-      "price": "404.6810",
-      "volume": 11
+      "pricepoint": "404.6810",
+      "amount": 11
     },
     {
-      "price": "408.9783",
-      "volume": 52
+      "pricepoint": "408.9783",
+      "amount": 52
     },
     {
-      "price": "417.0240",
-      "volume": 34.73
+      "pricepoint": "417.0240",
+      "amount": 34.73
     },
     {
-      "price": "400.0285",
-      "volume": 78
+      "pricepoint": "400.0285",
+      "amount": 78
     }
   ],
   "trades": [
     {
       "amount": 41,
-      "price": "411.2389",
+      "pricepoint": "411.2389",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x678c26e9e29488e60b63a6284edb4a53aa27011e6aef8d6c8857b020a7309910",
@@ -886,7 +886,7 @@
     },
     {
       "amount": 54,
-      "price": "413.7015",
+      "pricepoint": "413.7015",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xca9a9954c5d365262c450c98559a318a767840f4bcaeceef88b77325febdfd1f",
@@ -898,7 +898,7 @@
     },
     {
       "amount": 2,
-      "price": "410.5583",
+      "pricepoint": "410.5583",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x9aa969ded43a052e3eb76101280141960f95edbab58c298afdee63a5a0063808",
@@ -910,7 +910,7 @@
     },
     {
       "amount": 20,
-      "price": "404.2301",
+      "pricepoint": "404.2301",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x838ac8a7ec7f5a16297f9231cefbe643d63721f2644f26a373eb52972aef5852",
@@ -922,7 +922,7 @@
     },
     {
       "amount": 76,
-      "price": "404.7241",
+      "pricepoint": "404.7241",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x520696b9d9f90b08f6b263ecc86e3b7a1487ef511f89b3811bc796f2dfaa486f",
@@ -934,7 +934,7 @@
     },
     {
       "amount": 30,
-      "price": "404.9407",
+      "pricepoint": "404.9407",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xe628f8a37c0f3d6ca002c8e4f5cae97f00e3c5be407aee77ca9b20ef3a07b80e",
@@ -946,7 +946,7 @@
     },
     {
       "amount": 92,
-      "price": "384.4701",
+      "pricepoint": "384.4701",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x277f7ea7aa93b45ba2feff7455073123c7e9b11a053a1729da3700555bc6079a",
@@ -958,7 +958,7 @@
     },
     {
       "amount": 57,
-      "price": "389.3846",
+      "pricepoint": "389.3846",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x3bf5fb302936379fc1a54cf8baaba4dab9bfa7dc2c0f1f717d814de2902ae8d0",
@@ -970,7 +970,7 @@
     },
     {
       "amount": 91,
-      "price": "393.9548",
+      "pricepoint": "393.9548",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x841fbd5a1e97c4bb0c75a7b2f248518f8c3475dcabd979bf96d1859a728a272a",
@@ -982,7 +982,7 @@
     },
     {
       "amount": 47.47,
-      "price": "397.3715",
+      "pricepoint": "397.3715",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xabd2d162241c78b76222065d156b05b2d533f2c2702e499818f83ab54563455e",
@@ -994,7 +994,7 @@
     },
     {
       "amount": 3,
-      "price": "417.1742",
+      "pricepoint": "417.1742",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x90fc815d32b2c31bdc2615ac55595f7b825e88373c2543112e334cb94e3ec50d",
@@ -1006,7 +1006,7 @@
     },
     {
       "amount": 67,
-      "price": "409.0985",
+      "pricepoint": "409.0985",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xf8edec416c2026b522b848e1db77d9e4658b195a106f62cdd2ae20582ab2ac33",
@@ -1018,7 +1018,7 @@
     },
     {
       "amount": 92,
-      "price": "387.1846",
+      "pricepoint": "387.1846",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x3c1c12da1cccdcc10e09979640a043d8ec7e74713008af9e1b65b5081f179ba4",
@@ -1030,7 +1030,7 @@
     },
     {
       "amount": 91,
-      "price": "393.0253",
+      "pricepoint": "393.0253",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x6386e07024dd703bf1355b33d96868954dd871085459b47dbfafe2a99476ac37",
@@ -1042,7 +1042,7 @@
     },
     {
       "amount": 52,
-      "price": "401.7494",
+      "pricepoint": "401.7494",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x92b6855502a98a39dfbf846477b57f8d701476d0a12457479724efde6efc0284",
@@ -1054,7 +1054,7 @@
     },
     {
       "amount": 64,
-      "price": "385.7678",
+      "pricepoint": "385.7678",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xe7b6a78f6a51a34de41369f5312f6a9e5a7db570ef388167147905d960249dfa",
@@ -1066,7 +1066,7 @@
     },
     {
       "amount": 96,
-      "price": "409.9486",
+      "pricepoint": "409.9486",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x02ee0258e6c32cee3e2e003a34a31437b1246de6cab77043d5fc7fc0a414be6c",
@@ -1078,7 +1078,7 @@
     },
     {
       "amount": 49,
-      "price": "415.9558",
+      "pricepoint": "415.9558",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x05416d9c993509766737ea89d78ee5fb6ff70c2182db091f34dc42cf72eb1794",
@@ -1090,7 +1090,7 @@
     },
     {
       "amount": 68,
-      "price": "415.8217",
+      "pricepoint": "415.8217",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xd642f7127fe021c1bf9bff7d395d3dda22bb4bb543094bd3fddabee499fb8b9a",
@@ -1102,7 +1102,7 @@
     },
     {
       "amount": 26.22,
-      "price": "385.6179",
+      "pricepoint": "385.6179",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xecaa3363b4dd2075f53e09c098afbfa416b7c43c3b27d4e70efac0c3c66d5851",
@@ -1114,7 +1114,7 @@
     },
     {
       "amount": 35,
-      "price": "402.2672",
+      "pricepoint": "402.2672",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xa78fae4d49c707c29c666ee3a4d9df482d674054bf723288198fe9c29b209f45",
@@ -1126,7 +1126,7 @@
     },
     {
       "amount": 73,
-      "price": "405.0571",
+      "pricepoint": "405.0571",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x117a7610ae3b84788a832c628d57eaf316d8962433bb92167536ea3c41b3a351",
@@ -1138,7 +1138,7 @@
     },
     {
       "amount": 65,
-      "price": "390.9017",
+      "pricepoint": "390.9017",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x366458e9b103353fece425355d8c0c63e1451d847e3c7de793d7c35df2cba8c3",
@@ -1150,7 +1150,7 @@
     },
     {
       "amount": 43.34,
-      "price": "394.2087",
+      "pricepoint": "394.2087",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x64aa87a6451939f21c8a60487b2d6d198ef4ffd61f68e98ec737dde24a434e1e",
@@ -1162,7 +1162,7 @@
     },
     {
       "amount": 85,
-      "price": "388.7476",
+      "pricepoint": "388.7476",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x9574c22fe4af8734f46f43c82353a1d9ed463bf5e8c4fd7910fdf11a5a8b655f",
@@ -1174,7 +1174,7 @@
     },
     {
       "amount": 99.75,
-      "price": "380.3102",
+      "pricepoint": "380.3102",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x13e83f0c791a8400df6e5044b9262c7f1529a7ec2104c0e4c9d9e6e5e763a9ae",
@@ -1186,7 +1186,7 @@
     },
     {
       "amount": 3,
-      "price": "386.2054",
+      "pricepoint": "386.2054",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x05fe3b85eda45e7ca6e54ff77bf9b63c39f3fe4fdd7f0d5ea198b66ee5df1925",
@@ -1198,7 +1198,7 @@
     },
     {
       "amount": 31,
-      "price": "409.7157",
+      "pricepoint": "409.7157",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x73fba623142905c727a1da9bbd936a04d14801d9f37279f0e5991359e346def1",
@@ -1210,7 +1210,7 @@
     },
     {
       "amount": 42.97,
-      "price": "419.7178",
+      "pricepoint": "419.7178",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xa5ee080f1d2bd771e345a5e601deea5c3b09d1f4a744c434aaabecac1d778155",
@@ -1222,7 +1222,7 @@
     },
     {
       "amount": 73.47,
-      "price": "419.9351",
+      "pricepoint": "419.9351",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x470e66a56ed4b48eefc7c8490306ec706bc979a3da3fa56499335bf5e1f37a59",
@@ -1234,7 +1234,7 @@
     },
     {
       "amount": 45,
-      "price": "395.1066",
+      "pricepoint": "395.1066",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x6cff2c2be65343f6e608d4073d4bba5c74325e69f5b39524bc00d0ba5bd5063b",
@@ -1246,7 +1246,7 @@
     },
     {
       "amount": 82,
-      "price": "395.6102",
+      "pricepoint": "395.6102",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x93ad44e71f46120a1fdd384f67cc66ec4dd310580fc5cea53ec8cfe28dd2e3bd",
@@ -1258,7 +1258,7 @@
     },
     {
       "amount": 73,
-      "price": "414.6001",
+      "pricepoint": "414.6001",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x80d022d94b8960c3e095196d1722bed80725dc1ab3601744522906a1c50767eb",
@@ -1270,7 +1270,7 @@
     },
     {
       "amount": 57,
-      "price": "382.7321",
+      "pricepoint": "382.7321",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x0e6aa2fbaff2dc885ea6afcbceff31f146bb454286eae3fb9f2c097e73382d51",
@@ -1282,7 +1282,7 @@
     },
     {
       "amount": 91.08,
-      "price": "415.1297",
+      "pricepoint": "415.1297",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x2a7702624d26a4ff5373237655d1c21739726230ca7787a0b20a5f3a93b1696a",
@@ -1294,7 +1294,7 @@
     },
     {
       "amount": 22,
-      "price": "400.1138",
+      "pricepoint": "400.1138",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x2f18c3db94d0986fedb74d17d0d09f62ebea8663da01655a7be497b35ef19179",
@@ -1306,7 +1306,7 @@
     },
     {
       "amount": 41,
-      "price": "389.8454",
+      "pricepoint": "389.8454",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xf8fac39cc80c541c2bcf888949f19f3b88a55a52a516164f85b071a914175bca",
@@ -1318,7 +1318,7 @@
     },
     {
       "amount": 60,
-      "price": "392.5932",
+      "pricepoint": "392.5932",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xbb6892b438b35cc90e6f03bafaa5a0f87a6fe439f2bd191b32a7c45282fe4659",
@@ -1330,7 +1330,7 @@
     },
     {
       "amount": 53,
-      "price": "414.5554",
+      "pricepoint": "414.5554",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xfabe4b88f25b652413d41671ff981c038b11426e1e49eda409ebdec9a2f6a6f5",
@@ -1342,7 +1342,7 @@
     },
     {
       "amount": 97,
-      "price": "382.6082",
+      "pricepoint": "382.6082",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x0d2aee5f8a1fd64c9c9d0a3d34f3d7929f613bd0988784d76488933cf85f9e3a",
@@ -1354,7 +1354,7 @@
     },
     {
       "amount": 53,
-      "price": "398.3250",
+      "pricepoint": "398.3250",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x4e9092454528657e3ef319dc0824333b00aa506629a5b2f70779fd51dd968320",
@@ -1366,7 +1366,7 @@
     },
     {
       "amount": 95,
-      "price": "386.3710",
+      "pricepoint": "386.3710",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x2f2212c08ec909960889cc19105cb508de129d68b996dfd2ad228f6ac45ae8d6",
@@ -1378,7 +1378,7 @@
     },
     {
       "amount": 44.17,
-      "price": "381.9113",
+      "pricepoint": "381.9113",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x6f899edf5b21161c23801a077e63337dd38c5ae973afc1aac14534ac10d01e29",
@@ -1390,7 +1390,7 @@
     },
     {
       "amount": 66,
-      "price": "413.5070",
+      "pricepoint": "413.5070",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x700a6963266fe29a8b7e80dfcc6a39a34f38098761bf1a533e46af81136a0df9",
@@ -1402,7 +1402,7 @@
     },
     {
       "amount": 69,
-      "price": "393.6619",
+      "pricepoint": "393.6619",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x032ae4277fd8177a35e6b0d5596e6866526c63e21fee4a87286bd01f8ccfcf55",
@@ -1414,7 +1414,7 @@
     },
     {
       "amount": 95,
-      "price": "419.9749",
+      "pricepoint": "419.9749",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xb4643b1114c4f534537ead853fb76b721c22bd6560691d3ab19176bf33251b79",
@@ -1426,7 +1426,7 @@
     },
     {
       "amount": 20.21,
-      "price": "387.5975",
+      "pricepoint": "387.5975",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x042f28d7ab53f64302ddf69dfce7c17cf6d50dc92c91df28d246f38a9b0c5824",
@@ -1438,7 +1438,7 @@
     },
     {
       "amount": 70,
-      "price": "404.9960",
+      "pricepoint": "404.9960",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x6e42c62c1900d1adf240f271365ac74e50c43f677e612bf0063243c146dc7fe8",
@@ -1450,7 +1450,7 @@
     },
     {
       "amount": 51,
-      "price": "417.8296",
+      "pricepoint": "417.8296",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xeedff97ccbd8d2afa65cfb900cb6cf2f0394915e6516fd24a5e1d4670f36994d",
@@ -1462,7 +1462,7 @@
     },
     {
       "amount": 72,
-      "price": "404.7080",
+      "pricepoint": "404.7080",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x00533e5487307db92bcdd160d13d7adecd042292498faf53936b99526e0f815d",
@@ -1474,7 +1474,7 @@
     },
     {
       "amount": 99,
-      "price": "417.6260",
+      "pricepoint": "417.6260",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x1af2a7b71522f7bde4bfda1bd85913a8003036ab6d46b8d7013b7dfa4c00bef4",
@@ -1486,7 +1486,7 @@
     },
     {
       "amount": 77,
-      "price": "418.8782",
+      "pricepoint": "418.8782",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x434e9b9df7a7405284a11082acb8118ebe6884634c6c7b18295d099fb9d2131d",
@@ -1498,7 +1498,7 @@
     },
     {
       "amount": 68,
-      "price": "411.5821",
+      "pricepoint": "411.5821",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x7eedb2210a0e116f8aafa5815c8becc0dc25b54b72d4e6e3f26aafc8e8fea186",
@@ -1510,7 +1510,7 @@
     },
     {
       "amount": 48.42,
-      "price": "418.5591",
+      "pricepoint": "418.5591",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x4dda4902c138a1b7d6655d027a4acba4f348ffda8783d0c235bb1010244da2ef",
@@ -1522,7 +1522,7 @@
     },
     {
       "amount": 78,
-      "price": "392.0334",
+      "pricepoint": "392.0334",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xfd2ec99cfacd109bc06d0130e45f23b9dc5ed6480ccc6fba67111bf4cd61e7e9",
@@ -1534,7 +1534,7 @@
     },
     {
       "amount": 23,
-      "price": "380.0787",
+      "pricepoint": "380.0787",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x4663fc346d9d82836812c9ef587c57c236b94aa4041d05426d8615d825838433",
@@ -1546,7 +1546,7 @@
     },
     {
       "amount": 38,
-      "price": "388.2683",
+      "pricepoint": "388.2683",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xff12bdb3ce5c1b3e6e532aabbc8b47aafd2ab2db1ecaab8c45cb4f12c5d31c21",
@@ -1558,7 +1558,7 @@
     },
     {
       "amount": 97.06,
-      "price": "384.7427",
+      "pricepoint": "384.7427",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x17aae08b93696125167a0b1594eca3f4f9b1a846ce26125c9c8433389886eb9e",
@@ -1570,7 +1570,7 @@
     },
     {
       "amount": 88.67,
-      "price": "406.5052",
+      "pricepoint": "406.5052",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x23c5f0a7710d4e39685aa1728aaf5d55e122532d26cb0e992a4bd7638ccaabc4",
@@ -1582,7 +1582,7 @@
     },
     {
       "amount": 31,
-      "price": "402.7853",
+      "pricepoint": "402.7853",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xd1d3a40130630b167f50b2f521b5bb0e2ed7efc23c1862797ad423e35b022f04",
@@ -1594,7 +1594,7 @@
     },
     {
       "amount": 40,
-      "price": "419.7855",
+      "pricepoint": "419.7855",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xc79cd94c65f6a297b89ce6cda113fd6731c53fc389a630606be0ff93feb42ebc",
@@ -1606,7 +1606,7 @@
     },
     {
       "amount": 47,
-      "price": "392.2056",
+      "pricepoint": "392.2056",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xdbf70918e9b9e26c2834faa4792b53240271a297e1a7f47f285f67123ae42216",
@@ -1618,7 +1618,7 @@
     },
     {
       "amount": 56,
-      "price": "402.1943",
+      "pricepoint": "402.1943",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xf7748b996cbc6b94ad12a51af150ffb92bd35b820ec5dc2dbb3e76184db4d0bf",
@@ -1630,7 +1630,7 @@
     },
     {
       "amount": 84,
-      "price": "418.2751",
+      "pricepoint": "418.2751",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xf389ae3e67738e784b2dde67a88335e406c716d4308332162e4e9b48c20e79e9",
@@ -1642,7 +1642,7 @@
     },
     {
       "amount": 97,
-      "price": "415.4936",
+      "pricepoint": "415.4936",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xb209f419a7e7de8ad6676b8aac47d0b6e769bd32c0c59dce2d7fb2856c6b24b9",
@@ -1654,7 +1654,7 @@
     },
     {
       "amount": 60,
-      "price": "398.9375",
+      "pricepoint": "398.9375",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x9df694427f8fb24d37e9bb217fb12fe98bbcbc5286c46e140454eb5ddb235b9a",
@@ -1666,7 +1666,7 @@
     },
     {
       "amount": 59,
-      "price": "403.5324",
+      "pricepoint": "403.5324",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x36839b10e1bd380449d14e4de70b95040d819a08526f180ad59363928e0b8ef8",
@@ -1678,7 +1678,7 @@
     },
     {
       "amount": 61,
-      "price": "387.6054",
+      "pricepoint": "387.6054",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x2335df454c5cb7871e42fc771a054f879a251f4bf82c8bf367010a3fc62fa05d",
@@ -1690,7 +1690,7 @@
     },
     {
       "amount": 11,
-      "price": "403.0350",
+      "pricepoint": "403.0350",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x1947f7ddf6e8e955235449baf0b9499cb64811571c659095f5daeb7e43659ad2",
@@ -1702,7 +1702,7 @@
     },
     {
       "amount": 32,
-      "price": "399.9827",
+      "pricepoint": "399.9827",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x0135a50f1bc7c50ae307a048f0201aa6c3b57c898d18441c4064cedf0358bc16",
@@ -1714,7 +1714,7 @@
     },
     {
       "amount": 57.36,
-      "price": "411.3293",
+      "pricepoint": "411.3293",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x94cf6261200fd8a43f686fbc92fc0a313e99119cf21190b0794971addc10583b",
@@ -1726,7 +1726,7 @@
     },
     {
       "amount": 41,
-      "price": "410.3606",
+      "pricepoint": "410.3606",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x133646e76268d4157763e42018f5a74c420d314eee0921ae9e8ceb6bb0a2dab4",
@@ -1738,7 +1738,7 @@
     },
     {
       "amount": 24,
-      "price": "402.4507",
+      "pricepoint": "402.4507",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xd6c9f824c498c4312492b352aeba9d45b0da39298e1af754a0aa6b1ac4ffa8e4",
@@ -1750,7 +1750,7 @@
     },
     {
       "amount": 58,
-      "price": "419.6134",
+      "pricepoint": "419.6134",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x834f96fd4cd2ab02fd3c69ed2a3d3a0cf8a97203729f9546fb337ac15f02a06a",
@@ -1762,7 +1762,7 @@
     },
     {
       "amount": 35.74,
-      "price": "390.1169",
+      "pricepoint": "390.1169",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x27e67a84e6c84bf64db749e6120847873da16e96bba8fa89b3fe44fd149afb02",
@@ -1774,7 +1774,7 @@
     },
     {
       "amount": 39,
-      "price": "418.1763",
+      "pricepoint": "418.1763",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x97d42c5cacecb4a6fe29bd6b6222e996f913c6348c143cb2a3a16eb361f95c77",
@@ -1786,7 +1786,7 @@
     },
     {
       "amount": 93,
-      "price": "381.5939",
+      "pricepoint": "381.5939",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xd4c2eb5d0a8327b8c4926a734c9309cbf432ddf4ef4e4044a56403de7016ea40",
@@ -1798,7 +1798,7 @@
     },
     {
       "amount": 96.22,
-      "price": "385.2128",
+      "pricepoint": "385.2128",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x30cb8c938eff863c2a242878d9efafc4b3eba56fc9bdf1a8c63229a5ffc292ee",
@@ -1810,7 +1810,7 @@
     },
     {
       "amount": 53.75,
-      "price": "389.8328",
+      "pricepoint": "389.8328",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x7c1f4c1f1c7ae0703520a020eb3700b58e4f0de20dd6818ee61a2b85c8b62836",
@@ -1822,7 +1822,7 @@
     },
     {
       "amount": 28,
-      "price": "385.6822",
+      "pricepoint": "385.6822",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x216a880f96c694930f105dd4098384a33292722d1c9ed1497ffd4f342eddf4ec",
@@ -1834,7 +1834,7 @@
     },
     {
       "amount": 83,
-      "price": "409.5484",
+      "pricepoint": "409.5484",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xb34c213ad771422ddfebda4dba389dda638ad64513b7c713ea37081098eac00a",
@@ -1846,7 +1846,7 @@
     },
     {
       "amount": 5,
-      "price": "390.3273",
+      "pricepoint": "390.3273",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x80ce37a7485b57ac92bfc2807e5753e8383ebe5d0a7e39d08996068e080eab9b",
@@ -1858,7 +1858,7 @@
     },
     {
       "amount": 91,
-      "price": "408.1058",
+      "pricepoint": "408.1058",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xfcc17d1af2e4e2c0e607c78248d61a86e88d72e30f296a796015d31ea6c964c6",
@@ -1870,7 +1870,7 @@
     },
     {
       "amount": 98,
-      "price": "419.6319",
+      "pricepoint": "419.6319",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xbcf8bcf466157a0b20cdce42484bc28f521b5964073a6e905186d2791ab3cfc3",
@@ -1882,7 +1882,7 @@
     },
     {
       "amount": 74,
-      "price": "418.9829",
+      "pricepoint": "418.9829",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xf86e1b06171494aaaf69b1e293a271eafaa19ced630992f207da67dd25656bb0",
@@ -1894,7 +1894,7 @@
     },
     {
       "amount": 11,
-      "price": "414.8291",
+      "pricepoint": "414.8291",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x9b92e8be8b8c88bae6ce165944f3dfc868bb2f549817af3ea2357e42da4be110",
@@ -1906,7 +1906,7 @@
     },
     {
       "amount": 16,
-      "price": "391.4166",
+      "pricepoint": "391.4166",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x2d0899791d84a5ac64bddaf3ba33ef52abd694ac74d71d144a94aa05ec20a3c4",
@@ -1918,7 +1918,7 @@
     },
     {
       "amount": 32.38,
-      "price": "387.2536",
+      "pricepoint": "387.2536",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x420ac28fb3edd8ec496c7766f65953135c0a7d70759ba15d385e6b1998fe46c1",
@@ -1930,7 +1930,7 @@
     },
     {
       "amount": 95,
-      "price": "414.6658",
+      "pricepoint": "414.6658",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xbb35485ad3dc4cbe06be204eda1b4a4290f12bdaf045a5a39eb9faeeff4980cd",
@@ -1942,7 +1942,7 @@
     },
     {
       "amount": 62,
-      "price": "388.8173",
+      "pricepoint": "388.8173",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x11f67ae2ec74c585281966a2e18690623576a5f2437d8ff9c0b5d8351f8019a2",
@@ -1954,7 +1954,7 @@
     },
     {
       "amount": 74,
-      "price": "406.0632",
+      "pricepoint": "406.0632",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x3a2bbcfd2918090ca85f601708ff400c4fcaa0cbf558ada3e4ef9131ce641476",
@@ -1966,7 +1966,7 @@
     },
     {
       "amount": 23,
-      "price": "409.0141",
+      "pricepoint": "409.0141",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x4853c957c9d33eb2e6ecaf74f6f9bdc160bbd9ebc6bb1ac36842a80e7b695fd0",
@@ -1978,7 +1978,7 @@
     },
     {
       "amount": 21,
-      "price": "417.3067",
+      "pricepoint": "417.3067",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xd38839a2fa82fa6f888e1252f357d1f680537a4651bfc96dbbf3f51ec0f681e1",
@@ -1990,7 +1990,7 @@
     },
     {
       "amount": 68,
-      "price": "399.2602",
+      "pricepoint": "399.2602",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x1337ac77fad5504dd5ffa13912cac2fdfb6b51872b84f8cd69baf72270a6978d",
@@ -2002,7 +2002,7 @@
     },
     {
       "amount": 75,
-      "price": "414.3029",
+      "pricepoint": "414.3029",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x5702a48b30ac085ccf6820b534495b2b2744813c9cd440682b9004073894149b",
@@ -2014,7 +2014,7 @@
     },
     {
       "amount": 59,
-      "price": "405.9757",
+      "pricepoint": "405.9757",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x269d5b7d81645dea113a258ac1ab968e25e1aedb3c53be5e2b649beb8a4f3bf1",
@@ -2026,7 +2026,7 @@
     },
     {
       "amount": 80,
-      "price": "396.7336",
+      "pricepoint": "396.7336",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x2c181e3ee7563c93a5dd77b2ea8efc44db9e881db992f04b46b5ec74a6755961",
@@ -2038,7 +2038,7 @@
     },
     {
       "amount": 78.36,
-      "price": "407.6333",
+      "pricepoint": "407.6333",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x3213470c63c6c071dddcf65ec29e13f306c2a044afae39f0f761cac3030fc52e",
@@ -2050,7 +2050,7 @@
     },
     {
       "amount": 5,
-      "price": "409.4653",
+      "pricepoint": "409.4653",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x68f823c28f9639f7b845e79f6e541636938c18251fce51b06e3f329bf0fef359",
@@ -2062,7 +2062,7 @@
     },
     {
       "amount": 1,
-      "price": "381.4505",
+      "pricepoint": "381.4505",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xfc2a811142ac98ebf0472ddd566a3a7f9b267b7a81c7fc671d83331ecd426a20",
@@ -2074,7 +2074,7 @@
     },
     {
       "amount": 72,
-      "price": "405.5844",
+      "pricepoint": "405.5844",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x7af3a89c5324105c70c3c93b5855772588dabb0f8d81362113827068406d78da",
@@ -2086,7 +2086,7 @@
     },
     {
       "amount": 13.08,
-      "price": "381.0548",
+      "pricepoint": "381.0548",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x2ac40d93275a06be97095319963ffef6a5e26ee6e3f66e43d8387592f93d7016",
@@ -2098,7 +2098,7 @@
     },
     {
       "amount": 8,
-      "price": "409.7484",
+      "pricepoint": "409.7484",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xacc30b5de880940c38c745648c614b208a4e443bd2c9b2773fbcf9c1e145b255",
@@ -2110,7 +2110,7 @@
     },
     {
       "amount": 42,
-      "price": "404.8823",
+      "pricepoint": "404.8823",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x1154b54e415ebeb03ce5ac444568b11c25db7b5e32ff853e674f3aa640ab78e7",
@@ -2122,7 +2122,7 @@
     },
     {
       "amount": 67,
-      "price": "411.7579",
+      "pricepoint": "411.7579",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x2be068ac35a034963abe20f98269f8ced30498020794de0939fa0ceaad82e321",
@@ -2134,7 +2134,7 @@
     },
     {
       "amount": 33,
-      "price": "395.4163",
+      "pricepoint": "395.4163",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xbdd02c87de72aac09dbe10992dd96d88cfbdff19483d5ce56133a60d92928c9a",
@@ -2146,7 +2146,7 @@
     },
     {
       "amount": 65,
-      "price": "406.8754",
+      "pricepoint": "406.8754",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x50c35fb6b7d6207d2ac07380c267b2d95e158871fd9c4ccc824e0fc4e0fb75c9",
@@ -2158,7 +2158,7 @@
     },
     {
       "amount": 90.85,
-      "price": "394.8966",
+      "pricepoint": "394.8966",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xab9765d9c5d32e5509754b3bcf6819529733bb8bb5b0a53242f432563f93337d",
@@ -2170,7 +2170,7 @@
     },
     {
       "amount": 3,
-      "price": "387.9811",
+      "pricepoint": "387.9811",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xa6c3770c39aebcb53e30aaf3717ea9ba427e8724f8eec0648d3c9cc97faf0df2",
@@ -2182,7 +2182,7 @@
     },
     {
       "amount": 8.09,
-      "price": "390.8976",
+      "pricepoint": "390.8976",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xfcacf5f457e701c74297fb3be8bbe16fca6c6b07c25298d3533a7f818db63bc4",
@@ -2194,7 +2194,7 @@
     },
     {
       "amount": 62,
-      "price": "380.7764",
+      "pricepoint": "380.7764",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xb94eb5bf0168c0eea37341393fda27d082a57e6ef61c65016adcf1a822588722",
@@ -2206,7 +2206,7 @@
     },
     {
       "amount": 34,
-      "price": "391.8016",
+      "pricepoint": "391.8016",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x9b041a2127703561133854911655b118ded12f9f83f48e09a03f4104df7ead8c",
@@ -2218,7 +2218,7 @@
     },
     {
       "amount": 92,
-      "price": "393.5798",
+      "pricepoint": "393.5798",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xb7864ad342d587c01b09d9c19c8a5b8e62b352d8beaa81ac18edd2eb15853afe",
@@ -2230,7 +2230,7 @@
     },
     {
       "amount": 21,
-      "price": "400.3288",
+      "pricepoint": "400.3288",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x74d8aedf8893536f5e3a82ecfa81d156798e946c36a8b1306d076380f621dfc9",
@@ -2242,7 +2242,7 @@
     },
     {
       "amount": 83,
-      "price": "414.1369",
+      "pricepoint": "414.1369",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x8e33d43fd7c66ea3e728a55ef04514c339796fa4ff81966fd713b7f9a706c43c",
@@ -2254,7 +2254,7 @@
     },
     {
       "amount": 59,
-      "price": "419.4826",
+      "pricepoint": "419.4826",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x0f80efac7624394c34e880c72e1a2826ceb9adbf96ef061359698231248c5624",
@@ -2266,7 +2266,7 @@
     },
     {
       "amount": 27.76,
-      "price": "409.2645",
+      "pricepoint": "409.2645",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x4d320b7995e8c088e303b2fa1d7ed89371281c64a30a666e719e685bba982753",
@@ -2278,7 +2278,7 @@
     },
     {
       "amount": 59,
-      "price": "397.0017",
+      "pricepoint": "397.0017",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x2c5772ccdca3c4d13d57483d33c7568fdfe55f8498068d1cf705c890ca7ab38f",
@@ -2290,7 +2290,7 @@
     },
     {
       "amount": 83,
-      "price": "391.8841",
+      "pricepoint": "391.8841",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xe857b57ecfbb4f1f7c0a88dc0b0ca2a025cc8c798c0096b8da0af323f985694b",
@@ -2302,7 +2302,7 @@
     },
     {
       "amount": 22,
-      "price": "410.2243",
+      "pricepoint": "410.2243",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x6db7ce617b03d19b75fac2861eb484d956f69935403cd22c27f4156e1f6e9486",
@@ -2314,7 +2314,7 @@
     },
     {
       "amount": 68,
-      "price": "381.6894",
+      "pricepoint": "381.6894",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xf51eaaeb80ac504ddc13e2ecae602746c26c0140e6996ffa58becc962ece4206",
@@ -2326,7 +2326,7 @@
     },
     {
       "amount": 65,
-      "price": "417.5196",
+      "pricepoint": "417.5196",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xd7a27daad358bdbcc6f8b394d0725370de1e58a3d3129a90956edcd7c7668d63",
@@ -2338,7 +2338,7 @@
     },
     {
       "amount": 4,
-      "price": "414.2956",
+      "pricepoint": "414.2956",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x961401a8923045075a641448c7525c76a06df2026be1d51db5fbeaede9add804",
@@ -2350,7 +2350,7 @@
     },
     {
       "amount": 64,
-      "price": "383.2288",
+      "pricepoint": "383.2288",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x9ef8169928669a6324e0cc3ec8a7fb644c957e737e9cb520beb7e798c7bcc853",
@@ -2362,7 +2362,7 @@
     },
     {
       "amount": 18,
-      "price": "398.7287",
+      "pricepoint": "398.7287",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x906c407a9d444e3c7dd303b3369026692899cdf052b87f5e11f051a2bfb757c0",
@@ -2374,7 +2374,7 @@
     },
     {
       "amount": 94,
-      "price": "407.7349",
+      "pricepoint": "407.7349",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x92cc603dfad11a911fbb9196aa97b0c68f6701e62110551a66c04a02f3050b33",
@@ -2386,7 +2386,7 @@
     },
     {
       "amount": 38.65,
-      "price": "391.7325",
+      "pricepoint": "391.7325",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x4bf210ce5184d0462357d88eeddd6379530d8154720e3531750d063c6c8a5ac1",
@@ -2398,7 +2398,7 @@
     },
     {
       "amount": 55.98,
-      "price": "408.3007",
+      "pricepoint": "408.3007",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xfc2cbe2b0a2a8dba42acaac554527266706e8d093001fb7d95b6f18890e3736a",
@@ -2410,7 +2410,7 @@
     },
     {
       "amount": 16.82,
-      "price": "419.4556",
+      "pricepoint": "419.4556",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x899e75720dcad243bd6b7f3e3cba38b1bcc74bbee7a764c1a8202dce6bec8708",
@@ -2422,7 +2422,7 @@
     },
     {
       "amount": 68.32,
-      "price": "384.6731",
+      "pricepoint": "384.6731",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x42737dbc0e36f0f26d36db762d5065504e446e40e9b99198a32b0c959aac3bc3",
@@ -2434,7 +2434,7 @@
     },
     {
       "amount": 95,
-      "price": "393.0600",
+      "pricepoint": "393.0600",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x65d90efa436f643906ac763c0ee1988954facadf1a26b4a1bbf8fc142c2be394",
@@ -2446,7 +2446,7 @@
     },
     {
       "amount": 14.95,
-      "price": "389.1021",
+      "pricepoint": "389.1021",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xd6b10ff3f7e0c814025dca8cd3363299068b7ec958ed81c29b9ab6685692f77a",
@@ -2458,7 +2458,7 @@
     },
     {
       "amount": 90.14,
-      "price": "396.2466",
+      "pricepoint": "396.2466",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x1526b2d84b6d1803afe490e5ba4eec6029ccbf2c4cb523bc9078d92e1f646290",
@@ -2470,7 +2470,7 @@
     },
     {
       "amount": 93,
-      "price": "388.8603",
+      "pricepoint": "388.8603",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xdcb2e61ff50a9aa495189228aadc609c22da148badc2591a22e91418b7cb202a",
@@ -2482,7 +2482,7 @@
     },
     {
       "amount": 33.1,
-      "price": "406.7924",
+      "pricepoint": "406.7924",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x7162ffd6da4b8b38741355441a2bcfb87e3fb9829c113742ee29e3d5b5bc3d03",
@@ -2494,7 +2494,7 @@
     },
     {
       "amount": 50,
-      "price": "405.4641",
+      "pricepoint": "405.4641",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x24885ad12d9f7d41fb7331ddbe4d75bc5c4b3fcf3a56d8bf2df0e0c95c9ad396",
@@ -2506,7 +2506,7 @@
     },
     {
       "amount": 78.45,
-      "price": "408.4741",
+      "pricepoint": "408.4741",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xca6a9600ae638cd8e841f3de8e47f9787761fefb3592819bd74cbe905e408e77",
@@ -2518,7 +2518,7 @@
     },
     {
       "amount": 73.79,
-      "price": "398.8699",
+      "pricepoint": "398.8699",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xfb65f027262e27df4ced86e496435e1bc5fe70a15bb7d68569e8cb7b3012b01b",
@@ -2530,7 +2530,7 @@
     },
     {
       "amount": 62,
-      "price": "408.5722",
+      "pricepoint": "408.5722",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x0b99a43364aacb57674a5bc2416480be99a5e3dbcc62118ee053c9d1af84122b",
@@ -2542,7 +2542,7 @@
     },
     {
       "amount": 70,
-      "price": "395.2157",
+      "pricepoint": "395.2157",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xafd0b0c6424ede066ca80bd2920325d2d566f416fd679d0d232839c6ddd9dbba",
@@ -2554,7 +2554,7 @@
     },
     {
       "amount": 4,
-      "price": "410.2454",
+      "pricepoint": "410.2454",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x7e7606d297f686690af24726384a34a5c3132d509b7000dd77aa8be453a6bea6",
@@ -2566,7 +2566,7 @@
     },
     {
       "amount": 2.16,
-      "price": "408.0872",
+      "pricepoint": "408.0872",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xbe0ba2cc69c2034a0ef839a0baadb842955f3ce9e9a440ef26778caf7bfe55d8",
@@ -2578,7 +2578,7 @@
     },
     {
       "amount": 44,
-      "price": "411.4199",
+      "pricepoint": "411.4199",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x72a6c12e1fbf7816e61036ec406e40e35bf12fce692c9d0831454cae4cef3352",
@@ -2590,7 +2590,7 @@
     },
     {
       "amount": 35,
-      "price": "393.1177",
+      "pricepoint": "393.1177",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x713be126bf0054247ddc6598c70e4ce8e8e1c41efd01a3e5670cf6df704d64b0",
@@ -2602,7 +2602,7 @@
     },
     {
       "amount": 87,
-      "price": "398.9751",
+      "pricepoint": "398.9751",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xe4a7fd3ef235e129bec8cac3f3b4dda83955aed27f2f2f26198ce9a9522959f7",
@@ -2614,7 +2614,7 @@
     },
     {
       "amount": 18.48,
-      "price": "392.0954",
+      "pricepoint": "392.0954",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x2af0380c23abd82084c667c986fc835ec5606656abce4d817ec1fb86160ea88a",
@@ -2626,7 +2626,7 @@
     },
     {
       "amount": 24,
-      "price": "414.5663",
+      "pricepoint": "414.5663",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xc754a0bc5f1603c4b362a5704af53ceb0ecb3f57239ae48c4ff3334b0564c86c",
@@ -2638,7 +2638,7 @@
     },
     {
       "amount": 84,
-      "price": "400.4534",
+      "pricepoint": "400.4534",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xbff066bb5482e9a80ccffbb5a4faa3cc6ae0f9279966a9dee8ca3522c3581b8d",
@@ -2650,7 +2650,7 @@
     },
     {
       "amount": 70,
-      "price": "409.0842",
+      "pricepoint": "409.0842",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x5c1746016520b47261dc133150b0a75d5b3785543decf7f0d3635c3c7b643138",
@@ -2662,7 +2662,7 @@
     },
     {
       "amount": 3,
-      "price": "399.1630",
+      "pricepoint": "399.1630",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xbfd8f51a1cbd8d18f5ff8792cb304e576f6139e84aada511b19cdd0216917c53",
@@ -2674,7 +2674,7 @@
     },
     {
       "amount": 42,
-      "price": "386.6615",
+      "pricepoint": "386.6615",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x8d7ef753147d387d2f8f22cd40cd98b3ebd8e71d8891582e51f6202ea3e62d68",
@@ -2686,7 +2686,7 @@
     },
     {
       "amount": 20,
-      "price": "396.3379",
+      "pricepoint": "396.3379",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x4d8041e8b76f287bdfe1da67df54560c71d4b6941aa5e3a2f2aadf51422d5dab",
@@ -2698,7 +2698,7 @@
     },
     {
       "amount": 40,
-      "price": "400.9592",
+      "pricepoint": "400.9592",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x4e64481b5521b40cf5e99d0d42669d20ddd4428f8299b6c286db407ddde446da",
@@ -2710,7 +2710,7 @@
     },
     {
       "amount": 61,
-      "price": "409.7242",
+      "pricepoint": "409.7242",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x4a6acab60dac6a24caa24fec3093133687dcc1e07908312caf135490433feda3",
@@ -2722,7 +2722,7 @@
     },
     {
       "amount": 31,
-      "price": "380.0947",
+      "pricepoint": "380.0947",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x0afe888681997b1d6520c29a3611343499211494e53a553bc5f58e6c382b3edd",
@@ -2734,7 +2734,7 @@
     },
     {
       "amount": 65,
-      "price": "409.5809",
+      "pricepoint": "409.5809",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x00d41126885e5c5b5512e88904cbfd397ccd21c2c8ac96cce9bcefa31d0374fa",
@@ -2746,7 +2746,7 @@
     },
     {
       "amount": 18,
-      "price": "403.2650",
+      "pricepoint": "403.2650",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xe26fa03d4694d5130a21b91fed04f41203f616d6dbc7220731999b470219b952",
@@ -2758,7 +2758,7 @@
     },
     {
       "amount": 97,
-      "price": "405.5041",
+      "pricepoint": "405.5041",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x61fa8bf6bad312efa29b0595af022030989ef6bd9dcbdafff6473fbb9b162de9",
@@ -2770,7 +2770,7 @@
     },
     {
       "amount": 94,
-      "price": "418.7743",
+      "pricepoint": "418.7743",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0xb949dd80dc74fe45e73d744aa0c2c03d92f84d463cd4de0651b868183d138c87",
@@ -2782,7 +2782,7 @@
     },
     {
       "amount": 12,
-      "price": "396.6914",
+      "pricepoint": "396.6914",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xc0823f4c417737dd518b822fe3eddef0d01e9add6332b247d8972a2783c75ea2",
@@ -2794,7 +2794,7 @@
     },
     {
       "amount": 10,
-      "price": "385.7565",
+      "pricepoint": "385.7565",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x6dc6172ce1b84e24a46bd5be7dbc821309da6e2880614ba40df787809ec1146b",
@@ -2806,7 +2806,7 @@
     },
     {
       "amount": 80,
-      "price": "415.4689",
+      "pricepoint": "415.4689",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x68deebdd216b4f5a2db7419a2ad5968d3824edd688bc83baac9cc8fa992a0289",
@@ -2818,7 +2818,7 @@
     },
     {
       "amount": 86,
-      "price": "414.1442",
+      "pricepoint": "414.1442",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x682c1c4c0238629e960212e4c1c65d95261d178e557ea1738f5c5e3b23462ebb",
@@ -2830,7 +2830,7 @@
     },
     {
       "amount": 26,
-      "price": "414.5349",
+      "pricepoint": "414.5349",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xce6d589a268bc534fcc0564ae41dfab3cebb05eb1a19029f5caa961fae66272f",
@@ -2842,7 +2842,7 @@
     },
     {
       "amount": 93.6,
-      "price": "382.8065",
+      "pricepoint": "382.8065",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x7f7b05fe210683736e28909342f718e58f9e5ef7ae76e29543ea32b4ed597e84",
@@ -2854,7 +2854,7 @@
     },
     {
       "amount": 80,
-      "price": "402.6666",
+      "pricepoint": "402.6666",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xf21fcbb08d703e98fa6152b2e07b87a542f0c7ed205a89c1ab19a2b6e00ec302",
@@ -2866,7 +2866,7 @@
     },
     {
       "amount": 53,
-      "price": "393.5194",
+      "pricepoint": "393.5194",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0xc64481979be569f36a47938007d608ca85226e0f51ce202193d75765b0e65d90",
@@ -2878,7 +2878,7 @@
     },
     {
       "amount": 70,
-      "price": "419.5141",
+      "pricepoint": "419.5141",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xa8b2ff07d59d3468f5b434e64076ad9b25958b6f9495a520815e3ef2ea9de7da",
@@ -2890,7 +2890,7 @@
     },
     {
       "amount": 91,
-      "price": "380.5387",
+      "pricepoint": "380.5387",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xe25561d8205ec055108290dec18c6404d12a2a74f61b97b5f03c579d087e3001",
@@ -2902,7 +2902,7 @@
     },
     {
       "amount": 85.58,
-      "price": "412.0836",
+      "pricepoint": "412.0836",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xcbebae3147dc4391e99f86c43569e50bfc67d8690239538467c5ddd9b195018b",
@@ -2914,7 +2914,7 @@
     },
     {
       "amount": 2,
-      "price": "409.3061",
+      "pricepoint": "409.3061",
       "type": "LIMIT",
       "side": "BUY",
       "hash": "0x62a766b6710f22eb6965d62509445f9ac6f67148ad845052c8961c329c0b9d03",
@@ -2926,7 +2926,7 @@
     },
     {
       "amount": 96,
-      "price": "395.2477",
+      "pricepoint": "395.2477",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x2f1fa47f8d460f95701140f24a2bbd0ec54f863befcca8e3ac25717ce7c25d19",
@@ -2938,7 +2938,7 @@
     },
     {
       "amount": 18,
-      "price": "397.7268",
+      "pricepoint": "397.7268",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xabbd8eaa76dac86b2ac0ea0a58d7aa8d5e68af4be249ed907d50bc0d3c4f5d4d",
@@ -2950,7 +2950,7 @@
     },
     {
       "amount": 40,
-      "price": "398.0865",
+      "pricepoint": "398.0865",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0xa9408950ff78afafbe53246206ff36c13b74770c00d21db18bc974a3ac4a3de1",
@@ -2962,7 +2962,7 @@
     },
     {
       "amount": 18,
-      "price": "384.3471",
+      "pricepoint": "384.3471",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0x6e23905866300dd063e9e21673aa9606fe0f73acf2ca582abec497e2d717008f",
@@ -2974,7 +2974,7 @@
     },
     {
       "amount": 54.42,
-      "price": "386.9945",
+      "pricepoint": "386.9945",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x0857c94b3793b576c7d7c91a861364aaa9c2f4c1a48f8a106e84933c3c824955",
@@ -2986,7 +2986,7 @@
     },
     {
       "amount": 60,
-      "price": "400.6848",
+      "pricepoint": "400.6848",
       "type": "MARKET",
       "side": "BUY",
       "hash": "0x67e0a7ad7c77f1e1e1fd80ec6be19c5a7ec1dbcff7c6ee05062fa6aa5a148a3c",
@@ -2998,7 +2998,7 @@
     },
     {
       "amount": 83,
-      "price": "380.2526",
+      "pricepoint": "380.2526",
       "type": "LIMIT",
       "side": "SELL",
       "hash": "0xe2e9f9c8a5e87ec51a8d3d29645d0377f81dee4c6b48ad7b927fa74fb1f63312",
@@ -3010,7 +3010,7 @@
     },
     {
       "amount": 93.29,
-      "price": "383.2501",
+      "pricepoint": "383.2501",
       "type": "MARKET",
       "side": "SELL",
       "hash": "0x86bd2a875288a7515f9651fa8e714b7386ed65f0d0a82fa44aeea1ed1b1c9f5e",

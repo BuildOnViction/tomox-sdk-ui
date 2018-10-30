@@ -2,23 +2,23 @@ import React from 'react'
 import { Card, Button } from '@blueprintjs/core'
 import styled from 'styled-components'
 import SendEtherModal from '../../components/SendEtherModal'
-import { toPassowrdType } from '../../utils/helpers'
+// import { toPassowrdType } from '../../utils/helpers'
 
 const CurrentWalletRenderer = props => {
   const {
-    showPrivateKey,
+    // showPrivateKey,
     isModalOpen,
     handleModalClose,
-    togglePrivateKey,
-    privateKey,
+    // togglePrivateKey,
+    // privateKey,
     accountAddress,
     balance,
-    pvtKeyLocked,
+    // pvtKeyLocked,
     gasPrice,
     gas
   } = props
 
-  const displayPvtKey = showPrivateKey && !pvtKeyLocked
+  // const displayPvtKey = showPrivateKey && !pvtKeyLocked
 
   return (
     <WalletWrapper>

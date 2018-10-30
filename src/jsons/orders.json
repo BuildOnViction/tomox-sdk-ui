@@ -10,11 +10,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "3326.0597",
-    "price": "90742.2304",
+    "pricepoint": "90742.2304",
     "createdAt": 1509632726412,
     "filledAmount": "3326.0597",
-    "amountBuy": "3326.0597",
-    "amountSell": 301814075.62155485
+    "buyAmount": "3326.0597",
+    "sellAmount": 301814075.62155485
   },
   {
     "userAddress": "0xf73b2e3a92c2920db9905d0e1e319a184f7b1c96",
@@ -27,11 +27,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "7086.9957",
-    "price": "54663.3351",
+    "pricepoint": "54663.3351",
     "createdAt": 1515226280440,
     "filledAmount": "7086.9957",
-    "amountBuy": "7086.9957",
-    "amountSell": 387398820.80135906
+    "buyAmount": "7086.9957",
+    "sellAmount": 387398820.80135906
   },
   {
     "userAddress": "0x8bd3e4556d9da4f033c10cc46b98efe31690c567",
@@ -44,11 +44,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "213.6124",
-    "price": "8779.7196",
+    "pricepoint": "8779.7196",
     "createdAt": 1506551515816,
     "filledAmount": 158.22270468000002,
-    "amountBuy": "213.6124",
-    "amountSell": 1875456.97508304
+    "buyAmount": "213.6124",
+    "sellAmount": 1875456.97508304
   },
   {
     "userAddress": "0x1ad61933a19274ad5dfd2b54ef2726abf6596147",
@@ -61,11 +61,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "9089.3242",
-    "price": "87041.7869",
+    "pricepoint": "87041.7869",
     "createdAt": 1502710223449,
     "filledAmount": 7513.235383719999,
-    "amountBuy": "9089.3242",
-    "amountSell": 791151020.0814129
+    "buyAmount": "9089.3242",
+    "sellAmount": 791151020.0814129
   },
   {
     "userAddress": "0x9e36d3b017880dfd016e557c5bff5a1ced85b8a4",
@@ -78,11 +78,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "3477.1825",
-    "price": "89086.5364",
+    "pricepoint": "89086.5364",
     "createdAt": 1517371774621,
     "filledAmount": 0,
-    "amountBuy": "3477.1825",
-    "amountSell": 309770145.355693
+    "buyAmount": "3477.1825",
+    "sellAmount": 309770145.355693
   },
   {
     "userAddress": "0xa66b2c58f9b556e94420f20f4e9839ed16817153",
@@ -95,11 +95,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "8773.7569",
-    "price": "48766.2604",
+    "pricepoint": "48766.2604",
     "createdAt": 1503708098993,
     "filledAmount": 0,
-    "amountBuy": "8773.7569",
-    "amountSell": 427863313.6716968
+    "buyAmount": "8773.7569",
+    "sellAmount": 427863313.6716968
   },
   {
     "userAddress": "0xc538502d95e673950baf8b38490ccacdadec25ee",
@@ -112,11 +112,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "3183.3421",
-    "price": "39239.8334",
+    "pricepoint": "39239.8334",
     "createdAt": 1501124460784,
     "filledAmount": 0,
-    "amountBuy": "3183.3421",
-    "amountSell": 124913813.65920614
+    "buyAmount": "3183.3421",
+    "sellAmount": 124913813.65920614
   },
   {
     "userAddress": "0xf167638e8fa44a010a8c783798ff19f1a94f5242",
@@ -129,11 +129,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2580.4350",
-    "price": "25638.4326",
+    "pricepoint": "25638.4326",
     "createdAt": 1512724127478,
     "filledAmount": 2296.071063,
-    "amountBuy": "2580.4350",
-    "amountSell": 66158308.826181
+    "buyAmount": "2580.4350",
+    "sellAmount": 66158308.826181
   },
   {
     "userAddress": "0xe37c970fb186ee8a169f33fa126b8a57fb1d4096",
@@ -146,11 +146,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "3029.0643",
-    "price": "51846.7807",
+    "pricepoint": "51846.7807",
     "createdAt": 1514886158803,
     "filledAmount": 1055.62890855,
-    "amountBuy": "3029.0643",
-    "amountSell": 157047232.488299
+    "buyAmount": "3029.0643",
+    "sellAmount": 157047232.488299
   },
   {
     "userAddress": "0x5d3bc043e7484f90184781c8d09f768fcdcd3380",
@@ -163,11 +163,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "444.3982",
-    "price": "2356.4301",
+    "pricepoint": "2356.4301",
     "createdAt": 1519401838747,
     "filledAmount": 0,
-    "amountBuy": "444.3982",
-    "amountSell": 1047193.29486582
+    "buyAmount": "444.3982",
+    "sellAmount": 1047193.29486582
   },
   {
     "userAddress": "0xec4ac933d79f0dd29ca4d4f61f412f7dba912194",
@@ -180,11 +180,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "5905.9924",
-    "price": "10094.8698",
+    "pricepoint": "10094.8698",
     "createdAt": 1512233960376,
     "filledAmount": 848.10050864,
-    "amountBuy": "5905.9924",
-    "amountSell": 59620224.317789525
+    "buyAmount": "5905.9924",
+    "sellAmount": 59620224.317789525
   },
   {
     "userAddress": "0xf2d76305aa85fb4bf0e70d616719f931b71c3f24",
@@ -197,11 +197,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "3446.0712",
-    "price": "797.5177",
+    "pricepoint": "797.5177",
     "createdAt": 1506412633266,
     "filledAmount": 0,
-    "amountBuy": "3446.0712",
-    "amountSell": 2748302.77746024
+    "buyAmount": "3446.0712",
+    "sellAmount": 2748302.77746024
   },
   {
     "userAddress": "0x407ee249e3a9e43032f39b22e98738f1d61df290",
@@ -214,11 +214,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "8589.9069",
-    "price": "5806.8484",
+    "pricepoint": "5806.8484",
     "createdAt": 1515291900846,
     "filledAmount": 0,
-    "amountBuy": "8589.9069",
-    "amountSell": 49880287.13841396
+    "buyAmount": "8589.9069",
+    "sellAmount": 49880287.13841396
   },
   {
     "userAddress": "0x6157cb853edc21bb7a3d9b6f72c4da4cd1c0a08d",
@@ -231,11 +231,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "1582.1922",
-    "price": "75935.8552",
+    "pricepoint": "75935.8552",
     "createdAt": 1509425797779,
     "filledAmount": "1582.1922",
-    "amountBuy": "1582.1922",
-    "amountSell": 120145117.79776944
+    "buyAmount": "1582.1922",
+    "sellAmount": 120145117.79776944
   },
   {
     "userAddress": "0x4977a6e526f328e3b4932c5958be099390ef9c32",
@@ -248,11 +248,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "6640.2014",
-    "price": "63520.5563",
+    "pricepoint": "63520.5563",
     "createdAt": 1505364469139,
     "filledAmount": 4644.8208793,
-    "amountBuy": "6640.2014",
-    "amountSell": 421789286.8720388
+    "buyAmount": "6640.2014",
+    "sellAmount": 421789286.8720388
   },
   {
     "userAddress": "0x295e5190a7a93b498490fa07a7183da7afa11b7b",
@@ -265,11 +265,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "4656.7814",
-    "price": "88482.5944",
+    "pricepoint": "88482.5944",
     "createdAt": 1507923750848,
     "filledAmount": "4656.7814",
-    "amountBuy": "4656.7814",
-    "amountSell": 412044099.82566416
+    "buyAmount": "4656.7814",
+    "sellAmount": 412044099.82566416
   },
   {
     "userAddress": "0x654410466db8a9977e482107a7aacd8cc7cc2a22",
@@ -282,11 +282,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2077.9310",
-    "price": "53331.8249",
+    "pricepoint": "53331.8249",
     "createdAt": 1518822141545,
     "filledAmount": "2077.9310",
-    "amountBuy": "2077.9310",
-    "amountSell": 110819852.2462819
+    "buyAmount": "2077.9310",
+    "sellAmount": 110819852.2462819
   },
   {
     "userAddress": "0x0da47d632ee24ab32f1228d7739fe611d4a926b1",
@@ -299,11 +299,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "3864.5611",
-    "price": "55979.9099",
+    "pricepoint": "55979.9099",
     "createdAt": 1511777540691,
     "filledAmount": 3454.53116729,
-    "amountBuy": "3864.5611",
-    "amountSell": 216337782.18104488
+    "buyAmount": "3864.5611",
+    "sellAmount": 216337782.18104488
   },
   {
     "userAddress": "0xa83504433db1fcbe0b84989ad061b24f8393c825",
@@ -316,11 +316,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "7456.4642",
-    "price": "83828.7994",
+    "pricepoint": "83828.7994",
     "createdAt": 1502216069702,
     "filledAmount": 0,
-    "amountBuy": "7456.4642",
-    "amountSell": 625066441.6550815
+    "buyAmount": "7456.4642",
+    "sellAmount": 625066441.6550815
   },
   {
     "userAddress": "0xbbbfe98703bcedd9f3b9e4080f63e3c3b849bcb4",
@@ -333,11 +333,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "7538.5366",
-    "price": "32049.7418",
+    "pricepoint": "32049.7418",
     "createdAt": 1514093681332,
     "filledAmount": 0,
-    "amountBuy": "7538.5366",
-    "amountSell": 241608151.5798499
+    "buyAmount": "7538.5366",
+    "sellAmount": 241608151.5798499
   },
   {
     "userAddress": "0xd9ac4be2f49b278757dea66467264afa27fda5bc",
@@ -350,11 +350,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "4530.2485",
-    "price": "67159.1507",
+    "pricepoint": "67159.1507",
     "createdAt": 1519671956823,
     "filledAmount": 3480.5899225499998,
-    "amountBuy": "4530.2485",
-    "amountSell": 304247641.71994895
+    "buyAmount": "4530.2485",
+    "sellAmount": 304247641.71994895
   },
   {
     "userAddress": "0x7e5952c3511617331e23db2a632208c848f5c583",
@@ -367,11 +367,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "8309.9739",
-    "price": "87791.5972",
+    "pricepoint": "87791.5972",
     "createdAt": 1503516216585,
     "filledAmount": "8309.9739",
-    "amountBuy": "8309.9739",
-    "amountSell": 729545881.3713132
+    "buyAmount": "8309.9739",
+    "sellAmount": 729545881.3713132
   },
   {
     "userAddress": "0x783b4a05cf781ee65908e29dfa4d1c05b5a0ba28",
@@ -384,11 +384,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "3099.8104",
-    "price": "53903.1011",
+    "pricepoint": "53903.1011",
     "createdAt": 1510116368878,
     "filledAmount": 0,
-    "amountBuy": "3099.8104",
-    "amountSell": 167089393.38203144
+    "buyAmount": "3099.8104",
+    "sellAmount": 167089393.38203144
   },
   {
     "userAddress": "0x80e328424ff72edb8b26f2bb05646fa163fd5937",
@@ -401,11 +401,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "1307.3342",
-    "price": "19815.4565",
+    "pricepoint": "19815.4565",
     "createdAt": 1512202543008,
     "filledAmount": "1307.3342",
-    "amountBuy": "1307.3342",
-    "amountSell": 25905423.9710623
+    "buyAmount": "1307.3342",
+    "sellAmount": 25905423.9710623
   },
   {
     "userAddress": "0x39f9d84f04a1db8a83e7c4609e610ea04891bef3",
@@ -418,11 +418,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "1992.8690",
-    "price": "54683.8028",
+    "pricepoint": "54683.8028",
     "createdAt": 1511728629479,
     "filledAmount": "1992.8690",
-    "amountBuy": "1992.8690",
-    "amountSell": 108977655.40223318
+    "buyAmount": "1992.8690",
+    "sellAmount": 108977655.40223318
   },
   {
     "userAddress": "0x6620f0f96d0061ee7fafe2b7f1c1b2c1e82a1f7e",
@@ -435,11 +435,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "6401.7633",
-    "price": "89255.2192",
+    "pricepoint": "89255.2192",
     "createdAt": 1503546516522,
     "filledAmount": 0,
-    "amountBuy": "6401.7633",
-    "amountSell": 571390786.6080154
+    "buyAmount": "6401.7633",
+    "sellAmount": 571390786.6080154
   },
   {
     "userAddress": "0x5e6ba706aa99c1eba0e0fa6cd1f06dfaddf45a0f",
@@ -452,11 +452,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "3550.7924",
-    "price": "22239.7483",
+    "pricepoint": "22239.7483",
     "createdAt": 1514830960341,
     "filledAmount": 2444.36548816,
-    "amountBuy": "3550.7924",
-    "amountSell": 78968729.24155292
+    "buyAmount": "3550.7924",
+    "sellAmount": 78968729.24155292
   },
   {
     "userAddress": "0x4540f6b74048ea4039869eea1690e79b2f795ab7",
@@ -469,11 +469,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "6996.6754",
-    "price": "43735.5651",
+    "pricepoint": "43735.5651",
     "createdAt": 1505745792286,
     "filledAmount": "6996.6754",
-    "amountBuy": "6996.6754",
-    "amountSell": 306003552.4402685
+    "buyAmount": "6996.6754",
+    "sellAmount": 306003552.4402685
   },
   {
     "userAddress": "0x0ecaba3346a5174a8775748a659062a35050b4ef",
@@ -486,11 +486,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "7038.0138",
-    "price": "3877.7396",
+    "pricepoint": "3877.7396",
     "createdAt": 1507115874401,
     "filledAmount": "7038.0138",
-    "amountBuy": "7038.0138",
-    "amountSell": 27291584.81760648
+    "buyAmount": "7038.0138",
+    "sellAmount": 27291584.81760648
   },
   {
     "userAddress": "0xf7a6e931e5af1efbe64e95bee6ab24bafc748a51",
@@ -503,11 +503,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "2799.4988",
-    "price": "1657.2932",
+    "pricepoint": "1657.2932",
     "createdAt": 1514800310155,
     "filledAmount": 0,
-    "amountBuy": "2799.4988",
-    "amountSell": 4639590.32464816
+    "buyAmount": "2799.4988",
+    "sellAmount": 4639590.32464816
   },
   {
     "userAddress": "0xd2f5772f9b8cc3b9246db3183637069a58c80e29",
@@ -520,11 +520,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "9884.2370",
-    "price": "37580.1584",
+    "pricepoint": "37580.1584",
     "createdAt": 1507363255049,
     "filledAmount": "9884.2370",
-    "amountBuy": "9884.2370",
-    "amountSell": 371451192.12314075
+    "buyAmount": "9884.2370",
+    "sellAmount": 371451192.12314075
   },
   {
     "userAddress": "0xbea21545a890ef937e850f802ec471bd1ef8467a",
@@ -537,11 +537,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "3474.3193",
-    "price": "69597.4707",
+    "pricepoint": "69597.4707",
     "createdAt": 1508694381603,
     "filledAmount": 330.40776543000004,
-    "amountBuy": "3474.3193",
-    "amountSell": 241803835.68419454
+    "buyAmount": "3474.3193",
+    "sellAmount": 241803835.68419454
   },
   {
     "userAddress": "0xa30b4a103e54c2e13b6f7affd1d03beb07b35e89",
@@ -554,11 +554,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "6946.3713",
-    "price": "60012.0929",
+    "pricepoint": "60012.0929",
     "createdAt": 1503364110448,
     "filledAmount": 0,
-    "amountBuy": "6946.3713",
-    "amountSell": 416866279.77349377
+    "buyAmount": "6946.3713",
+    "sellAmount": 416866279.77349377
   },
   {
     "userAddress": "0xdc4fd0ca4a989a534e11efea60dda573d74cd3a8",
@@ -571,11 +571,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "3521.1945",
-    "price": "68550.7675",
+    "pricepoint": "68550.7675",
     "createdAt": 1508628616665,
     "filledAmount": 0,
-    "amountBuy": "3521.1945",
-    "amountSell": 241380585.49177876
+    "buyAmount": "3521.1945",
+    "sellAmount": 241380585.49177876
   },
   {
     "userAddress": "0x78c6f8a8c9855f824f6fc7363f7124741af4fef4",
@@ -588,11 +588,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "9085.2850",
-    "price": "7576.7313",
+    "pricepoint": "7576.7313",
     "createdAt": 1505568003939,
     "filledAmount": "9085.2850",
-    "amountBuy": "9085.2850",
-    "amountSell": 68836763.2289205
+    "buyAmount": "9085.2850",
+    "sellAmount": 68836763.2289205
   },
   {
     "userAddress": "0x82484b7a23e22af6ec783061fac06085dde9c7e1",
@@ -605,11 +605,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "8264.1913",
-    "price": "59593.6230",
+    "pricepoint": "59593.6230",
     "createdAt": 1514417843709,
     "filledAmount": 0,
-    "amountBuy": "8264.1913",
-    "amountSell": 492493100.7320799
+    "buyAmount": "8264.1913",
+    "sellAmount": 492493100.7320799
   },
   {
     "userAddress": "0xa9ea40e61addd7f0e12e5c7943bbc42c1a21a8fe",
@@ -622,11 +622,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "5416.1653",
-    "price": "98018.8279",
+    "pricepoint": "98018.8279",
     "createdAt": 1515017806698,
     "filledAmount": "5416.1653",
-    "amountBuy": "5416.1653",
-    "amountSell": 530886174.4186519
+    "buyAmount": "5416.1653",
+    "sellAmount": 530886174.4186519
   },
   {
     "userAddress": "0x0d61ed7f1536083ad5862389341b0321839d3e23",
@@ -639,11 +639,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "3737.4486",
-    "price": "24617.3459",
+    "pricepoint": "24617.3459",
     "createdAt": 1518897704970,
     "filledAmount": 0,
-    "amountBuy": "3737.4486",
-    "amountSell": 92006064.96967074
+    "buyAmount": "3737.4486",
+    "sellAmount": 92006064.96967074
   },
   {
     "userAddress": "0x21972724ffa9417208546166afed4b7533293f34",
@@ -656,11 +656,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "2481.6374",
-    "price": "67110.0985",
+    "pricepoint": "67110.0985",
     "createdAt": 1517477919302,
     "filledAmount": 2241.91122716,
-    "amountBuy": "2481.6374",
-    "amountSell": 166542930.3552839
+    "buyAmount": "2481.6374",
+    "sellAmount": 166542930.3552839
   },
   {
     "userAddress": "0xb0e4720ceb2c4653289015c0576ad296f41da193",
@@ -673,11 +673,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "8815.0253",
-    "price": "42653.4016",
+    "pricepoint": "42653.4016",
     "createdAt": 1509632057958,
     "filledAmount": 291.77733742999993,
-    "amountBuy": "8815.0253",
-    "amountSell": 375990814.23506045
+    "buyAmount": "8815.0253",
+    "sellAmount": 375990814.23506045
   },
   {
     "userAddress": "0x705a8d7551ff05a395c15940e2715344ff817234",
@@ -690,11 +690,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "9174.6085",
-    "price": "76908.4536",
+    "pricepoint": "76908.4536",
     "createdAt": 1507500516160,
     "filledAmount": 0,
-    "amountBuy": "9174.6085",
-    "amountSell": 705604952.1204156
+    "buyAmount": "9174.6085",
+    "sellAmount": 705604952.1204156
   },
   {
     "userAddress": "0x826cef4158c82a4203144bc51977ebfaf7e5a59c",
@@ -707,11 +707,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "7123.7452",
-    "price": "57380.5709",
+    "pricepoint": "57380.5709",
     "createdAt": 1514576022926,
     "filledAmount": 0,
-    "amountBuy": "7123.7452",
-    "amountSell": 408764566.52213466
+    "buyAmount": "7123.7452",
+    "sellAmount": 408764566.52213466
   },
   {
     "userAddress": "0xdc108ebdef7f48836a50d8f457be12d83f7d6d2c",
@@ -724,11 +724,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "7090.3173",
-    "price": "70115.9270",
+    "pricepoint": "70115.9270",
     "createdAt": 1516389570918,
     "filledAmount": "7090.3173",
-    "amountBuy": "7090.3173",
-    "amountSell": 497144170.21363705
+    "buyAmount": "7090.3173",
+    "sellAmount": 497144170.21363705
   },
   {
     "userAddress": "0x1dbf0b7862dc5ceffa8f7859243d5c55ec82506f",
@@ -741,11 +741,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "6766.1544",
-    "price": "11744.5296",
+    "pricepoint": "11744.5296",
     "createdAt": 1515886496114,
     "filledAmount": 3516.3704416800006,
-    "amountBuy": "6766.1544",
-    "amountSell": 79465300.62897025
+    "buyAmount": "6766.1544",
+    "sellAmount": 79465300.62897025
   },
   {
     "userAddress": "0x4d0d38d21fb3fcaf14b9eff8a73f47d350cb6aa2",
@@ -758,11 +758,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "9635.3676",
-    "price": "40301.2348",
+    "pricepoint": "40301.2348",
     "createdAt": 1500131715661,
     "filledAmount": 2087.98415892,
-    "amountBuy": "9635.3676",
-    "amountSell": 388317212.03191245
+    "buyAmount": "9635.3676",
+    "sellAmount": 388317212.03191245
   },
   {
     "userAddress": "0x14ab69832d56042aa1d1be46ce30bfdedabfbd14",
@@ -775,11 +775,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "3455.7976",
-    "price": "13306.0678",
+    "pricepoint": "13306.0678",
     "createdAt": 1500435645236,
     "filledAmount": 0,
-    "amountBuy": "3455.7976",
-    "amountSell": 45983077.16867728
+    "buyAmount": "3455.7976",
+    "sellAmount": 45983077.16867728
   },
   {
     "userAddress": "0x3148f43e5a6726a2245adf543e327671e406c3ff",
@@ -792,11 +792,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "1048.1316",
-    "price": "90522.0512",
+    "pricepoint": "90522.0512",
     "createdAt": 1502650696466,
     "filledAmount": 0,
-    "amountBuy": "1048.1316",
-    "amountSell": 94879022.35953791
+    "buyAmount": "1048.1316",
+    "sellAmount": 94879022.35953791
   },
   {
     "userAddress": "0x143c029f0549e5986349c4936288bf2d912ecc16",
@@ -809,11 +809,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "7723.3945",
-    "price": "76669.5448",
+    "pricepoint": "76669.5448",
     "createdAt": 1513413622822,
     "filledAmount": 0,
-    "amountBuy": "7723.3945",
-    "amountSell": 592149140.6258236
+    "buyAmount": "7723.3945",
+    "sellAmount": 592149140.6258236
   },
   {
     "userAddress": "0x720ae6ce49aa06416bd2496fadd81f5919c6531c",
@@ -826,11 +826,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "9674.3575",
-    "price": "85540.6626",
+    "pricepoint": "85540.6626",
     "createdAt": 1511934397966,
     "filledAmount": "9674.3575",
-    "amountBuy": "9674.3575",
-    "amountSell": 827550950.7792795
+    "buyAmount": "9674.3575",
+    "sellAmount": 827550950.7792795
   },
   {
     "userAddress": "0x40e808f078821fdcbf5ec5290bcd9d92577c7376",
@@ -843,11 +843,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "41.8650",
-    "price": "55600.3232",
+    "pricepoint": "55600.3232",
     "createdAt": 1503583873190,
     "filledAmount": 0.2637495,
-    "amountBuy": "41.8650",
-    "amountSell": 2327707.530768
+    "buyAmount": "41.8650",
+    "sellAmount": 2327707.530768
   },
   {
     "userAddress": "0x905ea78b3e974d01506aeb31bbc59419722a3c57",
@@ -860,11 +860,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "7213.4454",
-    "price": "80881.4393",
+    "pricepoint": "80881.4393",
     "createdAt": 1518530151338,
     "filledAmount": "7213.4454",
-    "amountBuy": "7213.4454",
-    "amountSell": 583433846.2639642
+    "buyAmount": "7213.4454",
+    "sellAmount": 583433846.2639642
   },
   {
     "userAddress": "0xd5c137c448f0ba5af679fa8f43892770fb4e94a6",
@@ -877,11 +877,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "5299.3980",
-    "price": "81194.8864",
+    "pricepoint": "81194.8864",
     "createdAt": 1509143360131,
     "filledAmount": 0,
-    "amountBuy": "5299.3980",
-    "amountSell": 430284018.59838724
+    "buyAmount": "5299.3980",
+    "sellAmount": 430284018.59838724
   },
   {
     "userAddress": "0xb24b0434e6b58d1de25aae0442b40aa029a6ced7",
@@ -894,11 +894,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "1692.9245",
-    "price": "61604.9395",
+    "pricepoint": "61604.9395",
     "createdAt": 1513081203199,
     "filledAmount": 587.7833864,
-    "amountBuy": "1692.9245",
-    "amountSell": 104292511.40056776
+    "buyAmount": "1692.9245",
+    "sellAmount": 104292511.40056776
   },
   {
     "userAddress": "0xab20433ca32b571feff57e94cc80b7c9c6d4343e",
@@ -911,11 +911,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "1557.5058",
-    "price": "49938.2088",
+    "pricepoint": "49938.2088",
     "createdAt": 1505579171300,
     "filledAmount": "1557.5058",
-    "amountBuy": "1557.5058",
-    "amountSell": 77779049.84761104
+    "buyAmount": "1557.5058",
+    "sellAmount": 77779049.84761104
   },
   {
     "userAddress": "0xbf040a45fadfe2a6d7eaec741fbf4b4e526c8f5a",
@@ -928,11 +928,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "103.8123",
-    "price": "84325.2202",
+    "pricepoint": "84325.2202",
     "createdAt": 1503426625076,
     "filledAmount": 79.13611628999999,
-    "amountBuy": "103.8123",
-    "amountSell": 8753995.05696846
+    "buyAmount": "103.8123",
+    "sellAmount": 8753995.05696846
   },
   {
     "userAddress": "0xc2556ea251f8f307062f7ff9852a2d8c5fb12ddd",
@@ -945,11 +945,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "8573.5551",
-    "price": "11405.4121",
+    "pricepoint": "11405.4121",
     "createdAt": 1516966721053,
     "filledAmount": 0,
-    "amountBuy": "8573.5551",
-    "amountSell": 97784929.0775567
+    "buyAmount": "8573.5551",
+    "sellAmount": 97784929.0775567
   },
   {
     "userAddress": "0xca4452efc76c2b631b26bf06f8475830e0d2695e",
@@ -962,11 +962,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "5090.9815",
-    "price": "42921.6630",
+    "pricepoint": "42921.6630",
     "createdAt": 1517480366094,
     "filledAmount": 0,
-    "amountBuy": "5090.9815",
-    "amountSell": 218513392.2822345
+    "buyAmount": "5090.9815",
+    "sellAmount": 218513392.2822345
   },
   {
     "userAddress": "0xcc2b9a1eed093a56834f0ad829e5eba073a13e00",
@@ -979,11 +979,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "8873.9452",
-    "price": "32084.7129",
+    "pricepoint": "32084.7129",
     "createdAt": 1510999986247,
     "filledAmount": "8873.9452",
-    "amountBuy": "8873.9452",
-    "amountSell": 284717984.0323331
+    "buyAmount": "8873.9452",
+    "sellAmount": 284717984.0323331
   },
   {
     "userAddress": "0x596789c1c7cbcc473ff566c64b58020a69edaeb5",
@@ -996,11 +996,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "1628.3751",
-    "price": "47610.4148",
+    "pricepoint": "47610.4148",
     "createdAt": 1502834842442,
     "filledAmount": 0,
-    "amountBuy": "1628.3751",
-    "amountSell": 77527613.96099147
+    "buyAmount": "1628.3751",
+    "sellAmount": 77527613.96099147
   },
   {
     "userAddress": "0x074eb7e6c4037ad48644c6b6c66cd6b039543b98",
@@ -1013,11 +1013,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "9210.8385",
-    "price": "33647.4126",
+    "pricepoint": "33647.4126",
     "createdAt": 1516663633111,
     "filledAmount": 0,
-    "amountBuy": "9210.8385",
-    "amountSell": 309920883.4014651
+    "buyAmount": "9210.8385",
+    "sellAmount": 309920883.4014651
   },
   {
     "userAddress": "0xd55ede176975f2cacce4818f594fa1921e274671",
@@ -1030,11 +1030,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "1100.6282",
-    "price": "32152.9478",
+    "pricepoint": "32152.9478",
     "createdAt": 1511335996672,
     "filledAmount": "1100.6282",
-    "amountBuy": "1100.6282",
-    "amountSell": 35388441.06180797
+    "buyAmount": "1100.6282",
+    "sellAmount": 35388441.06180797
   },
   {
     "userAddress": "0xf4e3bafe3d61c997012f2fb6eeb40971ffed9954",
@@ -1047,11 +1047,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "4006.5876",
-    "price": "63174.4575",
+    "pricepoint": "63174.4575",
     "createdAt": 1519076762817,
     "filledAmount": 2866.7134278,
-    "amountBuy": "4006.5876",
-    "amountSell": 253113998.05622697
+    "buyAmount": "4006.5876",
+    "sellAmount": 253113998.05622697
   },
   {
     "userAddress": "0xd13da9ed542e1f9eab0ce12addadec7a1532162b",
@@ -1064,11 +1064,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "7745.1221",
-    "price": "77733.4069",
+    "pricepoint": "77733.4069",
     "createdAt": 1509050262090,
     "filledAmount": 1373.21014833,
-    "amountBuy": "7745.1221",
-    "amountSell": 602054727.6894825
+    "buyAmount": "7745.1221",
+    "sellAmount": 602054727.6894825
   },
   {
     "userAddress": "0x7461972b2a5b8d4d3e16ace2d93e49e06cf68ec8",
@@ -1081,11 +1081,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "3536.0657",
-    "price": "74270.1146",
+    "pricepoint": "74270.1146",
     "createdAt": 1504285401590,
     "filledAmount": "3536.0657",
-    "amountBuy": "3536.0657",
-    "amountSell": 262624004.77212924
+    "buyAmount": "3536.0657",
+    "sellAmount": 262624004.77212924
   },
   {
     "userAddress": "0xaad952f64192b1c2ec2aebf1040884039f131da6",
@@ -1098,11 +1098,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "2637.4903",
-    "price": "50281.9206",
+    "pricepoint": "50281.9206",
     "createdAt": 1511951357393,
     "filledAmount": 0,
-    "amountBuy": "2637.4903",
-    "amountSell": 132618077.84787017
+    "buyAmount": "2637.4903",
+    "sellAmount": 132618077.84787017
   },
   {
     "userAddress": "0xcd86db973cad5bebecc27ce45f4a6c6fee9c36ec",
@@ -1115,11 +1115,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "7960.7482",
-    "price": "88409.0373",
+    "pricepoint": "88409.0373",
     "createdAt": 1507584664144,
     "filledAmount": "7960.7482",
-    "amountBuy": "7960.7482",
-    "amountSell": 703802084.5497079
+    "buyAmount": "7960.7482",
+    "sellAmount": 703802084.5497079
   },
   {
     "userAddress": "0xf6adbe33cd079f99658b5ed07abbc6dbde1eccf4",
@@ -1132,11 +1132,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "4072.2486",
-    "price": "73265.1583",
+    "pricepoint": "73265.1583",
     "createdAt": 1507726144615,
     "filledAmount": 0,
-    "amountBuy": "4072.2486",
-    "amountSell": 298353938.3159534
+    "buyAmount": "4072.2486",
+    "sellAmount": 298353938.3159534
   },
   {
     "userAddress": "0x66861f7db7415ca76101e5002b682a53e1afdf94",
@@ -1149,11 +1149,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "444.9184",
-    "price": "76930.6922",
+    "pricepoint": "76930.6922",
     "createdAt": 1512681460852,
     "filledAmount": 0,
-    "amountBuy": "444.9184",
-    "amountSell": 34227880.48451649
+    "buyAmount": "444.9184",
+    "sellAmount": 34227880.48451649
   },
   {
     "userAddress": "0x74709779276732a9e98e81ae8a5a50af008ddca9",
@@ -1166,11 +1166,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "8394.7939",
-    "price": "91988.2717",
+    "pricepoint": "91988.2717",
     "createdAt": 1504728796862,
     "filledAmount": 3158.9609445700003,
-    "amountBuy": "8394.7939",
-    "amountSell": 772222582.1387026
+    "buyAmount": "8394.7939",
+    "sellAmount": 772222582.1387026
   },
   {
     "userAddress": "0xd46a8eccfd29cab869a31f578ad83ebdfd7e666f",
@@ -1183,11 +1183,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "7682.3558",
-    "price": "48945.6782",
+    "pricepoint": "48945.6782",
     "createdAt": 1513278873110,
     "filledAmount": 0,
-    "amountBuy": "7682.3558",
-    "amountSell": 376018114.8047036
+    "buyAmount": "7682.3558",
+    "sellAmount": 376018114.8047036
   },
   {
     "userAddress": "0xf1f7a8d9e46e8aefbf12a1a23cbc24d8ac79cccb",
@@ -1200,11 +1200,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "6803.5962",
-    "price": "515.3509",
+    "pricepoint": "515.3509",
     "createdAt": 1511950565914,
     "filledAmount": "6803.5962",
-    "amountBuy": "6803.5962",
-    "amountSell": 3506239.4249065802
+    "buyAmount": "6803.5962",
+    "sellAmount": 3506239.4249065802
   },
   {
     "userAddress": "0x220e11c55162f5a52a4732b10d36119075e40409",
@@ -1217,11 +1217,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "6703.4601",
-    "price": "93262.3720",
+    "pricepoint": "93262.3720",
     "createdAt": 1506889341092,
     "filledAmount": 0,
-    "amountBuy": "6703.4601",
-    "amountSell": 625180589.5333573
+    "buyAmount": "6703.4601",
+    "sellAmount": 625180589.5333573
   },
   {
     "userAddress": "0xfbab57c861c1f02e7458de5116469359d2b5811b",
@@ -1234,11 +1234,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "2864.5170",
-    "price": "52197.1447",
+    "pricepoint": "52197.1447",
     "createdAt": 1508970496647,
     "filledAmount": 2679.7556535,
-    "amountBuy": "2864.5170",
-    "amountSell": 149519608.3446099
+    "buyAmount": "2864.5170",
+    "sellAmount": 149519608.3446099
   },
   {
     "userAddress": "0x447731d5fdbb848aa82c9bfaa89f252a56981661",
@@ -1251,11 +1251,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "9506.8589",
-    "price": "27774.4513",
+    "pricepoint": "27774.4513",
     "createdAt": 1519069403744,
     "filledAmount": "9506.8589",
-    "amountBuy": "9506.8589",
-    "amountSell": 264047789.53402156
+    "buyAmount": "9506.8589",
+    "sellAmount": 264047789.53402156
   },
   {
     "userAddress": "0x2ab3411cd0996fc05e255d2bfc004917a03da766",
@@ -1268,11 +1268,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "3124.8974",
-    "price": "851.8792",
+    "pricepoint": "851.8792",
     "createdAt": 1514780423407,
     "filledAmount": 968.0932145200001,
-    "amountBuy": "3124.8974",
-    "amountSell": 2662035.09719408
+    "buyAmount": "3124.8974",
+    "sellAmount": 2662035.09719408
   },
   {
     "userAddress": "0x70088fcd892e0a9181b0af2480a884c0d9401553",
@@ -1285,11 +1285,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "1186.4426",
-    "price": "9959.2995",
+    "pricepoint": "9959.2995",
     "createdAt": 1517719248284,
     "filledAmount": 0,
-    "amountBuy": "1186.4426",
-    "amountSell": 11816137.1929587
+    "buyAmount": "1186.4426",
+    "sellAmount": 11816137.1929587
   },
   {
     "userAddress": "0xe3394311c102f30ddb50e386d6c3cf3edb267144",
@@ -1302,11 +1302,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "9343.5772",
-    "price": "91280.1213",
+    "pricepoint": "91280.1213",
     "createdAt": 1517632053140,
     "filledAmount": 0,
-    "amountBuy": "9343.5772",
-    "amountSell": 852882860.1919143
+    "buyAmount": "9343.5772",
+    "sellAmount": 852882860.1919143
   },
   {
     "userAddress": "0x75422ba7048c7cf6599d463e9eaae97dcc6ccf5a",
@@ -1319,11 +1319,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "5429.4626",
-    "price": "3009.2941",
+    "pricepoint": "3009.2941",
     "createdAt": 1519191552609,
     "filledAmount": 4657.93596454,
-    "amountBuy": "5429.4626",
-    "amountSell": 16338849.76835066
+    "buyAmount": "5429.4626",
+    "sellAmount": 16338849.76835066
   },
   {
     "userAddress": "0xbcfc0721b6fee3ca83d49a09ae16dd6bc7c5aed3",
@@ -1336,11 +1336,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "5775.5783",
-    "price": "22271.4184",
+    "pricepoint": "22271.4184",
     "createdAt": 1509551989085,
     "filledAmount": 4633.16891226,
-    "amountBuy": "5775.5783",
-    "amountSell": 128630320.82126072
+    "buyAmount": "5775.5783",
+    "sellAmount": 128630320.82126072
   },
   {
     "userAddress": "0x60fe9079c10b0fd69adb35be02045dc50feaa8a1",
@@ -1353,11 +1353,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "7687.6496",
-    "price": "64776.4851",
+    "pricepoint": "64776.4851",
     "createdAt": 1513863405799,
     "filledAmount": 0,
-    "amountBuy": "7687.6496",
-    "amountSell": 497978919.76842093
+    "buyAmount": "7687.6496",
+    "sellAmount": 497978919.76842093
   },
   {
     "userAddress": "0xe78ebfb34ef31a03c77da3e0e82ea58a907adc86",
@@ -1370,11 +1370,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "8563.7031",
-    "price": "71288.1940",
+    "pricepoint": "71288.1940",
     "createdAt": 1505444828158,
     "filledAmount": "8563.7031",
-    "amountBuy": "8563.7031",
-    "amountSell": 610490927.9512014
+    "buyAmount": "8563.7031",
+    "sellAmount": 610490927.9512014
   },
   {
     "userAddress": "0x3eeba5a035536b0351163db8284945f95af8479f",
@@ -1387,11 +1387,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "1341.7308",
-    "price": "34116.9059",
+    "pricepoint": "34116.9059",
     "createdAt": 1517977699501,
     "filledAmount": 0,
-    "amountBuy": "1341.7308",
-    "amountSell": 45775703.44673172
+    "buyAmount": "1341.7308",
+    "sellAmount": 45775703.44673172
   },
   {
     "userAddress": "0x9a2bc73853700f0b1ad6598e1e7b11ee3ff694d7",
@@ -1404,11 +1404,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "2058.9067",
-    "price": "5336.9068",
+    "pricepoint": "5336.9068",
     "createdAt": 1518438190400,
     "filledAmount": 269.09910569000004,
-    "amountBuy": "2058.9067",
-    "amountSell": 10988193.16779556
+    "buyAmount": "2058.9067",
+    "sellAmount": 10988193.16779556
   },
   {
     "userAddress": "0x051d8d7241f0f53755b1a10a82f557be39681a6e",
@@ -1421,11 +1421,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "402.7719",
-    "price": "61705.1340",
+    "pricepoint": "61705.1340",
     "createdAt": 1500899637831,
     "filledAmount": 221.00094153,
-    "amountBuy": "402.7719",
-    "amountSell": 24853094.0609346
+    "buyAmount": "402.7719",
+    "sellAmount": 24853094.0609346
   },
   {
     "userAddress": "0x333253f8a0076eb28da39a4fc7ce1a9574d35960",
@@ -1438,11 +1438,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "6863.2502",
-    "price": "81383.6138",
+    "pricepoint": "81383.6138",
     "createdAt": 1510264424387,
     "filledAmount": 0,
-    "amountBuy": "6863.2502",
-    "amountSell": 558556103.6895728
+    "buyAmount": "6863.2502",
+    "sellAmount": 558556103.6895728
   },
   {
     "userAddress": "0x45ac222ab49e1692b66ca3d14f5790f09150d855",
@@ -1455,11 +1455,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "6950.4131",
-    "price": "66686.3661",
+    "pricepoint": "66686.3661",
     "createdAt": 1515015237846,
     "filledAmount": 0,
-    "amountBuy": "6950.4131",
-    "amountSell": 463497792.5328359
+    "buyAmount": "6950.4131",
+    "sellAmount": 463497792.5328359
   },
   {
     "userAddress": "0xbf0324866d4e99d4bca9d26f3e7768816bec6986",
@@ -1472,11 +1472,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "2458.6377",
-    "price": "92675.9816",
+    "pricepoint": "92675.9816",
     "createdAt": 1502551910163,
     "filledAmount": "2458.6377",
-    "amountBuy": "2458.6377",
-    "amountSell": 227856662.24626634
+    "buyAmount": "2458.6377",
+    "sellAmount": 227856662.24626634
   },
   {
     "userAddress": "0xddc8dec9ad4cc439e4ed6d0267f7a1802d9d1650",
@@ -1489,11 +1489,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "9898.8192",
-    "price": "70336.6931",
+    "pricepoint": "70336.6931",
     "createdAt": 1513466867708,
     "filledAmount": "9898.8192",
-    "amountBuy": "9898.8192",
-    "amountSell": 696250208.1227876
+    "buyAmount": "9898.8192",
+    "sellAmount": 696250208.1227876
   },
   {
     "userAddress": "0x56cea13d66545ddb9e23dd5327bf37b4d434720c",
@@ -1506,11 +1506,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "3922.2330",
-    "price": "29994.6993",
+    "pricepoint": "29994.6993",
     "createdAt": 1512955226301,
     "filledAmount": 0,
-    "amountBuy": "3922.2330",
-    "amountSell": 117646199.4195369
+    "buyAmount": "3922.2330",
+    "sellAmount": 117646199.4195369
   },
   {
     "userAddress": "0x628311bceef82c1d4f6f49b829234ea943d2ad7b",
@@ -1523,11 +1523,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "3303.2106",
-    "price": "42697.0945",
+    "pricepoint": "42697.0945",
     "createdAt": 1514733496542,
     "filledAmount": "3303.2106",
-    "amountBuy": "3303.2106",
-    "amountSell": 141037495.14160168
+    "buyAmount": "3303.2106",
+    "sellAmount": 141037495.14160168
   },
   {
     "userAddress": "0xe78f69cf612b09863b2b131adcadd7dae2df606d",
@@ -1540,11 +1540,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "6350.0716",
-    "price": "93296.5871",
+    "pricepoint": "93296.5871",
     "createdAt": 1504526021965,
     "filledAmount": 2207.2848881600003,
-    "amountBuy": "6350.0716",
-    "amountSell": 592440008.1206365
+    "buyAmount": "6350.0716",
+    "sellAmount": 592440008.1206365
   },
   {
     "userAddress": "0x9bdc58b8831a6222b7d77ddb2ada2708ee304353",
@@ -1557,11 +1557,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "9495.2283",
-    "price": "13010.5777",
+    "pricepoint": "13010.5777",
     "createdAt": 1503765037078,
     "filledAmount": "9495.2283",
-    "amountBuy": "9495.2283",
-    "amountSell": 123538405.57638891
+    "buyAmount": "9495.2283",
+    "sellAmount": 123538405.57638891
   },
   {
     "userAddress": "0x2302b7af302e7ee117eafbb5518b7fefcee7c4b8",
@@ -1574,11 +1574,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "7133.0840",
-    "price": "18632.4341",
+    "pricepoint": "18632.4341",
     "createdAt": 1504344295587,
     "filledAmount": 0,
-    "amountBuy": "7133.0840",
-    "amountSell": 132906717.55976439
+    "buyAmount": "7133.0840",
+    "sellAmount": 132906717.55976439
   },
   {
     "userAddress": "0x38c480d465801b8dcbb7a9382668ff99a182c259",
@@ -1591,11 +1591,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "9991.8595",
-    "price": "61871.2312",
+    "pricepoint": "61871.2312",
     "createdAt": 1519479852619,
     "filledAmount": "9991.8595",
-    "amountBuy": "9991.8595",
-    "amountSell": 618208649.2424165
+    "buyAmount": "9991.8595",
+    "sellAmount": 618208649.2424165
   },
   {
     "userAddress": "0x4ace6fa7c67e689d7345762cbc39206503cd7eff",
@@ -1608,11 +1608,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "9464.5815",
-    "price": "52145.3203",
+    "pricepoint": "52145.3203",
     "createdAt": 1504211660928,
     "filledAmount": "9464.5815",
-    "amountBuy": "9464.5815",
-    "amountSell": 493533633.8229545
+    "buyAmount": "9464.5815",
+    "sellAmount": 493533633.8229545
   },
   {
     "userAddress": "0x3596a9795873f1e9fa2fc05aa73ab7dc344f781b",
@@ -1625,11 +1625,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "7645.9361",
-    "price": "56095.8142",
+    "pricepoint": "56095.8142",
     "createdAt": 1511313170835,
     "filledAmount": 0,
-    "amountBuy": "7645.9361",
-    "amountSell": 428905010.8506726
+    "buyAmount": "7645.9361",
+    "sellAmount": 428905010.8506726
   },
   {
     "userAddress": "0xf92cc9b4da8f62b246a93ef57117893e7b300170",
@@ -1642,11 +1642,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "6106.7311",
-    "price": "21614.6811",
+    "pricepoint": "21614.6811",
     "createdAt": 1515884059261,
     "filledAmount": "6106.7311",
-    "amountBuy": "6106.7311",
-    "amountSell": 131995045.28995222
+    "buyAmount": "6106.7311",
+    "sellAmount": 131995045.28995222
   },
   {
     "userAddress": "0x405ceeba8d2b3aa0dd18e85802da8a924c59c567",
@@ -1659,11 +1659,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "176.7242",
-    "price": "98061.0746",
+    "pricepoint": "98061.0746",
     "createdAt": 1515029564473,
     "filledAmount": 139.09961782,
-    "amountBuy": "176.7242",
-    "amountSell": 17329764.959825322
+    "buyAmount": "176.7242",
+    "sellAmount": 17329764.959825322
   },
   {
     "userAddress": "0x1156e1dac38e66c33664cb948e2d93e533effbad",
@@ -1676,11 +1676,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "9851.2053",
-    "price": "50591.9220",
+    "pricepoint": "50591.9220",
     "createdAt": 1508007138085,
     "filledAmount": "9851.2053",
-    "amountBuy": "9851.2053",
-    "amountSell": 498391410.1435866
+    "buyAmount": "9851.2053",
+    "sellAmount": 498391410.1435866
   },
   {
     "userAddress": "0x070af7ca3f830ea1094969fb58ad4b7a68674069",
@@ -1693,11 +1693,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "3504.8777",
-    "price": "53392.5377",
+    "pricepoint": "53392.5377",
     "createdAt": 1501344419444,
     "filledAmount": "3504.8777",
-    "amountBuy": "3504.8777",
-    "amountSell": 187134314.7311393
+    "buyAmount": "3504.8777",
+    "sellAmount": 187134314.7311393
   },
   {
     "userAddress": "0xa497151b2d01cc134787d94864687a5e9dd6d433",
@@ -1710,11 +1710,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "8701.8997",
-    "price": "51919.8097",
+    "pricepoint": "51919.8097",
     "createdAt": 1511284578842,
     "filledAmount": 1471.49123927,
-    "amountBuy": "8701.8997",
-    "amountSell": 451800976.45248705
+    "buyAmount": "8701.8997",
+    "sellAmount": 451800976.45248705
   },
   {
     "userAddress": "0x3596667c49d2b944b32560a1cf49f74f0081a02e",
@@ -1727,11 +1727,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "5760.3820",
-    "price": "81260.4745",
+    "pricepoint": "81260.4745",
     "createdAt": 1504882743336,
     "filledAmount": 497.6970048,
-    "amountBuy": "5760.3820",
-    "amountSell": 468091374.621259
+    "buyAmount": "5760.3820",
+    "sellAmount": 468091374.621259
   },
   {
     "userAddress": "0x83bba1fcab0fd1fa0dcb96fb818d1c81f2edf7ef",
@@ -1744,11 +1744,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "8333.9118",
-    "price": "55982.7280",
+    "pricepoint": "55982.7280",
     "createdAt": 1506684065359,
     "filledAmount": 4392.80490978,
-    "amountBuy": "8333.9118",
-    "amountSell": 466555117.47539043
+    "buyAmount": "8333.9118",
+    "sellAmount": 466555117.47539043
   },
   {
     "userAddress": "0xa2192b3c94c9c99cbe3a89dae5dc55b41c0a81bf",
@@ -1761,11 +1761,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "2049.8920",
-    "price": "75173.0031",
+    "pricepoint": "75173.0031",
     "createdAt": 1504665681893,
     "filledAmount": "2049.8920",
-    "amountBuy": "2049.8920",
-    "amountSell": 154096537.6706652
+    "buyAmount": "2049.8920",
+    "sellAmount": 154096537.6706652
   },
   {
     "userAddress": "0xfd8f6117bb0fd22eaa8314868d37d179b3a3143d",
@@ -1778,11 +1778,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "1277.6757",
-    "price": "45930.4506",
+    "pricepoint": "45930.4506",
     "createdAt": 1509881108202,
     "filledAmount": 0,
-    "amountBuy": "1277.6757",
-    "amountSell": 58684220.62167042
+    "buyAmount": "1277.6757",
+    "sellAmount": 58684220.62167042
   },
   {
     "userAddress": "0x8db25239e91480b77ed466a0651d2038df8878a6",
@@ -1795,11 +1795,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "7064.9110",
-    "price": "68590.8328",
+    "pricepoint": "68590.8328",
     "createdAt": 1500232024122,
     "filledAmount": 2031.1619125,
-    "amountBuy": "7064.9110",
-    "amountSell": 484588129.14788085
+    "buyAmount": "7064.9110",
+    "sellAmount": 484588129.14788085
   },
   {
     "userAddress": "0xc56ae29e5db2ae2a6ccc613463ab30cf46c2e987",
@@ -1812,11 +1812,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "5366.5888",
-    "price": "11412.7382",
+    "pricepoint": "11412.7382",
     "createdAt": 1503984757989,
     "filledAmount": "5366.5888",
-    "amountBuy": "5366.5888",
-    "amountSell": 61247473.00145216
+    "buyAmount": "5366.5888",
+    "sellAmount": 61247473.00145216
   },
   {
     "userAddress": "0xf125d06f17ab8147a85cbf6c54d63e6e276e69e2",
@@ -1829,11 +1829,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "9648.2047",
-    "price": "91986.0254",
+    "pricepoint": "91986.0254",
     "createdAt": 1515869913585,
     "filledAmount": "9648.2047",
-    "amountBuy": "9648.2047",
-    "amountSell": 887500002.5985994
+    "buyAmount": "9648.2047",
+    "sellAmount": 887500002.5985994
   },
   {
     "userAddress": "0x736c5f6866a576f32b357ef8a40d26965eb56676",
@@ -1846,11 +1846,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "3109.2441",
-    "price": "35106.1116",
+    "pricepoint": "35106.1116",
     "createdAt": 1516994304185,
     "filledAmount": "3109.2441",
-    "amountBuy": "3109.2441",
-    "amountSell": 109153470.36624154
+    "buyAmount": "3109.2441",
+    "sellAmount": 109153470.36624154
   },
   {
     "userAddress": "0x00d3a308ad52fad2ba17b87dab9519f8a9ae4f91",
@@ -1863,11 +1863,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "4648.8250",
-    "price": "29083.5255",
+    "pricepoint": "29083.5255",
     "createdAt": 1515572359463,
     "filledAmount": "4648.8250",
-    "amountBuy": "4648.8250",
-    "amountSell": 135204220.4325375
+    "buyAmount": "4648.8250",
+    "sellAmount": 135204220.4325375
   },
   {
     "userAddress": "0xc8775f8bf2fe8d8184f690e64051490e326b88d2",
@@ -1880,11 +1880,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2656.6281",
-    "price": "14170.2553",
+    "pricepoint": "14170.2553",
     "createdAt": 1517554168749,
     "filledAmount": 208.27964304,
-    "amountBuy": "2656.6281",
-    "amountSell": 37645098.41415393
+    "buyAmount": "2656.6281",
+    "sellAmount": 37645098.41415393
   },
   {
     "userAddress": "0x4124c76f09b5c964acf67ef83f9195d984ae681f",
@@ -1897,11 +1897,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "1838.7254",
-    "price": "94894.7476",
+    "pricepoint": "94894.7476",
     "createdAt": 1503732522589,
     "filledAmount": 0,
-    "amountBuy": "1838.7254",
-    "amountSell": 174485382.73870906
+    "buyAmount": "1838.7254",
+    "sellAmount": 174485382.73870906
   },
   {
     "userAddress": "0xa79684bb3bec3ffa159a95c206a4fee8e0be4394",
@@ -1914,11 +1914,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "5133.9622",
-    "price": "45523.3174",
+    "pricepoint": "45523.3174",
     "createdAt": 1500522198314,
     "filledAmount": 1695.74771466,
-    "amountBuy": "5133.9622",
-    "amountSell": 233714990.75020227
+    "buyAmount": "5133.9622",
+    "sellAmount": 233714990.75020227
   },
   {
     "userAddress": "0x6fe402fce20c8e1ffdce8f47d3dbbf7466554260",
@@ -1931,11 +1931,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "6635.0486",
-    "price": "16956.3766",
+    "pricepoint": "16956.3766",
     "createdAt": 1505755615963,
     "filledAmount": 3241.8847459599997,
-    "amountBuy": "6635.0486",
-    "amountSell": 112506382.82090276
+    "buyAmount": "6635.0486",
+    "sellAmount": 112506382.82090276
   },
   {
     "userAddress": "0xd427d15d059f81eedc3a790210b0d382fc3d52c4",
@@ -1948,11 +1948,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "2732.1484",
-    "price": "87405.5057",
+    "pricepoint": "87405.5057",
     "createdAt": 1511136155269,
     "filledAmount": "2732.1484",
-    "amountBuy": "2732.1484",
-    "amountSell": 238804812.54944587
+    "buyAmount": "2732.1484",
+    "sellAmount": 238804812.54944587
   },
   {
     "userAddress": "0x1f2b396dc97aae93d5f855d92bf4c2c3225d557c",
@@ -1965,11 +1965,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "2206.1840",
-    "price": "29713.4108",
+    "pricepoint": "29713.4108",
     "createdAt": 1504576151202,
     "filledAmount": "2206.1840",
-    "amountBuy": "2206.1840",
-    "amountSell": 65553251.492387205
+    "buyAmount": "2206.1840",
+    "sellAmount": 65553251.492387205
   },
   {
     "userAddress": "0xaf3e369f06a7dd50c747b90cf2c913e0f62752ac",
@@ -1982,11 +1982,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "1091.5742",
-    "price": "82357.3476",
+    "pricepoint": "82357.3476",
     "createdAt": 1508651463623,
     "filledAmount": "1091.5742",
-    "amountBuy": "1091.5742",
-    "amountSell": 89899155.82059191
+    "buyAmount": "1091.5742",
+    "sellAmount": 89899155.82059191
   },
   {
     "userAddress": "0x68df0dacf602746b579fc5c3a1244909848be467",
@@ -1999,11 +1999,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "4611.4130",
-    "price": "41273.5266",
+    "pricepoint": "41273.5266",
     "createdAt": 1508971384712,
     "filledAmount": 0,
-    "amountBuy": "4611.4130",
-    "amountSell": 190329277.11908576
+    "buyAmount": "4611.4130",
+    "sellAmount": 190329277.11908576
   },
   {
     "userAddress": "0x84d2ab216d3a5c88ac86fe9730ba6157dbcc809e",
@@ -2016,11 +2016,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "6268.0235",
-    "price": "60790.4251",
+    "pricepoint": "60790.4251",
     "createdAt": 1513713998348,
     "filledAmount": 3325.18646675,
-    "amountBuy": "6268.0235",
-    "amountSell": 381035813.1017899
+    "buyAmount": "6268.0235",
+    "sellAmount": 381035813.1017899
   },
   {
     "userAddress": "0x2570783b09bdad8f4ba0471b60380509b3ebb8ce",
@@ -2033,11 +2033,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "6169.3869",
-    "price": "21086.1012",
+    "pricepoint": "21086.1012",
     "createdAt": 1506503743527,
     "filledAmount": 5503.093114800001,
-    "amountBuy": "6169.3869",
-    "amountSell": 130088316.51535429
+    "buyAmount": "6169.3869",
+    "sellAmount": 130088316.51535429
   },
   {
     "userAddress": "0x556d1325bec7a2d3fbc496165be2156d0aaf9ece",
@@ -2050,11 +2050,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "1798.6468",
-    "price": "14656.0304",
+    "pricepoint": "14656.0304",
     "createdAt": 1501521611474,
     "filledAmount": 53.599674639999996,
-    "amountBuy": "1798.6468",
-    "amountSell": 26361022.17966272
+    "buyAmount": "1798.6468",
+    "sellAmount": 26361022.17966272
   },
   {
     "userAddress": "0x06f4db7e3bbfeeae1962f5442c569b5b1022a06d",
@@ -2067,11 +2067,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "9763.4373",
-    "price": "44830.1905",
+    "pricepoint": "44830.1905",
     "createdAt": 1514791173614,
     "filledAmount": 7913.265931649999,
-    "amountBuy": "9763.4373",
-    "amountSell": 437696754.0938056
+    "buyAmount": "9763.4373",
+    "sellAmount": 437696754.0938056
   },
   {
     "userAddress": "0x6f8f409120ceb50c463483b199253af739c0d25d",
@@ -2084,11 +2084,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "3281.3986",
-    "price": "52508.7404",
+    "pricepoint": "52508.7404",
     "createdAt": 1514448422323,
     "filledAmount": 1404.11046094,
-    "amountBuy": "3281.3986",
-    "amountSell": 172302107.23632345
+    "buyAmount": "3281.3986",
+    "sellAmount": 172302107.23632345
   },
   {
     "userAddress": "0x44ed4f48491740084b6de851229bf757db972275",
@@ -2101,11 +2101,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2294.9198",
-    "price": "47741.4828",
+    "pricepoint": "47741.4828",
     "createdAt": 1518772598083,
     "filledAmount": "2294.9198",
-    "amountBuy": "2294.9198",
-    "amountSell": 109562874.15907945
+    "buyAmount": "2294.9198",
+    "sellAmount": 109562874.15907945
   },
   {
     "userAddress": "0xd6629228f15d253149b018067b0ba9ed12310d46",
@@ -2118,11 +2118,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "7264.2859",
-    "price": "16575.4515",
+    "pricepoint": "16575.4515",
     "createdAt": 1512705498157,
     "filledAmount": 0,
-    "amountBuy": "7264.2859",
-    "amountSell": 120408818.61758384
+    "buyAmount": "7264.2859",
+    "sellAmount": 120408818.61758384
   },
   {
     "userAddress": "0x14a195845405f6335270670a7649007a4879eed9",
@@ -2135,11 +2135,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "9389.0039",
-    "price": "97630.2535",
+    "pricepoint": "97630.2535",
     "createdAt": 1519623079385,
     "filledAmount": 0,
-    "amountBuy": "9389.0039",
-    "amountSell": 916650830.8694887
+    "buyAmount": "9389.0039",
+    "sellAmount": 916650830.8694887
   },
   {
     "userAddress": "0x62d178690dc44d33899a8294610bd56751132e58",
@@ -2152,11 +2152,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "2842.2192",
-    "price": "34848.4292",
+    "pricepoint": "34848.4292",
     "createdAt": 1512541982286,
     "filledAmount": 328.56053951999996,
-    "amountBuy": "2842.2192",
-    "amountSell": 99046874.56208064
+    "buyAmount": "2842.2192",
+    "sellAmount": 99046874.56208064
   },
   {
     "userAddress": "0x9d4140ed12df057127d27c8ae42a526dfbf7a7ab",
@@ -2169,11 +2169,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "6752.3330",
-    "price": "4526.5976",
+    "pricepoint": "4526.5976",
     "createdAt": 1518931412739,
     "filledAmount": "6752.3330",
-    "amountBuy": "6752.3330",
-    "amountSell": 30565094.3522008
+    "buyAmount": "6752.3330",
+    "sellAmount": 30565094.3522008
   },
   {
     "userAddress": "0xd40c85cdf6089009c182c7d91e604ef4c0c31572",
@@ -2186,11 +2186,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "3374.2837",
-    "price": "24241.1745",
+    "pricepoint": "24241.1745",
     "createdAt": 1504269581319,
     "filledAmount": 2042.7913519800002,
-    "amountBuy": "3374.2837",
-    "amountSell": 81796599.98420565
+    "buyAmount": "3374.2837",
+    "sellAmount": 81796599.98420565
   },
   {
     "userAddress": "0x32bd260b6a8d0b702af2fa8ab7c4d12dc7bccb8c",
@@ -2203,11 +2203,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "8230.9404",
-    "price": "76459.1649",
+    "pricepoint": "76459.1649",
     "createdAt": 1512937995893,
     "filledAmount": 0,
-    "amountBuy": "8230.9404",
-    "amountSell": 629330829.3256719
+    "buyAmount": "8230.9404",
+    "sellAmount": 629330829.3256719
   },
   {
     "userAddress": "0xbeded97103c0fd33869e0413abc9dc0404f80296",
@@ -2220,11 +2220,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "4115.5337",
-    "price": "44569.1728",
+    "pricepoint": "44569.1728",
     "createdAt": 1515122107081,
     "filledAmount": 0,
-    "amountBuy": "4115.5337",
-    "amountSell": 183425932.63952336
+    "buyAmount": "4115.5337",
+    "sellAmount": 183425932.63952336
   },
   {
     "userAddress": "0x6eb06ea80b7bdb45b2587ff999cc1a6c79a2caa0",
@@ -2237,11 +2237,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "518.9183",
-    "price": "34227.1738",
+    "pricepoint": "34227.1738",
     "createdAt": 1513558355291,
     "filledAmount": 358.98767994,
-    "amountBuy": "518.9183",
-    "amountSell": 17761106.84210054
+    "buyAmount": "518.9183",
+    "sellAmount": 17761106.84210054
   },
   {
     "userAddress": "0x2b430aadbc376e62b493ec4cb99751eb600e8110",
@@ -2254,11 +2254,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "93.9991",
-    "price": "96345.7194",
+    "pricepoint": "96345.7194",
     "createdAt": 1515656896358,
     "filledAmount": 0,
-    "amountBuy": "93.9991",
-    "amountSell": 9056410.91245254
+    "buyAmount": "93.9991",
+    "sellAmount": 9056410.91245254
   },
   {
     "userAddress": "0xde675336f868e339fff1f1e14d9e444494b96793",
@@ -2271,11 +2271,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "8867.8787",
-    "price": "76560.9211",
+    "pricepoint": "76560.9211",
     "createdAt": 1513943714647,
     "filledAmount": 0,
-    "amountBuy": "8867.8787",
-    "amountSell": 678932961.4750706
+    "buyAmount": "8867.8787",
+    "sellAmount": 678932961.4750706
   },
   {
     "userAddress": "0xbd48a07127e5aadda49240183d5b6b4b59c5a9e6",
@@ -2288,11 +2288,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "5661.4222",
-    "price": "66473.8739",
+    "pricepoint": "66473.8739",
     "createdAt": 1518698815894,
     "filledAmount": "5661.4222",
-    "amountBuy": "5661.4222",
-    "amountSell": 376336665.4174606
+    "buyAmount": "5661.4222",
+    "sellAmount": 376336665.4174606
   },
   {
     "userAddress": "0xc9343cb61dbc33b884c9a93cc2e34aa25c43ff44",
@@ -2305,11 +2305,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "6261.0350",
-    "price": "71088.0150",
+    "pricepoint": "71088.0150",
     "createdAt": 1506154689009,
     "filledAmount": 0,
-    "amountBuy": "6261.0350",
-    "amountSell": 445084549.995525
+    "buyAmount": "6261.0350",
+    "sellAmount": 445084549.995525
   },
   {
     "userAddress": "0xd16847fd706a53d4ddc7d393a687e766450153c8",
@@ -2322,11 +2322,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2471.8734",
-    "price": "44256.1518",
+    "pricepoint": "44256.1518",
     "createdAt": 1501526305397,
     "filledAmount": 1143.98300952,
-    "amountBuy": "2471.8734",
-    "amountSell": 109395604.42078212
+    "buyAmount": "2471.8734",
+    "sellAmount": 109395604.42078212
   },
   {
     "userAddress": "0x1d6b872d02020e604452b09c4682178406a4e127",
@@ -2339,11 +2339,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "462.0118",
-    "price": "22197.2481",
+    "pricepoint": "22197.2481",
     "createdAt": 1504717011316,
     "filledAmount": "462.0118",
-    "amountBuy": "462.0118",
-    "amountSell": 10255390.54972758
+    "buyAmount": "462.0118",
+    "sellAmount": 10255390.54972758
   },
   {
     "userAddress": "0xdf6ccd40df0b18cd61d0a5cafda82d05d0be0821",
@@ -2356,11 +2356,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "3765.0350",
-    "price": "6977.3748",
+    "pricepoint": "6977.3748",
     "createdAt": 1504416023702,
     "filledAmount": 1127.251479,
-    "amountBuy": "3765.0350",
-    "amountSell": 26270060.330117997
+    "buyAmount": "3765.0350",
+    "sellAmount": 26270060.330117997
   },
   {
     "userAddress": "0x5fed874f4ecc8b18dd2648e475cbf03808a8cca7",
@@ -2373,11 +2373,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "2475.4705",
-    "price": "9990.4028",
+    "pricepoint": "9990.4028",
     "createdAt": 1500414876112,
     "filledAmount": 0,
-    "amountBuy": "2475.4705",
-    "amountSell": 24730947.4145174
+    "buyAmount": "2475.4705",
+    "sellAmount": 24730947.4145174
   },
   {
     "userAddress": "0xc8bbfc9cd3467b80e4807217961fa79f49a3dc9a",
@@ -2390,11 +2390,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "6753.7055",
-    "price": "72847.9008",
+    "pricepoint": "72847.9008",
     "createdAt": 1518857596255,
     "filledAmount": 5352.31160875,
-    "amountBuy": "6753.7055",
-    "amountSell": 491993268.29641443
+    "buyAmount": "6753.7055",
+    "sellAmount": 491993268.29641443
   },
   {
     "userAddress": "0xbe1b277c97fb9592ec4ece2924e1496bd5b4516f",
@@ -2407,11 +2407,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "8108.3699",
-    "price": "83399.1490",
+    "pricepoint": "83399.1490",
     "createdAt": 1510924769703,
     "filledAmount": "8108.3699",
-    "amountBuy": "8108.3699",
-    "amountSell": 676231149.4372151
+    "buyAmount": "8108.3699",
+    "sellAmount": 676231149.4372151
   },
   {
     "userAddress": "0x93527b6d3f7b0f42ffd73ae3ff64788fdf6879b2",
@@ -2424,11 +2424,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "6041.7866",
-    "price": "47956.4148",
+    "pricepoint": "47956.4148",
     "createdAt": 1504792980222,
     "filledAmount": "6041.7866",
-    "amountBuy": "6041.7866",
-    "amountSell": 289742424.32268167
+    "buyAmount": "6041.7866",
+    "sellAmount": 289742424.32268167
   },
   {
     "userAddress": "0x34e86f895b76e118ac2e083cf46b49bc1cb8a2b0",
@@ -2441,11 +2441,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "2136.0245",
-    "price": "53666.8624",
+    "pricepoint": "53666.8624",
     "createdAt": 1501157659697,
     "filledAmount": "2136.0245",
-    "amountBuy": "2136.0245",
-    "amountSell": 114633732.92452879
+    "buyAmount": "2136.0245",
+    "sellAmount": 114633732.92452879
   },
   {
     "userAddress": "0xd125d878b41db9cc3e7b3e5d3ee518617f5e21ee",
@@ -2458,11 +2458,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "471.6022",
-    "price": "84615.3499",
+    "pricepoint": "84615.3499",
     "createdAt": 1502767282864,
     "filledAmount": 423.54593582,
-    "amountBuy": "471.6022",
-    "amountSell": 39904785.16660978
+    "buyAmount": "471.6022",
+    "sellAmount": 39904785.16660978
   },
   {
     "userAddress": "0xc174c78b69f7ec01a075c4c2cbb1a4a9d4cd13a0",
@@ -2475,11 +2475,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "6410.4602",
-    "price": "42870.7823",
+    "pricepoint": "42870.7823",
     "createdAt": 1506997764282,
     "filledAmount": "6410.4602",
-    "amountBuy": "6410.4602",
-    "amountSell": 274821443.67701447
+    "buyAmount": "6410.4602",
+    "sellAmount": 274821443.67701447
   },
   {
     "userAddress": "0x924c6c161f5956cf0f98d92d7a5462795f3be3a4",
@@ -2492,11 +2492,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "152.5400",
-    "price": "28410.1762",
+    "pricepoint": "28410.1762",
     "createdAt": 1511251520551,
     "filledAmount": "152.5400",
-    "amountBuy": "152.5400",
-    "amountSell": 4333688.277548
+    "buyAmount": "152.5400",
+    "sellAmount": 4333688.277548
   },
   {
     "userAddress": "0x2468eba5887fd4e445898512db5cd3e83d81c653",
@@ -2509,11 +2509,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "778.8979",
-    "price": "34354.2403",
+    "pricepoint": "34354.2403",
     "createdAt": 1516651116781,
     "filledAmount": "778.8979",
-    "amountBuy": "778.8979",
-    "amountSell": 26758445.62576537
+    "buyAmount": "778.8979",
+    "sellAmount": 26758445.62576537
   },
   {
     "userAddress": "0x24866ee9c51a9f31d6900a9463044eab7cac94fa",
@@ -2526,11 +2526,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "4206.3945",
-    "price": "86349.4307",
+    "pricepoint": "86349.4307",
     "createdAt": 1508495590746,
     "filledAmount": 0,
-    "amountBuy": "4206.3945",
-    "amountSell": 363219770.37461114
+    "buyAmount": "4206.3945",
+    "sellAmount": 363219770.37461114
   },
   {
     "userAddress": "0x9040d67b4effb358de83b371908e5746110c7327",
@@ -2543,11 +2543,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "2650.9778",
-    "price": "16721.0910",
+    "pricepoint": "16721.0910",
     "createdAt": 1513842569061,
     "filledAmount": "2650.9778",
-    "amountBuy": "2650.9778",
-    "amountSell": 44327241.032779805
+    "buyAmount": "2650.9778",
+    "sellAmount": 44327241.032779805
   },
   {
     "userAddress": "0xfa91326f431d1699388d854214f533dc2436b983",
@@ -2560,11 +2560,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "7003.2820",
-    "price": "59222.3434",
+    "pricepoint": "59222.3434",
     "createdAt": 1519871766239,
     "filledAmount": 5265.0674076000005,
-    "amountBuy": "7003.2820",
-    "amountSell": 414750771.5310388
+    "buyAmount": "7003.2820",
+    "sellAmount": 414750771.5310388
   },
   {
     "userAddress": "0x34bd20df0742d4ba77294947bb94c54b2763f3fe",
@@ -2577,11 +2577,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "4529.6853",
-    "price": "1723.6393",
+    "pricepoint": "1723.6393",
     "createdAt": 1516167027356,
     "filledAmount": "4529.6853",
-    "amountBuy": "4529.6853",
-    "amountSell": 7807543.599712291
+    "buyAmount": "4529.6853",
+    "sellAmount": 7807543.599712291
   },
   {
     "userAddress": "0xafe75a1a164e983aad676535993f02dc4bbcc2e2",
@@ -2594,11 +2594,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "4090.1455",
-    "price": "7829.6524",
+    "pricepoint": "7829.6524",
     "createdAt": 1506506260143,
     "filledAmount": 0,
-    "amountBuy": "4090.1455",
-    "amountSell": 32024417.5304242
+    "buyAmount": "4090.1455",
+    "sellAmount": 32024417.5304242
   },
   {
     "userAddress": "0x78fe6ce5feca5d9dabdc26f5dc0cc71372a4b2aa",
@@ -2611,11 +2611,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "5834.3837",
-    "price": "11712.9149",
+    "pricepoint": "11712.9149",
     "createdAt": 1510447473179,
     "filledAmount": 5518.74354183,
-    "amountBuy": "5834.3837",
-    "amountSell": 68337639.77204713
+    "buyAmount": "5834.3837",
+    "sellAmount": 68337639.77204713
   },
   {
     "userAddress": "0x03ed96bf211faf9696936c96be63995d8050adbc",
@@ -2628,11 +2628,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "3008.0973",
-    "price": "47711.3087",
+    "pricepoint": "47711.3087",
     "createdAt": 1519469915115,
     "filledAmount": "3008.0973",
-    "amountBuy": "3008.0973",
-    "amountSell": 143520258.87993652
+    "buyAmount": "3008.0973",
+    "sellAmount": 143520258.87993652
   },
   {
     "userAddress": "0xb7f6efc8457eb1fed86a1ee96c3ead99a75865be",
@@ -2645,11 +2645,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "9.6820",
-    "price": "99729.7726",
+    "pricepoint": "99729.7726",
     "createdAt": 1504969350654,
     "filledAmount": "9.6820",
-    "amountBuy": "9.6820",
-    "amountSell": 965583.6583132
+    "buyAmount": "9.6820",
+    "sellAmount": 965583.6583132
   },
   {
     "userAddress": "0x6ac24e803eaa5cc33dfbf6c4210e5136cc5a32f0",
@@ -2662,11 +2662,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "3417.2617",
-    "price": "91252.9634",
+    "pricepoint": "91252.9634",
     "createdAt": 1507012208124,
     "filledAmount": 1613.97270091,
-    "amountBuy": "3417.2617",
-    "amountSell": 311835256.83832175
+    "buyAmount": "3417.2617",
+    "sellAmount": 311835256.83832175
   },
   {
     "userAddress": "0x8d496814ef8cf0d8aa344565d0b2aa048d0a5c8a",
@@ -2679,11 +2679,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "2252.4065",
-    "price": "67301.4049",
+    "pricepoint": "67301.4049",
     "createdAt": 1506212793921,
     "filledAmount": "2252.4065",
-    "amountBuy": "2252.4065",
-    "amountSell": 151590121.85589185
+    "buyAmount": "2252.4065",
+    "sellAmount": 151590121.85589185
   },
   {
     "userAddress": "0xd269061465ca79a32e39aeeae93d109ca5b8303c",
@@ -2696,11 +2696,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "7710.8489",
-    "price": "21452.2035",
+    "pricepoint": "21452.2035",
     "createdAt": 1515177498287,
     "filledAmount": 0,
-    "amountBuy": "7710.8489",
-    "amountSell": 165414699.76055115
+    "buyAmount": "7710.8489",
+    "sellAmount": 165414699.76055115
   },
   {
     "userAddress": "0x78166f65d03a1c5acdc3dde24c4955faa2548b9d",
@@ -2713,11 +2713,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "2693.5444",
-    "price": "32664.3278",
+    "pricepoint": "32664.3278",
     "createdAt": 1509193669235,
     "filledAmount": "2693.5444",
-    "amountBuy": "2693.5444",
-    "amountSell": 87982817.22545433
+    "buyAmount": "2693.5444",
+    "sellAmount": 87982817.22545433
   },
   {
     "userAddress": "0xbd6e8d8022c3fca7386c7668e52b6ae313f304b5",
@@ -2730,11 +2730,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "7803.8701",
-    "price": "77911.4394",
+    "pricepoint": "77911.4394",
     "createdAt": 1510621056650,
     "filledAmount": "7803.8701",
-    "amountBuy": "7803.8701",
-    "amountSell": 608010752.381622
+    "buyAmount": "7803.8701",
+    "sellAmount": 608010752.381622
   },
   {
     "userAddress": "0x5d9aed2a6d847f15495d30bfbd9ce22dec7747c2",
@@ -2747,11 +2747,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "4500.0616",
-    "price": "63065.8647",
+    "pricepoint": "63065.8647",
     "createdAt": 1503699021352,
     "filledAmount": 0,
-    "amountBuy": "4500.0616",
-    "amountSell": 283800276.0072655
+    "buyAmount": "4500.0616",
+    "sellAmount": 283800276.0072655
   },
   {
     "userAddress": "0x33ea1e61c285c2b5c75c6621703099a5f9a59b53",
@@ -2764,11 +2764,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "1521.0731",
-    "price": "98478.5321",
+    "pricepoint": "98478.5321",
     "createdAt": 1500030446459,
     "filledAmount": 0,
-    "amountBuy": "1521.0731",
-    "amountSell": 149793046.1047965
+    "buyAmount": "1521.0731",
+    "sellAmount": 149793046.1047965
   },
   {
     "userAddress": "0xfc452be769673898c08d89aad47d797aabbd77b4",
@@ -2781,11 +2781,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "2387.4418",
-    "price": "90059.7276",
+    "pricepoint": "90059.7276",
     "createdAt": 1503787350004,
     "filledAmount": 829.3972813199999,
-    "amountBuy": "2387.4418",
-    "amountSell": 215012358.16885367
+    "buyAmount": "2387.4418",
+    "sellAmount": 215012358.16885367
   },
   {
     "userAddress": "0x50c15968b94529a215001551a22e53f922996452",
@@ -2798,11 +2798,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "2223.8201",
-    "price": "25684.6723",
+    "pricepoint": "25684.6723",
     "createdAt": 1506002721172,
     "filledAmount": 2041.4668518,
-    "amountBuy": "2223.8201",
-    "amountSell": 57118090.52265322
+    "buyAmount": "2223.8201",
+    "sellAmount": 57118090.52265322
   },
   {
     "userAddress": "0x59f7c2c86caf196f404b56411369c235d11b78a0",
@@ -2815,11 +2815,11 @@
     "side": "BUY",
     "pairName": "BNB_WETH",
     "amount": "6452.2806",
-    "price": "49772.0552",
+    "pricepoint": "49772.0552",
     "createdAt": 1509931004926,
     "filledAmount": 0,
-    "amountBuy": "6452.2806",
-    "amountSell": 321143266.1890891
+    "buyAmount": "6452.2806",
+    "sellAmount": 321143266.1890891
   },
   {
     "userAddress": "0xb2bf0ca3d86139839bc9ee10a02e46c71c720d03",
@@ -2832,11 +2832,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "5667.9734",
-    "price": "59332.3849",
+    "pricepoint": "59332.3849",
     "createdAt": 1502272909251,
     "filledAmount": "5667.9734",
-    "amountBuy": "5667.9734",
-    "amountSell": 336294379.3717616
+    "buyAmount": "5667.9734",
+    "sellAmount": 336294379.3717616
   },
   {
     "userAddress": "0xf6deeadafcc4ecd0efb0bab5ec922f221b78302b",
@@ -2849,11 +2849,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "4294.5639",
-    "price": "47568.9696",
+    "pricepoint": "47568.9696",
     "createdAt": 1516857109810,
     "filledAmount": 343.13565561,
-    "amountBuy": "4294.5639",
-    "amountSell": 204287979.60435742
+    "buyAmount": "4294.5639",
+    "sellAmount": 204287979.60435742
   },
   {
     "userAddress": "0x99ae9244cbbf49ed2920adc6da8b644d527beed5",
@@ -2866,11 +2866,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "2027.8982",
-    "price": "44589.4097",
+    "pricepoint": "44589.4097",
     "createdAt": 1508848692950,
     "filledAmount": 0,
-    "amountBuy": "2027.8982",
-    "amountSell": 90422783.66969253
+    "buyAmount": "2027.8982",
+    "sellAmount": 90422783.66969253
   },
   {
     "userAddress": "0x1e10d854cfadcded3cad1ce71349ed135f538037",
@@ -2883,11 +2883,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "9391.8540",
-    "price": "46049.7908",
+    "pricepoint": "46049.7908",
     "createdAt": 1507757950162,
     "filledAmount": "9391.8540",
-    "amountBuy": "9391.8540",
-    "amountSell": 432492911.9241432
+    "buyAmount": "9391.8540",
+    "sellAmount": 432492911.9241432
   },
   {
     "userAddress": "0x8ea905de08fca668ae38c6fa76bb8cfe2f106be9",
@@ -2900,11 +2900,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "4041.7980",
-    "price": "26420.3561",
+    "pricepoint": "26420.3561",
     "createdAt": 1500637264985,
     "filledAmount": 0,
-    "amountBuy": "4041.7980",
-    "amountSell": 106785742.4442678
+    "buyAmount": "4041.7980",
+    "sellAmount": 106785742.4442678
   },
   {
     "userAddress": "0xf2550861784dbe73079f1ca6c42cf2c3948e49f3",
@@ -2917,11 +2917,11 @@
     "side": "SELL",
     "pairName": "ZRX_WETH",
     "amount": "3022.0894",
-    "price": "81383.1319",
+    "pricepoint": "81383.1319",
     "createdAt": 1518325810014,
     "filledAmount": "3022.0894",
-    "amountBuy": "3022.0894",
-    "amountSell": 245947100.25379184
+    "buyAmount": "3022.0894",
+    "sellAmount": 245947100.25379184
   },
   {
     "userAddress": "0x19a92b0a470cc194823b339cfdde2ec455f9a969",
@@ -2934,11 +2934,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "3210.1316",
-    "price": "17303.0013",
+    "pricepoint": "17303.0013",
     "createdAt": 1509403488920,
     "filledAmount": "3210.1316",
-    "amountBuy": "3210.1316",
-    "amountSell": 55544911.24797108
+    "buyAmount": "3210.1316",
+    "sellAmount": 55544911.24797108
   },
   {
     "userAddress": "0xf355d53521c2a14454bf6fff0f1fd5c76e8f157d",
@@ -2951,11 +2951,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "7667.1352",
-    "price": "36916.3875",
+    "pricepoint": "36916.3875",
     "createdAt": 1502686654236,
     "filledAmount": 0,
-    "amountBuy": "7667.1352",
-    "amountSell": 283042934.05809
+    "buyAmount": "7667.1352",
+    "sellAmount": 283042934.05809
   },
   {
     "userAddress": "0x458b3493d2d37d7acee8594a6c2daaecdfffb9ef",
@@ -2968,11 +2968,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "2951.5634",
-    "price": "34636.6895",
+    "pricepoint": "34636.6895",
     "createdAt": 1508927457712,
     "filledAmount": "2951.5634",
-    "amountBuy": "2951.5634",
-    "amountSell": 102232385.0253643
+    "buyAmount": "2951.5634",
+    "sellAmount": 102232385.0253643
   },
   {
     "userAddress": "0xf95be6372de95dee288fba9a16751cc91f0f561c",
@@ -2985,11 +2985,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "5727.3193",
-    "price": "63455.8443",
+    "pricepoint": "63455.8443",
     "createdAt": 1503787572701,
     "filledAmount": 0,
-    "amountBuy": "5727.3193",
-    "amountSell": 363431881.757185
+    "buyAmount": "5727.3193",
+    "sellAmount": 363431881.757185
   },
   {
     "userAddress": "0xb2fa880df956d32f0146d4d20100742cc4b9503e",
@@ -3002,11 +3002,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "8967.0631",
-    "price": "32463.7205",
+    "pricepoint": "32463.7205",
     "createdAt": 1503460808370,
     "filledAmount": "8967.0631",
-    "amountBuy": "8967.0631",
-    "amountSell": 291104230.1842635
+    "buyAmount": "8967.0631",
+    "sellAmount": 291104230.1842635
   },
   {
     "userAddress": "0x45e9d9e87aae1d2d527acdcef3177b62671e99bf",
@@ -3019,11 +3019,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "3176.3991",
-    "price": "27420.7463",
+    "pricepoint": "27420.7463",
     "createdAt": 1517146686683,
     "filledAmount": "3176.3991",
-    "amountBuy": "3176.3991",
-    "amountSell": 87099233.86864834
+    "buyAmount": "3176.3991",
+    "sellAmount": 87099233.86864834
   },
   {
     "userAddress": "0xfc1c698a95a03d3181fb97f5be1be58851477a70",
@@ -3036,11 +3036,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "7620.8576",
-    "price": "78007.2940",
+    "pricepoint": "78007.2940",
     "createdAt": 1514111270504,
     "filledAmount": "7620.8576",
-    "amountBuy": "7620.8576",
-    "amountSell": 594482479.3353344
+    "buyAmount": "7620.8576",
+    "sellAmount": 594482479.3353344
   },
   {
     "userAddress": "0xba7b934f4fcfea015299942762dd614e9021f442",
@@ -3053,11 +3053,11 @@
     "side": "BUY",
     "pairName": "OMG_WETH",
     "amount": "5474.1261",
-    "price": "46409.5315",
+    "pricepoint": "46409.5315",
     "createdAt": 1508949202393,
     "filledAmount": 4130.22814245,
-    "amountBuy": "5474.1261",
-    "amountSell": 254051627.67292216
+    "buyAmount": "5474.1261",
+    "sellAmount": 254051627.67292216
   },
   {
     "userAddress": "0x033424815158e2dec393ac0ce517e8e5ae3a8bb3",
@@ -3070,11 +3070,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "2855.9928",
-    "price": "89651.7501",
+    "pricepoint": "89651.7501",
     "createdAt": 1516646403567,
     "filledAmount": 1549.66169328,
-    "amountBuy": "2855.9928",
-    "amountSell": 256044752.7929993
+    "buyAmount": "2855.9928",
+    "sellAmount": 256044752.7929993
   },
   {
     "userAddress": "0xe23869621e7891274f26babb8e823a3c5ca9c857",
@@ -3087,11 +3087,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "9667.6715",
-    "price": "18902.3293",
+    "pricepoint": "18902.3293",
     "createdAt": 1517189969001,
     "filledAmount": 4373.654586600001,
-    "amountBuy": "9667.6715",
-    "amountSell": 182741510.25722498
+    "buyAmount": "9667.6715",
+    "sellAmount": 182741510.25722498
   },
   {
     "userAddress": "0xc5bf2be4efd8478e73191c0b8e4ec014a8afabef",
@@ -3104,11 +3104,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "8167.4336",
-    "price": "46917.8371",
+    "pricepoint": "46917.8371",
     "createdAt": 1518028745078,
     "filledAmount": 7198.77597504,
-    "amountBuy": "8167.4336",
-    "amountSell": 383198319.16986656
+    "buyAmount": "8167.4336",
+    "sellAmount": 383198319.16986656
   },
   {
     "userAddress": "0x116e9fe467e83e08759838685cac33fe81d7d655",
@@ -3121,11 +3121,11 @@
     "side": "SELL",
     "pairName": "OMG_WETH",
     "amount": "8554.1875",
-    "price": "27768.9134",
+    "pricepoint": "27768.9134",
     "createdAt": 1511555856099,
     "filledAmount": 2165.06485625,
-    "amountBuy": "8554.1875",
-    "amountSell": 237540491.8948625
+    "buyAmount": "8554.1875",
+    "sellAmount": 237540491.8948625
   },
   {
     "userAddress": "0x47fab628c8750f507080865b2891745d63d9db31",
@@ -3138,11 +3138,11 @@
     "side": "SELL",
     "pairName": "OMG_DAI",
     "amount": "5309.5418",
-    "price": "91651.1067",
+    "pricepoint": "91651.1067",
     "createdAt": 1505602434612,
     "filledAmount": "5309.5418",
-    "amountBuy": "5309.5418",
-    "amountSell": 486625382.0399101
+    "buyAmount": "5309.5418",
+    "sellAmount": 486625382.0399101
   },
   {
     "userAddress": "0xd8094103072b37109488d35b76d580e81d977970",
@@ -3155,11 +3155,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "3731.5643",
-    "price": "20854.6481",
+    "pricepoint": "20854.6481",
     "createdAt": 1500960689073,
     "filledAmount": "3731.5643",
-    "amountBuy": "3731.5643",
-    "amountSell": 77820460.33902283
+    "buyAmount": "3731.5643",
+    "sellAmount": 77820460.33902283
   },
   {
     "userAddress": "0x1ff41ddcd2e414b17e34af52d6a34f44ac9e1e0a",
@@ -3172,11 +3172,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "4738.1247",
-    "price": "258.9949",
+    "pricepoint": "258.9949",
     "createdAt": 1512960598177,
     "filledAmount": "4738.1247",
-    "amountBuy": "4738.1247",
-    "amountSell": 1227150.1328640298
+    "buyAmount": "4738.1247",
+    "sellAmount": 1227150.1328640298
   },
   {
     "userAddress": "0x34fdacaf77e16a5f50c108079930de22330f2385",
@@ -3189,11 +3189,11 @@
     "side": "BUY",
     "pairName": "ZRX_DAI",
     "amount": "2121.8901",
-    "price": "9121.7140",
+    "pricepoint": "9121.7140",
     "createdAt": 1513522350380,
     "filledAmount": "2121.8901",
-    "amountBuy": "2121.8901",
-    "amountSell": 19355274.6316314
+    "buyAmount": "2121.8901",
+    "sellAmount": 19355274.6316314
   },
   {
     "userAddress": "0xab459fbe0421d0a6a2b04cc362966d66db797dfe",
@@ -3206,11 +3206,11 @@
     "side": "SELL",
     "pairName": "BNB_WETH",
     "amount": "1979.4476",
-    "price": "48315.4674",
+    "pricepoint": "48315.4674",
     "createdAt": 1501381958033,
     "filledAmount": "1979.4476",
-    "amountBuy": "1979.4476",
-    "amountSell": 95637935.98780824
+    "buyAmount": "1979.4476",
+    "sellAmount": 95637935.98780824
   },
   {
     "userAddress": "0x52b52a00f715fe5c4b3aa27662d139161c732120",
@@ -3223,11 +3223,11 @@
     "side": "SELL",
     "pairName": "BNB_DAI",
     "amount": "9769.6281",
-    "price": "36014.9082",
+    "pricepoint": "36014.9082",
     "createdAt": 1509911577938,
     "filledAmount": 7697.48997999,
-    "amountBuy": "9769.6281",
-    "amountSell": 351852259.1696404
+    "buyAmount": "9769.6281",
+    "sellAmount": 351852259.1696404
   },
   {
     "userAddress": "0x270d7ae9054ac108028d87c2673d0d76c24e64ce",
@@ -3240,11 +3240,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "2917.2537",
-    "price": "75432.8680",
+    "pricepoint": "75432.8680",
     "createdAt": 1516600325503,
     "filledAmount": 0,
-    "amountBuy": "2917.2537",
-    "amountSell": 220056813.27461162
+    "buyAmount": "2917.2537",
+    "sellAmount": 220056813.27461162
   },
   {
     "userAddress": "0x189979f479f4cc5ca21443cd51a70446ef2265b4",
@@ -3257,11 +3257,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "1012.4693",
-    "price": "18039.0194",
+    "pricepoint": "18039.0194",
     "createdAt": 1508934554745,
     "filledAmount": 453.99123412,
-    "amountBuy": "1012.4693",
-    "amountSell": 18263953.34460442
+    "buyAmount": "1012.4693",
+    "sellAmount": 18263953.34460442
   },
   {
     "userAddress": "0x3aac10354a05328f78cce33ad2f7b5fe3278d0f1",
@@ -3274,11 +3274,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "5530.0810",
-    "price": "39422.2071",
+    "pricepoint": "39422.2071",
     "createdAt": 1518706100338,
     "filledAmount": "5530.0810",
-    "amountBuy": "5530.0810",
-    "amountSell": 218007998.4617751
+    "buyAmount": "5530.0810",
+    "sellAmount": 218007998.4617751
   },
   {
     "userAddress": "0x97e24e7b81776af0b2dd15452c20cacbb9b3e2b0",
@@ -3291,11 +3291,11 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "5004.6840",
-    "price": "1692.7555",
+    "pricepoint": "1692.7555",
     "createdAt": 1517923535383,
     "filledAmount": "5004.6840",
-    "amountBuy": "5004.6840",
-    "amountSell": 8471706.366762001
+    "buyAmount": "5004.6840",
+    "sellAmount": 8471706.366762001
   },
   {
     "userAddress": "0x54a17eb007835b33a859f51b858511e9c9e662a0",
@@ -3308,11 +3308,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "3073.4745",
-    "price": "38796.0088",
+    "pricepoint": "38796.0088",
     "createdAt": 1505441934648,
     "filledAmount": "3073.4745",
-    "amountBuy": "3073.4745",
-    "amountSell": 119238543.7485756
+    "buyAmount": "3073.4745",
+    "sellAmount": 119238543.7485756
   },
   {
     "userAddress": "0xd092a06d6746c64c4695fc17112256cb3a7e14e3",
@@ -3325,11 +3325,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "2140.9557",
-    "price": "17636.2553",
+    "pricepoint": "17636.2553",
     "createdAt": 1507715038081,
     "filledAmount": 0,
-    "amountBuy": "2140.9557",
-    "amountSell": 37758441.31119021
+    "buyAmount": "2140.9557",
+    "sellAmount": 37758441.31119021
   },
   {
     "userAddress": "0x3daef8b13a5f06f3499c260ef4d0890a2a2c9be1",
@@ -3342,11 +3342,11 @@
     "side": "BUY",
     "pairName": "OMG_DAI",
     "amount": "5572.6267",
-    "price": "15132.9059",
+    "pricepoint": "15132.9059",
     "createdAt": 1503653917520,
     "filledAmount": 3040.9823901899995,
-    "amountBuy": "5572.6267",
-    "amountSell": 84330035.46692753
+    "buyAmount": "5572.6267",
+    "sellAmount": 84330035.46692753
   },
   {
     "userAddress": "0x5e73862c126e4b31ebf18cb1180d730d3ea0a31c",
@@ -3359,11 +3359,11 @@
     "side": "BUY",
     "pairName": "BNB_DAI",
     "amount": "4935.1584",
-    "price": "11791.4674",
+    "pricepoint": "11791.4674",
     "createdAt": 1501120661683,
     "filledAmount": "4935.1584",
-    "amountBuy": "4935.1584",
-    "amountSell": 58192759.38743616
+    "buyAmount": "4935.1584",
+    "sellAmount": 58192759.38743616
   },
   {
     "userAddress": "0xcbfc7cb742aea5975b131bc67c5c233a4ca3e5c3",
@@ -3376,11 +3376,11 @@
     "side": "SELL",
     "pairName": "ZRX_DAI",
     "amount": "8411.8281",
-    "price": "31162.6628",
+    "pricepoint": "31162.6628",
     "createdAt": 1513037735654,
     "filledAmount": "8411.8281",
-    "amountBuy": "8411.8281",
-    "amountSell": 262134962.6118647
+    "buyAmount": "8411.8281",
+    "sellAmount": 262134962.6118647
   },
   {
     "userAddress": "0xd3f2780699cc705998060caf62a0ef0e129d481f",
@@ -3393,10 +3393,10 @@
     "side": "BUY",
     "pairName": "ZRX_WETH",
     "amount": "6985.5582",
-    "price": "60452.0432",
+    "pricepoint": "60452.0432",
     "createdAt": 1516482534568,
     "filledAmount": "6985.5582",
-    "amountBuy": "6985.5582",
-    "amountSell": 422291266.0825143
+    "buyAmount": "6985.5582",
+    "sellAmount": 422291266.0825143
   }
 ]

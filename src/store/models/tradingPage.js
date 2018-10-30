@@ -29,14 +29,17 @@ export const queryDefaultData = (): ThunkAction => {
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
 
       let ohlcv = await api.getData()
+
       setTimeout(function() {
         dispatch(ohlcvActionCreators.saveData(ohlcv))
       }, 2000)
 
       let orders = await api.getOrders()
+
       dispatch(actionCreators.updateOrdersTable(orders))
 
       let { bids, asks, trades } = await api.getOrderBookData()
+
       dispatch(actionCreators.updateOrderBook(bids, asks))
       dispatch(actionCreators.updateTradesTable(trades))
 

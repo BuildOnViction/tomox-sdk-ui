@@ -79,6 +79,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         break
       case 'order':
         this.handleSendOrder()
+        break
       default:
         break
     }

@@ -10,9 +10,9 @@ export default function getTokenModel(state: State) {
 }
 
 export const sendGetToken = (side: string, amount: number, price: number): ThunkAction => {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, { socket }) => {
     try {
-      let state = getState()
+      // let state = getState()
 
       socket.sendGetTokenMessage()
     } catch (e) {
