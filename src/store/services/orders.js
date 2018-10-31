@@ -9,11 +9,11 @@ import { ether } from '../../utils/constants';
  * @param {Object} params
  * @param {Signer} signer
  */
-export const createRawOrder = async (params, signer) => {
+export const createRawOrder = async (signer, params) => {
   let order = {};
   let { userAddress, side, pair, amount, price, makeFee, takeFee } = params;
   let { baseTokenAddress, quoteTokenAddress } = pair;
-  let exchangeAddress = EXCHANGE_ADDRESS[signer.provider.chainId];
+  let exchangeAddress = EXCHANGE_ADDRESS[signer.provider.network.chainId || signer.provider.chainId];
 
   // The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
   // that are used to turn decimal values into rounded integers that can be converted into
@@ -70,7 +70,6 @@ export const createRawOrder = async (params, signer) => {
   let signature = await signer.signMessage(utils.arrayify(order.hash));
   let { r, s, v } = utils.splitSignature(signature);
   order.signature = { R: r, S: s, V: v };
-  console.log('rawOrder');
   return order;
 };
 

@@ -1,6 +1,6 @@
 // @flow
 import { providers, Wallet } from 'ethers';
-import { signOrder, signTrade, createRawOrder } from './methods';
+import { signOrder, signTrade, createRawOrder, createOrderCancel } from './methods';
 import { NETWORK_URL } from '../../../config/url';
 
 import type { UpdateSignerParams } from '../../../types/signer';
@@ -60,17 +60,22 @@ export const createSigner = async (params: UpdateSignerParams): any => {
   }
 };
 
+// this method add extension methods to the current signer
+const addMethodsToSigner = signer => {
+  signer.signOrder = signOrder;
+  signer.signTrade = signTrade;
+  // the first param by default is this signer
+  signer.createRawOrder = createRawOrder;
+  signer.createOrderCancel = createOrderCancel;
+};
+
 export const createMetamaskSigner = async () => {
   let networkId = Number(window.web3.version.network);
   let provider = new providers.Web3Provider(window.web3.currentProvider, { chainId: networkId });
   let signer = provider.getSigner();
+  addMethodsToSigner(signer);
 
   let address = await signer.getAddress();
-
-  signer.signOrder = signOrder;
-  signer.signTrade = signTrade;
-  signer.createRawOrder = createRawOrder;
-
   window.signer = { instance: signer, type: 'metamask' };
 
   return { address, networkId };
@@ -80,10 +85,7 @@ export const createLocalWalletSigner = async (wallet: Object, networkId: ?number
   networkId = networkId || 8888;
   let provider = new providers.JsonRpcProvider(NETWORK_URL, { chainId: networkId, name: 'unspecified' });
   let signer = new Wallet(wallet.privateKey, provider);
-
-  signer.signOrder = signOrder;
-  signer.signTrade = signTrade;
-  signer.createRawOrder = createRawOrder;
+  addMethodsToSigner(signer);
 
   window.signer = { instance: signer, type: 'wallet' };
 
@@ -93,10 +95,7 @@ export const createLocalWalletSigner = async (wallet: Object, networkId: ?number
 export const createInfuraRinkebyWalletSigner = async (wallet: Object) => {
   let provider = new providers.InfuraProvider('rinkeby');
   let signer = new Wallet(wallet.key, provider);
-
-  signer.signOrder = signOrder;
-  signer.signTrade = signTrade;
-  signer.createRawOrder = createRawOrder;
+  addMethodsToSigner(signer);
 
   window.signer = { instance: signer, type: 'wallet' };
 
@@ -106,10 +105,7 @@ export const createInfuraRinkebyWalletSigner = async (wallet: Object) => {
 export const createInfuraWalletSigner = async (wallet: Object) => {
   let provider = new providers.InfuraProvider('homestead');
   let signer = new Wallet(wallet.key, provider);
-
-  signer.signOrder = signOrder;
-  signer.signTrade = signTrade;
-  signer.createRawOrder = createRawOrder;
+  addMethodsToSigner(signer);
 
   window.signer = { instance: signer, type: 'wallet' };
 
@@ -120,10 +116,7 @@ export const createRpcSigner = async (url: ?string, networkId: ?number) => {
   let provider = new providers.JsonRpcProvider(url, { chainId: networkId, name: 'unspecified' });
   let accountAddresses = await provider.listAccounts();
   let signer = provider.getSigner(accountAddresses[0]);
-
-  signer.signOrder = signOrder;
-  signer.signTrade = signTrade;
-  signer.createRawOrder = createRawOrder;
+  addMethodsToSigner(signer);
 
   window.signer = { instance: signer, type: 'local' };
   return accountAddresses[0];
