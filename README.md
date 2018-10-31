@@ -8,6 +8,8 @@ It is optimized for building complex data-dense interfaces for desktop applicati
 
 ## Setup
 
+_Goto src/scripts folder for seed-data_
+
 ```bash
 # link smart-contracts into dex-contract module
 $ npm link ../dex-smart-contracts

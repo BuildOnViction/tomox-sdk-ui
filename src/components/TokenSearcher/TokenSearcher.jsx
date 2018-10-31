@@ -1,7 +1,7 @@
 //@flow
-import React from 'react'
-import TokenSearcherRenderer from './TokenSearcherRenderer'
-import { sortTable } from '../../utils/helpers'
+import React from 'react';
+import TokenSearcherRenderer from './TokenSearcherRenderer';
+import { sortTable } from '../../utils/helpers';
 
 //TODO not sure exactly where to define this type.
 type Token = {
@@ -13,8 +13,8 @@ type Token = {
   volume: string,
   base: string,
   quote: string,
-  favorited: boolean
-}
+  favorited: boolean,
+};
 
 type Props = {
   tokenPairsByQuoteToken: { [string]: Array<Token> },
@@ -22,8 +22,8 @@ type Props = {
   baseTokenBalance: number,
   quoteTokenBalance: number,
   updateFavorite: (string, boolean) => void,
-  updateCurrentPair: string => void
-}
+  updateCurrentPair: string => void,
+};
 
 type State = {
   quoteTokens: Array<string>,
@@ -33,8 +33,8 @@ type State = {
   sortOrder: string,
   selectedTabId: string,
   orderChanged: boolean,
-  isOpen: boolean
-}
+  isOpen: boolean,
+};
 
 class TokenSearcher extends React.PureComponent<Props, State> {
   state = {
@@ -45,86 +45,86 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     sortOrder: 'asc',
     selectedTabId: '',
     orderChanged: false,
-    isOpen: true
-  }
+    isOpen: true,
+  };
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    let { tokenPairsByQuoteToken, currentPair } = nextProps
-    const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken)
-    const defaultQuoteToken = quoteTokens[0]
-    const defaultPairs = tokenPairsByQuoteToken[defaultQuoteToken]
+    let { tokenPairsByQuoteToken, currentPair } = nextProps;
+    const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken);
+    const defaultQuoteToken = quoteTokens[0];
+    const defaultPairs = tokenPairsByQuoteToken[defaultQuoteToken];
 
-    const selectedPair = defaultPairs.filter(pair => pair.pair === currentPair.pair)[0]
+    const selectedPair = defaultPairs.filter(pair => pair.pair === currentPair.pair)[0];
 
     if (!prevState.selectedPair) {
       return {
         quoteTokens: quoteTokens,
         selectedTabId: defaultQuoteToken,
-        selectedPair: selectedPair // selectedPair: defaultPairs[0],
-      }
-    } else return null
+        selectedPair: selectedPair, // selectedPair: defaultPairs[0],
+      };
+    } else return null;
   }
 
   onChangeSearchFilter = ({ target }: SyntheticInputEvent<>) => {
-    this.setState({ searchFilter: target.value })
-  }
+    this.setState({ searchFilter: target.value });
+  };
 
   onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
-    let value = target.className
-    const { filterName, orderChanged } = this.state
+    let value = target.className;
+    const { filterName, orderChanged } = this.state;
 
     if (value === filterName && !orderChanged) {
       this.setState({
         filterName: value,
         sortOrder: 'desc',
-        orderChanged: true
-      })
+        orderChanged: true,
+      });
     } else {
       this.setState({
         filterName: value,
         sortOrder: 'asc',
-        orderChanged: false
-      })
+        orderChanged: false,
+      });
     }
-  }
+  };
 
   onChangeSortOrder = (value: string) => {
-    this.setState({ sortOrder: value })
-  }
+    this.setState({ sortOrder: value });
+  };
 
   toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }))
-  }
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  };
 
   changeTab = (tabId: string) => {
-    this.setState({ selectedTabId: tabId })
-  }
+    this.setState({ selectedTabId: tabId });
+  };
 
   filterTokens = () => {
-    let result = { favorites: [] }
-    const { tokenPairsByQuoteToken } = this.props
-    const { searchFilter, filterName, sortOrder } = this.state
+    let result = { favorites: [] };
+    const { tokenPairsByQuoteToken } = this.props;
+    const { searchFilter, filterName, sortOrder } = this.state;
 
     for (let quote of Object.keys(tokenPairsByQuoteToken)) {
       result[quote] = tokenPairsByQuoteToken[quote].filter(pair => {
-        return pair.base.indexOf(searchFilter.toUpperCase()) > -1
-      })
+        return pair.base.indexOf(searchFilter.toUpperCase()) > -1;
+      });
 
       result['favorites'] = sortTable(
         result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pair => pair.favorited)),
         filterName,
         sortOrder
-      )
-      result[quote] = sortTable(result[quote], filterName, sortOrder)
+      );
+      result[quote] = sortTable(result[quote], filterName, sortOrder);
     }
 
-    return result
-  }
+    return result;
+  };
 
   changeSelectedToken = (token: Token) => {
-    this.setState({ selectedPair: token })
-    this.props.updateCurrentPair(token.pair)
-  }
+    this.setState({ selectedPair: token });
+    this.props.updateCurrentPair(token.pair);
+  };
 
   render() {
     const {
@@ -135,13 +135,13 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       onChangeSortOrder,
       changeTab,
       toggleCollapse,
-      changeSelectedToken
-    } = this
+      changeSelectedToken,
+    } = this;
 
-    const filteredPairs = this.filterTokens()
+    const filteredPairs = this.filterTokens();
 
     //Temporary loading condition
-    let loading = typeof selectedPair === 'undefined'
+    let loading = typeof selectedPair === 'undefined';
 
     return (
       <TokenSearcherRenderer
@@ -165,8 +165,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         toggleCollapse={toggleCollapse}
         changeSelectedToken={changeSelectedToken}
       />
-    )
+    );
   }
 }
 
-export default TokenSearcher
+export default TokenSearcher;
