@@ -1,39 +1,39 @@
-import tokenSearcherSelector from './tokenSearcher'
-import * as domains from '../domains'
+import tokenSearcherSelector from './tokenSearcher';
+import * as domains from '../domains';
 
-jest.mock('../domains')
+jest.mock('../domains');
 
 it('tokenSearcherSelector parses data correctly', () => {
-  let getFavoritePairsMock = jest.fn(() => ['BNB/DAI', 'ZRX/WETH'])
+  let getFavoritePairsMock = jest.fn(() => ['TOMO/DAI', 'ZRX/WETH']);
 
   let getCurrentPairMock = jest.fn(() => ({
-    pair: 'BNB/WETH',
-    baseTokenSymbol: 'BNB',
-    quoteTokenSymbol: 'WETH'
-  }))
+    pair: 'TOMO/WETH',
+    baseTokenSymbol: 'TOMO',
+    quoteTokenSymbol: 'WETH',
+  }));
 
   let tokenBalanceMock = jest.fn(symbol => {
-    if (symbol === 'BNB') return '100.00'
-    if (symbol === 'WETH') return '10.00'
-    return
-  })
+    if (symbol === 'TOMO') return '100.00';
+    if (symbol === 'WETH') return '10.00';
+    return;
+  });
 
   let getTokenPairsDataArrayMock = jest.fn(() => [
     {
-      pair: 'BNB/WETH',
+      pair: 'TOMO/WETH',
       lastPrice: '7425.2945',
       change: '4.5421',
       high: '8782.7964',
       low: '6499.3696',
-      volume: 720404
+      volume: 720404,
     },
     {
-      pair: 'BNB/DAI',
+      pair: 'TOMO/DAI',
       lastPrice: '6018.7886',
       change: '1.6589',
       high: '3876.8717',
       low: '4613.5315',
-      volume: 68946
+      volume: 68946,
     },
     {
       pair: 'OMG/DAI',
@@ -41,7 +41,7 @@ it('tokenSearcherSelector parses data correctly', () => {
       change: '3.5460',
       high: '9211.5292',
       low: '4241.7509',
-      volume: 912048
+      volume: 912048,
     },
     {
       pair: 'ZRX/WETH',
@@ -49,7 +49,7 @@ it('tokenSearcherSelector parses data correctly', () => {
       change: '1.7811',
       high: '6165.0712',
       low: '2242.4298',
-      volume: 752620
+      volume: 752620,
     },
     {
       pair: 'OMG/WETH',
@@ -57,22 +57,22 @@ it('tokenSearcherSelector parses data correctly', () => {
       change: '3.7561',
       high: '9892.7954',
       low: '6884.7173',
-      volume: 155880
-    }
-  ])
+      volume: 155880,
+    },
+  ]);
 
   let expectedTokenPairsByQuoteToken = {
     WETH: [
       {
-        pair: 'BNB/WETH',
+        pair: 'TOMO/WETH',
         lastPrice: '7425.2945',
         change: '4.5421',
         high: '8782.7964',
         low: '6499.3696',
         volume: 720404,
-        base: 'BNB',
+        base: 'TOMO',
         quote: 'WETH',
-        favorited: false
+        favorited: false,
       },
       {
         pair: 'ZRX/WETH',
@@ -83,7 +83,7 @@ it('tokenSearcherSelector parses data correctly', () => {
         volume: 752620,
         base: 'ZRX',
         quote: 'WETH',
-        favorited: true
+        favorited: true,
       },
       {
         pair: 'OMG/WETH',
@@ -94,20 +94,20 @@ it('tokenSearcherSelector parses data correctly', () => {
         volume: 155880,
         base: 'OMG',
         quote: 'WETH',
-        favorited: false
-      }
+        favorited: false,
+      },
     ],
     DAI: [
       {
-        pair: 'BNB/DAI',
+        pair: 'TOMO/DAI',
         lastPrice: '6018.7886',
         change: '1.6589',
         high: '3876.8717',
         low: '4613.5315',
-        base: 'BNB',
+        base: 'TOMO',
         quote: 'DAI',
         volume: 68946,
-        favorited: true
+        favorited: true,
       },
       {
         pair: 'OMG/DAI',
@@ -118,24 +118,24 @@ it('tokenSearcherSelector parses data correctly', () => {
         base: 'OMG',
         quote: 'DAI',
         volume: 912048,
-        favorited: false
-      }
-    ]
-  }
+        favorited: false,
+      },
+    ],
+  };
 
   domains.getTokenPairsDomain = jest.fn(() => ({
     getTokenPairsDataArray: getTokenPairsDataArrayMock,
     getFavoritePairs: getFavoritePairsMock,
-    getCurrentPair: getCurrentPairMock
-  }))
+    getCurrentPair: getCurrentPairMock,
+  }));
 
   domains.getAccountBalancesDomain = jest.fn(() => ({
-    tokenBalance: tokenBalanceMock
-  }))
+    tokenBalance: tokenBalanceMock,
+  }));
 
-  let { tokenPairsByQuoteToken, currentPair, baseTokenBalance, quoteTokenBalance } = tokenSearcherSelector()
-  expect(tokenPairsByQuoteToken).toEqual(expectedTokenPairsByQuoteToken)
-  expect(currentPair).toEqual({ pair: 'BNB/WETH', baseTokenSymbol: 'BNB', quoteTokenSymbol: 'WETH' })
-  expect(baseTokenBalance).toEqual('100.00')
-  expect(quoteTokenBalance).toEqual('10.00')
-})
+  let { tokenPairsByQuoteToken, currentPair, baseTokenBalance, quoteTokenBalance } = tokenSearcherSelector();
+  expect(tokenPairsByQuoteToken).toEqual(expectedTokenPairsByQuoteToken);
+  expect(currentPair).toEqual({ pair: 'TOMO/WETH', baseTokenSymbol: 'TOMO', quoteTokenSymbol: 'WETH' });
+  expect(baseTokenBalance).toEqual('100.00');
+  expect(quoteTokenBalance).toEqual('10.00');
+});

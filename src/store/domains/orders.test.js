@@ -1,8 +1,8 @@
-import getOrdersDomain, * as eventCreators from './orders'
+import getOrdersDomain, * as eventCreators from './orders';
 
 function getDomain(events) {
-  const state = events.reduce((state, event) => event(state), undefined)
-  return getOrdersDomain(state)
+  const state = events.reduce((state, event) => event(state), undefined);
+  return getOrdersDomain(state);
 }
 
 let orders = [
@@ -16,7 +16,7 @@ let orders = [
     taker: '0x8fc47d2c6c3ba1ad9b337707a2e3a6a1a81c9c42',
     maker: '0x4c45ac66b0d30a2eced64f403b0931f4b2cfff04',
     pair: 'OMG_WETH',
-    time: 1504567900560
+    time: 1504567900560,
   },
   {
     amount: 5765.64,
@@ -27,8 +27,8 @@ let orders = [
     orderHash: '0xe4622579e18fbf8c91bd02548383721e1bf686ef832474f45c2ef68596f641ae',
     taker: '0x15bbb591ee81d2a6030e1a7d9378548ff93a9d16',
     maker: '0xef4d26128669e0c30746b50ce1d23647a3464063',
-    pair: 'BNB_WETH',
-    time: 1506911142876
+    pair: 'TOMO_WETH',
+    time: 1506911142876,
   },
   {
     amount: 2885.5,
@@ -40,17 +40,17 @@ let orders = [
     taker: '0x1639cb6b1d885c94fd6b0766b098195dda300044',
     maker: '0x56d386341ad7f6d65df44595617921cb72ad3082',
     pair: 'ZRX_DAI',
-    time: 1511091286778
-  }
-]
+    time: 1511091286778,
+  },
+];
 
 describe('Order Domain', () => {
   it('handles initialized event properly', () => {
-    const ordersDomain = getDomain([eventCreators.initialized()])
-    const expected = {}
+    const ordersDomain = getDomain([eventCreators.initialized()]);
+    const expected = {};
 
-    expect(ordersDomain.byTimestamp()).toEqual(expected)
-  })
+    expect(ordersDomain.byTimestamp()).toEqual(expected);
+  });
 
   //TODO replace with real order values or with test keys ?
   it('handles the orders updated event', () => {
@@ -65,7 +65,7 @@ describe('Order Domain', () => {
         taker: '0x8fc47d2c6c3ba1ad9b337707a2e3a6a1a81c9c42',
         maker: '0x4c45ac66b0d30a2eced64f403b0931f4b2cfff04',
         pair: 'OMG_WETH',
-        time: 1504567900560
+        time: 1504567900560,
       },
       '1506911142876': {
         amount: 5765.64,
@@ -76,8 +76,8 @@ describe('Order Domain', () => {
         orderHash: '0xe4622579e18fbf8c91bd02548383721e1bf686ef832474f45c2ef68596f641ae',
         taker: '0x15bbb591ee81d2a6030e1a7d9378548ff93a9d16',
         maker: '0xef4d26128669e0c30746b50ce1d23647a3464063',
-        pair: 'BNB_WETH',
-        time: 1506911142876
+        pair: 'TOMO_WETH',
+        time: 1506911142876,
       },
       '1511091286778': {
         amount: 2885.5,
@@ -89,15 +89,15 @@ describe('Order Domain', () => {
         taker: '0x1639cb6b1d885c94fd6b0766b098195dda300044',
         maker: '0x56d386341ad7f6d65df44595617921cb72ad3082',
         pair: 'ZRX_DAI',
-        time: 1511091286778
-      }
-    }
+        time: 1511091286778,
+      },
+    };
 
-    const ordersDomain = getDomain([eventCreators.initialized(), eventCreators.ordersUpdated(orders)])
+    const ordersDomain = getDomain([eventCreators.initialized(), eventCreators.ordersUpdated(orders)]);
 
-    expect(ordersDomain.byTimestamp()).toEqual(expected)
-  })
-})
+    expect(ordersDomain.byTimestamp()).toEqual(expected);
+  });
+});
 
 it('handles orders removed event', () => {
   let expected = {
@@ -110,16 +110,16 @@ it('handles orders removed event', () => {
       orderHash: '0xe4622579e18fbf8c91bd02548383721e1bf686ef832474f45c2ef68596f641ae',
       taker: '0x15bbb591ee81d2a6030e1a7d9378548ff93a9d16',
       maker: '0xef4d26128669e0c30746b50ce1d23647a3464063',
-      pair: 'BNB_WETH',
-      time: 1506911142876
-    }
-  }
+      pair: 'TOMO_WETH',
+      time: 1506911142876,
+    },
+  };
 
   const ordersDomain = getDomain([
     eventCreators.initialized(),
     eventCreators.ordersUpdated(orders),
-    eventCreators.ordersDeleted(['1511091286778', '1504567900560'])
-  ])
+    eventCreators.ordersDeleted(['1511091286778', '1504567900560']),
+  ]);
 
-  expect(ordersDomain.byTimestamp()).toEqual(expected)
-})
+  expect(ordersDomain.byTimestamp()).toEqual(expected);
+});

@@ -13,7 +13,7 @@ import * as depositFormActionCreators from '../actions/depositForm'
 import * as accountBalancesService from '../services/accountBalances'
 import { getSigner } from '../services/signer'
 import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts'
-import { ERC20Token, WETH } from 'proof-contracts-interfaces'
+import { ERC20Token, WETH } from 'dex-contracts'
 
 import type { Token } from '../../types/common'
 import type { State, ThunkAction } from '../../types'

@@ -1,10 +1,10 @@
 import { Contract, utils } from 'ethers'
-import { ERC20Token } from 'proof-contracts-interfaces'
+import { ERC20Token } from 'dex-contracts'
 import * as signerService from './signer'
 import * as accountBalancesService from './accountBalances'
 
 jest.mock('ethers')
-jest.mock('proof-contracts-interfaces', () => ({
+jest.mock('dex-contracts', () => ({
   ERC20Token: { abi: 'test ERC20Token abi' }
 }))
 jest.mock('./signer')

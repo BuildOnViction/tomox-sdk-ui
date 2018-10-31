@@ -7,7 +7,7 @@ import type { EtherTxParams, TransferTokensTxParams } from '../../types/sendEthe
 import type { State, ThunkAction } from '../../types'
 
 import { getSigner } from '../services/signer'
-import { ERC20Token } from 'proof-contracts-interfaces'
+import { ERC20Token } from 'dex-contracts'
 
 export default function sendEtherSelector(state: State) {
   let tokenDomain = getTokenDomain(state)

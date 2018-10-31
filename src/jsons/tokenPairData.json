@@ -1,14 +1,14 @@
 {
-  "BNB/WETH": {
-    "pair": "BNB/WETH",
+  "TOMO/WETH": {
+    "pair": "TOMO/WETH",
     "lastPrice": "7425.2945",
     "change": "4.5421",
     "high": "8782.7964",
     "low": "6499.3696",
     "volume": 720404
   },
-  "BNB/DAI": {
-    "pair": "BNB/DAI",
+  "TOMO/DAI": {
+    "pair": "TOMO/DAI",
     "lastPrice": "6018.7886",
     "change": "1.6589",
     "high": "3876.8717",

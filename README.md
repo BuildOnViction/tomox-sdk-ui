@@ -6,8 +6,11 @@ Official repository for the Tomochain DEX react client, forked from the Proof pr
 
 It is optimized for building complex data-dense interfaces for desktop applications.
 
-## Setup 
+## Setup
+
 ```bash
+# link smart-contracts into dex-contract module
+$ npm link ../dex-smart-contracts
 $ yarn
 $ yarn start
 # run storybook

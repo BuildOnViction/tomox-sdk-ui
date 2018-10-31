@@ -1,6 +1,6 @@
 // @flow
 import { Contract, utils } from 'ethers'
-import { ERC20Token } from 'proof-contracts-interfaces'
+import { ERC20Token } from 'dex-contracts'
 import { EXCHANGE_ADDRESS } from '../../config/contracts'
 import { getProvider, getSigner } from './signer'
 

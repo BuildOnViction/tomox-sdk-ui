@@ -1,7 +1,11 @@
 {
-  "name": "tomo-dex-client",
+  "name": "dex-client",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomochain/dex-client.git"
+  },
   "scripts": {
     "precommit": "lint-staged",
     "start": "react-scripts start",
@@ -37,7 +41,6 @@
     "nodemon": "^1.18.2",
     "numeral": "^2.0.6",
     "polished": "^1.9.3",
-    "proof-contracts-interfaces": "https://github.com/ProofSuite/proof-contract-interfaces#master",
     "rc-steps": "^3.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

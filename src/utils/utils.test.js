@@ -1,8 +1,8 @@
-import { parseJSONData, parseJSONToFixed, parseOrders, parseTrades, parseOrderBookData } from './parsers'
-import { sortedInserts } from './helpers'
-import tokenPairData from '../jsons/tokenPairData'
-import orders from '../jsons/orders'
-import trades from '../jsons/trades'
+import { parseJSONData, parseJSONToFixed, parseOrders, parseTrades, parseOrderBookData } from './parsers';
+import { sortedInserts } from './helpers';
+import tokenPairData from '../jsons/tokenPairData';
+import orders from '../jsons/orders';
+import trades from '../jsons/trades';
 
 describe('Parsers', () => {
   it('parseJSONData parses JSON data', () => {
@@ -13,12 +13,12 @@ describe('Parsers', () => {
       key4: {
         key5: {
           key6: ['1.234', 1, 'some other string'],
-          key7: 10.2342
-        }
+          key7: 10.2342,
+        },
       },
       key8: NaN,
-      key9: undefined
-    }
+      key9: undefined,
+    };
 
     let expected = {
       key1: 1,
@@ -27,16 +27,16 @@ describe('Parsers', () => {
       key4: {
         key5: {
           key6: [1.234, 1, 'some other string'],
-          key7: 10.2342
-        }
+          key7: 10.2342,
+        },
       },
       key8: NaN,
-      key9: undefined
-    }
+      key9: undefined,
+    };
 
-    let parsed = parseJSONData(data)
-    expect(parsed).toEqual(expected)
-  })
+    let parsed = parseJSONData(data);
+    expect(parsed).toEqual(expected);
+  });
 
   it('parseJSONToFixed parses JSON data', () => {
     let data = {
@@ -46,12 +46,12 @@ describe('Parsers', () => {
       key4: {
         key5: {
           key6: ['1.234', 1, 'some other string'],
-          key7: 10.2342
-        }
+          key7: 10.2342,
+        },
       },
       key8: NaN,
-      key9: undefined
-    }
+      key9: undefined,
+    };
 
     let expected = {
       key1: 1,
@@ -60,16 +60,16 @@ describe('Parsers', () => {
       key4: {
         key5: {
           key6: [1.23, 1, 'some other string'],
-          key7: 10.23
-        }
+          key7: 10.23,
+        },
       },
       key8: NaN,
-      key9: undefined
-    }
+      key9: undefined,
+    };
 
-    let parsed = parseJSONToFixed(data, 2)
-    expect(parsed).toEqual(expected)
-  })
+    let parsed = parseJSONToFixed(data, 2);
+    expect(parsed).toEqual(expected);
+  });
 
   it('parseOrders return correct data', () => {
     let data = [
@@ -88,7 +88,7 @@ describe('Parsers', () => {
         createdAt: 1509632726412,
         filledAmount: '3326.0597',
         buyAmount: '3326.0597',
-        sellAmount: 301814075.62155485
+        sellAmount: 301814075.62155485,
       },
       {
         userAddress: '0xf73b2e3a92c2920db9905d0e1e319a184f7b1c96',
@@ -99,13 +99,13 @@ describe('Parsers', () => {
         fee: '14285.0398',
         status: 'EXECUTED',
         side: 'BUY',
-        pairName: 'BNB_WETH',
+        pairName: 'TOMO_WETH',
         amount: '7086.9957',
         price: '54663.3351',
         createdAt: 1515226280440,
         filledAmount: '7086.9957',
         buyAmount: '7086.9957',
-        sellAmount: 387398820.80135906
+        sellAmount: 387398820.80135906,
       },
       {
         userAddress: '0x8bd3e4556d9da4f033c10cc46b98efe31690c567',
@@ -122,9 +122,9 @@ describe('Parsers', () => {
         createdAt: 1506551515816,
         filledAmount: 158.22270468000002,
         buyAmount: '213.6124',
-        sellAmount: 1875456.97508304
-      }
-    ]
+        sellAmount: 1875456.97508304,
+      },
+    ];
 
     let expected = [
       {
@@ -136,18 +136,18 @@ describe('Parsers', () => {
         amount: 3326.06,
         price: 90742.23,
         time: 1509632726412,
-        filled: 3326.06
+        filled: 3326.06,
       },
       {
         hash: '0x171749bfab482358b8b6444c82cda28bb358511ec65e58d18f8d56ac4e0fa25d',
         type: 'LIMIT',
         status: 'EXECUTED',
         side: 'BUY',
-        pair: 'BNB_WETH',
+        pair: 'TOMO_WETH',
         amount: 7087,
         price: 54663.34,
         time: 1515226280440,
-        filled: 7087
+        filled: 7087,
       },
       {
         hash: '0x701116f32bd581c2ab08d411f0b4fb5e927cb8b949befe0deaada3dfd4f4579b',
@@ -158,13 +158,13 @@ describe('Parsers', () => {
         amount: 213.61,
         price: 8779.72,
         time: 1506551515816,
-        filled: 213.61
-      }
-    ]
+        filled: 213.61,
+      },
+    ];
 
-    let parsed = parseOrders(data, 2)
-    expect(parsed).toEqual(expected)
-  })
+    let parsed = parseOrders(data, 2);
+    expect(parsed).toEqual(expected);
+  });
 
   it('parseTrades return correct data', () => {
     let data = [
@@ -178,7 +178,7 @@ describe('Parsers', () => {
         taker: '0x8fc47d2c6c3ba1ad9b337707a2e3a6a1a81c9c42',
         maker: '0x4c45ac66b0d30a2eced64f403b0931f4b2cfff04',
         pairName: 'OMG_WETH',
-        createdAt: 1504567900560
+        createdAt: 1504567900560,
       },
       {
         amount: '5765.6435',
@@ -189,8 +189,8 @@ describe('Parsers', () => {
         orderHash: '0xe4622579e18fbf8c91bd02548383721e1bf686ef832474f45c2ef68596f641ae',
         taker: '0x15bbb591ee81d2a6030e1a7d9378548ff93a9d16',
         maker: '0xef4d26128669e0c30746b50ce1d23647a3464063',
-        pairName: 'BNB_WETH',
-        createdAt: 1506911142876
+        pairName: 'TOMO_WETH',
+        createdAt: 1506911142876,
       },
       {
         amount: '2885.4954',
@@ -202,9 +202,9 @@ describe('Parsers', () => {
         taker: '0x1639cb6b1d885c94fd6b0766b098195dda300044',
         maker: '0x56d386341ad7f6d65df44595617921cb72ad3082',
         pairName: 'ZRX_DAI',
-        createdAt: 1511091286778
-      }
-    ]
+        createdAt: 1511091286778,
+      },
+    ];
 
     let expected = [
       {
@@ -217,7 +217,7 @@ describe('Parsers', () => {
         taker: '0x8fc47d2c6c3ba1ad9b337707a2e3a6a1a81c9c42',
         maker: '0x4c45ac66b0d30a2eced64f403b0931f4b2cfff04',
         pair: 'OMG_WETH',
-        time: 1504567900560
+        time: 1504567900560,
       },
       {
         amount: 5765.64,
@@ -228,8 +228,8 @@ describe('Parsers', () => {
         orderHash: '0xe4622579e18fbf8c91bd02548383721e1bf686ef832474f45c2ef68596f641ae',
         taker: '0x15bbb591ee81d2a6030e1a7d9378548ff93a9d16',
         maker: '0xef4d26128669e0c30746b50ce1d23647a3464063',
-        pair: 'BNB_WETH',
-        time: 1506911142876
+        pair: 'TOMO_WETH',
+        time: 1506911142876,
       },
       {
         amount: 2885.5,
@@ -241,47 +241,47 @@ describe('Parsers', () => {
         taker: '0x1639cb6b1d885c94fd6b0766b098195dda300044',
         maker: '0x56d386341ad7f6d65df44595617921cb72ad3082',
         pair: 'ZRX_DAI',
-        time: 1511091286778
-      }
-    ]
+        time: 1511091286778,
+      },
+    ];
 
-    let parsed = parseTrades(data, 2)
-    expect(parsed).toEqual(expected)
-  })
+    let parsed = parseTrades(data, 2);
+    expect(parsed).toEqual(expected);
+  });
 
   it('parseOrderBookData return correct data', () => {
     let data = {
       buys: [
         {
           price: '409.0390',
-          volume: 17
+          volume: 17,
         },
         {
           price: '407.5885',
-          volume: 69
+          volume: 69,
         },
         {
           price: '414.3982',
-          volume: 76.85
-        }
+          volume: 76.85,
+        },
       ],
       sells: [
         {
           price: '400.1586',
-          volume: 21
+          volume: 21,
         },
         {
           price: '418.1707',
-          volume: 52
+          volume: 52,
         },
         {
           price: '402.2414',
-          volume: 79
+          volume: 79,
         },
         {
           price: '417.5532',
-          volume: 16
-        }
+          volume: 16,
+        },
       ],
       trades: [
         {
@@ -294,7 +294,7 @@ describe('Parsers', () => {
           taker: '0xa1b835b1cbd135b5b367846b65bd54af81a84bf8',
           maker: '0xdd578bfd7b14c4bbc7d31931d2723beb9c9d359a',
           pairName: 'DAI_WETH',
-          createdAt: 1519995559141
+          createdAt: 1519995559141,
         },
         {
           amount: 49,
@@ -306,7 +306,7 @@ describe('Parsers', () => {
           taker: '0x8967673de6460b44f3ced4bca961904ef8f21e66',
           maker: '0x1bcb505ddc3416521a5883c0602cc4709d0d15b1',
           pairName: 'DAI_WETH',
-          createdAt: 1519997610972
+          createdAt: 1519997610972,
         },
         {
           amount: 19,
@@ -318,43 +318,43 @@ describe('Parsers', () => {
           taker: '0x2f4eabb99f204c147ee222844a52132182a78d8e',
           maker: '0x342b846ba28d1fe6393233f6bec21d46403def14',
           pairName: 'DAI_WETH',
-          createdAt: 1519995626620
-        }
-      ]
-    }
+          createdAt: 1519995626620,
+        },
+      ],
+    };
 
     let expected = {
       bids: [
         {
           price: 409.04,
-          amount: 17
+          amount: 17,
         },
         {
           price: 407.59,
-          amount: 69
+          amount: 69,
         },
         {
           price: 414.4,
-          amount: 76.85
-        }
+          amount: 76.85,
+        },
       ],
       asks: [
         {
           price: 400.16,
-          amount: 21
+          amount: 21,
         },
         {
           price: 418.17,
-          amount: 52
+          amount: 52,
         },
         {
           price: 402.24,
-          amount: 79
+          amount: 79,
         },
         {
           price: 417.55,
-          amount: 16
-        }
+          amount: 16,
+        },
       ],
       trades: [
         {
@@ -367,7 +367,7 @@ describe('Parsers', () => {
           taker: '0xa1b835b1cbd135b5b367846b65bd54af81a84bf8',
           maker: '0xdd578bfd7b14c4bbc7d31931d2723beb9c9d359a',
           pair: 'DAI_WETH',
-          time: 1519995559141
+          time: 1519995559141,
         },
         {
           amount: 49,
@@ -379,7 +379,7 @@ describe('Parsers', () => {
           taker: '0x8967673de6460b44f3ced4bca961904ef8f21e66',
           maker: '0x1bcb505ddc3416521a5883c0602cc4709d0d15b1',
           pair: 'DAI_WETH',
-          time: 1519997610972
+          time: 1519997610972,
         },
         {
           amount: 19,
@@ -391,12 +391,12 @@ describe('Parsers', () => {
           taker: '0x2f4eabb99f204c147ee222844a52132182a78d8e',
           maker: '0x342b846ba28d1fe6393233f6bec21d46403def14',
           pair: 'DAI_WETH',
-          time: 1519995626620
-        }
-      ]
-    }
+          time: 1519995626620,
+        },
+      ],
+    };
 
-    let parsed = parseOrderBookData(data, 2)
-    expect(parsed).toEqual(expected)
-  })
-})
+    let parsed = parseOrderBookData(data, 2);
+    expect(parsed).toEqual(expected);
+  });
+});

@@ -1,7 +1,7 @@
 {
   "pairs": [
-    "BNB/WETH",
-    "BNB/DAI",
+    "TOMO/WETH",
+    "TOMO/DAI",
     "OMG/WETH",
     "OMG/DAI",
     "ZRX/WETH",
@@ -46,16 +46,16 @@
     "LOOM/DAI"
   ],
   "byPair": {
-    "BNB/WETH": {
-      "pair": "BNB/WETH",
-      "baseTokenSymbol": "BNB",
+    "TOMO/WETH": {
+      "pair": "TOMO/WETH",
+      "baseTokenSymbol": "TOMO",
       "quoteTokenSymbol": "WETH",
       "baseTokenAddress": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
       "quoteTokenAddress": "0x2eb24432177e82907de24b7c5a6e0a5c03226135"
     },
-    "BNB/DAI": {
-      "pair": "BNB/DAI",
-      "baseTokenSymbol": "BNB",
+    "TOMO/DAI": {
+      "pair": "TOMO/DAI",
+      "baseTokenSymbol": "TOMO",
       "quoteTokenSymbol": "DAI",
       "baseTokenAddress": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
       "quoteTokenAddress": "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
