@@ -28,14 +28,12 @@ const SignerSettingsFormRenderer = (props: Props) => {
   return (
     <CardBox>
       <Card interactive={true}>
-        <options>
-          <RadioGroup name="type" onChange={handleChange} selectedValue={type} label="Choose a signing method">
-            <Radio label="Metamask" value="metamask" />
-            <Radio label="Local Ethereum Node" value="rpc" />
-            <Radio label="Wallet" value="wallet" />
-            <Radio label="Custom Signer" value="custom" />
-          </RadioGroup>
-        </options>
+        <RadioGroup name="type" onChange={handleChange} selectedValue={type} label="Choose a signing method">
+          <Radio label="Metamask" value="metamask" />
+          <Radio label="Local Ethereum Node" value="rpc" />
+          <Radio label="Wallet" value="wallet" />
+          <Radio label="Custom Signer" value="custom" />
+        </RadioGroup>
         {custom && renderCustomSignerForm(props)}
         <ButtonBox>
           <Button intent="primary" loading={loading} onClick={handleSubmit} text="Change Signer" />
