@@ -63,10 +63,12 @@
     "styled-components": "~3.3.3",
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
+    "web3": "^1.0.0-beta.36",
     "web3-utils": "^1.0.0-beta.36",
     "ws": "^5.2.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
     "@storybook/addon-actions": "^3.4.11",
     "@storybook/addon-console": "^1.0.4",
     "@storybook/addon-info": "^3.4.11",
@@ -75,7 +77,6 @@
     "@storybook/addon-options": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "@storybook/react": "^3.4.11",
-    "@babel/core": "^7.1.2",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "commander": "^2.19.0",
     "enzyme": "^3.3.0",
@@ -83,6 +84,7 @@
     "flow-bin": "^0.75.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
+    "node-fetch": "^2.2.0",
     "prettier": "^1.13.7",
     "react-hot-loader": "^4.3.11"
   },
