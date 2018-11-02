@@ -1,5 +1,5 @@
 // @flow
-import { getAccountBalancesDomain, getAccountDomain, getTokenDomain, getSendEtherFormDomain } from '../domains';
+import { getAccountBalancesDomain, getAccountDomain, getTokenDomain, getTransferTokensFormDomain } from '../domains';
 
 import * as actionCreators from '../actions/walletPage';
 import * as notifierActionCreators from '../actions/app';
@@ -15,7 +15,7 @@ export default function walletPageSelector(state: State) {
   let accountBalancesDomain = getAccountBalancesDomain(state);
   let accountDomain = getAccountDomain(state);
   let tokenDomain = getTokenDomain(state);
-  let sendEtherFormDomain = getSendEtherFormDomain(state);
+  let transferTokensFormDomain = getTransferTokensFormDomain(state);
   let tokens = tokenDomain.tokens().filter((token: Token) => token.symbol !== 'ETH');
   let depositTableData = accountBalancesDomain.getBalancesAndAllowances(tokens);
   return {
@@ -26,8 +26,8 @@ export default function walletPageSelector(state: State) {
     tokens: tokenDomain.tokens(),
     currentBlock: accountDomain.currentBlock(),
     provider: 'Provider Type',
-    gas: sendEtherFormDomain.getGas(),
-    gasPrice: sendEtherFormDomain.getGasPrice(),
+    gas: transferTokensFormDomain.getGas(),
+    gasPrice: transferTokensFormDomain.getGasPrice(),
   };
 }
 

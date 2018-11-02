@@ -1,7 +1,7 @@
-import React from 'react'
-import { Card, Button } from '@blueprintjs/core'
-import styled from 'styled-components'
-import SendEtherModal from '../../components/SendEtherModal'
+import React from 'react';
+import { Card, Button } from '@blueprintjs/core';
+import styled from 'styled-components';
+import TransferTokensModal from '../../components/TransferTokensModal';
 // import { toPassowrdType } from '../../utils/helpers'
 
 const CurrentWalletRenderer = props => {
@@ -15,8 +15,8 @@ const CurrentWalletRenderer = props => {
     balance,
     // pvtKeyLocked,
     gasPrice,
-    gas
-  } = props
+    gas,
+  } = props;
 
   // const displayPvtKey = showPrivateKey && !pvtKeyLocked
 
@@ -50,11 +50,11 @@ const CurrentWalletRenderer = props => {
             View Wallet on Etherscan
           </a>
         </Row>
-        <SendEtherModal gas={gas} gasPrice={gasPrice} isOpen={isModalOpen} handleClose={handleModalClose} />
+        <TransferTokensModal gas={gas} gasPrice={gasPrice} isOpen={isModalOpen} handleClose={handleModalClose} />
       </div>
     </WalletWrapper>
-  )
-}
+  );
+};
 
 const WalletWrapper = styled(Card)`
   height: 92vh;
@@ -63,13 +63,13 @@ const WalletWrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 
 const CardTitle = styled.h3`
   width: 100%;
   float: left;
   margin-bottom: 15px;
-`
+`;
 
 const Row = styled.div`
   display: block;
@@ -94,9 +94,9 @@ const Row = styled.div`
   }
   $ > p {
   }
-`
+`;
 
-export default CurrentWalletRenderer
+export default CurrentWalletRenderer;
 
 // <Row>
 //           <h3>Balance: </h3>

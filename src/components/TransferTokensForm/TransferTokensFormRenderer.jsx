@@ -1,10 +1,10 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import { Button, ControlGroup, InputGroup, Label } from '@blueprintjs/core'
-import TokenSelect from '../TokenSelect'
-import GasSettings from '../GasSettings'
-import TxNotification from '../TxNotification'
+import React from 'react';
+import styled from 'styled-components';
+import { Button, ControlGroup, InputGroup, Label } from '@blueprintjs/core';
+import TokenSelect from '../TokenSelect';
+import GasSettings from '../GasSettings';
+import TxNotification from '../TxNotification';
 
 type Props = {
   loading: boolean,
@@ -20,10 +20,10 @@ type Props = {
   receiver: string,
   handleChange: (SyntheticInputEvent<>) => void,
   handleTokenChange: (SyntheticEvent<>) => void,
-  handleSubmit: (SyntheticEvent<>) => void
-}
+  handleSubmit: (SyntheticEvent<>) => void,
+};
 
-const SendEtherFormRenderer = (props: Props) => {
+const TransferTokensFormRenderer = (props: Props) => {
   const {
     loading,
     status,
@@ -38,8 +38,8 @@ const SendEtherFormRenderer = (props: Props) => {
     receiver,
     handleChange,
     handleTokenChange,
-    handleSubmit
-  } = props
+    handleSubmit,
+  } = props;
 
   return (
     <div>
@@ -73,12 +73,12 @@ const SendEtherFormRenderer = (props: Props) => {
       </TxNotificationBox>
       <Button text="Send Transaction" intent="primary" large type="submit" fill onClick={handleSubmit} />
     </div>
-  )
-}
+  );
+};
 
 const TxNotificationBox = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
-`
+`;
 
-export default SendEtherFormRenderer
+export default TransferTokensFormRenderer;

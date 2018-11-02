@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import DepositTableRenderer from './DepositTableRenderer';
 import DepositModal from '../../components/DepositModal';
-import SendEtherModal from '../../components/SendEtherModal';
+import TransferTokensModal from '../../components/TransferTokensModal';
 
 import type { Token } from '../../types/tokens';
 
@@ -100,7 +100,7 @@ class DepositTable extends React.PureComponent<Props, State> {
           token={selectedToken}
           tokenData={depositTableData}
         />
-        <SendEtherModal isOpen={isSendModalOpen} handleClose={this.closeSendModal} token={selectedToken} />
+        <TransferTokensModal isOpen={isSendModalOpen} handleClose={this.closeSendModal} token={selectedToken} />
       </Wrapper>
     );
   }

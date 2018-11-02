@@ -1,97 +1,97 @@
 //@flow
-export type TxStatus = 'incomplete' | 'valid' | 'invalid' | 'sent' | 'reverted' | 'confirmed' | 'error'
-export type Address = string
+export type TxStatus = 'incomplete' | 'valid' | 'invalid' | 'sent' | 'reverted' | 'confirmed' | 'error';
+export type Address = string;
 
 export type TxReceipt = {
   blockHash: string,
   blockNumber: string,
   gasLimit: Object,
-  hash: string
-}
+  hash: string,
+};
 
-export type SendEtherFormState = {
+export type TransferTokensFormState = {
   +loading: boolean,
   +status: TxStatus,
   +statusMessage: ?string,
   +gas: ?number,
   +gasPrice: ?number,
   +hash: ?string,
-  +receipt: ?TxReceipt
-}
+  +receipt: ?TxReceipt,
+};
 
 export type EtherTxParams = {
   amount: number,
   receiver: string,
   gas: number,
-  gasPrice: number
-}
+  gasPrice: number,
+};
 
 export type TransferTokensTxParams = {
   amount: number,
   receiver: string,
   gas: number,
   gasPrice: number,
-  tokenAddress: Address
-}
+  tokenAddress: Address,
+};
 
 export type TxNotification = {
   status: TxStatus,
   statusMessage: string,
   gas: number,
-  receipt: TxReceipt
-}
+  receipt: TxReceipt,
+};
 
 export type TxErrorAction = {
-  type: 'sendEtherForm/ERROR',
+  type: 'transferTokensForm/ERROR',
   payload: {
     status: TxStatus,
-    statusMessage: string
-  }
-}
+    statusMessage: string,
+  },
+};
 
 export type ValidateTxAction = {
-  type: 'sendEtherForm/VALIDATE',
+  type: 'transferTokensForm/VALIDATE',
   payload: {
     statusMessage: string,
-    gas: number
-  }
-}
+    gas: number,
+  },
+};
 
 export type InvalidateTxAction = {
-  type: 'sendEtherForm/INVALIDATE',
-  payload: {
-    statusMessage: string
-  }
-}
-
-export type SendTxAction = {
-  type: 'sendEtherForm/SEND',
-  payload: {
-    hash: string
-  }
-}
-
-export type RevertTxAction = {
-  type: 'sendEtherForm/REVERT',
+  type: 'transferTokensForm/INVALIDATE',
   payload: {
     statusMessage: string,
-    receipt: TxReceipt
-  }
-}
+  },
+};
+
+export type SendTxAction = {
+  type: 'transferTokensForm/SEND',
+  payload: {
+    hash: string,
+  },
+};
+
+export type RevertTxAction = {
+  type: 'transferTokensForm/REVERT',
+  payload: {
+    statusMessage: string,
+    receipt: TxReceipt,
+  },
+};
 
 export type ConfirmTxAction = {
-  type: 'sendEtherForm/CONFIRM',
+  type: 'transferTokensForm/CONFIRM',
   payload: {
-    receipt: TxReceipt
-  }
-}
+    receipt: TxReceipt,
+  },
+};
 
-export type SendEtherFormEvent = any => SendEtherFormState => SendEtherFormState
+export type TransferTokensFormEvent = any => TransferTokensFormState => TransferTokensFormState;
 
-export type SendEtherFormAction =
+export type TransferTokensFormAction =
   | TxErrorAction
   | ValidateTxAction
   | InvalidateTxAction
   | SendTxAction
   | ConfirmTxAction
-  | RevertTxAction
+  | RevertTxAction;

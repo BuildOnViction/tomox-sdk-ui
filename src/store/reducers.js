@@ -2,7 +2,7 @@
 import createReducer from './createReducer'
 import etherBalanceActionTypes from './actions/etherBalance'
 import accountBalancesActionTypes from './actions/accountBalances'
-import sendEtherFormActionTypes from './actions/sendEtherForm'
+import transferTokensFormActionTypes from './actions/transferTokensForm'
 import orderFromActionTypes from './actions/orderForm'
 import ohlcvActionTypes from './actions/ohlcv'
 import tokenSearcherActionTypes from './actions/tokenSearcher'
@@ -21,7 +21,7 @@ import appActionTypes from './actions/app'
 
 import * as etherBalanceEvents from './domains/etherBalance'
 import * as accountBalancesEvents from './domains/accountBalances'
-import * as sendEtherFormEvents from './domains/sendEtherForm'
+import * as transferTokensFormEvents from './domains/transferTokensForm'
 import * as loginPageEvents from './domains/loginPage'
 import * as orderBookEvents from './domains/orderBook'
 import * as tradeEvents from './domains/trades'
@@ -101,23 +101,23 @@ export const signer = createReducer(action => {
   }
 })
 
-export const sendEtherForm = createReducer(action => {
+export const transferTokensForm = createReducer(action => {
   const { type, payload } = action
   switch (type) {
-    case sendEtherFormActionTypes.txError:
-      return sendEtherFormEvents.txError(payload.status, payload.statusMessage)
-    case sendEtherFormActionTypes.validateTx:
-      return sendEtherFormEvents.txValidated(payload.statusMessage, payload.gas)
-    case sendEtherFormActionTypes.invalidateTx:
-      return sendEtherFormEvents.txInvalidated(payload.statusMessage)
-    case sendEtherFormActionTypes.revertTx:
-      return sendEtherFormEvents.txReverted(payload.statusMessage, payload.receipt)
-    case sendEtherFormActionTypes.sendTx:
-      return sendEtherFormEvents.txSent(payload.hash)
-    case sendEtherFormActionTypes.confirmTx:
-      return sendEtherFormEvents.txConfirmed(payload.receipt)
+    case transferTokensFormActionTypes.txError:
+      return transferTokensFormEvents.txError(payload.status, payload.statusMessage)
+    case transferTokensFormActionTypes.validateTx:
+      return transferTokensFormEvents.txValidated(payload.statusMessage, payload.gas)
+    case transferTokensFormActionTypes.invalidateTx:
+      return transferTokensFormEvents.txInvalidated(payload.statusMessage)
+    case transferTokensFormActionTypes.revertTx:
+      return transferTokensFormEvents.txReverted(payload.statusMessage, payload.receipt)
+    case transferTokensFormActionTypes.sendTx:
+      return transferTokensFormEvents.txSent(payload.hash)
+    case transferTokensFormActionTypes.confirmTx:
+      return transferTokensFormEvents.txConfirmed(payload.receipt)
     default:
-      return sendEtherFormEvents.initialized()
+      return transferTokensFormEvents.initialized()
   }
 })
 

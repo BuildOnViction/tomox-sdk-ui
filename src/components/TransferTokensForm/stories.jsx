@@ -1,14 +1,14 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { text, withKnobs } from '@storybook/addon-knobs/react'
-import { withInfo } from '@storybook/addon-info'
-import SendEtherFormContainer from './index'
-import SendEtherFormRenderer from './SendEtherFormRenderer'
-import SendEtherForm from './SendEtherForm'
-import { Card } from '@blueprintjs/core'
-import { receipt, receiver, tokens } from '../../data'
-import README from './README.md'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { text, withKnobs } from '@storybook/addon-knobs/react';
+import { withInfo } from '@storybook/addon-info';
+import TransferTokensFormContainer from './index';
+import TransferTokensFormRenderer from './TransferTokensFormRenderer';
+import TransferTokensForm from './TransferTokensForm';
+import { Card } from '@blueprintjs/core';
+import { receipt, receiver, tokens } from '../../data';
+import README from './README.md';
 
 storiesOf('Send Ether/Tokens Form', module)
   .addDecorator(withKnobs)
@@ -16,12 +16,12 @@ storiesOf('Send Ether/Tokens Form', module)
     'Connected Send Ether/Tokens Form',
     withInfo({
       text: README,
-      propTablesExclude: [SendEtherFormContainer],
-      source: false
+      propTablesExclude: [TransferTokensFormContainer],
+      source: false,
     })(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormContainer />
+          <TransferTokensFormContainer />
         </Card>
       </div>
     ))
@@ -31,7 +31,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherForm
+          <TransferTokensForm
             loading={false}
             error=""
             status="valid"
@@ -54,7 +54,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormRenderer
+          <TransferTokensFormRenderer
             loading={false}
             error=""
             status="confirmed"
@@ -80,7 +80,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormRenderer
+          <TransferTokensFormRenderer
             loading={false}
             status="pending"
             statusMessage=""
@@ -105,7 +105,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormRenderer
+          <TransferTokensFormRenderer
             loading={false}
             error=""
             status="valid"
@@ -131,7 +131,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormRenderer
+          <TransferTokensFormRenderer
             loading={false}
             status="invalid"
             statusMessage="Invalid JSON Response"
@@ -156,7 +156,7 @@ storiesOf('Send Ether/Tokens Form', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
-          <SendEtherFormRenderer
+          <TransferTokensFormRenderer
             loading={false}
             status="reverted"
             statusMessage=""
@@ -175,4 +175,4 @@ storiesOf('Send Ether/Tokens Form', module)
         </Card>
       </div>
     ))
-  )
+  );
