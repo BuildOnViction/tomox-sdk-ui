@@ -13,6 +13,8 @@ _Goto src/scripts folder for seed-data_
 ```bash
 # link smart-contracts into dex-contract module
 $ npm link ../dex-smart-contracts
+# update token from contract build folder
+$ yarn query-tokens
 $ yarn
 $ yarn start
 # run storybook
