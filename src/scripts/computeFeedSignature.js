@@ -91,6 +91,8 @@ function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
 // request template, obtained calling http://localhost:8542/bzz-feed:/?user=<0xUSER>&topic=<0xTOPIC>&meta=1
 let provider = new providers.JsonRpcProvider('http://localhost:8545', { chainId: 8888, name: undefined })
 let signer = new Wallet('0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce', provider)
+const signingKey = new utils.SigningKey('3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce')
+
 const msg = {
   Coin: 'Tomo',
   ID: '2',
@@ -108,10 +110,6 @@ const request = {
     topic: web3.utils.bytesToHex(topic),
     user: '0x28074f8d0fd78629cd59290cac185611a8d60109'
   },
-  epoch: {
-    time: msg.Timestamp,
-    level: 25
-  },
   protocolVersion: 0
 }
 
@@ -125,21 +123,26 @@ fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
 })
   .then(res => res.buffer())
   .then(async data => {
+    const bzzURL = `http://localhost:8542/bzz-feed:/?user=${request.feed.user}&topic=${request.feed.topic}`
+    const meta = await fetch(`${bzzURL}&meta=1`).then(res => res.json())
+
+    request.epoch = meta.epoch
+
     // test the digest with signer from client and compare the digest from server
     const digest = feedUpdateDigest(request, data)
     console.log('data: ' + utils.hexlify(data))
-    console.log('raw: ' + data)
     console.log('digest:' + digest)
     console.log('userAddress: ' + request.feed.user)
+    // we need to calculate the right signature then update
+
     const signature = await signer.signMessage(digest)
-    // const signature =
-    // '0x6b9b09d4bfb8b7e56377731f5e85660528906ad3425c10c88cdbbe24cbfab51e2fcd7948111f6f8a41bfe01baae278ba37f61c9eb98a17a48bd2fdc781bec9f001';
-    console.log('signature:' + signature)
-    const bzzURL =
-      `http://localhost:8542/bzz-feed:/?user=${request.feed.user}&topic=${request.feed.topic}&` +
-      `level=${request.epoch.level}&time=${request.epoch.time}&signature=${signature}`
-    console.log('bzzURL: ' + bzzURL)
-    fetch(bzzURL, {
+
+    const signatureObj = signingKey.signDigest(digest)
+    const signature1 = `${signatureObj.r}${signatureObj.s.substr(2)}${signatureObj.v.toString(16)}`
+
+    console.log('signature:' + signature, signature1)
+
+    fetch(`${bzzURL}&level=${request.epoch.level}&time=${request.epoch.time}&signature=${signature}`, {
       method: 'POST',
       header: {
         Accept: 'application/octet-stream',
