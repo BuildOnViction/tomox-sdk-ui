@@ -1,6 +1,6 @@
 var web3 = require('web3')
 var fetch = require('node-fetch')
-const utils = require('ethers').utils
+const { Wallet, providers, utils } = require('ethers')
 
 var topicLength = 32
 var userLength = 20
@@ -18,24 +18,15 @@ function safeXORBytes(dst, a, b) {
   return n
 }
 
-function getBytes(str) {
-  var bytes = []
-  for (var i = 0; i < str.length; i++) {
-    var char = str.charCodeAt(i)
-    bytes.push(char & 0xff)
-  }
-  return bytes
-}
-
 function NewTopic(name, relatedContent) {
-  relatedContent = getBytes(relatedContent)
+  relatedContent = utils.toUtf8Bytes(relatedContent)
   const contentLength = Math.min(relatedContent.length, topicLength)
   const topic = new Array(topicLength)
   for (let i = 0; i < contentLength; i++) {
     topic[i] = relatedContent[i]
   }
 
-  const nameBytes = getBytes(name)
+  const nameBytes = utils.toUtf8Bytes(name)
   const nameLength = Math.min(nameBytes.length, topicLength)
 
   safeXORBytes(topic, topic, nameBytes.slice(0, nameLength))
@@ -63,7 +54,7 @@ function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
     return undefined
   }
 
-  console.log('topicBytes: ' + web3.utils.bytesToHex(topicBytes))
+  console.log('topicBytes: ' + utils.hexlify(topicBytes))
 
   var buf = new ArrayBuffer(updateMinLength + data.length)
   var view = new DataView(buf)
@@ -93,48 +84,70 @@ function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
     view.setUint8(cursor, v)
     cursor++
   })
-  console.log(web3.utils.bytesToHex(new Uint8Array(buf)))
 
-  return web3.utils.sha3(web3.utils.bytesToHex(new Uint8Array(buf)))
+  return utils.keccak256(utils.hexlify(new Uint8Array(buf)))
 }
 
-// GetDigest creates the feed update digest used in signatures
-// the serialized payload is cached in .binaryData
-// func (r *Request) GetDigest() (result common.Hash, err error) {
-// 	hasher := hashPool.Get().(hash.Hash)
-// 	defer hashPool.Put(hasher)
-// 	hasher.Reset()
-// 	dataLength := r.Update.binaryLength()
-// 	if r.binaryData == nil {
-// 		r.binaryData = make([]byte, dataLength+signatureLength)
-// 		if err := r.Update.binaryPut(r.binaryData[:dataLength]); err != nil {
-// 			return result, err
-// 		}
-// 	}
-// 	hasher.Write(r.binaryData[:dataLength]) //everything except the signature.
-
-// 	return common.BytesToHash(hasher.Sum(nil)), nil
-// }
-
-// data payload
-let data //= new Uint8Array([5, 154, 15, 165, 62]);
-
-// request template, obtained calling http://localhost:8500/bzz-feed:/?user=<0xUSER>&topic=<0xTOPIC>&meta=1
-const topic = NewTopic('Token', 'Tomo')
+// request template, obtained calling http://localhost:8542/bzz-feed:/?user=<0xUSER>&topic=<0xTOPIC>&meta=1
+let provider = new providers.JsonRpcProvider('http://localhost:8545', { chainId: 8888, name: undefined })
+let signer = new Wallet('0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce', provider)
+const msg = {
+  Coin: 'Tomo',
+  ID: '2',
+  Price: '100',
+  Quantity: '10',
+  Side: 'ask',
+  Timestamp: 1538650124,
+  TradeID: '1',
+  Type: 'limit'
+}
+const topicName = 'Tomo'
+const topic = NewTopic('Token', topicName)
 const request = {
   feed: {
     topic: web3.utils.bytesToHex(topic),
-    user: '0x28074f8D0fD78629CD59290Cac185611a8d60109'
+    user: '0x28074f8d0fd78629cd59290cac185611a8d60109'
   },
-  epoch: { time: 1538650124, level: 25 },
+  epoch: {
+    time: msg.Timestamp,
+    level: 25
+  },
   protocolVersion: 0
 }
 
-fetch(`http://localhost:8542/bzz-feed:/?topic=${request.feed.topic}&user=${request.feed.user}`)
+fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
+  method: 'POST',
+  header: {
+    Accept: 'application/json',
+    'Content-Type': 'application/octet-stream'
+  },
+  body: JSON.stringify(msg)
+})
   .then(res => res.buffer())
-  .then(encoded => {
-    data = encoded
+  .then(async data => {
     // test the digest with signer from client and compare the digest from server
     const digest = feedUpdateDigest(request, data)
+    console.log('data: ' + utils.hexlify(data))
+    console.log('raw: ' + data)
     console.log('digest:' + digest)
+    console.log('userAddress: ' + request.feed.user)
+    const signature = await signer.signMessage(digest)
+    // const signature =
+    // '0x6b9b09d4bfb8b7e56377731f5e85660528906ad3425c10c88cdbbe24cbfab51e2fcd7948111f6f8a41bfe01baae278ba37f61c9eb98a17a48bd2fdc781bec9f001';
+    console.log('signature:' + signature)
+    const bzzURL =
+      `http://localhost:8542/bzz-feed:/?user=${request.feed.user}&topic=${request.feed.topic}&` +
+      `level=${request.epoch.level}&time=${request.epoch.time}&signature=${signature}`
+    console.log('bzzURL: ' + bzzURL)
+    fetch(bzzURL, {
+      method: 'POST',
+      header: {
+        Accept: 'application/octet-stream',
+        'Content-Type': 'application/octet-stream'
+      },
+      body: data
+    })
+      .then(ret => ret.text())
+      .then(text => console.log(text))
+      .catch(r => console.log(r))
   })

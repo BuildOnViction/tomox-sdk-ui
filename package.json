@@ -36,7 +36,7 @@
     "d3-time-format": "^2.1.1",
     "date-fns": "^1.29.0",
     "ethereum-address": "^0.0.4",
-    "ethers": "git+https://github.com/ethers-io/ethers.js.git",
+    "ethers": "https://github.com/ethers-io/ethers.js.git",
     "express": "^4.16.3",
     "jest-localstorage-mock": "^2.2.0",
     "nodemon": "^1.18.2",
