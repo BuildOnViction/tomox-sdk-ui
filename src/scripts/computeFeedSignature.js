@@ -95,9 +95,9 @@ const signingKey = new utils.SigningKey('3411b45169aa5a8312e51357db68621031020dc
 
 const msg = {
   Coin: 'Tomo',
-  ID: '2',
+  ID: '1',
   Price: '100',
-  Quantity: '10',
+  Quantity: '20',
   Side: 'ask',
   Timestamp: 1538650124,
   TradeID: '1',
@@ -113,44 +113,68 @@ const request = {
   protocolVersion: 0
 }
 
-fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
-  method: 'POST',
-  header: {
-    Accept: 'application/json',
-    'Content-Type': 'application/octet-stream'
-  },
-  body: JSON.stringify(msg)
-})
-  .then(res => res.buffer())
-  .then(async data => {
-    const bzzURL = `http://localhost:8542/bzz-feed:/?user=${request.feed.user}&topic=${request.feed.topic}`
-    const meta = await fetch(`${bzzURL}&meta=1`).then(res => res.json())
+async function testSignature(epoch, data) {
+  request.epoch = epoch
+  console.log('data: ' + utils.hexlify(data))
+  const digest = feedUpdateDigest(request, data)
+  console.log('digest:' + digest)
 
-    request.epoch = meta.epoch
+  const signature = await signer.signMessage(digest)
 
-    // test the digest with signer from client and compare the digest from server
-    const digest = feedUpdateDigest(request, data)
-    console.log('data: ' + utils.hexlify(data))
-    console.log('digest:' + digest)
-    console.log('userAddress: ' + request.feed.user)
-    // we need to calculate the right signature then update
+  const signatureObj = signingKey.signDigest(digest)
+  const signature1 = `${signatureObj.r}${signatureObj.s.substr(2)}0${signatureObj.recoveryParam}`
+  console.log('A signature: ' + signature)
+  console.log('B signature: ' + signature1)
+  // console.log(
+  //   'C signature: 0x6b9b09d4bfb8b7e56377731f5e85660528906ad3425c10c88cdbbe24cbfab51e2fcd7948111f6f8a41bfe01baae278ba37f61c9eb98a17a48bd2fdc781bec9f001'
+  // );
 
-    const signature = await signer.signMessage(digest)
+  return signature1
+}
 
-    const signatureObj = signingKey.signDigest(digest)
-    const signature1 = `${signatureObj.r}${signatureObj.s.substr(2)}${signatureObj.v.toString(16)}`
+async function testUpdate(data) {
+  if (!data) return
+  // to upload to server, we need to convert it into Buffer if it is array
+  const bzzURL = `http://localhost:8542/bzz-feed:/?user=${request.feed.user}&topic=${request.feed.topic}`
+  const meta = await fetch(`${bzzURL}&meta=1`).then(res => res.json())
+  const signature = await testSignature(meta.epoch, data)
+  fetch(`${bzzURL}&level=${request.epoch.level}&time=${request.epoch.time}&signature=${signature}`, {
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/octet-stream'
+    },
 
-    console.log('signature:' + signature, signature1)
-
-    fetch(`${bzzURL}&level=${request.epoch.level}&time=${request.epoch.time}&signature=${signature}`, {
-      method: 'POST',
-      header: {
-        Accept: 'application/octet-stream',
-        'Content-Type': 'application/octet-stream'
-      },
-      body: data
-    })
-      .then(ret => ret.text())
-      .then(text => console.log(text))
-      .catch(r => console.log(r))
+    body: data
   })
+    .then(ret => ret.text())
+    .then(text => console.log(text))
+    .catch(r => console.log(r))
+}
+
+// let data = web3.utils.hexToBytes('0xdedd845bb5f00c856c696d69748361736b8231308331303084546f6d6f3231');
+// testUpdate(data);
+
+// testSignature(
+//   {
+//     time: msg.Timestamp,
+//     level: 25,
+//   },
+//   data
+// );
+
+function updateSwarm(request) {
+  fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
+    method: 'POST',
+    header: {
+      Accept: 'application/json',
+      'Content-Type': 'application/octet-stream'
+    },
+    body: JSON.stringify(msg)
+  })
+    .then(res => res.buffer())
+    .then(async data => {
+      testUpdate(data)
+    })
+}
+
+updateSwarm(request)
