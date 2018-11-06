@@ -33,7 +33,7 @@ function NewTopic(name, relatedContent) {
   return topic
 }
 
-function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
+function feedUpdateData(request /*request*/, data /*UInt8Array*/) {
   var topicBytes = undefined
   var userBytes = undefined
   var protocolVersion = 0
@@ -85,19 +85,22 @@ function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
     cursor++
   })
 
-  return utils.keccak256(utils.hexlify(new Uint8Array(buf)))
+  return utils.hexlify(new Uint8Array(buf))
+}
+
+function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
+  return utils.keccak256(feedUpdateData(request, data))
 }
 
 // request template, obtained calling http://localhost:8542/bzz-feed:/?user=<0xUSER>&topic=<0xTOPIC>&meta=1
 let provider = new providers.JsonRpcProvider('http://localhost:8545', { chainId: 8888, name: undefined })
 let signer = new Wallet('0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce', provider)
-const signingKey = new utils.SigningKey('3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce')
 
 const msg = {
   Coin: 'Tomo',
   ID: '1',
   Price: '100',
-  Quantity: '20',
+  Quantity: '30',
   Side: 'ask',
   Timestamp: 1538650124,
   TradeID: '1',
@@ -113,23 +116,28 @@ const request = {
   protocolVersion: 0
 }
 
+function getSwarmSig(sig) {
+  return sig.substr(0, sig.length - 2) + '0' + (parseInt(sig.substr(-2), 16) - 27).toString()
+}
+
 async function testSignature(epoch, data) {
   request.epoch = epoch
   console.log('data: ' + utils.hexlify(data))
   const digest = feedUpdateDigest(request, data)
-  console.log('digest:' + digest)
+  // console.log('digest:' + digest);
+  // const feedData = feedUpdateData(request, data);
+  // const signature = await signer.signMessage(feedData);
 
-  const signature = await signer.signMessage(digest)
-
-  const signatureObj = signingKey.signDigest(digest)
-  const signature1 = `${signatureObj.r}${signatureObj.s.substr(2)}0${signatureObj.recoveryParam}`
-  console.log('A signature: ' + signature)
-  console.log('B signature: ' + signature1)
+  let signature = utils.joinSignature(signer.signingKey.signDigest(digest))
+  signature = getSwarmSig(signature)
+  // const signatureObj = signer.signingKey.signDigest(digest);
+  // const signature1 = `${signatureObj.r}${signatureObj.s.substr(2)}0${signatureObj.recoveryParam}`;
+  console.log('Data signature: ' + signature)
   // console.log(
   //   'C signature: 0x6b9b09d4bfb8b7e56377731f5e85660528906ad3425c10c88cdbbe24cbfab51e2fcd7948111f6f8a41bfe01baae278ba37f61c9eb98a17a48bd2fdc781bec9f001'
   // );
 
-  return signature1
+  return signature
 }
 
 async function testUpdate(data) {
@@ -152,8 +160,6 @@ async function testUpdate(data) {
 }
 
 // let data = web3.utils.hexToBytes('0xdedd845bb5f00c856c696d69748361736b8231308331303084546f6d6f3231');
-// testUpdate(data);
-
 // testSignature(
 //   {
 //     time: msg.Timestamp,
