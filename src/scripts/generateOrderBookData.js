@@ -20,7 +20,7 @@ console.log(format(new Date(maxTimeStamp), 'DD/MM/YYYY HH:MM:SS Z '))
 console.log(format(new Date(minTimeStamp), 'DD/MM/YYYY HH:MM:SS Z '))
 const randomOrderSide = () => (randInt(0, 1) === 1 ? 'BUY' : 'SELL')
 const randomOrderType = () => ['MARKET', 'LIMIT'][randInt(0, 1)]
-const randomPair = () => pairs[randInt(0, 5)]
+// const randomPair = () => pairs[randInt(0, 5)]
 const randomAmount = () => rand(minAmount, maxAmount)
 const randomTimestamp = () => randInt(minTimeStamp, maxTimeStamp)
 const randomPrice = () => rand(minPrice, maxPrice)

@@ -96,16 +96,6 @@ function feedUpdateDigest(request /*request*/, data /*UInt8Array*/) {
 let provider = new providers.JsonRpcProvider('http://localhost:8545', { chainId: 8888, name: undefined })
 let signer = new Wallet('0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce', provider)
 
-const msg = {
-  Coin: 'Tomo',
-  ID: '1',
-  Price: '100',
-  Quantity: '30',
-  Side: 'ask',
-  Timestamp: 1538650124,
-  TradeID: '1',
-  Type: 'limit'
-}
 const topicName = 'Tomo'
 const topic = NewTopic('Token', topicName)
 const request = {
@@ -162,13 +152,13 @@ async function testUpdate(data) {
 // let data = web3.utils.hexToBytes('0xdedd845bb5f00c856c696d69748361736b8231308331303084546f6d6f3231');
 // testSignature(
 //   {
-//     time: msg.Timestamp,
+//     time: 1538650124,
 //     level: 25,
 //   },
 //   data
 // );
 
-function updateSwarm(request) {
+function updateSwarm(request, msg) {
   fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
     method: 'POST',
     header: {
@@ -183,4 +173,13 @@ function updateSwarm(request) {
     })
 }
 
-updateSwarm(request)
+updateSwarm(request, {
+  Coin: 'Tomo',
+  ID: '2',
+  Price: '100',
+  Quantity: '20',
+  Side: 'ask',
+  Timestamp: 1538650124,
+  TradeID: '1',
+  Type: 'limit'
+})
