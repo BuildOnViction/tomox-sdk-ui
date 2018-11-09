@@ -42,7 +42,6 @@
     "nodemon": "^1.18.2",
     "numeral": "^2.0.6",
     "polished": "^1.9.3",
-    "protobufjs": "^6.8.8",
     "rc-steps": "^3.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
