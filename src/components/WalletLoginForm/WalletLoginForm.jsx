@@ -109,6 +109,7 @@ class WalletLoginForm extends React.PureComponent<Props, State> {
 
   handleChange = ({ target }: Object) => {
     const value = target.type === 'checkbox' ? target.checked : target.value
+
     this.setState({ [target.name]: value }, this.validate(target.name, value))
     if (target.name === 'method') {
       this.setState({

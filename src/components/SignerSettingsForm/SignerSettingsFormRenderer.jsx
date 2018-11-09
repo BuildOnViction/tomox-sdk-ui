@@ -24,7 +24,6 @@ type Props = {
 
 const SignerSettingsFormRenderer = (props: Props) => {
   const { handleChange, handleSubmit, loading, error, currentSigner, custom, type } = props
-
   return (
     <CardBox>
       <Card interactive={true}>

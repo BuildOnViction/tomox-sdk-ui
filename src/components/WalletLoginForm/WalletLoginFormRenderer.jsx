@@ -198,25 +198,41 @@ const PrivateKeyInputForm = ({
   onEnterKeyPress
 }: *) => {
   // silence-error: couldn't resolve
+  // console.log('session' + sessionStorageWallets, 'private' + privateKey);
+  // show a list of account to login
+  const walletsSaved = sessionStorageWallets && sessionStorageWallets.length > 1
   return (
     <div>
-      <InputPadding>
-        <FormGroup
-          helperText={inputStatuses['privateKey'][privateKeyStatus]}
-          label="Input Private Key"
-          intent={intents[privateKeyStatus]}
-        >
-          <InputGroup
-            name="privateKey"
-            placeholder="(must start with 0x)"
-            intent={intents[privateKeyStatus]}
-            onChange={handleChange}
-            onKeyPress={onEnterKeyPress}
-            value={privateKey}
-            autoFocus
+      {walletsSaved && (
+        <InputPadding>
+          <WalletSelect
+            // silence-error: couldn't resolve
+            item={sessionStorageWallets[0]}
+            items={sessionStorageWallets}
+            handleChange={evt => handleChange({ target: { value: evt.key, name: 'privateKey' } })}
+            label="Select saved Wallet"
           />
-        </FormGroup>
-      </InputPadding>
+        </InputPadding>
+      )}
+      <Label text="Input Private Key">
+        <InputPadding>
+          <FormGroup
+            helperText={inputStatuses['privateKey'][privateKeyStatus]}
+            label="Input Private Key"
+            intent={intents[privateKeyStatus]}
+          >
+            <InputGroup
+              name="privateKey"
+              placeholder="(must start with 0x)"
+              intent={intents[privateKeyStatus]}
+              onChange={handleChange}
+              onKeyPress={onEnterKeyPress}
+              value={privateKey}
+              autoFocus
+            />
+          </FormGroup>
+        </InputPadding>
+      </Label>
     </div>
   )
 }
