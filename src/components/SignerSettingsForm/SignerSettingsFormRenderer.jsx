@@ -65,7 +65,6 @@ const renderCurrentSignerCallout = (currentSigner: SignerSettings) => {
 
 const renderCustomSignerForm = (props: Props) => {
   const { type, networkId, url, handleChange, handleNetworkChange, networks, customType } = props
-  console.log(type)
   return (
     <div>
       <RadioGroup label="Signer Type" name="customType" onChange={handleChange} selectedValue={customType}>

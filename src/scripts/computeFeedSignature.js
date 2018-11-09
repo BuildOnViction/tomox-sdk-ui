@@ -1,6 +1,7 @@
 var web3 = require('web3')
 var fetch = require('node-fetch')
 const { Wallet, providers, utils } = require('ethers')
+const rlpEncodeBytes = require('./rlpEncodeBytes')
 
 var topicLength = 32
 var userLength = 20
@@ -158,28 +159,46 @@ async function testUpdate(data) {
 //   data
 // );
 
-function updateSwarm(request, msg) {
-  fetch(`http://localhost:8080/orders/${request.feed.user}/${topicName}/encode`, {
-    method: 'POST',
-    header: {
-      Accept: 'application/json',
-      'Content-Type': 'application/octet-stream'
-    },
-    body: JSON.stringify(msg)
-  })
-    .then(res => res.buffer())
-    .then(async data => {
-      testUpdate(data)
-    })
+function updateSwarm(request, msgs) {
+  const data = rlpEncodeBytes(msgs)
+  console.log('[' + data.join(' ') + ']')
+  testUpdate(data)
 }
 
-updateSwarm(request, {
-  Coin: 'Tomo',
-  ID: '2',
-  Price: '100',
-  Quantity: '20',
-  Side: 'ask',
-  Timestamp: 1538650124,
-  TradeID: '1',
-  Type: 'limit'
-})
+let msgs = [
+  {
+    Coin: 'Tomo',
+    ID: '1',
+    Price: '100',
+    Quantity: '50',
+    Side: 'ask',
+    Timestamp: 1538650124,
+    TradeID: '1',
+    Type: 'limit'
+  },
+  {
+    Coin: 'Tomo',
+    ID: '2',
+    Price: '100',
+    Quantity: '20',
+    Side: 'ask',
+    Timestamp: 1538650124,
+    TradeID: '1',
+    Type: 'limit'
+  }
+]
+
+function fixOffset(obj, fields) {
+  const ret = {}
+  if (typeof fields === 'string') {
+    fields = fields.trim().split(/\s*,\s*/)
+  }
+  fields.forEach(field => (ret[field] = obj[field]))
+  return ret
+}
+
+const fields = ['Timestamp', 'Type', 'Side', 'Quantity', 'Price', 'Coin', 'ID', 'TradeID']
+// this to make sure this object will be correct order to server, if have sub fields then need to re-order too
+msgs = msgs.map(msg => fixOffset(msg, fields))
+
+updateSwarm(request, msgs)
