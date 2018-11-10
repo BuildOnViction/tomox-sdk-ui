@@ -188,17 +188,8 @@ let msgs = [
   }
 ]
 
-function fixOffset(obj, fields) {
-  const ret = {}
-  if (typeof fields === 'string') {
-    fields = fields.trim().split(/\s*,\s*/)
-  }
-  fields.forEach(field => (ret[field] = obj[field]))
-  return ret
-}
-
 const fields = ['Timestamp', 'Type', 'Side', 'Quantity', 'Price', 'Coin', 'ID', 'TradeID']
 // this to make sure this object will be correct order to server, if have sub fields then need to re-order too
-msgs = msgs.map(msg => fixOffset(msg, fields))
+msgs = msgs.map(msg => fields.map(field => msg[field]))
 
 updateSwarm(request, msgs)
