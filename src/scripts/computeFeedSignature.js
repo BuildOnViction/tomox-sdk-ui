@@ -162,7 +162,7 @@ async function testUpdate(data) {
 function updateSwarm(request, msgs) {
   const data = rlpEncodeBytes(msgs)
   console.log('[' + data.join(' ') + ']')
-  testUpdate(data)
+  // testUpdate(data);
 }
 
 let msgs = [
@@ -182,14 +182,10 @@ let msgs = [
     Price: '100',
     Quantity: '20',
     Side: 'ask',
-    Timestamp: 1538650124,
+    Timestamp: 1538650125,
     TradeID: '1',
     Type: 'limit'
   }
 ]
-
-const fields = ['Timestamp', 'Type', 'Side', 'Quantity', 'Price', 'Coin', 'ID', 'TradeID']
-// this to make sure this object will be correct order to server, if have sub fields then need to re-order too
-msgs = msgs.map(msg => fields.map(field => msg[field]))
 
 updateSwarm(request, msgs)

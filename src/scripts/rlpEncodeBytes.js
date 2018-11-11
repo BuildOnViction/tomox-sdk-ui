@@ -92,7 +92,7 @@ function rlpEncode(object) {
         }
       }
       // we got hex string here
-      var data = Array.prototype.slice.call(utils.arrayify(object))
+      let data = Array.prototype.slice.call(utils.arrayify(object))
       if (data.length === 1 && data[0] <= 0x7f) {
         return data
       } else if (data.length <= 55) {
@@ -105,8 +105,16 @@ function rlpEncode(object) {
     // case 'object':
     default:
       var payload = []
-      for (let key in object) {
-        const child = object[key]
+      let arrData = object
+
+      // if object is a json object like {key:value}, we need to sort by field name ASC
+      if (!Array.isArray(object)) {
+        const fields = Object.keys(object).sort()
+        arrData = fields.map(field => object[field])
+      }
+
+      for (let key in arrData) {
+        const child = arrData[key]
         payload = payload.concat(rlpEncode(child))
       }
       if (payload.length <= 55) {
