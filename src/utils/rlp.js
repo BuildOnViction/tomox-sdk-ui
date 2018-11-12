@@ -142,7 +142,7 @@ function rlpEncode(object) {
   }
 }
 
-module.exports = function(object) {
+module.exports.encodeBytes = function(object) {
   const bytes = rlpEncode(object)
   return new Uint8Array(bytes)
 }

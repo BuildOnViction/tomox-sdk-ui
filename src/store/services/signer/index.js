@@ -1,6 +1,6 @@
 // @flow
-import { providers, Wallet } from 'ethers'
-import { signOrder, signTrade, createRawOrder, createOrderCancel } from './methods'
+import { providers, Wallet, utils } from 'ethers'
+import { signOrder, signTrade, getFeedRequest, updateSwarmFeed, createRawOrder, createOrderCancel } from './methods'
 import { NETWORK_URL } from '../../../config/url'
 
 import type { UpdateSignerParams } from '../../../types/signer'
@@ -67,6 +67,12 @@ const addMethodsToSigner = signer => {
   // the first param by default is this signer
   signer.createRawOrder = createRawOrder
   signer.createOrderCancel = createOrderCancel
+
+  // if local wallet then support swarm feed extensions
+  if (signer.signingKey) {
+    signer.getFeedRequest = getFeedRequest
+    signer.updateSwarmFeed = updateSwarmFeed
+  }
 }
 
 export const createMetamaskSigner = async () => {
@@ -81,12 +87,18 @@ export const createMetamaskSigner = async () => {
   return { address, networkId }
 }
 
+Wallet.prototype.signDigest = function(hash) {
+  return this.signingKey.signDigest(hash)
+}
+
 export const createLocalWalletSigner = async (wallet: Object, networkId: ?number) => {
   networkId = networkId || 8888
   let provider = new providers.JsonRpcProvider(NETWORK_URL, { chainId: networkId, name: undefined })
   let signer = new Wallet(wallet.privateKey, provider)
-  addMethodsToSigner(signer)
 
+  addMethodsToSigner(signer)
+  // for testing with local
+  window.utils = utils
   window.signer = { instance: signer, type: 'wallet' }
 
   return wallet.address
