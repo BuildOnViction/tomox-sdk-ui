@@ -1,4 +1,7 @@
-// import type TokenPairData from './tokens'
+//@flow
+import type { Signature } from './common'
+
+import type { TokenPair } from './tokens'
 
 export type NewOrderParams = {
   userAddress: string,
@@ -9,6 +12,11 @@ export type NewOrderParams = {
   side: 'BUY' | 'SELL'
 }
 
+export type NewRawOrderParams = NewOrderParams & {
+  makeFee: string,
+  takeFee: string
+}
+
 export type RawOrder = {
   userAddress: string,
   exchangeAddress: string,
@@ -17,11 +25,7 @@ export type RawOrder = {
   buyAmount: string,
   sellAmount: string,
   hash: string,
-  signature: {
-    r: string,
-    s: string,
-    v: string
-  },
+  signature: Signature,
   nonce: string,
   expires: string,
   makeFee: string,
@@ -42,9 +46,9 @@ export type Order = {
 }
 
 // eslint-disable-next-line
-type Orders = Array<Order>
+export type Orders = Array<Order>
 
 // eslint-disable-next-line
-type OrdersState = {
-  byTimestamp: { number: Order }
+export type OrdersState = {
+  byTimestamp: { [key: string]: Order }
 }

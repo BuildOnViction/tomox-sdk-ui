@@ -55,14 +55,18 @@ export const tradesReset = () => {
   return event
 }
 
+const getTrades = (state: TradesState): Trades => {
+  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key])
+}
+
 export default function tradesDomain(state: TradesState) {
   return {
     byTimestamp: () => state.byTimestamp,
 
-    all: () => Object.values(state.byTimestamp),
+    all: () => getTrades(state),
 
     lastTrades: (n: number) => {
-      let trades = Object.values(state.byTimestamp)
+      let trades = getTrades(state)
       let last = (trades: Trades).slice(Math.max(trades.length - n, 1))
       return last
     }

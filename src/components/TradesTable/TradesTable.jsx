@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import TradesTableRenderer from './TradesTableRenderer'
-import type Trade from '../../types/trades'
+import type { Trade } from '../../types/trades'
 import type { TokenPair } from '../../types/tokens'
 
 type State = {

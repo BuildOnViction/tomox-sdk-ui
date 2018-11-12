@@ -46,18 +46,22 @@ export const ordersDeleted = (timestamps: Array<number>) => {
   return event
 }
 
+const getOrders = (state: OrdersState): Orders => {
+  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key])
+}
+
 export default function ordersDomain(state: OrdersState) {
   return {
     byTimestamp: () => state.byTimestamp,
-    all: () => Object.values(state.byTimestamp),
+    all: () => getOrders(state),
 
     lastOrders: (n: number) => {
-      let orders = Object.values(state.byTimestamp)
+      let orders = getOrders(state)
       let last = (orders: Orders).slice(Math.max(orders.length - n, 1))
       return last
     },
     history: () => {
-      let orders = Object.values(state.byTimestamp)
+      let orders = getOrders(state)
       let history = (orders: Orders).filter(
         order => ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) === -1
       )
@@ -65,7 +69,7 @@ export default function ordersDomain(state: OrdersState) {
     },
 
     current: () => {
-      let orders = Object.values(state.byTimestamp)
+      let orders = getOrders(state)
       let current = (orders: Orders).filter(order => ['NEW', 'OPEN'].indexOf(order.status) === -1)
       return current
     }

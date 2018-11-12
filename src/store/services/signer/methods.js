@@ -1,11 +1,17 @@
+//@flow
 import { utils } from 'ethers'
 import { getOrderHash, getOrderCancelHash, getTradeHash } from '../../../utils/crypto'
 import { encodeBytes } from '../../../utils/rlp'
 import { feedUpdateDigest, getSwarmSig } from '../../../utils/swarmFeed'
 import { createRawOrder as orderCreateRawOrder } from '../orders'
-const { BZZ_URL } = require('../../../config/url')
+import { BZZ_URL } from '../../../config/url'
 
-export const getFeedRequest = async function(topic) {
+// flow
+import type { NewRawOrderParams, RawOrder } from '../../../types/orders'
+import type { Request } from '../../../types/swarm'
+import type { Trade } from '../../../types/trades'
+
+export const getFeedRequest = async function(topic: string) {
   const userAddress = this.address
   const url = `${BZZ_URL}/bzz-feed:/?user=${userAddress}&topic=${topic}&meta=1`
   const request = await fetch(url).then(res => res.json())
@@ -13,7 +19,7 @@ export const getFeedRequest = async function(topic) {
   return request
 }
 
-export const updateSwarmFeed = async function(request, messages) {
+export const updateSwarmFeed = async function(request: Request, messages: any) {
   const data = encodeBytes(messages)
   if (!data) return false
   // to upload to server, we need to convert it into Buffer if it is array
@@ -41,11 +47,11 @@ export const updateSwarmFeed = async function(request, messages) {
   }
 }
 
-export const createRawOrder = function(params) {
+export const createRawOrder = function(params: NewRawOrderParams) {
   return orderCreateRawOrder(this, params)
 }
 
-export const createOrderCancel = async function(orderHash) {
+export const createOrderCancel = async function(orderHash: string) {
   let orderCancel = {}
   orderCancel.orderHash = orderHash
   orderCancel.hash = getOrderCancelHash(orderCancel)
@@ -57,7 +63,7 @@ export const createOrderCancel = async function(orderHash) {
   return orderCancel
 }
 
-export const signOrder = async function(order) {
+export const signOrder = async function(order: RawOrder) {
   order.hash = getOrderHash(order)
 
   let signature = await this.signMessage(utils.arrayify(order.hash))
@@ -67,7 +73,7 @@ export const signOrder = async function(order) {
   return order
 }
 
-export const signTrade = async function(trade) {
+export const signTrade = async function(trade: Trade) {
   trade.hash = getTradeHash(trade)
 
   let signature = await this.signMessage(utils.arrayify(trade.hash))

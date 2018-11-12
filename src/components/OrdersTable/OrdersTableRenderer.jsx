@@ -1,10 +1,10 @@
 //@flow
-import React from 'react';
-import styled from 'styled-components';
-import { Card, Tab, Tag, Icon, Tabs, Collapse, Button } from '@blueprintjs/core';
-import { Colors, Loading, CenteredMessage } from '../Common';
-import { format } from 'date-fns';
-import { Order } from '../../types/orders';
+import React from 'react'
+import styled from 'styled-components'
+import { Card, Tab, Tag, Icon, Tabs, Collapse, Button } from '@blueprintjs/core'
+import { Colors, Loading, CenteredMessage } from '../Common'
+import { format } from 'date-fns'
+import type { Order } from '../../types/orders'
 
 type Props = {
   loading: boolean,
@@ -19,12 +19,12 @@ type Props = {
     PENDING: Array<Order>,
     EXECUTED: Array<Order>,
     CANCELED: Array<Order>,
-    FILLED: Array<Order>,
-  },
-};
+    FILLED: Array<Order>
+  }
+}
 
 const OrdersTableRenderer = (props: Props) => {
-  const { loading, selectedTabId, onChange, cancelOrder, orders, isOpen, toggleCollapse } = props;
+  const { loading, selectedTabId, onChange, cancelOrder, orders, isOpen, toggleCollapse } = props
   return (
     <Wrapper className="order-history">
       <OrdersTableHeader>
@@ -61,11 +61,11 @@ const OrdersTableRenderer = (props: Props) => {
         </Tabs>
       </Collapse>
     </Wrapper>
-  );
-};
+  )
+}
 
 const OrdersTablePanel = (props: { loading: boolean, orders: Array<Order>, cancelOrder: string => void }) => {
-  const { loading, orders, cancelOrder } = props;
+  const { loading, orders, cancelOrder } = props
   return loading ? (
     <Loading />
   ) : orders.length < 1 ? (
@@ -86,11 +86,11 @@ const OrdersTablePanel = (props: { loading: boolean, orders: Array<Order>, cance
         {orders.map((order, index) => <OrderRow key={index} order={order} index={index} cancelOrder={cancelOrder} />)}
       </ListBodyWrapper>
     </ListContainer>
-  );
-};
+  )
+}
 
 const OrderRow = (props: { order: Order, index: number, cancelOrder: string => void }) => {
-  const { order, cancelOrder } = props;
+  const { order, cancelOrder } = props
   return (
     <Row>
       <Cell className="pair" muted>
@@ -119,25 +119,26 @@ const OrderRow = (props: { order: Order, index: number, cancelOrder: string => v
         )}
       </Cell>
     </Row>
-  );
-};
+  )
+}
 
 const StatusTag = ({ status }) => {
   const statuses = {
+    NEW: 'secondar',
     INVALIDATED: 'danger',
     CANCELLED: 'danger',
     OPEN: 'primary',
     FILLED: 'success',
-    PARTIALLY_FILLED: 'success',
-  };
+    PARTIALLY_FILLED: 'success'
+  }
 
-  const intent = statuses[status];
+  const intent = statuses[status]
   return (
     <Tag minimal large interactive intent={intent}>
       {status}
     </Tag>
-  );
-};
+  )
+}
 
 const OrdersTableHeader = styled.div`
   display: grid;
@@ -145,15 +146,15 @@ const OrdersTableHeader = styled.div`
   justify-content: start;
   grid-gap: 10px;
   align-items: center;
-`;
-const Wrapper = styled(Card)``;
+`
+const Wrapper = styled(Card)``
 
 const Heading = styled.h3`
   margin: auto;
-`;
+`
 const ListContainer = styled.div`
   height: 100%;
-`;
+`
 const ListHeaderWrapper = styled.ul`
   width: 100%;
   display: flex;
@@ -161,14 +162,14 @@ const ListHeaderWrapper = styled.ul`
   justify-content: space-around;
   margin: 0px;
   margin-bottom: 10px;
-`;
+`
 const ListBodyWrapper = styled.ul`
   width: 100%;
   max-height: 300px;
   margin: 0;
   height: 90%;
   overflow-y: scroll;
-`;
+`
 const ListHeader = styled.li`
   width: 100%;
   display: flex;
@@ -179,10 +180,10 @@ const ListHeader = styled.li`
   span {
     font-weight: 600;
   }
-`;
+`
 
 const Row = styled.li.attrs({
-  className: 'row',
+  className: 'row'
 })`
   width: 100%;
   cursor: pointer;
@@ -195,10 +196,10 @@ const Row = styled.li.attrs({
   border: 1px transparent;
   border-radius: 2px;
   box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
-`;
+`
 
 const Cell = styled.span.attrs({
-  className: props => props.className,
+  className: props => props.className
 })`
   color: ${props =>
     props.side === 'BUY'
@@ -214,10 +215,10 @@ const Cell = styled.span.attrs({
   align-items: center;
   height: 40px !important;
   width: ${props => (props.className === 'cancel' ? '100px' : '20%')};
-`;
+`
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.className === 'cancel' ? '100px' : '20%')};
-`;
+`
 
-export default OrdersTableRenderer;
+export default OrdersTableRenderer

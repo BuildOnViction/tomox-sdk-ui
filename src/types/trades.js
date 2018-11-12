@@ -1,18 +1,23 @@
-type TradesState = {
-  byTimestamp: { number: Order }
-}
+//@flow
+import type { Signature } from './common'
 
-type Trade = {
+export type Trade = {
   time: number,
   price: number,
   amount: number,
+  tradeNonce: number,
   hash: string,
   orderHash: string,
   type: 'MARKET' | 'LIMIT',
   side: 'BUY' | 'SELL',
   pair: string,
   maker: string,
-  taker: string
+  taker: string,
+  signature: Signature
 }
 
-type Trades = Array<Trade>
+export type Trades = Array<Trade>
+
+export type TradesState = {
+  byTimestamp: { [key: string]: Trade }
+}

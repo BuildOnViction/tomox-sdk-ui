@@ -6,6 +6,12 @@ export type Address = string
 
 export type TxHash = string
 
+export type Signature = {
+  +r: string,
+  +s: string,
+  +v: string
+}
+
 export type TxReceipt = {
   blockHash: string,
   blockNumber: string,
