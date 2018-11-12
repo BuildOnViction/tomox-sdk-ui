@@ -28,6 +28,7 @@ function encodeLength(L, offset) {
 const shift_1 = 1 << 8
 const shift_2 = 1 << 16
 const shift_3 = 1 << 24
+const big0 = utils.bigNumberify(0)
 
 function byte(i) {
   return i & 0x000000ff
@@ -104,6 +105,20 @@ function rlpEncode(object) {
       return lengthArr.concat(data)
     // case 'object':
     default:
+      if (object === null) {
+        return [0x80]
+      }
+
+      // check if this object is BigNumber
+      if (utils.BigNumber.isBigNumber(object)) {
+        if (big0.eq(object)) {
+          return [0x80]
+        }
+
+        return rlpEncode(object.toHexString())
+      }
+
+      // else it could be object or array
       var payload = []
       let arrData = object
 

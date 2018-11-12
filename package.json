@@ -68,7 +68,6 @@
     "ws": "^5.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
     "@storybook/addon-actions": "^3.4.11",
     "@storybook/addon-console": "^1.0.4",
     "@storybook/addon-info": "^3.4.11",
