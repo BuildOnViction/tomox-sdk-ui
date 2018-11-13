@@ -1,4 +1,13 @@
-var web3 = require('web3')
+let web3
+
+// Check if Metamask extension is installed, it will inject a web3 instance into page (version 0.20.3)
+// In that case, use injected version instead
+if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
+  web3 = window.web3
+} else {
+  web3 = require('web3')
+}
+
 const { utils } = require('ethers')
 
 var topicLength = 32
