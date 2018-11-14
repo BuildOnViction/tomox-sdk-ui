@@ -1,40 +1,46 @@
-import type { NotificationState } from '../../types/notifications'
+//@flow
+
+import type { NotificationState } from '../../types/notifications';
+import type { SettingsState } from '../../types/settings';
 
 // eslint-disable-next-line
-let id = 0
-const initialState = []
+let id = 0;
+const initialState = [];
 
 export const initialized = () => {
-  const event = (state: SettingsState = initialState) => state
-  return event
-}
+  const event = (state: SettingsState = initialState) => state;
+  return event;
+};
 
-export const notificationAdded = options => {
+export const notificationAdded = (
+  notificationType: string,
+  options: Object
+) => {
   const event = (state: NotificationState) => {
     return [
       ...state,
       {
         id: ++id,
-        message: options.message,
-        intent: options.intent
+        notificationType,
+        options
       }
-    ]
-  }
+    ];
+  };
 
-  return event
-}
+  return event;
+};
 
-export const notificationRemoved = id => {
+export const notificationRemoved = (id: number) => {
   const event = (state: NotificationState) => {
-    return state.filter(notification => notification.id !== id)
-  }
+    return state.filter(notification => notification.id !== id);
+  };
 
-  return event
-}
+  return event;
+};
 
 export default function model(state: NotificationState) {
   return {
     byId: () => state,
     last: () => state[state.length - 1]
-  }
+  };
 }

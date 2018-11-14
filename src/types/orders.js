@@ -12,24 +12,20 @@ export type NewOrderParams = {
   side: 'BUY' | 'SELL'
 };
 
-export type NewRawOrderParams = NewOrderParams & {
-  makeFee: string,
-  takeFee: string
-};
-
 export type RawOrder = {
-  userAddress: string,
   exchangeAddress: string,
-  buyTokenAddress: string,
-  sellTokenAddress: string,
-  buyAmount: string,
-  sellAmount: string,
-  hash: string,
-  signature: Signature,
+  userAddress: string,
+  baseToken: string,
+  quoteToken: string,
+  amount: string,
+  pricepoint: string,
+  side: 'BUY' | 'SELL',
   nonce: string,
-  expires: string,
   makeFee: string,
-  takeFee: string
+  takeFee: string,
+  status: string,
+  hash: string,
+  signature: Signature
 };
 
 export type Order = {
@@ -42,7 +38,8 @@ export type Order = {
   side: 'BUY' | 'SELL',
   pair: string,
   type: 'MARKET' | 'LIMIT',
-  status: 'NEW' | 'OPEN' | 'CANCELLED' | 'FILLED' | 'PARTIALLY_FILLED'
+  status: 'NEW' | 'OPEN' | 'CANCELLED' | 'FILLED' | 'PARTIALLY_FILLED',
+  cancelleable: boolean
 };
 
 // eslint-disable-next-line
@@ -50,5 +47,5 @@ export type Orders = Array<Order>;
 
 // eslint-disable-next-line
 export type OrdersState = {
-  byTimestamp: { [key: string]: Order }
+  byHash: { [key: string]: Order }
 };

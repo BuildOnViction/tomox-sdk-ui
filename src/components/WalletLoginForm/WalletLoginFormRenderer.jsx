@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import Dropzone from 'react-dropzone'
+import React from 'react';
+import styled from 'styled-components';
+import Dropzone from 'react-dropzone';
 import {
   Button,
   Card,
@@ -11,15 +11,22 @@ import {
   InputGroup,
   Intent,
   Label,
+  Position,
   Radio,
   RadioGroup,
+  ProgressBar,
   TextArea
-} from '@blueprintjs/core'
-import { Divider, OverlaySpinner, Text } from '../../components/Common'
-import WalletSelect from './WalletSelect'
-// TODO -> Intent issue is still to get fix this func () => `JSONFileInputForm`
+} from '@blueprintjs/core';
 
-type Status = 'incomplete' | 'valid' | 'invalid'
+import { Divider, OverlaySpinner, Text, Indent } from '../../components/Common';
+
+import Help from '../../components/Help';
+import WalletSelect from './WalletSelect';
+
+import type { Wallet } from '../../types/wallets';
+import type { Status } from '../../types/common';
+
+// TODO -> Intent issue is still to get fix this func () => `JSONFileInputForm`
 
 type Props = {
   loading: boolean,
@@ -31,6 +38,11 @@ type Props = {
   privateKeyStatus: Status,
   json: ?string,
   jsonStatus: Status,
+  savedWallet: string,
+  savedWalletAddress: string,
+  savedWalletPassword: ?string,
+  savedWalletPasswordStatus: Status,
+  savedWalletPasswordProgress: number,
   walletFile: ?string,
   walletAddress: ?string,
   walletFileStatus: Status,
@@ -39,14 +51,14 @@ type Props = {
   password: ?string,
   passwordStatus: Status,
   passwordHelpingText: ?string,
-  localStorageWallets: ?Array<Object>,
-  sessionStorageWallets: ?Array<Object>,
+  localStorageWallets: ?Array<Wallet>,
   storeWallet: boolean,
   storePrivateKey: boolean,
   submit: (SyntheticEvent<>) => Promise<void>,
   showLoginMethods: () => void,
-  saveEncryptedWalletDisabled: boolean
-}
+  saveEncryptedWalletDisabled: boolean,
+  savedWalletsDisabled: boolean
+};
 
 const inputStatuses = {
   privateKey: {
@@ -69,18 +81,23 @@ const inputStatuses = {
     valid: 'Valid Mnemonic',
     invalid: 'Invalid Mnemonic. Mnemonic must be 12 words long'
   },
+  savedWalletPassword: {
+    incomplete: '',
+    valid: '',
+    invalid: 'Invalid Password.'
+  },
   password: {
     incomplete: '',
     valid: '',
     invalid: 'Invalid Password.'
   }
-}
+};
 
 const intents = {
   invalid: Intent.DANGER,
   valid: Intent.SUCCESS,
   incomplete: Intent.PRIMARY
-}
+};
 
 const WalletLoginFormRenderer = (props: Props) => {
   const {
@@ -99,25 +116,44 @@ const WalletLoginFormRenderer = (props: Props) => {
     mnemonicStatus,
     password,
     passwordStatus,
+    savedWallet,
+    savedWalletAddress,
+    savedWalletPassword,
+    savedWalletPasswordStatus,
+    savedWalletPasswordProgress,
     passwordHelpingText,
-    sessionStorageWallets,
     localStorageWallets,
     onDrop,
     storeWallet,
     storePrivateKey,
     submit,
     saveEncryptedWalletDisabled,
-    showLoginMethods
-  } = props
+    showLoginMethods,
+    savedWalletsDisabled
+  } = props;
 
   const inputForms = {
+    savedWallet: (
+      <SavedWalletInputForm
+        handleChange={handleChange}
+        onEnterKeyPress={onEnterKeyPress}
+        localStorageWallets={localStorageWallets}
+        savedWallet={savedWallet}
+        savedWalletAddress={savedWalletAddress}
+        savedWalletPassword={savedWalletPassword}
+        savedWalletPasswordStatus={savedWalletPasswordStatus}
+        savedWalletDisabled={savedWalletsDisabled}
+      />
+    ),
     privateKey: (
       <PrivateKeyInputForm
-        sessionStorageWallets={sessionStorageWallets}
         onEnterKeyPress={onEnterKeyPress}
         privateKeyStatus={privateKeyStatus}
         privateKey={privateKey}
         handleChange={handleChange}
+        storeWallet={storeWallet}
+        storePrivateKey={storePrivateKey}
+        saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     ),
     json: (
@@ -130,6 +166,9 @@ const WalletLoginFormRenderer = (props: Props) => {
         onEnterKeyPress={onEnterKeyPress}
         passwordStatus={passwordStatus}
         passwordHelpingText={passwordHelpingText}
+        storeWallet={storeWallet}
+        storePrivateKey={storePrivateKey}
+        saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     ),
     walletFile: (
@@ -143,6 +182,9 @@ const WalletLoginFormRenderer = (props: Props) => {
         password={password}
         passwordStatus={passwordStatus}
         passwordHelpingText={passwordHelpingText}
+        storeWallet={storeWallet}
+        storePrivateKey={storePrivateKey}
+        saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     ),
     mnemonic: (
@@ -151,19 +193,153 @@ const WalletLoginFormRenderer = (props: Props) => {
         mnemonic={mnemonic}
         mnemonicStatus={mnemonicStatus}
         handleChange={handleChange}
+        storeWallet={storeWallet}
+        storePrivateKey={storePrivateKey}
+        saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     )
-  }
+  };
 
   return (
     <Card elevation="1" style={{ width: '600px', position: 'relative' }}>
-      <RadioGroup name="method" onChange={handleChange} selectedValue={method} label="Choose how to access your wallet">
+      <RadioGroup
+        name="method"
+        onChange={handleChange}
+        selectedValue={method}
+        label="Choose how to access your wallet"
+      >
+        <Radio
+          label="Saved Wallet"
+          value="savedWallet"
+          disabled={savedWalletsDisabled}
+        />
         <Radio label="Private Key" value="privateKey" />
         <Radio label="JSON" value="json" />
         <Radio label="Wallet File" value="walletFile" />
         <Radio label="Mnemonic Sentence" value="mnemonic" />
       </RadioGroup>
       <InputFormsBox>{inputForms[method]}</InputFormsBox>
+      {method === 'json' && <ProgressBar value={savedWalletPasswordProgress} />}
+      <FooterWrapper>
+        <ButtonBox>
+          <Button intent="danger" text="Back" onClick={showLoginMethods} />
+        </ButtonBox>
+        <ButtonBox>
+          <Button intent="primary" text="Authenticate" onClick={submit} />
+        </ButtonBox>
+      </FooterWrapper>
+      <OverlaySpinner visible={loading} transparent />
+    </Card>
+  );
+};
+
+const SavedWalletInputForm = ({
+  handleChange,
+  onEnterKeyPress,
+  localStorageWallets,
+  savedWallet,
+  savedWalletAddress,
+  savedWalletPassword,
+  savedWalletPasswordStatus
+}: *) => {
+  console.log(savedWalletAddress);
+  const walletsSaved = localStorageWallets && localStorageWallets.length >= 1;
+  // silence-error: couldn't resolve
+  return (
+    <React.Fragment>
+      {walletsSaved && (
+        <InputPadding>
+          <WalletSelectBox>
+            <WalletSelect
+              // silence-error: couldn't resolve
+              item={localStorageWallets[0]}
+              items={localStorageWallets}
+              handleChange={event =>
+                handleChange({
+                  target: { value: event.encryptedWallet, name: 'savedWallet' }
+                })
+              }
+              label="Select saved Wallet"
+            />
+            <WalletAddressBox>
+              {savedWalletAddress && (
+                <React.Fragment>
+                  <Indent />
+                  <Icon icon="tick-circle" intent="success" />
+                  <Indent />
+                  {savedWalletAddress}
+                </React.Fragment>
+              )}
+            </WalletAddressBox>
+          </WalletSelectBox>
+        </InputPadding>
+      )}
+      <InputPadding>
+        <FormGroup
+          helperText={
+            inputStatuses['savedWalletPassword'][savedWalletPasswordStatus]
+          }
+          label="Input Wallet Password"
+          intent={intents[savedWalletPasswordStatus]}
+        >
+          <InputGroup
+            name="savedWalletPassword"
+            type="password"
+            placeholder="(must start with 0x)"
+            intent={intents[savedWalletPasswordStatus]}
+            onChange={handleChange}
+            onKeyPress={onEnterKeyPress}
+            value={savedWalletPassword}
+            autoFocus
+          />
+        </FormGroup>
+      </InputPadding>
+    </React.Fragment>
+  );
+};
+
+const WalletSelectBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const WalletAddressBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const PrivateKeyInputForm = ({
+  handleChange,
+  privateKey,
+  privateKeyStatus,
+  onEnterKeyPress,
+  saveEncryptedWalletDisabled,
+  storeWallet,
+  storePrivateKey
+}: *) => {
+  // silence-error: couldn't resolve
+  return (
+    <React.Fragment>
+      <InputPadding>
+        <FormGroup
+          helperText={inputStatuses['privateKey'][privateKeyStatus]}
+          label="Input Private Key"
+          intent={intents[privateKeyStatus]}
+        >
+          <InputGroup
+            name="privateKey"
+            placeholder="(must start with 0x)"
+            intent={intents[privateKeyStatus]}
+            onChange={handleChange}
+            onKeyPress={onEnterKeyPress}
+            value={privateKey}
+            autoFocus
+          />
+        </FormGroup>
+      </InputPadding>
       <FormGroup helperText="Learn more about different options here">
         <Checkbox
           name="storeWallet"
@@ -172,70 +348,17 @@ const WalletLoginFormRenderer = (props: Props) => {
           onChange={handleChange}
         >
           <strong>Save encrypted wallet in local storage</strong>
-        </Checkbox>
-        <Checkbox name="storePrivateKey" checked={storePrivateKey} onChange={handleChange}>
-          <strong>Save private key in session storage </strong>
+          <span> </span>
+          <Help position={Position.RIGHT}>
+            By saving in local storage, you will be able to restore your wallet
+            everytime you enter the platform. You will be required to delete it
+            manually on the Setting page.
+          </Help>
         </Checkbox>
       </FormGroup>
-      <FooterWrapper>
-        <ButtonBox>
-          <Button intent="normal" minimal={true} icon="undo" onClick={showLoginMethods} />
-        </ButtonBox>
-        <ButtonBox>
-          <Button intent="primary" text="Authenticate" onClick={submit} />
-        </ButtonBox>
-      </FooterWrapper>
-      <OverlaySpinner visible={loading} transparent />
-    </Card>
-  )
-}
-
-const PrivateKeyInputForm = ({
-  sessionStorageWallets,
-  handleChange,
-  privateKey,
-  privateKeyStatus,
-  onEnterKeyPress
-}: *) => {
-  // silence-error: couldn't resolve
-  // console.log('session' + sessionStorageWallets, 'private' + privateKey);
-  // show a list of account to login
-  const walletsSaved = sessionStorageWallets && sessionStorageWallets.length > 1
-  return (
-    <div>
-      {walletsSaved && (
-        <InputPadding>
-          <WalletSelect
-            // silence-error: couldn't resolve
-            item={sessionStorageWallets[0]}
-            items={sessionStorageWallets}
-            handleChange={evt => handleChange({ target: { value: evt.key, name: 'privateKey' } })}
-            label="Select saved Wallet"
-          />
-        </InputPadding>
-      )}
-      <Label text="Input Private Key">
-        <InputPadding>
-          <FormGroup
-            helperText={inputStatuses['privateKey'][privateKeyStatus]}
-            label="Input Private Key"
-            intent={intents[privateKeyStatus]}
-          >
-            <InputGroup
-              name="privateKey"
-              placeholder="(must start with 0x)"
-              intent={intents[privateKeyStatus]}
-              onChange={handleChange}
-              onKeyPress={onEnterKeyPress}
-              value={privateKey}
-              autoFocus
-            />
-          </FormGroup>
-        </InputPadding>
-      </Label>
-    </div>
-  )
-}
+    </React.Fragment>
+  );
+};
 
 const JSONInputForm = ({
   handleChange,
@@ -244,28 +367,36 @@ const JSONInputForm = ({
   password,
   passwordStatus,
   localStorageWallets,
+  savedWalletsDisabled,
   passwordHelpingText,
-  onEnterKeyPress
+  onEnterKeyPress,
+  saveEncryptedWalletDisabled,
+  storeWallet,
+  storePrivateKey
 }: *) => {
-  // silence-error: couldn't resolve
-  const walletsSaved = localStorageWallets.length > 1
   return (
-    <div>
-      {walletsSaved && (
+    <React.Fragment>
+      {!savedWalletsDisabled && (
         <InputPadding>
           <WalletSelect
             // silence-error: couldn't resolve
             item={localStorageWallets[0]}
             items={localStorageWallets}
-            handleChange={evt => handleChange({ target: { value: evt.key, name: 'json' } })}
+            handleChange={evt => {
+              handleChange({
+                target: { value: evt.encryptedWallet, name: 'json' }
+              });
+            }}
             label="Select saved Wallet"
           />
         </InputPadding>
       )}
-
       <Label text="Input JSON File Text">
         <InputPadding>
-          <FormGroup helperText={inputStatuses['json'][jsonStatus]} intent={intents[jsonStatus]}>
+          <FormGroup
+            helperText={inputStatuses['json'][jsonStatus]}
+            intent={intents[jsonStatus]}
+          >
             <TextArea
               name="json"
               intent={intents[jsonStatus]}
@@ -281,7 +412,10 @@ const JSONInputForm = ({
       </Label>
       <Label text="Input Password">
         <InputPadding>
-          <FormGroup helperText={passwordHelpingText} intent={intents[passwordStatus]}>
+          <FormGroup
+            helperText={passwordHelpingText}
+            intent={intents[passwordStatus]}
+          >
             <InputGroup
               name="password"
               intent={intents[passwordStatus]}
@@ -296,9 +430,24 @@ const JSONInputForm = ({
           </FormGroup>
         </InputPadding>
       </Label>
-    </div>
-  )
-}
+      <FormGroup helperText="Learn more about different options here">
+        <Checkbox
+          name="storeWallet"
+          disabled={saveEncryptedWalletDisabled}
+          checked={storeWallet && !saveEncryptedWalletDisabled}
+          onChange={handleChange}
+        >
+          <strong>Save encrypted wallet in local storage</strong>
+          <Help position={Position.RIGHT}>
+            By saving in local storage, you will be able to restore your wallet
+            everytime you enter the platform. You will be required to delete it
+            manually on the Setting page.
+          </Help>
+        </Checkbox>
+      </FormGroup>
+    </React.Fragment>
+  );
+};
 
 const JSONFileInputForm = ({
   onDrop,
@@ -308,12 +457,15 @@ const JSONFileInputForm = ({
   handleChange,
   password,
   passwordStatus,
-  passwordHelpingText
+  passwordHelpingText,
+  saveEncryptedWalletDisabled,
+  storeWallet,
+  storePrivateKey
 }: *) => {
-  const validWalletFile = walletFileStatus === 'valid'
-  const inValidWalletFile = walletFileStatus === 'invalid'
+  const validWalletFile = walletFileStatus === 'valid';
+  const inValidWalletFile = walletFileStatus === 'invalid';
   return (
-    <div>
+    <React.Fragment>
       <Label
         className={inValidWalletFile ? 'text-err' : ''}
         text="Drag on Click on Container to load your JSON wallet"
@@ -325,7 +477,9 @@ const JSONFileInputForm = ({
         </DropzoneMessageContainer>
         <Divider style={{ margin: '15px' }} />
 
-        {validWalletFile && <Text style={{ marginBottom: '10px' }}>Address: {walletAddress}</Text>}
+        {validWalletFile && (
+          <Text style={{ marginBottom: '10px' }}>Address: {walletAddress}</Text>
+        )}
         <Text intent={intents[walletFileStatus]}>
           {validWalletFile && <Icon icon="tick-circle" />}
           {inValidWalletFile && <Icon icon="delete" />}
@@ -334,7 +488,10 @@ const JSONFileInputForm = ({
       </Dropzone>
       <Label text="Input Password">
         <InputPadding>
-          <FormGroup helperText={passwordHelpingText} intent={intents[passwordStatus]}>
+          <FormGroup
+            helperText={passwordHelpingText}
+            intent={intents[passwordStatus]}
+          >
             <InputGroup
               name="password"
               intent={intents[passwordStatus]}
@@ -348,30 +505,75 @@ const JSONFileInputForm = ({
           </FormGroup>
         </InputPadding>
       </Label>
-    </div>
-  )
-}
+      <FormGroup helperText="Learn more about different options here">
+        <Checkbox
+          name="storeWallet"
+          disabled={saveEncryptedWalletDisabled}
+          checked={storeWallet && !saveEncryptedWalletDisabled}
+          onChange={handleChange}
+        >
+          <strong>Save encrypted wallet in local storage</strong>
+          <span> </span>
+          <Help position={Position.RIGHT}>
+            By saving in local storage, you will be able to restore your wallet
+            everytime you enter the platform. You will be required to delete it
+            manually on the Setting page.
+          </Help>
+        </Checkbox>
+      </FormGroup>
+    </React.Fragment>
+  );
+};
 
-const MnemonicSentenceInputForm = ({ handleChange, mnemonic, mnemonicStatus }: *) => {
+const MnemonicSentenceInputForm = ({
+  handleChange,
+  mnemonic,
+  mnemonicStatus,
+  saveEncryptedWalletDisabled,
+  storeWallet,
+  savedEncryptedWalletDisabled,
+  storePrivateKey
+}: *) => {
   return (
-    <Label text="Input Mnemonic Sentence">
-      <InputPadding>
-        <FormGroup helperText={inputStatuses['mnemonic'][mnemonicStatus]} intent={intents[mnemonicStatus]}>
-          <TextArea
-            name="mnemonic"
-            large
+    <React.Fragment>
+      <Label text="Input Mnemonic Sentence">
+        <InputPadding>
+          <FormGroup
+            helperText={inputStatuses['mnemonic'][mnemonicStatus]}
             intent={intents[mnemonicStatus]}
-            onChange={handleChange}
-            value={mnemonic}
-            style={{ height: '100px' }}
-            fill
-            autoFocus
-          />
-        </FormGroup>
-      </InputPadding>
-    </Label>
-  )
-}
+          >
+            <TextArea
+              name="mnemonic"
+              large
+              intent={intents[mnemonicStatus]}
+              onChange={handleChange}
+              value={mnemonic}
+              style={{ height: '100px' }}
+              fill
+              autoFocus
+            />
+          </FormGroup>
+        </InputPadding>
+      </Label>
+      <FormGroup helperText="Learn more about different options here">
+        <Checkbox
+          name="storeWallet"
+          disabled={saveEncryptedWalletDisabled}
+          checked={storeWallet && !saveEncryptedWalletDisabled}
+          onChange={handleChange}
+        >
+          <strong>Save encrypted wallet in local storage</strong>
+          <span> </span>
+          <Help position={Position.RIGHT}>
+            By saving in local storage, you will be able to restore your wallet
+            everytime you enter the platform. You will be required to delete it
+            manually on the Setting page.
+          </Help>
+        </Checkbox>
+      </FormGroup>
+    </React.Fragment>
+  );
+};
 
 var dropZoneStyles = {
   width: '100%',
@@ -379,26 +581,26 @@ var dropZoneStyles = {
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column'
-}
+};
 
 const InputPadding = styled.div`
-  padding-top: 5px;
-`
+  padding-top: 20px;
+`;
 
 const InputFormsBox = styled.div`
-  padding-top: 50px;
-`
+  padding-top: 20px;
+`;
 
 const ButtonBox = styled.div`
   text-align: right;
   padding-top: 20px;
-`
+`;
 
 const FooterWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const DropzoneMessageContainer = styled(Card)`
   padding-left: 20px;
@@ -409,6 +611,6 @@ const DropzoneMessageContainer = styled(Card)`
   align-items: center;
   align-content: center;
   justify-items: center;
-`
+`;
 
-export default WalletLoginFormRenderer
+export default WalletLoginFormRenderer;

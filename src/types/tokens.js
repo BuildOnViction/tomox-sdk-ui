@@ -3,13 +3,13 @@ export type Symbol = string;
 
 export type TokenImage = {
   meta: string,
-  url: string,
+  url: string
 };
 
 export type Token = {
   address: string,
   symbol: Symbol,
-  image: TokenImage,
+  image: TokenImage
 };
 
 export type TokenPair = {
@@ -17,7 +17,7 @@ export type TokenPair = {
   +baseTokenSymbol: string,
   +quoteTokenSymbol: string,
   +baseTokenAddress: string,
-  +quoteTokenAddress: string,
+  +quoteTokenAddress: string
 };
 
 export type TokenPairState = {
@@ -27,8 +27,8 @@ export type TokenPairState = {
       +baseTokenSymbol: string,
       +quoteTokenSymbol: string,
       +baseTokenAddress: string,
-      +quoteTokenAddress: string,
-    },
+      +quoteTokenAddress: string
+    }
   },
   +data: {
     +[string]: {
@@ -37,11 +37,11 @@ export type TokenPairState = {
       +change: string,
       +high: string,
       +low: string,
-      +volume: string,
-    },
+      +volume: string
+    }
   },
   +favorites: Array<string>,
-  +currentPair: string,
+  +currentPair: string
 };
 
 export type TokenData = {
@@ -49,6 +49,9 @@ export type TokenData = {
   symbol: Symbol,
   balance: string,
   allowance: string,
+  allowed: boolean,
+  allowancePending: boolean,
+  image: TokenImage
 };
 
 export type TokenPairData = {
@@ -60,7 +63,7 @@ export type TokenPairData = {
   volume: string,
   base: ?string,
   quote: ?string,
-  favorited: ?string,
+  favorited: ?string
 };
 
 export type TokenPairDataArray = Array<TokenPairData>;
@@ -68,7 +71,7 @@ export type TokenPairDataMap = { [string]: TokenPairData };
 
 export type TokenState = {
   +symbols: Array<Symbol>,
-  +bySymbol: { [Symbol]: Token },
+  +bySymbol: { [Symbol]: Token }
 };
 
 export type TokenEvent = any => TokenState => TokenState;

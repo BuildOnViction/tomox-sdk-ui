@@ -6,20 +6,20 @@ import { getProvider, getSigner } from './signer';
 
 import type { Token, TokenBalance, TokenBalances } from '../../types/common';
 import type {
-  AccountBalance,
+  // AccountBalance,
   AccountAllowance
 } from '../../types/accountBalances';
 
-export async function queryEtherBalance(address: string): TokenBalance {
-  let balance;
+export async function queryEtherBalance(
+  address: string
+): Promise<TokenBalance> {
   let provider = getProvider();
 
-  balance = await provider.getBalance(address);
-  balance = Number(utils.formatEther(balance)).toFixed(4);
+  let balance = await provider.getBalance(address);
 
   return {
     symbol: 'ETH',
-    balance: balance
+    balance: parseFloat(utils.formatEther(balance))
   };
 }
 
@@ -27,60 +27,60 @@ export async function updateAllowance(
   tokenAddress: string,
   spender: string,
   address: string,
-  balance: number
+  balance: number,
+  txConfirmHandler: boolean => void
 ) {
   const signer = getSigner();
 
   const contract = new Contract(tokenAddress, ERC20Token.abi, signer);
-  await contract.approve(spender, balance);
-  const allowance = await contract.allowance(address, spender);
-  return { allowance: utils.formatEther(allowance) };
+
+  const tx = await contract.approve(spender, balance);
+  const receipt = await signer.provider.waitForTransaction(tx.hash);
+
+  receipt.status === 1 ? txConfirmHandler(true) : txConfirmHandler(false);
 }
 
 export async function updateExchangeAllowance(
   tokenAddress: string,
   address: string,
-  balance: number
+  balance: number,
+  txConfirmHandler: boolean => void
 ) {
   const signer = getSigner();
   const exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId];
   const contract = new Contract(tokenAddress, ERC20Token.abi, signer);
+  const tx = await contract.approve(exchange, balance);
+  const receipt = await signer.provider.waitForTransaction(tx.hash);
 
-  // console.log({ exchange, contract });
-  const result = await contract.approve(exchange, balance);
-  console.log({ result });
-  const allowance = await contract.allowance(address, exchange);
-
-  return { allowance: utils.formatEther(allowance) };
+  receipt.status === 1 ? txConfirmHandler(true) : txConfirmHandler(false);
 }
 
 export async function queryTokenBalances(
   address: string,
   tokens: Array<Token>
-): TokenBalances {
-  let balances;
+): Promise<TokenBalances> {
   const provider = getProvider();
 
   const balancePromises = tokens.map(async token => {
     const contract = new Contract(token.address, ERC20Token.abi, provider);
-    try {
-      return await contract.balanceOf(address);
-    } catch (e) {
-      // console.log(address, e);
-      return null;
-    }
+    // try {
+    return await contract.balanceOf(address);
+    // } catch (e) {
+    //   // console.log(address, e);
+    //   return null;
+    // }
   });
 
-  balances = await Promise.all(balancePromises);
+  let balances = await Promise.all(balancePromises);
 
-  balances = (balances: TokenBalances)
+  const tokenBalances = balances
     .filter(balance => balance !== null)
     .map((balance, i) => ({
       symbol: tokens[i].symbol,
       balance: utils.formatEther(balance)
     }));
   // console.log('balances', balances);
-  return balances;
+  return tokenBalances;
 }
 
 export async function queryExchangeTokenAllowances(
@@ -90,14 +90,13 @@ export async function queryExchangeTokenAllowances(
   const provider = getProvider();
 
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId];
-  // console.log(tokens, exchange)
   const allowancePromises = tokens.map(async token => {
-    try {
-      const contract = new Contract(token.address, ERC20Token.abi, provider);
-      return await contract.allowance(owner, exchange);
-    } catch (e) {
-      return null;
-    }
+    // try {
+    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    return await contract.allowance(owner, exchange);
+    // } catch (e) {
+    //   return null;
+    // }
   });
 
   let allowances = await Promise.all(allowancePromises);
@@ -177,7 +176,7 @@ export async function subscribeTokenBalance(
 export async function subscribeTokenBalances(
   address: string,
   tokens: Array<Token>,
-  callback: AccountBalance => any
+  callback: TokenBalance => any
 ) {
   const provider = getProvider();
   const handlers = [];

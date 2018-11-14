@@ -1,9 +1,9 @@
 // @flow
 import type { Orders, OrdersState } from '../../types/orders';
-import { passTimestamp } from '../../utils/helpers';
+import { formatNumber } from 'accounting-js';
 
 const initialState = {
-  byTimestamp: {}
+  byHash: {}
 };
 
 export const initialized = () => {
@@ -11,23 +11,36 @@ export const initialized = () => {
   return event;
 };
 
-// key may be Date, string, timestamp - number
+export function ordersInitialized(orders: Orders) {
+  const event = (state: OrdersState) => {
+    let newState = orders.reduce((result, item) => {
+      result[item.hash] = {
+        ...state[item.hash],
+        ...item
+      };
+      return result;
+    }, {});
+
+    return { byHash: newState };
+  };
+
+  return event;
+}
+
 export function ordersUpdated(orders: Orders) {
   const event = (state: OrdersState) => {
     let newState = orders.reduce((result, item) => {
-      const key = passTimestamp(item.time);
-      result[key] = {
-        ...state[item.time],
-        ...item,
-        time: key
+      result[item.hash] = {
+        ...state[item.hash],
+        ...item
       };
       return result;
     }, {});
 
     return {
       ...state,
-      byTimestamp: {
-        ...state.byTimestamp,
+      byHash: {
+        ...state.byHash,
         ...newState
       }
     };
@@ -36,13 +49,13 @@ export function ordersUpdated(orders: Orders) {
   return event;
 }
 
-export const ordersDeleted = (timestamps: Array<number>) => {
+export const ordersDeleted = (hashes: Array<number>) => {
   const event = (state: OrdersState) => ({
     ...state,
-    byTimestamp: Object.keys(state.byTimestamp)
-      .filter(key => timestamps.indexOf(key) === -1)
+    byHash: Object.keys(state.byHash)
+      .filter(key => hashes.indexOf(key) === -1)
       .reduce((result, current) => {
-        result[current] = state.byTimestamp[current];
+        result[current] = state.byHash[current];
         return result;
       }, {})
   });
@@ -51,19 +64,29 @@ export const ordersDeleted = (timestamps: Array<number>) => {
 };
 
 const getOrders = (state: OrdersState): Orders => {
-  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key]);
+  return Object.keys(state.byHash).map(key => state.byHash[key]);
 };
 
 export default function ordersDomain(state: OrdersState) {
   return {
-    byTimestamp: () => state.byTimestamp,
+    byHash: () => state.byHash,
     all: () => getOrders(state),
 
     lastOrders: (n: number) => {
       let orders = getOrders(state);
-      let last = (orders: Orders).slice(Math.max(orders.length - n, 1));
-      return last;
+      orders = (orders: Orders).slice(Math.max(orders.length - n, 0));
+      orders = (orders: Orders).map(order => {
+        order.filled = formatNumber(order.filled, { precision: 3 });
+        order.amount = formatNumber(order.amount, { precision: 3 });
+        order.price = formatNumber(order.price, { precision: 5 });
+        order.cancelleable =
+          order.status === 'OPEN' || order.status === 'PARTIAL_FILLED';
+        return order;
+      });
+
+      return orders;
     },
+
     history: () => {
       let orders = getOrders(state);
       let history = (orders: Orders).filter(

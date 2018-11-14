@@ -17,8 +17,8 @@ export const round = (n, decimals = '2') =>
 
 export const convertPricepointToPrice = (
   n,
-  pricePointMultiplier = 1e6,
-  decimals = '3'
+  pricePointMultiplier = 1,
+  decimals = '15'
 ) =>
   Math.round((n / pricePointMultiplier) * Math.pow(10, decimals)) /
   Math.pow(10, decimals);

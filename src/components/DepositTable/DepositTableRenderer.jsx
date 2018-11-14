@@ -1,32 +1,46 @@
 // @flow
 import React from 'react';
-import { Button, Switch, Checkbox, InputGroup } from '@blueprintjs/core';
-import { RowSpaceBetween, ColoredCryptoIcon, ImageIcon } from '../Common';
+import { Button, Switch, Checkbox, InputGroup, Tag } from '@blueprintjs/core';
+import {
+  RowSpaceBetween,
+  ColoredCryptoIcon,
+  ImageIcon,
+  Colors
+} from '../Common';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import type { TokenData } from '../../types/tokens';
 
-// import type { TokenImage } from '../../types/tokens';
+import type { Symbol } from '../../types/tokens';
 
 type Props = {
-  provider: string,
-  depositTableData: Array<Object>,
+  connected: boolean,
+  baseTokensData: Array<TokenData>,
+  quoteTokensData: Array<TokenData>,
+  ETHTokenData: TokenData,
+  WETHTokenData: TokenData,
+  tokenDataLength: number,
+  // provider: string,
+  // depositTableData: Array<Object>,
   searchInput: string,
   handleSearchInputChange: (SyntheticEvent<>) => void,
   hideZeroBalanceToken: void => void,
   openDepositModal: string => void,
+  openConvertModal: (string, string) => void,
   openSendModal: string => void,
-  toggleAllowance: void => void,
+  toggleAllowance: Symbol => void,
   toggleZeroBalanceToken: void => void,
-  redirectToTradingPage: string => void,
+  redirectToTradingPage: string => void
 };
 
 const DepositTableRenderer = (props: Props) => {
   const {
     hideZeroBalanceToken,
     toggleZeroBalanceToken,
-    depositTableData,
+    // depositTableData,
     searchInput,
     handleSearchInputChange,
+    tokenDataLength
   } = props;
   return (
     <TableSection>
@@ -38,7 +52,10 @@ const DepositTableRenderer = (props: Props) => {
           value={searchInput}
           onChange={handleSearchInputChange}
         />
-        <HideTokenCheck checked={hideZeroBalanceToken} onChange={toggleZeroBalanceToken}>
+        <HideTokenCheck
+          checked={hideZeroBalanceToken}
+          onChange={toggleZeroBalanceToken}
+        >
           Hide Tokens with 0 balance
         </HideTokenCheck>
       </RowSpaceBetween>
@@ -47,68 +64,316 @@ const DepositTableRenderer = (props: Props) => {
           <Row>
             <TableHeaderCell>Token Name</TableHeaderCell>
             <TableHeaderCell>Balances</TableHeaderCell>
-            <TableHeaderCell>Allowances</TableHeaderCell>
-            <TableHeaderCell style={{ width: '40%' }}>Allow trading</TableHeaderCell>
+            <TableHeaderCell>Unlocked</TableHeaderCell>
+            <TableHeaderCell style={{ width: '40%' }}>
+              Allow trading
+            </TableHeaderCell>
           </Row>
         </TableHeader>
       </Table>
       <TableBodyContainer>
         <Table>
           <TableBody>
-            <RowRenderer {...props} />
+            <ETHRow {...props} />
+            <WETHRow {...props} />
+            <QuoteTokenRows {...props} />
+            <BaseTokenRows {...props} />
           </TableBody>
         </Table>
-        {depositTableData.length === 0 && <NoToken>No tokens</NoToken>}
+        {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
       </TableBodyContainer>
     </TableSection>
   );
 };
 
-const RowRenderer = (props: Props) => {
-  const { provider, depositTableData, toggleAllowance, openDepositModal, openSendModal, redirectToTradingPage } = props;
-  // if has image url then return image else return svg from icon
+const ETHRow = (props: Props) => {
+  const {
+    connected,
+    ETHTokenData,
+    openDepositModal,
+    openSendModal,
+    openConvertModal
+  } = props;
 
-  return depositTableData.map(({ symbol, image, balance, allowed, allowancePending }, index) => {
-    return (
-      <Row key={index}>
-        <Cell>
-          <TokenNameWrapper>
-            {image && image.url ? (
-              <ImageIcon alt={image.meta} src={image.url} size={35} />
-            ) : (
-              <ColoredCryptoIcon size={35} name={symbol} />
+  if (!ETHTokenData) return null;
+
+  const { symbol, balance } = ETHTokenData;
+
+  return (
+    <Row key="ETH">
+      <Cell>
+        <TokenNameWrapper>
+          <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
+          <span>{symbol}</span>
+        </TokenNameWrapper>
+      </Cell>
+      <Cell>
+        <div title={balance} style={{ maxWidth: 200 }}>
+          <Ellipsis>{balance}</Ellipsis>
+        </div>
+      </Cell>
+      <Cell />
+      <Cell style={{ width: '40%' }}>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="primary"
+            text="Deposit"
+            rightIcon="import"
+            onClick={() => openDepositModal(symbol)}
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="primary"
+            text="Send"
+            rightIcon="export"
+            onClick={() => openSendModal(symbol)}
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="success"
+            text="Convert to WETH"
+            onClick={() => openConvertModal('ETH', 'WETH')}
+            rightIcon="random"
+          />
+        </ButtonWrapper>
+      </Cell>
+    </Row>
+  );
+};
+
+const WETHRow = (props: Props) => {
+  const {
+    connected,
+    WETHTokenData,
+    toggleAllowance,
+    openDepositModal,
+    openSendModal,
+    openConvertModal
+  } = props;
+
+  if (!WETHTokenData) return null;
+
+  const { symbol, balance, allowed, allowancePending } = WETHTokenData;
+
+  return (
+    <Row key="WETH">
+      <Cell>
+        <TokenNameWrapper>
+          <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
+          <span>{symbol}</span>
+        </TokenNameWrapper>
+      </Cell>
+      <Cell>
+        <div title={balance} style={{ maxWidth: 200 }}>
+          <Ellipsis>{balance}</Ellipsis>
+        </div>
+      </Cell>
+      <Cell>
+        <Switch
+          inline
+          checked={allowed}
+          onChange={() => toggleAllowance(symbol)}
+        />
+        {allowancePending && (
+          <Tag intent="success" large minimal interactive icon="time">
+            Pending
+          </Tag>
+        )}
+      </Cell>
+      <Cell style={{ width: '40%' }}>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="primary"
+            rightIcon="import"
+            text="Deposit"
+            onClick={() => openDepositModal(symbol)}
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="primary"
+            rightIcon="export"
+            text="Send"
+            onClick={() => openSendModal(symbol)}
+          />
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button
+            disabled={!connected}
+            intent="success"
+            text="Convert to ETH"
+            rightIcon="random"
+            onClick={() => openConvertModal('WETH', 'ETH')}
+          />
+        </ButtonWrapper>
+      </Cell>
+    </Row>
+  );
+};
+
+const QuoteTokenRows = (props: Props) => {
+  const {
+    connected,
+    quoteTokensData,
+    toggleAllowance,
+    openDepositModal,
+    openSendModal
+  } = props;
+
+  if (!quoteTokensData) return null;
+
+  return quoteTokensData.map(
+    ({ symbol, balance, allowed, image, allowancePending }, index) => {
+      return (
+        <Row key={index}>
+          <Cell>
+            <TokenNameWrapper>
+              {image && image.url ? (
+                <ImageIcon alt={image.meta} src={image.url} size={35} />
+              ) : (
+                <ColoredCryptoIcon
+                  size={30}
+                  color={Colors.BLUE5}
+                  name={symbol}
+                />
+              )}
+              <span>{symbol}</span>
+            </TokenNameWrapper>
+          </Cell>
+          <Cell>
+            <div title={balance} style={{ maxWidth: 200 }}>
+              <Ellipsis>{balance}</Ellipsis>
+            </div>
+          </Cell>
+          <Cell>
+            <Switch
+              inline
+              checked={allowed}
+              onChange={() => toggleAllowance(symbol)}
+            />
+            {allowancePending && (
+              <Tag intent="success" large minimal interactive icon="time">
+                Pending
+              </Tag>
             )}
+          </Cell>
+          <Cell style={{ width: '40%' }}>
+            <ButtonWrapper>
+              <Button
+                disabled={!connected}
+                intent="primary"
+                text="Deposit"
+                rightIcon="import"
+                onClick={() => openDepositModal(symbol)}
+              />
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <Button
+                disabled={!connected}
+                intent="primary"
+                text="Send"
+                rightIcon="export"
+                onClick={() => openSendModal(symbol)}
+              />
+            </ButtonWrapper>
+          </Cell>
+        </Row>
+      );
+    }
+  );
+};
 
-            <span>{symbol}</span>
-          </TokenNameWrapper>
-        </Cell>
-        <Cell>
-          <div title={balance} style={{ maxWidth: 200 }}>
-            <Ellipsis>{balance}</Ellipsis>
-          </div>
-        </Cell>
-        <Cell>
-          <Switch inline checked={allowed} onChange={() => toggleAllowance(symbol)} />
-          {allowancePending && <span>Pending</span>}
-        </Cell>
-        <Cell style={{ width: '40%' }}>
-          <ButtonWrapper>
-            <Button disabled={!provider} intent="primary" text="Deposit" onClick={() => openDepositModal(symbol)} />
-          </ButtonWrapper>
-          <ButtonWrapper>
-            <Button disabled={!provider} intent="primary" text="Send" onClick={() => openSendModal(symbol)} />
-          </ButtonWrapper>
-          <ButtonWrapper>
-            <Button disabled={!provider} intent="primary" text="Trade" onClick={() => redirectToTradingPage(symbol)} />
-          </ButtonWrapper>
-        </Cell>
-      </Row>
-    );
-  });
+const BaseTokenRows = (props: Props) => {
+  const {
+    baseTokensData,
+    connected,
+    toggleAllowance,
+    openDepositModal,
+    openSendModal,
+    redirectToTradingPage
+  } = props;
+
+  if (!baseTokensData) return null;
+
+  return baseTokensData.map(
+    ({ symbol, balance, allowed, image, allowancePending }, index) => {
+      return (
+        <Row key={index}>
+          <Cell>
+            <TokenNameWrapper>
+              {image && image.url ? (
+                <ImageIcon alt={image.meta} src={image.url} size={35} />
+              ) : (
+                <ColoredCryptoIcon
+                  size={30}
+                  color={Colors.BLUE5}
+                  name={symbol}
+                />
+              )}
+              <span>{symbol}</span>
+            </TokenNameWrapper>
+          </Cell>
+          <Cell>
+            <div title={balance} style={{ maxWidth: 200 }}>
+              <Ellipsis>{balance}</Ellipsis>
+            </div>
+          </Cell>
+          <Cell>
+            <Switch
+              inline
+              checked={allowed}
+              onChange={() => toggleAllowance(symbol)}
+            />
+            {allowancePending && (
+              <Tag intent="success" large minimal interactive icon="time">
+                Pending
+              </Tag>
+            )}
+          </Cell>
+          <Cell style={{ width: '40%' }}>
+            <ButtonWrapper>
+              <Button
+                disabled={!connected}
+                intent="primary"
+                text="Deposit"
+                rightIcon="import"
+                onClick={() => openDepositModal(symbol)}
+              />
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <Button
+                disabled={!connected}
+                intent="primary"
+                text="Send"
+                onClick={() => openSendModal(symbol)}
+                rightIcon="export"
+              />
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <Button
+                disabled={!connected}
+                intent="success"
+                text="Trade"
+                rightIcon="chart"
+                onClick={() => redirectToTradingPage(symbol)}
+              />
+            </ButtonWrapper>
+          </Cell>
+        </Row>
+      );
+    }
+  );
 };
 
 const Table = styled.table.attrs({
-  className: 'bp3-html-table bp3-interactive bp3-html-table-striped',
+  className: 'bp3-html-table bp3-interactive bp3-html-table-striped'
 })`
   width: 100%;
 `;

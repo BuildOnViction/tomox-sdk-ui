@@ -1,9 +1,9 @@
 // @flow
-import React from 'react'
-import WaitingFormRenderer from './steps/WaitingFormRenderer'
-import ConversionFormRenderer from './steps/ConversionFormRenderer'
-import ConfirmFormRenderer from './steps/ConfirmFormRenderer'
-import { TxReceipt } from '../../types/common'
+import React from 'react';
+import WaitingFormRenderer from './steps/WaitingFormRenderer';
+import ConversionFormRenderer from './steps/ConversionFormRenderer';
+import ConfirmFormRenderer from './steps/ConfirmFormRenderer';
+import type { TxReceipt } from '../../types/common';
 
 type Props = {
   step: 'waiting' | 'convert' | 'confirm',
@@ -32,19 +32,19 @@ type Props = {
   convertTxHash: string,
   convertTxReceipt: TxReceipt,
   transactionStatus: string
-}
+};
 
 const DepositFormRenderer = (props: Props) => {
   switch (props.step) {
     case 'waiting':
-      return <WaitingFormRenderer {...props} />
+      return <WaitingFormRenderer {...props} />;
     case 'convert':
-      return <ConversionFormRenderer {...props} />
+      return <ConversionFormRenderer {...props} />;
     case 'confirm':
-      return <ConfirmFormRenderer {...props} />
+      return <ConfirmFormRenderer {...props} />;
     default:
-      return null
+      return null;
   }
-}
+};
 
-export default DepositFormRenderer
+export default DepositFormRenderer;

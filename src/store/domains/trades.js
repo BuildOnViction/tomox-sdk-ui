@@ -1,9 +1,10 @@
 // @flow
-import type { Trades, TradesState } from '../../types/trades';
-import { passTimestamp } from '../../utils/helpers';
+import { sortTable } from '../../utils/helpers';
+import { formatNumber } from 'accounting-js';
+import type { Trade, Trades, TradesState } from '../../types/trades';
 
 const initialState = {
-  byTimestamp: {}
+  byHash: {}
 };
 
 export const initialized = () => {
@@ -11,23 +12,20 @@ export const initialized = () => {
   return event;
 };
 
-// key may be Date, string, timestamp - number
 export const tradesUpdated = (trades: Trades) => {
   const event = (state: TradesState) => {
     let newState = trades.reduce((result, item) => {
-      const key = passTimestamp(item.time);
-      result[key] = {
-        ...state[item.time],
-        ...item,
-        time: key
+      result[item.hash] = {
+        ...state[item.hash],
+        ...item
       };
       return result;
     }, {});
 
     return {
       ...state,
-      byTimestamp: {
-        ...state.byTimestamp,
+      byHash: {
+        ...state.byHash,
         ...newState
       }
     };
@@ -39,10 +37,10 @@ export const tradesUpdated = (trades: Trades) => {
 export const tradesDeleted = (trades: Trades) => {
   const event = (state: TradesState) => ({
     ...state,
-    byTimestamp: Object.keys(state.byTimestamp)
+    byHash: Object.keys(state.byHash)
       .filter(key => trades.indexOf(key) === -1)
       .reduce((result, current) => {
-        result[current] = state.byTimestamp[current];
+        result[current] = state.byHash[current];
         return result;
       }, {})
   });
@@ -50,29 +48,89 @@ export const tradesDeleted = (trades: Trades) => {
   return event;
 };
 
+export const tradesInitialized = (trades: Trades) => {
+  const event = (state: TradesState) => {
+    let newState = trades.reduce((result, item) => {
+      result[item.hash] = {
+        ...state[item.hash],
+        ...item
+      };
+      return result;
+    }, {});
+
+    return { byHash: newState };
+  };
+
+  return event;
+};
+
 export const tradesReset = () => {
-  const event = (state: TradesState) => ({
-    ...state,
-    byTimeStamp: {}
-  });
+  const event = (state: TradesState) => {
+    return {
+      ...state,
+      byHash: {}
+    };
+  };
 
   return event;
 };
 
 const getTrades = (state: TradesState): Trades => {
-  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key]);
+  return Object.keys(state.byHash).map(key => state.byHash[key]);
 };
 
 export default function tradesDomain(state: TradesState) {
   return {
-    byTimestamp: () => state.byTimestamp,
-
+    byHash: () => state.byHash,
     all: () => getTrades(state),
 
-    lastTrades: (n: number) => {
+    userTrades: (address: string) => {
       let trades = getTrades(state);
-      let last = (trades: Trades).slice(Math.max(trades.length - n, 1));
-      return last;
+      let isUserTrade = (trade: Trade) =>
+        trade.taker === address || trade.maker === address;
+
+      trades = trades.filter(trade => isUserTrade(trade));
+      trades = sortTable(trades, 'time', 'desc');
+      trades = trades.map(trade => {
+        return {
+          ...trade,
+          amount: formatNumber(trade.amount, { precision: 3 }),
+          price: formatNumber(trade.price, { precision: 5 })
+        };
+      });
+
+      return trades;
+    },
+
+    marketTrades: (n: number) => {
+      let trades = getTrades(state);
+      trades = sortTable(trades, 'time', 'desc');
+      trades = trades.map((trade, index) => {
+        let change;
+
+        index === trades.length - 1
+          ? (change = 'positive')
+          : trade.price >= trades[index + 1].price
+            ? (change = 'positive')
+            : (change = 'negative');
+
+        return {
+          ...trade,
+          amount: formatNumber(trade.amount, { precision: 3 }),
+          price: formatNumber(trade.price, { precision: 5 }),
+          change
+        };
+      });
+
+      trades = (trades: Trades).slice(0, n);
+      return trades;
+    },
+
+    lastTrades: (n: number) => {
+      let trades = Object.values(state.byHash);
+      let sortedTrades = sortTable(trades, 'time', 'desc');
+      let lastTrades = (sortedTrades: Trades).slice(0, n);
+      return lastTrades;
     }
   };
 }

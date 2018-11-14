@@ -1,19 +1,22 @@
 // @flow
-import React from 'react'
-import { connect } from 'react-redux'
-import { storiesOf } from '@storybook/react'
-import { withKnobs } from '@storybook/addon-knobs/react'
-import { withInfo } from '@storybook/addon-info'
-import { loginWithWallet } from '../../store/models/loginPage'
-import { action } from '@storybook/addon-actions'
-import WalletLoginForm from './index'
-import WalletLoginFormRenderer from './WalletLoginFormRenderer'
-import { getSessionStorageWallets, getLocalStorageWallets } from '../../utils/helpers'
+import React from 'react';
+import { connect } from 'react-redux';
+import { storiesOf } from '@storybook/react';
+import { withKnobs } from '@storybook/addon-knobs/react';
+import { withInfo } from '@storybook/addon-info';
+import { loginWithWallet } from '../../store/models/loginPage';
+import { action } from '@storybook/addon-actions';
+import WalletLoginForm from './index';
+import WalletLoginFormRenderer from './WalletLoginFormRenderer';
+import {
+  getSessionStorageWallets,
+  getLocalStorageWallets
+} from '../../utils/helpers';
 
 let ConnectedWalletLoginForm = connect(
   null,
   { loginWithWallet }
-)(WalletLoginForm)
+)(WalletLoginForm);
 storiesOf('WalletLoginForm', module)
   .addDecorator(withKnobs)
   .add(
@@ -89,4 +92,4 @@ storiesOf('WalletLoginForm', module)
         />
       </div>
     ))
-  )
+  );

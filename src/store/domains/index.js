@@ -1,6 +1,7 @@
 import accountDomain from './account';
 import accountBalancesDomain from './accountBalances';
 import depositFormDomain from './depositForm';
+import getStartedModalDomain from './getStartedModal';
 import etherBalanceDomain from './etherBalance';
 import transferTokensFormDomain from './transferTokensForm';
 import loginPageDomain from './loginPage';
@@ -15,12 +16,19 @@ import walletsDomain from './wallets';
 import notificationsDomain from './notifications';
 import tradesDomain from './trades';
 import ordersDomain from './orders';
+import convertTokensFormDomain from './convertTokensForm';
 
 export const getAccountDomain = state => accountDomain(state.account);
-export const getAccountBalancesDomain = state => accountBalancesDomain(state.accountBalances);
-export const getDepositFormDomain = state => depositFormDomain(state.depositForm);
-export const getEtherBalanceDomain = state => etherBalanceDomain(state.etherBalance);
-export const getTransferTokensFormDomain = state => transferTokensFormDomain(state.transferTokensForm);
+export const getAccountBalancesDomain = state =>
+  accountBalancesDomain(state.accountBalances);
+export const getDepositFormDomain = state =>
+  depositFormDomain(state.depositForm);
+export const getGetStartedModalDomain = state =>
+  getStartedModalDomain(state.getStartedModal);
+export const getEtherBalanceDomain = state =>
+  etherBalanceDomain(state.etherBalance);
+export const getTransferTokensFormDomain = state =>
+  transferTokensFormDomain(state.transferTokensForm);
 export const getLoginPageDomain = state => loginPageDomain(state.loginPage);
 export const getOhlcvDomain = state => ohlcvDomain(state.ohlcv);
 export const getOrderBookDomain = state => orderBookDomain(state.orderBook);
@@ -32,4 +40,7 @@ export const getSignerDomain = state => signerDomain(state.signer);
 export const getTokenPairsDomain = state => tokenPairsDomain(state.tokenPairs);
 export const getTokenDomain = state => tokenDomain(state.tokens);
 export const getWalletsDomain = state => walletsDomain(state.wallets);
-export const getNotificationsDomain = state => notificationsDomain(state.notifications);
+export const getNotificationsDomain = state =>
+  notificationsDomain(state.notifications);
+export const getConvertTokensFormDomain = state =>
+  convertTokensFormDomain(state.convertTokensForm);

@@ -3,7 +3,18 @@ import { randInt } from './helpers';
 
 export const getOrderHash = order => {
   return utils.solidityKeccak256(
-    ['bytes', 'bytes', 'bytes', 'bytes', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'],
+    [
+      'bytes',
+      'bytes',
+      'bytes',
+      'bytes',
+      'uint256',
+      'uint256',
+      'uint256',
+      'uint256',
+      'uint256',
+      'uint256'
+    ],
     [
       order.exchangeAddress,
       order.userAddress,
@@ -14,7 +25,7 @@ export const getOrderHash = order => {
       order.makeFee,
       order.takeFee,
       order.expires,
-      order.nonce,
+      order.nonce
     ]
   );
 };
@@ -32,4 +43,13 @@ export const getTradeHash = trade => {
 
 export const getRandomNonce = () => {
   return randInt(0, 1e16).toString();
+};
+
+export const isEthereumAddress = address => {
+  if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+    // Check if it has the basic requirements of an address
+    return false;
+  }
+
+  return true;
 };

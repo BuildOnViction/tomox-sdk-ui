@@ -19,5 +19,5 @@ export type Trade = {
 export type Trades = Array<Trade>;
 
 export type TradesState = {
-  byTimestamp: { [key: string]: Trade }
+  byHash: { [key: string]: Trade }
 };
