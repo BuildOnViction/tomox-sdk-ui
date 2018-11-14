@@ -12,23 +12,35 @@ export const isFloat = n => parseFloat(n.match(/^-?\d*(\.\d+)?$/)) > 0;
 
 export const isInteger = n => /^\+?\d+$/.test(n);
 
-export const round = (n, decimals = '2') => Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals);
+export const round = (n, decimals = '2') =>
+  Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals);
 
-export const convertPricepointToPrice = (n, pricePointMultiplier = 1e6, decimals = '3') =>
-  Math.round((n / pricePointMultiplier) * Math.pow(10, decimals)) / Math.pow(10, decimals);
+export const convertPricepointToPrice = (
+  n,
+  pricePointMultiplier = 1e6,
+  decimals = '3'
+) =>
+  Math.round((n / pricePointMultiplier) * Math.pow(10, decimals)) /
+  Math.pow(10, decimals);
 
-export const sortTable = (table, column, order = 'asc') => {
-  let sortedTable = table.sort((a, b) => compare(a[column], b[column]));
-  return order === 'asc' ? sortedTable : sortedTable.reverse();
+export const sortTable = (
+  table,
+  column,
+  order: (a, b) => number | string = 'order'
+) => {
+  const compareFn =
+    typeof order === 'function' ? order : (a, b) => compare(a, b, order);
+  return table.sort((a, b) => compareFn(a[column], b[column]));
 };
 
 export const compare = (a, b, order = 'asc') => {
-  if (typeof a === 'string') {
+  // console.log(a, b);
+  if (typeof a === 'string' && typeof b === 'string') {
     a = a.toUpperCase();
     b = b.toUpperCase();
   }
 
-  return a < b ? -1 : 1;
+  return order === 'asc' ? (a < b ? -1 : 1) : a < b ? 1 : -1;
 };
 
 export const filterer = (filter, coin, wrt, filterValue) => {
@@ -42,7 +54,10 @@ export const isJson = text => {
   return /^[\],:{}\s]*$/.test(
     text // eslint-disable-next-line
       .replace(/\\["\\\/bfnrtu]/g, '@') // eslint-disable-next-line
-      .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+      .replace(
+        /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?/g,
+        ']'
+      )
       .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
   );
 };
@@ -78,4 +93,14 @@ export function getLocalStorageWallets() {
     return key;
   });
   return wallets;
+}
+
+export function passTimestamp(key) {
+  if (typeof key === 'string') {
+    return new Date(key).getTime();
+  }
+  if (Object.prototype.toString.call(key) === '[object Date]') {
+    return key.getTime();
+  }
+  return key;
 }

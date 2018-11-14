@@ -62,7 +62,8 @@
     "styled-components": "~3.3.3",
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
-    "ws": "^5.2.2"
+    "ws": "^5.2.2",
+    "dex-contracts": "https://github.com/tomochain/dex-smart-contract.git"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.11",

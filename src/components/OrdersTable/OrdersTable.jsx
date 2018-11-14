@@ -8,19 +8,19 @@ import type { Order } from '../../types/orders';
 type Props = {
   orders: Array<Order>,
   authenticated: false,
-  cancelOrder: string => void,
+  cancelOrder: string => void
 };
 
 type State = {
   selectedTabId: string,
-  isOpen: boolean,
+  isOpen: boolean
 };
 
 class OrdersTable extends React.PureComponent<Props, State> {
   static defaultProps = { authenticated: true };
   state = {
     selectedTabId: 'all',
-    isOpen: false,
+    isOpen: false
   };
 
   changeTab = (tabId: string) => {
@@ -29,14 +29,20 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
   toggleCollapse = () => {
     this.setState(prevState => ({
-      isOpen: !prevState.isOpen,
+      isOpen: !prevState.isOpen
     }));
   };
 
   filterOrders = () => {
     const { orders } = this.props;
     let result = { ALL: orders };
-    let filters = ['OPEN', 'CANCELED', 'PENDING', 'EXECUTED', 'PARTIALLY_FILLED'];
+    let filters = [
+      'OPEN',
+      'CANCELED',
+      'PENDING',
+      'EXECUTED',
+      'PARTIALLY_FILLED'
+    ];
 
     for (let filter of filters) {
       // silence-error: currently too many flow errors, waiting for rest to be resolved
@@ -47,7 +53,10 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
     for (let filter of filters.concat('ALL')) {
       // silence-error: currently too many flow errors, waiting for rest to be resolved
-      result[filter] = sortTable(result[filter], 'time', 'desc');
+      result[filter] = sortTable(result[filter], 'time', (a, b) => {
+        // sort by DESC
+        return a < b ? 1 : -1;
+      });
     }
 
     return result;

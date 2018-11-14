@@ -1,7 +1,7 @@
 //@flow
-import type { Signature } from './common'
+import type { Signature } from './common';
 
-import type { TokenPair } from './tokens'
+import type { TokenPair } from './tokens';
 
 export type NewOrderParams = {
   userAddress: string,
@@ -10,12 +10,12 @@ export type NewOrderParams = {
   amount: number,
   price: number,
   side: 'BUY' | 'SELL'
-}
+};
 
 export type NewRawOrderParams = NewOrderParams & {
   makeFee: string,
   takeFee: string
-}
+};
 
 export type RawOrder = {
   userAddress: string,
@@ -30,7 +30,7 @@ export type RawOrder = {
   expires: string,
   makeFee: string,
   takeFee: string
-}
+};
 
 export type Order = {
   time: number,
@@ -43,12 +43,12 @@ export type Order = {
   pair: string,
   type: 'MARKET' | 'LIMIT',
   status: 'NEW' | 'OPEN' | 'CANCELLED' | 'FILLED' | 'PARTIALLY_FILLED'
-}
+};
 
 // eslint-disable-next-line
-export type Orders = Array<Order>
+export type Orders = Array<Order>;
 
 // eslint-disable-next-line
 export type OrdersState = {
   byTimestamp: { [key: string]: Order }
-}
+};

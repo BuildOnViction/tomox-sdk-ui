@@ -1,5 +1,5 @@
 //@flow
-import type { Signature } from './common'
+import type { Signature } from './common';
 
 export type Trade = {
   time: number,
@@ -14,10 +14,10 @@ export type Trade = {
   maker: string,
   taker: string,
   signature: Signature
-}
+};
 
-export type Trades = Array<Trade>
+export type Trades = Array<Trade>;
 
 export type TradesState = {
   byTimestamp: { [key: string]: Trade }
-}
+};

@@ -1,24 +1,28 @@
 // @flow
-import type { Orders, OrdersState } from '../../types/orders'
+import type { Orders, OrdersState } from '../../types/orders';
+import { passTimestamp } from '../../utils/helpers';
 
 const initialState = {
   byTimestamp: {}
-}
+};
 
 export const initialized = () => {
-  const event = (state: OrdersState = initialState) => state
-  return event
-}
+  const event = (state: OrdersState = initialState) => state;
+  return event;
+};
 
+// key may be Date, string, timestamp - number
 export function ordersUpdated(orders: Orders) {
   const event = (state: OrdersState) => {
     let newState = orders.reduce((result, item) => {
-      result[item.time] = {
+      const key = passTimestamp(item.time);
+      result[key] = {
         ...state[item.time],
-        ...item
-      }
-      return result
-    }, {})
+        ...item,
+        time: key
+      };
+      return result;
+    }, {});
 
     return {
       ...state,
@@ -26,10 +30,10 @@ export function ordersUpdated(orders: Orders) {
         ...state.byTimestamp,
         ...newState
       }
-    }
-  }
+    };
+  };
 
-  return event
+  return event;
 }
 
 export const ordersDeleted = (timestamps: Array<number>) => {
@@ -38,17 +42,17 @@ export const ordersDeleted = (timestamps: Array<number>) => {
     byTimestamp: Object.keys(state.byTimestamp)
       .filter(key => timestamps.indexOf(key) === -1)
       .reduce((result, current) => {
-        result[current] = state.byTimestamp[current]
-        return result
+        result[current] = state.byTimestamp[current];
+        return result;
       }, {})
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 const getOrders = (state: OrdersState): Orders => {
-  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key])
-}
+  return Object.keys(state.byTimestamp).map(key => state.byTimestamp[key]);
+};
 
 export default function ordersDomain(state: OrdersState) {
   return {
@@ -56,22 +60,26 @@ export default function ordersDomain(state: OrdersState) {
     all: () => getOrders(state),
 
     lastOrders: (n: number) => {
-      let orders = getOrders(state)
-      let last = (orders: Orders).slice(Math.max(orders.length - n, 1))
-      return last
+      let orders = getOrders(state);
+      let last = (orders: Orders).slice(Math.max(orders.length - n, 1));
+      return last;
     },
     history: () => {
-      let orders = getOrders(state)
+      let orders = getOrders(state);
       let history = (orders: Orders).filter(
-        order => ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) === -1
-      )
-      return history
+        order =>
+          ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) ===
+          -1
+      );
+      return history;
     },
 
     current: () => {
-      let orders = getOrders(state)
-      let current = (orders: Orders).filter(order => ['NEW', 'OPEN'].indexOf(order.status) === -1)
-      return current
+      let orders = getOrders(state);
+      let current = (orders: Orders).filter(
+        order => ['NEW', 'OPEN'].indexOf(order.status) === -1
+      );
+      return current;
     }
-  }
+  };
 }
