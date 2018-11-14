@@ -1,92 +1,94 @@
-var web3 = require('web3')
-const { utils } = require('ethers')
+const { utils } = require('ethers');
 
-var topicLength = 32
-var userLength = 20
-var timeLength = 7
-var levelLength = 1
-var headerLength = 8
-var updateMinLength = topicLength + userLength + timeLength + levelLength + headerLength
+var topicLength = 32;
+var userLength = 20;
+var timeLength = 7;
+var levelLength = 1;
+var headerLength = 8;
+var updateMinLength = topicLength + userLength + timeLength + levelLength + headerLength;
 
 function safeXORBytes(dst, a, b) {
-  const n = Math.min(a.length, b.length)
+  const n = Math.min(a.length, b.length);
 
   for (let i = 0; i < n; i++) {
-    dst[i] = a[i] ^ b[i]
+    dst[i] = a[i] ^ b[i];
   }
-  return n
+  return n;
 }
 
 module.exports.getSwarmSig = function(signature) {
-  const sig = typeof signature === 'string' ? signature : utils.joinSignature(signature)
+  const sig = typeof signature === 'string' ? signature : utils.joinSignature(signature);
   // fix recovery
-  return sig.substr(0, sig.length - 2) + '0' + (parseInt(sig.substr(-2), 16) - 27).toString()
-}
+  return sig.substr(0, sig.length - 2) + '0' + (parseInt(sig.substr(-2), 16) - 27).toString();
+};
 
 module.exports.newTopic = function(name, relatedContent) {
-  relatedContent = utils.toUtf8Bytes(relatedContent)
-  const contentLength = Math.min(relatedContent.length, topicLength)
-  const topic = new Array(topicLength)
+  relatedContent = utils.toUtf8Bytes(relatedContent);
+  const contentLength = Math.min(relatedContent.length, topicLength);
+  // using array buffer is safe and fast
+  const buf = new ArrayBuffer(topicLength);
+  const view = new DataView(buf);
   for (let i = 0; i < contentLength; i++) {
-    topic[i] = relatedContent[i]
+    view.setUint8(i, relatedContent[i]);
   }
+  const topic = new Uint8Array(buf);
 
-  const nameBytes = utils.toUtf8Bytes(name)
-  const nameLength = Math.min(nameBytes.length, topicLength)
+  const nameBytes = utils.toUtf8Bytes(name);
+  const nameLength = Math.min(nameBytes.length, topicLength);
 
-  safeXORBytes(topic, topic, nameBytes.slice(0, nameLength))
-  return web3.utils.bytesToHex(topic)
-}
+  safeXORBytes(view, topic, nameBytes.slice(0, nameLength));
+  return utils.hexlify(topic);
+};
 
 module.exports.feedUpdateDigest = function(request, data) {
-  var topicBytes = undefined
-  var userBytes = undefined
-  var protocolVersion = 0
+  var topicBytes = undefined;
+  var userBytes = undefined;
+  var protocolVersion = 0;
 
-  protocolVersion = request.protocolVersion
+  protocolVersion = request.protocolVersion;
 
   try {
-    topicBytes = web3.utils.hexToBytes(request.feed.topic)
+    topicBytes = utils.arrayify(request.feed.topic);
   } catch (err) {
-    console.error('topicBytes: ' + err)
-    return undefined
+    console.error('topicBytes: ' + err);
+    return undefined;
   }
 
   try {
-    userBytes = web3.utils.hexToBytes(request.feed.user)
+    userBytes = utils.arrayify(request.feed.user);
   } catch (err) {
-    console.error('topicBytes: ' + err)
-    return undefined
+    console.error('topicBytes: ' + err);
+    return undefined;
   }
 
-  var buf = new ArrayBuffer(updateMinLength + data.length)
-  var view = new DataView(buf)
-  var cursor = 0
+  var buf = new ArrayBuffer(updateMinLength + data.length);
+  var view = new DataView(buf);
+  var cursor = 0;
 
-  view.setUint8(cursor, protocolVersion) // first byte is protocol version.
-  cursor += headerLength // leave the next 7 bytes (padding) set to zero
+  view.setUint8(cursor, protocolVersion); // first byte is protocol version.
+  cursor += headerLength; // leave the next 7 bytes (padding) set to zero
 
   topicBytes.forEach(function(v) {
-    view.setUint8(cursor, v)
-    cursor++
-  })
+    view.setUint8(cursor, v);
+    cursor++;
+  });
 
   userBytes.forEach(function(v) {
-    view.setUint8(cursor, v)
-    cursor++
-  })
+    view.setUint8(cursor, v);
+    cursor++;
+  });
 
   // time is little-endian
-  view.setUint32(cursor, request.epoch.time, true)
-  cursor += 7
+  view.setUint32(cursor, request.epoch.time, true);
+  cursor += 7;
 
-  view.setUint8(cursor, request.epoch.level)
-  cursor++
+  view.setUint8(cursor, request.epoch.level);
+  cursor++;
 
   data.forEach(function(v) {
-    view.setUint8(cursor, v)
-    cursor++
-  })
+    view.setUint8(cursor, v);
+    cursor++;
+  });
 
-  return utils.keccak256(utils.hexlify(new Uint8Array(buf)))
-}
+  return utils.keccak256(utils.hexlify(new Uint8Array(buf)));
+};

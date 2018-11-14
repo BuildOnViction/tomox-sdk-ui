@@ -7,7 +7,6 @@
     "url": "https://github.com/tomochain/dex-client.git"
   },
   "scripts": {
-    "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --watch",
@@ -63,8 +62,6 @@
     "styled-components": "~3.3.3",
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
-    "web3": "^1.0.0-beta.36",
-    "web3-utils": "^1.0.0-beta.36",
     "ws": "^5.2.2"
   },
   "devDependencies": {
@@ -82,26 +79,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "flow-bin": "^0.75.0",
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.0",
     "node-fetch": "^2.2.0",
-    "prettier": "^1.13.7",
     "react-hot-loader": "^4.3.11"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
-      "prettier --write --print-width 120 --no-semi --trailing-comma none",
-      "git add"
-    ]
-  },
-  "prettier": {
-    "printWidth": 120,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "arrowParens": "avoid"
   }
 }
