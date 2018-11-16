@@ -5,7 +5,8 @@ var userLength = 20;
 var timeLength = 7;
 var levelLength = 1;
 var headerLength = 8;
-var updateMinLength = topicLength + userLength + timeLength + levelLength + headerLength;
+var updateMinLength =
+  topicLength + userLength + timeLength + levelLength + headerLength;
 
 function safeXORBytes(dst, a, b) {
   const n = Math.min(a.length, b.length);
@@ -17,13 +18,20 @@ function safeXORBytes(dst, a, b) {
 }
 
 module.exports.getSwarmSig = function(signature) {
-  const sig = typeof signature === 'string' ? signature : utils.joinSignature(signature);
+  const sig =
+    typeof signature === 'string' ? signature : utils.joinSignature(signature);
   // fix recovery
-  return sig.substr(0, sig.length - 2) + '0' + (parseInt(sig.substr(-2), 16) - 27).toString();
+  return (
+    sig.substr(0, sig.length - 2) +
+    '0' +
+    (parseInt(sig.substr(-2), 16) - 27).toString()
+  );
 };
 
-module.exports.newTopic = function(name, relatedContent) {
-  relatedContent = utils.toUtf8Bytes(relatedContent);
+module.exports.newTopic = function(name, relatedContentStr) {
+  const relatedContent = relatedContentStr.startsWith('0x')
+    ? utils.arrayify(relatedContentStr)
+    : utils.toUtf8Bytes(relatedContentStr);
   const contentLength = Math.min(relatedContent.length, topicLength);
   // using array buffer is safe and fast
   const buf = new ArrayBuffer(topicLength);
