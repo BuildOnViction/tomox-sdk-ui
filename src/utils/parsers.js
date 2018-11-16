@@ -1,47 +1,47 @@
-import { isFloat, isInteger, round, convertPricepointToPrice } from './helpers'
-import { fromWeiToFloat } from './bignumber'
-// import { ether } from './constants';
-import { utils } from 'ethers'
+import { isFloat, isInteger, round, convertPricepointToPrice } from './helpers';
+import { fromWeiToFloat } from './bignumber';
+import { ether } from './constants';
+import { utils } from 'ethers';
 
 export const parseJSONData = obj => {
   for (let key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-      parseJSONData(obj[key])
+      parseJSONData(obj[key]);
     } else if (typeof obj[key] === typeof []) {
-      obj[key].forEach(elem => parseJSONData(elem))
+      obj[key].forEach(elem => parseJSONData(elem));
     } else {
       if (typeof obj[key] === 'string') {
         if (isFloat(obj[key])) {
-          obj[key] = parseFloat(obj[key])
+          obj[key] = parseFloat(obj[key]);
         } else if (isInteger(obj[key])) {
-          obj[key] = parseInt(obj[key], 10)
+          obj[key] = parseInt(obj[key], 10);
         }
       }
     }
   }
 
-  return obj
-}
+  return obj;
+};
 
 export const parseJSONToFixed = (obj, decimals = 2) => {
   for (let key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-      parseJSONToFixed(obj[key], decimals)
+      parseJSONToFixed(obj[key], decimals);
     } else if (typeof obj[key] === typeof []) {
-      obj[key].forEach(elem => parseJSONToFixed(elem, decimals))
+      obj[key].forEach(elem => parseJSONToFixed(elem, decimals));
     } else if (typeof obj[key] === 'string') {
       if (isFloat(obj[key])) {
-        obj[key] = round(obj[key], decimals)
+        obj[key] = round(obj[key], decimals);
       } else if (isInteger(obj[key])) {
-        obj[key] = round(obj[key], decimals)
+        obj[key] = round(obj[key], decimals);
       }
     } else if (typeof obj[key] === 'number') {
-      obj[key] = round(obj[key], decimals)
+      obj[key] = round(obj[key], decimals);
     }
   }
 
-  return obj
-}
+  return obj;
+};
 
 export const parseOrder = (order, decimals = 2) => ({
   time: order.createdAt,
@@ -55,7 +55,7 @@ export const parseOrder = (order, decimals = 2) => ({
   pair: order.pairName,
   type: 'LIMIT',
   status: order.status
-})
+});
 
 export const parseOrders = (orders, decimals = 2) => {
   let parsed = orders.map(order => ({
@@ -70,10 +70,10 @@ export const parseOrders = (orders, decimals = 2) => {
     pair: order.pairName,
     type: 'LIMIT',
     status: order.status
-  }))
+  }));
 
-  return parsed
-}
+  return parsed;
+};
 
 export const parseTrade = (trade, decimals = 2) => ({
   time: trade.createdAt,
@@ -87,7 +87,7 @@ export const parseTrade = (trade, decimals = 2) => ({
   status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
   maker: utils.getAddress(trade.maker),
   taker: utils.getAddress(trade.taker)
-})
+});
 
 export const parseTrades = (trades, decimals = 2) => {
   let parsed = trades.map(trade => ({
@@ -102,40 +102,42 @@ export const parseTrades = (trades, decimals = 2) => {
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
     maker: utils.getAddress(trade.maker),
     taker: utils.getAddress(trade.taker)
-  }))
+  }));
 
-  return parsed
-}
+  return parsed;
+};
 
 export const parseOrderBookData = (data, decimals = 2) => {
-  let { bids, asks, trades } = data
+  let { bids, asks, trades } = data;
   asks = asks.map(ask => ({
     price: convertPricepointToPrice(ask.pricepoint),
     amount: fromWeiToFloat(ask.amount, decimals)
-  }))
+  }));
 
   bids = bids.map(bid => ({
     price: convertPricepointToPrice(bid.pricepoint),
     amount: fromWeiToFloat(bid.amount, decimals)
-  }))
+  }));
 
-  trades = parseTrades(trades)
+  trades = parseTrades(trades);
 
-  return { asks, bids, trades }
-}
+  return { asks, bids, trades };
+};
 
 export const parseTokenPairData = data => {
   let parsed = data.map(datum => ({
     pair: datum.pair.pairName,
     lastPrice: datum.close ? convertPricepointToPrice(datum.close) : null,
-    change: datum.open ? round((datum.close - datum.open) / datum.open, 1) : null,
+    change: datum.open
+      ? round((datum.close - datum.open) / datum.open, 1)
+      : null,
     high: datum.high ? convertPricepointToPrice(datum.high) : null,
     low: datum.low ? convertPricepointToPrice(datum.low) : null,
     volume: datum.volume ? fromWeiToFloat(datum.volume, 0) : null
-  }))
+  }));
 
-  return parsed
-}
+  return parsed;
+};
 
 export const parseOHLCV = data => {
   let parsed = data.map(datum => {
@@ -145,9 +147,9 @@ export const parseOHLCV = data => {
       high: convertPricepointToPrice(datum.high),
       low: convertPricepointToPrice(datum.low),
       close: convertPricepointToPrice(datum.close),
-      volume: datum.volume / 1000000000000000000
-    }
-  })
+      volume: datum.volume.div(ether)
+    };
+  });
 
-  return parsed
-}
+  return parsed;
+};

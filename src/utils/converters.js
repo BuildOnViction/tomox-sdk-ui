@@ -1,3 +1,6 @@
+import { utils } from 'ethers';
+import { ether } from './constants';
+
 /**
  * for Example ETH => WEI
  * @param value
@@ -7,45 +10,64 @@
 export function convertToUnit(value, decimals, format) {
   if (format === 'string') {
     return (
-      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
-    ).toString()
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    ).toString();
   } else if (format === 'int') {
     return (
-      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
-    ).toString()
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    ).toString();
   } else {
-    return parseFloat(value) * Math.pow(10, parseInt(decimals))
+    return parseFloat(value) * Math.pow(10, parseInt(decimals, 10));
   }
 }
 
 export function round(value, decimals, format = 'float') {
   if (format === 'string') {
     return (
-      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
-    ).toString()
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    ).toString();
   } else if (format === 'int') {
-    return Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
+    return (
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    );
   } else {
-    return Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
+    return (
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    );
   }
 }
 
 export function reduceDecimals(value, decimals, format = 'float') {
   if (format === 'string') {
     return (
-      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
-    ).toString()
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    ).toString();
   } else if (format === 'int') {
-    return Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
+    return (
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    );
   } else {
-    return Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals))) / Math.pow(10, parseInt(decimals))
+    return (
+      Math.floor(parseFloat(value) * Math.pow(10, parseInt(decimals, 10))) /
+      Math.pow(10, parseInt(decimals, 10))
+    );
   }
 }
 
 export function toDate(timeStamp) {
-  return new Date(timeStamp).toLocaleDateString().replace(/\//g, '-')
+  return new Date(timeStamp).toLocaleDateString().replace(/\//g, '-');
 }
 
 export function toWEI(number) {
-  return parseFloat(number) * 1000000000000000000
+  const bigNumber = utils.BigNumber.isBigNumber(number)
+    ? number
+    : utils.bigNumberify();
+  return bigNumber.mul(ether);
 }
