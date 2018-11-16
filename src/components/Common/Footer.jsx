@@ -1,6 +1,7 @@
-import React from 'react'
-import Colors from './Colors'
-import styled from 'styled-components'
+import React from 'react';
+import Colors from './Colors';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <Wrapper>
@@ -38,7 +39,7 @@ const Footer = () => (
           <List>
             <HeadListItem>Support</HeadListItem>
             <NormalListItem>
-              <LinkText>FAQ</LinkText>
+              <LinkText to="/faq">FAQ</LinkText>
             </NormalListItem>
             <NormalListItem>
               <LinkText>Fee Schedules</LinkText>
@@ -55,8 +56,19 @@ const Footer = () => (
       <BottomSection>©2018 TOMOCHAIN All Rights Reserved</BottomSection>
     </Container>
   </Wrapper>
-)
-export default Footer
+);
+export default Footer;
+
+const LinkWrapper = ({ className, to, children }) => {
+  if (to !== undefined) {
+    return (
+      <Link to={to} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return <a className={className}>{children}</a>;
+};
 
 const Wrapper = styled.div.attrs({
   className: 'footer'
@@ -64,8 +76,9 @@ const Wrapper = styled.div.attrs({
   background-color: ${Colors.DARK_GRAY4};
   width: 100%;
   color: ${Colors.LIGHT_GRAY5};
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0), 0 -1px 1px rgba(16, 22, 26, 0.4);
-`
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0),
+    0 -1px 1px rgba(16, 22, 26, 0.4);
+`;
 
 const Container = styled.div`
   width: 70%;
@@ -74,7 +87,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const TopSection = styled.div`
   width: 100%;
@@ -83,34 +96,36 @@ const TopSection = styled.div`
   padding: 40px 0px 30px;
   border-bottom: 1px solid ${Colors.GRAY2};
   margin-bottom: 15px;
-`
+`;
 
 const BottomSection = styled.p`
   margin-bottom: 15px;
   text-align: center;
-`
+`;
 
 const LogosWrapper = styled.div`
   width: 20%;
-`
+`;
 
 const LinksWrapper = styled.div`
   width: 75%;
   display: flex;
   justify-content: space-between;
-`
+`;
 
-const List = styled.ul``
+const List = styled.ul``;
 
 const NormalListItem = styled.li`
   margin: 10px auto;
-`
+`;
+
 const HeadListItem = styled.li`
   color: ${Colors.GRAY2};
-`
-const LinkText = styled.a`
+`;
+
+const LinkText = styled(LinkWrapper)`
   color: ${Colors.LIGHT_GRAY5} !important;
   &:hover {
     color: ${Colors.BLUE4} !important;
   }
-`
+`;
