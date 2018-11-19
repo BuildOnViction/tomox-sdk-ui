@@ -38,9 +38,11 @@ const persistConfig = {
   key: 'root',
   keyPrefix: 'tomo:',
   storage,
-  transforms: [accountTransform]
-  // whitelist: ['account'] // only account will be persisted
+  transforms: [accountTransform],
+  whitelist: ['account'] // only account will be persisted
 };
+
+const initialStore = {};
 
 if (
   process.env.NODE_ENV !== 'production' &&
@@ -66,7 +68,7 @@ const configureStore = preloadedState => {
     preloadedState,
     storeEnhancer
   );
-  let persistor = persistStore(store);
+  let persistor = persistStore(store, initialStore);
 
   if (module.hot) {
     module.hot.accept(() => {
