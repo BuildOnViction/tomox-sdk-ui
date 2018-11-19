@@ -90,6 +90,9 @@ export const parseTrade = (trade, decimals = 2) => ({
 });
 
 export const parseTrades = (trades, decimals = 2) => {
+  if (!trades) {
+    return [];
+  }
   let parsed = trades.map(trade => ({
     time: trade.createdAt,
     price: convertPricepointToPrice(trade.pricepoint),
@@ -119,6 +122,7 @@ export const parseOrderBookData = (data, decimals = 2) => {
     amount: fromWeiToFloat(bid.amount, decimals)
   }));
 
+  // console.log(data);
   trades = parseTrades(trades);
 
   return { asks, bids, trades };

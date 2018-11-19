@@ -1,43 +1,87 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { persistReducer } from 'redux-persist'
-import history from './history'
-import thunk from 'redux-thunk'
-import * as reducers from './reducers'
-import * as services from './services'
-import '../styles/css/index.css'
-import storage from 'redux-persist/lib/storage'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
+import history from './history';
+import thunk from 'redux-thunk';
+import * as reducers from './reducers';
+import * as services from './services';
+import '../styles/css/index.css';
+import storage from 'redux-persist/lib/storage';
+import { createLocalWalletSigner } from './services/signer';
 
-let composeEnhancers = compose
+let composeEnhancers = compose;
 
-const persistConfig = { key: 'root', storage }
+// persist this store, each time state change it will rehydrate the store
+// use localforage wrapper when WEBSQL is ready on all browsers
+// we save only audioTrack from bookReducer and all from loginReducer
+const accountTransform = createTransform(
+  // transform state coming form redux on its way to being serialized and stored
+  // such as {key1}=>{key1.tolower} means store into localStorage as lower case
+  inboundState => inboundState,
+  // transform state coming from storage, on its way to be rehydrated into redux
+  // such as {key1}=>{key1:key1.toupper} means get from localStorage and transform it to uppercase in store
+  outboundState => {
+    const networkID = parseInt(process.env.REACT_APP_DEFAULT_NETWORK_ID, 10);
+    // create a local wallet when rehydrate
+    createLocalWalletSigner(
+      {
+        privateKey: outboundState.privateKey
+      },
+      networkID
+    );
+    return outboundState;
+  },
+  { whitelist: ['account'] }
+);
 
-if (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+const persistConfig = {
+  key: 'root',
+  keyPrefix: 'tomo:',
+  storage,
+  transforms: [accountTransform]
+  // whitelist: ['account'] // only account will be persisted
+};
+
+if (
+  process.env.NODE_ENV !== 'production' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+) {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 }
 
-const middlewares = [thunk.withExtraArgument(services), routerMiddleware(history)]
-const enhancers = [applyMiddleware(...middlewares)]
-const storeEnhancer = composeEnhancers(...enhancers)
-const rootReducer = combineReducers(reducers)
+const middlewares = [
+  thunk.withExtraArgument(services),
+  routerMiddleware(history)
+];
+const enhancers = [applyMiddleware(...middlewares)];
+const storeEnhancer = composeEnhancers(...enhancers);
+const rootReducer = combineReducers(reducers);
 
 // eslint-disable-next-line
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const configureStore = preloadedState => {
-  let store = createStore(connectRouter(history)(rootReducer), preloadedState, storeEnhancer)
-  // let persistor = persistStore(store);
+  let store = createStore(
+    connectRouter(history)(persistedReducer),
+    preloadedState,
+    storeEnhancer
+  );
+  let persistor = persistStore(store);
 
   if (module.hot) {
     module.hot.accept(() => {
-      const nextReducers = require('./reducers')
-      const nextRootReducer = combineReducers(nextReducers)
+      const nextReducers = require('./reducers');
+      const nextRootReducer = combineReducers(nextReducers);
+      const nextPersistedReducer = persistReducer(
+        persistConfig,
+        nextRootReducer
+      );
       // store.replaceReducer(persistReducer(persistConfig, nextRootReducer));
-      store.replaceReducer(connectRouter(history)(nextRootReducer))
-    })
+      store.replaceReducer(connectRouter(history)(nextPersistedReducer));
+    });
   }
 
-  return { store }
-}
+  return { store, persistor };
+};
 
-export default configureStore
+export default configureStore;
