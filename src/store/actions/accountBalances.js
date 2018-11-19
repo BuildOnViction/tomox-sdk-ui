@@ -11,6 +11,8 @@ import type {
   UpdateAccountBalancesAction
 } from '../../types/accountBalances';
 
+
+
 const actionTypes = {
   subscribeBalance: 'accountBalances/SUBSCRIBE_BALANCE',
   updateBalance: 'accountBalances/UPDATE_BALANCE',
@@ -26,7 +28,9 @@ export function subscribeBalance(
 ): SubscribeAccountBalanceAction {
   return {
     type: actionTypes.subscribeBalance,
-    payload: { symbol }
+    payload: {
+      symbol
+    }
   };
 }
 
@@ -37,7 +41,11 @@ export function updateBalance(
 ): UpdateAccountBalanceAction {
   return {
     type: actionTypes.updateBalance,
-    payload: { symbol, balance, allowance }
+    payload: {
+      symbol,
+      balance,
+      allowance
+    }
   };
 }
 
@@ -46,7 +54,9 @@ export function updateBalances(
 ): UpdateAccountBalancesAction {
   return {
     type: actionTypes.updateBalances,
-    payload: { balances }
+    payload: {
+      balances
+    }
   };
 }
 
@@ -56,7 +66,10 @@ export function updateAllowance(
 ): UpdateAccountAllowanceAction {
   return {
     type: actionTypes.updateAllowance,
-    payload: { symbol, allowance }
+    payload: {
+      symbol,
+      allowance
+    }
   };
 }
 
@@ -65,7 +78,9 @@ export function updateAllowances(
 ): UpdateAccountAllowancesAction {
   return {
     type: actionTypes.updateAllowances,
-    payload: { allowances }
+    payload: {
+      allowances
+    }
   };
 }
 
@@ -74,7 +89,9 @@ export function unsubscribeBalance(
 ): UnsubscribeAccountBalanceAction {
   return {
     type: actionTypes.unsubscribeBalance,
-    payload: { symbol }
+    payload: {
+      symbol
+    }
   };
 }
 

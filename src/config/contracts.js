@@ -1,9 +1,12 @@
+import {
+  DEFAULT_NETWORK_ID
+} from './environment'
 import addresses from './addresses.json'
 
 export const EXCHANGE_ADDRESS = {
-  '8888': addresses[8888]['Exchange']
+  [DEFAULT_NETWORK_ID]: addresses[DEFAULT_NETWORK_ID]['Exchange']
 }
 
 export const WETH_ADDRESS = {
-  '8888': addresses[8888]['WETH']
+  [DEFAULT_NETWORK_ID]: addresses[DEFAULT_NETWORK_ID]['WETH']
 }

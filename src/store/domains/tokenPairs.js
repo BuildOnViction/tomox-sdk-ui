@@ -1,6 +1,10 @@
 //@flow
-import { quoteTokens } from '../../config/quotes';
-import { tokens } from '../../config/tokens';
+import {
+  quoteTokens
+} from '../../config/quotes';
+import {
+  tokens
+} from '../../config/tokens';
 import {
   generateTokenPairs,
   getPairSymbol,
@@ -15,9 +19,9 @@ import type {
 } from '../../types/tokens';
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens);
-const defaultInitialState = {
+const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
-  data: {},
+  data: [],
   favorites: [],
   currentPair: (Object.values(defaultTokenPairs)[0]: any).pair
 };
@@ -25,7 +29,7 @@ const defaultInitialState = {
 //By default the application is started with a default create from tokens in a configuration file. To
 //create a tokenpair domain with less tokens, the initialized function can be called with a custom initial
 //token pair state (that can be created with the createInitialState function).
-export const initialized = (customInitialState?: Object) => {
+export const initialized = (customInitialState ? : TokenPairState) => {
   let initialState = customInitialState || defaultInitialState;
   const event = (state: TokenPairState = initialState) => state;
   return event;
@@ -66,13 +70,16 @@ export const tokenPairUpdated = (baseToken: Token) => {
           pricepointMultiplier: 1e9
         };
         return result;
-      },
-      { byPair: {} }
+      }, {
+        byPair: {}
+      }
     );
 
     return {
       ...state,
-      byPair: { ...state.byPair, ...newState.byPair }
+      byPair: { ...state.byPair,
+        ...newState.byPair
+      }
     };
   };
 
@@ -97,13 +104,13 @@ export const tokenPairRemoved = (baseToken: Token) => {
 };
 
 export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
-  const event = (state: TokenPairDataMap) => {
+  const event = (state: TokenPairState): TokenPairState => {
     let newState = {
       ...state,
-      data: {
+      data: [
         ...state.data,
         ...tokenPairData
-      }
+      ]
     };
 
     return newState;
@@ -116,8 +123,9 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
     let newState;
 
     favorited
-      ? (newState = [...state.favorites, tokenPair])
-      : (newState = state.favorites.filter(elem => elem !== tokenPair));
+      ?
+      (newState = [...state.favorites, tokenPair]) :
+      (newState = state.favorites.filter(elem => elem !== tokenPair));
 
     return {
       ...state,

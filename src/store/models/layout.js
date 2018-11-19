@@ -6,14 +6,23 @@ import {
   getTokenDomain
 } from '../domains';
 
-import { quoteTokens } from '../../config/quotes';
+import {
+  quoteTokens
+} from '../../config/quotes';
 
 import * as accountBalancesService from '../services/accountBalances';
 import * as actionCreators from '../actions/walletPage';
 import * as notifierActionCreators from '../actions/app';
 
-import type { State, ThunkAction } from '../../types';
-import type { Token } from '../../types/tokens';
+import type {
+  State,
+  ThunkAction
+} from '../../types';
+import type {
+  Token,
+  TokenBalance,
+  TokenBalances
+} from '../../types/tokens';
 
 export default function createSelector(state: State) {
   let accountDomain = getAccountDomain(state);
@@ -52,10 +61,10 @@ export function queryAccountData(): ThunkAction {
         .filter((token: Token) => token.symbol !== 'ETH');
       if (!accountAddress) throw new Error('Account address is not set');
 
-      const etherBalance = await accountBalancesService.queryEtherBalance(
+      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
         accountAddress
       );
-      const tokenBalances = await accountBalancesService.queryTokenBalances(
+      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
         accountAddress,
         tokens
       );
@@ -77,9 +86,12 @@ export function queryAccountData(): ThunkAction {
       await accountBalancesService.subscribeEtherBalance(
         accountAddress,
         balance =>
-          dispatch(
-            actionCreators.updateBalance({ symbol: 'ETH', balance: balance })
-          )
+        dispatch(
+          actionCreators.updateBalance({
+            symbol: 'ETH',
+            balance: balance
+          })
+        )
       );
 
       await accountBalancesService.subscribeTokenAllowances(

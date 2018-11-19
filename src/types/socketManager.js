@@ -1,6 +1,10 @@
 //@flow
-import type { Orders } from './orders';
-import type { Trades } from './trades';
+import type {
+  Orders
+} from './orders';
+import type {
+  Trades
+} from './trades';
 
 export type CreateConnectionAction = {
   type: 'socketManager/CREATE_CONNECTION',
@@ -22,12 +26,16 @@ export type ConnectionErrorAction = {
 // TODO need subscribtions ?
 export type InitOrdersTableAction = {
   type: 'socketManager/INIT_ORDERS_TABLE',
-  payload: { orders: Orders },
+  payload: {
+    orders: Orders
+  },
 };
 
 export type UpdateOrdersTableAction = {
   type: 'socketManager/UPDATE_ORDERS_TABLE',
-  payload: { orders: Orders },
+  payload: {
+    orders: Orders
+  },
 };
 
 // TRADE TABLE ACTIONS
@@ -36,44 +44,60 @@ export type UpdateOrdersTableAction = {
 //Note: not sure if needed
 export type InitTradesTableAction = {
   type: 'socketManager/INIT_TRADES_TABLE',
-  payload: { trades: Trades },
+  payload: {
+    trades: Trades
+  },
 };
 
 export type UpdateTradesTableAction = {
   type: 'socketManager/UPDATE_TRADES_TABLE',
-  payload: { trades: Trades },
+  payload: {
+    trades: Trades
+  },
 };
 
 export type SubscribeOrderBookAction = {
   type: 'socketManager/SUBSCRIBE_ORDERBOOK',
-  payload: { pair: any },
+  payload: {
+    pair: any
+  },
 };
 
 export type UnsubscribeOrderBookAction = {
   type: 'socketManager/UNSUBSCRIBE_ORDERBOOK',
-  payload: { pair: any },
+  payload: {
+    pair: any
+  },
 };
 
 // OHLCV ACTIONS
 
 export type SubscribeOHLCVAction = {
   type: 'socketManager/SUBSCRIBE_OHLCV',
-  payload: { pair: any },
+  payload: {
+    pair: any
+  },
 };
 
 export type UnsubscribeOHLCVAction = {
   type: 'socketManager/UNSUBSCRIBE_OHLCV',
-  payload: { pair: any },
+  payload: {
+    pair: any
+  },
 };
 
 export type InitOHLCVAction = {
   type: 'socketManager/INIT_OHLCV',
-  payload: { data: Object },
+  payload: {
+    data: Array < Object >
+  },
 };
 
 export type UpdateOHLCVAction = {
   type: 'socketManager/UPDATE_OHLCV',
-  payload: { data: Object },
+  payload: {
+    data: Array < Object >
+  },
 };
 
 // ORDERBOOK ACTIONS
@@ -81,28 +105,34 @@ export type UpdateOHLCVAction = {
 //Note: not sure if needed
 export type InitOrderBookAction = {
   type: 'socketManager/INIT_ORDERBOOK',
-  payload: { bids: any, asks: any },
+  payload: {
+    bids: any,
+    asks: any
+  },
 };
 
 export type UpdateOrderBookAction = {
   type: 'socketManager/UPDATE_ORDERBOOK',
-  payload: { bids: any, asks: any },
+  payload: {
+    bids: any,
+    asks: any
+  },
 };
 
-export type SocketManagerAction =
-  | CreateConnectionAction
-  | OpenConnectionAction
-  | CloseConnectionAction
-  | ConnectionErrorAction
-  | InitOrdersTableAction
-  | UpdateOrdersTableAction
-  | InitTradesTableAction
-  | UpdateTradesTableAction
-  | SubscribeOHLCVAction
-  | UnsubscribeOHLCVAction
-  | InitOHLCVAction
-  | UpdateOHLCVAction
-  | InitOrderBookAction
-  | UpdateOrderBookAction
-  | SubscribeOrderBookAction
-  | UnsubscribeOrderBookAction;
+export type SocketManagerAction = |
+  CreateConnectionAction |
+  OpenConnectionAction |
+  CloseConnectionAction |
+  ConnectionErrorAction |
+  InitOrdersTableAction |
+  UpdateOrdersTableAction |
+  InitTradesTableAction |
+  UpdateTradesTableAction |
+  SubscribeOHLCVAction |
+  UnsubscribeOHLCVAction |
+  InitOHLCVAction |
+  UpdateOHLCVAction |
+  InitOrderBookAction |
+  UpdateOrderBookAction |
+  SubscribeOrderBookAction |
+  UnsubscribeOrderBookAction;

@@ -12,13 +12,16 @@ var program = require('commander');
 
 program
   .version('0.1.0')
-  .option('-p, --truffle-build-path', 'Truffle build path')
+  .option('-p, --truffle-build-path [value]', 'Truffle build path')
   .parse(process.argv);
+
+// console.log('Truffle build path:', program);
 
 const TRUFFLE_BUILD_PATH = path.resolve(program.truffleBuildPath || '../contracts/build/contracts');
 
-console.log('Truffle build path:', TRUFFLE_BUILD_PATH);
-let contracts = { '8888': {} };
+let contracts = {
+  '8888': {}
+};
 let files = fs.readdirSync(TRUFFLE_BUILD_PATH);
 
 files.forEach((file, index) => {

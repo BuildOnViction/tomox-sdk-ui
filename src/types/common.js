@@ -10,8 +10,7 @@ export type Address = string;
 
 export type TxHash = string;
 
-export type Signature = {
-  +r: string,
+export type Signature = {+r: string,
   +s: string,
   +v: string
 };
@@ -22,16 +21,3 @@ export type TxReceipt = {
   gasLimit: Object,
   hash: string
 };
-
-export type Token = {
-  address: string,
-  symbol: Symbol
-};
-
-export type TokenBalance = {
-  symbol: Symbol,
-  balance: number
-};
-
-export type Tokens = Array<Token>;
-export type TokenBalances = Array<TokenBalance>;

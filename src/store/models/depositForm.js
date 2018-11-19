@@ -1,5 +1,7 @@
 // @flow
-import { Contract } from 'ethers';
+import {
+  Contract
+} from 'ethers';
 import {
   getAccountBalancesDomain,
   getAccountDomain,
@@ -11,12 +13,28 @@ import {
 import * as actionCreators from '../actions/accountBalances';
 import * as depositFormActionCreators from '../actions/depositForm';
 import * as accountBalancesService from '../services/accountBalances';
-import { getSigner } from '../services/signer';
-import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
-import { ERC20Token, WETH } from 'dex-contracts';
+import {
+  getSigner
+} from '../services/signer';
+import {
+  EXCHANGE_ADDRESS,
+  WETH_ADDRESS
+} from '../../config/contracts';
+import {
+  ERC20Token,
+  WETH
+} from 'dex-contracts';
 
-import type { Token } from '../../types/common';
-import type { State, ThunkAction } from '../../types';
+import type {
+  Token,
+  TokenBalance,
+  TokenBalances
+} from '../../types/tokens';
+
+import type {
+  State,
+  ThunkAction
+} from '../../types';
 
 export default function depositFormSelector(state: State) {
   let accountDomain = getAccountDomain(state);
@@ -50,11 +68,11 @@ export function queryBalances(): ThunkAction {
 
       if (!accountAddress) throw new Error('Account address is not set');
 
-      const tokenBalances = await accountBalancesService.queryTokenBalances(
+      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
         accountAddress,
         tokens
       );
-      const etherBalance = await accountBalancesService.queryEtherBalance(
+      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
         accountAddress
       );
 
@@ -70,7 +88,9 @@ export function subscribeBalance(token: Token): ThunkAction {
   return async (dispatch, getState) => {
     try {
       let unsubscribe;
-      const { symbol } = token;
+      const {
+        symbol
+      } = token;
       const state = getState();
       const accountAddress = depositFormSelector(state).accountAddress();
       const tokenSymbols = depositFormSelector(state).symbols();
@@ -90,16 +110,16 @@ export function subscribeBalance(token: Token): ThunkAction {
 
       dispatch(actionCreators.subscribeBalance(symbol));
 
-      token.address === '0x0'
-        ? (unsubscribe = await accountBalancesService.subscribeEtherBalance(
-            accountAddress,
-            updateBalanceHandler
-          ))
-        : (unsubscribe = await accountBalancesService.subscribeTokenBalance(
-            accountAddress,
-            token,
-            updateBalanceHandler
-          ));
+      token.address === '0x0' ?
+        (unsubscribe = await accountBalancesService.subscribeEtherBalance(
+          accountAddress,
+          updateBalanceHandler
+        )) :
+        (unsubscribe = await accountBalancesService.subscribeTokenBalance(
+          accountAddress,
+          token,
+          updateBalanceHandler
+        ));
 
       return () => {
         unsubscribe();
@@ -144,19 +164,19 @@ export const confirmEtherDeposit = (
             signer.provider.waitForTransaction(allowTx.hash)
           ]);
 
-          convertTxReceipt.status === '0x0'
-            ? dispatch(
-                depositFormActionCreators.revertConvertTx(convertTxReceipt)
-              )
-            : dispatch(
-                depositFormActionCreators.confirmConvertTx(convertTxReceipt)
-              );
+          convertTxReceipt.status === '0x0' ?
+            dispatch(
+              depositFormActionCreators.revertConvertTx(convertTxReceipt)
+            ) :
+            dispatch(
+              depositFormActionCreators.confirmConvertTx(convertTxReceipt)
+            );
 
-          allowTxReceipt.status === '0x0'
-            ? dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt))
-            : dispatch(
-                depositFormActionCreators.confirmAllowTx(allowTxReceipt)
-              );
+          allowTxReceipt.status === '0x0' ?
+            dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt)) :
+            dispatch(
+              depositFormActionCreators.confirmAllowTx(allowTxReceipt)
+            );
         } else {
           // let convertTxParams = { value: 1000 };
           let convertTx = await weth.convert();
@@ -165,13 +185,13 @@ export const confirmEtherDeposit = (
             convertTx.hash
           );
 
-          convertTxReceipt.status === '0x0'
-            ? dispatch(
-                depositFormActionCreators.revertConvertTx(convertTxReceipt)
-              )
-            : dispatch(
-                depositFormActionCreators.confirmConvertTx(convertTxReceipt)
-              );
+          convertTxReceipt.status === '0x0' ?
+            dispatch(
+              depositFormActionCreators.revertConvertTx(convertTxReceipt)
+            ) :
+            dispatch(
+              depositFormActionCreators.confirmConvertTx(convertTxReceipt)
+            );
         }
       }
     } catch (error) {
@@ -180,8 +200,9 @@ export const confirmEtherDeposit = (
   };
 };
 
-export const confirmTokenDeposit = (
-  { address }: Token,
+export const confirmTokenDeposit = ({
+    address
+  }: Token,
   shouldAllow: boolean
 ): ThunkAction => {
   return async (dispatch, getState) => {
@@ -198,9 +219,9 @@ export const confirmTokenDeposit = (
           allowTx.hash
         );
 
-        allowTxReceipt.status === '0x0'
-          ? dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt))
-          : dispatch(depositFormActionCreators.confirmAllowTx(allowTxReceipt));
+        allowTxReceipt.status === '0x0' ?
+          dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt)) :
+          dispatch(depositFormActionCreators.confirmAllowTx(allowTxReceipt));
       }
 
       dispatch(depositFormActionCreators.confirm());

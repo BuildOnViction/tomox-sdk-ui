@@ -1,6 +1,10 @@
 // @flow
-import { tsvParse } from 'd3-dsv'
-import { timeParse } from 'd3-time-format'
+import {
+  tsvParse
+} from 'd3-dsv'
+import {
+  timeParse
+} from 'd3-time-format'
 
 const request = (endpoint: string, options: Object) => {
   return fetch(`https://localhost${endpoint}`, {
@@ -24,12 +28,10 @@ export const fetchOHLCV = async (
 ) => {
   const response = await request(`/trades/ticks`, {
     body: JSON.stringify({
-      pair: [
-        {
-          baseToken: baseToken,
-          quoteToken: quoteToken
-        }
-      ],
+      pair: [{
+        baseToken: baseToken,
+        quoteToken: quoteToken
+      }],
       from: from,
       to: to,
       duration: duration,
@@ -42,12 +44,14 @@ export const fetchOHLCV = async (
     throw new Error('Error')
   }
 
-  const { data } = await response.json()
+  const {
+    data
+  } = await response.json()
   return data
 }
 
 export function parseData(parse: any) {
-  return function(d: any) {
+  return function (d: any) {
     d.date = parse(d.date)
     d.open = +d.open
     d.high = +d.high
@@ -61,7 +65,7 @@ export function parseData(parse: any) {
 export const parseDate = timeParse('%Y-%m-%d')
 
 // these data will be served from backend instead
-export function getData() {
+export function getData(): Promise < Object > {
   const ohlcv = fetch('/data.tsv')
     .then(response => response.text())
     .then(data => {

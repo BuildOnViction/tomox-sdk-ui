@@ -1,6 +1,8 @@
 // @flow
 
-import type { TokenBalance } from './common';
+import type {
+  TokenBalance
+} from './tokens';
 
 export type AccountBalanceState = {
   symbol: string,
@@ -9,7 +11,8 @@ export type AccountBalanceState = {
   allowance: string
 };
 
-export type AccountBalancesState = { +[string]: AccountBalanceState };
+export type AccountBalancesState = {+[string]: AccountBalanceState
+};
 
 export type AccountBalance = TokenBalance & {
   allowance: string
@@ -20,13 +23,17 @@ export type AccountAllowance = {
   allowance: string | 'pending'
 };
 
-export type AccountAllowances = Array<AccountAllowance>;
-export type AccountBalances = Array<AccountBalance>;
-export type AccountBalancesMap = { [string]: AccountBalance };
+export type AccountAllowances = Array < AccountAllowance > ;
+export type AccountBalances = Array < AccountBalance > ;
+export type AccountBalancesMap = {
+  [string]: AccountBalance
+};
 
 export type SubscribeAccountBalanceAction = {
   type: 'accountBalances/SUBSCRIBE_BALANCE',
-  payload: { symbol: string }
+  payload: {
+    symbol: string
+  }
 };
 
 export type UpdateAccountBalanceAction = {
@@ -36,12 +43,16 @@ export type UpdateAccountBalanceAction = {
 
 export type UnsubscribeAccountBalanceAction = {
   type: 'accountBalances/UNSUBSCRIBE_BALANCE',
-  payload: { symbol: string }
+  payload: {
+    symbol: string
+  }
 };
 
 export type UpdateAccountBalancesAction = {
   type: 'accountBalances/UPDATE_BALANCES',
-  payload: { balances: AccountBalances }
+  payload: {
+    balances: AccountBalances
+  }
 };
 
 export type UpdateAccountAllowanceAction = {
@@ -51,7 +62,9 @@ export type UpdateAccountAllowanceAction = {
 
 export type UpdateAccountAllowancesAction = {
   type: 'accountBalances/UPDATE_ALLOWANCES',
-  payload: { allowances: AccountAllowances }
+  payload: {
+    allowances: AccountAllowances
+  }
 };
 
 export type ClearAccountBalancesAction = {
@@ -60,10 +73,10 @@ export type ClearAccountBalancesAction = {
 
 export type AccountBalancesEvent = any => AccountBalancesState => AccountBalancesState;
 
-export type AccountBalancesAction =
-  | SubscribeAccountBalanceAction
-  | UpdateAccountBalanceAction
-  | UpdateAccountBalancesAction
-  | UpdateAccountAllowanceAction
-  | UpdateAccountAllowancesAction
-  | UnsubscribeAccountBalanceAction;
+export type AccountBalancesAction = |
+  SubscribeAccountBalanceAction |
+  UpdateAccountBalanceAction |
+  UpdateAccountBalancesAction |
+  UpdateAccountAllowanceAction |
+  UpdateAccountAllowancesAction |
+  UnsubscribeAccountBalanceAction;

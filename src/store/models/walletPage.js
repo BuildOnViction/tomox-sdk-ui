@@ -10,13 +10,28 @@ import * as actionCreators from '../actions/walletPage';
 import * as notifierActionCreators from '../actions/app';
 import * as accountActionTypes from '../actions/account';
 import * as accountBalancesService from '../services/accountBalances';
-import { quoteTokens, quoteTokenSymbols } from '../../config/quotes';
-import { getCurrentBlock } from '../services/wallet';
-import { push } from 'connected-react-router';
-import type { Token } from '../../types/common';
-import type { State, ThunkAction } from '../../types';
-import type { TokenBalance, TokenBalances } from '../../types/common';
-import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
+import {
+  quoteTokens,
+  quoteTokenSymbols
+} from '../../config/quotes';
+import {
+  getCurrentBlock
+} from '../services/wallet';
+import {
+  push
+} from 'connected-react-router';
+import type {
+  State,
+  ThunkAction
+} from '../../types';
+import type {
+  Token,
+  TokenBalance,
+  TokenBalances
+} from '../../types/tokens';
+import {
+  ALLOWANCE_THRESHOLD
+} from '../../utils/constants';
 
 export default function walletPageSelector(state: State) {
   let accountBalancesDomain = getAccountBalancesDomain(state);
@@ -25,7 +40,10 @@ export default function walletPageSelector(state: State) {
   let transferTokensFormDomain = getTransferTokensFormDomain(state);
 
   // ETH is not a token so we add it to the list to display in the deposit table
-  let ETH = { symbol: 'ETH', address: '0x0' };
+  let ETH = {
+    symbol: 'ETH',
+    address: '0x0'
+  };
   let tokens = tokenDomain.tokens();
   let quoteTokens = quoteTokenSymbols;
   let baseTokens = tokenDomain
@@ -94,9 +112,12 @@ export function queryAccountData(): ThunkAction {
       await accountBalancesService.subscribeEtherBalance(
         accountAddress,
         balance =>
-          dispatch(
-            actionCreators.updateBalance({ symbol: 'ETH', balance: balance })
-          )
+        dispatch(
+          actionCreators.updateBalance({
+            symbol: 'ETH',
+            balance: balance
+          })
+        )
       );
 
       await accountBalancesService.subscribeTokenAllowances(
@@ -143,30 +164,32 @@ export function toggleAllowance(symbol: string): ThunkAction {
 
       const approvalConfirmedHandler = txConfirmed => {
         txConfirmed
-          ? dispatch(
-              notifierActionCreators.addSuccessNotification({
-                message: `${symbol} Approval Successful. You can now start trading!`
-              })
-            )
-          : dispatch(
-              notifierActionCreators.addDangerNotification({
-                message: `${symbol} Approval Failed. Please try again.`
-              })
-            );
+          ?
+          dispatch(
+            notifierActionCreators.addSuccessNotification({
+              message: `${symbol} Approval Successful. You can now start trading!`
+            })
+          ) :
+          dispatch(
+            notifierActionCreators.addDangerNotification({
+              message: `${symbol} Approval Failed. Please try again.`
+            })
+          );
       };
 
       const approvalRemovedHandler = txConfirmed => {
         txConfirmed
-          ? dispatch(
-              notifierActionCreators.addSuccessNotification({
-                message: `${symbol} Allowance Removal Successful.`
-              })
-            )
-          : dispatch(
-              notifierActionCreators.addDangerNotification({
-                message: `${symbol} Allowance Removal Failed. Please try again.`
-              })
-            );
+          ?
+          dispatch(
+            notifierActionCreators.addSuccessNotification({
+              message: `${symbol} Allowance Removal Successful.`
+            })
+          ) :
+          dispatch(
+            notifierActionCreators.addDangerNotification({
+              message: `${symbol} Allowance Removal Failed. Please try again.`
+            })
+          );
       };
 
       if (isAllowed) {
@@ -196,7 +219,10 @@ export function toggleAllowance(symbol: string): ThunkAction {
       }
 
       dispatch(
-        actionCreators.updateAllowance({ symbol, allowance: 'pending' })
+        actionCreators.updateAllowance({
+          symbol,
+          allowance: 'pending'
+        })
       );
     } catch (e) {
       console.log(e);

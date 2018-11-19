@@ -1,6 +1,10 @@
 // @flow
-import type { Orders } from '../../types/orders';
-import type { Trades } from '../../types/trades';
+import type {
+  Orders
+} from '../../types/orders';
+import type {
+  Trades
+} from '../../types/trades';
 import type {
   CreateConnectionAction,
   OpenConnectionAction,
@@ -71,14 +75,18 @@ export function closeConnection(): CloseConnectionAction {
 export function initOrdersTable(orders: Orders): InitOrdersTableAction {
   return {
     type: actionTypes.initOrdersTable,
-    payload: { orders }
+    payload: {
+      orders
+    }
   };
 }
 
 export function updateOrdersTable(orders: Orders): UpdateOrdersTableAction {
   return {
     type: actionTypes.updateOrdersTable,
-    payload: { orders }
+    payload: {
+      orders
+    }
   };
 }
 
@@ -87,14 +95,18 @@ export function updateOrdersTable(orders: Orders): UpdateOrdersTableAction {
 export function initTradesTable(trades: Trades): InitTradesTableAction {
   return {
     type: actionTypes.initTradesTable,
-    payload: { trades }
+    payload: {
+      trades
+    }
   };
 }
 
 export function updateTradesTable(trades: Trades): UpdateTradesTableAction {
   return {
     type: actionTypes.updateTradesTable,
-    payload: { trades }
+    payload: {
+      trades
+    }
   };
 }
 
@@ -102,28 +114,36 @@ export function updateTradesTable(trades: Trades): UpdateTradesTableAction {
 export function subscribeOHLCV(pair: string): SubscribeOHLCVAction {
   return {
     type: actionTypes.subscribeOHLCV,
-    payload: { pair }
+    payload: {
+      pair
+    }
   };
 }
 
 export function unsubscribeOHLCV(pair: string): UnsubscribeOHLCVAction {
   return {
     type: actionTypes.unsubscribeOHLCV,
-    payload: { pair }
+    payload: {
+      pair
+    }
   };
 }
 
-export function initOHLCV(data: Object): InitOHLCVAction {
+export function initOHLCV(data: Array < Object > ): InitOHLCVAction {
   return {
     type: actionTypes.initOHLCV,
-    payload: { data }
+    payload: {
+      data
+    }
   };
 }
 
-export function updateOHLCV(data: Object): UpdateOHLCVAction {
+export function updateOHLCV(data: Array < Object > ): UpdateOHLCVAction {
   return {
     type: actionTypes.updateOHLCV,
-    payload: { data }
+    payload: {
+      data
+    }
   };
 }
 
@@ -131,34 +151,44 @@ export function updateOHLCV(data: Object): UpdateOHLCVAction {
 export function subscribeOrderBook(pair: string): SubscribeOrderBookAction {
   return {
     type: actionTypes.subscribeOrderbook,
-    payload: { pair }
+    payload: {
+      pair
+    }
   };
 }
 
 export function unsubscribeOrderBook(pair: string): UnsubscribeOrderBookAction {
   return {
     type: actionTypes.unsubscribeOrderbook,
-    payload: { pair }
+    payload: {
+      pair
+    }
   };
 }
 
 export function initOrderBook(
-  bids: Array<Object>,
-  asks: Array<Object>
+  bids: Array < Object > ,
+  asks: Array < Object >
 ): InitOrderBookAction {
   return {
     type: actionTypes.initOrderBook,
-    payload: { bids, asks }
+    payload: {
+      bids,
+      asks
+    }
   };
 }
 
 export function updateOrderBook(
-  bids: Array<Object>,
-  asks: Array<Object>
+  bids: Array < Object > ,
+  asks: Array < Object >
 ): UpdateOrderBookAction {
   return {
     type: actionTypes.updateOrderBook,
-    payload: { bids, asks }
+    payload: {
+      bids,
+      asks
+    }
   };
 }
 

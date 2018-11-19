@@ -1,10 +1,16 @@
 //@flow
-import { utils } from 'ethers';
+import {
+  utils
+} from 'ethers';
 
 import * as appActionCreators from '../actions/app';
 import * as actionCreators from '../actions/socketController';
-import { getAccountDomain } from '../domains';
-import { getSigner } from '../services/signer';
+import {
+  getAccountDomain
+} from '../domains';
+import {
+  getSigner
+} from '../services/signer';
 import {
   parseOrder,
   parseTrade,
@@ -13,8 +19,14 @@ import {
   parseOHLCV
 } from '../../utils/parsers';
 
-import type { State, ThunkAction } from '../../types/';
-import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket';
+import type {
+  State,
+  ThunkAction
+} from '../../types/';
+import type {
+  WebsocketEvent,
+  WebsocketMessage
+} from '../../types/websocket';
 
 export default function socketControllerSelector(state: State) {
   return {
@@ -24,7 +36,9 @@ export default function socketControllerSelector(state: State) {
 
 // eslint-disable-next-line
 export function openConnection(): ThunkAction {
-  return (dispatch, getState, { socket }) => {
+  return (dispatch, getState, {
+    socket
+  }) => {
     socket.createConnection();
     dispatch(actionCreators.createConnection());
 
@@ -42,7 +56,10 @@ export function openConnection(): ThunkAction {
     });
 
     socket.onMessage((message: WebsocketMessage) => {
-      let { channel, event } = message;
+      let {
+        channel,
+        event
+      } = message;
       console.log(channel, event);
 
       switch (channel) {
@@ -80,7 +97,9 @@ const handleWebsocketOpenMessage = (dispatch, event) => {
 
 const handleWebsocketCloseMessage = (dispatch, event, closeConnection) => {
   dispatch(
-    appActionCreators.addDangerNotification({ message: 'Connection lost' })
+    appActionCreators.addDangerNotification({
+      message: 'Connection lost'
+    })
   );
   setTimeout(() => dispatch(openConnection()), 5000);
 };
@@ -90,7 +109,9 @@ const handleWebsocketErrorMessage = (dispatch, event, closeConnection) => {
 };
 
 const handleOrderMessage = (dispatch, event: WebsocketEvent) => {
-  const { type } = event;
+  const {
+    type
+  } = event;
 
   switch (type) {
     case 'ORDER_ADDED':
@@ -110,7 +131,9 @@ const handleOrderMessage = (dispatch, event: WebsocketEvent) => {
 };
 
 function handleOrderAdded(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, getState, {
+    socket
+  }) => {
     try {
       let order = parseOrder(event.payload);
 
@@ -118,13 +141,17 @@ function handleOrderAdded(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addDangerNotification({
+        message: e.message
+      }));
     }
   };
 }
 
 function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, getState, {
+    socket
+  }) => {
     try {
       let order = parseOrder(event.payload);
 
@@ -132,13 +159,17 @@ function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addDangerNotification({
+        message: e.message
+      }));
     }
   };
 }
 
 function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, getState, {
+    socket
+  }) => {
     try {
       let signer = getSigner();
       let signerAddress = await signer.getAddress();
@@ -154,7 +185,13 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         let parsedOrder = parseOrder(matches.takerOrder);
         userOrders = [parsedOrder];
         userTrades = matches.trades.map(trade => parseTrade(trade));
-        let { price, amount, side, filled, pair } = parsedOrder;
+        let {
+          price,
+          amount,
+          side,
+          filled,
+          pair
+        } = parsedOrder;
         dispatch(
           appActionCreators.addOrderSuccessNotification({
             txHash,
@@ -170,7 +207,13 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
           if (utils.getAddress(order.userAddress) === signerAddress) {
             let parsedOrder = parseOrder(order);
             userOrders.push(parsedOrder);
-            let { price, amount, filled, side, pair } = parsedOrder;
+            let {
+              price,
+              amount,
+              filled,
+              side,
+              pair
+            } = parsedOrder;
             dispatch(
               appActionCreators.addOrderSuccessNotification({
                 txHash,
@@ -200,13 +243,17 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addDangerNotification({
+        message: e.message
+      }));
     }
   };
 }
 
 function handleOrderPending(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, getState, {
+    socket
+  }) => {
     try {
       let signer = getSigner();
       let signerAddress = await signer.getAddress();
@@ -222,7 +269,13 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
         let parsedOrder = parseOrder(matches.takerOrder);
         userOrders = [parsedOrder];
         userTrades = matches.trades.map(trade => parseTrade(trade));
-        let { price, amount, side, filled, pair } = parsedOrder;
+        let {
+          price,
+          amount,
+          side,
+          filled,
+          pair
+        } = parsedOrder;
         dispatch(
           appActionCreators.addOrderPendingNotification({
             txHash,
@@ -238,7 +291,13 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
           if (utils.getAddress(order.userAddress) === signerAddress) {
             let parsedOrder = parseOrder(order);
             userOrders.push(parsedOrder);
-            let { price, amount, filled, side, pair } = parsedOrder;
+            let {
+              price,
+              amount,
+              filled,
+              side,
+              pair
+            } = parsedOrder;
             dispatch(
               appActionCreators.addOrderPendingNotification({
                 txHash,
@@ -268,44 +327,52 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addDangerNotification({
+        message: e.message
+      }));
     }
   };
 }
 
 function handleOrderError(event: WebsocketEvent): ThunkAction {
   return async dispatch => {
-    let { message } = event.payload;
+    let {
+      message
+    } = event.payload;
     dispatch(
-      appActionCreators.addDangerNotification({ message: `Error: ${message}` })
+      appActionCreators.addDangerNotification({
+        message: `Error: ${message}`
+      })
     );
   };
 }
 
 const handleOrderBookMessage = (dispatch, event: WebsocketMessage) => {
-  var bids, asks;
+  // eslint-disable-next-line
+  let {
+    bids,
+    asks
+  } = parseOrderBookData(event.payload);
 
   try {
     switch (event.type) {
       case 'INIT':
         if (!event.payload) return;
         if (event.payload === []) return;
-        // eslint-disable-next-line
-        var { bids, asks } = parseOrderBookData(event.payload);
         dispatch(actionCreators.initOrderBook(bids, asks));
         break;
       case 'UPDATE':
         if (!event.payload) return;
         if (event.payload === []) return;
-        // eslint-disable-next-line
-        var { bids, asks } = parseOrderBookData(event.payload);
         dispatch(actionCreators.updateOrderBook(bids, asks));
         break;
       default:
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addDangerNotification({
+      message: e.message
+    }));
     console.log(e);
   }
 };
@@ -331,34 +398,35 @@ const handleTradesMessage = (dispatch, event: WebsocketMessage) => {
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addDangerNotification({
+      message: e.message
+    }));
     console.log(e);
   }
 };
 
 const handleOHLCVMessage = (dispatch, event: WebsocketMessage) => {
-  let ohlcv;
-
+  let ohlcv: Array < Object > = parseOHLCV(event.payload);
   try {
     switch (event.type) {
       case 'INIT':
         if (!event.payload) return;
         if (event.payload === []) return;
-        ohlcv = parseOHLCV(event.payload);
         dispatch(actionCreators.initOHLCV(ohlcv));
         break;
       case 'UPDATE':
         if (!event.payload) return;
         if (event.payload === []) return;
-        ohlcv = parseOHLCV(event.payload);
         dispatch(actionCreators.updateOHLCV(ohlcv));
         break;
-      // return dispatch()
+        // return dispatch()
       default:
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addDangerNotification({
+      message: e.message
+    }));
     console.log(e);
   }
 };

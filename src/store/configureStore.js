@@ -1,13 +1,30 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { persistStore, persistReducer, createTransform } from 'redux-persist';
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore
+} from 'redux';
+import {
+  connectRouter,
+  routerMiddleware
+} from 'connected-react-router';
+import {
+  persistStore,
+  persistReducer,
+  createTransform
+} from 'redux-persist';
 import history from './history';
 import thunk from 'redux-thunk';
 import * as reducers from './reducers';
 import * as services from './services';
 import '../styles/css/index.css';
 import storage from 'redux-persist/lib/storage';
-import { createLocalWalletSigner } from './services/signer';
+import {
+  DEFAULT_NETWORK_ID
+} from '../config/environment'
+import {
+  createLocalWalletSigner
+} from './services/signer';
 
 let composeEnhancers = compose;
 
@@ -22,19 +39,19 @@ const accountTransform = createTransform(
   // such as {key1}=>{key1:key1.toupper} means get from localStorage and transform it to uppercase in store
   outboundState => {
     if (outboundState.privateKey) {
-      const networkID = parseInt(process.env.REACT_APP_DEFAULT_NETWORK_ID, 10);
       // create a local wallet when rehydrate
-      createLocalWalletSigner(
-        {
+      createLocalWalletSigner({
           privateKey: outboundState.privateKey
         },
-        networkID
+        +DEFAULT_NETWORK_ID
       );
     }
     return outboundState;
   },
   // apply creating window.signer from account
-  { whitelist: ['account'] }
+  {
+    whitelist: ['account']
+  }
 );
 
 const persistConfig = {
@@ -86,7 +103,10 @@ const configureStore = preloadedState => {
     });
   }
 
-  return { store, persistor };
+  return {
+    store,
+    persistor
+  };
 };
 
 export default configureStore;

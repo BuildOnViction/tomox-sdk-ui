@@ -12,7 +12,6 @@ export const getQuoteToken = pairSymbol => {
 
 export const generateTokenPairs = (quoteTokens, tokens) => {
   let tokenPairs = {};
-
   tokens.forEach(token => {
     if (token.symbol === 'ETH') return;
     quoteTokens.forEach(quoteToken => {

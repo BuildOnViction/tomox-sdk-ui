@@ -1,11 +1,27 @@
 //@flow
-import { isFloat, isInteger, round } from './helpers';
+import {
+  isFloat,
+  isInteger,
+  round
+} from './helpers';
 // import { fromWeiToFloat } from './bignumber';
 // import { ether } from './constants';
-import { utils } from 'ethers';
+import {
+  utils
+} from 'ethers';
 
-import type { Order, Orders } from '../types/orders';
-import type { Trade, Trades } from '../types/trades';
+import type {
+  TokenPairData
+} from '../types/tokens'
+
+import type {
+  Order,
+  Orders
+} from '../types/orders';
+import type {
+  Trade,
+  Trades
+} from '../types/trades';
 
 export const parseJSONData = (obj: Object): Object => {
   for (let key in obj) {
@@ -91,7 +107,7 @@ export const parseOrder = (
 });
 
 export const parseOrders = (
-  orders: Array<Object>,
+  orders: Array < Object > ,
   tokenDecimals: number = 18,
   precision: number = 2
 ): Orders => {
@@ -132,10 +148,10 @@ export const parseTrade = (
 });
 
 export const parseTrades = (
-  trades: Array<Object>,
+  trades: Array < Object > ,
   tokenDecimals: number = 18,
   precision: number = 2
-): Array<Trades> => {
+): Trades => {
   let parsed = trades.map(trade => parseTrade(trade, tokenDecimals, precision));
 
   return parsed;
@@ -146,7 +162,10 @@ export const parseOrderBookData = (
   tokenDecimals: number = 18,
   precision: number = 2
 ): Object => {
-  let { bids, asks } = data;
+  let {
+    bids,
+    asks
+  } = data;
 
   asks = asks.map(ask => ({
     price: parsePricepoint(ask.pricepoint),
@@ -158,33 +177,37 @@ export const parseOrderBookData = (
     amount: parseTokenAmount(bid.amount, tokenDecimals, precision)
   }));
 
-  return { asks, bids };
+  return {
+    asks,
+    bids
+  };
 };
 
 export const parseTokenPairData = (
-  data: Array<Object>,
+  data: Array < Object > ,
   tokenDecimals: number = 18
-): Array<Object> => {
+): Array < TokenPairData > => {
   let parsed = data.map(datum => ({
+    base: null,
+    quote: null,
+    favorited: null,
     pair: datum.pair.pairName,
     lastPrice: datum.close ? parsePricepoint(datum.close) : null,
-    change: datum.open
-      ? round((datum.close - datum.open) / datum.open, 1)
-      : null,
+    change: datum.open ?
+      round((datum.close - datum.open) / datum.open, 1) : null,
     high: datum.high ? parsePricepoint(datum.high) : null,
     low: datum.low ? parsePricepoint(datum.low) : null,
-    volume: datum.volume
-      ? parseTokenAmount(datum.volume, tokenDecimals, 0)
-      : null
+    volume: datum.volume ?
+      parseTokenAmount(datum.volume, tokenDecimals, 0) : null
   }));
 
   return parsed;
 };
 
 export const parseOHLCV = (
-  data: Array<Object>,
+  data: Array < Object > ,
   baseTokenDecimals: number = 18
-): Array<Object> => {
+): Array < Object > => {
   let parsed = data.map(datum => {
     return {
       date: new Date(datum.timestamp),

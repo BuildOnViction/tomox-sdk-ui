@@ -9,7 +9,9 @@ const actionTypes = {
 export function addNotification(options) {
   return {
     type: actionTypes.addNotification,
-    payload: { options }
+    payload: {
+      options
+    }
   };
 }
 
@@ -29,6 +31,15 @@ export function addOrderCancelledNotification() {
       notificationType: 'orderCancelled'
     }
   };
+}
+
+export function addOrderMatchedNotification() {
+  return {
+    type: actionTypes.addNotification,
+    payload: {
+      notificationType: 'orderMatched'
+    }
+  }
 }
 
 export function addOrderPendingNotification(options) {
@@ -71,7 +82,9 @@ export function addTxRevertedNotification(options) {
   };
 }
 
-export function addSuccessNotification({ message }) {
+export function addSuccessNotification({
+  message
+}) {
   return {
     type: actionTypes.addNotification,
     payload: {
@@ -83,7 +96,9 @@ export function addSuccessNotification({ message }) {
   };
 }
 
-export function addDangerNotification({ message }) {
+export function addDangerNotification({
+  message
+}) {
   return {
     type: actionTypes.addNotification,
     payload: {
@@ -98,14 +113,18 @@ export function addDangerNotification({ message }) {
 export function removeNotification(id) {
   return {
     type: actionTypes.removeNotification,
-    payload: { id }
+    payload: {
+      id
+    }
   };
 }
 
 export function updateCurrentBlock(currentBlock: string) {
   return {
     type: actionTypes.updateCurrentBlock,
-    payload: { currentBlock }
+    payload: {
+      currentBlock
+    }
   };
 }
 
