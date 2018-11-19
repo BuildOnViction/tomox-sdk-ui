@@ -29,6 +29,8 @@ export type RankedToken = {
 };
 
 export type TokenPair = {+pair: string,
+  +baseTokenDecimals: number,
+  +quoteTokenDecimals: number,
   +baseTokenSymbol: string,
   +quoteTokenSymbol: string,
   +baseTokenAddress: string,

@@ -1,14 +1,33 @@
 //@flow
 
-import { utils } from 'ethers';
-import { getOrderHash, getTradeHash, getRandomNonce } from '../../utils/crypto';
-import { EXCHANGE_ADDRESS } from '../../config/contracts';
-import { round } from '../../utils/helpers';
-import { ether } from '../../utils/constants';
+import {
+  utils
+} from 'ethers';
+import {
+  getOrderHash,
+  getTradeHash,
+  getRandomNonce
+} from '../../utils/crypto';
+import {
+  EXCHANGE_ADDRESS
+} from '../../config/contracts';
+import {
+  round
+} from '../../utils/helpers';
+import {
+  ether
+} from '../../utils/constants';
 // flow
-import type { NewOrderParams, RawOrder } from '../../types/orders';
-import type { Signer } from '../../types/signer';
-import type { Trade } from '../../types/trades';
+import type {
+  NewOrderParams,
+  RawOrder
+} from '../../types/orders';
+import type {
+  Signer
+} from '../../types/signer';
+import type {
+  Trade
+} from '../../types/trades';
 
 /**
  * In the future, this order will be send to swarm feed
@@ -16,14 +35,29 @@ import type { Trade } from '../../types/trades';
  * @param {Signer} signer
  */
 
-export const createRawOrder = async function(
+export const createRawOrder = async function (
   signer: Signer,
   params: NewOrderParams
-): Promise<RawOrder> {
+): Promise < RawOrder > {
   let order = {};
-  let { userAddress, side, pair, amount, price, makeFee, takeFee } = params;
-  let { baseTokenAddress, quoteTokenAddress } = pair;
+  let {
+    userAddress,
+    side,
+    pair,
+    amount,
+    price,
+    makeFee,
+    takeFee
+  } = params;
+  let {
+    baseTokenDecimals,
+    quoteTokenDecimals,
+    baseTokenAddress,
+    quoteTokenAddress
+  } = pair;
   let exchangeAddress = EXCHANGE_ADDRESS[signer.provider.network.chainId];
+
+  if (baseTokenDecimals < quoteTokenDecimals) throw Error('Pair currently not supported (decimals error)')
 
   // The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
   // that are used to turn decimal values into rounded integers that can be converted into
@@ -36,8 +70,12 @@ export const createRawOrder = async function(
   let amountPrecisionMultiplier = 1e6;
   let pricePrecisionMultiplier = 1e9;
 
-  let amountMultiplier = ether; //1e18
+  // let amountMultiplier = ether; //1e18
   let priceMultiplier = utils.bigNumberify('1000000000'); //1e9
+
+  let decimalsPriceMultiplier = utils.bigNumberify((10 ** (baseTokenDecimals - quoteTokenDecimals)).toString())
+  let amountMultiplier = utils.bigNumberify((10 ** baseTokenDecimals).toString())
+
 
   amount = round(amount * amountPrecisionMultiplier, 0);
   price = round(price * pricePrecisionMultiplier, 0);
@@ -67,8 +105,16 @@ export const createRawOrder = async function(
   order.status = 'NEW';
 
   let signature = await signer.signMessage(utils.arrayify(order.hash));
-  let { r, s, v } = utils.splitSignature(signature);
-  order.signature = { r, s, v };
+  let {
+    r,
+    s,
+    v
+  } = utils.splitSignature(signature);
+  order.signature = {
+    r,
+    s,
+    v
+  };
 
   return order;
 };
@@ -155,9 +201,17 @@ export const signOrder = async (signer: Signer, order: RawOrder) => {
   if (order.hash !== computedHash) throw new Error('Invalid Hash');
 
   let signature = await signer.signMessage(utils.arrayify(order.hash));
-  let { r, s, v } = utils.splitSignature(signature);
+  let {
+    r,
+    s,
+    v
+  } = utils.splitSignature(signature);
 
-  order.signature = { r, s, v };
+  order.signature = {
+    r,
+    s,
+    v
+  };
   return order;
 };
 
@@ -166,8 +220,16 @@ export const signTrade = async (signer: Signer, trade: Trade) => {
   if (trade.hash !== computedHash) throw new Error('Invalid Hash');
 
   let signature = await signer.signMessage(utils.arrayify(trade.hash));
-  let { r, s, v } = utils.splitSignature(signature);
+  let {
+    r,
+    s,
+    v
+  } = utils.splitSignature(signature);
 
-  trade.signature = { r, s, v };
+  trade.signature = {
+    r,
+    s,
+    v
+  };
   return trade;
 };
