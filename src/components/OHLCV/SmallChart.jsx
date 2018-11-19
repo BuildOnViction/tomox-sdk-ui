@@ -1,17 +1,18 @@
 //@flow
-import React from 'react'
-import { IndicatorSelect, StandardSelect } from '../SelectMenu'
-import ChartLoadingScreen from './ChartLoadingScreen'
-import { Card, Button } from '@blueprintjs/core'
-import type { SendTimelineParams } from '../../types/ohlcv'
-import styled from 'styled-components'
+import React from 'react';
+import { IndicatorSelect, StandardSelect } from '../SelectMenu';
+import ChartLoadingScreen from './ChartLoadingScreen';
+import { Card, Button } from '@blueprintjs/core';
+import type { SendTimelineParams } from '../../types/ohlcv';
+import styled from 'styled-components';
+import { ResizableBox } from 'react-resizable';
 
 type Indicator = {
   name: string,
   active: boolean,
   height: number,
   rank: number
-}
+};
 
 export const timeSpans: Array<Object> = [
   { name: '1 min', label: '1m' },
@@ -24,7 +25,7 @@ export const timeSpans: Array<Object> = [
   { name: '1 day', label: '1d' },
   { name: '7 days', label: '7d' },
   { name: '1 month', label: '1M' }
-].map((p, index) => ({ ...p, rank: index }))
+].map((p, index) => ({ ...p, rank: index }));
 
 const indicators: Array<Indicator> = [
   { name: 'Volume', active: true, height: 0 },
@@ -33,14 +34,14 @@ const indicators: Array<Indicator> = [
   { name: 'RSI', active: false, height: 150 },
   { name: 'ATR', active: false, height: 150 },
   { name: 'ForceIndex', active: false, height: 150 }
-].map((p, index) => ({ ...p, rank: index }))
+].map((p, index) => ({ ...p, rank: index }));
 
 const chartTypes: Array<Object> = [
   { name: 'Candles', icon: 'timeline-bar-chart' },
   { name: 'Heikin Ashi', aicon: 'chart' },
   { name: 'Line', icon: 'timeline-line-chart' },
   { name: 'Area', icon: 'timeline-area-chart' }
-].map((p, index) => ({ ...p, rank: index }))
+].map((p, index) => ({ ...p, rank: index }));
 
 export const duration: Array<Object> = [
   { name: '1 Hour', label: '1h' },
@@ -54,7 +55,7 @@ export const duration: Array<Object> = [
   { name: '6 Month', label: '6M' },
   { name: '1 Year', label: '1Y' },
   { name: 'Full', label: 'Full' }
-].map((p, index) => ({ ...p, rank: index }))
+].map((p, index) => ({ ...p, rank: index }));
 
 type Props = {
   ohlcvData: Array<Object>,
@@ -64,7 +65,7 @@ type Props = {
   updateTimeLine: SendTimelineParams => void,
   saveDuration: Object => void,
   saveTimeSpan: Object => void
-}
+};
 type State = {
   chartHeight: number,
   indicatorHeight: number,
@@ -74,7 +75,7 @@ type State = {
   chartTypes: Array<Object>,
   duration: Array<Object>,
   expandedChard: boolean
-}
+};
 
 export default class SmallChart extends React.PureComponent<Props, State> {
   state = {
@@ -86,34 +87,44 @@ export default class SmallChart extends React.PureComponent<Props, State> {
     timeSpans: timeSpans,
     duration: duration,
     expandedChard: true
-  }
+  };
 
   changeDuration = (index: number) => {
-    const { duration } = this.state
-    const { currentTimeSpan } = this.props
+    const { duration } = this.state;
+    const { currentTimeSpan } = this.props;
 
-    this.props.saveDuration(duration[index])
-    this.props.updateTimeLine({ updateWRT: 'duration', time: currentTimeSpan.label, duration: duration[index].label })
-  }
+    this.props.saveDuration(duration[index]);
+    this.props.updateTimeLine({
+      updateWRT: 'duration',
+      time: currentTimeSpan.label,
+      duration: duration[index].label
+    });
+  };
 
   changeTimeSpan = (e: Object) => {
-    const { currentDuration } = this.props
+    const { currentDuration } = this.props;
 
-    this.props.saveTimeSpan(e)
-    this.props.updateTimeLine({ updateWRT: 'timespan', time: e.label, duration: currentDuration.label })
-  }
+    this.props.saveTimeSpan(e);
+    this.props.updateTimeLine({
+      updateWRT: 'timespan',
+      time: e.label,
+      duration: currentDuration.label
+    });
+  };
 
   changeChartType = (e: Object) => {
-    this.setState({ currentChart: e })
-  }
+    this.setState({ currentChart: e });
+  };
 
   onUpdateIndicators = (indicator: Indicator, active: boolean) => {
-    const { indicators, indicatorHeight } = this.state
-    let newIndicatorHeight
+    const { indicators, indicatorHeight } = this.state;
+    let newIndicatorHeight;
 
     active
-      ? (newIndicatorHeight = indicatorHeight + indicators[indicator.rank].height)
-      : (newIndicatorHeight = indicatorHeight - indicators[indicator.rank].height)
+      ? (newIndicatorHeight =
+          indicatorHeight + indicators[indicator.rank].height)
+      : (newIndicatorHeight =
+          indicatorHeight - indicators[indicator.rank].height);
 
     this.setState({
       indicators: [
@@ -122,46 +133,54 @@ export default class SmallChart extends React.PureComponent<Props, State> {
         ...indicators.slice(indicator.rank + 1)
       ],
       indicatorHeight: newIndicatorHeight
-    })
-  }
+    });
+  };
 
   render() {
     const {
       props: { ohlcvData, currentDuration, currentTimeSpan, noOfCandles },
-      state: { indicators, chartHeight, indicatorHeight, expandedChard, currentChart },
+      state: {
+        indicators,
+        chartHeight,
+        indicatorHeight,
+        expandedChard,
+        currentChart
+      },
       changeTimeSpan,
       onUpdateIndicators,
       changeDuration,
       changeChartType
-    } = this
+    } = this;
     return (
-      <Wrapper className="main-chart">
-        <Toolbar
-          changeDuration={changeDuration}
-          onUpdateIndicators={onUpdateIndicators}
-          changeTimeSpan={changeTimeSpan}
-          changeChartType={changeChartType}
-          currentDuration={currentDuration}
-          currentTimeSpan={currentTimeSpan}
-          state={this.state}
-        />
-        <ChartLoadingScreen
-          volume={indicators[0]}
-          line={indicators[1]}
-          macd={indicators[2]}
-          rsi={indicators[3]}
-          atr={indicators[4]}
-          forceIndex={indicators[5]}
-          indicatorHeight={indicatorHeight}
-          chartHeight={chartHeight}
-          noOfCandles={noOfCandles}
-          currentChart={currentChart}
-          expandedChard={expandedChard}
-          data={ohlcvData || []}
-          width="100%"
-        />
-      </Wrapper>
-    )
+      <ResizableBox height={715} width={800}>
+        <Wrapper className="main-chart">
+          <Toolbar
+            changeDuration={changeDuration}
+            onUpdateIndicators={onUpdateIndicators}
+            changeTimeSpan={changeTimeSpan}
+            changeChartType={changeChartType}
+            currentDuration={currentDuration}
+            currentTimeSpan={currentTimeSpan}
+            state={this.state}
+          />
+          <ChartLoadingScreen
+            volume={indicators[0]}
+            line={indicators[1]}
+            macd={indicators[2]}
+            rsi={indicators[3]}
+            atr={indicators[4]}
+            forceIndex={indicators[5]}
+            indicatorHeight={indicatorHeight}
+            chartHeight={chartHeight}
+            noOfCandles={noOfCandles}
+            currentChart={currentChart}
+            expandedChard={expandedChard}
+            data={ohlcvData || []}
+            width="100%"
+          />
+        </Wrapper>
+      </ResizableBox>
+    );
   }
 }
 
@@ -196,19 +215,26 @@ const Toolbar = ({
       />
     </TimeSpanMenu>
 
-    <DurationMenu duration={state.duration} currentDuration={currentDuration} changeDuration={changeDuration} />
+    <DurationMenu
+      duration={state.duration}
+      currentDuration={currentDuration}
+      changeDuration={changeDuration}
+    />
 
     <TimeSpanMenu>
-      <IndicatorSelect indicators={state.indicators} onUpdateIndicators={onUpdateIndicators} />
+      <IndicatorSelect
+        indicators={state.indicators}
+        onUpdateIndicators={onUpdateIndicators}
+      />
     </TimeSpanMenu>
   </ToolbarWrapper>
-)
+);
 
 const DurationMenu = ({ duration, changeDuration, currentDuration }) => {
   return (
     <DurationWrapper className="bp3-button">
       {duration.map((dur, index) => {
-        const { label } = dur
+        const { label } = dur;
         return (
           <Button
             key={index}
@@ -218,11 +244,11 @@ const DurationMenu = ({ duration, changeDuration, currentDuration }) => {
             intent={currentDuration.label === label ? 'primary' : ''}
             active={currentDuration.label === label}
           />
-        )
+        );
       })}
     </DurationWrapper>
-  )
-}
+  );
+};
 
 const DurationWrapper = styled.div`
   position: relative;
@@ -238,13 +264,13 @@ const DurationWrapper = styled.div`
   &:active {
     background-color: transparent !important;
   }
-`
+`;
 
 const ToolbarWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: start;
-`
+`;
 
 const ChartTypeMenu = styled.div`
   position: relative;
@@ -253,12 +279,12 @@ const ChartTypeMenu = styled.div`
   display: flex;
   width: 30px;
   flex-direction: column;
-`
+`;
 const Wrapper = styled(Card)`
   height: 100%;
   min-height: 775px;
   padding: 20px 20px 0 20px;
-`
+`;
 
 const TimeSpanMenu = styled.div`
   position: relative;
@@ -267,4 +293,4 @@ const TimeSpanMenu = styled.div`
   display: flex;
   width: auto;
   flex-direction: column;
-`
+`;

@@ -11,7 +11,7 @@ type Props = {
   noOfCandles: number,
   updateTimeLine: SendTimelineParams => void,
   saveDuration: Object => void,
-  saveTimeSpan: Object => void,
+  saveTimeSpan: Object => void
 };
 
 type State = {};
@@ -25,7 +25,7 @@ export default class OHLCV extends React.PureComponent<Props, State> {
       currentTimeSpan,
       updateTimeLine,
       saveTimeSpan,
-      saveDuration,
+      saveDuration
     } = this.props;
 
     return (

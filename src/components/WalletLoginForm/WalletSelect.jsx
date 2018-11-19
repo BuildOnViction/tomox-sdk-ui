@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Button, MenuItem } from '@blueprintjs/core'
-import { Select } from '@blueprintjs/select'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button, MenuItem } from '@blueprintjs/core';
+import { Select } from '@blueprintjs/select';
 
 class WalletSelect extends React.Component {
   renderItem(item, { handleClick, modifiers }) {
@@ -13,11 +13,12 @@ class WalletSelect extends React.Component {
         text={`${item.rank + 1}. ${item.address}`}
         key={item.rank}
       />
-    )
+    );
   }
 
   render() {
-    const { items, item, icon, handleChange, label } = this.props
+    const { items, item, icon, handleChange, label } = this.props;
+    // console.log(item);
     return (
       <Select
         items={items}
@@ -27,9 +28,13 @@ class WalletSelect extends React.Component {
         onItemSelect={handleChange}
         popoverProps={{ minimal: true }}
       >
-        <Button icon={item.icon ? item.icon : icon} text={label} righticonname="double-caret-vertical" />
+        <Button
+          icon={item && item.icon ? item.icon : icon}
+          text={label}
+          righticonname="double-caret-vertical"
+        />
       </Select>
-    )
+    );
   }
 }
 
@@ -37,6 +42,6 @@ WalletSelect.propTypes = {
   item: PropTypes.object,
   items: PropTypes.array,
   handleChange: PropTypes.func
-}
+};
 
-export default WalletSelect
+export default WalletSelect;

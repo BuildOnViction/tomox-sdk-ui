@@ -21,16 +21,19 @@ const accountTransform = createTransform(
   // transform state coming from storage, on its way to be rehydrated into redux
   // such as {key1}=>{key1:key1.toupper} means get from localStorage and transform it to uppercase in store
   outboundState => {
-    const networkID = parseInt(process.env.REACT_APP_DEFAULT_NETWORK_ID, 10);
-    // create a local wallet when rehydrate
-    createLocalWalletSigner(
-      {
-        privateKey: outboundState.privateKey
-      },
-      networkID
-    );
+    if (outboundState.privateKey) {
+      const networkID = parseInt(process.env.REACT_APP_DEFAULT_NETWORK_ID, 10);
+      // create a local wallet when rehydrate
+      createLocalWalletSigner(
+        {
+          privateKey: outboundState.privateKey
+        },
+        networkID
+      );
+    }
     return outboundState;
   },
+  // apply creating window.signer from account
   { whitelist: ['account'] }
 );
 
@@ -39,7 +42,7 @@ const persistConfig = {
   keyPrefix: 'tomo:',
   storage,
   transforms: [accountTransform],
-  whitelist: ['account'] // only account will be persisted
+  whitelist: ['account', 'accountBalances'] // only information related to account will be persisted
 };
 
 const initialStore = {};

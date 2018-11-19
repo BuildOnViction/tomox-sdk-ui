@@ -4,62 +4,151 @@ import styled from 'styled-components';
 import OHLCV from '../../components/OHLCV';
 import OrdersTable from '../../components/OrdersTable';
 import OrderForm from '../../components/OrderForm';
+import { CloseableCallout } from '../../components/Common';
 import TradesTable from '../../components/TradesTable';
 import TokenSearcher from '../../components/TokenSearcher';
 import OrderBook from '../../components/OrderBook';
-import { Grid, Cell } from 'styled-css-grid';
+import { Grid } from 'styled-css-grid';
 
 import { Redirect } from 'react-router-dom';
+// import { ResizableBox } from 'react-resizable';
 
 type Props = {
   authenticated: boolean,
-  queryDefaultData: () => void,
+  balancesLoading: boolean,
+  baseTokenBalance: string,
+  quoteTokenBalance: string,
+  baseTokenAllowance: string,
+  quoteTokenAllowance: string,
+  baseTokenSymbol: string,
+  quoteTokenSymbol: string,
+  getDefaultData: () => void
 };
 
-type State = {};
+type State = {
+  calloutVisible: boolean,
+  calloutOptions: Object
+};
 
 export default class TradingPage extends React.PureComponent<Props, State> {
+  state = {
+    calloutVisible: false,
+    calloutOptions: {}
+  };
+
+  callouts = {
+    notAuthenticated: () => ({
+      title: 'Authenticated Required',
+      intent: 'danger',
+      message: 'Please authenticate to start trading'
+    }),
+    fundsLocked: (symbol: string) => ({
+      title: `${symbol} Tokens locked`,
+      intent: 'danger',
+      message:
+        'To start trading, you need to unlock funds and allow AMP to settle transactions when a match is found'
+    })
+  };
+
   componentDidMount() {
-    const { authenticated, queryDefaultData } = this.props;
-    if (authenticated) queryDefaultData();
+    const { authenticated, getDefaultData } = this.props;
+    if (authenticated) getDefaultData();
+
+    this.checkIfCalloutRequired();
   }
+
+  checkIfCalloutRequired = () => {
+    const {
+      authenticated,
+      baseTokenBalance,
+      quoteTokenBalance,
+      baseTokenAllowance,
+      quoteTokenAllowance,
+      baseTokenSymbol,
+      quoteTokenSymbol
+    } = this.props;
+
+    if (!authenticated) {
+      let calloutOptions = this.callouts.notAuthenticated();
+      this.setState({ calloutVisible: true, calloutOptions });
+    }
+
+    // TODO update when moving balances in redux from string to numbers
+    if (baseTokenBalance !== '0.0' && baseTokenAllowance === '0.0') {
+      let calloutOptions = this.callouts.fundsLocked(baseTokenSymbol);
+      this.setState({ calloutVisible: true, calloutOptions });
+    }
+
+    if (quoteTokenBalance !== '0.0' && quoteTokenAllowance === '0.0') {
+      let calloutOptions = this.callouts.fundsLocked(quoteTokenSymbol);
+      this.setState({ calloutVisible: true, calloutOptions });
+    }
+  };
+
+  closeCallout = () => {
+    this.setState({ calloutVisible: false });
+  };
 
   render() {
     const { authenticated } = this.props;
     if (!authenticated) return <Redirect to="/login" />;
+
+    const { calloutOptions, calloutVisible } = this.state;
+
     return (
       <TradingPageLayout>
-        <Cell area="leftColumn">
+        <SidePanel>
           <Grid columns={1} alignContent="start">
+            <CloseableCallout
+              visible={calloutVisible}
+              handleClose={this.closeCallout}
+              {...calloutOptions}
+            />
             <TokenSearcher />
             <OrderForm side="BUY" />
             <OrderForm side="SELL" />
           </Grid>
-        </Cell>
+        </SidePanel>
 
-        <Cell area="middleColumn">
+        <MainPanel>
           <Grid columns={1} alignContent="start">
             <OHLCV />
-            <OrdersTable />
-            <Grid columns={2} alignContent="start">
-              <OrderBook />
-              <TradesTable />
-            </Grid>
+            <OrdersTableBox />
+            <OrdersAndTradesTableBox>
+              <OrderBookBox />
+              <TradesTableBox />
+            </OrdersAndTradesTableBox>
           </Grid>
-        </Cell>
+        </MainPanel>
       </TradingPageLayout>
     );
   }
 }
 
-// closure css for styled.Grid
-styled.Grid = styled(Grid).attrs({
-  className: 'trading-page-layout',
-  columns: '1fr 4fr',
-  rows: 'fr',
-  areas: ['leftColumn middleColumn'],
-});
+const TradingPageLayout = styled.div.attrs({
+  className: 'trading-page-layout'
+})``;
 
-const TradingPageLayout = styled.Grid`
-  padding: 10px;
-`;
+const SidePanel = styled.div.attrs({
+  className: 'trading-page-side-panel'
+})``;
+
+const MainPanel = styled.div.attrs({
+  className: 'trading-page-main-panel'
+})``;
+
+const OrderBookBox = styled(OrderBook).attrs({
+  className: 'trading-page-orderbook'
+})``;
+
+const TradesTableBox = styled(TradesTable).attrs({
+  className: 'trading-page-tradestable'
+})``;
+
+const OrdersTableBox = styled(OrdersTable).attrs({
+  className: 'trading-page-orderstable'
+})``;
+
+const OrdersAndTradesTableBox = styled.div.attrs({
+  className: 'trading-page-orders-and-trades-tables'
+})``;

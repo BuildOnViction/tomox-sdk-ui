@@ -27,7 +27,7 @@ const SmallTxNotification = (props: Props) => {
                 <Spinner size={25} intent={Intent.SUCCESS} />
                 <Indent /> {txName} pending
               </div>
-              <Button minimal interactive>
+              <Button minimal disabled>
                 View on Etherscan
               </Button>
             </NotificationBox>
@@ -40,7 +40,7 @@ const SmallTxNotification = (props: Props) => {
           <Callout intent={Intent.SUCCESS} icon="tick">
             <NotificationBox>
               {txName} successful
-              <Button minimal interactive>
+              <Button minimal disabled>
                 View on Etherscan
               </Button>
             </NotificationBox>
@@ -53,7 +53,7 @@ const SmallTxNotification = (props: Props) => {
           <Callout intent={Intent.DANGER} icon="cross">
             <NotificationBox>
               {txName} error
-              <Button minimal interactive>
+              <Button minimal disabled>
                 View on Etherscan
               </Button>
             </NotificationBox>

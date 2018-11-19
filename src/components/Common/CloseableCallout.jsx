@@ -16,7 +16,11 @@ const CloseableCallout = (props: Props) => {
   const { title, message, intent, icon, visible, handleClose } = props;
 
   return (
-    <CalloutBox intent={intent} icon={icon} visible={visible}>
+    <CalloutBox
+      intent={intent}
+      icon={icon}
+      display={visible ? 'block' : 'none'}
+    >
       <H4>
         <TitleBox>
           <H4>{title}</H4>
@@ -29,7 +33,7 @@ const CloseableCallout = (props: Props) => {
 };
 
 const CalloutBox = styled(Callout)`
-  display: ${props => (props.visible ? 'block' : 'none')};
+  display: ${props => props.display};
 `;
 
 const TitleBox = styled.div`

@@ -1,16 +1,25 @@
 //@flow
 import { quoteTokens } from '../../config/quotes';
 import { tokens } from '../../config/tokens';
-import { generateTokenPairs, getPairSymbol, getBaseToken } from '../../utils/tokens';
+import {
+  generateTokenPairs,
+  getPairSymbol,
+  getBaseToken
+} from '../../utils/tokens';
 
-import type { Token, TokenPair, TokenPairState, TokenPairDataMap } from '../../types/tokens';
+import type {
+  Token,
+  TokenPair,
+  TokenPairState,
+  TokenPairDataMap
+} from '../../types/tokens';
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens);
 const defaultInitialState = {
   byPair: defaultTokenPairs,
   data: {},
   favorites: [],
-  currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
+  currentPair: (Object.values(defaultTokenPairs)[0]: any).pair
 };
 
 //By default the application is started with a default create from tokens in a configuration file. To
@@ -25,7 +34,7 @@ export const initialized = (customInitialState?: Object) => {
 export const currentPairUpdated = (pair: string) => {
   const event = (state: TokenPairState) => ({
     ...state,
-    currentPair: pair,
+    currentPair: pair
   });
 
   return event;
@@ -37,7 +46,11 @@ export const tokenPairUpdated = (baseToken: Token) => {
     let newState = quoteTokens.reduce(
       (result, quoteToken) => {
         if (quoteToken.symbol === baseToken.symbol) return result;
-        if (Object.keys(state.byPair).indexOf(getPairSymbol(quoteToken.symbol, baseToken.symbol)) !== -1) {
+        if (
+          Object.keys(state.byPair).indexOf(
+            getPairSymbol(quoteToken.symbol, baseToken.symbol)
+          ) !== -1
+        ) {
           return result;
         }
 
@@ -48,6 +61,9 @@ export const tokenPairUpdated = (baseToken: Token) => {
           quoteTokenSymbol: quoteToken.symbol,
           baseTokenAddress: baseToken.address,
           quoteTokenAddress: quoteToken.address,
+          baseTokenDecimals: baseToken.decimals,
+          quoteTokenDecimals: quoteToken.decimals,
+          pricepointMultiplier: 1e9
         };
         return result;
       },
@@ -56,7 +72,7 @@ export const tokenPairUpdated = (baseToken: Token) => {
 
     return {
       ...state,
-      byPair: { ...state.byPair, ...newState.byPair },
+      byPair: { ...state.byPair, ...newState.byPair }
     };
   };
 
@@ -73,7 +89,7 @@ export const tokenPairRemoved = (baseToken: Token) => {
       }, {});
 
     return {
-      byPair: newByPair,
+      byPair: newByPair
     };
   };
 
@@ -86,8 +102,8 @@ export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
       ...state,
       data: {
         ...state.data,
-        ...tokenPairData,
-      },
+        ...tokenPairData
+      }
     };
 
     return newState;
@@ -105,7 +121,7 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
 
     return {
       ...state,
-      favorites: newState,
+      favorites: newState
     };
   };
 
@@ -120,6 +136,6 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsData: () => state.data,
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
-    getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+    getCurrentPair: (): TokenPair => state.byPair[state.currentPair]
   };
 }

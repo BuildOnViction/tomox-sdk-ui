@@ -9,6 +9,8 @@ export type NewOrderParams = {
   pair: TokenPair,
   amount: number,
   price: number,
+  makeFee: string,
+  takeFee: string,
   side: 'BUY' | 'SELL'
 };
 
@@ -28,6 +30,12 @@ export type RawOrder = {
   signature: Signature
 };
 
+export type OrderCancel = {
+  orderHash: string,
+  hash: string,
+  signature: Signature
+};
+
 export type Order = {
   time: number,
   amount: number,
@@ -39,7 +47,7 @@ export type Order = {
   pair: string,
   type: 'MARKET' | 'LIMIT',
   status: 'NEW' | 'OPEN' | 'CANCELLED' | 'FILLED' | 'PARTIALLY_FILLED',
-  cancelleable: boolean
+  cancellable: boolean
 };
 
 // eslint-disable-next-line

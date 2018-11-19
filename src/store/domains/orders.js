@@ -79,7 +79,7 @@ export default function ordersDomain(state: OrdersState) {
         order.filled = formatNumber(order.filled, { precision: 3 });
         order.amount = formatNumber(order.amount, { precision: 3 });
         order.price = formatNumber(order.price, { precision: 5 });
-        order.cancelleable =
+        order.cancellable =
           order.status === 'OPEN' || order.status === 'PARTIAL_FILLED';
         return order;
       });

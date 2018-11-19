@@ -51,7 +51,12 @@ export const sendNewOrder = (
       let tokenPairDomain = getTokenPairsDomain(state);
       let accountBalancesDomain = getAccountBalancesDomain(state);
       let pair = tokenPairDomain.getCurrentPair();
-      let { baseTokenSymbol, quoteTokenSymbol, pricepointMultiplier } = pair;
+      let {
+        baseTokenSymbol,
+        quoteTokenSymbol,
+        baseTokenDecimals,
+        quoteTokenDecimals
+      } = pair;
 
       let signer = getSigner();
       let userAddress = await signer.getAddress();
@@ -68,32 +73,40 @@ export const sendNewOrder = (
         takeFee
       };
 
+      let defaultPriceMultiplier = utils.bigNumberify(1e9);
+      let decimalsPriceMultiplier = utils.bigNumberify(
+        (10 ** (baseTokenDecimals - quoteTokenDecimals)).toString()
+      );
+      let pricepointMultiplier = defaultPriceMultiplier.mul(
+        decimalsPriceMultiplier
+      );
+
       let order = await signer.createRawOrder(params);
       let sellTokenSymbol, sellAmount;
+      console.log(order, pricepointMultiplier);
+      sellTokenSymbol =
+        order.side === 'BUY' ? quoteTokenSymbol : baseTokenSymbol;
 
-      order.side === 'BUY'
-        ? (sellTokenSymbol = quoteTokenSymbol)
-        : (sellTokenSymbol = baseTokenSymbol);
-
-      order.side === 'BUY'
-        ? (sellAmount = utils
-            .bigNumberify(order.amount)
-            .mul(utils.bigNumberify(order.pricepoint))
-            .div(pricepointMultiplier))
-        : (sellAmount = utils.bigNumberify(order.amount));
+      sellAmount =
+        order.side === 'BUY'
+          ? utils
+              .bigNumberify(order.amount)
+              .mul(utils.bigNumberify(order.pricepoint))
+              .div(pricepointMultiplier)
+          : utils.bigNumberify(order.amount);
 
       // let buyTokenSymbol = pair.baseTokenAddress === order.buyToken ? pair.baseTokenSymbol : pair.quoteTokenSymbol
       // let sellTokenSymbol = pair.baseTokenAddress === order.sellToken ? pair.baseTokenSymbol : pair.quoteTokenSymbol
       // let buyTokenBalance = accountBalancesDomain.getBigNumberBalance(buyTokenSymbol)
 
-      let WETHBalance = accountBalancesDomain.getBigNumberBalance('WETH');
+      // let WETHBalance = accountBalancesDomain.getBigNumberBalance('WETH');
       let sellTokenBalance = accountBalancesDomain.getBigNumberBalance(
         sellTokenSymbol
       );
 
       // let buyAmount = utils.bigNumberify(order.buyAmount)
       // let sellAmount = utils.bigNumberify(order.sellAmount)
-      let fee = utils.bigNumberify(makeFee);
+      // let fee = utils.bigNumberify(makeFee);
 
       // if (buyTokenBalance.lt(buyAmount)) {
       //   return dispatch(
@@ -112,17 +125,17 @@ export const sendNewOrder = (
       }
 
       //TODO include the case where WETH is the token balance
-      if (WETHBalance.lt(fee)) {
-        return dispatch(
-          appActionCreators.addDangerNotification({
-            message: 'Insufficient WETH Balance'
-          })
-        );
-      }
+      // if (WETHBalance.lt(fee)) {
+      //   return dispatch(
+      //     appActionCreators.addDangerNotification({
+      //       message: 'Insufficient WETH Balance'
+      //     })
+      //   );
+      // }
 
-      dispatch(
-        appActionCreators.addSuccessNotification({ message: `Order valid` })
-      );
+      // dispatch(
+      //   appActionCreators.addSuccessNotification({ message: `Order valid` })
+      // );
 
       socket.sendNewOrderMessage(order);
 

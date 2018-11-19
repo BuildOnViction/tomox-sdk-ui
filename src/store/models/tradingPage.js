@@ -1,71 +1,105 @@
 // @flow
-import * as actionCreators from '../actions/tradingPage'
-import * as ohlcvActionCreators from '../actions/ohlcv'
-import * as orderFormActionCreators from '../actions/orderForm'
-import type { State, ThunkAction } from '../../types'
-import accountDomain from '../domains/account'
+import {
+  getTokenPairsDomain,
+  getAccountDomain,
+  getAccountBalancesDomain
+} from '../domains';
+import * as actionCreators from '../actions/tradingPage';
+import type { State, ThunkAction } from '../../types';
+import { getSigner } from '../services/signer';
+import {
+  // parseTrades,
+  parseOrders,
+  parseTokenPairData
+} from '../../utils/parsers';
 
 // eslint-disable-next-line
-export default function getTradingPageSelector(state: State) {
+export default function tradingPageSelector(state: State) {
+  let accountDomain = getAccountDomain(state);
+  let accountBalancesDomain = getAccountBalancesDomain(state);
+  let pairDomain = getTokenPairsDomain(state);
+
+  let { baseTokenSymbol, quoteTokenSymbol } = pairDomain.getCurrentPair();
+
+  let authenticated = accountDomain.authenticated();
+  let baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol);
+  let quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol);
+  let baseTokenAllowance = accountBalancesDomain.tokenAllowance(
+    baseTokenSymbol
+  );
+  let quoteTokenAllowance = accountBalancesDomain.tokenAllowance(
+    quoteTokenSymbol
+  );
+
   return {
-    authenticated: accountDomain(state.account).authenticated()
-  }
+    authenticated,
+    baseTokenAllowance,
+    baseTokenBalance,
+    baseTokenSymbol,
+    quoteTokenAllowance,
+    quoteTokenBalance,
+    quoteTokenSymbol
+  };
 }
 
-const orderFormData = {
-  askPrice: 0.25,
-  bidPrice: 0.1,
-  totalQuoteBalance: 100,
-  totalBaseBalance: 1000,
-  formName: 'Sell',
-  quoteToken: 'ETH',
-  baseToken: 'USD'
-}
-
-export const queryDefaultData = (): ThunkAction => {
-  return async (dispatch, getState, { api }) => {
+export const getDefaultData = (): ThunkAction => {
+  return async (dispatch, getState, { api, socket }) => {
     try {
-      let tokenPairData = await api.getTokenPairData()
-      dispatch(actionCreators.updateTokenPairData(tokenPairData))
+      socket.unsubscribeChart();
+      socket.unsubscribeOrderBook();
+      socket.unsubscribeTrades();
 
-      let ohlcv = await api.getData()
+      let state = getState();
+      let signer = getSigner();
+      let pairDomain = getTokenPairsDomain(state);
 
-      setTimeout(function() {
-        dispatch(ohlcvActionCreators.saveData(ohlcv))
-      }, 2000)
+      let userAddress = await signer.getAddress();
+      let currentPair = pairDomain.getCurrentPair();
+      // let pairs = pairDomain.getPairsByCode();
 
-      let orders = await api.getOrders()
+      let { baseTokenDecimals, quoteTokenDecimals } = currentPair;
 
-      dispatch(actionCreators.updateOrdersTable(orders))
+      let tokenPairData = await api.fetchTokenPairData();
 
-      let { bids, asks, trades } = await api.getOrderBookData()
+      console.log('TOKEN PAIR DATA', tokenPairData);
+      console.log('DECIMALS', baseTokenDecimals, quoteTokenDecimals);
 
-      dispatch(actionCreators.updateOrderBook(bids, asks))
-      dispatch(actionCreators.updateTradesTable(trades))
+      tokenPairData = parseTokenPairData(tokenPairData, baseTokenDecimals);
 
-      dispatch(orderFormActionCreators.saveData(orderFormData))
+      let orders = await api.fetchOrders(userAddress);
+      orders = parseOrders(orders, baseTokenDecimals);
+
+      dispatch(actionCreators.updateTokenPairData(tokenPairData));
+      dispatch(actionCreators.initOrdersTable(orders));
+
+      socket.subscribeTrades(currentPair);
+      socket.subscribeOrderBook(currentPair);
+      socket.subscribeChart(currentPair);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-}
+  };
+};
 
 // eslint-disable-next-line
 export const updateCurrentPair = (pair: string): ThunkAction => {
-  return async (dispatch, getState, { api }) => {
+  return async (dispatch, getState, { api, socket }) => {
     try {
-      dispatch(actionCreators.updateCurrentPair(pair))
+      socket.unsubscribeChart();
+      socket.unsubscribeOrderBook();
+      socket.unsubscribeTrades();
 
-      let ohlcv = await api.getData()
-      dispatch(ohlcvActionCreators.saveData(ohlcv))
+      let state = getState();
+      let pairDomain = getTokenPairsDomain(state);
 
-      let { bids, asks, trades } = await api.getOrderBookData()
-      dispatch(actionCreators.updateOrderBook(bids, asks))
-      dispatch(actionCreators.updateTradesTable(trades))
+      dispatch(actionCreators.updateCurrentPair(pair));
+      let tokenPair = pairDomain.getPair(pair);
 
-      dispatch(orderFormActionCreators.saveData(orderFormData))
+      socket.subscribeTrades(tokenPair);
+      socket.subscribeOrderBook(tokenPair);
+      socket.subscribeChart(tokenPair);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-}
+  };
+};

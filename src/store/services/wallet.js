@@ -64,7 +64,7 @@ export const createWalletFromJSON = async (
 ) => {
   let wallet;
   try {
-    console.log(encryptedWallet, password);
+    // console.log(encryptedWallet, password);
     wallet = await Wallet.fromEncryptedJson(
       encryptedWallet,
       password,

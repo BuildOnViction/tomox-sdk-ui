@@ -17,12 +17,15 @@ export const round = (n, decimals = '2') =>
 
 export const convertPricepointToPrice = (
   n,
-  pricePointMultiplier = 1,
-  decimals = '15'
-) =>
-  Math.round((n / pricePointMultiplier) * Math.pow(10, decimals)) /
-  Math.pow(10, decimals);
-
+  pricePointMultiplier = 1e9,
+  decimals = 6
+) => {
+  const price =
+    Math.round((n / pricePointMultiplier) * Math.pow(10, decimals)) /
+    Math.pow(10, decimals);
+  // console.log(pricePointMultiplier, price);
+  return price;
+};
 export const sortTable = (
   table,
   column,

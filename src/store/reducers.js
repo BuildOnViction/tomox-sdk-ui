@@ -62,7 +62,11 @@ export const accountBalances = createReducer(action => {
       return accountBalancesEvents.unsubscribed(payload.symbol);
     case accountBalancesActionTypes.updateBalance:
       return accountBalancesEvents.updated([
-        { symbol: payload.symbol, balance: payload.balance }
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
       ]);
     case accountBalancesActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances);
@@ -74,7 +78,11 @@ export const accountBalances = createReducer(action => {
       return accountBalancesEvents.unsubscribed(payload.symbol);
     case depositFormActionTypes.updateBalance:
       return accountBalancesEvents.updated([
-        { symbol: payload.symbol, balance: payload.balance }
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
       ]);
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances);
@@ -82,7 +90,11 @@ export const accountBalances = createReducer(action => {
       return accountBalancesEvents.updated(payload.balances);
     case walletPageActionTypes.updateBalance:
       return accountBalancesEvents.updated([
-        { symbol: payload.symbol, balance: payload.balance }
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
       ]);
     case walletPageActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances);

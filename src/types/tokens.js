@@ -9,7 +9,15 @@ export type TokenImage = {
 export type Token = {
   address: string,
   symbol: Symbol,
+  decimals: number,
   image: TokenImage
+};
+
+export type RankedToken = {
+  address: string,
+  symbol: string,
+  decimals: number,
+  rank: number
 };
 
 export type TokenPair = {
@@ -17,7 +25,9 @@ export type TokenPair = {
   +baseTokenSymbol: string,
   +quoteTokenSymbol: string,
   +baseTokenAddress: string,
-  +quoteTokenAddress: string
+  +quoteTokenAddress: string,
+  +decimalsMultiplier: number,
+  +pricepointMultiplier: number
 };
 
 export type TokenPairState = {
@@ -27,7 +37,9 @@ export type TokenPairState = {
       +baseTokenSymbol: string,
       +quoteTokenSymbol: string,
       +baseTokenAddress: string,
-      +quoteTokenAddress: string
+      +quoteTokenAddress: string,
+      +decimalsMultiplier: number,
+      +pricepointMultiplier: number
     }
   },
   +data: {
@@ -50,7 +62,7 @@ export type TokenData = {
   balance: string,
   allowance: string,
   allowed: boolean,
-  allowancePending: boolean,
+  // allowancePending: boolean,
   image: TokenImage
 };
 

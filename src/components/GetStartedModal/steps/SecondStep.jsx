@@ -208,7 +208,7 @@ const SecondStep = (props: Props) => {
             <p>
               By clicking the convert button, you will trigger two blockchain
               transaction.{' '}
-              <Button minimal interactive>
+              <Button minimal disabled>
                 View FAQ
               </Button>
             </p>

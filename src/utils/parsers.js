@@ -1,9 +1,13 @@
-import { isFloat, isInteger, round, convertPricepointToPrice } from './helpers';
-import { fromWeiToFloat } from './bignumber';
-import { ether } from './constants';
+//@flow
+import { isFloat, isInteger, round } from './helpers';
+// import { fromWeiToFloat } from './bignumber';
+// import { ether } from './constants';
 import { utils } from 'ethers';
 
-export const parseJSONData = obj => {
+import type { Order, Orders } from '../types/orders';
+import type { Trade, Trades } from '../types/trades';
+
+export const parseJSONData = (obj: Object): Object => {
   for (let key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       parseJSONData(obj[key]);
@@ -23,7 +27,7 @@ export const parseJSONData = obj => {
   return obj;
 };
 
-export const parseJSONToFixed = (obj, decimals = 2) => {
+export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
   for (let key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       parseJSONToFixed(obj[key], decimals);
@@ -43,42 +47,78 @@ export const parseJSONToFixed = (obj, decimals = 2) => {
   return obj;
 };
 
-export const parseOrder = (order, decimals = 2) => ({
+export const parseTokenAmount = (
+  amount: number,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): number => {
+  let precisionMultiplier = utils.bigNumberify((10 ** precision).toString());
+  let decimalsMultiplier = utils.bigNumberify((10 ** tokenDecimals).toString());
+  let bigAmount = utils
+    .bigNumberify(amount)
+    .mul(precisionMultiplier)
+    .div(decimalsMultiplier);
+
+  return Number(bigAmount) / Number(precisionMultiplier);
+};
+
+export const parsePricepoint = (
+  pricepoint: number,
+  pricePointMultiplier: number = 1e9,
+  precision: number = 6
+): number => {
+  return (
+    Math.round((pricepoint / pricePointMultiplier) * Math.pow(10, precision)) /
+    Math.pow(10, precision)
+  );
+};
+
+export const parseOrder = (
+  order: Object,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): Order => ({
   time: order.createdAt,
-  amount: fromWeiToFloat(order.amount, decimals),
-  buyAmount: fromWeiToFloat(order.buyAmount, decimals),
-  sellAmount: fromWeiToFloat(order.sellAmount, decimals),
-  filled: fromWeiToFloat(order.filledAmount, decimals),
-  price: convertPricepointToPrice(order.pricepoint),
+  amount: parseTokenAmount(order.amount, tokenDecimals, precision),
+  filled: parseTokenAmount(order.filledAmount, tokenDecimals, precision),
+  price: parsePricepoint(order.pricepoint),
   hash: order.hash,
   side: order.side,
   pair: order.pairName,
   type: 'LIMIT',
-  status: order.status
+  status: order.status,
+  cancellable: order.cancellable
 });
 
-export const parseOrders = (orders, decimals = 2) => {
+export const parseOrders = (
+  orders: Array<Object>,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): Orders => {
   let parsed = orders.map(order => ({
     time: order.createdAt,
-    amount: fromWeiToFloat(order.amount, decimals),
-    buyAmount: fromWeiToFloat(order.buyAmount, decimals),
-    sellAmount: fromWeiToFloat(order.sellAmount, decimals),
-    filled: fromWeiToFloat(order.filledAmount, decimals),
-    price: convertPricepointToPrice(order.pricepoint),
+    amount: parseTokenAmount(order.amount, tokenDecimals, precision),
+    filled: parseTokenAmount(order.filledAmount, tokenDecimals, precision),
+    price: parsePricepoint(order.pricepoint),
     hash: order.hash,
     side: order.side,
     pair: order.pairName,
     type: 'LIMIT',
-    status: order.status
+    status: order.status,
+    cancellable: order.cancellable
   }));
 
   return parsed;
 };
 
-export const parseTrade = (trade, decimals = 2) => ({
+export const parseTrade = (
+  trade: Object,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): Trade => ({
   time: trade.createdAt,
-  price: convertPricepointToPrice(trade.pricepoint),
-  amount: fromWeiToFloat(trade.amount, decimals),
+  price: parsePricepoint(trade.pricepoint),
+  amount: parseTokenAmount(trade.amount, tokenDecimals, precision),
   hash: trade.hash,
   orderHash: trade.orderHash,
   type: trade.type || 'LIMIT',
@@ -86,72 +126,73 @@ export const parseTrade = (trade, decimals = 2) => ({
   pair: trade.pairName,
   status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
   maker: utils.getAddress(trade.maker),
-  taker: utils.getAddress(trade.taker)
+  taker: utils.getAddress(trade.taker),
+  signature: trade.signature,
+  tradeNonce: trade.tradeNonce
 });
 
-export const parseTrades = (trades, decimals = 2) => {
-  if (!trades) {
-    return [];
-  }
-  let parsed = trades.map(trade => ({
-    time: trade.createdAt,
-    price: convertPricepointToPrice(trade.pricepoint),
-    amount: fromWeiToFloat(trade.amount, decimals),
-    hash: trade.hash,
-    orderHash: trade.orderHash,
-    type: trade.type || 'LIMIT',
-    side: trade.side,
-    pair: trade.pairName,
-    status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
-    maker: utils.getAddress(trade.maker),
-    taker: utils.getAddress(trade.taker)
-  }));
+export const parseTrades = (
+  trades: Array<Object>,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): Array<Trades> => {
+  let parsed = trades.map(trade => parseTrade(trade, tokenDecimals, precision));
 
   return parsed;
 };
 
-export const parseOrderBookData = (data, decimals = 2) => {
-  let { bids, asks, trades } = data;
+export const parseOrderBookData = (
+  data: Object,
+  tokenDecimals: number = 18,
+  precision: number = 2
+): Object => {
+  let { bids, asks } = data;
+
   asks = asks.map(ask => ({
-    price: convertPricepointToPrice(ask.pricepoint),
-    amount: fromWeiToFloat(ask.amount, decimals)
+    price: parsePricepoint(ask.pricepoint),
+    amount: parseTokenAmount(ask.amount, tokenDecimals, precision)
   }));
 
   bids = bids.map(bid => ({
-    price: convertPricepointToPrice(bid.pricepoint),
-    amount: fromWeiToFloat(bid.amount, decimals)
+    price: parsePricepoint(bid.pricepoint),
+    amount: parseTokenAmount(bid.amount, tokenDecimals, precision)
   }));
 
-  // console.log(data);
-  trades = parseTrades(trades);
-
-  return { asks, bids, trades };
+  return { asks, bids };
 };
 
-export const parseTokenPairData = data => {
+export const parseTokenPairData = (
+  data: Array<Object>,
+  tokenDecimals: number = 18
+): Array<Object> => {
   let parsed = data.map(datum => ({
     pair: datum.pair.pairName,
-    lastPrice: datum.close ? convertPricepointToPrice(datum.close) : null,
+    lastPrice: datum.close ? parsePricepoint(datum.close) : null,
     change: datum.open
       ? round((datum.close - datum.open) / datum.open, 1)
       : null,
-    high: datum.high ? convertPricepointToPrice(datum.high) : null,
-    low: datum.low ? convertPricepointToPrice(datum.low) : null,
-    volume: datum.volume ? fromWeiToFloat(datum.volume, 0) : null
+    high: datum.high ? parsePricepoint(datum.high) : null,
+    low: datum.low ? parsePricepoint(datum.low) : null,
+    volume: datum.volume
+      ? parseTokenAmount(datum.volume, tokenDecimals, 0)
+      : null
   }));
 
   return parsed;
 };
 
-export const parseOHLCV = data => {
+export const parseOHLCV = (
+  data: Array<Object>,
+  baseTokenDecimals: number = 18
+): Array<Object> => {
   let parsed = data.map(datum => {
     return {
       date: new Date(datum.timestamp),
-      open: convertPricepointToPrice(datum.open),
-      high: convertPricepointToPrice(datum.high),
-      low: convertPricepointToPrice(datum.low),
-      close: convertPricepointToPrice(datum.close),
-      volume: datum.volume.div(ether)
+      open: parsePricepoint(datum.open),
+      high: parsePricepoint(datum.high),
+      low: parsePricepoint(datum.low),
+      close: parsePricepoint(datum.close),
+      volume: parseTokenAmount(datum.volume, baseTokenDecimals, 2)
     };
   });
 

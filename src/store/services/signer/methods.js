@@ -4,10 +4,13 @@ import {
   getOrderHash,
   getOrderCancelHash,
   getTradeHash
+  // getRandomNonce
 } from '../../../utils/crypto';
 import { encodeBytes } from '../../../utils/rlp';
 import { feedUpdateDigest, getSwarmSig } from '../../../utils/swarmFeed';
 import { createRawOrder as orderCreateRawOrder } from '../orders';
+// import { EXCHANGE_ADDRESS } from '../../../config/contracts';
+// import { round } from '../../../utils/helpers';
 import { BZZ_URL } from '../../../config/url';
 
 // flow
@@ -51,8 +54,11 @@ export const updateSwarmFeed = async function(request: Request, messages: any) {
   }
 };
 
-export const createRawOrder = function(params: NewOrderParams) {
-  return orderCreateRawOrder(this, params);
+export const createRawOrder = async function(
+  params: NewOrderParams
+): Promise<RawOrder> {
+  const order = await orderCreateRawOrder(this, params);
+  return order;
 };
 
 export const createOrderCancel = async function(orderHash: string) {
@@ -67,7 +73,7 @@ export const createOrderCancel = async function(orderHash: string) {
   return orderCancel;
 };
 
-export const signOrder = async function(order: RawOrder) {
+export const signOrder = async function(order: RawOrder): Promise<RawOrder> {
   order.hash = getOrderHash(order);
 
   let signature = await this.signMessage(utils.arrayify(order.hash));
@@ -77,7 +83,7 @@ export const signOrder = async function(order: RawOrder) {
   return order;
 };
 
-export const signTrade = async function(trade: Trade) {
+export const signTrade = async function(trade: Trade): Promise<Trade> {
   trade.hash = getTradeHash(trade);
 
   let signature = await this.signMessage(utils.arrayify(trade.hash));

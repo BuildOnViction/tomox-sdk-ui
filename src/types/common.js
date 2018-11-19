@@ -34,4 +34,4 @@ export type TokenBalance = {
 };
 
 export type Tokens = Array<Token>;
-export type TokenBalances = Array<TokenBalances>;
+export type TokenBalances = Array<TokenBalance>;
