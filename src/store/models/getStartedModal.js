@@ -76,7 +76,7 @@ export const convertETH = (convertAmount: number): ThunkAction => {
 
       convertTxReceipt.status === 0 || allowTxReceipt.status === 0
         ? dispatch(
-            notificationActionCreators.addDangerNotification({
+            notificationActionCreators.addErrorNotification({
               message: 'ETH conversion transaction failed'
             })
           )

@@ -73,7 +73,7 @@ export function openConnection(): ThunkAction {
 const handleWebsocketCloseMessage = (dispatch, event, closeConnection) => {
   // dispatch(actionCreators.closeConnection())/
   dispatch(
-    appActionCreators.addDangerNotification({ message: 'Connection lost' })
+    appActionCreators.addErrorNotification({ message: 'Connection lost' })
   );
   setTimeout(() => dispatch(openConnection()), 5000);
 };
@@ -118,7 +118,7 @@ function handleOrderAdded(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     }
   };
 }
@@ -134,7 +134,7 @@ function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     }
   };
 }
@@ -156,7 +156,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable(orders));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     }
   };
 }
@@ -178,7 +178,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
       );
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     }
   };
 }
@@ -186,7 +186,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
 function handleOrderError(event: WebsocketEvent): ThunkAction {
   return async dispatch => {
     dispatch(
-      appActionCreators.addDangerNotification({
+      appActionCreators.addErrorNotification({
         message: `Error: ${event.payload}`
       })
     );
@@ -230,7 +230,7 @@ function handleRequestSignature(event: WebsocketEvent): ThunkAction {
         matches
       );
     } catch (e) {
-      dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }));
       console.log(e);
     }
   };
@@ -258,7 +258,7 @@ const handleOrderBookMessage = (dispatch, event: WebsocketMessage) => {
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     console.log(e);
   }
 };
@@ -284,7 +284,7 @@ const handleTradesMessage = (dispatch, event: WebsocketMessage) => {
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     console.log(e);
   }
 };
@@ -311,7 +311,7 @@ const handleOHLCVMessage = (dispatch, event: WebsocketMessage) => {
         return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addDangerNotification({ message: e.message }));
+    dispatch(appActionCreators.addErrorNotification({ message: e.message }));
     console.log(e);
   }
 };

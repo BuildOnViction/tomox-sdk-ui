@@ -99,7 +99,7 @@ const handleWebsocketOpenMessage = (dispatch, event) => {
 
 const handleWebsocketCloseMessage = (dispatch, event, closeConnection) => {
   dispatch(
-    appActionCreators.addDangerNotification({
+    appActionCreators.addErrorNotification({
       message: 'Connection lost'
     })
   );
@@ -154,7 +154,7 @@ function handleOrderAdded(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({
+      dispatch(appActionCreators.addErrorNotification({
         message: e.message
       }));
     }
@@ -181,7 +181,7 @@ function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
       dispatch(actionCreators.updateOrdersTable([order]));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({
+      dispatch(appActionCreators.addErrorNotification({
         message: e.message
       }));
     }
@@ -300,7 +300,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({
+      dispatch(appActionCreators.addErrorNotification({
         message: e.message
       }));
     }
@@ -392,7 +392,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addDangerNotification({
+      dispatch(appActionCreators.addErrorNotification({
         message: e.message
       }));
     }
@@ -405,7 +405,7 @@ function handleOrderError(event: WebsocketEvent): ThunkAction {
       message
     } = event.payload;
     dispatch(
-      appActionCreators.addDangerNotification({
+      appActionCreators.addErrorNotification({
         message: `Error: ${message}`
       })
     );

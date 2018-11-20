@@ -14,9 +14,9 @@ import {
 import {
   round
 } from '../../utils/helpers';
-import {
-  ether
-} from '../../utils/constants';
+// import {
+//   ether
+// } from '../../utils/constants';
 // flow
 import type {
   NewOrderParams,
@@ -73,7 +73,7 @@ export const createRawOrder = async function (
   // let amountMultiplier = ether; //1e18
   let priceMultiplier = utils.bigNumberify('1000000000'); //1e9
 
-  let decimalsPriceMultiplier = utils.bigNumberify((10 ** (baseTokenDecimals - quoteTokenDecimals)).toString())
+  // let decimalsPriceMultiplier = utils.bigNumberify((10 ** (baseTokenDecimals - quoteTokenDecimals)).toString())
   let amountMultiplier = utils.bigNumberify((10 ** baseTokenDecimals).toString())
 
 

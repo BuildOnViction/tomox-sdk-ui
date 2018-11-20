@@ -19,10 +19,10 @@ export const sendGetToken = (side: string, amount: number, price: number): Thunk
       console.log(e)
 
       if (e.message === errors.invalidJSON) {
-        return dispatch(appActionCreators.addDangerNotification({ message: 'Connection error' }))
+        return dispatch(appActionCreators.addErrorNotification({ message: 'Connection error' }))
       }
 
-      return dispatch(appActionCreators.addDangerNotification({ message: 'Unknown error' }))
+      return dispatch(appActionCreators.addErrorNotification({ message: 'Unknown error' }))
     }
   }
 }

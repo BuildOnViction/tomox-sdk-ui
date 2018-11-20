@@ -110,7 +110,7 @@ export const sendNewOrder = (
 
       // if (buyTokenBalance.lt(buyAmount)) {
       //   return dispatch(
-      //     appActionCreators.addDangerNotification({
+      //     appActionCreators.addErrorNotification({
       //       message: `Insufficient ${buyTokenSymbol} balance`
       //     })
       //   )
@@ -118,7 +118,7 @@ export const sendNewOrder = (
 
       if (sellTokenBalance.lt(sellAmount)) {
         return dispatch(
-          appActionCreators.addDangerNotification({
+          appActionCreators.addErrorNotification({
             message: `Insufficient ${sellTokenSymbol} balance`
           })
         );
@@ -127,7 +127,7 @@ export const sendNewOrder = (
       //TODO include the case where WETH is the token balance
       // if (WETHBalance.lt(fee)) {
       //   return dispatch(
-      //     appActionCreators.addDangerNotification({
+      //     appActionCreators.addErrorNotification({
       //       message: 'Insufficient WETH Balance'
       //     })
       //   );
@@ -144,13 +144,13 @@ export const sendNewOrder = (
       console.log(e);
 
       // if (e.message === errors.invalidJSON) {
-      //   return dispatch(appActionCreators.addDangerNotification({ message: 'Connection error' }))
+      //   return dispatch(appActionCreators.addErrorNotification({ message: 'Connection error' }))
       // }
 
-      // return dispatch(appActionCreators.addDangerNotification({ message: 'Unknown error' }))
+      // return dispatch(appActionCreators.addErrorNotification({ message: 'Unknown error' }))
 
       let message = parseNewOrderError(e);
-      return dispatch(appActionCreators.addDangerNotification({ message }));
+      return dispatch(appActionCreators.addErrorNotification({ message }));
     }
   };
 };

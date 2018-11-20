@@ -103,7 +103,7 @@ export function queryAccountData(): ThunkAction {
       );
     } catch (e) {
       dispatch(
-        notifierActionCreators.addDangerNotification({
+        notifierActionCreators.addErrorNotification({
           message: 'Could not connect to Ethereum network'
         })
       );

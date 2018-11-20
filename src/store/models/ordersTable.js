@@ -22,7 +22,7 @@ export const cancelOrder = (hash: string): ThunkAction => {
       socket.sendNewOrderCancelMessage(orderCancelPayload);
     } catch (error) {
       let message = parseCancelOrderError(error);
-      return dispatch(appActionCreators.addDangerNotification({ message }));
+      return dispatch(appActionCreators.addErrorNotification({ message }));
     }
   };
 };

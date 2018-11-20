@@ -129,7 +129,7 @@ export function queryAccountData(): ThunkAction {
       );
     } catch (e) {
       dispatch(
-        notifierActionCreators.addDangerNotification({
+        notifierActionCreators.addErrorNotification({
           message: 'Could not connect to Ethereum network'
         })
       );
@@ -171,7 +171,7 @@ export function toggleAllowance(symbol: string): ThunkAction {
             })
           ) :
           dispatch(
-            notifierActionCreators.addDangerNotification({
+            notifierActionCreators.addErrorNotification({
               message: `${symbol} Approval Failed. Please try again.`
             })
           );
@@ -186,7 +186,7 @@ export function toggleAllowance(symbol: string): ThunkAction {
             })
           ) :
           dispatch(
-            notifierActionCreators.addDangerNotification({
+            notifierActionCreators.addErrorNotification({
               message: `${symbol} Allowance Removal Failed. Please try again.`
             })
           );
@@ -228,7 +228,7 @@ export function toggleAllowance(symbol: string): ThunkAction {
       console.log(e);
       if (e.message === 'Trading approval pending') {
         dispatch(
-          notifierActionCreators.addDangerNotification({
+          notifierActionCreators.addErrorNotification({
             message: 'Trading approval pending'
           })
         );
