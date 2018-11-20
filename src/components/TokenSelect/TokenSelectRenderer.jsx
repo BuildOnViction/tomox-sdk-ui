@@ -7,7 +7,7 @@ import HighlightText from '../Common/HighlightText';
 type Props = {
   items: Array<Object>,
   item: Object,
-  onChange: (SyntheticEvent<>) => void,
+  onChange: (SyntheticEvent<>) => void
 };
 
 const TokenSelectRenderer = ({ item, items, onChange }: Props) => {

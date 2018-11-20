@@ -377,7 +377,7 @@ const SelectedPairCard = styled(Card)`
 `;
 
 const TokenPair = styled.h3`
-  /* color: ${Colors.LINK} !important; */
+  color: ${Colors.LINK} !important;
   font-size: 20px;
   margin-top: 15px !important;
   margin-left: 15px !important;

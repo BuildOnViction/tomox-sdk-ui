@@ -1,7 +1,9 @@
-import type { SettingsState } from '../../types/settings'
+import type {
+  SettingsState
+} from '../../types/settings'
 
 const initialState = {
-  defaultGasLimit: 1000000,
+  defaultGasLimit: 4700000, //0x47b760,
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true
 }

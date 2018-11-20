@@ -229,6 +229,7 @@ export const orderBook = createReducer(action => {
     case tradingPageActionTypes.initOrderBook:
     case tokenSearcherActionTypes.initOrderBook:
     case socketControllerActionTypes.initOrderBook:
+      console.log(payload)
       return orderBookEvents.orderBookInitialized(payload.bids, payload.asks);
     case tradingPageActionTypes.updateCurrentPair:
     case tokenSearcherActionTypes.updateCurrentPair:

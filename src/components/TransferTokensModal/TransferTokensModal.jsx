@@ -9,11 +9,16 @@ type Props = {
   isOpen: boolean,
   handleClose: (SyntheticEvent<>) => void,
   token: Token,
-  tokens: Array<Token>,
+  tokens: Array<Token>
 };
 
 const TransferTokensModal = (props: Props) => (
-  <Modal title="Send Ether or Tokens" icon="info-sign" isOpen={props.isOpen} onClose={props.handleClose}>
+  <Modal
+    title="Send Ether or Tokens"
+    icon="info-sign"
+    isOpen={props.isOpen}
+    onClose={props.handleClose}
+  >
     <TransferTokensFormContainer token={props.token} tokens={props.tokens} />
   </Modal>
 );

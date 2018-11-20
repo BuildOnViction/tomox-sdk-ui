@@ -42,9 +42,9 @@ class socketController extends React.Component<Props> {
 
   render() {
     // make sure after open connection successful then render children
-    const { isOpened, children } = this.props;
+    const { isOpened, children, authenticated } = this.props;
     // check for the first time to avoid initial problems
-    if (!isOpened) {
+    if (authenticated && !isOpened) {
       return <Loading />;
     }
     return children;

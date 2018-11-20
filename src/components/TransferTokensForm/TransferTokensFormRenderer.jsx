@@ -20,7 +20,7 @@ type Props = {
   receiver: string,
   handleChange: (SyntheticInputEvent<>) => void,
   handleTokenChange: (SyntheticEvent<>) => void,
-  handleSubmit: (SyntheticEvent<>) => void,
+  handleSubmit: (SyntheticEvent<>) => void
 };
 
 const TransferTokensFormRenderer = (props: Props) => {
@@ -38,7 +38,7 @@ const TransferTokensFormRenderer = (props: Props) => {
     receiver,
     handleChange,
     handleTokenChange,
-    handleSubmit,
+    handleSubmit
   } = props;
 
   return (
@@ -52,12 +52,21 @@ const TransferTokensFormRenderer = (props: Props) => {
             value={amount}
             onChange={handleChange}
           />
-          <TokenSelect token={token} tokens={tokens} onChange={handleTokenChange} />
+          <TokenSelect
+            token={token}
+            tokens={tokens}
+            onChange={handleTokenChange}
+          />
         </ControlGroup>
       </Label>
       <br />
       <Label text="Receiver Address" helpertext="(should start with 0x)">
-        <InputGroup placeholder="Receiver" name="receiver" value={receiver} onChange={handleChange} />
+        <InputGroup
+          placeholder="Receiver"
+          name="receiver"
+          value={receiver}
+          onChange={handleChange}
+        />
       </Label>
       <br />
       <GasSettings gas={gas} gasPrice={gasPrice} handleChange={handleChange} />
@@ -71,7 +80,14 @@ const TransferTokensFormRenderer = (props: Props) => {
           gas={gas}
         />
       </TxNotificationBox>
-      <Button text="Send Transaction" intent="primary" large type="submit" fill onClick={handleSubmit} />
+      <Button
+        text="Send Transaction"
+        intent="primary"
+        large
+        type="submit"
+        fill
+        onClick={handleSubmit}
+      />
     </div>
   );
 };

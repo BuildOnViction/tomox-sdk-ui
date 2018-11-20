@@ -3,7 +3,7 @@
 export type WebsocketEvent = {
   type: string,
   hash: ? string,
-  payload: Object,
+  payload: any, // can be object or array
 };
 
 export type WebsocketMessage = {

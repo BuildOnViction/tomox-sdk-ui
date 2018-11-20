@@ -81,7 +81,7 @@ export const getDefaultData = (): ThunkAction => {
       tokenPairData = parseTokenPairData(tokenPairData, baseTokenDecimals);
 
       let orders = await api.fetchOrders(userAddress);
-      console.log(orders, currentPair)
+      // console.log(orders, currentPair)
       orders = parseOrders(orders, baseTokenDecimals);
 
       dispatch(actionCreators.updateTokenPairData(tokenPairData));
