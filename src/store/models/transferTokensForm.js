@@ -1,13 +1,28 @@
 // @flow
-import ethers, { Contract } from 'ethers';
-import { getTransferTokensFormDomain, getTokenDomain } from '../domains';
+import ethers, {
+  Contract
+} from 'ethers';
+import {
+  getTransferTokensFormDomain,
+  getTokenDomain
+} from '../domains';
 import * as actionCreators from '../actions/transferTokensForm';
 
-import type { EtherTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
-import type { State, ThunkAction } from '../../types';
+import type {
+  EtherTxParams,
+  TransferTokensTxParams
+} from '../../types/transferTokensForm';
+import type {
+  State,
+  ThunkAction
+} from '../../types';
 
-import { getSigner } from '../services/signer';
-import { ERC20Token } from 'dex-contracts';
+import {
+  getSigner
+} from '../services/signer';
+import {
+  ERC20Token
+} from 'dex-contracts';
 
 export default function sendEtherSelector(state: State) {
   let tokenDomain = getTokenDomain(state);
@@ -26,7 +41,12 @@ export default function sendEtherSelector(state: State) {
   };
 }
 
-export const validateEtherTx = ({ amount, receiver, gas, gasPrice }: EtherTxParams): ThunkAction => {
+export const validateEtherTx = ({
+  amount,
+  receiver,
+  gas,
+  gasPrice
+}: EtherTxParams): ThunkAction => {
   return async (dispatch, getState) => {
     try {
       let signer = getSigner();
@@ -48,7 +68,12 @@ export const validateEtherTx = ({ amount, receiver, gas, gasPrice }: EtherTxPara
   };
 };
 
-export const sendEtherTx = ({ amount, receiver, gas, gasPrice }: EtherTxParams): ThunkAction => {
+export const sendEtherTx = ({
+  amount,
+  receiver,
+  gas,
+  gasPrice
+}: EtherTxParams): ThunkAction => {
   return async (dispatch, getState) => {
     try {
       let signer = getSigner();
@@ -78,7 +103,11 @@ export const sendEtherTx = ({ amount, receiver, gas, gasPrice }: EtherTxParams):
 export const validateTransferTokensTx = (params: TransferTokensTxParams): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      let { receiver, amount, tokenAddress } = params;
+      let {
+        receiver,
+        amount,
+        tokenAddress
+      } = params;
       let signer = getSigner();
       let token = new Contract(tokenAddress, ERC20Token.abi, signer);
 
@@ -94,7 +123,13 @@ export const validateTransferTokensTx = (params: TransferTokensTxParams): ThunkA
 export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      let { receiver, amount, gas, gasPrice, tokenAddress } = params;
+      let {
+        receiver,
+        amount,
+        gas,
+        gasPrice,
+        tokenAddress
+      } = params;
       let signer = getSigner();
       let token = new Contract(tokenAddress, ERC20Token.abi, signer);
 
@@ -108,9 +143,9 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
 
       let receipt = await signer.provider.waitForTransaction(tx.hash);
 
-      receipt.status === '0x0'
-        ? dispatch(actionCreators.revertTx('Transaction Failed', receipt))
-        : dispatch(actionCreators.confirmTx(receipt));
+      receipt.status === '0x0' ?
+        dispatch(actionCreators.revertTx('Transaction Failed', receipt)) :
+        dispatch(actionCreators.confirmTx(receipt));
     } catch (error) {
       dispatch(actionCreators.txError('error', error.message));
     }

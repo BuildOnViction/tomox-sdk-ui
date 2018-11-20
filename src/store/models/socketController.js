@@ -414,7 +414,7 @@ const handleOrderBookMessage = (dispatch: Dispatch, event: WebsocketEvent, getSt
 
   if (!event.payload) return
   if (event.payload.length === 0) return
-  console.log(event)
+
   let {
     pairName
   } = event.payload
