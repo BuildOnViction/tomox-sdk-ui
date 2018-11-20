@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { Loading } from '../Common';
+
 type Props = {
   authenticated: boolean,
+  isOpened: boolean,
   openConnection: void => void
 };
 
@@ -23,7 +26,7 @@ class socketController extends React.Component<Props> {
     this.unsubscribe = null;
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.authenticated) this.openConnection();
   }
 
@@ -38,7 +41,12 @@ class socketController extends React.Component<Props> {
   }
 
   render() {
-    const { children } = this.props;
+    // make sure after open connection successful then render children
+    const { isOpened, children } = this.props;
+    // check for the first time to avoid initial problems
+    if (!isOpened) {
+      return <Loading />;
+    }
     return children;
   }
 }

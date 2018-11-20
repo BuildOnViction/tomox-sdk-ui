@@ -6,6 +6,7 @@ import etherBalanceDomain from './etherBalance';
 import transferTokensFormDomain from './transferTokensForm';
 import loginPageDomain from './loginPage';
 import ohlcvDomain from './ohlcv';
+import websocketDomain from './websocket';
 import orderBookDomain from './orderBook';
 import orderFormDomain from './orderForm';
 import settingsDomain from './settings';
@@ -31,6 +32,7 @@ export const getTransferTokensFormDomain = state =>
   transferTokensFormDomain(state.transferTokensForm);
 export const getLoginPageDomain = state => loginPageDomain(state.loginPage);
 export const getOhlcvDomain = state => ohlcvDomain(state.ohlcv);
+export const getWebsocketDomain = state => websocketDomain(state.websocket);
 export const getOrderBookDomain = state => orderBookDomain(state.orderBook);
 export const getOrderFormDomain = state => orderFormDomain(state.orderForm);
 export const getOrdersDomain = state => ordersDomain(state.orders);

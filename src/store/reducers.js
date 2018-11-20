@@ -26,6 +26,7 @@ import * as orderBookEvents from './domains/orderBook';
 import * as tradeEvents from './domains/trades';
 import * as orderEvents from './domains/orders';
 import * as ohlcvEvents from './domains/ohlcv';
+import * as websocketEvents from './domains/websocket';
 import * as tokensEvents from './domains/tokens';
 import * as accountEvents from './domains/account';
 import * as depositFormEvents from './domains/depositForm';
@@ -154,6 +155,19 @@ export const transferTokensForm = createReducer(action => {
       return transferTokensFormEvents.txConfirmed(payload.receipt);
     default:
       return transferTokensFormEvents.initialized();
+  }
+});
+
+export const websocket = createReducer(action => {
+  const {
+    type,
+    payload
+  } = action;
+  switch (type) {
+    case socketControllerActionTypes.openConnection:
+      return websocketEvents.savedWebsocketStatus('open', payload);
+    default:
+      return websocketEvents.initialized();
   }
 });
 

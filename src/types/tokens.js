@@ -47,7 +47,7 @@ export type TokenData = {
   balance: string,
   allowance: string,
   allowed: boolean,
-  // allowancePending: boolean,
+  allowancePending: boolean,
   image: TokenImage
 };
 

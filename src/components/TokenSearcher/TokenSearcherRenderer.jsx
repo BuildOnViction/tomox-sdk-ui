@@ -1,7 +1,15 @@
 // @flow
-import React from 'react'
-import { Icon, Card, Tabs, Tab, InputGroup, Button, Collapse } from '@blueprintjs/core'
-import {} from '../Common'
+import React from 'react';
+import {
+  Icon,
+  Card,
+  Tabs,
+  Tab,
+  InputGroup,
+  Button,
+  Collapse
+} from '@blueprintjs/core';
+import {} from '../Common';
 import {
   Box,
   Colors,
@@ -9,13 +17,14 @@ import {
   Chevron,
   OverlaySpinner,
   CryptoIcon,
-  // ColumnEnd,
-  ColoredCryptoIcon,
+  ColumnEnd,
+  TokenIcon,
   RowStart,
   ColumnStart
-} from '../Common'
-import styled from 'styled-components'
-
+} from '../Common';
+import styled from 'styled-components';
+import { ResizableBox } from 'react-resizable';
+import { tokenImages } from '../../config/tokens';
 type Token = {
   pair: string,
   lastPrice: string,
@@ -26,7 +35,7 @@ type Token = {
   base: string,
   quote: string,
   favorited: boolean
-}
+};
 
 type Props = {
   loading: boolean,
@@ -47,7 +56,7 @@ type Props = {
   onChangeFilterName: (SyntheticInputEvent<>) => void,
   changeSelectedToken: Token => void,
   toggleCollapse: () => void
-}
+};
 
 const TokenSearchRenderer = (props: Props) => {
   const {
@@ -69,21 +78,31 @@ const TokenSearchRenderer = (props: Props) => {
     toggleCollapse,
     baseTokenBalance,
     quoteTokenBalance
-  } = props
+  } = props;
   return (
     <TokenSearchCard>
       {loading ? (
         <OverlaySpinner visible={loading} transparent />
       ) : (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', height: '30px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              height: '30px'
+            }}
+          >
             <SearchInput
               leftIcon="search"
               onChange={onChangeSearchFilter}
               value={searchFilter}
               placeholder="Search Token ..."
             />
-            <Button icon={isOpen ? 'chevron-up' : 'chevron-down'} onClick={toggleCollapse} minimal />
+            <Button
+              icon={isOpen ? 'chevron-up' : 'chevron-down'}
+              onClick={toggleCollapse}
+              minimal
+            />
           </div>
           <Collapse isOpen={isOpen}>
             <SelectedPair
@@ -139,10 +158,10 @@ const TokenSearchRenderer = (props: Props) => {
         </div>
       )}
     </TokenSearchCard>
-  )
-}
+  );
+};
 
-export default TokenSearchRenderer
+export default TokenSearchRenderer;
 
 type PanelProps = {
   filterName: string,
@@ -156,7 +175,7 @@ type PanelProps = {
   onChangeSearchFilter: (SyntheticInputEvent<>) => void,
   onChangeFilterName: (SyntheticInputEvent<>) => void,
   onChangeSortOrder: string => void
-}
+};
 
 const Panel = (props: PanelProps) => {
   const {
@@ -167,8 +186,8 @@ const Panel = (props: PanelProps) => {
     updateFavorite,
     onChangeFilterName,
     changeSelectedToken
-  } = props
-  const isFavoriteTokensList = selectedTabId === 'star'
+  } = props;
+  const isFavoriteTokensList = selectedTabId === 'star';
 
   return (
     <TokenSearchPanelBox>
@@ -178,23 +197,25 @@ const Panel = (props: PanelProps) => {
         filterName={filterName}
         sortOrder={sortOrder}
       />
-      <ul className="list">
-        {tokenPairs.map((token, index) => (
-          <TokenRow
-            key={index}
-            index={index}
-            token={token}
-            selectedTabId={selectedTabId}
-            isFavoriteTokensList={isFavoriteTokensList}
-            updateFavorite={updateFavorite}
-            changeSelectedToken={changeSelectedToken}
-          />
-        ))}
-        {tokenPairs.length === 0 && <Centered>No Tokens to show</Centered>}
-      </ul>
+      <ResizableBox height={150} width={Infinity}>
+        <ul className="list">
+          {tokenPairs.map((token, index) => (
+            <TokenRow
+              key={index}
+              index={index}
+              token={token}
+              selectedTabId={selectedTabId}
+              isFavoriteTokensList={isFavoriteTokensList}
+              updateFavorite={updateFavorite}
+              changeSelectedToken={changeSelectedToken}
+            />
+          ))}
+          {tokenPairs.length === 0 && <Centered>No Tokens to show</Centered>}
+        </ul>
+      </ResizableBox>
     </TokenSearchPanelBox>
-  )
-}
+  );
+};
 
 type TokenRowProps = {
   index: number,
@@ -202,10 +223,17 @@ type TokenRowProps = {
   isFavoriteTokensList: boolean,
   updateFavorite: (string, boolean) => void,
   changeSelectedToken: Object => void
-}
+};
 
-const TokenRow = ({ index, token, updateFavorite, isFavoriteTokensList, changeSelectedToken }: TokenRowProps) => {
-  const { favorited, lastPrice, change, base, pair } = token
+const TokenRow = ({
+  index,
+  token,
+  updateFavorite,
+  isFavoriteTokensList,
+  changeSelectedToken
+}: TokenRowProps) => {
+  const { favorited, lastPrice, change, base, pair } = token;
+
   return (
     <li key={pair} className="row">
       <CryptoIcon name={base} />
@@ -219,20 +247,28 @@ const TokenRow = ({ index, token, updateFavorite, isFavoriteTokensList, changeSe
         {change}%
       </Change24H>
       <span className="star">
-        <Icon icon={favorited ? 'star' : 'star-empty'} onClick={() => updateFavorite(pair, !favorited)} />
+        <Icon
+          icon={favorited ? 'star' : 'star-empty'}
+          onClick={() => updateFavorite(pair, !favorited)}
+        />
       </span>
     </li>
-  )
-}
+  );
+};
 
 type HeaderProps = {
   onChangeFilterName: (SyntheticInputEvent<>) => void,
   filterName: string,
   sortOrder: string,
   isFavoriteTokensList: boolean
-}
+};
 
-const Header = ({ onChangeFilterName, filterName, sortOrder, isFavoriteTokensList }: HeaderProps) => {
+const Header = ({
+  onChangeFilterName,
+  filterName,
+  sortOrder,
+  isFavoriteTokensList
+}: HeaderProps) => {
   return (
     <ListHeader>
       <li className="heading">
@@ -263,8 +299,8 @@ const Header = ({ onChangeFilterName, filterName, sortOrder, isFavoriteTokensLis
         <span className="star">&nbsp;</span>
       </li>
     </ListHeader>
-  )
-}
+  );
+};
 
 const ShowToken = ({ symbol, balance }) => {
   return (
@@ -274,87 +310,93 @@ const ShowToken = ({ symbol, balance }) => {
         <Ellipsis title={balance}>{balance}</Ellipsis>
       </div>
     </FlexBetween>
-  )
-}
+  );
+};
 
-const SelectedPair = ({ selectedPair, baseTokenBalance, quoteTokenBalance }) => {
-  const { pair, lastPrice, volume, high, low, quote, base } = selectedPair
+const SelectedPair = ({
+  selectedPair,
+  baseTokenBalance,
+  quoteTokenBalance
+}) => {
+  const { pair, lastPrice, volume, high, low, quote, base } = selectedPair;
 
   return (
     <SelectedPairCard>
-      <ColumnStart>
-        <RowStart>
-          <ColoredCryptoIcon size={60} name={base} />
-          <TokenPair>{pair}</TokenPair>
-        </RowStart>
-        <Box mt={3}>
-          <ShowToken symbol={base} balance={baseTokenBalance} />
-          <ShowToken symbol={quote} balance={quoteTokenBalance} />
-        </Box>
-
-        <Box mt={3}>
+      <Row>
+        <ColumnStart>
+          <RowStart>
+            <TokenIcon size={60} image={tokenImages[base]} name={base} />
+            <TokenPair>{pair}</TokenPair>
+          </RowStart>
+          <Box mt={3}>
+            <ShowToken symbol={base} balance={baseTokenBalance} />
+            <ShowToken symbol={quote} balance={quoteTokenBalance} />
+          </Box>
+        </ColumnStart>
+        <ColumnEnd>
           <p className="lastPrice">
-            Last Price: {lastPrice}/{quote}
+            Last Price: {lastPrice ? `${lastPrice}/${quote}` : 'N.A'}
           </p>
-          <p>Volume: {volume}</p>
+          <p>Volume: {volume || 'N.A'}</p>
           <p>
             <span className="label">High: </span>
-            {high}
+            {high || 'N.A'}
           </p>
           <p>
             <span className="label">Low: </span>
-            {low}
+            {low || 'N.A'}
           </p>
-        </Box>
-      </ColumnStart>
+        </ColumnEnd>
+      </Row>
     </SelectedPairCard>
-  )
-}
+  );
+};
 
 const TokenSearchCard = styled(Card).attrs({
   className: 'token-searcher'
 })`
   position: relative;
-`
+`;
 
 const TokenSearchTabs = styled(Tabs)`
   margin-bottom: 20px;
-`
-// const Row = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-// `;
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const TokenSearchPanelBox = styled.div`
   height: 100%;
   margin-top: 10px;
-`
+`;
 
 const SelectedPairCard = styled(Card)`
   margin: 15px 0px;
   padding: 18px 18px 9px 18px !important;
-`
+`;
 
 const TokenPair = styled.h3`
-  color: ${Colors.LINK} !important;
-  font-size: 25px;
+  /* color: ${Colors.LINK} !important; */
+  font-size: 20px;
   margin-top: 15px !important;
   margin-left: 15px !important;
   margin: 0;
-`
+`;
 
 const SearchInput = styled(InputGroup)`
   width: 92%;
   padding-bottom: 10px;
-`
+`;
 
 const ListHeader = styled.ul`
   margin: 10px 0 7px;
-`
+`;
 
 const Change24H = styled.span.attrs({ className: 'change' })`
-  color: ${props => (props.change > 0 ? Colors.GREEN5 : Colors.RED4)} !important;
-`
+  color: ${props =>
+    props.change > 0 ? Colors.GREEN5 : Colors.RED4} !important;
+`;
 
 const FlexBetween = styled.div`
   display: flex;
@@ -363,7 +405,7 @@ const FlexBetween = styled.div`
   align-items: center;
   flex: 1;
   flex-direction: row;
-`
+`;
 
 const Ellipsis = styled.p`
   text-align: center;
@@ -372,4 +414,4 @@ const Ellipsis = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;

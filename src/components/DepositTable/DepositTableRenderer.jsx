@@ -4,7 +4,7 @@ import { Button, Switch, Checkbox, InputGroup, Tag } from '@blueprintjs/core';
 import {
   RowSpaceBetween,
   ColoredCryptoIcon,
-  ImageIcon,
+  TokenIcon,
   Colors
 } from '../Common';
 import styled from 'styled-components';
@@ -235,15 +235,7 @@ const QuoteTokenRows = (props: Props) => {
         <Row key={index}>
           <Cell>
             <TokenNameWrapper>
-              {image && image.url ? (
-                <ImageIcon alt={image.meta} src={image.url} size={35} />
-              ) : (
-                <ColoredCryptoIcon
-                  size={30}
-                  color={Colors.BLUE5}
-                  name={symbol}
-                />
-              )}
+              <TokenIcon image={image} symbol={symbol} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>
@@ -308,15 +300,7 @@ const BaseTokenRows = (props: Props) => {
         <Row key={index}>
           <Cell>
             <TokenNameWrapper>
-              {image && image.url ? (
-                <ImageIcon alt={image.meta} src={image.url} size={35} />
-              ) : (
-                <ColoredCryptoIcon
-                  size={30}
-                  color={Colors.BLUE5}
-                  name={symbol}
-                />
-              )}
+              <TokenIcon image={image} symbol={symbol} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>

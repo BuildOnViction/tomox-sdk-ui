@@ -19,7 +19,7 @@ export const OrderBookRenderer = (props: Props) => {
   const { bids, asks } = props;
   return (
     <React.Fragment>
-      <ResizableBox height={500} width={800}>
+      <ResizableBox height={500} width={Infinity}>
         <OrderBookBox>
           {!bids && <Loading />}
           {bids && (

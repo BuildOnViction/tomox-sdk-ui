@@ -50,3 +50,4 @@ for (let token in addresses[DEFAULT_NETWORK_ID]) {
 export const tokensBySymbol = tokensBySymbolTable[DEFAULT_NETWORK_ID]
 export const tokenSymbols = Object.keys(tokensBySymbol)
 export const tokens = Object.values(tokensBySymbol)
+export const tokenImages = images[DEFAULT_NETWORK_ID]

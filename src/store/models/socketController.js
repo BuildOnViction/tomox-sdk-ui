@@ -7,7 +7,8 @@ import * as appActionCreators from '../actions/app';
 import * as actionCreators from '../actions/socketController';
 import {
   getAccountDomain,
-  getTokenPairsDomain
+  getTokenPairsDomain,
+  getWebsocketDomain
 } from '../domains';
 import {
   getSigner
@@ -32,7 +33,8 @@ import type {
 export default function socketControllerSelector(state: State) {
   return {
     authenticated: getAccountDomain(state).authenticated(),
-    pairs: getTokenPairsDomain(state).getPairsByCode()
+    pairs: getTokenPairsDomain(state).getPairsByCode(),
+    isOpened: getWebsocketDomain(state).isOpened(),
   };
 }
 
@@ -90,6 +92,8 @@ export function openConnection(): ThunkAction {
 }
 
 const handleWebsocketOpenMessage = (dispatch, event) => {
+  // tell socket is open
+  dispatch(actionCreators.openConnection());
   dispatch(
     appActionCreators.addSuccessNotification({
       message: 'Connection successful'
@@ -412,7 +416,7 @@ function handleOrderError(event: WebsocketEvent): ThunkAction {
   };
 }
 
-const handleOrderBookMessage = (event: WebsocketMessage): ThunkAction => {
+const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, {
     socket
   }) => {

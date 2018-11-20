@@ -72,7 +72,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         ),
         icon: 'tick',
         intent: 'success',
-        timeout: 30
+        timeout: 30000
       };
     case 'orderSuccess':
       return {
@@ -95,19 +95,27 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         ),
         icon: 'tick',
         intent: 'success',
-        timeout: 10
+        timeout: 30000
       };
     case 'orderAdded':
       return {
         message: 'Order Added',
         icon: 'tick',
-        intent: 'success'
+        intent: 'success',
+        timeout: 3000
       };
     case 'orderCancelled':
       return {
         message: 'Order Cancelled',
         icon: 'tick',
         intent: 'success'
+      };
+    case 'orderMatched':
+      return {
+        message: 'Order Matched',
+        icon: 'tick',
+        intent: 'success',
+        timeout: 3000
       };
     default:
       return {

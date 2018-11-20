@@ -152,7 +152,7 @@ export default class SmallChart extends React.PureComponent<Props, State> {
       changeChartType
     } = this;
     return (
-      <ResizableBox height={715} width={800}>
+      <ResizableBox height={715} width={Infinity}>
         <Wrapper className="main-chart">
           <Toolbar
             changeDuration={changeDuration}
