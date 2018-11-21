@@ -13,7 +13,7 @@ import { push } from 'connected-react-router';
 
 import { getSigner } from '../services/signer';
 import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
-import { WETH } from 'dex-contracts';
+import { WETH } from '../../config/abis';
 import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
 import type { State, ThunkAction } from '../../types';
 
@@ -39,7 +39,7 @@ export const convertETH = (convertAmount: number): ThunkAction => {
     try {
       let signer = getSigner();
       let networkID = signer.networkID;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH.abi, signer);
+      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
       let signerAddress = await signer.getAddress();
       let txCount = await signer.provider.getTransactionCount(signerAddress);
 
@@ -102,7 +102,7 @@ export const approveWETH = (): ThunkAction => {
     try {
       let signer = getSigner();
       let networkID = signer.networkID;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH.abi, signer);
+      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
 
       let tx = await weth.approve(
         EXCHANGE_ADDRESS[networkID],

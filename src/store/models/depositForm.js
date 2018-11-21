@@ -21,9 +21,9 @@ import {
   WETH_ADDRESS
 } from '../../config/contracts';
 import {
-  ERC20Token,
+  ERC20,
   WETH
-} from 'dex-contracts';
+} from '../../config/abis';
 
 import type {
   Token,
@@ -141,7 +141,7 @@ export const confirmEtherDeposit = (
       dispatch(depositFormActionCreators.confirm());
       let signer = getSigner();
       let network = depositFormSelector(getState()).networkId();
-      let weth = new Contract(WETH_ADDRESS[network], WETH.abi, signer);
+      let weth = new Contract(WETH_ADDRESS[network], WETH, signer);
 
       if (shouldConvert) {
         if (shouldAllow) {
@@ -209,7 +209,7 @@ export const confirmTokenDeposit = ({
     try {
       let signer = getSigner();
       let exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId];
-      let token = new Contract(address, ERC20Token.abi, signer);
+      let token = new Contract(address, ERC20, signer);
 
       if (shouldAllow) {
         let allowTx = await token.approve(exchange, -1);

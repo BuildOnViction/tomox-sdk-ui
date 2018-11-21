@@ -4,8 +4,8 @@ import {
   utils
 } from 'ethers';
 import {
-  ERC20Token
-} from 'dex-contracts';
+  ERC20
+} from '../../config/abis';
 import {
   EXCHANGE_ADDRESS
 } from '../../config/contracts';
@@ -46,7 +46,7 @@ export async function updateAllowance(
 ) {
   const signer = getSigner();
 
-  const contract = new Contract(tokenAddress, ERC20Token.abi, signer);
+  const contract = new Contract(tokenAddress, ERC20, signer);
 
   const tx = await contract.approve(spender, balance);
   const receipt = await signer.provider.waitForTransaction(tx.hash);
@@ -62,7 +62,7 @@ export async function updateExchangeAllowance(
 ) {
   const signer = getSigner();
   const exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId];
-  const contract = new Contract(tokenAddress, ERC20Token.abi, signer);
+  const contract = new Contract(tokenAddress, ERC20, signer);
   const tx = await contract.approve(exchange, balance);
   const receipt = await signer.provider.waitForTransaction(tx.hash);
 
@@ -76,7 +76,7 @@ export async function queryTokenBalances(
   const provider = getProvider();
 
   const balancePromises = tokens.map(async token => {
-    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    const contract = new Contract(token.address, ERC20, provider);
     // try {
     return await contract.balanceOf(address);
     // } catch (e) {
@@ -106,7 +106,7 @@ export async function queryExchangeTokenAllowances(
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId];
   const allowancePromises = tokens.map(async token => {
     // try {
-    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    const contract = new Contract(token.address, ERC20, provider);
     return await contract.allowance(owner, exchange);
     // } catch (e) {
     //   return null;
@@ -133,7 +133,7 @@ export async function queryTokenAllowances(
   let allowances;
   const provider = getProvider();
   const allowancePromises = tokens.map(token => {
-    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    const contract = new Contract(token.address, ERC20, provider);
     return contract.allowance(owner, spender);
   });
 
@@ -170,7 +170,7 @@ export async function subscribeTokenBalance(
   callback: number => void
 ) {
   const provider = getProvider();
-  const contract = new Contract(token.address, ERC20Token.abi, provider);
+  const contract = new Contract(token.address, ERC20, provider);
 
   const initialBalance = await contract.balanceOf(address);
   const handler = async (sender, receiver, tokens) => {
@@ -196,7 +196,7 @@ export async function subscribeTokenBalances(
   const handlers = [];
 
   tokens.map(async token => {
-    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    const contract = new Contract(token.address, ERC20, provider);
     // const initialBalance = await contract.balanceOf(address)
 
     const handler = async (sender, receiver, amount) => {
@@ -209,7 +209,7 @@ export async function subscribeTokenBalances(
       }
     };
 
-    window.abi = ERC20Token.abi;
+    window.abi = ERC20;
 
     contract.ontransfer = handler;
     handlers.push(handler);
@@ -227,7 +227,7 @@ export async function subscribeTokenAllowance(
 ) {
   const provider = getProvider();
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId];
-  const contract = new Contract(token.address, ERC20Token.abi, provider);
+  const contract = new Contract(token.address, ERC20, provider);
 
   const initialAllowance = await contract.allowance(exchange, address);
   const handler = async (sender, receiver, tokens) => {
@@ -255,7 +255,7 @@ export async function subscribeTokenAllowances(
   const handlers = [];
 
   tokens.map(async token => {
-    const contract = new Contract(token.address, ERC20Token.abi, provider);
+    const contract = new Contract(token.address, ERC20, provider);
     const handler = async (owner, spender, amount) => {
       if (owner === address && spender === exchange) {
         const allowance = await contract.allowance(owner, exchange);

@@ -12,7 +12,7 @@ import * as notificationActionCreators from '../actions/app';
 import * as actionCreators from '../actions/convertTokensForm';
 import { getSigner } from '../services/signer';
 import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
-import { WETH } from 'dex-contracts';
+import { WETH } from '../../config/abis';
 import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
 import type { State, ThunkAction } from '../../types';
 
@@ -43,7 +43,7 @@ export const convertFromWETHtoETH = (convertAmount: number): ThunkAction => {
 
       let signer = getSigner();
       let networkID = signer.networkID;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH.abi, signer);
+      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
       let amount = utils.parseEther(convertAmount.toString());
 
       let tx = await weth.withdraw(amount);
@@ -82,7 +82,7 @@ export const convertFromETHtoWETH = (
 
       let signer = getSigner();
       let networkID = signer.networkID;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH.abi, signer);
+      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
       let signerAddress = await signer.getAddress();
       let txCount = await signer.provider.getTransactionCount(signerAddress);
 

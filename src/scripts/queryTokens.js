@@ -36,7 +36,7 @@ files.filter(file => !ignoreFilesPattern.test(file)).forEach((file, index) => {
 
   if (json.networks[networkID]) {
     symbol = file.slice(0, -5);
-    if (symbol === 'WETH') symbol = 'WETH';
+    // if (symbol === 'WETH9') symbol = 'WETH';
     address = json.networks[networkID].address;
     contracts[networkID][symbol] = utils.getAddress(address);
   }

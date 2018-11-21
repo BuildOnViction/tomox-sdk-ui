@@ -23,7 +23,6 @@ import {
   DEFAULT_NETWORK_ID
 } from '../config/environment'
 import {
-  createMetamaskSigner,
   createLocalWalletSigner
 } from './services/signer';
 
