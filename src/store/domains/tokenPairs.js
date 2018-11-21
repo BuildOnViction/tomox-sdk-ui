@@ -15,6 +15,7 @@ import type {
   Token,
   TokenPair,
   TokenPairState,
+  TokenPairData,
   TokenPairDataMap
 } from '../../types/tokens';
 
@@ -103,7 +104,12 @@ export const tokenPairRemoved = (baseToken: Token) => {
   return event;
 };
 
-const mergeByTokenPair = (arr1, arr2) => {
+/**
+ * Merge two arrays of token pairs
+ * @param {*} arr1 
+ * @param {*} arr2 
+ */
+const mergeByTokenPair = (arr1: TokenPairData[], arr2: TokenPairData[]): TokenPairData[] => {
   return [...arr1, ...arr2.filter(item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0)]
 }
 
@@ -119,6 +125,7 @@ export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
 
     return newState;
   };
+
   return event;
 };
 
