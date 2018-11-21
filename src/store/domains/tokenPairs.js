@@ -103,14 +103,18 @@ export const tokenPairRemoved = (baseToken: Token) => {
   return event;
 };
 
+const mergeByTokenPair = (arr1, arr2) => {
+  return [...arr1, ...arr2.filter(item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0)]
+}
+
 export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
   const event = (state: TokenPairState): TokenPairState => {
     let newState = {
       ...state,
-      data: [
-        ...state.data,
-        ...tokenPairData
-      ]
+      data: mergeByTokenPair(
+        state.data,
+        tokenPairData
+      )
     };
 
     return newState;
