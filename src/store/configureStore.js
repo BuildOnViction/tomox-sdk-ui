@@ -23,6 +23,7 @@ import {
   DEFAULT_NETWORK_ID
 } from '../config/environment'
 import {
+  createMetamaskSigner,
   createLocalWalletSigner
 } from './services/signer';
 
@@ -45,8 +46,13 @@ const accountTransform = createTransform(
         },
         +DEFAULT_NETWORK_ID
       );
+      return outboundState;
     }
-    return outboundState;
+    // reset if logged by metamask
+    return {
+      ...outboundState,
+      address: null
+    };
   },
   // apply creating window.signer from account
   {
