@@ -1,7 +1,5 @@
 //@flow
-import {
-  utils
-} from 'ethers';
+import { utils } from 'ethers';
 
 import * as appActionCreators from '../actions/app';
 import * as actionCreators from '../actions/socketController';
@@ -10,9 +8,7 @@ import {
   getTokenPairsDomain,
   getWebsocketDomain
 } from '../domains';
-import {
-  getSigner
-} from '../services/signer';
+import { getSigner } from '../services/signer';
 import {
   parseOrder,
   parseTrade,
@@ -21,30 +17,20 @@ import {
   parseOHLCV
 } from '../../utils/parsers';
 
-import type {
-  State,
-  Dispatch,
-  GetState,
-  ThunkAction
-} from '../../types/';
-import type {
-  WebsocketEvent,
-  WebsocketMessage
-} from '../../types/websocket';
+import type { State, Dispatch, GetState, ThunkAction } from '../../types/';
+import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket';
 
 export default function socketControllerSelector(state: State) {
   return {
     authenticated: getAccountDomain(state).authenticated(),
     pairs: getTokenPairsDomain(state).getPairsByCode(),
-    isOpened: getWebsocketDomain(state).isOpened(),
+    isOpened: getWebsocketDomain(state).isOpened()
   };
 }
 
 // eslint-disable-next-line
 export function openConnection(): ThunkAction {
-  return (dispatch, getState, {
-    socket
-  }) => {
+  return (dispatch, getState, { socket }) => {
     socket.createConnection();
     dispatch(actionCreators.createConnection());
 
@@ -62,10 +48,7 @@ export function openConnection(): ThunkAction {
     });
 
     socket.onMessage((message: WebsocketMessage) => {
-      let {
-        channel,
-        event
-      } = message;
+      let { channel, event } = message;
       // we can pass dispatch, or call dispatch to update redux
       switch (channel) {
         case 'orders':
@@ -102,7 +85,11 @@ const handleWebsocketOpenMessage = (dispatch, event) => {
   );
 };
 
-const handleWebsocketCloseMessage = (dispatch: Dispatch, event, closeConnection) => {
+const handleWebsocketCloseMessage = (
+  dispatch: Dispatch,
+  event,
+  closeConnection
+) => {
   dispatch(
     appActionCreators.addErrorNotification({
       message: 'Connection lost'
@@ -111,14 +98,20 @@ const handleWebsocketCloseMessage = (dispatch: Dispatch, event, closeConnection)
   setTimeout(() => dispatch(openConnection()), 5000);
 };
 
-const handleWebsocketErrorMessage = (dispatch: Dispatch, event: WebsocketEvent, closeConnection) => {
+const handleWebsocketErrorMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  closeConnection
+) => {
   console.log(event);
 };
 
-const handleOrderMessage = (dispatch: Dispatch, event: WebsocketEvent, getState: GetState) => {
-  const {
-    type
-  } = event;
+const handleOrderMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
+  const { type } = event;
 
   switch (type) {
     case 'ORDER_ADDED':
@@ -129,7 +122,7 @@ const handleOrderMessage = (dispatch: Dispatch, event: WebsocketEvent, getState:
       return handleOrderMatched(dispatch, event, getState);
     case 'ERROR':
       return handleOrderError(dispatch, event, getState);
-      // methods that need async
+    // methods that need async
     case 'ORDER_SUCCESS':
       return dispatch(handleOrderSuccess(event));
     case 'ORDER_PENDING':
@@ -142,106 +135,101 @@ const handleOrderMessage = (dispatch: Dispatch, event: WebsocketEvent, getState:
 
 function handleOrderAdded(dispatch: Dispatch, event: WebsocketEvent, getState) {
   try {
-    let state = getState()
-    let {
-      pairs
-    } = socketControllerSelector(state)
-    let order = event.payload
-    let {
-      baseTokenDecimals
-    } = pairs[order.pairName]
+    let state = getState();
+    let { pairs } = socketControllerSelector(state);
+    let order = event.payload;
+    let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals)
+    order = parseOrder(order, baseTokenDecimals);
 
     dispatch(appActionCreators.addOrderAddedNotification());
     dispatch(actionCreators.updateOrdersTable([order]));
   } catch (e) {
     console.log(e);
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }));
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
   }
 }
 
-function handleOrderCancelled(dispatch: Dispatch, event: WebsocketEvent, getState: GetState) {
+function handleOrderCancelled(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) {
   try {
-    let state = getState()
-    let {
-      pairs
-    } = socketControllerSelector(state)
-    let order = event.payload
-    let {
-      baseTokenDecimals
-    } = pairs[order.pairName]
+    let state = getState();
+    let { pairs } = socketControllerSelector(state);
+    let order = event.payload;
+    let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals)
+    order = parseOrder(order, baseTokenDecimals);
 
     dispatch(appActionCreators.addOrderCancelledNotification());
     dispatch(actionCreators.updateOrdersTable([order]));
   } catch (e) {
     console.log(e);
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }));
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
   }
 }
 
-function handleOrderMatched(dispatch: Dispatch, event: WebsocketEvent, getState: GetState) {
-
+function handleOrderMatched(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) {
   try {
-    let state = getState()
-    let {
-      pairs
-    } = socketControllerSelector(state)
-    let order = event.payload
-    let {
-      baseTokenDecimals
-    } = pairs[order.pairName]
+    let state = getState();
+    let { pairs } = socketControllerSelector(state);
+    let order = event.payload;
+    let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals)
+    order = parseOrder(order, baseTokenDecimals);
 
-    dispatch(appActionCreators.addOrderMatchedNotification())
-    dispatch(actionCreators.updateOrdersTable([order]))
+    dispatch(appActionCreators.addOrderMatchedNotification());
+    dispatch(actionCreators.updateOrdersTable([order]));
   } catch (e) {
-    console.log(e)
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }))
+    console.log(e);
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
   }
 }
 
 function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState) => {
     try {
-      let state = getState()
-      let {
-        pairs
-      } = socketControllerSelector(state)
+      let state = getState();
+      let { pairs } = socketControllerSelector(state);
       let signer = getSigner();
       let signerAddress = await signer.getAddress();
       let matches = event.payload.matches;
       let trades = matches.trades;
       let txHash = trades[0].txHash;
-      let pairName = trades[0].pairName
+      let pairName = trades[0].pairName;
       let userOrders = [];
       let userTrades = [];
       let userIsTaker =
         utils.getAddress(matches.takerOrder.userAddress) === signerAddress;
       let {
-        baseTokenDecimals,
+        baseTokenDecimals
         // quoteTokenDecimals
-      } = pairs[pairName]
+      } = pairs[pairName];
       if (userIsTaker) {
         let parsedOrder = parseOrder(matches.takerOrder, baseTokenDecimals);
         userOrders = [parsedOrder];
-        userTrades = matches.trades.map(trade => parseTrade(trade, baseTokenDecimals));
-        let {
-          price,
-          amount,
-          side,
-          filled,
-          pair
-        } = parsedOrder;
+        userTrades = matches.trades.map(trade =>
+          parseTrade(trade, baseTokenDecimals)
+        );
+        let { price, amount, side, filled, pair } = parsedOrder;
         dispatch(
           appActionCreators.addOrderSuccessNotification({
             txHash,
@@ -257,13 +245,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
           if (utils.getAddress(order.userAddress) === signerAddress) {
             let parsedOrder = parseOrder(order, baseTokenDecimals);
             userOrders.push(parsedOrder);
-            let {
-              price,
-              amount,
-              filled,
-              side,
-              pair
-            } = parsedOrder;
+            let { price, amount, filled, side, pair } = parsedOrder;
             dispatch(
               appActionCreators.addOrderSuccessNotification({
                 txHash,
@@ -293,47 +275,39 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addErrorNotification({
-        message: e.message
-      }));
+      dispatch(
+        appActionCreators.addErrorNotification({
+          message: e.message
+        })
+      );
     }
   };
 }
 
 function handleOrderPending(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState, {
-    socket
-  }) => {
+  return async (dispatch, getState, { socket }) => {
     try {
       let signer = getSigner();
-      let state = getState()
-      let {
-        pairs
-      } = socketControllerSelector(state)
+      let state = getState();
+      let { pairs } = socketControllerSelector(state);
       let signerAddress = await signer.getAddress();
       let matches = event.payload.matches;
       let trades = matches.trades;
       let txHash = trades[0].txHash;
-      let pairName = trades[0].pairName
+      let pairName = trades[0].pairName;
       let userOrders = [];
       let userTrades = [];
       let userIsTaker =
         utils.getAddress(matches.takerOrder.userAddress) === signerAddress;
-      let {
-        baseTokenDecimals
-      } = pairs[pairName]
+      let { baseTokenDecimals } = pairs[pairName];
 
       if (userIsTaker) {
         let parsedOrder = parseOrder(matches.takerOrder);
         userOrders = [parsedOrder];
-        userTrades = matches.trades.map(trade => parseTrade(trade, baseTokenDecimals));
-        let {
-          price,
-          amount,
-          side,
-          filled,
-          pair
-        } = parsedOrder;
+        userTrades = matches.trades.map(trade =>
+          parseTrade(trade, baseTokenDecimals)
+        );
+        let { price, amount, side, filled, pair } = parsedOrder;
         dispatch(
           appActionCreators.addOrderPendingNotification({
             txHash,
@@ -349,13 +323,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
           if (utils.getAddress(order.userAddress) === signerAddress) {
             let parsedOrder = parseOrder(order, baseTokenDecimals);
             userOrders.push(parsedOrder);
-            let {
-              price,
-              amount,
-              filled,
-              side,
-              pair
-            } = parsedOrder;
+            let { price, amount, filled, side, pair } = parsedOrder;
             dispatch(
               appActionCreators.addOrderPendingNotification({
                 txHash,
@@ -385,143 +353,144 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
         dispatch(actionCreators.updateTradesTable(userTrades));
     } catch (e) {
       console.log(e);
-      dispatch(appActionCreators.addErrorNotification({
-        message: e.message
-      }));
+      dispatch(
+        appActionCreators.addErrorNotification({
+          message: e.message
+        })
+      );
     }
   };
 }
 
-function handleOrderError(dispatch: Dispatch, event: WebsocketEvent, getState: GetState) {
-
-  let {
-    message
-  } = event.payload;
+function handleOrderError(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) {
+  let { message } = event.payload;
   dispatch(
     appActionCreators.addErrorNotification({
       message: `Error: ${message}`
     })
   );
-
 }
 
-const handleOrderBookMessage = (dispatch: Dispatch, event: WebsocketEvent, getState: GetState) => {
+const handleOrderBookMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
+  let state = getState();
+  let { pairs } = socketControllerSelector(state);
 
-  let state = getState()
-  let {
-    pairs
-  } = socketControllerSelector(state)
+  if (!event.payload) return;
+  if (event.payload.length === 0) return;
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+  // console.log(event, pairs);
 
+  let { pairName } = event.payload;
   let {
-    pairName
-  } = event.payload
-  let {
-    baseTokenDecimals,
+    baseTokenDecimals
     // quoteTokenDecimals
-  } = pairs[pairName]
+  } = pairs[pairName];
 
   try {
-    let {
-      bids,
-      asks
-    } = parseOrderBookData(event.payload, baseTokenDecimals)
+    let { bids, asks } = parseOrderBookData(event.payload, baseTokenDecimals);
     switch (event.type) {
       case 'INIT':
-        dispatch(actionCreators.initOrderBook(bids, asks))
+        dispatch(actionCreators.initOrderBook(bids, asks));
         break;
 
       case 'UPDATE':
-        dispatch(actionCreators.updateOrderBook(bids, asks))
+        dispatch(actionCreators.updateOrderBook(bids, asks));
         break;
 
       default:
-        return
+        return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }))
-    console.log(e)
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
+    console.log(e);
   }
-}
+};
 
-const handleTradesMessage = (dispatch: Dispatch, event: WebsocketEvent, getState: GetState) => {
+const handleTradesMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
   // console.log(event)
-  let state = getState()
-  let {
-    pairs
-  } = socketControllerSelector(state)
+  let state = getState();
+  let { pairs } = socketControllerSelector(state);
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+  if (!event.payload) return;
+  if (event.payload.length === 0) return;
 
-  let trades = event.payload
-  let {
-    pairName
-  } = trades[0]
-  let {
-    baseTokenDecimals
-  } = pairs[pairName]
+  let trades = event.payload;
+  let { pairName } = trades[0];
+  let { baseTokenDecimals } = pairs[pairName];
 
   try {
     switch (event.type) {
       case 'INIT':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.initTradesTable(trades))
-        break
+        trades = parseTrades(trades, baseTokenDecimals);
+        dispatch(actionCreators.initTradesTable(trades));
+        break;
       case 'UPDATE':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.updateTradesTable(trades))
-        break
+        trades = parseTrades(trades, baseTokenDecimals);
+        dispatch(actionCreators.updateTradesTable(trades));
+        break;
       default:
-        return
+        return;
     }
   } catch (e) {
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }))
-    console.log(e)
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
+    console.log(e);
   }
-}
+};
 
-const handleOHLCVMessage = (dispatch: Dispatch, event: WebsocketEvent, getState: GetState) => {
+const handleOHLCVMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
+  let state = getState();
+  let { pairs } = socketControllerSelector(state);
 
-  let state = getState()
-  let {
-    pairs
-  } = socketControllerSelector(state)
+  if (!event.payload) return;
+  if (event.payload.length === 0) return;
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
-
-  let ohlcv = event.payload
-  let {
-    pairName
-  } = ohlcv[0].pair
-  let {
-    baseTokenDecimals
-  } = pairs[pairName]
+  let ohlcv = event.payload;
+  let { pairName } = ohlcv[0].pair;
+  let { baseTokenDecimals } = pairs[pairName];
 
   try {
     switch (event.type) {
       case 'INIT':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.initOHLCV(ohlcv))
-        break
+        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals);
+        dispatch(actionCreators.initOHLCV(ohlcv));
+        break;
       case 'UPDATE':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.updateOHLCV(ohlcv))
-        break
+        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals);
+        dispatch(actionCreators.updateOHLCV(ohlcv));
+        break;
       default:
-        return
+        return;
     }
   } catch (e) {
-    console.log(e)
-    dispatch(appActionCreators.addErrorNotification({
-      message: e.message
-    }))
+    console.log(e);
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
   }
-}
+};
