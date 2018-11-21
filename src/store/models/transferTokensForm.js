@@ -20,6 +20,7 @@ import type {
 import {
   getSigner
 } from '../services/signer';
+
 import {
   ERC20
 } from '../../config/abis';
@@ -28,7 +29,6 @@ import {
   parseTransferEtherError,
   parseTransferTokensError
 } from '../../config/errors'
-
 
 export default function sendEtherSelector(state: State) {
   let tokenDomain = getTokenDomain(state);
@@ -144,7 +144,7 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
         amount,
         gas,
         gasPrice,
-        tokenAddress
+        tokenAddress,        
       } = params;
       let signer = getSigner();
       let token = new Contract(tokenAddress, ERC20, signer);
@@ -153,6 +153,8 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
         gasLimit: parseFloat(gas) || 0,
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
       };
+      
+      
       let tx = await token.transfer(receiver, amount, txOpts);
 
       dispatch(actionCreators.sendTx(tx.hash));

@@ -4,8 +4,7 @@ import {
   isInteger,
   round
 } from './helpers';
-// import { fromWeiToFloat } from './bignumber';
-// import { ether } from './constants';
+
 import {
   utils
 } from 'ethers';

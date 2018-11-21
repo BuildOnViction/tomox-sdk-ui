@@ -2,6 +2,10 @@
 import React from 'react';
 import TransferTokensFormRenderer from './TransferTokensFormRenderer';
 
+import {
+  convertToWei
+} from '../../utils/bignumber'
+
 import type { EtherTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
 import type { Token } from '../../types/tokens';
 
@@ -76,12 +80,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     let { gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props;
     gas = customGas || gas;
     gasPrice = customGasPrice || gasPrice;
-
-    console.log(amount, receiver, gas, gasPrice, token);
+    const transferAmount = amount;// convertToWei(amount, token.decimals);
+          
+    console.log(amount, transferAmount, receiver, gas, gasPrice, token);
+    
     if (this.state.token.address === '0x0') {
-      sendEtherTx({ amount, receiver, gas, gasPrice });
+      sendEtherTx({ amount:transferAmount, receiver, gas, gasPrice });
     } else {
-      sendTransferTokensTx({ amount, receiver, gas, gasPrice, tokenAddress: token.address });
+      sendTransferTokensTx({ amount:transferAmount, receiver, gas, gasPrice, tokenAddress: token.address });
     }
   };
 
