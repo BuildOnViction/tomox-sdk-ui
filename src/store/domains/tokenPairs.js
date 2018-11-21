@@ -103,18 +103,53 @@ export const tokenPairRemoved = (baseToken: Token) => {
   return event;
 };
 
+/**
+ * Check if an token pair exists
+ * @param {*} item 
+ * @param {*} array 
+ */
+const tokenPairExist = (item, array) => {
+  let result = array.find(i => i.pair === item.pair);
+
+  // Array.isArray(result) is for avoiding Flow type error
+  if (result && Array.isArray(result) && result.length > 0) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Merge two arrays of token pairs
+ * @param {*} arr1 
+ * @param {*} arr2 
+ */
+const mergeByTokenPair = (arr1, arr2) => {
+  arr1.forEach((arr1Item) => {
+    if (tokenPairExist(arr1Item, arr2)) {
+      arr2.push(arr1Item);
+    }
+  });
+
+  return arr2;
+}
+
 export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
   const event = (state: TokenPairState): TokenPairState => {
+
+    let data = mergeByTokenPair(
+      state.data,
+      tokenPairData
+    );
+
     let newState = {
       ...state,
-      data: [
-        ...state.data,
-        ...tokenPairData
-      ]
+      data
     };
 
     return newState;
   };
+  
   return event;
 };
 
