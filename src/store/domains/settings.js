@@ -3,7 +3,7 @@ import type {
 } from '../../types/settings'
 
 const initialState = {
-  defaultGasLimit: 4700000, //0x47b760,
+  defaultGasLimit: 1000000, //4700000, //0x47b760,
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true
 }
