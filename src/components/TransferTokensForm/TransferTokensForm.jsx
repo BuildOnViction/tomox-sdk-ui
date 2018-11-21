@@ -2,9 +2,9 @@
 import React from 'react';
 import TransferTokensFormRenderer from './TransferTokensFormRenderer';
 
-import {
-  convertToWei
-} from '../../utils/bignumber'
+// import {
+//   convertToWei
+// } from '../../utils/bignumber'
 
 import type { EtherTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
 import type { Token } from '../../types/tokens';
@@ -57,7 +57,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       if (token.address === '0x0' && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice });
       } else if (amount && receiver && token) {
-        validateTransferTokensTx({ amount, receiver, gas, gasPrice, tokenAddress: token.address });
+        validateTransferTokensTx({ 
+          amount, 
+          receiver, 
+          gas, 
+          gasPrice, 
+          tokenAddress: token.address, 
+          tokenDecimals: token.decimals,
+        });
       }
     });
   };
@@ -70,7 +77,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       if (token.address === '0x0' && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice });
       } else if (token && amount && receiver) {
-        validateTransferTokensTx({ amount, receiver, gas, gasPrice, tokenAddress: token.address });
+        validateTransferTokensTx({ 
+          amount, 
+          receiver, 
+          gas, 
+          gasPrice, 
+          tokenAddress: token.address, 
+          tokenDecimals: token.decimals,
+        });
       }
     });
   };
@@ -79,15 +93,21 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     let { amount, receiver, token, customGas, customGasPrice } = this.state;
     let { gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props;
     gas = customGas || gas;
-    gasPrice = customGasPrice || gasPrice;
-    const transferAmount = amount;// convertToWei(amount, token.decimals);
+    gasPrice = customGasPrice || gasPrice;    
           
-    console.log(amount, transferAmount, receiver, gas, gasPrice, token);
+    console.log(amount, receiver, gas, gasPrice, token);
     
     if (this.state.token.address === '0x0') {
-      sendEtherTx({ amount:transferAmount, receiver, gas, gasPrice });
+      sendEtherTx({ amount, receiver, gas, gasPrice });
     } else {
-      sendTransferTokensTx({ amount:transferAmount, receiver, gas, gasPrice, tokenAddress: token.address });
+      sendTransferTokensTx({ 
+        amount, 
+        receiver, 
+        gas, 
+        gasPrice, 
+        tokenAddress: token.address, 
+        tokenDecimals: token.decimals,
+      });
     }
   };
 

@@ -1,6 +1,7 @@
 // @flow
-import ethers, {
-  Contract
+import  {
+  utils,
+  Contract,
 } from 'ethers';
 import {
   getTransferTokensFormDomain,
@@ -14,8 +15,12 @@ import type {
 } from '../../types/transferTokensForm';
 import type {
   State,
-  ThunkAction
+  GetState,
+  Dispatch,
+  ThunkAction,
 } from '../../types';
+
+import type { RankedToken } from '../../types/tokens'
 
 import {
   getSigner
@@ -34,6 +39,10 @@ export default function sendEtherSelector(state: State) {
   let tokenDomain = getTokenDomain(state);
   let transferTokensFormDomain = getTransferTokensFormDomain(state);
 
+  let eth = { symbol: 'ETH', address: '0x0', rank: 0, decimals: 18}
+  let otherTokens = tokenDomain.rankedTokens()
+  let tokens: Array<RankedToken> = [ eth ].concat(otherTokens)
+
   return {
     getState: () => transferTokensFormDomain.getState(),
     isLoading: () => transferTokensFormDomain.isLoading(),
@@ -43,7 +52,7 @@ export default function sendEtherSelector(state: State) {
     getGasPrice: () => transferTokensFormDomain.getGasPrice(),
     getHash: () => transferTokensFormDomain.getHash(),
     getReceipt: () => transferTokensFormDomain.getReceipt(),
-    tokens: () => tokenDomain.rankedTokens(),
+    tokens: () => tokens,
   };
 }
 
@@ -53,7 +62,7 @@ export const validateEtherTx = ({
   gas,
   gasPrice
 }: EtherTxParams): ThunkAction => {
-  return async (dispatch, getState) => {
+  return async (dispatch:Dispatch, getState: GetState) => {
     try {
       let signer = getSigner();
 
@@ -61,7 +70,7 @@ export const validateEtherTx = ({
         gasLimit: parseFloat(gas) || 0,
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
         to: receiver,
-        value: ethers.utils.parseEther(amount),
+        value: utils.parseEther(amount.toString()),
       };
 
       let estimatedGas = await signer.provider.estimateGas(tx);
@@ -82,7 +91,7 @@ export const sendEtherTx = ({
   gas,
   gasPrice
 }: EtherTxParams): ThunkAction => {
-  return async (dispatch, getState) => {
+  return async (dispatch:Dispatch, getState:GetState) => {
     try {
       let signer = getSigner();
 
@@ -90,7 +99,7 @@ export const sendEtherTx = ({
         gasLimit: parseFloat(gas) || 0,
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
         to: receiver,
-        value: amount * 10 ** 18,
+        value: utils.parseEther(amount.toString()),
       };
 
       let tx = await signer.sendTransaction(rawTx);
@@ -116,35 +125,42 @@ export const sendEtherTx = ({
   };
 };
 
+// by default the decimals is 18, but we need to process with custom decimals as well
 export const validateTransferTokensTx = (params: TransferTokensTxParams): ThunkAction => {
-  return async (dispatch, getState) => {
+  return async (dispatch:Dispatch, getState:GetState) => {
     try {
       let {
         receiver,
         amount,
-        tokenAddress
+        tokenAddress,
+        tokenDecimals,
       } = params;
       let signer = getSigner();
-      let token = new Contract(tokenAddress, ERC20, signer);
 
-      let estimatedGas = await token.estimate.transfer(receiver, amount);
+      let token = new Contract(tokenAddress, ERC20, signer);
+      let amountTokens = utils.parseUnits(amount, tokenDecimals)
+
+      let estimatedGas = await token.estimate.transfer(receiver, amountTokens);
       estimatedGas = estimatedGas.toNumber();
       dispatch(actionCreators.validateTx('Transaction Valid', estimatedGas));
     } catch (error) {
-      dispatch(actionCreators.invalidateTx(error.message));
+      console.log(error);
+      let errorMessage = parseTransferTokensError(error);
+      dispatch(actionCreators.invalidateTx(errorMessage));
     }
   };
 };
 
 export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkAction => {
-  return async (dispatch, getState) => {
+  return async (dispatch:Dispatch, getState:GetState) => {
     try {
       let {
         receiver,
         amount,
         gas,
         gasPrice,
-        tokenAddress,        
+        tokenAddress,    
+        tokenDecimals,    
       } = params;
       let signer = getSigner();
       let token = new Contract(tokenAddress, ERC20, signer);
@@ -154,8 +170,8 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
       };
       
-      
-      let tx = await token.transfer(receiver, amount, txOpts);
+      let amountTokens = utils.parseUnits(amount, tokenDecimals)
+      let tx = await token.transfer(receiver, amountTokens, txOpts);
 
       dispatch(actionCreators.sendTx(tx.hash));
 

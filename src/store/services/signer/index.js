@@ -5,6 +5,9 @@ import { NETWORK_URL } from '../../../config/url'
 
 import type { UpdateSignerParams } from '../../../types/signer'
 
+// for testing with local
+window.utils = utils
+
 export const createSigner = async (params: UpdateSignerParams): any => {
   try {
     let { type, custom, url, networkId, wallet } = params
@@ -96,9 +99,7 @@ export const createLocalWalletSigner = async (wallet: Object, networkId: ?number
   let provider = new providers.JsonRpcProvider(NETWORK_URL, { chainId: networkId, name: undefined })
   let signer = new Wallet(wallet.privateKey, provider)
 
-  addMethodsToSigner(signer)
-  // for testing with local
-  window.utils = utils
+  addMethodsToSigner(signer)  
   window.signer = { instance: signer, type: 'wallet' }
 
   return wallet.address

@@ -32,6 +32,7 @@ export type TransferTokensTxParams = {
   gas: number,
   gasPrice: number,
   tokenAddress: Address,
+  tokenDecimals: number,
 };
 
 export type TxNotification = {
