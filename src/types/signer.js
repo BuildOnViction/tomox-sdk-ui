@@ -22,7 +22,8 @@ export type Signer = {
   createRawOrder: NewOrderParams => Promise<Order>,
   sendTransaction:  Transaction => Promise<Object>,
   getAddress:() => Promise<string>,  
-  createOrderCancel: string => OrderCancel
+  createOrderCancel: string => OrderCancel,  
+  updateSwarmFeed: (string, any) => Promise<boolean>
 };
 
 export type UpdateSignerParams = {

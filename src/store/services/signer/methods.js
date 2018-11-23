@@ -26,7 +26,7 @@ export const getFeedRequest = async function(topic: string):Promise<Request> {
   return request;
 };
 
-export const updateSwarmFeed = async function(tokenAddress: string, messages: any) {
+export const updateSwarmFeed = async function(tokenAddress: string, messages: any) : Promise<boolean> {
   const request:Request = await this.getFeedRequest(`${tokenAddress}000000000000000000000000`);
   const data = encodeBytes(messages);
   if (!data) return false;

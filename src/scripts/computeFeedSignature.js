@@ -87,7 +87,7 @@ let msgs = [
     filledAmount: utils.bigNumberify('1000000000000000000'),
     timestamp: 1542000614,
     exchangeAddress: '0xd68c26b99a40227c4abe51020edfd9bba438b297',
-    makeFee: utils.bigNumberify('0'),
+    makeFee: utils.bigNumberify('10'),
     nonce: utils.bigNumberify('9581389967892164'),
     pairName: 'AE/WETH',
     pricepoint: utils.bigNumberify('10000000'),
