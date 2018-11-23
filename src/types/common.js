@@ -15,6 +15,14 @@ export type Signature = {+r: string,
   +v: string
 };
 
+export type Transaction = {
+  gasLimit: number,
+  gasPrice: number,
+  to: string,
+  value: Object,
+  data: ?Object,
+};
+
 export type TxReceipt = {
   blockHash: string,
   blockNumber: string,

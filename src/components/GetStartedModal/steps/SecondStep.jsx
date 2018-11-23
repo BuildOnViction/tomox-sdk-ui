@@ -473,7 +473,7 @@ const BalancesGroup = styled.div`
 
 const BalancesBox = styled.div`
   display: flex;
-  width: 40%;
+  width: 80%;
   flex-direction: row;
   justify-content: space-around;
 `;

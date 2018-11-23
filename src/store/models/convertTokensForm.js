@@ -42,10 +42,12 @@ export const convertFromWETHtoETH = (convertAmount: number): ThunkAction => {
       dispatch(actionCreators.confirm('WETH'));
 
       let signer = getSigner();
-      let networkID = signer.networkID;
+      let networkID = signer.provider.network.chainId;
+      console.log(WETH_ADDRESS[networkID], WETH, signer)
       let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
+      
       let amount = utils.parseEther(convertAmount.toString());
-
+      
       let tx = await weth.withdraw(amount);
       dispatch(actionCreators.sendConvertTx('WETH', tx.hash));
 
@@ -81,7 +83,7 @@ export const convertFromETHtoWETH = (
       dispatch(actionCreators.confirm('ETH'));
 
       let signer = getSigner();
-      let networkID = signer.networkID;
+      let networkID = signer.provider.network.chainId;
       let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
       let signerAddress = await signer.getAddress();
       let txCount = await signer.provider.getTransactionCount(signerAddress);

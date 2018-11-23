@@ -1,13 +1,9 @@
 //@flow
+import type {TxReceipt} from './common'
 export type TxStatus = 'incomplete' | 'valid' | 'invalid' | 'sent' | 'reverted' | 'confirmed' | 'error';
 export type Address = string;
 
-export type TxReceipt = {
-  blockHash: string,
-  blockNumber: string,
-  gasLimit: Object,
-  hash: string,
-};
+
 
 export type TransferTokensFormState = {
   +loading: boolean,

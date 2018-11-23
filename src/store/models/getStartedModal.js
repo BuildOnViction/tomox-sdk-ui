@@ -38,7 +38,7 @@ export const convertETH = (convertAmount: number): ThunkAction => {
   return async (dispatch, getState) => {
     try {
       let signer = getSigner();
-      let networkID = signer.networkID;
+      let networkID = signer.provider.network.chainId;
       let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
       let signerAddress = await signer.getAddress();
       let txCount = await signer.provider.getTransactionCount(signerAddress);
@@ -101,7 +101,7 @@ export const approveWETH = (): ThunkAction => {
   return async (dispatch, getState) => {
     try {
       let signer = getSigner();
-      let networkID = signer.networkID;
+      let networkID = signer.provider.network.chainId;
       let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
 
       let tx = await weth.approve(

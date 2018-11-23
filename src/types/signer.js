@@ -1,5 +1,5 @@
 //@flow
-import type { Signature } from './common';
+import type { Signature, Transaction } from './common';
 import type { NewOrderParams, Order, RawOrder, OrderCancel } from './orders';
 import type { Trade } from './trades';
 import type { Provider } from './network';
@@ -20,6 +20,8 @@ export type Signer = {
   signTrade: Trade => Promise<Trade>,
   // the first param by default is this signer
   createRawOrder: NewOrderParams => Order,
+  sendTransaction:  Transaction => Promise<Object>,
+  getAddress:() => Promise<string>,  
   createOrderCancel: string => OrderCancel
 };
 

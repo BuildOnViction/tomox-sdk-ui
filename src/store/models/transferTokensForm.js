@@ -9,6 +9,7 @@ import {
 } from '../domains';
 import * as actionCreators from '../actions/transferTokensForm';
 import * as notificationActionCreators from '../actions/app'
+import * as depositForm from '../models/depositForm'
 import type {
   EtherTxParams,
   TransferTokensTxParams
@@ -115,7 +116,8 @@ export const sendEtherTx = ({
         dispatch(actionCreators.confirmTx(receipt))
         dispatch(notificationActionCreators.addSuccessNotification({
           message: 'Token transfer successful!'
-        }))
+        }))                
+        dispatch(depositForm.queryBalances());
       }
     } catch (error) {
       console.log(error)
@@ -187,6 +189,9 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
         dispatch(notificationActionCreators.addSuccessNotification({
           message: 'Token transfer successful!'
         }))
+
+        // update token balances
+        dispatch(depositForm.queryBalances());
       }
 
     } catch (error) {

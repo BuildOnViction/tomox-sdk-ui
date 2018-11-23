@@ -3,7 +3,8 @@ import { providers, Wallet, utils } from 'ethers'
 import { signOrder, signTrade, getFeedRequest, updateSwarmFeed, createRawOrder, createOrderCancel } from './methods'
 import { NETWORK_URL } from '../../../config/url'
 
-import type { UpdateSignerParams } from '../../../types/signer'
+import type { UpdateSignerParams, Signer } from '../../../types/signer'
+import type { Provider } from '../../../types/network';
 
 // for testing with local
 window.utils = utils
@@ -135,5 +136,5 @@ export const createRpcSigner = async (url: ?string, networkId: ?number) => {
   return accountAddresses[0]
 }
 
-export const getSigner = () => window.signer.instance
-export const getProvider = () => window.signer.instance.provider
+export const getSigner = ():Signer => window.signer.instance
+export const getProvider = ():Provider => window.signer.instance.provider

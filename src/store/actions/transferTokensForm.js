@@ -1,12 +1,12 @@
 //@flow
+import type {TxReceipt} from '../../types/common';
 import type {
   ConfirmTxAction,
   TxErrorAction,
   TxStatus,
   InvalidateTxAction,
   RevertTxAction,
-  SendTxAction,
-  TxReceipt,
+  SendTxAction,  
   ValidateTxAction
 } from '../../types/transferTokensForm'
 
