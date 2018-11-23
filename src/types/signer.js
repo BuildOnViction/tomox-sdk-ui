@@ -19,7 +19,7 @@ export type Signer = {
   signOrder: RawOrder => Promise<RawOrder>,
   signTrade: Trade => Promise<Trade>,
   // the first param by default is this signer
-  createRawOrder: NewOrderParams => Order,
+  createRawOrder: NewOrderParams => Promise<Order>,
   sendTransaction:  Transaction => Promise<Object>,
   getAddress:() => Promise<string>,  
   createOrderCancel: string => OrderCancel

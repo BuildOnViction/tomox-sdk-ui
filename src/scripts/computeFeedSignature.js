@@ -18,7 +18,7 @@ let signer = new Wallet(
 );
 
 const topic =
-  '0x53ddd545882dec853226dc8255268c7760276695' + '000000000000000000000000';
+  '0x620C38566BAD7a895cce707F42DCd5eaC1f94861' + '000000000000000000000000';
 const request = {
   feed: {
     topic,

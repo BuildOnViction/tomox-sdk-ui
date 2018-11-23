@@ -18,7 +18,7 @@ import type { NewOrderParams, RawOrder } from '../../../types/orders';
 import type { Request } from '../../../types/swarm';
 import type { Trade } from '../../../types/trades';
 
-export const getFeedRequest = async function(topic: string) {
+export const getFeedRequest = async function(topic: string):Promise<Request> {
   const userAddress = this.address;
   const url = `${BZZ_URL}/bzz-feed:/?user=${userAddress}&topic=${topic}&meta=1`;
   const request = await fetch(url).then(res => res.json());
@@ -26,7 +26,8 @@ export const getFeedRequest = async function(topic: string) {
   return request;
 };
 
-export const updateSwarmFeed = async function(request: Request, messages: any) {
+export const updateSwarmFeed = async function(tokenAddress: string, messages: any) {
+  const request:Request = await this.getFeedRequest(`${tokenAddress}000000000000000000000000`);
   const data = encodeBytes(messages);
   if (!data) return false;
   // to upload to server, we need to convert it into Buffer if it is array

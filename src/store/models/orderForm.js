@@ -11,6 +11,7 @@ import { utils } from 'ethers';
 import type { State, ThunkAction } from '../../types';
 import { getSigner } from '../services/signer';
 import { parseNewOrderError } from '../../config/errors';
+import { splitSignature } from 'ethers/utils';
 
 export default function getOrderFormSelector(state: State) {
   let tokenPairDomain = getTokenPairsDomain(state);
@@ -138,8 +139,30 @@ export const sendNewOrder = (
       // );
 
       socket.sendNewOrderMessage(order);
+      
+      // get request then update swarm feed       
+      // const feedOrder = 
+      // [{
+      //   id: '0x5b8ba1e94971a5143fe0908e',
+      //   amount: utils.bigNumberify(order.amount),
+      //   baseToken: order.baseToken,
+      //   filledAmount: utils.bigNumberify('0'),
+      //   timestamp: 1542000614,
+      //   exchangeAddress: order.exchangeAddress,
+      //   makeFee: utils.bigNumberify('0'),
+      //   nonce: utils.bigNumberify(order.nonce),
+      //   pairName: 'AE/WETH',
+      //   pricepoint: utils.bigNumberify(order.pricepoint),
+      //   quoteToken: order.quoteToken,
+      //   side: order.side,
+      //   status: order.status,
+      //   takeFee: utils.bigNumberify(order.takeFee),
+      //   userAddress: order.userAddress,
+      //   hash: order.hash,
+      //   signature: splitSignature(order.signature),          
+      // }]     
+      // signer.updateSwarmFeed(order.baseToken, feedOrder);
 
-      // get request then update swarm feed
     } catch (e) {
       console.log(e);
 
