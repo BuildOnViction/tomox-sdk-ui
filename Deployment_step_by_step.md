@@ -77,5 +77,9 @@ yarn query-tokens
 ```
 git clone git@github.com:tomochain/dex-server.git
 ```
-2. yarn install-requirements
+2. `yarn install-requirements`
+3. `yarn start-env`
+4. `yarn generate-seeds`
+5. `yarn seeds`
+6. `yarn start`
 
