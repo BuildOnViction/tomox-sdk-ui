@@ -17,16 +17,6 @@ let signer = new Wallet(
   provider
 );
 
-const topic =
-  '0x620C38566BAD7a895cce707F42DCd5eaC1f94861' + '000000000000000000000000';
-const request = {
-  feed: {
-    topic,
-    user: '0x28074f8d0fd78629cd59290cac185611a8d60109'
-  },
-  protocolVersion: 0
-};
-
 async function testSignature(epoch, data) {
   request.epoch = epoch;
   console.log('data: ' + utils.hexlify(data));
@@ -79,6 +69,11 @@ function updateSwarm(request, msgs) {
   testUpdate(data);
 }
 
+function padTopic(topic) {
+  const bytesTopic = utils.padZeros(topic, 32);
+  return utils.hexlify(bytesTopic);
+}
+
 let msgs = [
   {
     id: '0x5b8ba1e94971a5143fe0908e',
@@ -101,5 +96,23 @@ let msgs = [
       '0x6e01147b0f25f533d7e86e82bfac9ace6c169cb46b6bad5112cefc8bcfd4bd0667ad7ed6cec728888d59bf46768b4b99f4941b3e7d150cac126b64ac4565de721c'
   }
 ];
+const topic = padTopic('0x620C38566BAD7a895cce707F42DCd5eaC1f94861');
 
+// let msgs = {
+//   chain: 'ethereum',
+//   addressIndex: 10,
+//   address: '0xe8F938F6DcE8d306ED4620C45AE56E818D773d3A',
+//   tomochainPublicKey: '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A',
+//   createdAt: 1542000614
+// };
+
+// const topic = padTopic(utils.toUtf8Bytes('ethereum'));
+// const request = {
+//   feed: {
+//     topic,
+//     user: '0x28074f8d0fd78629cd59290cac185611a8d60109'
+//   },
+//   protocolVersion: 0
+// };
+// console.log(request, utils.hexlify(utils.toUtf8Bytes('ethereum')));
 updateSwarm(request, msgs);

@@ -21,6 +21,14 @@ let msg = {
   userAddress: '0x28074f8d0fd78629cd59290cac185611a8d60109'
 };
 
+// let msg = {
+//   chain: 'ethereum',
+//   addressIndex: 10,
+//   address: '0x28074f8d0fd78629cd59290cac185611a8d60109',
+//   tomochainPublicKey: '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A',
+//   createdAt: 1542000614
+// };
+
 const getType = val => {
   if (typeof val === 'string') {
     if (val.startsWith('0x')) {
