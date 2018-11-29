@@ -5,7 +5,7 @@ import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core';
 import WalletLoginForm from '../../components/WalletLoginForm';
 import CreateWalletModal from '../../components/CreateWalletModal';
 import MetamaskIcon from '../../components/Icons/Metamask';
-import { KeyIcon, WalletIcon } from '../../components/Icons';
+import { KeyIcon, WalletIcon, Trezor } from '../../components/Icons';
 import { Centered, Divider, LargeText, Colors } from '../../components/Common';
 import type { CreateWalletParams } from '../../types/createWallet';
 
@@ -15,6 +15,7 @@ type Props = {
   showLoginMethods: () => void,
   loginWithMetamask: void => void,
   loginWithWallet: void => void,
+  loginWithTrezorWallet: void => void
 };
 
 const LoginPageRenderer = (props: Props) => {
@@ -22,6 +23,7 @@ const LoginPageRenderer = (props: Props) => {
     view,
     loginWithMetamask,
     loginWithWallet,
+    loginWithTrezorWallet,
     showCreateWallet,
     hideModal,
     showWalletLoginForm,
@@ -35,6 +37,7 @@ const LoginPageRenderer = (props: Props) => {
       <LoginMethodsView
         showWalletLoginForm={showWalletLoginForm}
         loginWithMetamask={loginWithMetamask}
+        loginWithTrezorWallet={loginWithTrezorWallet}
         showCreateWallet={showCreateWallet}
         metamaskStatus={metamaskStatus}
       />
@@ -50,7 +53,7 @@ const LoginPageRenderer = (props: Props) => {
 };
 
 const LoginMethodsView = (props: Props) => {
-  const { showWalletLoginForm, loginWithMetamask, metamaskStatus, showCreateWallet } = props;
+  const { showWalletLoginForm, loginWithMetamask, loginWithTrezorWallet, metamaskStatus, showCreateWallet } = props;
   return (
     <Wrapper>
       <Announcement>
@@ -97,6 +100,12 @@ const LoginMethodsView = (props: Props) => {
             <WalletIcon size={100} color={Colors.WHITE} />
             <Heading>
               <FormattedMessage {...messages.createWallet} />
+            </Heading>
+          </LoginCard>
+          <LoginCard onClick={loginWithTrezorWallet}>
+            <Trezor size={100} />
+            <Heading>
+              <FormattedMessage {...messages.trezorWallet} />
             </Heading>
           </LoginCard>
         </LoginCards>
@@ -234,6 +243,10 @@ const messages = defineMessages({
   wallet: {
     id: 'loginPage.wallet',
     defaultMessage: 'Wallet',
+  },
+  trezorWallet: {
+    id: 'loginPage.trezorWallet',
+    defaultMessage: 'Trezor Wallet'
   },
   createWallet: {
     id: 'loginPage.createWallet',

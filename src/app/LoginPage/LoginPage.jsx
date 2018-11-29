@@ -9,6 +9,7 @@ type Props = {
   authenticated: boolean,
   loginWithMetamask: () => void,
   loginWithWallet: LoginWithWallet => void,
+  loginWithTrezorWallet: () => void,
   removeNotification: any => void
 };
 
@@ -72,7 +73,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      props: { loginWithMetamask, loginWithWallet, authenticated },
+      props: { loginWithMetamask, loginWithWallet, loginWithTrezorWallet, authenticated },
       state: { view, metamaskStatus },
       showWalletLoginForm,
       showLoginMethods,
@@ -95,6 +96,7 @@ class LoginPage extends React.PureComponent<Props, State> {
           hideModal={hideModal}
           walletCreated={walletCreated}
           loginWithMetamask={loginWithMetamask}
+          loginWithTrezorWallet={loginWithTrezorWallet}
           showWalletLoginForm={showWalletLoginForm}
           showLoginMethods={showLoginMethods}
         />
