@@ -93,7 +93,11 @@ yarn generate-seeds
 ```
 yarn seeds
 ```
-6. `yarn start`
+6. Suppose that you are in `dex-server` directory, run this command:
+```
+ln -sF $PWD $GOPATH/src/github.com/tomochain/backend-matching-engine
+```
+7. `yarn start`
 
 ----------------
 # DONE
