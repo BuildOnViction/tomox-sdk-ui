@@ -77,28 +77,48 @@ yarn query-tokens
 ```
 git clone git@github.com:tomochain/dex-server.git
 ```
-2. Install necessary golang packages:
+2.  Checkout `develop` branch
+3. Install necessary golang packages:
 ```
 yarn install-requirements
 ```
-3. Run docker environment
+4. Run docker environment
 ```
 yarn start-env
 ```
-4. Generate seed files
+5. Generate seed files
 ```
 yarn generate-seeds
 ```
-5. Import seed files into mongo
+6. Import seed files into mongo
 ```
 yarn seeds
 ```
-6. Suppose that you are in `dex-server` directory, run this command:
+7. Suppose that you are in `dex-server` directory, run this command:
 ```
 ln -sF $PWD $GOPATH/src/github.com/tomochain/backend-matching-engine
 ```
-7. `yarn start`
+8. `yarn start`
 
 ----------------
 # DONE
 
+## Reset in case something went wrong
+1. Manually delete 2 folders `.data_30100` and `.data_30101` inside folder `dex-protocol` (these 2 folders are hidden)
+```
+cd dex-protocol
+rm -rf .data_*
+```
+2. Do everything from point II. dex-protocol except some commands such as:
+```
+git clone ...
+```
+```
+ln -sF ...
+```
+```
+git reset ...
+```
+```
+yarn install-requirements
+```
