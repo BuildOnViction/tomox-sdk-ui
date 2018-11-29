@@ -19,18 +19,4 @@ export default class Trezor {
             });
         });
     };
-
-    generateAddress(data) {
-		this.generator = new AddressGenerator(data);
-		let addresses = [];
-		let index = 0;
-		for (index; index < 5; index++) {
-			let address = {
-				addressString: this.generator.getAddressString(index),
-				index: index,
-				balance: -1,
-			};
-			addresses.push(address);
-		}
-	};
 }

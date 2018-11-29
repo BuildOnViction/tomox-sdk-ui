@@ -12,7 +12,8 @@ import {
   createMetamaskSigner
 } from '../services/signer';
 
-import { Trezor } from '../../store/services/keys/trezor';
+import { Trezor } from '../../store/services/keys';
+import AddressGenerator from '../../store/services/device/addressGenerator';
 
 import type { State, ThunkAction } from '../../types';
 
@@ -100,8 +101,14 @@ export function loginWithTrezorWallet(): ThunkAction {
       dispatch(actionCreators.requestLogin());
       let deviceService = new Trezor();
       let result = await deviceService.getPublicKey();
+      let generator = new AddressGenerator(result);
+      let addresses = [];
+      let index = 0;
+      for (index; index < 5; index++) {
+        addresses.push(generator.getAddressString(index));
+      }
 
-      dispatch(actionCreators.loginWithTrezorWallet(address));
+      dispatch(actionCreators.loginWithTrezorWallet(addresses[0]));
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Trezor wallet'
