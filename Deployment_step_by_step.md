@@ -8,7 +8,7 @@ https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubunt
 ```
 https://swarm-guide.readthedocs.io/en/latest/installation.html#installing-swarm-on-ubuntu-via-ppa
 ```
-
+----------------
 ## II. dex-protocol
 1. Clone it: 
 ```
@@ -36,7 +36,7 @@ yarn install-requirements
     Run Node2: `yarn node2 -mining true`  
     Run Backend: `yarn backend` (optional)
 ```
-
+----------------
 ## III. dex-smart-contract
 1. Clone it: 
 ```
@@ -51,7 +51,7 @@ yarn global add truffle
 ```
 yarn deploy-contracts
 ```
-
+----------------
 ## IV. dex-client
 1. Clone it:
 ```
@@ -71,15 +71,30 @@ yarn sass
 yarn query-tokens
 ```
 6. Run `yarn start`
-
+----------------
 ## V. dex-server
 1. Clone it:
 ```
 git clone git@github.com:tomochain/dex-server.git
 ```
-2. `yarn install-requirements`
-3. `yarn start-env`
-4. `yarn generate-seeds`
-5. `yarn seeds`
+2. Install necessary golang packages:
+```
+yarn install-requirements
+```
+3. Run docker environment
+```
+yarn start-env
+```
+4. Generate seed files
+```
+yarn generate-seeds
+```
+5. Import seed files into mongo
+```
+yarn seeds
+```
 6. `yarn start`
+
+----------------
+# DONE
 
