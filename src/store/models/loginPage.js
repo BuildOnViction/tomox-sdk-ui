@@ -12,6 +12,8 @@ import {
   createMetamaskSigner
 } from '../services/signer';
 
+import { Trezor } from '../../store/services/keys/trezor';
+
 import type { State, ThunkAction } from '../../types';
 
 type CreateWalletParams = {
@@ -86,6 +88,28 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
       // dispatch(actionCreators.loginError('Could not authenticate wallet'));
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login Error' })
+      );
+      dispatch(actionCreators.loginError(e.message));
+    }
+  };
+}
+
+export function loginWithTrezorWallet(): ThunkAction {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actionCreators.requestLogin());
+      let deviceService = new Trezor();
+      let result = await deviceService.getPublicKey();
+
+      dispatch(actionCreators.loginWithTrezorWallet(address));
+      dispatch(
+        notifierActionCreators.addSuccessNotification({
+          message: 'Signed in with Trezor wallet'
+        })
+      );
+    } catch (e) {
+      dispatch(
+        notifierActionCreators.addNotification({ message: 'Login error' })
       );
       dispatch(actionCreators.loginError(e.message));
     }

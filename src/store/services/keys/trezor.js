@@ -1,29 +1,36 @@
-import * as keyService from "./baseKey"
-import TrezorConnect from "../device/trezor/trezor-connect";
-import EthereumTx from "ethereumjs-tx"
-import { numberToHex } from "../../utils/converter"
-import { getTranslate } from 'react-localize-redux'
-
-import { store } from "../../store"
+import TrezorConnect from '../device/trezor/trezor-connect';
 
 const defaultDPath = "m/44'/60'/0'/0";
 
 export default class Trezor {
     getPublicKey = (path = defaultDPath) => {
-        var translate = getTranslate(store.getState().locale)
         return new Promise((resolve, reject) => {
-            TrezorConnect.getXPubKey(path, (result) => {
+            TrezorConnect.getXPubKey(path, result => {
                 if (result.success) {
                     result.dPath = path;
                     resolve(result);
                 } else {
-                    var err = translate("error.cannot_connect_trezor") || 'Cannot connect to trezor'
-                    if (result.toString() == 'Error: Not a valid path.') {
-                        err = translate("error.path_not_support_by_trezor") || 'This path not supported by Trezor'
+                    var err = 'Cannot connect to trezor';
+                    if (result.toString() === 'Error: Not a valid path.') {
+                        err = 'This path not supported by Trezor';
                     }
-                    reject(err)
+                    reject(err);
                 }
-            })
+            });
         });
-    }
+    };
+
+    generateAddress(data) {
+		this.generator = new AddressGenerator(data);
+		let addresses = [];
+		let index = 0;
+		for (index; index < 5; index++) {
+			let address = {
+				addressString: this.generator.getAddressString(index),
+				index: index,
+				balance: -1,
+			};
+			addresses.push(address);
+		}
+	};
 }

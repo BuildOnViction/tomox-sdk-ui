@@ -6,7 +6,7 @@
 var VERSION = 4;
 
 if (!Array.isArray) {
-    Array.isArray = function(arg) {
+    Array.isArray = function (arg) {
         return Object.prototype.toString.call(arg) === '[object Array]';
     };
 }
@@ -22,7 +22,6 @@ function _fwStrFix(obj, fw) {
 }
 
 var TrezorConnect = (function () {
-    'use strict';
 
     var chrome = window.chrome;
     var IS_CHROME_APP = chrome && chrome.app && chrome.app.window;
@@ -39,7 +38,7 @@ var TrezorConnect = (function () {
     var POPUP_PATH = window.TREZOR_POPUP_PATH || 'https://connect.trezor.io/' + VERSION;
     var POPUP_ORIGIN = window.TREZOR_POPUP_ORIGIN || 'https://connect.trezor.io';
 
-    var INSIGHT_URLS = window.TREZOR_INSIGHT_URLS || 
+    var INSIGHT_URLS = window.TREZOR_INSIGHT_URLS ||
         [
             'https://bitcore1.trezor.io/api/',
             'https://bitcore3.trezor.io/api/',
@@ -130,7 +129,7 @@ var TrezorConnect = (function () {
         this.getFreshAddress = function (callback, requiredFirmware) {
             var wrapperCallback = function (result) {
                 if (result.success) {
-                    callback({success: true, address: result.freshAddress});
+                    callback({ success: true, address: result.freshAddress });
                 } else {
                     callback(result);
                 }
@@ -148,8 +147,8 @@ var TrezorConnect = (function () {
                     type: 'accountinfo',
                     description: description
                 }, requiredFirmware), callback);
-            } catch(e) {
-                callback({success: false, error: e});
+            } catch (e) {
+                callback({ success: false, error: e });
             }
         }
 
@@ -320,7 +319,7 @@ var TrezorConnect = (function () {
                 type: 'signmsg',
                 path: path,
                 message: message,
-                coin: {coin_name: opt_coin},
+                coin: { coin_name: opt_coin },
             }, requiredFirmware), callback);
         };
 
@@ -354,7 +353,7 @@ var TrezorConnect = (function () {
                 address: address,
                 signature: signature,
                 message: message,
-                coin: {coin_name: opt_coin},
+                coin: { coin_name: opt_coin },
             }, requiredFirmware), callback);
         };
 
@@ -409,8 +408,8 @@ var TrezorConnect = (function () {
         };
 
         this.pushTransaction = function (
-          rawTx,
-          callback
+            rawTx,
+            callback
         ) {
             if (!(/^[0-9A-Fa-f]*$/.test(rawTx))) {
                 throw new TypeError('TrezorConnect: Transaction must be hexadecimal');
@@ -419,7 +418,7 @@ var TrezorConnect = (function () {
                 throw new TypeError('TrezorConnect: callback not found');
             }
 
-            var tryUrl = function(i) {
+            var tryUrl = function (i) {
                 var insight_url = INSIGHT_URLS[i];
                 var xhr = new XMLHttpRequest();
                 var method = 'POST';
@@ -434,10 +433,10 @@ var TrezorConnect = (function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             var txid = JSON.parse(xhr.responseText).txid;
-                            callback({success: true, txid: txid});
+                            callback({ success: true, txid: txid });
                         } else {
                             if (i === INSIGHT_URLS.length - 1) {
-                                callback({error: new Error(xhr.responseText)});
+                                callback({ error: new Error(xhr.responseText) });
                             } else {
                                 tryUrl(i + 1);
                             }
@@ -533,12 +532,12 @@ var TrezorConnect = (function () {
                 text = text.replace('TREZOR', '<strong>TREZOR</strong>');
                 e.outerHTML =
                     (LOGIN_CSS + LOGIN_HTML)
-                    .replace('@text@', text)
-                    .replace('@callback@', callback)
-                    .replace('@hosticon@', hosticon)
-                    .replace('@challenge_hidden@', challenge_hidden)
-                    .replace('@challenge_visual@', challenge_visual)
-                    .replace('@connect_path@', POPUP_PATH);
+                        .replace('@text@', text)
+                        .replace('@callback@', callback)
+                        .replace('@hosticon@', hosticon)
+                        .replace('@challenge_hidden@', challenge_hidden)
+                        .replace('@challenge_visual@', challenge_visual)
+                        .replace('@connect_path@', POPUP_PATH);
             }
         };
     }
@@ -559,9 +558,9 @@ var TrezorConnect = (function () {
                     p = p.substr(0, p.length - 1);
                 }
                 if (isNaN(p)) {
-                   throw new Error('Not a valid path.');
+                    throw new Error('Not a valid path.');
                 }
-                var n = parseInt(p);
+                var n = parseInt(p, 10);
                 if (hardened) { // hardened index
                     n = (n | 0x80000000) >>> 0;
                 }
@@ -597,7 +596,7 @@ var TrezorConnect = (function () {
                 var parsedPath = parseHDPath(input);
                 return getIdFromPath(parsedPath);
             } else {
-                return parseInt(input);
+                return parseInt(input, 10);
             }
         } else if (Array.isArray(input)) {
             return getIdFromPath(input);
@@ -612,8 +611,8 @@ var TrezorConnect = (function () {
      */
 
     function ChromePopup(url, name, width, height) {
-        var left = (screen.width - width) / 2;
-        var top = (screen.height - height) / 2;
+        var left = (window.screen.width - width) / 2;
+        var top = (window.screen.height - height) / 2;
         var opts = {
             id: name,
             innerBounds: {
@@ -688,8 +687,8 @@ var TrezorConnect = (function () {
     }
 
     function Popup(url, origin, name, width, height) {
-        var left = (screen.width - width) / 2;
-        var top = (screen.height - height) / 2;
+        var left = (window.screen.width - width) / 2;
+        var top = (window.screen.height - height) / 2;
         var opts =
             'width=' + width +
             ',height=' + height +
@@ -825,7 +824,7 @@ var TrezorConnect = (function () {
                 cc = null;
                 callback(error);
             };
-        }.bind(this);
+        };
 
         this.closeAfterSuccess = true;
         this.closeAfterFailure = true;
