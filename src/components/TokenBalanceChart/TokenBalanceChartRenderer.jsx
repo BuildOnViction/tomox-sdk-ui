@@ -62,7 +62,7 @@ const LoadingChartBox = styled.div`
   width: 100%;
 `;
 
-const EmptyChartNotification = styled.p`
+const EmptyChartNotification = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
