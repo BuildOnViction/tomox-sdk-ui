@@ -65,5 +65,15 @@ export class TrezorSigner extends ethers.Signer {
 
     sendTransaction = transaction => {
         console.log("Trezor sendTransaction");
+        return new Promise(async (resolve, reject) => {
+            let result = await TrezorConnect.signTransaction(transaction);
+            console.log(result);
+            if (result.success) {
+                resolve(result.payload);
+            } else {
+                console.error("Error:", result.payload.error); // error message
+                reject(result.payload.error);
+            }
+        });
     };
 }
