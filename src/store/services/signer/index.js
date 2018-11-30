@@ -65,7 +65,7 @@ export const createSigner = async (params: UpdateSignerParams): any => {
 }
 
 // this method add extension methods to the current signer
-const addMethodsToSigner = signer => {
+export const addMethodsToSigner = signer => {
   signer.signOrder = signOrder
   signer.signTrade = signTrade
   // the first param by default is this signer

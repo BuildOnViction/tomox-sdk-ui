@@ -12,7 +12,7 @@ import {
   createMetamaskSigner
 } from '../services/signer';
 
-import { Trezor } from '../../store/services/keys';
+import { TrezorSigner } from '../../store/services/signer/trezor';
 import AddressGenerator from '../../store/services/device/addressGenerator';
 
 import type { State, ThunkAction } from '../../types';
@@ -99,7 +99,7 @@ export function loginWithTrezorWallet(): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
-      let deviceService = new Trezor();
+      let deviceService = new TrezorSigner();
       let result = await deviceService.getPublicKey();
       let generator = new AddressGenerator(result);
       let addresses = [];
