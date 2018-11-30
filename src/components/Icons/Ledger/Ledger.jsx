@@ -15,8 +15,8 @@ const Ledger = props => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs />
-      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="2.-login-(grey)" transform="translate(-847.000000, -428.000000)" fill="#FFFFFF" fill-rule="nonzero">
+      <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g id="2.-login-(grey)" transform="translate(-847.000000, -428.000000)" fill="#FFFFFF" fillRule="nonzero">
           <g id="Group-8" transform="translate(311.000000, 396.000000)">
             <g id="Group-6" transform="translate(501.000000, 0.000000)">
               <g id="ledger-icon" transform="translate(35.000000, 32.000000)">
