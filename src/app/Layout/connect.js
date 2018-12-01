@@ -7,7 +7,7 @@ export function mapStateToProps(state, props) {
 
   return {
     authenticated: selector.authenticated,
-    address: selector.account,
+    address: selector.address,
     currentBlock: selector.currentBlock
   }
 }
