@@ -2,6 +2,8 @@
 
 Official repository for the Tomochain DEX react client, forked from the Proof project.
 
+![demo](./dex-client.png)
+
 ## Blueprint - React-based UI toolkit for the web.
 
 It is optimized for building complex data-dense interfaces for desktop applications.
