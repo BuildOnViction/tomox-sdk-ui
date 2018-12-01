@@ -8,8 +8,6 @@ Official repository for the Tomochain DEX react client, forked from the Proof pr
 
 Sample is at `src/scripts/computeFeedSignatures.js`
 
-It is optimized for building complex data-dense interfaces for desktop applications.
-
 ## Blueprint - React-based UI toolkit for the web.
 
 It is optimized for building complex data-dense interfaces for desktop applications.
