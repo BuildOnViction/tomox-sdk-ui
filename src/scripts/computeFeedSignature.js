@@ -12,10 +12,6 @@ let provider = new providers.JsonRpcProvider('http://localhost:8545', {
   chainId: 8888,
   name: undefined
 });
-let signer = new Wallet(
-  '0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce',
-  provider
-);
 
 async function testSignature(epoch, data) {
   request.epoch = epoch;
@@ -101,18 +97,28 @@ const topic = padTopic('0x620C38566BAD7a895cce707F42DCd5eaC1f94861');
 // let msgs = {
 //   chain: 'ethereum',
 //   addressIndex: 10,
-//   address: '0xe8F938F6DcE8d306ED4620C45AE56E818D773d3A',
+//   address: '0x787DFf5a56CF30d676e45d8DE4518c03C335386E',
 //   tomochainPublicKey: '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A',
 //   createdAt: 1542000614
 // };
 
 // const topic = padTopic(utils.toUtf8Bytes('ethereum'));
-// const request = {
-//   feed: {
-//     topic,
-//     user: '0x28074f8d0fd78629cd59290cac185611a8d60109'
-//   },
-//   protocolVersion: 0
-// };
-// console.log(request, utils.hexlify(utils.toUtf8Bytes('ethereum')));
+
+const keyPair = {
+  '0x28074f8d0fd78629cd59290cac185611a8d60109':
+    '0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce',
+  '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A':
+    '0x17c6c258e1590e9ccd06feddfd3855d19490cec93be96ad6d52d16bdf9cc22c9'
+};
+const userAddress = Object.keys(keyPair)[0];
+const request = {
+  feed: {
+    topic,
+    user: userAddress
+  },
+  protocolVersion: 0
+};
+
+let signer = new Wallet(keyPair[userAddress], provider);
+
 updateSwarm(request, msgs);

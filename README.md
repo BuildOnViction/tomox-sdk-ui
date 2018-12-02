@@ -2,6 +2,12 @@
 
 Official repository for the Tomochain DEX react client, forked from the Proof project.
 
+![demo](./dex-client.png)
+
+## RLPX/SwarmFeed - Compact and secured way to store decentralized orderbook for each user.
+
+Sample is at `src/scripts/computeFeedSignatures.js`
+
 ## Blueprint - React-based UI toolkit for the web.
 
 It is optimized for building complex data-dense interfaces for desktop applications.

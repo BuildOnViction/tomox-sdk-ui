@@ -8,6 +8,7 @@ import type { TxReceipt } from '../../types/common';
 type Props = {
   step: 'waiting' | 'convert' | 'confirm',
   address: string,
+  associatedAddress: string,
   balance: ?number,
   tokens: Array<Object>,
   token: Object,

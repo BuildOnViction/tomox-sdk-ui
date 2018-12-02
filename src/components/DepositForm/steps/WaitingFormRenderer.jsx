@@ -1,28 +1,30 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Button, Callout, ControlGroup, Spinner } from '@blueprintjs/core'
-import TokenSuggest from '../../TokenSuggest'
+import React from 'react';
+import styled from 'styled-components';
+import { Button, Callout, ControlGroup, Spinner } from '@blueprintjs/core';
+import TokenSuggest from '../../TokenSuggest';
 
 const WaitingFormRenderer = (props: Props) => {
   const {
     tokens,
     token,
     address,
+    associatedAddress,
     balance,
     handleChangeToken,
     handleSubmitChangeToken,
     toggleTokenSuggest,
     showTokenSuggest
-  } = props
-
+  } = props;
+  console.log('User address:', address);
   return (
     <div>
       <Callout intent="primary" title="Notice">
-        Send Ether to the address display below. This form will update once your account balance is changed.
+        Send Ether to the address display below. This form will update once your
+        account balance is changed.
       </Callout>
       <WaitingFormBox>
         <Spinner intent="primary" large />
-        <Address>{address}</Address>
+        <Address>{associatedAddress}</Address>
         <CurrentBalanceBox>
           (Your current balance is {balance} {token.symbol})
         </CurrentBalanceBox>
@@ -31,8 +33,16 @@ const WaitingFormRenderer = (props: Props) => {
       {showTokenSuggest ? (
         <ControlGroup>
           <Button onClick={toggleTokenSuggest} text="Cancel" minimal />
-          <TokenSuggest tokens={tokens} token={token} onChange={handleChangeToken} />
-          <Button intent="primary" text="Confirm" onClick={handleSubmitChangeToken} />
+          <TokenSuggest
+            tokens={tokens}
+            token={token}
+            onChange={handleChangeToken}
+          />
+          <Button
+            intent="primary"
+            text="Confirm"
+            onClick={handleSubmitChangeToken}
+          />
         </ControlGroup>
       ) : (
         <ControlGroup>
@@ -40,8 +50,8 @@ const WaitingFormRenderer = (props: Props) => {
         </ControlGroup>
       )}
     </div>
-  )
-}
+  );
+};
 
 const WaitingFormBox = styled.div`
   margin: auto;
@@ -52,15 +62,15 @@ const WaitingFormBox = styled.div`
   align-content: center;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const CurrentBalanceBox = styled.div`
   padding-top: 4px;
-`
+`;
 
 const Address = styled.div`
   padding-top: 40px;
   font-weight: bold;
-`
+`;
 
-export default WaitingFormRenderer
+export default WaitingFormRenderer;
