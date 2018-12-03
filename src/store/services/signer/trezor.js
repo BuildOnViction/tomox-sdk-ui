@@ -11,8 +11,7 @@ export class TrezorSigner extends Signer {
         super();
         const networkId = 8888;
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
-            chainId: networkId,
-            name: undefined
+            chainId: networkId
         });
         window.signer = { instance: this, type: "hardwareWallet" };
         addMethodsToSigner(this);
