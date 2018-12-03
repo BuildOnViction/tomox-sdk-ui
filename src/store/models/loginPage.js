@@ -141,7 +141,7 @@ export function loginWithLedgerWallet(): ThunkAction {
       dispatch(actionCreators.loginWithTrezorWallet(addresses[0]));
       dispatch(
         notifierActionCreators.addSuccessNotification({
-          message: 'Signed in with Trezor wallet'
+          message: 'Signed in with Ledger wallet'
         })
       );
     } catch (e) {
