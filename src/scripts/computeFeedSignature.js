@@ -98,7 +98,8 @@ const topic = padTopic('0x620C38566BAD7a895cce707F42DCd5eaC1f94861');
 //   chain: 'ethereum',
 //   addressIndex: 10,
 //   address: '0x787DFf5a56CF30d676e45d8DE4518c03C335386E',
-//   tomochainPublicKey: '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A',
+//   associatedAddress: '0x59B8515E7fF389df6926Cd52a086B0f1f46C630A',
+//   tomochainPublicKey: '0x28074f8D0fD78629CD59290Cac185611a8d60109',
 //   createdAt: 1542000614
 // };
 
