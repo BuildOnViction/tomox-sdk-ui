@@ -14,7 +14,6 @@ import {
 
 import { TrezorSigner } from '../services/signer/trezor';
 import { LedgerSigner } from '../services/signer/ledger';
-import AddressGenerator from '../../store/services/device/addressGenerator';
 
 import type { State, ThunkAction } from '../../types';
 
@@ -101,15 +100,8 @@ export function loginWithTrezorWallet(): ThunkAction {
     try {
       dispatch(actionCreators.requestLogin());
       let deviceService = new TrezorSigner();
-      let result = await deviceService.getPublicKey();
-      let generator = new AddressGenerator(result);
-      let addresses = [];
-      let index = 0;
-      for (index; index < 5; index++) {
-        addresses.push(generator.getAddressString(index));
-      }
-
-      dispatch(actionCreators.loginWithTrezorWallet(addresses[0]));
+      let result = await deviceService.getAddress();
+      dispatch(actionCreators.loginWithTrezorWallet(result));
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Trezor wallet'
@@ -130,15 +122,8 @@ export function loginWithLedgerWallet(): ThunkAction {
       dispatch(actionCreators.requestLogin());
 
       let deviceService = new LedgerSigner();
-      let result = await deviceService.getPublicKey();
-      let generator = new AddressGenerator(result);
-      let addresses = [];
-      let index = 0;
-      for (index; index < 5; index++) {
-        addresses.push(generator.getAddressString(index));
-      }
-
-      dispatch(actionCreators.loginWithTrezorWallet(addresses[0]));
+      let result = await deviceService.getAddress();
+      dispatch(actionCreators.loginWithLedgerWallet(result));
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Ledger wallet'

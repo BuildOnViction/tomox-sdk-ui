@@ -14,6 +14,7 @@ const actionTypes = {
   loginWithMetamask: 'loginPage/LOGIN_WITH_METAMASK',
   loginWithWallet: 'loginPage/LOGIN_WITH_WALLET',
   loginWithTrezorWallet: 'loginPage/LOGIN_WITH_TREZOR_WALLET',
+  loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
   loginError: 'loginPage/LOGIN_ERROR'
 }
 
@@ -41,6 +42,13 @@ export function loginWithWallet(address: string, privateKey: string): LoginWithW
 export function loginWithTrezorWallet(address: string): LoginWithTrezorWalletAction {
   return {
     type: actionTypes.loginWithTrezorWallet,
+    payload: { address }
+  }
+}
+
+export function loginWithLedgerWallet(address: string): LoginWithTrezorWalletAction {
+  return {
+    type: actionTypes.loginWithLedgerWallet,
     payload: { address }
   }
 }
