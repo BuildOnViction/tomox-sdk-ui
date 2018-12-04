@@ -6,7 +6,10 @@ import SelectAddressFormContainer from "../SelectAddressForm";
 type Props = {
     title: string,
     isOpen: boolean,
-    handleClose: (SyntheticEvent<>) => void
+    handleClose: (SyntheticEvent<>) => void,
+    walletType: string,
+    currentAddresses: Array,
+    currentDPath: string
 };
 
 const SelectAddressModal = (props: Props) => (
@@ -16,7 +19,11 @@ const SelectAddressModal = (props: Props) => (
         isOpen={props.isOpen}
         onClose={props.handleClose}
     >
-        <SelectAddressFormContainer />
+        <SelectAddressFormContainer
+            walletType={props.walletType}
+            currentAddresses={props.currentAddresses}
+            currentDPath={props.currentDPath}
+        />
     </Modal>
 );
 

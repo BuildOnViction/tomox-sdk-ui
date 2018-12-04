@@ -113,7 +113,11 @@ export function generateTrezorAddresses(): ThunkAction {
 			addresses.push(address);
     }
     
-    return addresses;
+    return {
+      walletType: 'trezor',
+      serializedPath: result.serializedPath,
+      addresses
+    };
   };
 }
 
