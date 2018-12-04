@@ -5,6 +5,7 @@ import type {
   LoginWithMetamaskAction,
   LoginWithWalletAction,
   LoginWithTrezorWalletAction,
+  LoginWithLedgerWalletAction,
   RequestLoginAction
 } from '../../types/loginPage'
 
@@ -46,7 +47,7 @@ export function loginWithTrezorWallet(address: string): LoginWithTrezorWalletAct
   }
 }
 
-export function loginWithLedgerWallet(address: string): LoginWithTrezorWalletAction {
+export function loginWithLedgerWallet(address: string): LoginWithLedgerWalletAction {
   return {
     type: actionTypes.loginWithLedgerWallet,
     payload: { address }

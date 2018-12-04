@@ -4,11 +4,12 @@ import TrezorConnect from "trezor-connect";
 import { NETWORK_URL } from "../../../config/url";
 import { addMethodsToSigner } from "./index";
 
-const defaultDPath = "m/44'/60'/0'/0/0";
+const defaultDPath = "m/44'/60'/0'/0";
 
 export class TrezorSigner extends Signer {
-    constructor() {
+    constructor(path = defaultDPath) {
         super();
+        this.path = path;
         const networkId = 8888;
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
             chainId: networkId
@@ -17,36 +18,36 @@ export class TrezorSigner extends Signer {
         addMethodsToSigner(this);
     }
 
-    getPublicKey = async (path = defaultDPath) => {
+    getPublicKey = async () => {
         let result = await TrezorConnect.getPublicKey({
-            path
+            path: this.path
         });
         if (result.success) {
             return result.payload;
         }
-            
+
         console.log(result);
         throw new Error(result.payload.error);
     };
 
-    getAddress = async (path = defaultDPath) => {
+    getAddress = async () => {
         let result = await TrezorConnect.ethereumGetAddress({
-            path
+            path: this.path
         });
 
         if (result.success) {
             this.address = result.payload.address;
             return result.payload.address;
         }
-        
+
         console.log(result);
         throw new Error(result.payload.error);
     };
 
-    signMessage = async (message, path = defaultDPath) => {
+    signMessage = async (message) => {
         return new Promise(async (resolve, reject) => {
             let result = await TrezorConnect.ethereumSignMessage({
-                path,
+                path: this.path,
                 message
             });
 
@@ -59,16 +60,22 @@ export class TrezorSigner extends Signer {
         });
     };
 
-    sign = async (transaction, path = defaultDPath) => {
-        transaction.value = utils.hexlify(transaction.value);
-        transaction.gasPrice = utils.hexlify(transaction.gasPrice);
-        transaction.gasLimit = utils.hexlify(transaction.gasLimit);
+    sign = async (transaction) => {
+        if (transaction.value) {
+            transaction.value = utils.hexlify(transaction.value);
+        }
+        if (transaction.gasPrice) {
+            transaction.gasPrice = utils.hexlify(transaction.gasPrice);
+        }
+        if (transaction.gasLimit) {
+            transaction.gasLimit = utils.hexlify(transaction.gasLimit);
+        }
         transaction.nonce = utils.hexlify(
             await this.provider.getTransactionCount(this.address)
         );
 
         let result = await TrezorConnect.ethereumSignTransaction({
-            path,
+            path: this.path,
             transaction
         });
 
@@ -90,8 +97,8 @@ export class TrezorSigner extends Signer {
         throw new Error(result.payload.error);
     };
 
-    sendTransaction = async (transaction, path = defaultDPath) => {
-        let signedTx = await this.sign(transaction, path);
+    sendTransaction = async (transaction) => {
+        let signedTx = await this.sign(transaction);
 
         return this.provider.sendTransaction(signedTx);
     };

@@ -33,6 +33,11 @@ export type LoginWithTrezorWalletAction = {
   payload: { address: string }
 }
 
+export type LoginWithLedgerWalletAction = {
+  type: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
+  payload: { address: string }
+}
+
 export type LoginErrorAction = {
   type: 'loginPage/LOGIN_ERROR',
   payload: { error: string }
@@ -49,3 +54,4 @@ export type LoginPageAction =
   | LoginWithWalletAction
   | LoginWithMetamaskAction
   | LoginWithTrezorWalletAction
+  | LoginWithLedgerWalletAction

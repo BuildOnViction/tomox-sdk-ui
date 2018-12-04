@@ -15,6 +15,8 @@ import {
 import { TrezorSigner } from '../services/signer/trezor';
 import { LedgerSigner } from '../services/signer/ledger';
 
+import AddressGenerator from '../services/device/addressGenerator';
+
 import type { State, ThunkAction } from '../../types';
 
 type CreateWalletParams = {
@@ -92,6 +94,26 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
       );
       dispatch(actionCreators.loginError(e.message));
     }
+  };
+}
+
+export function generateTrezorAddresses(): ThunkAction {
+  return async (dispatch, getState) => {
+    let deviceService = new TrezorSigner();
+    let result = await deviceService.getPublicKey();
+    let generator = new AddressGenerator(result);
+		let addresses = [];
+		let index = 0;
+		for (index; index < 5; index++) {
+			let address = {
+				addressString: generator.getAddressString(index),
+				index: index,
+				balance: -1,
+			};
+			addresses.push(address);
+    }
+    
+    return addresses;
   };
 }
 
