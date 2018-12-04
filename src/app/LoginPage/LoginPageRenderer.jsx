@@ -15,6 +15,7 @@ type Props = {
   showLoginMethods: () => void,
   loginWithMetamask: void => void,
   loginWithWallet: void => void,
+  openSelectAddressModal: void => void,
   loginWithTrezorWallet: void => void,
   loginWithLedgerWallet: void => void
 };
@@ -24,6 +25,7 @@ const LoginPageRenderer = (props: Props) => {
     view,
     loginWithMetamask,
     loginWithWallet,
+    openSelectAddressModal,
     loginWithTrezorWallet,
     loginWithLedgerWallet,
     showCreateWallet,
@@ -39,6 +41,7 @@ const LoginPageRenderer = (props: Props) => {
       <LoginMethodsView
         showWalletLoginForm={showWalletLoginForm}
         loginWithMetamask={loginWithMetamask}
+        openSelectAddressModal={openSelectAddressModal}
         loginWithTrezorWallet={loginWithTrezorWallet}
         loginWithLedgerWallet={loginWithLedgerWallet}
         showCreateWallet={showCreateWallet}
@@ -56,7 +59,7 @@ const LoginPageRenderer = (props: Props) => {
 };
 
 const LoginMethodsView = (props: Props) => {
-  const { showWalletLoginForm, loginWithMetamask, loginWithTrezorWallet, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
+  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, loginWithTrezorWallet, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
   return (
     <Wrapper>
       <Announcement>
@@ -93,7 +96,7 @@ const LoginMethodsView = (props: Props) => {
             </Heading>
             <MetamaskStatusTag>{metamaskStatuses[metamaskStatus]}</MetamaskStatusTag>
           </LoginCard>
-          <LoginCard onClick={loginWithTrezorWallet}>
+          <LoginCard onClick={openSelectAddressModal}>
             <Trezor size={100} />
             <Heading>
               <FormattedMessage {...messages.trezorWallet} />

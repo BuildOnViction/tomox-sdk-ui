@@ -54,6 +54,8 @@ export const loginPage = createReducer(action => {
       return loginPageEvents.authenticated();
     case loginPageActionTypes.loginWithTrezorWallet:
       return loginPageEvents.authenticated();
+    case loginPageActionTypes.loginWithLedgerWallet:
+      return loginPageEvents.authenticated();
     default:
       return loginPageEvents.initialized();
   }
@@ -315,6 +317,8 @@ export const account = createReducer(action => {
     case loginPageActionTypes.loginWithWallet:
       return accountEvents.accountUpdated(payload.address, payload.privateKey);
     case loginPageActionTypes.loginWithTrezorWallet:
+      return accountEvents.accountUpdated(payload.address, '');
+    case loginPageActionTypes.loginWithLedgerWallet:
       return accountEvents.accountUpdated(payload.address, '');
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal);
