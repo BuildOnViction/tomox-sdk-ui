@@ -26,7 +26,6 @@
     "@blueprintjs/select": "^3.2.1",
     "@blueprintjs/table": "^3.3.0",
     "@ledgerhq/hw-app-eth": "^4.24.0",
-    "@ledgerhq/hw-transport-node-hid": "^4.24.0",
     "accounting-js": "^1.1.1",
     "amcharts3": "^3.21.13",
     "connected-react-router": "^4.4.1",

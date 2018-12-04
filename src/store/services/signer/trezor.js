@@ -10,7 +10,6 @@ export class TrezorSigner extends Signer {
     constructor() {
         super();
         const networkId = 8888;
-        this.chainId = networkId;
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
             chainId: networkId
         });
