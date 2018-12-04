@@ -10,6 +10,7 @@ export class TrezorSigner extends Signer {
     constructor() {
         super();
         const networkId = 8888;
+        this.chainId = networkId;
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
             chainId: networkId
         });
@@ -63,46 +64,50 @@ export class TrezorSigner extends Signer {
     };
 
     sign = async transaction => {
-        try {
-            let tx = {
-                to: transaction.to,
-                gasLimit: utils.hexlify(transaction.gasLimit),
-                gasPrice: utils.hexlify(transaction.gasPrice),
-                value: utils.hexlify(transaction.value),
-                nonce: transaction.nonce
-                    ? utils.hexlify(transaction.nonce)
-                    : utils.hexlify(0)
+        let tx = transaction;
+
+        console.log(tx);
+
+        tx.value = utils.hexlify(tx.value);
+        tx.gasPrice = utils.hexlify(tx.gasPrice);
+        tx.gasLimit = utils.hexlify(tx.gasLimit);
+        tx.nonce = tx.nonce ? utils.hexlify(tx.nonce) : utils.hexlify(0);
+
+        console.log(tx);
+
+        let result = await TrezorConnect.ethereumSignTransaction({
+            path: defaultDPath,
+            transaction: tx
+        });
+
+        console.log(result);
+
+        if (result.success) {
+            let sig = {
+                v: parseInt(result.payload.v.substring(2), 16),
+                r: result.payload.r,
+                s: result.payload.s
             };
 
-            let result = await TrezorConnect.ethereumSignTransaction({
-                path: defaultDPath,
-                transaction: tx
-            });
+            console.log(sig);
 
-            if (result.success) {
-                let sig = {
-                    v: parseInt(result.payload.v, 10),
-                    r: result.payload.r,
-                    s: result.payload.s
-                };
+            let serializedTransaction = await utils.serializeTransaction(
+                tx,
+                sig
+            );
 
-                let serializedTransaction = await utils.serializeTransaction(
-                    tx,
-                    sig
-                );
-
-                return serializedTransaction;
-            }
-
-            throw new Error(result.payload.error);
-        } catch (err) {
-            console.log(err);
+            return serializedTransaction;
         }
+
+        throw new Error(result.payload.error);
     };
 
     sendTransaction = async transaction => {
         let signedTx = await this.sign(transaction);
-        console.log(this.provider);
+
+        let a = utils.parseTransaction(signedTx);
+        console.log(a);
+
         return this.provider.sendTransaction(signedTx);
     };
 }
