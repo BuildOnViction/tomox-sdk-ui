@@ -4,7 +4,11 @@ import DepositFormRenderer from './DepositFormRenderer';
 
 import type { Token } from '../../types/tokens';
 import type { AccountBalance } from '../../types/accountBalances';
+import type { PairAddresses } from '../../types/pairs';
 import { generateDepositAddress } from '../../store/services/api';
+import { getSigner } from '../../store/services/signer';
+import { WETH_ADDRESS } from '../../config/contracts';
+
 type Step = 'waiting' | 'convert' | 'confirm';
 
 type Props = {
@@ -55,13 +59,26 @@ class DepositForm extends React.PureComponent<Props, State> {
   }
 
   async subscribe(token: Token) {
+    const signer = getSigner();
+    const networkID = signer.provider.network.chainId;
+    const quoteToken = WETH_ADDRESS[networkID];
+    const pairAddresses: PairAddresses = {
+      name: `${token.symbol}/WETH`,
+      baseToken: token.address,
+      quoteToken
+    };
+
+    // console.log(pairAddresses);
     this.unsubscribe();
 
     const unsubscribeBalance = await this.props.subscribeBalance(token);
     let association = await generateDepositAddress(
       'ethereum',
-      this.props.address
+      this.props.address,
+      pairAddresses
     );
+
+    // console.log(association);
 
     this.setState({
       unsubscribeBalance,
