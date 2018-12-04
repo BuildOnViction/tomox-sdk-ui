@@ -23,19 +23,29 @@ type State = {
     view: string,
     metamaskStatus: 'unlocked' | 'locked' | 'undefined',
     isSelectAddressModalOpen: boolean,
-    addresses: Array
+    walletType: string,
+    currentAddresses: Array,
+    currentDPath: string
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
     state = {
         view: 'loginMethods',
         metamaskStatus: 'undefined',
-        isSelectAddressModalOpen: false
+        walletType: '',
+        isSelectAddressModalOpen: false,
+        currentDPath: ''
     };
 
     openSelectAddressModal = async () => {
-        let addresses = await this.props.generateTrezorAddresses();
-        this.setState({ isSelectAddressModalOpen: true });
+        let { walletType, serializedPath, addresses } = await this.props.generateTrezorAddresses();
+
+        this.setState({
+            isSelectAddressModalOpen: true,
+            walletType,
+            currentAddresses: addresses,
+            currentDPath: 'm/' + serializedPath
+        });
     };
 
     closeSelectAddressModal = () => {
@@ -101,7 +111,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                 loginWithLedgerWallet,
                 authenticated
             },
-            state: { view, metamaskStatus, isSelectAddressModalOpen },
+            state: { view, metamaskStatus, isSelectAddressModalOpen, walletType, currentAddresses, currentDPath },
             showWalletLoginForm,
             showLoginMethods,
             showCreateWallet,
@@ -135,6 +145,9 @@ class LoginPage extends React.PureComponent<Props, State> {
                     title="Select Trezor Address"
                     isOpen={isSelectAddressModalOpen}
                     handleClose={this.closeSelectAddressModal}
+                    walletType={walletType}
+                    currentAddresses={currentAddresses}
+                    currentDPath={currentDPath}
                 />
             </Wrapper>
         );
