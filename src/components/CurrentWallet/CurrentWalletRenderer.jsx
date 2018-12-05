@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button } from '@blueprintjs/core';
 import styled from 'styled-components';
 import TransferTokensModal from '../../components/TransferTokensModal';
+import { formatNumber } from 'accounting-js';
 // import { toPassowrdType } from '../../utils/helpers'
 
 const CurrentWalletRenderer = props => {
@@ -15,7 +16,7 @@ const CurrentWalletRenderer = props => {
     balance,
     // pvtKeyLocked,
     gasPrice,
-    gas,
+    gas
   } = props;
 
   // const displayPvtKey = showPrivateKey && !pvtKeyLocked
@@ -26,7 +27,7 @@ const CurrentWalletRenderer = props => {
         <CardTitle>Current Wallet</CardTitle>
         <Row>
           <h3>Balance: </h3>
-          <h2>{balance} ETH</h2>
+          <h2>{formatNumber(balance, { precision: 3 })} ETH</h2>
         </Row>
         <Row>
           <h3>Address: </h3>
@@ -50,7 +51,12 @@ const CurrentWalletRenderer = props => {
             View Wallet on Etherscan
           </a>
         </Row>
-        <TransferTokensModal gas={gas} gasPrice={gasPrice} isOpen={isModalOpen} handleClose={handleModalClose} />
+        <TransferTokensModal
+          gas={gas}
+          gasPrice={gasPrice}
+          isOpen={isModalOpen}
+          handleClose={handleModalClose}
+        />
       </div>
     </WalletWrapper>
   );

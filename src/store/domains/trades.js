@@ -1,6 +1,8 @@
 // @flow
 import { sortTable } from '../../utils/helpers';
 import { formatNumber } from 'accounting-js';
+import { amountPrecision, pricePrecision } from '../../config/tokens';
+
 import type { Trade, Trades, TradesState } from '../../types/trades';
 
 const initialState = {
@@ -94,8 +96,8 @@ export default function tradesDomain(state: TradesState) {
       trades = trades.map(trade => {
         return {
           ...trade,
-          amount: formatNumber(trade.amount, { precision: 3 }),
-          price: formatNumber(trade.price, { precision: 5 })
+          amount: formatNumber(trade.amount, { precision: amountPrecision }),
+          price: formatNumber(trade.price, { precision: pricePrecision })
         };
       });
 
@@ -111,13 +113,13 @@ export default function tradesDomain(state: TradesState) {
         index === trades.length - 1
           ? (change = 'positive')
           : trade.price >= trades[index + 1].price
-            ? (change = 'positive')
-            : (change = 'negative');
+          ? (change = 'positive')
+          : (change = 'negative');
 
         return {
           ...trade,
-          amount: formatNumber(trade.amount, { precision: 3 }),
-          price: formatNumber(trade.price, { precision: 5 }),
+          amount: formatNumber(trade.amount, { precision: amountPrecision }),
+          price: formatNumber(trade.price, { precision: pricePrecision }),
           change
         };
       });

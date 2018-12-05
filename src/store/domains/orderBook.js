@@ -2,6 +2,7 @@
 import type { OrderBookState } from '../../types/orderBook';
 import SortedArray from 'sorted-array';
 import { round } from '../../utils/helpers';
+import { amountPrecision, pricePrecision } from '../../config/tokens';
 import { formatNumber } from 'accounting-js';
 
 const initialState: OrderBookState = {
@@ -177,17 +178,17 @@ export default function domain(state: OrderBookState) {
       bids = bids.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: formatNumber(item.amount, { precision: 3 }),
-        total: formatNumber(item.total, { precision: 3 }),
-        price: formatNumber(item.price, { precision: 5 })
+        amount: formatNumber(item.amount, { precision: amountPrecision }),
+        total: formatNumber(item.total, { precision: amountPrecision }),
+        price: formatNumber(item.price, { precision: pricePrecision })
       }));
 
       asks = asks.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: formatNumber(item.amount, { precision: 3 }),
-        total: formatNumber(item.total, { precision: 3 }),
-        price: formatNumber(item.price, { precision: 5 })
+        amount: formatNumber(item.amount, { precision: amountPrecision }),
+        total: formatNumber(item.total, { precision: amountPrecision }),
+        price: formatNumber(item.price, { precision: pricePrecision })
       }));
 
       return { asks, bids };

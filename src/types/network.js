@@ -1,6 +1,6 @@
 //@flow
 
-import type { Transaction } from './common'
+import type { Transaction } from './common';
 
 export type Network = {
   chainId: number,
@@ -14,7 +14,8 @@ export type Connection = {
 export type Provider = {
   connection: Connection,
   network: Network,
-  waitForTransaction: (string, ?number)=>Promise<Object>,
-  getTransactionCount: (string) => Promise<number>,
-  estimateGas: Transaction => Promise<Object>,
+  waitForTransaction: (string, ?number) => Promise<Object>,
+  getTransactionCount: string => Promise<number>,
+  getBalance: string => Promise<number>,
+  estimateGas: Transaction => Promise<Object>
 };

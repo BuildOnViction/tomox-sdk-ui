@@ -25,6 +25,8 @@ import {
 import styled from 'styled-components';
 import { ResizableBox } from 'react-resizable';
 import { tokenImages } from '../../config/tokens';
+import { formatNumber } from 'accounting-js';
+
 type Token = {
   pair: string,
   lastPrice: string,
@@ -307,7 +309,9 @@ const ShowToken = ({ symbol, balance }) => {
     <FlexBetween>
       <strong>{symbol} Balance: </strong>
       <div style={{ overflow: 'hidden' }}>
-        <Ellipsis title={balance}>{balance}</Ellipsis>
+        <Ellipsis title={balance}>
+          {formatNumber(balance, { precision: 3 })}
+        </Ellipsis>
       </div>
     </FlexBetween>
   );
@@ -334,7 +338,7 @@ const SelectedPair = ({
           </Box>
         </ColumnStart>
         <ColumnEnd>
-          <p className="lastPrice">
+          <p className="lastPrice textRight">
             Last Price: {lastPrice ? `${lastPrice}/${quote}` : 'N.A'}
           </p>
           <p>Volume: {volume || 'N.A'}</p>
