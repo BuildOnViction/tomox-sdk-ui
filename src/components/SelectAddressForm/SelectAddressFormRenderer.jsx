@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import styled from 'styled-components';
 import { AnchorButton, Intent } from '@blueprintjs/core';
 
 import PathSelector from '../PathSelector';
@@ -16,27 +17,35 @@ type Props = {
 
 const SelectAddressFormRenderer = (props: Props) => {
     return (
-        <div>
-            <div className="path-list">
-                <div>Select HD derivation path</div>
+        <SelectAddressFormBody>
+            <PathList>
+                <PathListMessage>Select HD derivation path</PathListMessage>
                 <PathSelector
                     dPath={props.dPath}
                     handleSelectPath={props.handleSelectPath}
                 />
-            </div>
-            <ul className="address-list">
+            </PathList>
+            <AddressList>
+                <AddressListMessage>
+                    Select the address you would like to use
+                </AddressListMessage>
                 {props.currentAddresses.map(address => {
                     return (
-                        <li
+                        <AddressListItem
                             key={address.addressString}
                             onClick={() => props.handleSelectAddress(address)}
                         >
                             {address.addressString}
-                        </li>
+                            <AnchorButton
+                                text="Import"
+                                rightIcon="chevron-right"
+                                intent={Intent.WARNING}
+                            />
+                        </AddressListItem>
                     );
                 })}
-            </ul>
-            <div className="address-list-navigation">
+            </AddressList>
+            <AddressListNavigation>
                 <AnchorButton
                     text="Previous Addresses"
                     icon="circle-arrow-left"
@@ -54,9 +63,53 @@ const SelectAddressFormRenderer = (props: Props) => {
                     intent={Intent.WARNING}
                     onClick={props.getMoreAddress}
                 />
-            </div>
-        </div>
+            </AddressListNavigation>
+        </SelectAddressFormBody>
     );
 };
+
+const SelectAddressFormBody = styled.div`
+    margin: 2rem 5rem 0;
+`;
+
+const PathList = styled.div`
+    margin-bottom: 2rem;
+`;
+
+const PathListMessage = styled.p`
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: ##686868;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+`;
+
+const AddressList = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+`;
+
+const AddressListMessage = styled.p`
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: ##686868;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+`;
+
+const AddressListItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+`;
+
+const AddressListNavigation = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
 export default SelectAddressFormRenderer;
