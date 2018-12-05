@@ -18,7 +18,7 @@ export class TrezorSigner extends Signer {
         addMethodsToSigner(this);
     }
 
-    getPublicKey = async () => {
+    getPublicKey = async (path = defaultDPath) => {
         let result = await TrezorConnect.getPublicKey({
             path: this.path
         });
@@ -32,7 +32,7 @@ export class TrezorSigner extends Signer {
 
     getAddress = async () => {
         let result = await TrezorConnect.ethereumGetAddress({
-            path: this.path
+            path: this.path + '/0'
         });
 
         if (result.success) {
@@ -47,7 +47,7 @@ export class TrezorSigner extends Signer {
     signMessage = async (message) => {
         return new Promise(async (resolve, reject) => {
             let result = await TrezorConnect.ethereumSignMessage({
-                path: this.path,
+                path: this.path + '/0',
                 message
             });
 
@@ -75,7 +75,7 @@ export class TrezorSigner extends Signer {
         );
 
         let result = await TrezorConnect.ethereumSignTransaction({
-            path: this.path,
+            path: this.path + '/0',
             transaction
         });
 
