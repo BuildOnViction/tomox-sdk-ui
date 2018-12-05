@@ -59,6 +59,8 @@ export function openConnection(): ThunkAction {
           return handleTradesMessage(dispatch, event, getState);
         case 'ohlcv':
           return handleOHLCVMessage(dispatch, event, getState);
+        case 'deposit':
+        // update tokens balances, tokens changes
         default:
           console.log(channel, event);
           break;
