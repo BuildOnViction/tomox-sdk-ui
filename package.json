@@ -25,6 +25,7 @@
     "@blueprintjs/core": "^3.8.0",
     "@blueprintjs/select": "^3.2.1",
     "@blueprintjs/table": "^3.3.0",
+    "@ledgerhq/hw-app-eth": "^4.24.0",
     "accounting-js": "^1.1.1",
     "amcharts3": "^3.21.13",
     "connected-react-router": "^4.4.1",
@@ -34,8 +35,10 @@
     "d3-time-format": "^2.1.1",
     "date-fns": "^1.29.0",
     "ethereum-address": "^0.0.4",
-    "ethers": "https://github.com/ethers-io/ethers.js.git",
+    "ethereumjs-util": "^6.0.0",
+    "ethers": "^4.0.15",
     "express": "^4.16.3",
+    "hdkey": "^1.1.0",
     "jest-localstorage-mock": "^2.2.0",
     "nodemon": "^1.18.2",
     "numeral": "^2.0.6",
@@ -63,6 +66,7 @@
     "styled-components": "~3.3.3",
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
+    "trezor-connect": "^6.0.2",
     "ws": "^5.2.2"
   },
   "devDependencies": {

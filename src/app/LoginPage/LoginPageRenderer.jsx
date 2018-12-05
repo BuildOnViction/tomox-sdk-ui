@@ -5,7 +5,7 @@ import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core';
 import WalletLoginForm from '../../components/WalletLoginForm';
 import CreateWalletModal from '../../components/CreateWalletModal';
 import MetamaskIcon from '../../components/Icons/Metamask';
-import { KeyIcon, WalletIcon } from '../../components/Icons';
+import { KeyIcon, WalletIcon, Trezor, Ledger } from '../../components/Icons';
 import { Centered, Divider, LargeText, Colors } from '../../components/Common';
 import type { CreateWalletParams } from '../../types/createWallet';
 
@@ -15,6 +15,9 @@ type Props = {
   showLoginMethods: () => void,
   loginWithMetamask: void => void,
   loginWithWallet: void => void,
+  openSelectAddressModal: void => void,
+  loginWithTrezorWallet: void => void,
+  loginWithLedgerWallet: void => void
 };
 
 const LoginPageRenderer = (props: Props) => {
@@ -22,6 +25,9 @@ const LoginPageRenderer = (props: Props) => {
     view,
     loginWithMetamask,
     loginWithWallet,
+    openSelectAddressModal,
+    loginWithTrezorWallet,
+    loginWithLedgerWallet,
     showCreateWallet,
     hideModal,
     showWalletLoginForm,
@@ -35,6 +41,9 @@ const LoginPageRenderer = (props: Props) => {
       <LoginMethodsView
         showWalletLoginForm={showWalletLoginForm}
         loginWithMetamask={loginWithMetamask}
+        openSelectAddressModal={openSelectAddressModal}
+        loginWithTrezorWallet={loginWithTrezorWallet}
+        loginWithLedgerWallet={loginWithLedgerWallet}
         showCreateWallet={showCreateWallet}
         metamaskStatus={metamaskStatus}
       />
@@ -50,7 +59,7 @@ const LoginPageRenderer = (props: Props) => {
 };
 
 const LoginMethodsView = (props: Props) => {
-  const { showWalletLoginForm, loginWithMetamask, metamaskStatus, showCreateWallet } = props;
+  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, loginWithTrezorWallet, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
   return (
     <Wrapper>
       <Announcement>
@@ -86,6 +95,20 @@ const LoginMethodsView = (props: Props) => {
               <FormattedMessage {...messages.metamask} />
             </Heading>
             <MetamaskStatusTag>{metamaskStatuses[metamaskStatus]}</MetamaskStatusTag>
+          </LoginCard>
+          <LoginCard onClick={loginWithTrezorWallet}>
+            <Trezor size={100} />
+            <Heading>
+              <FormattedMessage {...messages.trezorWallet} />
+            </Heading>
+            <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
+          </LoginCard>
+          <LoginCard onClick={loginWithLedgerWallet}>
+            <Ledger size={100} />
+            <Heading>
+              <FormattedMessage {...messages.ledgerWallet} />
+            </Heading>
+            <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
           </LoginCard>
           <LoginCard onClick={showWalletLoginForm}>
             <KeyIcon size={100} />
@@ -193,6 +216,13 @@ const MetamaskStatusTag = styled(Tag).attrs({
   textalign: 'center',
 })``;
 
+const HardwareWalletStatusTag = styled(Tag).attrs({
+  intent: Intent.SUCCESS,
+  interactive: true,
+  minimal: true,
+  textalign: 'center',
+})``;
+
 const messages = defineMessages({
   announcement: {
     id: 'loginPage.announcement',
@@ -235,6 +265,14 @@ const messages = defineMessages({
     id: 'loginPage.wallet',
     defaultMessage: 'Wallet',
   },
+  trezorWallet: {
+    id: 'loginPage.trezorWallet',
+    defaultMessage: 'Trezor Wallet'
+  },
+  ledgerWallet: {
+    id: 'loginPage.ledgerWallet',
+    defaultMessage: 'Ledger Wallet'
+  },
   createWallet: {
     id: 'loginPage.createWallet',
     defaultMessage: 'Create Wallet',
@@ -246,3 +284,5 @@ const metamaskStatuses = {
   locked: 'Locked',
   unlocked: 'Connected',
 };
+
+const recommendedStatus = 'Recommended';

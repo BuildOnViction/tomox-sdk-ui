@@ -15,7 +15,7 @@ const TrezorIcon = props => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs />
-      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="2.-login-(grey)" transform="translate(-684.000000, -419.000000)" fill="#FFFFFF">
           <g id="Group-8" transform="translate(311.000000, 396.000000)">
             <g id="Group-5" transform="translate(334.000000, 0.000000)">

@@ -15,6 +15,7 @@ import fetch from 'isomorphic-fetch';
 
 import type { Orders } from '../../../types/orders';
 import type { Trades } from '../../../types/trades';
+import type { PairAddresses } from '../../../types/pairs';
 
 const request = (endpoint, options) => {
   return fetch(`http://${BACKEND_URL}${endpoint}`, {
@@ -236,10 +237,15 @@ export const fetchRawOrderBook = async (
 
 export const generateDepositAddress = async (
   chain: string,
-  userAddress: string
+  userAddress: string,
+  pairAddresses: PairAddresses
 ) => {
   const response = await request(
-    `/deposit/generate-address?chain=${chain}&userAddress=${userAddress}`
+    `/deposit/generate-address?chain=${chain}&userAddress=${userAddress}`,
+    {
+      body: JSON.stringify(pairAddresses),
+      method: 'POST'
+    }
   );
 
   const { data, error } = await response.json();
@@ -273,7 +279,7 @@ export const fetchTokenPairData = async () => {
 
 export const createAccount = async (address: string) => {
   const response = await request(`/account/create?address=${address}`, {
-    method: 'post'
+    method: 'POST'
   });
 
   const { data, error } = await response.json();
