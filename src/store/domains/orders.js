@@ -1,6 +1,7 @@
 // @flow
 import type { Orders, OrdersState } from '../../types/orders';
 import { formatNumber } from 'accounting-js';
+import { amountPrecision, pricePrecision } from '../../config/tokens';
 
 const initialState = {
   byHash: {}
@@ -76,9 +77,13 @@ export default function ordersDomain(state: OrdersState) {
       let orders = getOrders(state);
       orders = (orders: Orders).slice(Math.max(orders.length - n, 0));
       orders = (orders: Orders).map(order => {
-        order.filled = formatNumber(order.filled, { precision: 3 });
-        order.amount = formatNumber(order.amount, { precision: 3 });
-        order.price = formatNumber(order.price, { precision: 5 });
+        order.filled = formatNumber(order.filled, {
+          precision: amountPrecision
+        });
+        order.amount = formatNumber(order.amount, {
+          precision: amountPrecision
+        });
+        order.price = formatNumber(order.price, { precision: pricePrecision });
         order.cancellable =
           order.status === 'OPEN' || order.status === 'PARTIAL_FILLED';
         return order;

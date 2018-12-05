@@ -1,26 +1,18 @@
 //@flow
-import {
-  isFloat,
-  isInteger,
-  round
-} from './helpers';
+import { isFloat, isInteger, round } from './helpers';
+
+import { utils } from 'ethers';
 
 import {
-  utils
-} from 'ethers';
+  pricePrecision,
+  amountPrecision,
+  defaultDecimals
+} from '../config/tokens';
 
-import type {
-  TokenPairData
-} from '../types/tokens'
+import type { TokenPairData } from '../types/tokens';
 
-import type {
-  Order,
-  Orders
-} from '../types/orders';
-import type {
-  Trade,
-  Trades
-} from '../types/trades';
+import type { Order, Orders } from '../types/orders';
+import type { Trade, Trades } from '../types/trades';
 
 export const parseJSONData = (obj: Object): Object => {
   for (let key in obj) {
@@ -64,8 +56,8 @@ export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
 
 export const parseTokenAmount = (
   amount: number,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): number => {
   let precisionMultiplier = utils.bigNumberify((10 ** precision).toString());
   let decimalsMultiplier = utils.bigNumberify((10 ** tokenDecimals).toString());
@@ -80,7 +72,7 @@ export const parseTokenAmount = (
 export const parsePricepoint = (
   pricepoint: number,
   pricePointMultiplier: number = 1e9,
-  precision: number = 6
+  precision: number = pricePrecision
 ): number => {
   return (
     Math.round((pricepoint / pricePointMultiplier) * Math.pow(10, precision)) /
@@ -90,8 +82,8 @@ export const parsePricepoint = (
 
 export const parseOrder = (
   order: Object,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): Order => ({
   time: order.createdAt,
   amount: parseTokenAmount(order.amount, tokenDecimals, precision),
@@ -106,9 +98,9 @@ export const parseOrder = (
 });
 
 export const parseOrders = (
-  orders: Array < Object > ,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  orders: Array<Object>,
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): Orders => {
   let parsed = orders.map(order => ({
     time: order.createdAt,
@@ -128,8 +120,8 @@ export const parseOrders = (
 
 export const parseTrade = (
   trade: Object,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): Trade => ({
   time: trade.createdAt,
   price: parsePricepoint(trade.pricepoint),
@@ -147,9 +139,9 @@ export const parseTrade = (
 });
 
 export const parseTrades = (
-  trades: Array < Object > ,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  trades: Array<Object>,
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): Trades => {
   let parsed = trades.map(trade => parseTrade(trade, tokenDecimals, precision));
 
@@ -158,13 +150,10 @@ export const parseTrades = (
 
 export const parseOrderBookData = (
   data: Object,
-  tokenDecimals: number = 18,
-  precision: number = 2
+  tokenDecimals: number = defaultDecimals,
+  precision: number = amountPrecision
 ): Object => {
-  let {
-    bids,
-    asks
-  } = data;
+  let { bids, asks } = data;
 
   asks = asks.map(ask => ({
     price: parsePricepoint(ask.pricepoint),
@@ -183,30 +172,32 @@ export const parseOrderBookData = (
 };
 
 export const parseTokenPairData = (
-  data: Array < Object > ,
-  tokenDecimals: number = 18
-): Array < TokenPairData > => {
+  data: Array<Object>,
+  tokenDecimals: number = defaultDecimals
+): Array<TokenPairData> => {
   let parsed = data.map(datum => ({
     base: null,
     quote: null,
     favorited: null,
     pair: datum.pair.pairName,
     lastPrice: datum.close ? parsePricepoint(datum.close) : null,
-    change: datum.open ?
-      round((datum.close - datum.open) / datum.open, 1) : null,
+    change: datum.open
+      ? round((datum.close - datum.open) / datum.open, 1)
+      : null,
     high: datum.high ? parsePricepoint(datum.high) : null,
     low: datum.low ? parsePricepoint(datum.low) : null,
-    volume: datum.volume ?
-      parseTokenAmount(datum.volume, tokenDecimals, 0) : null
+    volume: datum.volume
+      ? parseTokenAmount(datum.volume, tokenDecimals, 0)
+      : null
   }));
 
   return parsed;
 };
 
 export const parseOHLCV = (
-  data: Array < Object > ,
-  baseTokenDecimals: number = 18
-): Array < Object > => {
+  data: Array<Object>,
+  baseTokenDecimals: number = defaultDecimals
+): Array<Object> => {
   let parsed = data.map(datum => {
     return {
       date: new Date(datum.timestamp),
