@@ -1,17 +1,21 @@
 // @flow
 import React from 'react';
 
+import ArrowLeftIcon from '../Icons/ArrowLeftIcon';
+import ArrowRightIcon from '../Icons/ArrowRightIcon';
+
 type Props = {
     isFirstList: boolean,
+    currentAddresses: Array<any>,
     getAddress: () => void,
-    getPreAddress: () => Array,
-    getMoreAddress: () => Array
+    getPreAddress: () => Array<string>,
+    getMoreAddress: () => Array<string>
 };
 
 const SelectAddressFormRenderer = (props: Props) => {
     return (
         <div>
-            <ul className='address-list'>
+            <ul className="address-list">
                 {props.currentAddresses.map((address, index) => {
                     return (
                         <li
@@ -23,25 +27,19 @@ const SelectAddressFormRenderer = (props: Props) => {
                     );
                 })}
             </ul>
-            {/* <div class='address-list-navigation'>
+            <div className="address-list-navigation">
                 <a
-                    class={'previous ' + (props.isFirstList ? 'disabled' : '')}
+                    className={'previous ' + (props.isFirstList ? 'disabled' : '')}
                     onClick={props.getPreAddress}
                 >
-                    <img
-                        alt='Previous Addresses'
-                        src={require('../../../assets/img/import-account/arrows_left_icon.svg')}
-                    />
+                    <ArrowLeftIcon />
                     <span>Previous Addresses</span>
                 </a>
-                <a class='next' onClick={props.getMoreAddress}>
+                <a className="next" onClick={props.getMoreAddress}>
                     <span>More Addresses</span>
-                    <img
-                        alt='More Addresses'
-                        src={require('../../../assets/img/import-account/arrows_right_icon.svg')}
-                    />
+                    <ArrowRightIcon />
                 </a>
-            </div> */}
+            </div>
         </div>
     );
 };

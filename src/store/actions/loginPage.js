@@ -16,7 +16,8 @@ const actionTypes = {
   loginWithWallet: 'loginPage/LOGIN_WITH_WALLET',
   loginWithTrezorWallet: 'loginPage/LOGIN_WITH_TREZOR_WALLET',
   loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
-  loginError: 'loginPage/LOGIN_ERROR'
+  loginError: 'loginPage/LOGIN_ERROR',
+  generateAddresses: 'loginPage/GENERATE_ADDRESSES'
 }
 
 export function createWallet(address: string, encryptedWallet: string): CreateWalletAction {
@@ -64,6 +65,13 @@ export function loginError(error: string): LoginErrorAction {
 export function requestLogin(): RequestLoginAction {
   return {
     type: actionTypes.requestLogin
+  }
+}
+
+export function generateAddresses(data) {
+  return {
+    type: actionTypes.generateAddresses,
+    payload: data
   }
 }
 

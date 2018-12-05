@@ -40,6 +40,14 @@ export const authenticated = () => {
   return event;
 };
 
+export const generateAddresses = (payload) => {
+  const event = (state) => ({
+
+  });
+
+  return event;
+};
+
 export default function getLoginPageDomain(state: LoginPageState) {
   return {
     isLoading: () => state.loading,

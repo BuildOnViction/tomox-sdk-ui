@@ -99,25 +99,34 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
 
 export function generateTrezorAddresses(): ThunkAction {
   return async (dispatch, getState) => {
-    let deviceService = new TrezorSigner();
-    let result = await deviceService.getPublicKey();
-    let generator = new AddressGenerator(result);
-		let addresses = [];
-		let index = 0;
-		for (index; index < 5; index++) {
-			let address = {
-				addressString: generator.getAddressString(index),
-				index: index,
-				balance: -1,
-			};
-			addresses.push(address);
+    try {
+      dispatch(actionCreators.requestLogin());
+      let deviceService = new TrezorSigner();
+      let result = await deviceService.getPublicKey();
+      let generator = new AddressGenerator(result);
+      let addresses = [];
+      let index = 0;
+      for (index; index < 5; index++) {
+        let address = {
+          addressString: generator.getAddressString(index),
+          index: index,
+          balance: -1,
+        };
+        addresses.push(address);
+      }
+
+      dispatch(actionCreators.generateAddresses({
+        walletType: 'trezor',
+        serializedPath: result.serializedPath,
+        addresses,
+        generator
+      }))
+    } catch (e) {
+      dispatch(
+        notifierActionCreators.addNotification({ message: 'Login error' })
+      );
+      dispatch(actionCreators.loginError(e.message));
     }
-    
-    return {
-      walletType: 'trezor',
-      serializedPath: result.serializedPath,
-      addresses
-    };
   };
 }
 

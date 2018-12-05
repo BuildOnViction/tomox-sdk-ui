@@ -32,20 +32,23 @@ class LoginPage extends React.PureComponent<Props, State> {
     state = {
         view: 'loginMethods',
         metamaskStatus: 'undefined',
-        walletType: '',
-        isSelectAddressModalOpen: false,
-        currentDPath: ''
+        isSelectAddressModalOpen: false
     };
 
     openSelectAddressModal = async () => {
-        let { walletType, serializedPath, addresses } = await this.props.generateTrezorAddresses();
+        let { walletType, serializedPath, addresses, generator } = await this.props.generateTrezorAddresses();
 
         this.setState({
-            isSelectAddressModalOpen: true,
-            walletType,
-            currentAddresses: addresses,
-            currentDPath: 'm/' + serializedPath
+            isSelectAddressModalOpen: true
         });
+
+        this.walletType = walletType;
+        this.addresses = addresses;
+        this.currentAddresses = addresses;
+        this.currentDPath = 'm/' + serializedPath;
+        this.generator = generator;
+
+        console.log(this.currentAddresses);
     };
 
     closeSelectAddressModal = () => {
@@ -111,13 +114,16 @@ class LoginPage extends React.PureComponent<Props, State> {
                 loginWithLedgerWallet,
                 authenticated
             },
-            state: { view, metamaskStatus, isSelectAddressModalOpen, walletType, currentAddresses, currentDPath },
+            state: { view, metamaskStatus, isSelectAddressModalOpen },
             showWalletLoginForm,
             showLoginMethods,
             showCreateWallet,
             hideModal,
             walletCreated,
-            openSelectAddressModal
+            openSelectAddressModal,
+            walletType,
+            currentAddresses,
+            currentDPath
         } = this;
 
         // go to wallet by default to update balances

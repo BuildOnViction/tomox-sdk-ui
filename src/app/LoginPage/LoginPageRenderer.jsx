@@ -96,7 +96,7 @@ const LoginMethodsView = (props: Props) => {
             </Heading>
             <MetamaskStatusTag>{metamaskStatuses[metamaskStatus]}</MetamaskStatusTag>
           </LoginCard>
-          <LoginCard onClick={loginWithTrezorWallet}>
+          <LoginCard onClick={openSelectAddressModal}>
             <Trezor size={100} />
             <Heading>
               <FormattedMessage {...messages.trezorWallet} />

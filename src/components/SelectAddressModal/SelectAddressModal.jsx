@@ -8,7 +8,7 @@ type Props = {
     isOpen: boolean,
     handleClose: (SyntheticEvent<>) => void,
     walletType: string,
-    currentAddresses: Array,
+    currentAddresses: Array<string>,
     currentDPath: string
 };
 
