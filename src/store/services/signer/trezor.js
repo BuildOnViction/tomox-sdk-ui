@@ -10,6 +10,7 @@ export class TrezorSigner extends Signer {
     constructor(path = defaultDPath) {
         super();
         this.path = path;
+        this.address = '';
         const networkId = 8888;
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
             chainId: networkId
@@ -20,7 +21,7 @@ export class TrezorSigner extends Signer {
 
     getPublicKey = async (path = defaultDPath) => {
         let result = await TrezorConnect.getPublicKey({
-            path: this.path
+            path
         });
         if (result.success) {
             return result.payload;

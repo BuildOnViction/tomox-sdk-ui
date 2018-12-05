@@ -96,12 +96,12 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   };
 }
 
-export function getTrezorPublicKey(): ThunkAction {
+export function getTrezorPublicKey(path: string): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
       let deviceService = new TrezorSigner();
-      let result = await deviceService.getPublicKey();
+      let result = await deviceService.getPublicKey(path);
 
       dispatch(actionCreators.getPublicKey(result));
     } catch (e) {
@@ -113,13 +113,11 @@ export function getTrezorPublicKey(): ThunkAction {
   };
 }
 
-export function loginWithTrezorWallet(): ThunkAction {
+export function loginWithTrezorWallet(data): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
-      let deviceService = new TrezorSigner();
-      let result = await deviceService.getAddress();
-      dispatch(actionCreators.loginWithTrezorWallet(result));
+      dispatch(actionCreators.loginWithTrezorWallet(data.address));
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Trezor wallet'

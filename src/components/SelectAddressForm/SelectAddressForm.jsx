@@ -12,8 +12,8 @@ type State = {
 
 type Props = {
     publicKeyData: any,
-    getPreAddress: () => Array<string>,
-    getMoreAddress: () => Array<string>,
+    getPreAddress: () => void,
+    getMoreAddress: () => void,
     getAddress: () => void
 };
 
@@ -24,6 +24,9 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         this.addressIndex = 0;
         this.currentIndex = 0;
         this.generator = null;
+        this.currentDPath = '';
+        this.walletType = 'trezor';
+
         this.DPATH = [
             {
                 path: "m/44'/60'/0'/0",
@@ -61,6 +64,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     };
 
     componentDidMount() {
+        this.currentDPath = 'm/' + this.props.publicKeyData.serializedPath;
         this.generator = new AddressGenerator(this.props.publicKeyData);
         let addresses = [];
         let index = 0;
@@ -76,10 +80,37 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         this.setState({
             addresses,
             currentAddresses: addresses
-        })
+        });
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (
+            prevProps.publicKeyData &&
+            this.props.publicKeyData.serializedPath !==
+                prevProps.publicKeyData.serializedPath
+        ) {
+            this.currentDPath = 'm/' + this.props.publicKeyData.serializedPath;
+            this.generator = new AddressGenerator(this.props.publicKeyData);
+            let addresses = [];
+            let index = 0;
+            for (index; index < 5; index++) {
+                let address = {
+                    addressString: this.generator.getAddressString(index),
+                    index: index,
+                    balance: -1
+                };
+                addresses.push(address);
+            }
+
+            this.setState({
+                addresses,
+                currentAddresses: addresses
+            });
+        }
     }
 
     moreAddress = () => {
+        console.log("moreAddress");
         let addresses = this.state.addresses,
             i = this.addressIndex,
             j = i + 5,
@@ -115,9 +146,10 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
             console.log('Cannot connect to ' + this.props.walletType);
             // this.props.dispatch(throwError('Cannot connect to ' + this.walletType))
         }
-    }
+    };
 
     preAddress = () => {
+        console.log("preAddress");
         let addresses = this.state.addresses;
         if (this.currentIndex > 5) {
             this.currentIndex -= 5;
@@ -133,7 +165,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 isFirstList: true
             });
         }
-    }
+    };
 
     async getBalance(address) {
         return 0;
@@ -149,14 +181,18 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         });
     }
 
-    getAddress = formAddress => {
+    handleSelectPath = async selectedPath => {
+        await this.props.getTrezorPublicKey(selectedPath);
+    };
+
+    handleSelectAddress = formAddress => {
         let data = {
             address: formAddress.addressString,
-            type: this.props.walletType,
-            path: this.props.currentDPath + '/' + formAddress.index
+            type: this.walletType,
+            path: this.currentDPath + '/' + formAddress.index
         };
 
-        this.props.getAddress(data);
+        this.props.loginWithTrezorWallet(data);
     };
 
     render() {
@@ -164,9 +200,11 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
             <SelectAddressFormRenderer
                 isFirstList={this.state.isFirstList}
                 currentAddresses={this.state.currentAddresses}
+                dPath={this.DPATH}
                 getPreAddress={this.preAddress}
                 getMoreAddress={this.moreAddress}
-                getAddress={this.getAddress}
+                handleSelectPath={this.handleSelectPath}
+                handleSelectAddress={this.handleSelectAddress}
             />
         );
     }

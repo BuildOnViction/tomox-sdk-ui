@@ -1,37 +1,35 @@
 // @flow
 import React from 'react';
 
+import PathSelector from '../PathSelector';
 import ArrowLeftIcon from '../Icons/ArrowLeftIcon';
 import ArrowRightIcon from '../Icons/ArrowRightIcon';
 
 type Props = {
     isFirstList: boolean,
+    dPath: Array<any>,
     currentAddresses: Array<any>,
-    getAddress: () => void,
-    getPreAddress: () => Array<string>,
-    getMoreAddress: () => Array<string>
+    handleSelectPath: () => Promise<void>,
+    handleSelectAddress: () => void,
+    getPreAddress: () => void,
+    getMoreAddress: () => void
 };
 
 const SelectAddressFormRenderer = (props: Props) => {
-    return (
-        <div>
+    return <div>
+            <div className="path-list">
+                <div>Select HD derivation path</div>
+                <PathSelector dPath={props.dPath} handleSelectPath={props.handleSelectPath} />
+            </div>
             <ul className="address-list">
-                {props.currentAddresses.map((address) => {
-                    return (
-                        <li
-                            key={address.addressString}
-                            onClick={() => props.getAddress(address)}
-                        >
+                {props.currentAddresses.map(address => {
+                    return <li key={address.addressString} onClick={() => props.handleSelectAddress(address)}>
                             {address.addressString}
-                        </li>
-                    );
+                        </li>;
                 })}
             </ul>
             <div className="address-list-navigation">
-                <a
-                    className={'previous ' + (props.isFirstList ? 'disabled' : '')}
-                    onClick={props.getPreAddress}
-                >
+                <a className={'previous ' + (props.isFirstList ? 'disabled' : '')} onClick={props.getPreAddress}>
                     <ArrowLeftIcon />
                     <span>Previous Addresses</span>
                 </a>
@@ -40,8 +38,7 @@ const SelectAddressFormRenderer = (props: Props) => {
                     <ArrowRightIcon />
                 </a>
             </div>
-        </div>
-    );
+        </div>;
 };
 
 export default SelectAddressFormRenderer;

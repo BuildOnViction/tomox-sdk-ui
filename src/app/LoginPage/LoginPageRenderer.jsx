@@ -59,7 +59,7 @@ const LoginPageRenderer = (props: Props) => {
 };
 
 const LoginMethodsView = (props: Props) => {
-  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, loginWithTrezorWallet, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
+  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
   return (
     <Wrapper>
       <Announcement>
