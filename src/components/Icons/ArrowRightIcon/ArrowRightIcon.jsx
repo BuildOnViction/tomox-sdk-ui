@@ -20,17 +20,17 @@ const ArrowRightIcon = props => {
             <g
                 id="Home-Swap-"
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
-                fill-rule="evenodd"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                fillRule="evenodd"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             >
                 <g
                     id="Swap--Select-Ledger-Address"
                     transform="translate(-1195.000000, -1161.000000)"
                     stroke="#FFFFFF"
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                 >
                     <g
                         id="Group-15"
