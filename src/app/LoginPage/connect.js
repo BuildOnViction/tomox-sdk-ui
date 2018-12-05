@@ -12,7 +12,8 @@ export function mapStateToProps(state, props) {
     const selector = loginPageSelector(state);
 
     return {
-        authenticated: selector.authenticated
+        authenticated: selector.authenticated,
+        loading: selector.loading
     };
 }
 

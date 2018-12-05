@@ -35,10 +35,14 @@ const SelectAddressFormRenderer = (props: Props) => {
                             key={address.addressString}
                             onClick={() => props.handleSelectAddress(address)}
                         >
-                            {address.addressString}
+                            <Address>
+                                {address.addressString.substring(0, 22)}
+                            </Address>
+                            <Balance>{address.balance} ETH</Balance>
                             <AnchorButton
-                                text="Import"
+                                text="IMPORT"
                                 rightIcon="chevron-right"
+                                minimal
                                 intent={Intent.WARNING}
                             />
                         </AddressListItem>
@@ -47,7 +51,7 @@ const SelectAddressFormRenderer = (props: Props) => {
             </AddressList>
             <AddressListNavigation>
                 <AnchorButton
-                    text="Previous Addresses"
+                    text="PREVIOUS ADDRESSES"
                     icon="circle-arrow-left"
                     large
                     minimal
@@ -56,7 +60,7 @@ const SelectAddressFormRenderer = (props: Props) => {
                     onClick={props.getPreAddress}
                 />
                 <AnchorButton
-                    text="More Addresses"
+                    text="MORE ADDRESSES"
                     rightIcon="circle-arrow-right"
                     large
                     minimal
@@ -79,7 +83,7 @@ const PathList = styled.div`
 const PathListMessage = styled.p`
     font-weight: bold;
     font-size: 1.2rem;
-    color: ##686868;
+    color: #d9d9d9;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 `;
@@ -93,7 +97,7 @@ const AddressList = styled.div`
 const AddressListMessage = styled.p`
     font-weight: bold;
     font-size: 1.2rem;
-    color: ##686868;
+    color: #d9d9d9;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 `;
@@ -105,6 +109,15 @@ const AddressListItem = styled.div`
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     cursor: pointer;
+    border-bottom: 1px solid #737373;
+`;
+
+const Address = styled.span`
+    font-size: 1rem;
+`;
+
+const Balance = styled.span`
+    font-size: 1rem;
 `;
 
 const AddressListNavigation = styled.div`

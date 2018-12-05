@@ -8,6 +8,7 @@ import {
   savePrivateKeyInSessionStorage
 } from '../services/wallet';
 import {
+  getSigner,
   createLocalWalletSigner,
   createMetamaskSigner
 } from '../services/signer';
@@ -104,8 +105,6 @@ export function getTrezorPublicKey(path: string): ThunkAction {
       let result = await deviceService.getPublicKey(path);
 
       dispatch(actionCreators.getPublicKey(result));
-
-      return deviceService;
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
@@ -113,6 +112,17 @@ export function getTrezorPublicKey(path: string): ThunkAction {
       dispatch(actionCreators.loginError(e.message));
     }
   };
+}
+
+export function getBalance(address: string): ThunkAction {
+  return async (dispatch, getState) => {
+    try {
+      let balance = await getSigner().provider.getBalance(address);
+      return balance;
+    } catch (e) {
+      return 0;
+    }
+  }
 }
 
 export function loginWithTrezorWallet(data): ThunkAction {

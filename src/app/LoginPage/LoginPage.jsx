@@ -9,6 +9,7 @@ import type { LoginWithWallet } from '../../types/loginPage';
 
 type Props = {
     authenticated: boolean,
+    loading: boolean,
     loginWithMetamask: () => void,
     loginWithWallet: LoginWithWallet => void,
     loginWithTrezorWallet: () => void,
@@ -101,7 +102,8 @@ class LoginPage extends React.PureComponent<Props, State> {
                 loginWithWallet,
                 loginWithTrezorWallet,
                 loginWithLedgerWallet,
-                authenticated
+                authenticated,
+                loading
             },
             state: { view, metamaskStatus, isSelectAddressModalOpen },
             showWalletLoginForm,
@@ -132,6 +134,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                     loginWithLedgerWallet={loginWithLedgerWallet}
                     showWalletLoginForm={showWalletLoginForm}
                     showLoginMethods={showLoginMethods}
+                    loading={loading}
                 />
                 <SelectAddressModal
                     title="Select Trezor Address"

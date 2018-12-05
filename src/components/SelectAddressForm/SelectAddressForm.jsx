@@ -3,6 +3,7 @@ import React from 'react';
 import SelectAddressFormRenderer from './SelectAddressFormRenderer';
 
 import AddressGenerator from '../../store/services/device/addressGenerator';
+import { roundingNumber } from '../../utils/converters';
 
 type State = {
     isFirstList: boolean,
@@ -22,11 +23,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     constructor(props) {
         super(props);
 
-        this.addressIndex = 0;
-        this.currentIndex = 0;
-        this.generator = null;
-        this.currentDPath = '';
-        this.walletType = 'trezor';
+        this.setDefaultValues();
 
         this.DPATH = [
             {
@@ -62,12 +59,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 desc: 'Network: Expanse',
                 notSupport: true
             },
-            {
-                path: 0,
-                desc: 'Your Custom Path',
-                defaultP: "m/44'/60'/1'/0",
-                custom: false
-            }
+            // {
+            //     path: 0,
+            //     desc: 'Your Custom Path',
+            //     defaultP: "m/44'/60'/1'/0",
+            //     custom: false
+            // }
         ];
     }
 
@@ -84,13 +81,16 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
             let addresses = [];
             let index = 0;
             for (index; index < 5; index++) {
+                let addressString = this.generator.getAddressString(index);
                 let address = {
-                    addressString: this.generator.getAddressString(index),
+                    addressString,
                     index: index,
-                    balance: -1
+                    balance: roundingNumber(0)
                 };
                 addresses.push(address);
             }
+            this.addressIndex = index;
+            this.currentIndex = index;
 
             this.setState({
                 addresses,
@@ -114,10 +114,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 let address = {
                     addressString: this.generator.getAddressString(index),
                     index: index,
-                    balance: -1
+                    balance: roundingNumber(0)
                 };
                 addresses.push(address);
             }
+            this.addressIndex = index;
+            this.currentIndex = index;
 
             this.setState({
                 addresses,
@@ -126,8 +128,15 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         }
     }
 
+    setDefaultValues = () => {
+        this.addressIndex = 0;
+        this.currentIndex = 0;
+        this.generator = null;
+        this.currentDPath = '';
+        this.walletType = 'trezor';
+    };
+
     moreAddress = () => {
-        console.log('moreAddress');
         let addresses = this.state.addresses,
             i = this.addressIndex,
             j = i + 5,
@@ -135,14 +144,14 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         if (this.generator) {
             if (this.addressIndex === this.currentIndex) {
                 for (i; i < j; i++) {
+                    let addressString = this.generator.getAddressString(i);
                     let address = {
-                        addressString: this.generator.getAddressString(i),
+                        addressString,
                         index: i,
-                        balance: -1
+                        balance: roundingNumber(0)
                     };
                     addresses.push(address);
                     currentAddresses.push(address);
-                    this.addBalance(address.addressString, i);
                 }
             }
             this.addressIndex = i;
@@ -166,7 +175,6 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     };
 
     preAddress = () => {
-        console.log('preAddress');
         let addresses = this.state.addresses;
         if (this.currentIndex > 5) {
             this.currentIndex -= 5;
@@ -184,23 +192,9 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         }
     };
 
-    async getBalance(address) {
-        return 0;
-    }
-
-    addBalance(address, index) {
-        this.getBalance(address).then(result => {
-            let addresses = this.state.addresses;
-            addresses[index].balance = result;
-            this.setState({
-                currentList: addresses
-            });
-        });
-    }
-
     handleSelectPath = async selectedPath => {
-        let deviceService = await this.props.getTrezorPublicKey(selectedPath);
-        deviceService.path = selectedPath;
+        this.setDefaultValues();
+        await this.props.getTrezorPublicKey(selectedPath);
     };
 
     handleSelectAddress = formAddress => {
