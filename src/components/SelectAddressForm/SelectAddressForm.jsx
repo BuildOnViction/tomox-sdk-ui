@@ -2,13 +2,16 @@
 import React from 'react';
 import SelectAddressFormRenderer from './SelectAddressFormRenderer';
 
-type State = {};
+import AddressGenerator from '../../store/services/device/addressGenerator';
+
+type State = {
+    isFirstList: boolean,
+    addresses: Array<any>,
+    currentAddresses: Array<any>
+};
 
 type Props = {
-    isFirstList: boolean,
-    walletType: string,
-    currentAddresses: Array<string>,
-    currentDPath: string,
+    publicKeyData: any,
     getPreAddress: () => Array<string>,
     getMoreAddress: () => Array<string>,
     getAddress: () => void
@@ -17,7 +20,10 @@ type Props = {
 class SelectAddressForm extends React.PureComponent<Props, State> {
     constructor(props) {
         super(props);
-        this.setDeviceState();
+
+        this.addressIndex = 0;
+        this.currentIndex = 0;
+        this.generator = null;
         this.DPATH = [
             {
                 path: "m/44'/60'/0'/0",
@@ -49,20 +55,31 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     }
 
     state = {
-        walletType: '',
-        currentDPath: '',
-        currentAddresses: [],
-        addresses: []
+        isFirstList: true,
+        addresses: [],
+        currentAddresses: []
     };
 
-    setDeviceState() {
-        this.addressIndex = 0;
-        this.currentIndex = 0;
-        this.walletType = 'trezor';
-        this.generator = null;
+    componentDidMount() {
+        this.generator = new AddressGenerator(this.props.publicKeyData);
+        let addresses = [];
+        let index = 0;
+        for (index; index < 5; index++) {
+            let address = {
+                addressString: this.generator.getAddressString(index),
+                index: index,
+                balance: -1
+            };
+            addresses.push(address);
+        }
+
+        this.setState({
+            addresses,
+            currentAddresses: addresses
+        })
     }
 
-    moreAddress() {
+    moreAddress = () => {
         let addresses = this.state.addresses,
             i = this.addressIndex,
             j = i + 5,
@@ -95,12 +112,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 });
             }
         } else {
-            console.log('Cannot connect to ' + this.walletType);
+            console.log('Cannot connect to ' + this.props.walletType);
             // this.props.dispatch(throwError('Cannot connect to ' + this.walletType))
         }
     }
 
-    preAddress() {
+    preAddress = () => {
         let addresses = this.state.addresses;
         if (this.currentIndex > 5) {
             this.currentIndex -= 5;

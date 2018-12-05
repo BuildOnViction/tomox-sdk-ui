@@ -1,12 +1,16 @@
 // @flow
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import type { State } from "../../types";
+import getLoginPageSelector from '../../store/models/loginPage';
 
-export const mapStateToProps = (state: State, ownProps: Props) => {
+import type { State } from '../../types';
+
+export const mapStateToProps = (state: State) => {
+    const loginPageSelector = getLoginPageSelector(state);
 
     return {
-        
+        loading: loginPageSelector.loading,
+        publicKeyData: loginPageSelector.getPublicKeyData()
     };
 };
 

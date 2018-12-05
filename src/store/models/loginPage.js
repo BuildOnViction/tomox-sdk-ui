@@ -15,8 +15,6 @@ import {
 import { TrezorSigner } from '../services/signer/trezor';
 import { LedgerSigner } from '../services/signer/ledger';
 
-import AddressGenerator from '../services/device/addressGenerator';
-
 import type { State, ThunkAction } from '../../types';
 
 type CreateWalletParams = {
@@ -30,7 +28,8 @@ export default function loginPageSelector(state: State) {
   return {
     authenticated: getAccountDomain(state).authenticated(),
     loading: getLoginPageDomain(state).isLoading(),
-    error: getLoginPageDomain(state).getError()
+    error: getLoginPageDomain(state).getError(),
+    getPublicKeyData: () => getLoginPageDomain(state).getPublicKeyData()
   };
 }
 
@@ -97,30 +96,14 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   };
 }
 
-export function generateTrezorAddresses(): ThunkAction {
+export function getTrezorPublicKey(): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
       let deviceService = new TrezorSigner();
       let result = await deviceService.getPublicKey();
-      let generator = new AddressGenerator(result);
-      let addresses = [];
-      let index = 0;
-      for (index; index < 5; index++) {
-        let address = {
-          addressString: generator.getAddressString(index),
-          index: index,
-          balance: -1,
-        };
-        addresses.push(address);
-      }
 
-      dispatch(actionCreators.generateAddresses({
-        walletType: 'trezor',
-        serializedPath: result.serializedPath,
-        addresses,
-        generator
-      }))
+      dispatch(actionCreators.getPublicKey(result));
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })

@@ -16,7 +16,7 @@ const SelectAddressFormRenderer = (props: Props) => {
     return (
         <div>
             <ul className="address-list">
-                {props.currentAddresses.map((address, index) => {
+                {props.currentAddresses.map((address) => {
                     return (
                         <li
                             key={address.addressString}

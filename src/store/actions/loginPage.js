@@ -17,7 +17,7 @@ const actionTypes = {
   loginWithTrezorWallet: 'loginPage/LOGIN_WITH_TREZOR_WALLET',
   loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
   loginError: 'loginPage/LOGIN_ERROR',
-  generateAddresses: 'loginPage/GENERATE_ADDRESSES'
+  getPublicKey: 'loginPage/GET_PUBLIC_KEY'
 }
 
 export function createWallet(address: string, encryptedWallet: string): CreateWalletAction {
@@ -68,9 +68,9 @@ export function requestLogin(): RequestLoginAction {
   }
 }
 
-export function generateAddresses(data) {
+export function getPublicKey(data) {
   return {
-    type: actionTypes.generateAddresses,
+    type: actionTypes.getPublicKey,
     payload: data
   }
 }

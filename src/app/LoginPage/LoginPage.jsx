@@ -14,7 +14,7 @@ type Props = {
     loginWithTrezorWallet: () => void,
     loginWithLedgerWallet: () => void,
     removeNotification: any => void,
-    generateTrezorAddresses: () => void
+    getTrezorPublicKey: () => void
 };
 
 //TODO: Remove Notification handling
@@ -22,10 +22,7 @@ type Props = {
 type State = {
     view: string,
     metamaskStatus: 'unlocked' | 'locked' | 'undefined',
-    isSelectAddressModalOpen: boolean,
-    walletType: string,
-    currentAddresses: Array,
-    currentDPath: string
+    isSelectAddressModalOpen: boolean
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
@@ -36,19 +33,11 @@ class LoginPage extends React.PureComponent<Props, State> {
     };
 
     openSelectAddressModal = async () => {
-        let { walletType, serializedPath, addresses, generator } = await this.props.generateTrezorAddresses();
+        await this.props.getTrezorPublicKey();
 
         this.setState({
             isSelectAddressModalOpen: true
         });
-
-        this.walletType = walletType;
-        this.addresses = addresses;
-        this.currentAddresses = addresses;
-        this.currentDPath = 'm/' + serializedPath;
-        this.generator = generator;
-
-        console.log(this.currentAddresses);
     };
 
     closeSelectAddressModal = () => {
@@ -120,10 +109,7 @@ class LoginPage extends React.PureComponent<Props, State> {
             showCreateWallet,
             hideModal,
             walletCreated,
-            openSelectAddressModal,
-            walletType,
-            currentAddresses,
-            currentDPath
+            openSelectAddressModal
         } = this;
 
         // go to wallet by default to update balances
@@ -151,9 +137,6 @@ class LoginPage extends React.PureComponent<Props, State> {
                     title="Select Trezor Address"
                     isOpen={isSelectAddressModalOpen}
                     handleClose={this.closeSelectAddressModal}
-                    walletType={walletType}
-                    currentAddresses={currentAddresses}
-                    currentDPath={currentDPath}
                 />
             </Wrapper>
         );
