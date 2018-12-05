@@ -13,7 +13,6 @@ const ArrowLeftIcon = props => {
             viewBox='0 0 14 15'
             version='1.1'
             xmlns='http://www.w3.org/2000/svg'
-            xmlns:xlink='http://www.w3.org/1999/xlink'
         >
             <title>arrows_right_icon</title>
             <desc>Created with Sketch.</desc>
