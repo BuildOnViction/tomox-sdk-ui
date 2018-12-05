@@ -60,7 +60,7 @@ export class TrezorSigner extends Signer {
         });
     };
 
-    sign = async transaction => {
+    sign = async (transaction, address) => {
         if (transaction.value) {
             transaction.value = utils.hexlify(transaction.value);
         }
@@ -72,12 +72,8 @@ export class TrezorSigner extends Signer {
         }
 
         transaction.nonce = utils.hexlify(
-            await this.provider.getTransactionCount(transaction.from)
+            await this.provider.getTransactionCount(address)
         );
-
-        // Delete this because serialized transaction must not include this field
-        // The purpose is just to get use getTransactionCount with the address
-        delete(transaction.from);
 
         let result = await TrezorConnect.ethereumSignTransaction({
             path: this.path + '/0',
@@ -102,8 +98,8 @@ export class TrezorSigner extends Signer {
         throw new Error(result.payload.error);
     };
 
-    sendTransaction = async transaction => {
-        let signedTx = await this.sign(transaction);
+    sendTransaction = async (transaction, address) => {
+        let signedTx = await this.sign(transaction, address);
 
         return this.provider.sendTransaction(signedTx);
     };

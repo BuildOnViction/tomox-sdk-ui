@@ -20,8 +20,7 @@ export type Transaction = {
   gasPrice: number,
   to: string,
   value: Object,
-  data: ?Object,
-  address: string
+  data: ?Object
 };
 
 export type TxReceipt = {

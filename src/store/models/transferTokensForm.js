@@ -104,11 +104,10 @@ export const sendEtherTx = ({
         gasLimit: parseFloat(gas) || 0,
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
         to: receiver,
-        value: utils.parseEther(amount.toString()),
-        from: address
+        value: utils.parseEther(amount.toString())
       };
 
-      let tx = await signer.sendTransaction(rawTx);
+      let tx = await signer.sendTransaction(rawTx, address);
       dispatch(actionCreators.sendTx(tx.hash));
 
       let receipt = await signer.provider.waitForTransaction(tx.hash);
