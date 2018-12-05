@@ -21,6 +21,7 @@ export type Transaction = {
   to: string,
   value: Object,
   data: ?Object,
+  address: string
 };
 
 export type TxReceipt = {

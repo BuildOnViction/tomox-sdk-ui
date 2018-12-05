@@ -5,7 +5,6 @@ import { NETWORK_URL } from '../../../config/url';
 import { addMethodsToSigner } from './index';
 import { randInt } from '../../../utils/helpers';
 
-
 const defaultDPath = "m/44'/60'/0'/0";
 
 export class TrezorSigner extends Signer {
@@ -71,7 +70,14 @@ export class TrezorSigner extends Signer {
         if (transaction.gasLimit) {
             transaction.gasLimit = utils.hexlify(transaction.gasLimit);
         }
-        transaction.nonce = utils.hexlify(randInt(0, 1e3));
+
+        transaction.nonce = utils.hexlify(
+            await this.provider.getTransactionCount(transaction.from)
+        );
+
+        // Delete this because serialized transaction must not include this field
+        // The purpose is just to get use getTransactionCount with the address
+        delete(transaction.from);
 
         let result = await TrezorConnect.ethereumSignTransaction({
             path: this.path + '/0',
@@ -85,15 +91,10 @@ export class TrezorSigner extends Signer {
                 s: result.payload.s
             };
 
-            console.log(transaction, sig);
-
             let serializedTransaction = await utils.serializeTransaction(
                 transaction,
                 sig
             );
-
-            let a = await utils.parseTransaction(serializedTransaction);
-            console.log(a);
 
             return serializedTransaction;
         }
