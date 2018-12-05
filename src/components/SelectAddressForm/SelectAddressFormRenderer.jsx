@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
+import { AnchorButton, Intent } from '@blueprintjs/core';
 
 import PathSelector from '../PathSelector';
-import ArrowLeftIcon from '../Icons/ArrowLeftIcon';
-import ArrowRightIcon from '../Icons/ArrowRightIcon';
 
 type Props = {
     isFirstList: boolean,
@@ -16,29 +15,48 @@ type Props = {
 };
 
 const SelectAddressFormRenderer = (props: Props) => {
-    return <div>
+    return (
+        <div>
             <div className="path-list">
                 <div>Select HD derivation path</div>
-                <PathSelector dPath={props.dPath} handleSelectPath={props.handleSelectPath} />
+                <PathSelector
+                    dPath={props.dPath}
+                    handleSelectPath={props.handleSelectPath}
+                />
             </div>
             <ul className="address-list">
                 {props.currentAddresses.map(address => {
-                    return <li key={address.addressString} onClick={() => props.handleSelectAddress(address)}>
+                    return (
+                        <li
+                            key={address.addressString}
+                            onClick={() => props.handleSelectAddress(address)}
+                        >
                             {address.addressString}
-                        </li>;
+                        </li>
+                    );
                 })}
             </ul>
             <div className="address-list-navigation">
-                <a className={'previous ' + (props.isFirstList ? 'disabled' : '')} onClick={props.getPreAddress}>
-                    <ArrowLeftIcon />
-                    <span>Previous Addresses</span>
-                </a>
-                <a className="next" onClick={props.getMoreAddress}>
-                    <span>More Addresses</span>
-                    <ArrowRightIcon />
-                </a>
+                <AnchorButton
+                    text="Previous Addresses"
+                    icon="circle-arrow-left"
+                    large
+                    minimal
+                    intent={Intent.WARNING}
+                    disabled={props.isFirstList}
+                    onClick={props.getPreAddress}
+                />
+                <AnchorButton
+                    text="More Addresses"
+                    rightIcon="circle-arrow-right"
+                    large
+                    minimal
+                    intent={Intent.WARNING}
+                    onClick={props.getMoreAddress}
+                />
             </div>
-        </div>;
+        </div>
+    );
 };
 
 export default SelectAddressFormRenderer;

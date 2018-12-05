@@ -3,7 +3,6 @@ import TrezorConnect from 'trezor-connect';
 
 import { NETWORK_URL } from '../../../config/url';
 import { addMethodsToSigner } from './index';
-import { randInt } from '../../../utils/helpers';
 
 const defaultDPath = "m/44'/60'/0'/0";
 
