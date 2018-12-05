@@ -104,6 +104,8 @@ export function getTrezorPublicKey(path: string): ThunkAction {
       let result = await deviceService.getPublicKey(path);
 
       dispatch(actionCreators.getPublicKey(result));
+
+      return deviceService;
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })

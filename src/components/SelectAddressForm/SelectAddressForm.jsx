@@ -12,6 +12,7 @@ type State = {
 
 type Props = {
     publicKeyData: any,
+    deviceService: any,
     getPreAddress: () => void,
     getMoreAddress: () => void,
     getAddress: () => void
@@ -39,10 +40,23 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 desc: 'Ledger (ETH)',
                 defaultType: 'ledger'
             },
-            { path: "m/44'/61'/0'/0", desc: 'TREZOR (ETC)' },
-            { path: "m/44'/60'/160720'/0'", desc: 'Ledger (ETC)' },
-            { path: "m/0'/0'/0'", desc: 'SingularDTV', notSupport: true },
-            { path: "m/44'/1'/0'/0", desc: 'Network: Testnets' },
+            {
+                path: "m/44'/61'/0'/0",
+                desc: 'TREZOR (ETC)'
+            },
+            {
+                path: "m/44'/60'/160720'/0'",
+                desc: 'Ledger (ETC)'
+            },
+            {
+                path: "m/0'/0'/0'",
+                desc: 'SingularDTV',
+                notSupport: true
+            },
+            {
+                path: "m/44'/1'/0'/0",
+                desc: 'Network: Testnets'
+            },
             {
                 path: "m/44'/40'/0'/0",
                 desc: 'Network: Expanse',
@@ -64,28 +78,31 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     };
 
     componentDidMount() {
-        this.currentDPath = 'm/' + this.props.publicKeyData.serializedPath;
-        this.generator = new AddressGenerator(this.props.publicKeyData);
-        let addresses = [];
-        let index = 0;
-        for (index; index < 5; index++) {
-            let address = {
-                addressString: this.generator.getAddressString(index),
-                index: index,
-                balance: -1
-            };
-            addresses.push(address);
-        }
+        if (this.props.publicKeyData) {
+            this.currentDPath = 'm/' + this.props.publicKeyData.serializedPath;
+            this.generator = new AddressGenerator(this.props.publicKeyData);
+            let addresses = [];
+            let index = 0;
+            for (index; index < 5; index++) {
+                let address = {
+                    addressString: this.generator.getAddressString(index),
+                    index: index,
+                    balance: -1
+                };
+                addresses.push(address);
+            }
 
-        this.setState({
-            addresses,
-            currentAddresses: addresses
-        });
+            this.setState({
+                addresses,
+                currentAddresses: addresses
+            });
+        }
     }
 
     componentDidUpdate(prevProps: Props) {
         if (
             prevProps.publicKeyData &&
+            this.props.publicKeyData &&
             this.props.publicKeyData.serializedPath !==
                 prevProps.publicKeyData.serializedPath
         ) {
@@ -110,7 +127,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     }
 
     moreAddress = () => {
-        console.log("moreAddress");
+        console.log('moreAddress');
         let addresses = this.state.addresses,
             i = this.addressIndex,
             j = i + 5,
@@ -149,7 +166,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     };
 
     preAddress = () => {
-        console.log("preAddress");
+        console.log('preAddress');
         let addresses = this.state.addresses;
         if (this.currentIndex > 5) {
             this.currentIndex -= 5;
@@ -182,7 +199,8 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     }
 
     handleSelectPath = async selectedPath => {
-        await this.props.getTrezorPublicKey(selectedPath);
+        let deviceService = await this.props.getTrezorPublicKey(selectedPath);
+        deviceService.path = selectedPath;
     };
 
     handleSelectAddress = formAddress => {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Select } from '@blueprintjs/select';
+import styled from 'styled-components';
+import { HTMLSelect } from '@blueprintjs/core';
 
 type Props = {
     dPath: Array<any>,
@@ -9,18 +10,15 @@ type Props = {
 const PathSelectorRenderer = (props: Props) => {
     return (
         <div>
-            <select onChange={(e) => props.handleSelectPath(e.target.value)}>
+            <HTMLSelect fill large onChange={e => props.handleSelectPath(e.target.value)}>
                 {props.dPath.map(path => {
                     return (
-                        <option
-                            key={path.path}
-                            value={path.path}
-                        >
-                            {path.path}
+                        <option key={path.path} value={path.path}>
+                            {path.path} ({path.desc})
                         </option>
                     );
                 })}
-            </select>
+            </HTMLSelect>
         </div>
     );
 };
