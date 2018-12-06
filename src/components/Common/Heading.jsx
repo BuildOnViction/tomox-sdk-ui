@@ -1,12 +1,13 @@
 //@flow
 import React from 'react';
+import type { Node } from 'react';
 import styled from 'styled-components';
 
 type Props = {
   /** h indicate the important for headings, 1-h1,...,6-h6 */
   h: string,
   /** The text to be rendered in the Heading */
-  children: any,
+  children: Node
 };
 
 const H1 = styled.h1``;
