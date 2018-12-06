@@ -131,7 +131,9 @@ const Address = styled.span`
 `;
 
 const Balance = styled.span`
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: bold;
 `;
 
 const AddressListNavigation = styled.div`
