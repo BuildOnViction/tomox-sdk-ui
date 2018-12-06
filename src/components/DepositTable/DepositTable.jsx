@@ -23,7 +23,7 @@ type State = {
   isConvertModalOpen: boolean,
   convertModalFromToken: string,
   convertModalToToken: string,
-  selectedToken: ?Token,
+  selectedToken: ?TokenData,
   hideZeroBalanceToken: boolean,
   searchInput: string
 };
@@ -126,22 +126,22 @@ class DepositTable extends React.PureComponent<Props, State> {
     } = this.state;
 
     let quoteTokenData = tokenData.filter(
-      (token: Token) =>
+      (token: TokenData) =>
         quoteTokens.indexOf(token.symbol) !== -1 &&
         token.symbol !== 'WETH' &&
         token.symbol !== 'ETH'
     );
     let baseTokenData = tokenData.filter(
-      (token: Token) =>
+      (token: TokenData) =>
         baseTokens.indexOf(token.symbol) === -1 &&
         token.symbol !== 'WETH' &&
         token.symbol !== 'ETH'
     );
     let WETHTokenData = tokenData.filter(
-      (token: Token) => token.symbol === 'WETH'
+      (token: TokenData) => token.symbol === 'WETH'
     );
     let ETHTokenData = tokenData.filter(
-      (token: Token) => token.symbol === 'ETH'
+      (token: TokenData) => token.symbol === 'ETH'
     );
 
     let filteredBaseTokenData = this.filterTokens(baseTokenData);

@@ -1,5 +1,6 @@
 // @flow
-import type { TransferTokensFormState, TxReceipt } from '../../types/transferTokensForm';
+import type { TxReceipt } from '../../types/common';
+import type { TransferTokensFormState } from '../../types/transferTokensForm';
 
 const initialState: TransferTokensFormState = {
   loading: false,
@@ -8,7 +9,7 @@ const initialState: TransferTokensFormState = {
   gas: 21000,
   gasPrice: 41000000000,
   hash: null,
-  receipt: null,
+  receipt: null
 };
 
 export const initialized = () => {
@@ -21,7 +22,7 @@ export const txValidated = (statusMessage: string, gas: number) => {
     ...state,
     status: 'valid',
     statusMessage: statusMessage,
-    gas: gas,
+    gas: gas
   });
   return event;
 };
@@ -30,7 +31,7 @@ export const txInvalidated = (statusMessage: string) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     status: 'invalid',
-    statusMessage: statusMessage,
+    statusMessage: statusMessage
   });
   return event;
 };
@@ -42,7 +43,7 @@ export const txSent = (hash: string) => {
     status: 'sent',
     statusMessage: null,
     receipt: null,
-    hash: hash,
+    hash: hash
   });
   return event;
 };
@@ -53,7 +54,7 @@ export const txReverted = (statusMessage: string, receipt: TxReceipt) => {
     loading: false,
     status: 'reverted',
     statusMessage: statusMessage,
-    receipt: receipt,
+    receipt: receipt
   });
   return event;
 };
@@ -63,7 +64,7 @@ export const txError = (status: string, statusMessage: string) => {
     ...state,
     loading: false,
     status: status,
-    statusMessage: statusMessage,
+    statusMessage: statusMessage
   });
   return event;
 };
@@ -73,12 +74,14 @@ export const txConfirmed = (receipt: TxReceipt) => {
     ...state,
     loading: false,
     status: 'confirmed',
-    receipt: receipt,
+    receipt: receipt
   });
   return event;
 };
 
-export default function transferTokensFormDomain(state: TransferTokensFormState) {
+export default function transferTokensFormDomain(
+  state: TransferTokensFormState
+) {
   return {
     getState: () => state,
     isLoading: () => state.loading,
@@ -87,6 +90,6 @@ export default function transferTokensFormDomain(state: TransferTokensFormState)
     getGas: () => state.gas,
     getGasPrice: () => state.gasPrice,
     getHash: () => state.hash,
-    getReceipt: () => state.receipt,
+    getReceipt: () => state.receipt
   };
 }

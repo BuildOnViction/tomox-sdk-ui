@@ -168,6 +168,7 @@ const WalletLoginFormRenderer = (props: Props) => {
         passwordHelpingText={passwordHelpingText}
         storeWallet={storeWallet}
         storePrivateKey={storePrivateKey}
+        savedWalletDisabled={savedWalletsDisabled}
         saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     ),

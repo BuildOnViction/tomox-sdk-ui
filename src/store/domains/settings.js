@@ -1,44 +1,42 @@
-import type {
-  SettingsState
-} from '../../types/settings'
+import type { SettingsState } from '../../types/settings';
 
-const initialState = {
+export const initialState = {
   defaultGasLimit: 2100000,
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true
-}
+};
 
 export const initialized = () => {
-  const event = (state: SettingsState = initialState) => state
-  return event
-}
+  const event = (state: SettingsState = initialState) => state;
+  return event;
+};
 
 export const defaultGasLimitSet = (defaultGasLimit: number) => {
   const event = (state: SettingsState) => ({
     ...state,
     defaultGasLimit
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 export const pvtKeyLockToggled = () => {
   const event = (state: SettingsState) => ({
     ...state,
     pvtKeyLocked: !state.pvtKeyLocked
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 export const defaultGasPriceSet = (defaultGasPrice: number) => {
   const event = (state: SettingsState) => ({
     ...state,
     defaultGasPrice
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 export default function model(state: SettingsState) {
   return {
@@ -49,5 +47,5 @@ export default function model(state: SettingsState) {
       defaultgasPrice: state.defaultGasPrice,
       defaultGasLimit: state.defaultGasLimit
     })
-  }
+  };
 }

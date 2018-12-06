@@ -18,8 +18,8 @@ export type TokenBalance = {
   balance: number
 };
 
-export type Tokens = Array < Token > ;
-export type TokenBalances = Array < TokenBalance > ;
+export type Tokens = Array<Token>;
+export type TokenBalances = Array<TokenBalance>;
 
 export type RankedToken = {
   address: string,
@@ -28,7 +28,8 @@ export type RankedToken = {
   rank: number
 };
 
-export type TokenPair = {+pair: string,
+export type TokenPair = {
+  +pair: string,
   +baseTokenDecimals: number,
   +quoteTokenDecimals: number,
   +baseTokenSymbol: string,
@@ -38,8 +39,6 @@ export type TokenPair = {+pair: string,
   +decimalsMultiplier: number,
   +pricepointMultiplier: number
 };
-
-
 
 export type TokenData = {
   address: string,
@@ -53,37 +52,33 @@ export type TokenData = {
 
 export type TokenPairData = {
   pair: string,
-  lastPrice: ? number,
-  change: ? number,
-  high: ? number,
-  low: ? number,
-  volume: ? number,
-  base: ? string,
-  quote: ? string,
-  favorited: ? string
+  lastPrice: ?number,
+  change: ?number,
+  high: ?number,
+  low: ?number,
+  volume: ?number,
+  base: ?string,
+  quote: ?string,
+  favorited: ?string
 };
 
-export type TokenPairDataArray = Array < TokenPairData > ;
+export type TokenPairDataArray = Array<TokenPairData>;
 // export type TokenPairDataMap = { [string]: TokenPairData };
-export type TokenPairDataMap = Array < TokenPairData > ;
+export type TokenPairDataMap = Array<TokenPairData>;
 
-export type TokenState = {+symbols: Array < Symbol > ,
+export type TokenState = {
+  +symbols: Array<Symbol>,
   +bySymbol: {
     [Symbol]: Token
   }
 };
 
-export type TokenPairState = {+byPair: {+[string]: {+pair: string,
-      +baseTokenSymbol: string,
-      +quoteTokenSymbol: string,
-      +baseTokenAddress: string,
-      +quoteTokenAddress: string,
-      +decimalsMultiplier: number,
-      +pricepointMultiplier: number
-    }
+export type TokenPairState = {
+  +byPair: {
+    +[string]: TokenPair
   },
-  +data: Array < TokenPairData > ,
-  +favorites: Array < string > ,
+  +data: Array<TokenPairData>,
+  +favorites: Array<string>,
   +currentPair: string
 };
 

@@ -3,9 +3,10 @@
 import type { NotificationState } from '../../types/notifications';
 import type { SettingsState } from '../../types/settings';
 
+import { initialState } from './settings';
+
 // eslint-disable-next-line
 let id = 0;
-const initialState = [];
 
 export const initialized = () => {
   const event = (state: SettingsState = initialState) => state;

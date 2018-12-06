@@ -1,18 +1,17 @@
 // @flow
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import type { State } from "../../types";
+import type { State } from '../../types';
+
+type Props = {};
 
 export const mapStateToProps = (state: State, ownProps: Props) => {
-
-    return {
-        
-    };
+  return {};
 };
 
 export const mapDispatchToProps = {};
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 );
