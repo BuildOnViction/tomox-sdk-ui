@@ -5,7 +5,8 @@ import {
   getAccountDomain,
   getDepositFormDomain,
   getSignerDomain,
-  getTokenDomain
+  getTokenDomain,
+  getDepositDomain
 } from '../domains';
 
 import * as actionCreators from '../actions/accountBalances';
@@ -16,12 +17,14 @@ import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
 import { ERC20, WETH } from '../../config/abis';
 
 import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
-
+import type { Chain } from '../../types/deposit';
+import type { PairAddresses } from '../../types/pairs';
 import type { State, ThunkAction } from '../../types';
 
 export default function depositFormSelector(state: State) {
   let accountDomain = getAccountDomain(state);
   let tokenDomain = getTokenDomain(state);
+  let depositDomain = getDepositDomain(state);
   let accountBalancesDomain = getAccountBalancesDomain(state);
   let signerDomain = getSignerDomain(state);
   let depositFormDomain = getDepositFormDomain(state);
@@ -30,6 +33,9 @@ export default function depositFormSelector(state: State) {
     accountAddress: () => accountDomain.address(),
     associatedAddress: () => depositFormDomain.getAssociatedAddress(),
     tokens: () => tokenDomain.tokens(),
+    blockchain: () => depositDomain.blockchain(),
+    getAddressAssociation: (chain: Chain) =>
+      depositDomain.getAddressAssociation(chain),
     rankedTokens: () => tokenDomain.rankedTokens(),
     symbols: () => tokenDomain.symbols(),
     tokenIsSubscribed: (symbol: string) =>
@@ -209,5 +215,15 @@ export const confirmTokenDeposit = (
     } catch (error) {
       console.log(error.message);
     }
+  };
+};
+
+export const updateAddressAssociation = (
+  chain: string,
+  associatedAddress: string,
+  pairAddresses: PairAddresses
+): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    socket.sendNewDepositMessage(chain, associatedAddress, pairAddresses);
   };
 };

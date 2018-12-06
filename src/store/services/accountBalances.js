@@ -1,24 +1,10 @@
 // @flow
-import {
-  Contract,
-  utils
-} from 'ethers';
-import {
-  ERC20
-} from '../../config/abis';
-import {
-  EXCHANGE_ADDRESS
-} from '../../config/contracts';
-import {
-  getProvider,
-  getSigner
-} from './signer';
+import { Contract, utils } from 'ethers';
+import { ERC20 } from '../../config/abis';
+import { EXCHANGE_ADDRESS } from '../../config/contracts';
+import { getProvider, getSigner } from './signer';
 
-import type {
-  Token,
-  TokenBalance,
-  TokenBalances
-} from '../../types/tokens';
+import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
 import type {
   // AccountBalance,
   AccountAllowance
@@ -26,7 +12,7 @@ import type {
 
 export async function queryEtherBalance(
   address: string
-): Promise < TokenBalance > {
+): Promise<TokenBalance> {
   let provider = getProvider();
 
   let balance = await provider.getBalance(address);
@@ -71,8 +57,8 @@ export async function updateExchangeAllowance(
 
 export async function queryTokenBalances(
   address: string,
-  tokens: Array < Token >
-): Promise < TokenBalances > {
+  tokens: Array<Token>
+): Promise<TokenBalances> {
   const provider = getProvider();
 
   const balancePromises = tokens.map(async token => {
@@ -99,7 +85,7 @@ export async function queryTokenBalances(
 
 export async function queryExchangeTokenAllowances(
   owner: string,
-  tokens: Array < Token >
+  tokens: Array<Token>
 ) {
   const provider = getProvider();
 
@@ -128,7 +114,7 @@ export async function queryExchangeTokenAllowances(
 export async function queryTokenAllowances(
   owner: string,
   spender: string,
-  tokens: Array < Token >
+  tokens: Array<Token>
 ) {
   let allowances;
   const provider = getProvider();
@@ -189,7 +175,7 @@ export async function subscribeTokenBalance(
 
 export async function subscribeTokenBalances(
   address: string,
-  tokens: Array < Token > ,
+  tokens: Array<Token>,
   callback: TokenBalance => any
 ) {
   const provider = getProvider();
@@ -247,7 +233,7 @@ export async function subscribeTokenAllowance(
 
 export async function subscribeTokenAllowances(
   address: string,
-  tokens: Array < Token > ,
+  tokens: Array<Token>,
   callback: AccountAllowance => any
 ) {
   const provider = getProvider();

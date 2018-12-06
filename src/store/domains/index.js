@@ -17,6 +17,7 @@ import walletsDomain from './wallets';
 import notificationsDomain from './notifications';
 import tradesDomain from './trades';
 import ordersDomain from './orders';
+import depositDomain from './deposit';
 import convertTokensFormDomain from './convertTokensForm';
 
 export const getAccountDomain = state => accountDomain(state.account);
@@ -36,6 +37,7 @@ export const getWebsocketDomain = state => websocketDomain(state.websocket);
 export const getOrderBookDomain = state => orderBookDomain(state.orderBook);
 export const getOrderFormDomain = state => orderFormDomain(state.orderForm);
 export const getOrdersDomain = state => ordersDomain(state.orders);
+export const getDepositDomain = state => depositDomain(state.deposit);
 export const getTradesDomain = state => tradesDomain(state.trades);
 export const getSettingsDomain = state => settingsDomain(state.settings);
 export const getSignerDomain = state => signerDomain(state.signer);

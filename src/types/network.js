@@ -17,5 +17,9 @@ export type Provider = {
   waitForTransaction: (string, ?number) => Promise<Object>,
   getTransactionCount: string => Promise<number>,
   getBalance: string => Promise<number>,
-  estimateGas: Transaction => Promise<Object>
+  estimateGas: Transaction => Promise<Object>,
+  removeListener: (
+    eventType: string,
+    callback: (string, string, string) => Promise<void>
+  ) => boolean
 };
