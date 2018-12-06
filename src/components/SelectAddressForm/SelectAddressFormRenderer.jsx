@@ -10,7 +10,7 @@ type Props = {
     dPath: Array<any>,
     currentAddresses: Array<any>,
     handleSelectPath: () => Promise<void>,
-    handleSelectAddress: () => void,
+    handleSelectAddress: any => void,
     getPreAddress: () => void,
     getMoreAddress: () => void
 };
@@ -30,23 +30,29 @@ const SelectAddressFormRenderer = (props: Props) => {
                     Select the address you would like to use
                 </AddressListMessage>
                 {props.currentAddresses.map(address => {
-                    return (
-                        <AddressListItem
-                            key={address.addressString}
-                            onClick={() => props.handleSelectAddress(address)}
-                        >
-                            <Address>
-                                {address.addressString.substring(0, 22)}
-                            </Address>
-                            <Balance>{address.balance} ETH</Balance>
-                            <AnchorButton
-                                text="IMPORT"
-                                rightIcon="chevron-right"
-                                minimal
-                                intent={Intent.WARNING}
-                            />
-                        </AddressListItem>
-                    );
+                    if (address && address.addressString) {
+                        return (
+                            <AddressListItem
+                                key={address.addressString}
+                                onClick={() =>
+                                    props.handleSelectAddress(address)
+                                }
+                            >
+                                <Address>
+                                    {address.addressString.substring(0, 22)}
+                                </Address>
+                                <Balance>{address.balance} ETH</Balance>
+                                <AnchorButton
+                                    text="IMPORT"
+                                    rightIcon="chevron-right"
+                                    minimal
+                                    intent={Intent.WARNING}
+                                />
+                            </AddressListItem>
+                        );
+                    }
+
+                    return null;
                 })}
             </AddressList>
             <AddressListNavigation>
@@ -110,6 +116,14 @@ const AddressListItem = styled.div`
     margin-bottom: 0.5rem;
     cursor: pointer;
     border-bottom: 1px solid #737373;
+    &:hover {
+        color: #fbde04;
+        text-shadow: 0px 0px 30px #fdec6e;
+        -moz-transition: all 0.2s ease-in;
+        -o-transition: all 0.2s ease-in;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
 `;
 
 const Address = styled.span`

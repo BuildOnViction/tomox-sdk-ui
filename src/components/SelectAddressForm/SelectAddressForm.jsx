@@ -1,9 +1,10 @@
 // @flow
 import React from 'react';
+import { utils } from 'ethers';
+
 import SelectAddressFormRenderer from './SelectAddressFormRenderer';
 
 import AddressGenerator from '../../store/services/device/addressGenerator';
-import { roundingNumber } from '../../utils/converters';
 
 type State = {
     isFirstList: boolean,
@@ -16,11 +17,14 @@ type Props = {
     deviceService: any,
     getPreAddress: () => void,
     getMoreAddress: () => void,
-    getAddress: () => void
+    getAddress: () => void,
+    getTrezorPublicKey: () => void,
+    loginWithTrezorWallet: () => void,
+    getBalance: string => Promise<number>
 };
 
 class SelectAddressForm extends React.PureComponent<Props, State> {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.setDefaultValues();
@@ -58,7 +62,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 path: "m/44'/40'/0'/0",
                 desc: 'Network: Expanse',
                 notSupport: true
-            },
+            }
             // {
             //     path: 0,
             //     desc: 'Your Custom Path',
@@ -80,24 +84,37 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
             this.generator = new AddressGenerator(this.props.publicKeyData);
             let addresses = [];
             let index = 0;
+            let getBalancePromises = [];
             for (index; index < 5; index++) {
                 let addressString = this.generator.getAddressString(index);
                 let address = {
                     addressString,
                     index: index,
-                    balance: roundingNumber(0)
+                    balance: -1
                 };
                 addresses.push(address);
+                getBalancePromises.push(this.addBalance(address, index));
             }
             this.addressIndex = index;
             this.currentIndex = index;
 
-            this.setState({
-                addresses,
-                currentAddresses: addresses
+            Promise.all(getBalancePromises).then(result => {
+                this.setState({
+                    addresses: result,
+                    currentAddresses: result
+                });
             });
         }
     }
+
+    addBalance = (address, index) => {
+        return new Promise((resolve, reject) => {
+            this.props.getBalance(address.addressString).then(result => {
+                address.balance = utils.formatEther(result, {commify: true});
+                resolve(address);
+            });
+        });
+    };
 
     componentDidUpdate(prevProps: Props) {
         if (
@@ -110,20 +127,24 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
             this.generator = new AddressGenerator(this.props.publicKeyData);
             let addresses = [];
             let index = 0;
+            let getBalancePromises = [];
             for (index; index < 5; index++) {
                 let address = {
                     addressString: this.generator.getAddressString(index),
                     index: index,
-                    balance: roundingNumber(0)
+                    balance: -1
                 };
                 addresses.push(address);
+                getBalancePromises.push(this.addBalance(address, index));
             }
             this.addressIndex = index;
             this.currentIndex = index;
 
-            this.setState({
-                addresses,
-                currentAddresses: addresses
+            Promise.all(getBalancePromises).then(result => {
+                this.setState({
+                    addresses: result,
+                    currentAddresses: result
+                });
             });
         }
     }
@@ -139,8 +160,8 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     moreAddress = () => {
         let addresses = this.state.addresses,
             i = this.addressIndex,
-            j = i + 5,
-            currentAddresses = [];
+            j = i + 5;
+        let getBalancePromises = [];
         if (this.generator) {
             if (this.addressIndex === this.currentIndex) {
                 for (i; i < j; i++) {
@@ -148,26 +169,31 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                     let address = {
                         addressString,
                         index: i,
-                        balance: roundingNumber(0)
+                        balance: -1
                     };
-                    addresses.push(address);
-                    currentAddresses.push(address);
+
+                    getBalancePromises.push(this.addBalance(address, i));
                 }
             }
             this.addressIndex = i;
             this.currentIndex += 5;
-            this.setState({
-                addresses: addresses,
-                currentAddresses: addresses.slice(
-                    this.currentIndex - 5,
-                    this.currentIndex
-                )
-            });
-            if (this.state.isFirstList) {
+
+            Promise.all(getBalancePromises).then(result => {
+                addresses = addresses.concat(result);
+
                 this.setState({
-                    isFirstList: false
+                    addresses: addresses,
+                    currentAddresses: addresses.slice(
+                        this.currentIndex - 5,
+                        this.currentIndex
+                    )
                 });
-            }
+                if (this.state.isFirstList) {
+                    this.setState({
+                        isFirstList: false
+                    });
+                }
+            });
         } else {
             console.log('Cannot connect to ' + this.props.walletType);
             // this.props.dispatch(throwError('Cannot connect to ' + this.walletType))
@@ -197,7 +223,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         await this.props.getTrezorPublicKey(selectedPath);
     };
 
-    handleSelectAddress = formAddress => {
+    handleSelectAddress = (formAddress: any) => {
         let data = {
             address: formAddress.addressString,
             type: this.walletType,

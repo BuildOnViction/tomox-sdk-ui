@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import getLoginPageSelector, {
     getTrezorPublicKey,
-    loginWithTrezorWallet
+    loginWithTrezorWallet,
+    getBalance
 } from '../../store/models/loginPage';
 
 import type { State } from '../../types';
@@ -19,7 +20,8 @@ export const mapStateToProps = (state: State) => {
 
 export const mapDispatchToProps = {
     getTrezorPublicKey,
-    loginWithTrezorWallet
+    loginWithTrezorWallet,
+    getBalance
 };
 
 export default connect(
