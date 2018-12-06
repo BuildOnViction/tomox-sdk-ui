@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { utils } from 'ethers';
+import { formatNumber } from 'accounting-js';
 
 import SelectAddressFormRenderer from './SelectAddressFormRenderer';
 
@@ -110,7 +111,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     addBalance = (address, index) => {
         return new Promise((resolve, reject) => {
             this.props.getBalance(address.addressString).then(result => {
-                address.balance = utils.formatEther(result, {commify: true});
+                address.balance = formatNumber(utils.formatEther(result), { precision: 2 });
                 resolve(address);
             });
         });
