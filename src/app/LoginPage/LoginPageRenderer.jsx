@@ -103,13 +103,13 @@ const LoginMethodsView = (props: Props) => {
             </Heading>
             <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
           </LoginCard>
-          <LoginCard onClick={loginWithLedgerWallet}>
+          {/* <LoginCard onClick={loginWithLedgerWallet}>
             <Ledger size={100} />
             <Heading>
               <FormattedMessage {...messages.ledgerWallet} />
             </Heading>
             <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
-          </LoginCard>
+          </LoginCard> */}
           <LoginCard onClick={showWalletLoginForm}>
             <KeyIcon size={100} />
             <Heading>
