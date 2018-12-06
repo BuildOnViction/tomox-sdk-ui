@@ -13,7 +13,6 @@ import {
   createMetamaskSigner
 } from '../services/signer';
 
-import { TrezorSigner } from '../services/signer/trezor';
 import { LedgerSigner } from '../services/signer/ledger';
 
 import type { State, ThunkAction } from '../../types';
@@ -97,11 +96,10 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   };
 }
 
-export function getTrezorPublicKey(path: string): ThunkAction {
+export function getTrezorPublicKey(deviceService: any, path: string): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
-      let deviceService = new TrezorSigner();
       let result = await deviceService.getPublicKey(path);
 
       dispatch(actionCreators.getPublicKey(result));

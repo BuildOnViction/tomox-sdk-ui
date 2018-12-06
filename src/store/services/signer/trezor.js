@@ -13,6 +13,7 @@ export class TrezorSigner extends Signer {
         this.provider = new providers.JsonRpcProvider(NETWORK_URL, {
             chainId: networkId
         });
+        this.address = null;
         window.signer = { instance: this, type: 'hardwareWallet' };
         addMethodsToSigner(this);
     }
@@ -30,18 +31,13 @@ export class TrezorSigner extends Signer {
         throw new Error(result.payload.error);
     };
 
-    getAddress = async () => {
-        let result = await TrezorConnect.ethereumGetAddress({
-            path: this.path + '/0'
-        });
-
-        if (result.success) {
-            return result.payload.address;
-        }
-
-        console.log(result);
-        throw new Error(result.payload.error);
+    getAddress = () => {
+        return this.address;
     };
+
+    setAddress = (address) => {
+        this.address = address;
+    }
 
     signMessage = async message => {
         return new Promise(async (resolve, reject) => {
@@ -59,7 +55,7 @@ export class TrezorSigner extends Signer {
         });
     };
 
-    sign = async (transaction, address) => {
+    sign = async (transaction) => {
         if (transaction.value) {
             transaction.value = utils.hexlify(transaction.value);
         }
@@ -71,7 +67,7 @@ export class TrezorSigner extends Signer {
         }
 
         transaction.nonce = utils.hexlify(
-            await this.provider.getTransactionCount(address)
+            await this.provider.getTransactionCount(this.address)
         );
 
         let result = await TrezorConnect.ethereumSignTransaction({
@@ -97,8 +93,16 @@ export class TrezorSigner extends Signer {
         throw new Error(result.payload.error);
     };
 
-    sendTransaction = async (transaction, address) => {
-        let signedTx = await this.sign(transaction, address);
+    sendTransaction = async (transaction) => {
+        if (Promise.resolve(transaction.to) === transaction.to) {
+            transaction.to = await transaction.to;
+        }
+
+        if (!transaction.value) {
+            transaction.value = utils.parseEther('0.0');
+        }
+
+        let signedTx = await this.sign(transaction);
 
         return this.provider.sendTransaction(signedTx);
     };

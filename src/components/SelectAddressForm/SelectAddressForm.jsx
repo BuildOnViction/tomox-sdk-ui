@@ -19,7 +19,7 @@ type Props = {
     getPreAddress: () => void,
     getMoreAddress: () => void,
     getAddress: () => void,
-    getTrezorPublicKey: () => void,
+    getTrezorPublicKey: (any, string) => void,
     loginWithTrezorWallet: () => void,
     getBalance: string => Promise<number>
 };
@@ -29,6 +29,8 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         super(props);
 
         this.setDefaultValues();
+
+        this.deviceService = props.deviceService;
 
         this.DPATH = [
             {
@@ -221,10 +223,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
 
     handleSelectPath = async selectedPath => {
         this.setDefaultValues();
-        await this.props.getTrezorPublicKey(selectedPath);
+        await this.props.getTrezorPublicKey(this.deviceService, selectedPath);
     };
 
     handleSelectAddress = (formAddress: any) => {
+        this.deviceService.setAddress(formAddress.addressString);
+
         let data = {
             address: formAddress.addressString,
             type: this.walletType,

@@ -6,6 +6,7 @@ import LoginPageRenderer from './LoginPageRenderer';
 import SelectAddressModal from '../../components/SelectAddressModal';
 import { createWalletFromJSON } from '../../store/services/wallet';
 import type { LoginWithWallet } from '../../types/loginPage';
+import { TrezorSigner } from '../../store/services/signer/trezor';
 
 type Props = {
     authenticated: boolean,
@@ -15,7 +16,7 @@ type Props = {
     loginWithTrezorWallet: () => void,
     loginWithLedgerWallet: () => void,
     removeNotification: any => void,
-    getTrezorPublicKey: () => void
+    getTrezorPublicKey: (any) => void
 };
 
 //TODO: Remove Notification handling
@@ -27,6 +28,12 @@ type State = {
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
+
+    constructor(props: Props) {
+        super(props);
+        this.deviceService = null;
+    }
+
     state = {
         view: 'loginMethods',
         metamaskStatus: 'undefined',
@@ -34,7 +41,8 @@ class LoginPage extends React.PureComponent<Props, State> {
     };
 
     openSelectAddressModal = async () => {
-        await this.props.getTrezorPublicKey();
+        this.deviceService = new TrezorSigner();
+        await this.props.getTrezorPublicKey(this.deviceService);
 
         this.setState({
             isSelectAddressModalOpen: true
@@ -140,6 +148,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                     title="Select Trezor Address"
                     isOpen={isSelectAddressModalOpen}
                     handleClose={this.closeSelectAddressModal}
+                    deviceService={this.deviceService}
                 />
             </Wrapper>
         );

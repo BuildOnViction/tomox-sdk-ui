@@ -93,8 +93,7 @@ export const sendEtherTx = ({
   amount,
   receiver,
   gas,
-  gasPrice,
-  address
+  gasPrice
 }: EtherTxParams): ThunkAction => {
   return async (dispatch:Dispatch, getState:GetState) => {
     try {
@@ -107,7 +106,7 @@ export const sendEtherTx = ({
         value: utils.parseEther(amount.toString())
       };
 
-      let tx = await signer.sendTransaction(rawTx, address);
+      let tx = await signer.sendTransaction(rawTx);
       dispatch(actionCreators.sendTx(tx.hash));
 
       let receipt = await signer.provider.waitForTransaction(tx.hash);

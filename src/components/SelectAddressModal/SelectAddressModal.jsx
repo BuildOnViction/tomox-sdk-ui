@@ -6,7 +6,8 @@ import SelectAddressFormContainer from '../SelectAddressForm';
 type Props = {
     title: string,
     isOpen: boolean,
-    handleClose: (SyntheticEvent<>) => void
+    handleClose: (SyntheticEvent<>) => void,
+    deviceService: any
 };
 
 const SelectAddressModal = (props: Props) => (
@@ -16,7 +17,7 @@ const SelectAddressModal = (props: Props) => (
         isOpen={props.isOpen}
         onClose={props.handleClose}
     >
-        <SelectAddressFormContainer />
+        <SelectAddressFormContainer deviceService={props.deviceService} />
     </Modal>
 );
 
