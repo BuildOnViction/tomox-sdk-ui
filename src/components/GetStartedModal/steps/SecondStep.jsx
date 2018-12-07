@@ -297,9 +297,9 @@ const SecondStep = (props: Props) => {
       <React.Fragment>
         <ModalBody>
           <Callout intent="success" title="Approve ether to start trading">
-            You need to grant approval to perform trades to the AMP exchange.
-            Granting approval does not allow the AMP exchange to move your funds
-            without your permission.
+            You need to grant approval to perform trades to the Tomochain
+            exchange. Granting approval does not allow the Tomochain exchange to
+            move your funds without your permission.
           </Callout>
         </ModalBody>
         <ModalFooter>

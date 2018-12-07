@@ -48,7 +48,7 @@ class Layout extends React.PureComponent<Props, State> {
       children,
       authenticated,
       address,
-      locale = 'en',
+      locale,
       messages,
       currentBlock
     } = this.props;

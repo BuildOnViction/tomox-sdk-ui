@@ -18,13 +18,13 @@ class FaqPage extends React.PureComponent {
           ERC20 token standard. WETH brings the ERC20 token standard to ether.
           When you are converting ETH to WETH, you receive 1 WETH token for each
           Ether you've converted. Using WETH allows decentralized applications
-          such as the AMP decentralized exchanges to offer better functionality
-          and a better user experience. You can convert your WETH back to ether
-          at any time.
+          such as the Tomochain decentralized exchanges to offer better
+          functionality and a better user experience. You can convert your WETH
+          back to ether at any time.
         </FaqItem>
         <Divider />
         <FaqItem
-          question="What are the main difference between AMP and the 0x protocol ?"
+          question="What are the main difference between Tomochain and the 0x protocol ?"
           match={match}
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
@@ -37,7 +37,7 @@ class FaqPage extends React.PureComponent {
         </FaqItem>
         <Divider />
         <FaqItem
-          question="What are the main difference between AMP and IDEX ?"
+          question="What are the main difference between Tomochain and IDEX ?"
           match={match}
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
@@ -50,7 +50,7 @@ class FaqPage extends React.PureComponent {
         </FaqItem>
         <Divider />
         <FaqItem
-          question="The AMP Platform and the AMP Protocol is free to use. Then what is the purpose of the Proof Token ?"
+          question="The Tomochain Platform and the Tomochain Protocol is free to use. Then what is the purpose of the Proof Token ?"
           match={match}
         >
           Nulla facilisi. Maecenas sodales nec purus eget posuere. Sed sapien
@@ -67,7 +67,7 @@ class FaqPage extends React.PureComponent {
         </FaqItem>
         <Divider />
         <FaqItem
-          question="How is AMP different from a centralized exchange like Coinbase or Bitfinex ?"
+          question="How is Tomochain different from a centralized exchange like Coinbase or Bitfinex ?"
           match={match}
         >
           Orci varius natoque penatibus et magnis dis parturient montes,
@@ -84,7 +84,7 @@ class FaqPage extends React.PureComponent {
         </FaqItem>
         <Divider />
         <FaqItem
-          question="What type of digital assets and cryptocurrencies are supported by AMP ?"
+          question="What type of digital assets and cryptocurrencies are supported by Tomochain ?"
           match={match}
         >
           Phasellus pulvinar ex id commodo imperdiet. Praesent odio nibh,
@@ -107,8 +107,8 @@ class FaqPage extends React.PureComponent {
           rewards with a staking mechanism. Although we describe some of the
           potential sources of revenues that will be sent to the reward pool, we
           plan to adapt our original vision. The currently explored options
-          include rewards from transactions fees on the AMP Decentralized
-          Exchange, % of transaction fees on the AMP Token Platform
+          include rewards from transactions fees on the Tomochain Decentralized
+          Exchange, % of transaction fees on the Tomochain Token Platform
           smart-contracts as well and % of transaction fees on the Cryptodollar
           stablecoin. All of the previously mentioned options are not final yet
           as we constantly looking to evolve and improve our battle plan.
@@ -119,23 +119,26 @@ class FaqPage extends React.PureComponent {
           match={match}
         >
           No, contrary to a some other decentralized exchange protocols, you do
-          not need PRFT tokens or any special token to trade on the AMP-DEX. The
-          AMP-DEX transaction fees are paid in WETH (Wrapped-Ether, mentioned
-          above) for convenience and better integration with the rest of our
-          protocol.
+          not need PRFT tokens or any special token to trade on the
+          Tomochain-DEX. The Tomochain-DEX transaction fees are paid in WETH
+          (Wrapped-Ether, mentioned above) for convenience and better
+          integration with the rest of our protocol.
         </FaqItem>
         <Divider />
-        <FaqItem question="How does the AMP-DEX work ?" match={match}>
-          While the AMP-DEX is semi-decentralized, we have to try to implement a
-          user experience that is very close to the user experience of
-          centralized exchanges. The main differences is that we do not hold
+        <FaqItem question="How does the Tomochain-DEX work ?" match={match}>
+          While the Tomochain-DEX is semi-decentralized, we have to try to
+          implement a user experience that is very close to the user experience
+          of centralized exchanges. The main differences is that we do not hold
           your funds. Instead you need to give our decentralized exchange
           contract allowance. Each trade needs to be approved via a
           cryptographic signature without which trades can not be settled.
         </FaqItem>
         <Divider />
-        <FaqItem question="Is the AMP-DEX fully decentralized ?" match={match}>
-          While the ultimate vision is to make the AMP-DEX completely
+        <FaqItem
+          question="Is the Tomochain-DEX fully decentralized ?"
+          match={match}
+        >
+          While the ultimate vision is to make the Tomochain-DEX completely
           decentralized, the current state of Ethereum scalabitiy does not allow
           for building such an exchange while keeping a good user experience.
           Therefore, we use an off-chain orderbook system and matching-engine
@@ -215,7 +218,7 @@ class FaqPage extends React.PureComponent {
         </FaqItem>
         <Divider />
         <FaqItem
-          question="Why the name AMP ? What is the meaning of AMP ?"
+          question="Why the name Tomochain ? What is the meaning of Tomochain ?"
           match={match}
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque

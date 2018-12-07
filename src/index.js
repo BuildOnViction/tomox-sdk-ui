@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import { addLocaleData } from 'react-intl';
+import viLocaleData from 'react-intl/locale-data/vi';
 import configureStore from './store/configureStore';
 import registerServiceWorker from './registerServiceWorker';
 import { AppContainer } from 'react-hot-loader';
@@ -11,6 +13,8 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 const { store, persistor } = configureStore();
 
 registerServiceWorker();
+
+// addLocaleData(viLocaleData);
 
 const render = AppComponent => {
   return ReactDOM.render(

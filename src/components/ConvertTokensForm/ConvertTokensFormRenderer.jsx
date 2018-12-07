@@ -252,7 +252,7 @@ const ConfirmFormRenderer = (props: Props) => {
 const messages = {
   ETH: {
     title: `Tokenize your Ether for trading!`,
-    callout: `To be able to trade on the AMP platform, you will need to convert you Ether (ETH) to tokenized ether (WETH).
+    callout: `To be able to trade on the Tomochain platform, you will need to convert you Ether (ETH) to tokenized ether (WETH).
     ETH and WETH can be converted at anytime through a smart-contract and 1 ETH = 1 WETH consistently. To perform other normal blockchain transactions, you will need Ether to pay for gas. Therefore
     we recommend tokenizing around 90% of your ETH`,
     label1: `Choose the fraction of ETH you want to tokenize.`,
@@ -261,7 +261,7 @@ const messages = {
   },
   WETH: {
     title: `Convert back to Ether`,
-    callout: `To be able to trade on the AMP platform, you will need to convert you Ether (ETH) to tokenized ether (WETH). ETH and WETH can be converted at anytime through a smart-contract and 1 ETH = 1 WETH consistently`,
+    callout: `To be able to trade on the Tomochain platform, you will need to convert you Ether (ETH) to tokenized ether (WETH). ETH and WETH can be converted at anytime through a smart-contract and 1 ETH = 1 WETH consistently`,
     label1: `Choose the fraction of WETH (tokenized Ether) you want to convert to ETH`,
     info1: `WETH is reequired for trading. You can convert between WETH (tokenized ether) and ETH at any time. Read more about WETH here`,
     info2: 'Required for trading'

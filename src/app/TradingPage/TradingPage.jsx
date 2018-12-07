@@ -49,7 +49,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       title: `${symbol} Tokens locked`,
       intent: 'danger',
       message:
-        'To start trading, you need to unlock funds and allow AMP to settle transactions when a match is found'
+        'To start trading, you need to unlock funds and allow Tomochain to settle transactions when a match is found'
     }),
     quoteTokensLocked: (quoteTokenSymbol: string) => ({
       title: `Unlock tokens to start trading`,

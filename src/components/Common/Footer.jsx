@@ -12,7 +12,7 @@ const Footer = () => (
           <List>
             <HeadListItem>About</HeadListItem>
             <NormalListItem>
-              <LinkText>About AMP</LinkText>
+              <LinkText>About Tomochain</LinkText>
             </NormalListItem>
             <NormalListItem>
               <LinkText>Apply to List</LinkText>
