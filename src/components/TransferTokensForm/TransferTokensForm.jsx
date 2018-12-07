@@ -18,6 +18,7 @@ type State = {
 };
 
 type Props = {
+  address: string,
   token: Token,
   tokens: Array<Token>,
   loading: boolean,
@@ -91,14 +92,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
 
   handleSubmit = () => {
     let { amount, receiver, token, customGas, customGasPrice } = this.state;
-    let { gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props;
+    let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props;
     gas = customGas || gas;
     gasPrice = customGasPrice || gasPrice;    
           
     console.log(amount, receiver, gas, gasPrice, token);
     
     if (this.state.token.address === '0x0') {
-      sendEtherTx({ amount, receiver, gas, gasPrice });
+      sendEtherTx({ amount, receiver, gas, gasPrice, address });
     } else {
       sendTransferTokensTx({ 
         amount, 

@@ -5,7 +5,7 @@ import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core';
 import WalletLoginForm from '../../components/WalletLoginForm';
 import CreateWalletModal from '../../components/CreateWalletModal';
 import MetamaskIcon from '../../components/Icons/Metamask';
-import { KeyIcon, WalletIcon, Trezor, Ledger } from '../../components/Icons';
+import { KeyIcon, WalletIcon, Trezor } from '../../components/Icons';
 import { Centered, Divider, LargeText, Colors } from '../../components/Common';
 import type { CreateWalletParams } from '../../types/createWallet';
 
@@ -16,7 +16,7 @@ type Props = {
   loginWithMetamask: void => void,
   loginWithWallet: void => void,
   openSelectAddressModal: void => void,
-  loginWithTrezorWallet: void => void,
+  loginWithTrezorWallet: Object => void,
   loginWithLedgerWallet: void => void
 };
 
@@ -59,7 +59,7 @@ const LoginPageRenderer = (props: Props) => {
 };
 
 const LoginMethodsView = (props: Props) => {
-  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, loginWithTrezorWallet, loginWithLedgerWallet, metamaskStatus, showCreateWallet } = props;
+  const { showWalletLoginForm, loginWithMetamask, openSelectAddressModal, metamaskStatus, showCreateWallet } = props;
   return (
     <Wrapper>
       <Announcement>
@@ -96,17 +96,10 @@ const LoginMethodsView = (props: Props) => {
             </Heading>
             <MetamaskStatusTag>{metamaskStatuses[metamaskStatus]}</MetamaskStatusTag>
           </LoginCard>
-          <LoginCard onClick={loginWithTrezorWallet}>
+          <LoginCard onClick={openSelectAddressModal}>
             <Trezor size={100} />
             <Heading>
               <FormattedMessage {...messages.trezorWallet} />
-            </Heading>
-            <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
-          </LoginCard>
-          <LoginCard onClick={loginWithLedgerWallet}>
-            <Ledger size={100} />
-            <Heading>
-              <FormattedMessage {...messages.ledgerWallet} />
             </Heading>
             <HardwareWalletStatusTag>{recommendedStatus}</HardwareWalletStatusTag>
           </LoginCard>

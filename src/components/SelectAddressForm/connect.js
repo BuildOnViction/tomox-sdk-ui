@@ -1,17 +1,30 @@
 // @flow
 import { connect } from 'react-redux';
 
+import getLoginPageSelector, {
+    getTrezorPublicKey,
+    loginWithTrezorWallet,
+    getBalance
+} from '../../store/models/loginPage';
+
 import type { State } from '../../types';
 
-type Props = {};
+export const mapStateToProps = (state: State) => {
+    const loginPageSelector = getLoginPageSelector(state);
 
-export const mapStateToProps = (state: State, ownProps: Props) => {
-  return {};
+    return {
+        loading: loginPageSelector.loading,
+        publicKeyData: loginPageSelector.getPublicKeyData()
+    };
 };
 
-export const mapDispatchToProps = {};
+export const mapDispatchToProps = {
+    getTrezorPublicKey,
+    loginWithTrezorWallet,
+    getBalance
+};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 );

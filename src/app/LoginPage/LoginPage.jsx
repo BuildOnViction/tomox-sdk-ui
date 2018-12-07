@@ -6,15 +6,17 @@ import LoginPageRenderer from './LoginPageRenderer';
 import SelectAddressModal from '../../components/SelectAddressModal';
 import { createWalletFromJSON } from '../../store/services/wallet';
 import type { LoginWithWallet } from '../../types/loginPage';
+import { TrezorSigner } from '../../store/services/signer/trezor';
 
 type Props = {
     authenticated: boolean,
+    loading: boolean,
     loginWithMetamask: () => void,
     loginWithWallet: LoginWithWallet => void,
-    loginWithTrezorWallet: () => void,
+    loginWithTrezorWallet: Object => void,
     loginWithLedgerWallet: () => void,
     removeNotification: any => void,
-    generateTrezorAddresses: () => void
+    getTrezorPublicKey: (Object, ?string) => void,
 };
 
 //TODO: Remove Notification handling
@@ -22,29 +24,24 @@ type Props = {
 type State = {
     view: string,
     metamaskStatus: 'unlocked' | 'locked' | 'undefined',
-    isSelectAddressModalOpen: boolean,
-    walletType: string,
-    currentAddresses: Array,
-    currentDPath: string
+    isSelectAddressModalOpen: boolean
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
+    deviceService: ?Object = null;
+
     state = {
         view: 'loginMethods',
         metamaskStatus: 'undefined',
-        walletType: '',
-        isSelectAddressModalOpen: false,
-        currentDPath: ''
+        isSelectAddressModalOpen: false
     };
 
     openSelectAddressModal = async () => {
-        let { walletType, serializedPath, addresses } = await this.props.generateTrezorAddresses();
+        this.deviceService = new TrezorSigner();
+        await this.props.getTrezorPublicKey(this.deviceService);
 
         this.setState({
-            isSelectAddressModalOpen: true,
-            walletType,
-            currentAddresses: addresses,
-            currentDPath: 'm/' + serializedPath
+            isSelectAddressModalOpen: true
         });
     };
 
@@ -109,9 +106,10 @@ class LoginPage extends React.PureComponent<Props, State> {
                 loginWithWallet,
                 loginWithTrezorWallet,
                 loginWithLedgerWallet,
-                authenticated
+                authenticated,
+                loading
             },
-            state: { view, metamaskStatus, isSelectAddressModalOpen, walletType, currentAddresses, currentDPath },
+            state: { view, metamaskStatus, isSelectAddressModalOpen },
             showWalletLoginForm,
             showLoginMethods,
             showCreateWallet,
@@ -123,7 +121,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         // go to wallet by default to update balances
         if (authenticated) {
             // check if there is no account balances then go to /wallet page
-            return <Redirect to='/wallet' />;
+            return <Redirect to="/wallet" />;
         }
         return (
             <Wrapper>
@@ -140,14 +138,13 @@ class LoginPage extends React.PureComponent<Props, State> {
                     loginWithLedgerWallet={loginWithLedgerWallet}
                     showWalletLoginForm={showWalletLoginForm}
                     showLoginMethods={showLoginMethods}
+                    loading={loading}
                 />
                 <SelectAddressModal
                     title="Select Trezor Address"
                     isOpen={isSelectAddressModalOpen}
                     handleClose={this.closeSelectAddressModal}
-                    walletType={walletType}
-                    currentAddresses={currentAddresses}
-                    currentDPath={currentDPath}
+                    deviceService={this.deviceService}
                 />
             </Wrapper>
         );

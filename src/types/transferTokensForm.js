@@ -19,7 +19,7 @@ export type EtherTxParams = {
   amount: number,
   receiver: string,
   gas: number,
-  gasPrice: number,
+  gasPrice: number
 };
 
 export type TransferTokensTxParams = {

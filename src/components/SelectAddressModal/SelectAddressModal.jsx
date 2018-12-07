@@ -1,15 +1,13 @@
 // @flow
-import React from "react";
-import Modal from "../Modal";
-import SelectAddressFormContainer from "../SelectAddressForm";
+import React from 'react';
+import Modal from '../Modal';
+import SelectAddressFormContainer from '../SelectAddressForm';
 
 type Props = {
     title: string,
     isOpen: boolean,
     handleClose: (SyntheticEvent<>) => void,
-    walletType: string,
-    currentAddresses: Array,
-    currentDPath: string
+    deviceService: any
 };
 
 const SelectAddressModal = (props: Props) => (
@@ -19,11 +17,7 @@ const SelectAddressModal = (props: Props) => (
         isOpen={props.isOpen}
         onClose={props.handleClose}
     >
-        <SelectAddressFormContainer
-            walletType={props.walletType}
-            currentAddresses={props.currentAddresses}
-            currentDPath={props.currentDPath}
-        />
+        <SelectAddressFormContainer deviceService={props.deviceService} />
     </Modal>
 );
 

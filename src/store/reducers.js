@@ -56,6 +56,8 @@ export const loginPage = createReducer(action => {
       return loginPageEvents.authenticated();
     case loginPageActionTypes.loginWithLedgerWallet:
       return loginPageEvents.authenticated();
+    case loginPageActionTypes.getPublicKey:
+      return loginPageEvents.getPublicKey(payload);
     default:
       return loginPageEvents.initialized();
   }

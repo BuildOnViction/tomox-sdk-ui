@@ -27,6 +27,7 @@ export const mapStateToProps = (state: State, ownProps: Props) => {
     hash: transferTokensFormSelector.getHash(),
     receipt: transferTokensFormSelector.getReceipt(),
     tokens: transferTokensFormSelector.tokens(),
+    address: transferTokensFormSelector.getAddress()
   };
 };
 

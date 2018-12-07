@@ -8,14 +8,12 @@ import {
   savePrivateKeyInSessionStorage
 } from '../services/wallet';
 import {
+  getSigner,
   createLocalWalletSigner,
   createMetamaskSigner
 } from '../services/signer';
 
-import { TrezorSigner } from '../services/signer/trezor';
 import { LedgerSigner } from '../services/signer/ledger';
-
-import AddressGenerator from '../services/device/addressGenerator';
 
 import type { State, ThunkAction } from '../../types';
 
@@ -30,7 +28,8 @@ export default function loginPageSelector(state: State) {
   return {
     authenticated: getAccountDomain(state).authenticated(),
     loading: getLoginPageDomain(state).isLoading(),
-    error: getLoginPageDomain(state).getError()
+    error: getLoginPageDomain(state).getError(),
+    getPublicKeyData: () => getLoginPageDomain(state).getPublicKeyData()
   };
 }
 
@@ -97,37 +96,38 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   };
 }
 
-export function generateTrezorAddresses(): ThunkAction {
-  return async (dispatch, getState) => {
-    let deviceService = new TrezorSigner();
-    let result = await deviceService.getPublicKey();
-    let generator = new AddressGenerator(result);
-		let addresses = [];
-		let index = 0;
-		for (index; index < 5; index++) {
-			let address = {
-				addressString: generator.getAddressString(index),
-				index: index,
-				balance: -1,
-			};
-			addresses.push(address);
-    }
-    
-    return {
-      walletType: 'trezor',
-      serializedPath: result.serializedPath,
-      addresses
-    };
-  };
-}
-
-export function loginWithTrezorWallet(): ThunkAction {
+export function getTrezorPublicKey(deviceService: any, path: string): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
-      let deviceService = new TrezorSigner();
-      let result = await deviceService.getAddress();
-      dispatch(actionCreators.loginWithTrezorWallet(result));
+      let result = await deviceService.getPublicKey(path);
+
+      dispatch(actionCreators.getPublicKey(result));
+    } catch (e) {
+      dispatch(
+        notifierActionCreators.addNotification({ message: 'Login error' })
+      );
+      dispatch(actionCreators.loginError(e.message));
+    }
+  };
+}
+
+export function getBalance(address: string): ThunkAction {
+  return async (dispatch, getState) => {
+    try {
+      let balance = await getSigner().provider.getBalance(address);
+      return balance;
+    } catch (e) {
+      return 0;
+    }
+  }
+}
+
+export function loginWithTrezorWallet(data: Object): ThunkAction {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actionCreators.requestLogin());
+      dispatch(actionCreators.loginWithTrezorWallet(data.address));
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Trezor wallet'

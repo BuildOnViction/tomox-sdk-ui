@@ -5,7 +5,8 @@ import  {
 } from 'ethers';
 import {
   getTransferTokensFormDomain,
-  getTokenDomain
+  getTokenDomain,
+  getAccountDomain
 } from '../domains';
 import * as actionCreators from '../actions/transferTokensForm';
 import * as notificationActionCreators from '../actions/app'
@@ -39,6 +40,7 @@ import {
 export default function sendEtherSelector(state: State) {
   let tokenDomain = getTokenDomain(state);
   let transferTokensFormDomain = getTransferTokensFormDomain(state);
+  let accountDomain = getAccountDomain(state);
 
   let eth = { symbol: 'ETH', address: '0x0', rank: 0, decimals: 18}
   let otherTokens = tokenDomain.rankedTokens()
@@ -46,6 +48,7 @@ export default function sendEtherSelector(state: State) {
 
   return {
     getState: () => transferTokensFormDomain.getState(),
+    getAddress: () => accountDomain.address(),
     isLoading: () => transferTokensFormDomain.isLoading(),
     getStatus: () => transferTokensFormDomain.getStatus(),
     getStatusMessage: () => transferTokensFormDomain.getStatusMessage(),
@@ -100,7 +103,7 @@ export const sendEtherTx = ({
         gasLimit: parseFloat(gas) || 0,
         gasPrice: parseFloat(gasPrice) || 2 * 10e9,
         to: receiver,
-        value: utils.parseEther(amount.toString()),
+        value: utils.parseEther(amount.toString())
       };
 
       let tx = await signer.sendTransaction(rawTx);

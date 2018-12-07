@@ -1,7 +1,8 @@
 //@flow
 export type LoginPageState = {
   +loading: boolean,
-  +error: string
+  +error: string,
+  +publicKeyData: any
 }
 
 export type LoginWithWallet = {

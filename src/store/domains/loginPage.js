@@ -4,6 +4,7 @@ import type { LoginPageState } from '../../types/loginPage';
 const initialState: LoginPageState = {
   loading: false,
   error: '',
+  publicKeyData: null
 };
 //
 export const initialized = () => {
@@ -40,9 +41,19 @@ export const authenticated = () => {
   return event;
 };
 
+export const getPublicKey = (data: Object) => {
+  const event = (state: LoginPageState) => ({
+    ...state,
+    publicKeyData: data
+  });
+
+  return event;
+};
+
 export default function getLoginPageDomain(state: LoginPageState) {
   return {
     isLoading: () => state.loading,
     getError: () => state.error,
+    getPublicKeyData: () => state.publicKeyData
   };
 }
