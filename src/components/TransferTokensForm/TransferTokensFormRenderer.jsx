@@ -87,7 +87,7 @@ const TransferTokensFormRenderer = (props: Props) => {
         type="submit"
         fill
         onClick={handleSubmit}
-        disabled={receipt !== null}
+        disabled={loading || (receipt !== null)}
       />
     </div>
   );
