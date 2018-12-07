@@ -1,18 +1,20 @@
 //@flow
 import React from 'react';
 import DepositFormRenderer from './DepositFormRenderer';
+import { generateDepositAddress } from '../../store/services/api';
+import { getSigner } from '../../store/services/signer';
+import { WETH_ADDRESS } from '../../config/contracts';
 
 import type { Token } from '../../types/tokens';
 import type { AccountBalance } from '../../types/accountBalances';
 import type { PairAddresses } from '../../types/pairs';
-import { generateDepositAddress } from '../../store/services/api';
-import { getSigner } from '../../store/services/signer';
-import { WETH_ADDRESS } from '../../config/contracts';
+import type { AddressAssociation, Chain } from '../../types/deposit';
 
 type Step = 'waiting' | 'convert' | 'confirm';
 
 type Props = {
   step: Step,
+  chain: Chain,
   balances: { [string]: AccountBalance },
   address: string,
   token: Token,
@@ -20,14 +22,15 @@ type Props = {
   queryBalances: void => void,
   subscribeBalance: Token => void,
   confirmTokenDeposit: (Token, boolean) => void,
+  updateAddressAssociation: (Chain, string, PairAddresses) => void,
   confirmEtherDeposit: (boolean, boolean, number) => void,
   allowTx: Object,
-  convertTx: Object
+  convertTx: Object,
+  addressAssociation: AddressAssociation
 };
 
 type State = {
   token: Token,
-  associatedAddress: string,
   inputToken: ?Token,
   convertAmount: number,
   shouldConvert: boolean,
@@ -40,7 +43,6 @@ class DepositForm extends React.PureComponent<Props, State> {
   state = {
     token: this.props.token || this.props.tokens[0],
     inputToken: null,
-    associatedAddress: '',
     shouldConvert: true,
     shouldAllow: true,
     convertAmount: 50,
@@ -67,22 +69,30 @@ class DepositForm extends React.PureComponent<Props, State> {
       baseToken: token.address,
       quoteToken
     };
+    const {
+      subscribeBalance,
+      chain,
+      address,
+      updateAddressAssociation
+    } = this.props;
 
     // console.log(pairAddresses);
     this.unsubscribe();
 
-    const unsubscribeBalance = await this.props.subscribeBalance(token);
-    let association = await generateDepositAddress(
-      'ethereum',
-      this.props.address,
-      pairAddresses
-    );
+    const unsubscribeBalance = await subscribeBalance(token);
+
+    // now call websocket to update associated Address, we can remove subscribe function
+    updateAddressAssociation(chain, address, pairAddresses);
+    // let association = await generateDepositAddress(
+    //   'ethereum',
+    //   this.props.address,
+    //   pairAddresses
+    // );
 
     // console.log(association);
 
     this.setState({
-      unsubscribeBalance,
-      associatedAddress: association.address
+      unsubscribeBalance
     });
   }
 
@@ -151,11 +161,19 @@ class DepositForm extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { step, balances, address, tokens, allowTx, convertTx } = this.props;
+    const {
+      step,
+      balances,
+      address,
+      tokens,
+      allowTx,
+      convertTx,
+      addressAssociation
+    } = this.props;
+
     const {
       shouldAllow,
       shouldConvert,
-      associatedAddress,
       convertAmount,
       inputToken,
       showTokenSuggest,
@@ -178,7 +196,7 @@ class DepositForm extends React.PureComponent<Props, State> {
         inputToken={inputToken}
         balance={balance}
         address={address}
-        associatedAddress={associatedAddress}
+        associatedAddress={addressAssociation.address}
         shouldConvert={shouldConvert}
         shouldAllow={shouldAllow}
         convertAmount={convertAmount}

@@ -9,8 +9,8 @@ import {
   defaultDecimals
 } from '../config/tokens';
 
-import type { TokenPairData } from '../types/tokens';
-
+import type { TokenPairData, Token, Tokens } from '../types/tokens';
+import type { AddressAssociationPayload } from '../types/deposit';
 import type { Order, Orders } from '../types/orders';
 import type { Trade, Trades } from '../types/trades';
 
@@ -52,6 +52,26 @@ export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
   }
 
   return obj;
+};
+
+export const parseAddressAssociation = (
+  payload: Object
+): AddressAssociationPayload => {
+  const { chain, ...addressAssociation } = payload;
+  return { chain, addressAssociation };
+};
+
+export const parseToken = (token: Object): Token => ({
+  address: token.contractAddress,
+  decimals: token.decimals,
+  symbol: token.symbol,
+  image: token.image
+});
+
+export const parseTokens = (tokens: Array<Object>): Tokens => {
+  let parsed = tokens.map(parseToken);
+
+  return parsed;
 };
 
 export const parseTokenAmount = (
@@ -102,18 +122,7 @@ export const parseOrders = (
   tokenDecimals: number = defaultDecimals,
   precision: number = amountPrecision
 ): Orders => {
-  let parsed = orders.map(order => ({
-    time: order.createdAt,
-    amount: parseTokenAmount(order.amount, tokenDecimals, precision),
-    filled: parseTokenAmount(order.filledAmount, tokenDecimals, precision),
-    price: parsePricepoint(order.pricepoint),
-    hash: order.hash,
-    side: order.side,
-    pair: order.pairName,
-    type: 'LIMIT',
-    status: order.status,
-    cancellable: order.cancellable
-  }));
+  let parsed = orders.map(order => parseOrder(order, tokenDecimals, precision));
 
   return parsed;
 };

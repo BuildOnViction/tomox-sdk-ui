@@ -15,7 +15,7 @@ const WaitingFormRenderer = (props: Props) => {
     toggleTokenSuggest,
     showTokenSuggest
   } = props;
-  console.log('User address:', address);
+  // console.log('User address:', address);
   return (
     <div>
       <Callout intent="primary" title="Notice">
@@ -55,7 +55,7 @@ const WaitingFormRenderer = (props: Props) => {
 
 const WaitingFormBox = styled.div`
   margin: auto;
-  width: 300px;
+  min-width: 300px;
   height: 300px;
   display: flex;
   flex-direction: column;

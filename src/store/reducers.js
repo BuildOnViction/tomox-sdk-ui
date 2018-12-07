@@ -6,6 +6,7 @@ import ohlcvActionTypes from './actions/ohlcv';
 import tokenSearcherActionTypes from './actions/tokenSearcher';
 import tokensActionTypes from './actions/tokens';
 import accountActionTypes from './actions/account';
+import depositActionTypes from './actions/deposit';
 import depositFormActionTypes from './actions/depositForm';
 import getStartedModalActionTypes from './actions/getStartedModal';
 import settingsActionTypes from './actions/settings';
@@ -29,6 +30,7 @@ import * as ohlcvEvents from './domains/ohlcv';
 import * as websocketEvents from './domains/websocket';
 import * as tokensEvents from './domains/tokens';
 import * as accountEvents from './domains/account';
+import * as depositEvents from './domains/deposit';
 import * as depositFormEvents from './domains/depositForm';
 import * as getStartedModalEvents from './domains/getStartedModal';
 import * as settingsEvents from './domains/settings';
@@ -39,10 +41,7 @@ import * as notificationEvents from './domains/notifications';
 import * as convertTokensFormEvents from './domains/convertTokensForm';
 
 export const loginPage = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case loginPageActionTypes.requestLogin:
       return loginPageEvents.loginRequested();
@@ -64,21 +63,20 @@ export const loginPage = createReducer(action => {
 });
 
 export const accountBalances = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case accountBalancesActionTypes.subscribeBalance:
       return accountBalancesEvents.subscribed(payload.symbol);
     case accountBalancesActionTypes.unsubscribeBalance:
       return accountBalancesEvents.unsubscribed(payload.symbol);
     case accountBalancesActionTypes.updateBalance:
-      return accountBalancesEvents.updated([{
-        symbol: payload.symbol,
-        balance: payload.balance,
-        allowance: payload.allowance
-      }]);
+      return accountBalancesEvents.updated([
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
+      ]);
     case accountBalancesActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances);
     case accountBalancesActionTypes.clearBalances:
@@ -88,38 +86,41 @@ export const accountBalances = createReducer(action => {
     case depositFormActionTypes.unsubscribeBalance:
       return accountBalancesEvents.unsubscribed(payload.symbol);
     case depositFormActionTypes.updateBalance:
-      return accountBalancesEvents.updated([{
-        symbol: payload.symbol,
-        balance: payload.balance,
-        allowance: payload.allowance
-      }]);
+      return accountBalancesEvents.updated([
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
+      ]);
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances);
     case walletPageActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances);
     case walletPageActionTypes.updateBalance:
-      return accountBalancesEvents.updated([{
-        symbol: payload.symbol,
-        balance: payload.balance,
-        allowance: payload.allowance
-      }]);
+      return accountBalancesEvents.updated([
+        {
+          symbol: payload.symbol,
+          balance: payload.balance,
+          allowance: payload.allowance
+        }
+      ]);
     case walletPageActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances);
     case walletPageActionTypes.updateAllowance:
-      return accountBalancesEvents.allowancesUpdated([{
-        symbol: payload.symbol,
-        allowance: payload.allowance
-      }]);
+      return accountBalancesEvents.allowancesUpdated([
+        {
+          symbol: payload.symbol,
+          allowance: payload.allowance
+        }
+      ]);
     default:
       return accountBalancesEvents.initialized();
   }
 });
 
 export const signer = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case signerSettingsActionTypes.requestSigner:
       return signerEvents.signerRequested();
@@ -133,10 +134,7 @@ export const signer = createReducer(action => {
 });
 
 export const transferTokensForm = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case transferTokensFormActionTypes.txError:
       return transferTokensFormEvents.txError(
@@ -165,10 +163,7 @@ export const transferTokensForm = createReducer(action => {
 });
 
 export const websocket = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case socketControllerActionTypes.openConnection:
       return websocketEvents.savedWebsocketStatus('open', payload);
@@ -178,10 +173,7 @@ export const websocket = createReducer(action => {
 });
 
 export const ohlcv = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case socketControllerActionTypes.initOHLCV:
     case ohlcvActionTypes.saveData:
@@ -201,10 +193,7 @@ export const ohlcv = createReducer(action => {
 });
 
 export const trades = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case socketControllerActionTypes.updateTradesTable:
     case tradingPageActionTypes.updateTradesTable:
@@ -223,10 +212,7 @@ export const trades = createReducer(action => {
 });
 
 export const orderBook = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case tradingPageActionTypes.updateOrderBook:
     case tokenSearcherActionTypes.updateOrderBook:
@@ -245,10 +231,7 @@ export const orderBook = createReducer(action => {
 });
 
 export const orders = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case tradingPageActionTypes.updateOrdersTable:
     case socketControllerActionTypes.updateOrdersTable:
@@ -262,11 +245,10 @@ export const orders = createReducer(action => {
 });
 
 export const tokens = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
+    case tokensActionTypes.updateTokensList:
+      return tokensEvents.tokenListUpdated(payload);
     case tokensActionTypes.updateTokens:
       return tokensEvents.tokenUpdated(payload.symbol, payload.address);
     case tokensActionTypes.removeTokens:
@@ -277,10 +259,7 @@ export const tokens = createReducer(action => {
 });
 
 export const tokenPairs = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair);
@@ -305,10 +284,7 @@ export const tokenPairs = createReducer(action => {
 });
 
 export const account = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case accountActionTypes.updateAccount:
       return accountEvents.accountUpdated(payload.address, '');
@@ -333,11 +309,26 @@ export const account = createReducer(action => {
   }
 });
 
+export const deposit = createReducer(action => {
+  const { type, payload } = action;
+  switch (type) {
+    case depositActionTypes.updateAddressAssociation:
+      return depositEvents.addressAssociationUpdated(
+        payload.chain,
+        payload.addressAssociation
+      );
+    case depositActionTypes.updateAssociationTransactions:
+      return depositEvents.associationTransactionsUpdated(
+        payload.chain,
+        payload.txEnvelopes
+      );
+    default:
+      return depositEvents.initialized();
+  }
+});
+
 export const depositForm = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case depositFormActionTypes.deposit:
       return depositFormEvents.deposited();
@@ -361,10 +352,7 @@ export const depositForm = createReducer(action => {
 });
 
 export const getStartedModal = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case getStartedModalActionTypes.sendConvertTx:
       return getStartedModalEvents.convertTxSent(payload.hash);
@@ -384,10 +372,7 @@ export const getStartedModal = createReducer(action => {
 });
 
 export const convertTokensForm = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case convertTokensFormActionTypes.confirm:
       return convertTokensFormEvents.confirmed(payload.tokenSymbol);
@@ -429,9 +414,7 @@ export const convertTokensForm = createReducer(action => {
 });
 
 export const settings = createReducer(action => {
-  const {
-    type
-  } = action;
+  const { type } = action;
   switch (type) {
     case settingsActionTypes.togglePvtKeyLock:
       return settingsEvents.pvtKeyLockToggled();
@@ -445,10 +428,7 @@ export const settings = createReducer(action => {
 });
 
 export const wallets = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case createWalletActionTypes.createWallet:
       return walletsEvents.walletAdded(
@@ -473,10 +453,7 @@ export const wallets = createReducer(action => {
 });
 
 export const notifications = createReducer(action => {
-  const {
-    type,
-    payload
-  } = action;
+  const { type, payload } = action;
   switch (type) {
     case appActionTypes.addNotification:
       return notificationEvents.notificationAdded(

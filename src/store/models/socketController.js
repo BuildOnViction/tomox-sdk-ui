@@ -1,18 +1,25 @@
 //@flow
 import { utils } from 'ethers';
 
+// we process token, deposit in socket way
 import * as appActionCreators from '../actions/app';
 import * as actionCreators from '../actions/socketController';
+import * as tokenActionCreators from '../actions/tokens';
+import * as depositActionCreators from '../actions/deposit';
 import {
   getAccountDomain,
   getTokenPairsDomain,
   getWebsocketDomain
 } from '../domains';
+
+import { queryBalances } from './depositForm';
 import { getSigner } from '../services/signer';
 import {
   parseOrder,
   parseTrade,
   parseTrades,
+  parseTokens,
+  parseAddressAssociation,
   parseOrderBookData,
   parseOHLCV
 } from '../../utils/parsers';
@@ -59,9 +66,11 @@ export function openConnection(): ThunkAction {
           return handleTradesMessage(dispatch, event, getState);
         case 'ohlcv':
           return handleOHLCVMessage(dispatch, event, getState);
+        case 'tokens':
+          return handleTokenMessage(dispatch, event, getState);
         case 'deposit':
-        // update tokens balances, tokens changes
-          break;
+          // update tokens balances, tokens changes
+          return handleDepositMessage(dispatch, event, getState);
         default:
           console.log(channel, event);
           break;
@@ -108,6 +117,117 @@ const handleWebsocketErrorMessage = (
 ) => {
   console.log(event);
 };
+
+const handleDepositMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
+  const { type } = event;
+  switch (type) {
+    case 'UPDATE':
+      return handleDepositUpdated(dispatch, event, getState);
+    // trigger updating all tokens balances
+    case 'SUCCESS':
+      return handleDepositSucceeded(dispatch, event, getState);
+    default:
+      console.log('Unknown', event);
+      return;
+  }
+};
+
+function handleDepositUpdated(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState
+) {
+  try {
+    // let state = getState();
+    const { chain, addressAssociation } = parseAddressAssociation(
+      event.payload
+    );
+    // console.log(chain, addressAssociation, event.payload);
+    dispatch(
+      appActionCreators.addSuccessNotification({ message: 'Deposit updated' })
+    );
+    dispatch(
+      depositActionCreators.updateAddressAssociation(chain, addressAssociation)
+    );
+  } catch (e) {
+    console.log(e);
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
+  }
+}
+
+function handleDepositSucceeded(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState
+) {
+  try {
+    // let state = getState();
+    const { chain, txEnvelopes } = event.payload;
+    // console.log(chain, addressAssociation, event.payload);
+    dispatch(
+      appActionCreators.addSuccessNotification({ message: 'Balances updated' })
+    );
+    dispatch(
+      depositActionCreators.updateAssociationTransactions(chain, txEnvelopes)
+    );
+    dispatch(queryBalances());
+  } catch (e) {
+    console.log(e);
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
+  }
+}
+
+const handleTokenMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+) => {
+  const { type } = event;
+  switch (type) {
+    case 'UPDATE':
+      return handleTokenListUpdated(dispatch, event, getState);
+    default:
+      console.log('Unknown', event);
+      return;
+  }
+};
+
+function handleTokenListUpdated(
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState
+) {
+  try {
+    let state = getState();
+    let tokens = event.payload;
+
+    tokens = parseTokens(tokens);
+
+    dispatch(
+      appActionCreators.addSuccessNotification({ message: 'Tokens updated' })
+    );
+    dispatch(tokenActionCreators.updateTokensList(tokens));
+  } catch (e) {
+    console.log(e);
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: e.message
+      })
+    );
+  }
+}
 
 const handleOrderMessage = (
   dispatch: Dispatch,
