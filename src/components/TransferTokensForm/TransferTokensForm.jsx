@@ -33,6 +33,7 @@ type Props = {
   validateTransferTokensTx: TransferTokensTxParams => void,
   sendEtherTx: EtherTxParams => void,
   sendTransferTokensTx: TransferTokensTxParams => void,
+  resetForm: void => void
 };
 
 class TransferTokensForm extends React.PureComponent<Props, State> {
@@ -44,6 +45,16 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     customGas: null,
     customGasPrice: null,
   };
+
+  componentWillUnmount() {
+    this.setState({
+      token: this.props.token || this.props.tokens[0],
+      amount: 0,
+      receiver: '',
+      customGas: null,
+      customGasPrice: null,
+    }, this.props.resetForm());
+  }
 
   handleChange = (e: SyntheticInputEvent<>) => {
     const { value, name } = e.target;

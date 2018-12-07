@@ -5,6 +5,7 @@ import getTransferTokensFormSelector, {
   sendTransferTokensTx,
   validateEtherTx,
   validateTransferTokensTx,
+  resetForm
 } from '../../store/models/transferTokensForm';
 
 import type { State } from '../../types';
@@ -36,6 +37,7 @@ export const mapDispatchToProps = {
   sendEtherTx,
   validateTransferTokensTx,
   sendTransferTokensTx,
+  resetForm
 };
 
 export default connect(

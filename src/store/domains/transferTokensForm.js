@@ -79,6 +79,17 @@ export const txConfirmed = (receipt: TxReceipt) => {
   return event;
 };
 
+export const resetForm = () => {
+  const event = (state: TransferTokensFormState) => ({
+    ...state,
+    loading: false,
+    status: 'incomplete',
+    hash: null,
+    receipt: null
+  });
+  return event;
+};
+
 export default function transferTokensFormDomain(
   state: TransferTokensFormState
 ) {
