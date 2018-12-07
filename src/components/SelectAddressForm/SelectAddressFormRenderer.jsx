@@ -9,7 +9,7 @@ type Props = {
     isFirstList: boolean,
     dPath: Array<any>,
     currentAddresses: Array<any>,
-    handleSelectPath: () => Promise<void>,
+    handleSelectPath: (string) => Promise<void>,
     handleSelectAddress: any => void,
     getPreAddress: () => void,
     getMoreAddress: () => void

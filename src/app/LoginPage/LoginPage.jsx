@@ -16,7 +16,7 @@ type Props = {
     loginWithTrezorWallet: () => void,
     loginWithLedgerWallet: () => void,
     removeNotification: any => void,
-    getTrezorPublicKey: (any) => void
+    getTrezorPublicKey: (Object, ?string) => void,
 };
 
 //TODO: Remove Notification handling
@@ -28,11 +28,7 @@ type State = {
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
-
-    constructor(props: Props) {
-        super(props);
-        this.deviceService = null;
-    }
+    deviceService: ?Object = null;
 
     state = {
         view: 'loginMethods',
@@ -125,7 +121,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         // go to wallet by default to update balances
         if (authenticated) {
             // check if there is no account balances then go to /wallet page
-            return <Redirect to='/wallet' />;
+            return <Redirect to="/wallet" />;
         }
         return (
             <Wrapper>

@@ -9,71 +9,69 @@ import AddressGenerator from '../../store/services/device/addressGenerator';
 
 type State = {
     isFirstList: boolean,
-    addresses: Array<any>,
-    currentAddresses: Array<any>
+    addresses: Object[],
+    currentAddresses: Object[]
 };
 
 type Props = {
-    publicKeyData: any,
-    deviceService: any,
+    publicKeyData: Object,
+    deviceService: Object,
     getPreAddress: () => void,
     getMoreAddress: () => void,
     getAddress: () => void,
-    getTrezorPublicKey: (any, string) => void,
-    loginWithTrezorWallet: () => void,
+    getTrezorPublicKey: (Object, ?string) => void,
+    loginWithTrezorWallet: (Object) => void,
     getBalance: string => Promise<number>
 };
 
 class SelectAddressForm extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.setDefaultValues();
-
-        this.deviceService = props.deviceService;
-
-        this.DPATH = [
-            {
-                path: "m/44'/60'/0'/0",
-                desc:
-                    'Jaxx, Metamask, Exodus, imToken, TREZOR (ETH) & Digital Bitbox',
-                defaultType: 'trezor'
-            },
-            {
-                path: "m/44'/60'/0'",
-                desc: 'Ledger (ETH)',
-                defaultType: 'ledger'
-            },
-            {
-                path: "m/44'/61'/0'/0",
-                desc: 'TREZOR (ETC)'
-            },
-            {
-                path: "m/44'/60'/160720'/0'",
-                desc: 'Ledger (ETC)'
-            },
-            {
-                path: "m/0'/0'/0'",
-                desc: 'SingularDTV',
-                notSupport: true
-            },
-            {
-                path: "m/44'/1'/0'/0",
-                desc: 'Network: Testnets'
-            },
-            {
-                path: "m/44'/40'/0'/0",
-                desc: 'Network: Expanse',
-                notSupport: true
-            }
-            // {
-            //     path: 0,
-            //     desc: 'Your Custom Path',
-            //     defaultP: "m/44'/60'/1'/0",
-            //     custom: false
-            // }
-        ];
-    }
+    deviceService: Object = this.props.deviceService;
+    DPATH: (Object[]) = [
+        {
+            path: "m/44'/60'/0'/0",
+            desc:
+                'Jaxx, Metamask, Exodus, imToken, TREZOR (ETH) & Digital Bitbox',
+            defaultType: 'trezor'
+        },
+        {
+            path: "m/44'/60'/0'",
+            desc: 'Ledger (ETH)',
+            defaultType: 'ledger'
+        },
+        {
+            path: "m/44'/61'/0'/0",
+            desc: 'TREZOR (ETC)'
+        },
+        {
+            path: "m/44'/60'/160720'/0'",
+            desc: 'Ledger (ETC)'
+        },
+        {
+            path: "m/0'/0'/0'",
+            desc: 'SingularDTV',
+            notSupport: true
+        },
+        {
+            path: "m/44'/1'/0'/0",
+            desc: 'Network: Testnets'
+        },
+        {
+            path: "m/44'/40'/0'/0",
+            desc: 'Network: Expanse',
+            notSupport: true
+        }
+        // {
+        //     path: 0,
+        //     desc: 'Your Custom Path',
+        //     defaultP: "m/44'/60'/1'/0",
+        //     custom: false
+        // }
+    ];
+    currentDPath: string = ''
+    addressIndex: number = 0;
+    currentIndex: number = 0;
+    generator: ?Object = null;
+    walletType: string = 'trezor';
 
     state = {
         isFirstList: true,
@@ -110,10 +108,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         }
     }
 
-    addBalance = (address, index) => {
+    addBalance = (address: Object, index: number): Promise<Object> => {
         return new Promise((resolve, reject) => {
             this.props.getBalance(address.addressString).then(result => {
-                address.balance = formatNumber(utils.formatEther(result), { precision: 2 });
+                address.balance = formatNumber(utils.formatEther(result), {
+                    precision: 2
+                });
                 resolve(address);
             });
         });
@@ -198,7 +198,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
                 }
             });
         } else {
-            console.log('Cannot connect to ' + this.props.walletType);
+            console.log('Cannot connect to ' + this.walletType);
             // this.props.dispatch(throwError('Cannot connect to ' + this.walletType))
         }
     };
@@ -221,7 +221,7 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         }
     };
 
-    handleSelectPath = async selectedPath => {
+    handleSelectPath = async (selectedPath: string) => {
         this.setDefaultValues();
         await this.props.getTrezorPublicKey(this.deviceService, selectedPath);
     };
