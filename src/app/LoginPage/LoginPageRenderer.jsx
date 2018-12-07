@@ -16,7 +16,7 @@ type Props = {
   loginWithMetamask: void => void,
   loginWithWallet: void => void,
   openSelectAddressModal: void => void,
-  loginWithTrezorWallet: void => void,
+  loginWithTrezorWallet: Object => void,
   loginWithLedgerWallet: void => void
 };
 

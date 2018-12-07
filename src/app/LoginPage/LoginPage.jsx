@@ -13,7 +13,7 @@ type Props = {
     loading: boolean,
     loginWithMetamask: () => void,
     loginWithWallet: LoginWithWallet => void,
-    loginWithTrezorWallet: () => void,
+    loginWithTrezorWallet: Object => void,
     loginWithLedgerWallet: () => void,
     removeNotification: any => void,
     getTrezorPublicKey: (Object, ?string) => void,

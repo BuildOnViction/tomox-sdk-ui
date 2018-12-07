@@ -68,7 +68,7 @@ export function requestLogin(): RequestLoginAction {
   }
 }
 
-export function getPublicKey(data) {
+export function getPublicKey(data: Object) {
   return {
     type: actionTypes.getPublicKey,
     payload: data

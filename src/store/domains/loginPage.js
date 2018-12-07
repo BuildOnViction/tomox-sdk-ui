@@ -41,7 +41,7 @@ export const authenticated = () => {
   return event;
 };
 
-export const getPublicKey = (data: any) => {
+export const getPublicKey = (data: Object) => {
   const event = (state: LoginPageState) => ({
     ...state,
     publicKeyData: data

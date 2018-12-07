@@ -123,7 +123,7 @@ export function getBalance(address: string): ThunkAction {
   }
 }
 
-export function loginWithTrezorWallet(data): ThunkAction {
+export function loginWithTrezorWallet(data: Object): ThunkAction {
   return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin());
