@@ -1,9 +1,17 @@
+//@flow
+import type { TokenPair } from '../../../types/tokens';
 import type { WebsocketMessage } from '../../../types/websocket';
-const addMonths = require('date-fns/add_months');
+import { sendMessage } from './common';
 
-export const subscribeChart = (pair: TokenPair, from: number, to: number, duration: number, units: string) => {
-  if (!window.socket) throw new Error('Socket connection not established');
+import { addMonths } from 'date-fns';
 
+export const subscribeChart = (
+  pair: TokenPair,
+  from: number,
+  to: number,
+  duration: number,
+  units: string
+) => {
   let message: WebsocketMessage;
   let now = Date.now();
   duration = duration || 1;
@@ -11,7 +19,7 @@ export const subscribeChart = (pair: TokenPair, from: number, to: number, durati
   from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000);
   to = to || Math.floor(new Date(now).getTime() / 1000);
 
-  message = JSON.stringify({
+  message = {
     channel: 'ohlcv',
     event: {
       type: 'SUBSCRIBE',
@@ -22,89 +30,79 @@ export const subscribeChart = (pair: TokenPair, from: number, to: number, durati
         from: from,
         to: to,
         units: units,
-        duration: duration,
-      },
-    },
-  });
+        duration: duration
+      }
+    }
+  };
 
-  window.socket.send(message);
-  return () => unsubscribeChart(pair);
+  return sendMessage(message).then(() => unsubscribeChart());
 };
 
 export const unsubscribeChart = () => {
-  if (!window.socket) throw new Error('Socket connection not established');
-
   let message: WebsocketMessage;
 
-  message = JSON.stringify({
+  message = {
     channel: 'ohlcv',
     event: {
-      type: 'UNSUBSCRIBE',
-    },
-  });
+      type: 'UNSUBSCRIBE'
+    }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };
 
 export const subscribeOrderBook = (pair: TokenPair) => {
-  if (!window.socket) throw new Error('Socket connection not established');
-
-  let message: WebsocketMessage = JSON.stringify({
+  let message: WebsocketMessage = {
     channel: 'orderbook',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress,
-      },
-    },
-  });
+        quoteToken: pair.quoteTokenAddress
+      }
+    }
+  };
 
-  window.socket.send(message);
-  return () => unsubscribeOrderBook(pair);
+  return sendMessage(message).then(() => unsubscribeOrderBook());
 };
 
 export const unsubscribeOrderBook = () => {
-  if (!window.socket) throw new Error('Socket connection not established');
   let message: WebsocketMessage;
 
-  message = JSON.stringify({
+  message = {
     channel: 'orderbook',
-    event: { type: 'UNSUBSCRIBE' },
-  });
+    event: { type: 'UNSUBSCRIBE' }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };
 
 export const subscribeTrades = (pair: TokenPair) => {
-  if (!window.socket) throw new Error('Socket connection not established');
   let message: WebsocketMessage;
 
-  message = JSON.stringify({
+  message = {
     channel: 'trades',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress,
-      },
-    },
-  });
+        quoteToken: pair.quoteTokenAddress
+      }
+    }
+  };
 
-  window.socket.send(message);
-  return () => unsubscribeTrades(pair);
+  return sendMessage(message).then(() => unsubscribeTrades());
 };
 
-export const unsubscribeTrades = (pair: TokenPair) => {
-  if (!window.socket) throw new Error('Socket connection not established');
+export const unsubscribeTrades = () => {
   let message: WebsocketMessage;
 
-  message = JSON.stringify({
+  message = {
     channel: 'trades',
-    event: { type: 'UNSUBSCRIBE' },
-  });
+    event: { type: 'UNSUBSCRIBE' }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };

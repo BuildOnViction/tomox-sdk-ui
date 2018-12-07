@@ -1,4 +1,4 @@
-@import "vars";
+@import 'vars';
 
 .token-searcher {
   min-width: 380px;
@@ -61,8 +61,10 @@
       background-color: $blue-muted;
       z-index: 1;
       border-radius: 3px;
-      -webkit-box-shadow: inset 0 0 0 1px rgb(49, 64, 76), -1px 10px 4px rgba(16, 22, 26, 0.1), 1px 18px 24px rgba(16, 22, 26, 0.2);
-      box-shadow: inset 0 0 0 1px rgb(49, 64, 76), -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
+      -webkit-box-shadow: inset 0 0 0 1px rgb(49, 64, 76),
+        -1px 10px 4px rgba(16, 22, 26, 0.1), 1px 18px 24px rgba(16, 22, 26, 0.2);
+      box-shadow: inset 0 0 0 1px rgb(49, 64, 76),
+        -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
     }
   }
 
@@ -88,7 +90,7 @@
     height: 100%;
     margin-bottom: 0px;
     margin-top: 0px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   li.row {

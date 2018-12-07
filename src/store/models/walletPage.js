@@ -10,28 +10,12 @@ import * as actionCreators from '../actions/walletPage';
 import * as notifierActionCreators from '../actions/app';
 import * as accountActionTypes from '../actions/account';
 import * as accountBalancesService from '../services/accountBalances';
-import {
-  quoteTokens,
-  quoteTokenSymbols
-} from '../../config/quotes';
-import {
-  getCurrentBlock
-} from '../services/wallet';
-import {
-  push
-} from 'connected-react-router';
-import type {
-  State,
-  ThunkAction
-} from '../../types';
-import type {
-  Token,
-  TokenBalance,
-  TokenBalances
-} from '../../types/tokens';
-import {
-  ALLOWANCE_THRESHOLD
-} from '../../utils/constants';
+import { quoteTokens, quoteTokenSymbols } from '../../config/quotes';
+import { getCurrentBlock } from '../services/wallet';
+import { push } from 'connected-react-router';
+import type { State, ThunkAction } from '../../types';
+import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
+import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
 
 export default function walletPageSelector(state: State) {
   let accountBalancesDomain = getAccountBalancesDomain(state);
@@ -112,12 +96,12 @@ export function queryAccountData(): ThunkAction {
       await accountBalancesService.subscribeEtherBalance(
         accountAddress,
         balance =>
-        dispatch(
-          actionCreators.updateBalance({
-            symbol: 'ETH',
-            balance: balance
-          })
-        )
+          dispatch(
+            actionCreators.updateBalance({
+              symbol: 'ETH',
+              balance: balance
+            })
+          )
       );
 
       await accountBalancesService.subscribeTokenAllowances(
@@ -164,32 +148,30 @@ export function toggleAllowance(symbol: string): ThunkAction {
 
       const approvalConfirmedHandler = txConfirmed => {
         txConfirmed
-          ?
-          dispatch(
-            notifierActionCreators.addSuccessNotification({
-              message: `${symbol} Approval Successful. You can now start trading!`
-            })
-          ) :
-          dispatch(
-            notifierActionCreators.addErrorNotification({
-              message: `${symbol} Approval Failed. Please try again.`
-            })
-          );
+          ? dispatch(
+              notifierActionCreators.addSuccessNotification({
+                message: `${symbol} Approval Successful. You can now start trading!`
+              })
+            )
+          : dispatch(
+              notifierActionCreators.addErrorNotification({
+                message: `${symbol} Approval Failed. Please try again.`
+              })
+            );
       };
 
       const approvalRemovedHandler = txConfirmed => {
         txConfirmed
-          ?
-          dispatch(
-            notifierActionCreators.addSuccessNotification({
-              message: `${symbol} Allowance Removal Successful.`
-            })
-          ) :
-          dispatch(
-            notifierActionCreators.addErrorNotification({
-              message: `${symbol} Allowance Removal Failed. Please try again.`
-            })
-          );
+          ? dispatch(
+              notifierActionCreators.addSuccessNotification({
+                message: `${symbol} Allowance Removal Successful.`
+              })
+            )
+          : dispatch(
+              notifierActionCreators.addErrorNotification({
+                message: `${symbol} Allowance Removal Failed. Please try again.`
+              })
+            );
       };
 
       if (isAllowed) {

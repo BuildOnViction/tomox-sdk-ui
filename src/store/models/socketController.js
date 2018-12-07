@@ -143,16 +143,20 @@ function handleDepositUpdated(
 ) {
   try {
     // let state = getState();
-    const { chain, addressAssociation } = parseAddressAssociation(
-      event.payload
-    );
-    // console.log(chain, addressAssociation, event.payload);
-    dispatch(
-      appActionCreators.addSuccessNotification({ message: 'Deposit updated' })
-    );
-    dispatch(
-      depositActionCreators.updateAddressAssociation(chain, addressAssociation)
-    );
+    const parsed = parseAddressAssociation(event.payload);
+    if (parsed) {
+      const { chain, addressAssociation } = parsed;
+      // console.log(chain, addressAssociation, event.payload);
+      dispatch(
+        appActionCreators.addSuccessNotification({ message: 'Deposit updated' })
+      );
+      dispatch(
+        depositActionCreators.updateAddressAssociation(
+          chain,
+          addressAssociation
+        )
+      );
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -170,15 +174,19 @@ function handleDepositSucceeded(
 ) {
   try {
     // let state = getState();
-    const { chain, txEnvelopes } = event.payload;
-    // console.log(chain, addressAssociation, event.payload);
-    dispatch(
-      appActionCreators.addSuccessNotification({ message: 'Balances updated' })
-    );
-    dispatch(
-      depositActionCreators.updateAssociationTransactions(chain, txEnvelopes)
-    );
-    dispatch(queryBalances());
+    if (event.payload) {
+      const { chain, txEnvelopes } = event.payload;
+      // console.log(chain, addressAssociation, event.payload);
+      dispatch(
+        appActionCreators.addSuccessNotification({
+          message: 'Balances updated'
+        })
+      );
+      dispatch(
+        depositActionCreators.updateAssociationTransactions(chain, txEnvelopes)
+      );
+      dispatch(queryBalances());
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -211,14 +219,14 @@ function handleTokenListUpdated(
 ) {
   try {
     let state = getState();
-    let tokens = event.payload;
+    if (event.payload) {
+      let tokens = parseTokens(event.payload);
 
-    tokens = parseTokens(tokens);
-
-    dispatch(
-      appActionCreators.addSuccessNotification({ message: 'Tokens updated' })
-    );
-    dispatch(tokenActionCreators.updateTokensList(tokens));
+      dispatch(
+        appActionCreators.addSuccessNotification({ message: 'Tokens updated' })
+      );
+      dispatch(tokenActionCreators.updateTokensList(tokens));
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -261,12 +269,14 @@ function handleOrderAdded(dispatch: Dispatch, event: WebsocketEvent, getState) {
     let state = getState();
     let { pairs } = socketControllerSelector(state);
     let order = event.payload;
-    let { baseTokenDecimals } = pairs[order.pairName];
+    if (order) {
+      let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals);
+      order = parseOrder(order, baseTokenDecimals);
 
-    dispatch(appActionCreators.addOrderAddedNotification());
-    dispatch(actionCreators.updateOrdersTable([order]));
+      dispatch(appActionCreators.addOrderAddedNotification());
+      dispatch(actionCreators.updateOrdersTable([order]));
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -286,12 +296,14 @@ function handleOrderCancelled(
     let state = getState();
     let { pairs } = socketControllerSelector(state);
     let order = event.payload;
-    let { baseTokenDecimals } = pairs[order.pairName];
+    if (order) {
+      let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals);
+      order = parseOrder(order, baseTokenDecimals);
 
-    dispatch(appActionCreators.addOrderCancelledNotification());
-    dispatch(actionCreators.updateOrdersTable([order]));
+      dispatch(appActionCreators.addOrderCancelledNotification());
+      dispatch(actionCreators.updateOrdersTable([order]));
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -311,12 +323,14 @@ function handleOrderMatched(
     let state = getState();
     let { pairs } = socketControllerSelector(state);
     let order = event.payload;
-    let { baseTokenDecimals } = pairs[order.pairName];
+    if (order) {
+      let { baseTokenDecimals } = pairs[order.pairName];
 
-    order = parseOrder(order, baseTokenDecimals);
+      order = parseOrder(order, baseTokenDecimals);
 
-    dispatch(appActionCreators.addOrderMatchedNotification());
-    dispatch(actionCreators.updateOrdersTable([order]));
+      dispatch(appActionCreators.addOrderMatchedNotification());
+      dispatch(actionCreators.updateOrdersTable([order]));
+    }
   } catch (e) {
     console.log(e);
     dispatch(
@@ -334,7 +348,10 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
       let { pairs } = socketControllerSelector(state);
       let signer = getSigner();
       let signerAddress = await signer.getAddress();
-      let matches = event.payload.matches;
+      // if (!event.payload) {
+      //   throw new Error('No matches found');
+      // }
+      let { matches } = event.payload || {};
       let trades = matches.trades;
       let txHash = trades[0].txHash;
       let pairName = trades[0].pairName;
@@ -414,7 +431,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
       let state = getState();
       let { pairs } = socketControllerSelector(state);
       let signerAddress = await signer.getAddress();
-      let matches = event.payload.matches;
+      let { matches } = event.payload || {};
       let trades = matches.trades;
       let txHash = trades[0].txHash;
       let pairName = trades[0].pairName;
@@ -490,12 +507,14 @@ function handleOrderError(
   event: WebsocketEvent,
   getState: GetState
 ) {
-  let { message } = event.payload;
-  dispatch(
-    appActionCreators.addErrorNotification({
-      message: `Error: ${message}`
-    })
-  );
+  if (event.payload) {
+    let { message } = event.payload;
+    dispatch(
+      appActionCreators.addErrorNotification({
+        message: `Error: ${message}`
+      })
+    );
+  }
 }
 
 const handleOrderBookMessage = (

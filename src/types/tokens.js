@@ -15,7 +15,8 @@ export type Token = {
 
 export type TokenBalance = {
   symbol: Symbol,
-  balance: number
+  balance: number,
+  allowance?: string
 };
 
 export type Tokens = Array<Token>;

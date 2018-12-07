@@ -1,10 +1,19 @@
 //@flow
-import React from 'react'
-import styled from 'styled-components'
-import { Card, Tab, Tag, Icon, Tabs, Collapse, Button } from '@blueprintjs/core'
-import { Colors, Loading, CenteredMessage } from '../Common'
-import { format } from 'date-fns'
-import type { Order } from '../../types/orders'
+import React from 'react';
+import styled from 'styled-components';
+import {
+  Card,
+  Tab,
+  Tag,
+  Icon,
+  Tabs,
+  Collapse,
+  Button
+} from '@blueprintjs/core';
+import { Colors, Loading, CenteredMessage } from '../Common';
+// import { format } from 'date-fns'
+import { relativeDate } from '../../utils/helpers';
+import type { Order } from '../../types/orders';
 
 type Props = {
   loading: boolean,
@@ -21,51 +30,97 @@ type Props = {
     CANCELED: Array<Order>,
     FILLED: Array<Order>
   }
-}
+};
 
 const OrdersTableRenderer = (props: Props) => {
-  const { loading, selectedTabId, onChange, cancelOrder, orders, isOpen, toggleCollapse } = props
+  const {
+    loading,
+    selectedTabId,
+    onChange,
+    cancelOrder,
+    orders,
+    isOpen,
+    toggleCollapse
+  } = props;
   return (
     <Wrapper className="order-history">
       <OrdersTableHeader>
         <Heading>Orders</Heading>
-        <Button icon={isOpen ? 'chevron-left' : 'chevron-down'} minimal onClick={toggleCollapse} />
+        <Button
+          icon={isOpen ? 'chevron-left' : 'chevron-down'}
+          minimal
+          onClick={toggleCollapse}
+        />
       </OrdersTableHeader>
       <Collapse isOpen={isOpen}>
         <Tabs selectedTabId={selectedTabId} onChange={onChange}>
           <Tab
             id="all"
             title="ALL"
-            panel={<OrdersTablePanel loading={loading} orders={orders['ALL']} cancelOrder={cancelOrder} />}
+            panel={
+              <OrdersTablePanel
+                loading={loading}
+                orders={orders['ALL']}
+                cancelOrder={cancelOrder}
+              />
+            }
           />
           <Tab
             id="open"
             title="OPEN"
-            panel={<OrdersTablePanel loading={loading} orders={orders['OPEN']} cancelOrder={cancelOrder} />}
+            panel={
+              <OrdersTablePanel
+                loading={loading}
+                orders={orders['OPEN']}
+                cancelOrder={cancelOrder}
+              />
+            }
           />
           <Tab
             id="canceled"
             title="CANCELED"
-            panel={<OrdersTablePanel loading={loading} orders={orders['CANCELED']} cancelOrder={cancelOrder} />}
+            panel={
+              <OrdersTablePanel
+                loading={loading}
+                orders={orders['CANCELED']}
+                cancelOrder={cancelOrder}
+              />
+            }
           />
           <Tab
             id="pending"
             title="PENDING"
-            panel={<OrdersTablePanel loading={loading} orders={orders['PENDING']} cancelOrder={cancelOrder} />}
+            panel={
+              <OrdersTablePanel
+                loading={loading}
+                orders={orders['PENDING']}
+                cancelOrder={cancelOrder}
+              />
+            }
           />
           <Tab
             id="executed"
             title="EXECUTED"
-            panel={<OrdersTablePanel loading={loading} orders={orders['EXECUTED']} cancelOrder={cancelOrder} />}
+            panel={
+              <OrdersTablePanel
+                loading={loading}
+                orders={orders['EXECUTED']}
+                cancelOrder={cancelOrder}
+              />
+            }
           />
         </Tabs>
       </Collapse>
     </Wrapper>
-  )
-}
+  );
+};
 
-const OrdersTablePanel = (props: { loading: boolean, orders: Array<Order>, cancelOrder: string => void }) => {
-  const { loading, orders, cancelOrder } = props
+const OrdersTablePanel = (props: {
+  loading: boolean,
+  orders: Array<Order>,
+  cancelOrder: string => void
+}) => {
+  const { loading, orders, cancelOrder } = props;
   return loading ? (
     <Loading />
   ) : orders.length < 1 ? (
@@ -83,14 +138,25 @@ const OrdersTablePanel = (props: { loading: boolean, orders: Array<Order>, cance
         </ListHeader>
       </ListHeaderWrapper>
       <ListBodyWrapper className="list">
-        {orders.map((order, index) => <OrderRow key={index} order={order} index={index} cancelOrder={cancelOrder} />)}
+        {orders.map((order, index) => (
+          <OrderRow
+            key={index}
+            order={order}
+            index={index}
+            cancelOrder={cancelOrder}
+          />
+        ))}
       </ListBodyWrapper>
     </ListContainer>
-  )
-}
+  );
+};
 
-const OrderRow = (props: { order: Order, index: number, cancelOrder: string => void }) => {
-  const { order, cancelOrder } = props
+const OrderRow = (props: {
+  order: Order,
+  index: number,
+  cancelOrder: string => void
+}) => {
+  const { order, cancelOrder } = props;
   return (
     <Row>
       <Cell className="pair" muted>
@@ -109,18 +175,24 @@ const OrderRow = (props: { order: Order, index: number, cancelOrder: string => v
         {order.side}
       </Cell>
       <Cell className="time" muted>
-        {format(order.time, 'DD/MM/YYYY HH:MM:SS Z')}
+        {/* {format(order.time, 'DD/MM/YYYY HH:MM:SS Z')} */}
+        {relativeDate(order.time)}
       </Cell>
       <Cell className="cancel" muted>
         {order.status === 'OPEN' && (
-          <Button intent="danger" minimal onClick={() => cancelOrder(order.hash)}>
-            <Icon icon="cross" intent="danger" />&nbsp;&nbsp;Cancel
+          <Button
+            intent="danger"
+            minimal
+            onClick={() => cancelOrder(order.hash)}
+          >
+            <Icon icon="cross" intent="danger" />
+            &nbsp;&nbsp;Cancel
           </Button>
         )}
       </Cell>
     </Row>
-  )
-}
+  );
+};
 
 const StatusTag = ({ status }) => {
   const statuses = {
@@ -130,15 +202,15 @@ const StatusTag = ({ status }) => {
     OPEN: 'primary',
     FILLED: 'success',
     PARTIALLY_FILLED: 'success'
-  }
+  };
 
-  const intent = statuses[status]
+  const intent = statuses[status];
   return (
     <Tag minimal large interactive intent={intent}>
       {status}
     </Tag>
-  )
-}
+  );
+};
 
 const OrdersTableHeader = styled.div`
   display: grid;
@@ -146,15 +218,15 @@ const OrdersTableHeader = styled.div`
   justify-content: start;
   grid-gap: 10px;
   align-items: center;
-`
-const Wrapper = styled(Card)``
+`;
+const Wrapper = styled(Card)``;
 
 const Heading = styled.h3`
   margin: auto;
-`
+`;
 const ListContainer = styled.div`
   height: 100%;
-`
+`;
 const ListHeaderWrapper = styled.ul`
   width: 100%;
   display: flex;
@@ -162,14 +234,14 @@ const ListHeaderWrapper = styled.ul`
   justify-content: space-around;
   margin: 0px;
   margin-bottom: 10px;
-`
+`;
 const ListBodyWrapper = styled.ul`
   width: 100%;
   max-height: 300px;
   margin: 0;
   height: 90%;
-  overflow-y: scroll;
-`
+  overflow-y: auto;
+`;
 const ListHeader = styled.li`
   width: 100%;
   display: flex;
@@ -180,7 +252,7 @@ const ListHeader = styled.li`
   span {
     font-weight: 600;
   }
-`
+`;
 
 const Row = styled.li.attrs({
   className: 'row'
@@ -196,7 +268,7 @@ const Row = styled.li.attrs({
   border: 1px transparent;
   border-radius: 2px;
   box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
-`
+`;
 
 const Cell = styled.span.attrs({
   className: props => props.className
@@ -205,20 +277,20 @@ const Cell = styled.span.attrs({
     props.side === 'BUY'
       ? Colors.BUY
       : props.side === 'SELL'
-        ? Colors.SELL
-        : props.muted
-          ? Colors.TEXT_MUTED
-          : Colors.WHITE}
+      ? Colors.SELL
+      : props.muted
+      ? Colors.TEXT_MUTED
+      : Colors.WHITE}
 
   min-width: 35px;
   display: flex;
   align-items: center;
   height: 40px !important;
   width: ${props => (props.className === 'cancel' ? '100px' : '20%')};
-`
+`;
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.className === 'cancel' ? '100px' : '20%')};
-`
+`;
 
-export default OrdersTableRenderer
+export default OrdersTableRenderer;

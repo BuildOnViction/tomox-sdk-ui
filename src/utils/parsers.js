@@ -55,8 +55,11 @@ export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
 };
 
 export const parseAddressAssociation = (
-  payload: Object
-): AddressAssociationPayload => {
+  payload: ?Object
+): ?AddressAssociationPayload => {
+  if (!payload) {
+    return null;
+  }
   const { chain, ...addressAssociation } = payload;
   return { chain, addressAssociation };
 };

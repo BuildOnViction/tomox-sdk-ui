@@ -1,44 +1,47 @@
-export const sendNewOrderMessage = async orderPayload => {
-  if (!window.socket) throw new Error('Socket connection not established');
+//@flow
+import type { WebsocketMessage } from '../../../types/websocket';
+import { sendMessage } from './common';
 
-  let message = JSON.stringify({
+export const sendNewOrderMessage = async (orderPayload: Object) => {
+  let message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'NEW_ORDER',
       hash: orderPayload.hash,
-      payload: orderPayload,
-    },
-  });
+      payload: orderPayload
+    }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };
 
-export const sendNewOrderCancelMessage = orderCancelPayload => {
-  if (!window.socket) throw new Error('Socket connection not established');
-
-  let message = JSON.stringify({
+export const sendNewOrderCancelMessage = (orderCancelPayload: Object) => {
+  let message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'CANCEL_ORDER',
       hash: orderCancelPayload.hash,
-      payload: orderCancelPayload,
-    },
-  });
+      payload: orderCancelPayload
+    }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };
 
-export const sendNewSubmitSignatureMessage = (hash, order, remainingOrder, matches) => {
-  if (!window.socket) throw new Error('Socket connection not established');
-
-  let message = JSON.stringify({
+export const sendNewSubmitSignatureMessage = (
+  hash: string,
+  order: Object,
+  remainingOrder: Object,
+  matches: Array<Object>
+) => {
+  let message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'SUBMIT_SIGNATURE',
       hash: hash,
-      payload: { order, remainingOrder, matches },
-    },
-  });
+      payload: { order, remainingOrder, matches }
+    }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };

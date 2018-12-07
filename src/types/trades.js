@@ -8,6 +8,7 @@ export type Trade = {
   tradeNonce: number,
   hash: string,
   orderHash: string,
+  status: 'SUCCESS' | 'EXECUTED' | 'ERROR' | 'PENDING',
   type: 'MARKET' | 'LIMIT',
   side: 'BUY' | 'SELL',
   pair: string,

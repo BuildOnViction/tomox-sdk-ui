@@ -1,12 +1,14 @@
-export const sendGetTokenMessage = async () => {
-  if (!window.socket) throw new Error('Socket connection not established');
+//@flow
+import type { WebsocketMessage } from '../../../types/websocket';
+import { sendMessage } from './common';
 
-  let message = JSON.stringify({
+export const sendGetTokenMessage = async () => {
+  let message: WebsocketMessage = {
     channel: 'tokens',
     event: {
-      type: 'GET_TOKENS',
-    },
-  });
+      type: 'GET_TOKENS'
+    }
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };

@@ -1,8 +1,6 @@
 // @flow
 
-import type {
-  TokenBalance
-} from './tokens';
+import type { TokenBalance } from './tokens';
 
 export type AccountBalanceState = {
   symbol: string,
@@ -11,20 +9,22 @@ export type AccountBalanceState = {
   allowance: string
 };
 
-export type AccountBalancesState = {+[string]: AccountBalanceState
-};
+export type AccountBalancesState = { +[string]: AccountBalanceState };
 
-export type AccountBalance = TokenBalance & {
-  allowance: string
-};
+export type AccountBalance = TokenBalance;
+
+// // allowance is maybe because TokenBalance allowance is optional
+// export type AccountBalance = TokenBalance & {
+//   allowance: ?string
+// };
 
 export type AccountAllowance = {
   symbol: string,
   allowance: string | 'pending'
 };
 
-export type AccountAllowances = Array < AccountAllowance > ;
-export type AccountBalances = Array < AccountBalance > ;
+export type AccountAllowances = Array<AccountAllowance>;
+export type AccountBalances = Array<AccountBalance>;
 export type AccountBalancesMap = {
   [string]: AccountBalance
 };
@@ -73,10 +73,10 @@ export type ClearAccountBalancesAction = {
 
 export type AccountBalancesEvent = any => AccountBalancesState => AccountBalancesState;
 
-export type AccountBalancesAction = |
-  SubscribeAccountBalanceAction |
-  UpdateAccountBalanceAction |
-  UpdateAccountBalancesAction |
-  UpdateAccountAllowanceAction |
-  UpdateAccountAllowancesAction |
-  UnsubscribeAccountBalanceAction;
+export type AccountBalancesAction =
+  | SubscribeAccountBalanceAction
+  | UpdateAccountBalanceAction
+  | UpdateAccountBalancesAction
+  | UpdateAccountAllowanceAction
+  | UpdateAccountAllowancesAction
+  | UnsubscribeAccountBalanceAction;

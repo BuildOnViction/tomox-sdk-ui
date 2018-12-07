@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import DepositFormRenderer from './DepositFormRenderer';
-import { generateDepositAddress } from '../../store/services/api';
+// import { generateDepositAddress } from '../../store/services/api';
 import { getSigner } from '../../store/services/signer';
 import { WETH_ADDRESS } from '../../config/contracts';
 

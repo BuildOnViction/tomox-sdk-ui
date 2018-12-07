@@ -70,8 +70,8 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell>{order.total}</Cell>
-      <Cell>{order.amount}</Cell>
+      <Cell style={{ width: '20%' }}>{order.total}</Cell>
+      <Cell style={{ width: '20%' }}>{order.amount}</Cell>
       <Cell>{order.price}</Cell>
     </Row>
   );
@@ -102,7 +102,7 @@ const ListContainer = styled.div`
 const List = styled.ul`
   height: 90%;
   max-height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const Row = styled.li.attrs({
@@ -110,14 +110,13 @@ const Row = styled.li.attrs({
 })`
   cursor: pointer;
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   justify-content: space-between;
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-  padding-left: 10px !important;
+  padding: 5px 10px !important;
   border: 1px transparent;
   border-radius: 2px;
   box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
@@ -156,7 +155,6 @@ const BuyRowBackground = styled.span`
 
 const Cell = styled.span`
   min-width: 35px;
-  width: 20%;
 `;
 
 const ListHeading = styled.ul`

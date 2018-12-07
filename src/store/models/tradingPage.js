@@ -5,13 +5,8 @@ import {
   getAccountBalancesDomain
 } from '../domains';
 import * as actionCreators from '../actions/tradingPage';
-import type {
-  State,
-  ThunkAction
-} from '../../types';
-import {
-  getSigner
-} from '../services/signer';
+import type { State, ThunkAction } from '../../types';
+import { getSigner } from '../services/signer';
 import {
   // parseTrades,
   parseOrders,
@@ -24,10 +19,7 @@ export default function tradingPageSelector(state: State) {
   let accountBalancesDomain = getAccountBalancesDomain(state);
   let pairDomain = getTokenPairsDomain(state);
 
-  let {
-    baseTokenSymbol,
-    quoteTokenSymbol
-  } = pairDomain.getCurrentPair();
+  let { baseTokenSymbol, quoteTokenSymbol } = pairDomain.getCurrentPair();
 
   let authenticated = accountDomain.authenticated();
   let baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol);
@@ -51,10 +43,7 @@ export default function tradingPageSelector(state: State) {
 }
 
 export const getDefaultData = (): ThunkAction => {
-  return async (dispatch, getState, {
-    api,
-    socket
-  }) => {
+  return async (dispatch, getState, { api, socket }) => {
     try {
       socket.unsubscribeChart();
       socket.unsubscribeOrderBook();
@@ -68,10 +57,7 @@ export const getDefaultData = (): ThunkAction => {
       let currentPair = pairDomain.getCurrentPair();
       // let pairs = pairDomain.getPairsByCode();
 
-      let {
-        baseTokenDecimals,
-        quoteTokenDecimals
-      } = currentPair;
+      let { baseTokenDecimals, quoteTokenDecimals } = currentPair;
 
       let tokenPairData = await api.fetchTokenPairData();
 
@@ -98,10 +84,7 @@ export const getDefaultData = (): ThunkAction => {
 
 // eslint-disable-next-line
 export const updateCurrentPair = (pair: string): ThunkAction => {
-  return async (dispatch, getState, {
-    api,
-    socket
-  }) => {
+  return async (dispatch, getState, { api, socket }) => {
     try {
       socket.unsubscribeChart();
       socket.unsubscribeOrderBook();

@@ -11,6 +11,8 @@ export type Connection = {
   url: string
 };
 
+type Callback = (string, string, string) => Promise<void>;
+
 export type Provider = {
   connection: Connection,
   network: Network,
@@ -18,8 +20,6 @@ export type Provider = {
   getTransactionCount: string => Promise<number>,
   getBalance: string => Promise<number>,
   estimateGas: Transaction => Promise<Object>,
-  removeListener: (
-    eventType: string,
-    callback: (string, string, string) => Promise<void>
-  ) => boolean
+  removeListener: (eventType: string, callback: Callback) => boolean,
+  on: (string, callback: Callback) => void
 };

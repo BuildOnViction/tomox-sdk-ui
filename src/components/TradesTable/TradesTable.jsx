@@ -1,57 +1,58 @@
 // @flow
-import React from 'react'
-import TradesTableRenderer from './TradesTableRenderer'
-import type { Trade } from '../../types/trades'
-import type { TokenPair } from '../../types/tokens'
+import React from 'react';
+import TradesTableRenderer from './TradesTableRenderer';
+import type { Trade } from '../../types/trades';
+import type { TokenPair } from '../../types/tokens';
 
 type State = {
   selectedTabId: string,
   isOpen: boolean
-}
+};
 
 type Props = {
   trades: Array<Trade>,
+  userTrades: Array<Trade>,
   currentPair: TokenPair
-}
+};
 
 class TradesTable extends React.PureComponent<Props, State> {
   state = {
-    selectedTabId: 'all',
+    selectedTabId: 'Market',
     isOpen: true
-  }
+  };
 
   changeTab = (tabId: string) => {
     this.setState({
       selectedTabId: tabId
-    })
-  }
+    });
+  };
 
   toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }))
-  }
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  };
 
   render() {
     const {
-      props: { trades, currentPair },
+      props: { trades, userTrades, currentPair },
       state: { selectedTabId, isOpen },
       changeTab,
       toggleCollapse
-    } = this
-
-    const sortedMarketTradeHistory = trades
-    const sortedUserTradeHistory = trades
+    } = this;
+    // should order or filter?
+    const sortedMarketTradeHistory = trades;
+    const sortedUserTradeHistory = userTrades;
     return (
       <TradesTableRenderer
         selectedTabId={selectedTabId}
         currentPair={currentPair}
         onChange={changeTab}
-        tradeHistory={sortedMarketTradeHistory}
-        userTradeHistory={sortedUserTradeHistory}
+        trades={sortedMarketTradeHistory}
+        userTrades={sortedUserTradeHistory}
         isOpen={isOpen}
         toggleCollapse={toggleCollapse}
       />
-    )
+    );
   }
 }
 
-export default TradesTable
+export default TradesTable;

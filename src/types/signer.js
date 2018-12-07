@@ -20,10 +20,11 @@ export type Signer = {
   signTrade: Trade => Promise<Trade>,
   // the first param by default is this signer
   createRawOrder: NewOrderParams => Promise<Order>,
-  sendTransaction:  Transaction => Promise<Object>,
-  getAddress:() => Promise<string>,  
-  createOrderCancel: string => OrderCancel,  
-  updateSwarmFeed: (string, any) => Promise<boolean>
+  sendTransaction: Transaction => Promise<Object>,
+  getAddress: () => Promise<string>,
+  createOrderCancel: string => OrderCancel,
+  updateSwarmFeed: (string, any) => Promise<boolean>,
+  getFeedRequest: string => Promise<Request>
 };
 
 export type UpdateSignerParams = {

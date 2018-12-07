@@ -1,11 +1,15 @@
-export const sendNewDepositMessage = async (
-  chain,
-  associatedAddress,
-  pairAddresses
-) => {
-  if (!window.socket) throw new Error('Socket connection not established');
+//@flow
+import type { WebsocketMessage } from '../../../types/websocket';
+import type { Chain } from '../../../types/deposit';
+import type { PairAddresses } from '../../../types/pairs';
+import { sendMessage } from './common';
 
-  let message = JSON.stringify({
+export const sendNewDepositMessage = async (
+  chain: Chain,
+  associatedAddress: string,
+  pairAddresses: PairAddresses
+) => {
+  let message: WebsocketMessage = {
     channel: 'deposit',
     event: {
       type: 'NEW_DEPOSIT',
@@ -15,7 +19,7 @@ export const sendNewDepositMessage = async (
         pairAddresses
       }
     }
-  });
+  };
 
-  window.socket.send(message);
+  return sendMessage(message);
 };
