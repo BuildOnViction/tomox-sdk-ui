@@ -1,3 +1,15 @@
 {
-  "extends": "react-app"
+  "extends": "react-app",
+  "rules": {
+    "comma-dangle": [2,"always-multiline"],
+    "no-else-return": 2,
+    "no-nested-ternary": 2,
+    "semi": [2,"never"],
+    "no-var": 2,
+    "object-shorthand": [2,"always"],
+    "prefer-const": 2,
+    "prefer-spread": 2,
+    "no-lonely-if": 2,
+    "no-unneeded-ternary": 2
+  }
 }
