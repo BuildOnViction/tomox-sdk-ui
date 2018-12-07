@@ -3,8 +3,9 @@ import type { Node } from 'react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Link, NavLink } from 'react-router-dom';
-import { SvgIcon, Footer } from '../../components/Common';
+import { SvgIcon, Footer, Indent } from '../../components/Common';
 import Notifier from '../../components/Notifier';
+import ConnectionStatus from '../../components/ConnectionStatus';
 import styled from 'styled-components';
 import {
   Alignment,
@@ -17,84 +18,129 @@ import {
   NavbarHeading,
   Popover,
   Position,
+  Tag
 } from '@blueprintjs/core';
 
-type Props = {
+export type Props = {
+  ETHBalance: string,
+  WETHBalance: string,
+  WETHAllowance: string,
   children?: Node,
   authenticated: boolean,
+  accountLoading: boolean,
   address: string,
   locale: string,
-  messages: string,
+  messages: { [id: string]: string },
   currentBlock?: string,
+  createProvider?: () => {}
 };
 
-function Layout(props: Props) {
-  const { children, authenticated, address, locale = 'en', messages, currentBlock } = props;
-  const menu = (
-    <Menu>
-      <MenuItem>
-        <MenuItemLink to="/">Current Account: {address}</MenuItemLink>
-      </MenuItem>
-      <MenuDivider />
-      <MenuItem>
-        <MenuItemLink to="/logout" icon="log-out">
-          Logout
-        </MenuItemLink>
-      </MenuItem>
-    </Menu>
-  );
+export type State = {};
 
-  return (
-    <IntlProvider locale={locale} messages={messages}>
-      <Wrapper>
-        <Notifier />
-        <Header>
-          <Navbar>
-            <NavbarGroup align={Alignment.LEFT}>
-              <NavbarHeading>
-                <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
-              </NavbarHeading>
-              <NavbarDivider />
-              <NavbarLink to="/wallet">Wallet</NavbarLink>
-              <NavbarLink to="/trade">Exchange</NavbarLink>
-              <NavbarLink to="/settings">Settings</NavbarLink>
-            </NavbarGroup>
+class Layout extends React.PureComponent<Props, State> {
+  componentDidMount() {
+    if (this.props.createProvider) {
+      this.props.createProvider();
+    }
+  }
+  render() {
+    const {
+      children,
+      authenticated,
+      address,
+      locale = 'en',
+      messages,
+      currentBlock
+    } = this.props;
+    const menu = (
+      <Menu>
+        <MenuItem>
+          <MenuItemLink to="/">Current Account: {address}</MenuItemLink>
+        </MenuItem>
+        <MenuDivider />
+        <MenuItem>
+          <MenuItemLink to="/logout" icon="log-out">
+            Logout
+          </MenuItemLink>
+        </MenuItem>
+      </Menu>
+    );
 
-            <NavbarGroup align={Alignment.RIGHT}>
-              {currentBlock && (
-                <Block>
-                  <span>Current Block: </span>
-                  <a href={'https://scan.testnet.tomochain.com/blocks/' + currentBlock} target="_blank">
-                    {currentBlock}
-                  </a>
-                </Block>
-              )}
+    return (
+      <IntlProvider locale={locale} messages={messages}>
+        <Wrapper>
+          <Notifier />
+          <Header>
+            <Navbar>
+              <NavbarGroup align={Alignment.LEFT}>
+                <NavbarHeading>
+                  <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
+                  <Indent />
+                  <Tag minimal intent="success">
+                    BETA
+                  </Tag>
+                </NavbarHeading>
+                {authenticated && (
+                  <React.Fragment>
+                    <NavbarDivider />
+                    {/* <NavbarDivider /> */}
+                    <NavbarLink to="/wallet">Wallet</NavbarLink>
+                    <NavbarLink to="/trade">Exchange</NavbarLink>
+                    <NavbarLink to="/settings">Settings</NavbarLink>
+                    <NavbarDivider />
+                  </React.Fragment>
+                )}
+              </NavbarGroup>
 
-              <ProviderStatus>
-                <SvgIcon
-                  style={{ marginRight: '10px' }}
-                  width="20px"
-                  icon="connect-signal"
-                  intent={authenticated ? 'success' : 'error'}
-                />
-                <p>{authenticated ? 'Connected' : 'Not Connected'}</p>
-              </ProviderStatus>
+              <NavbarGroup align={Alignment.RIGHT}>
+                {currentBlock && (
+                  <Block>
+                    <span>Current Block: </span>
+                    <a
+                      href={
+                        'https://scan.testnet.tomochain.com/blocks/' +
+                        currentBlock
+                      }
+                      target="_blank"
+                    >
+                      {currentBlock}
+                    </a>
+                  </Block>
+                )}
 
-              {!authenticated ? (
-                <NavbarLink to="/login">Login</NavbarLink>
-              ) : (
-                <Popover content={menu} position={Position.BOTTOM_RIGHT} minimal>
-                  <Button icon="key" text="Authenticated" />
-                </Popover>
-              )}
-            </NavbarGroup>
-          </Navbar>
-        </Header>
-        <MainContent>{children}</MainContent>
-        <Footer />
-      </Wrapper>
-    </IntlProvider>
-  );
+                {/* <ProviderStatus>
+                  <SvgIcon
+                    style={{ marginRight: '10px' }}
+                    width="20px"
+                    icon="connect-signal"
+                    intent={authenticated ? 'success' : 'error'}
+                  />
+                  <p>{authenticated ? 'Connected' : 'Not Connected'}</p>
+                </ProviderStatus> */}
+
+                {!authenticated ? (
+                  <NavbarLink to="/login">Login</NavbarLink>
+                ) : (
+                  <React.Fragment>
+                    <ConnectionStatus />
+                    <Popover
+                      content={menu}
+                      position={Position.BOTTOM_RIGHT}
+                      minimal
+                    >
+                      <Button icon="key" text={address} />
+                    </Popover>
+                  </React.Fragment>
+                )}
+              </NavbarGroup>
+            </Navbar>
+          </Header>
+          <MainContent>{children}</MainContent>
+          <Footer />
+        </Wrapper>
+      </IntlProvider>
+    );
+  }
 }
 
 export default Layout;
@@ -134,19 +180,20 @@ const Block = styled.div`
 
 const NavbarHeaderLink = styled(Link).attrs({
   className: 'bp3-button bp3-minimal bp3-intent-primary',
-  role: 'button',
+  role: 'button'
 })``;
 
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
-  role: 'button',
+  role: 'button'
 })``;
 
 const MenuItem = styled.li``;
 
 const MenuItemLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
-  className: props => `bp3-menu-item bp3-popover-dismiss bp3-icon-${props.icon}`,
-  role: 'button',
+  className: props =>
+    `bp3-menu-item bp3-popover-dismiss bp3-icon-${props.icon}`,
+  role: 'button'
 })``;

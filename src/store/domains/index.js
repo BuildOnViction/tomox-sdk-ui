@@ -19,6 +19,7 @@ import tradesDomain from './trades';
 import ordersDomain from './orders';
 import depositDomain from './deposit';
 import convertTokensFormDomain from './convertTokensForm';
+import connectionDomain from './connection';
 
 export const getAccountDomain = state => accountDomain(state.account);
 export const getAccountBalancesDomain = state =>
@@ -48,3 +49,4 @@ export const getNotificationsDomain = state =>
   notificationsDomain(state.notifications);
 export const getConvertTokensFormDomain = state =>
   convertTokensFormDomain(state.convertTokensForm);
+export const getConnectionDomain = state => connectionDomain(state.connection);

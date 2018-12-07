@@ -408,6 +408,7 @@ const FlexBetween = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
+  margin-top: 5px;
   flex-direction: row;
 `;
 

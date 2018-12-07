@@ -3,6 +3,15 @@ import type { Signature } from './common';
 
 import type { TokenPair } from './tokens';
 
+export type Side = 'BUY' | 'SELL';
+export type OrderType = 'MARKET' | 'LIMIT';
+export type OrderStatus =
+  | 'NEW'
+  | 'OPEN'
+  | 'CANCELLED'
+  | 'FILLED'
+  | 'PARTIALLY_FILLED';
+
 export type NewOrderParams = {
   userAddress: string,
   exchangeAddress: string,
@@ -11,7 +20,7 @@ export type NewOrderParams = {
   price: number,
   makeFee: string,
   takeFee: string,
-  side: 'BUY' | 'SELL'
+  side: Side
 };
 
 export type RawOrder = {
@@ -21,7 +30,7 @@ export type RawOrder = {
   quoteToken: string,
   amount: string,
   pricepoint: string,
-  side: 'BUY' | 'SELL',
+  side: Side,
   nonce: string,
   makeFee: string,
   takeFee: string,
@@ -41,12 +50,11 @@ export type Order = {
   amount: number,
   filled: number,
   price: number,
-  price: number,
   hash: string,
-  side: 'BUY' | 'SELL',
+  side: Side,
   pair: string,
-  type: 'MARKET' | 'LIMIT',
-  status: 'NEW' | 'OPEN' | 'CANCELLED' | 'FILLED' | 'PARTIALLY_FILLED',
+  type: OrderType,
+  status: OrderStatus,
   cancellable: boolean
 };
 

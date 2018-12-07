@@ -33,6 +33,7 @@ export default function depositFormSelector(state: State) {
     accountAddress: () => accountDomain.address(),
     associatedAddress: () => depositFormDomain.getAssociatedAddress(),
     tokens: () => tokenDomain.tokens(),
+    rankedTokens: () => tokenDomain.rankedTokens(),
     blockchain: () => depositDomain.blockchain(),
     getAddressAssociation: (chain: Chain) =>
       depositDomain.getAddressAssociation(chain),
@@ -49,7 +50,7 @@ export default function depositFormSelector(state: State) {
 }
 
 export function queryBalances(): ThunkAction {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState, { provider }) => {
     try {
       const state = getState();
       const accountAddress = depositFormSelector(state).accountAddress();
@@ -58,13 +59,19 @@ export function queryBalances(): ThunkAction {
 
       if (!accountAddress) throw new Error('Account address is not set');
 
-      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
+      // const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
+      //   accountAddress,
+      //   tokens
+      // );
+      // const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
+      //   accountAddress
+      // );
+
+      const tokenBalances = await provider.queryTokenBalances(
         accountAddress,
         tokens
       );
-      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
-        accountAddress
-      );
+      const etherBalance = await provider.queryEtherBalance(accountAddress);
 
       const balances = [etherBalance].concat(tokenBalances);
       dispatch(actionCreators.updateBalances(balances));
@@ -75,7 +82,7 @@ export function queryBalances(): ThunkAction {
 }
 
 export function subscribeBalance(token: Token): ThunkAction {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState, { provider }) => {
     try {
       let unsubscribe;
       const { symbol } = token;
@@ -98,19 +105,42 @@ export function subscribeBalance(token: Token): ThunkAction {
 
       dispatch(actionCreators.subscribeBalance(symbol));
 
-      token.address === '0x0'
-        ? (unsubscribe = await accountBalancesService.subscribeEtherBalance(
-            accountAddress,
-            updateBalanceHandler
-          ))
-        : (unsubscribe = await accountBalancesService.subscribeTokenBalance(
-            accountAddress,
-            token,
-            updateBalanceHandler
-          ));
+      // token.address === '0x0'
+      //   ? (unsubscribe = await accountBalancesService.subscribeEtherBalance(
+      //       accountAddress,
+      //       updateBalanceHandler
+      //     ))
+      //   : (unsubscribe = await accountBalancesService.subscribeTokenBalance(
+      //       accountAddress,
+      //       token,
+      //       updateBalanceHandler
+      //     ));
 
-      return () => {
+      const assignUnsubscribe = token => {
+        return token.address === '0x0'
+          ? provider.subscribeEtherBalance(accountAddress, updateBalanceHandler)
+          : provider.subscribeTokenBalance(
+              accountAddress,
+              token,
+              updateBalanceHandler
+            );
+      };
+
+      unsubscribe = await assignUnsubscribe(token);
+      // token.address === '0x0'
+      //   ? (unsubscribe = await provider.subscribeEtherBalance(accountAddress, updateBalanceHandler))
+      //   : (unsubscribe = await provider.subscribeTokenBalance(accountAddress, token, updateBalanceHandler));
+
+      return async () => {
         unsubscribe();
+
+        //Then we resubscribe the update balance listener.
+        const updateBalanceHandler = balance =>
+          dispatch(actionCreators.updateBalance(symbol, balance));
+        // token.address === '0x0'
+        // ? (unsubscribe = await provider.subscribeEtherBalance(accountAddress, updateBalanceHandler))
+        // : (unsubscribe = await provider.subscribeTokenBalance(accountAddress, token, updateBalanceHandler))
+        unsubscribe = await assignUnsubscribe(token);
         dispatch(actionCreators.unsubscribeBalance(symbol));
       };
     } catch (error) {

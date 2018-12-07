@@ -12,6 +12,8 @@ export type TxStatus =
   | 'confirmed'
   | 'error';
 
+export type ProviderType = 'homestead' | 'rinkeby' | 'local' | 'web3' | 'rpc';
+
 export type Symbol = string;
 
 export type Address = string;

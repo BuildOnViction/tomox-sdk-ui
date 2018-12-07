@@ -6,6 +6,7 @@ import { amountPrecision, pricePrecision } from '../../config/tokens';
 import { formatNumber } from 'accounting-js';
 
 const initialState: OrderBookState = {
+  selected: null,
   bids: {},
   asks: {},
   sortedBids: [],
@@ -131,6 +132,7 @@ export default function domain(state: OrderBookState) {
     getState: () => state,
     getAsks: () => state.asks,
     getBids: () => state.bids,
+    getSelectedOrder: () => state.selected,
     getOrderedBids: () => state.sortedBids.map(price => state.bids[price]),
     getOrderedAsks: () => state.sortedAsks.map(price => state.asks[price]),
     getOrderBookData: (ln: number) => {

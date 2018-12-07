@@ -1,18 +1,42 @@
+// @flow
+
 import React from 'react';
-import { Card, Button } from '@blueprintjs/core';
-import { Colors } from '../Common';
+import { Card, Button, Position } from '@blueprintjs/core';
+import { Colors, FlexRow, Box } from '../Common';
+import Help from '../Help';
 import styled from 'styled-components';
 
-const WalletSettingsForm = props => {
-  const { pvtKeyLocked, togglePvtKeyLock, wallets, removeWallet } = props;
-  const lockBtnLabel = pvtKeyLocked ? 'Unlock ' : 'Lock ';
-  const walletsAreStored = wallets.slice(1).length > 0;
+import type { Wallet } from '../../types/wallets';
+import type { Address } from '../../types/Common';
+
+type Props = {
+  wallets: Array<Wallet>,
+  removeWallet: Address => void
+};
+
+const WalletSettingsForm = (props: Props) => {
+  // const { pvtKeyLocked, togglePvtKeyLock, wallets, removeWallet } = props;
+  // const lockBtnLabel = pvtKeyLocked ? 'Unlock ' : 'Lock ';
+  // const walletsAreStored = wallets.slice(1).length > 0;
+
+  const { wallets, removeWallet } = props;
+  const walletsAreStored = wallets.length > 0;
 
   return (
     <Card>
-      <Heading>Private Key display on Wallet Page</Heading>
-      <Button minimal="true" text={lockBtnLabel} onClick={togglePvtKeyLock} />
-      <Heading>Remove Wallets from Browser Storage</Heading>
+      <FlexRow>
+        {/* <Heading>Private Key display on Wallet Page</Heading>
+      <Button minimal="true" text={lockBtnLabel} onClick={togglePvtKeyLock} /> */}
+        <Heading>Remove Wallets from Browser Storage</Heading>
+        <Box pl={2} pt={1}>
+          <Help position={Position.RIGHT}>
+            When you log in with your private key or with your wallet/password,
+            your encrypted wallet is saved in the browser storage. You can keep
+            the encrypted wallet in your browser storage or remove it by
+            clicking the corresponding address below.
+          </Help>
+        </Box>
+      </FlexRow>
       <Header>
         <ListItem>
           <p>
@@ -24,7 +48,7 @@ const WalletSettingsForm = props => {
         </ListItem>
       </Header>
       <List>
-        {wallets.slice(1).map(function(wallet, index) {
+        {wallets.map(function(wallet, index) {
           return (
             <ListItem key={index}>
               {wallet.address}

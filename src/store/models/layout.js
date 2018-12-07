@@ -6,23 +6,14 @@ import {
   getTokenDomain
 } from '../domains';
 
-import {
-  quoteTokens
-} from '../../config/quotes';
+import { quoteTokens } from '../../config/quotes';
 
 import * as accountBalancesService from '../services/accountBalances';
 import * as actionCreators from '../actions/walletPage';
 import * as notifierActionCreators from '../actions/app';
 
-import type {
-  State,
-  ThunkAction
-} from '../../types';
-import type {
-  Token,
-  TokenBalance,
-  TokenBalances
-} from '../../types/tokens';
+import type { State, ThunkAction } from '../../types';
+import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
 
 export default function createSelector(state: State) {
   let accountDomain = getAccountDomain(state);
@@ -86,12 +77,12 @@ export function queryAccountData(): ThunkAction {
       await accountBalancesService.subscribeEtherBalance(
         accountAddress,
         balance =>
-        dispatch(
-          actionCreators.updateBalance({
-            symbol: 'ETH',
-            balance: balance
-          })
-        )
+          dispatch(
+            actionCreators.updateBalance({
+              symbol: 'ETH',
+              balance: balance
+            })
+          )
       );
 
       await accountBalancesService.subscribeTokenAllowances(
@@ -109,5 +100,11 @@ export function queryAccountData(): ThunkAction {
       );
       console.log(e);
     }
+  };
+}
+
+export function createProvider(): ThunkAction {
+  return async (dispatch, getState, { provider }) => {
+    provider.createConnection();
   };
 }

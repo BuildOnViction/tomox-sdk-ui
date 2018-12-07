@@ -1,10 +1,6 @@
 //@flow
-import {
-  quoteTokens
-} from '../../config/quotes';
-import {
-  tokens
-} from '../../config/tokens';
+import { quoteTokens } from '../../config/quotes';
+import { tokens } from '../../config/tokens';
 import {
   generateTokenPairs,
   getPairSymbol,
@@ -14,6 +10,7 @@ import {
 import type {
   Token,
   TokenPair,
+  TokenPairs,
   TokenPairState,
   TokenPairData,
   TokenPairDataMap
@@ -30,7 +27,7 @@ const defaultInitialState: TokenPairState = {
 //By default the application is started with a default create from tokens in a configuration file. To
 //create a tokenpair domain with less tokens, the initialized function can be called with a custom initial
 //token pair state (that can be created with the createInitialState function).
-export const initialized = (customInitialState ? : TokenPairState) => {
+export const initialized = (customInitialState?: TokenPairState) => {
   let initialState = customInitialState || defaultInitialState;
   const event = (state: TokenPairState = initialState) => state;
   return event;
@@ -45,43 +42,69 @@ export const currentPairUpdated = (pair: string) => {
   return event;
 };
 
-export const tokenPairUpdated = (baseToken: Token) => {
+export const tokenPairUpdated = (pairs: TokenPairs) => {
   const event = (state: TokenPairState) => {
-    if (baseToken.symbol === 'ETH') return;
-    let newState = quoteTokens.reduce(
-      (result, quoteToken) => {
-        if (quoteToken.symbol === baseToken.symbol) return result;
-        if (
-          Object.keys(state.byPair).indexOf(
-            getPairSymbol(quoteToken.symbol, baseToken.symbol)
-          ) !== -1
-        ) {
-          return result;
-        }
+    let byPair = pairs.reduce((result, pair) => {
+      let pairSymbol = getPairSymbol(
+        pair.baseTokenSymbol,
+        pair.quoteTokenSymbol
+      );
 
-        let pairSymbol = getPairSymbol(baseToken.symbol, quoteToken.symbol);
-        result.byPair[pairSymbol] = {
-          pair: pairSymbol,
-          baseTokenSymbol: baseToken.symbol,
-          quoteTokenSymbol: quoteToken.symbol,
-          baseTokenAddress: baseToken.address,
-          quoteTokenAddress: quoteToken.address,
-          baseTokenDecimals: baseToken.decimals,
-          quoteTokenDecimals: quoteToken.decimals,
-          pricepointMultiplier: 1e9
-        };
-        return result;
-      }, {
-        byPair: {}
-      }
-    );
+      result[pairSymbol] = {
+        pair: pairSymbol,
+        baseTokenSymbol: pair.baseTokenSymbol,
+        quoteTokenSymbol: pair.quoteTokenSymbol,
+        baseTokenAddress: pair.baseTokenAddress,
+        quoteTokenAddress: pair.quoteTokenAddress,
+        baseTokenDecimals: pair.baseTokenDecimals,
+        quoteTokenDecimals: pair.quoteTokenDecimals,
+        makeFee: pair.makeFee,
+        takeFee: pair.takeFee
+      };
+
+      return result;
+    }, {});
 
     return {
       ...state,
-      byPair: { ...state.byPair,
-        ...newState.byPair
-      }
+      byPair
     };
+
+    // if (baseToken.symbol === 'ETH') return;
+    // let newState = quoteTokens.reduce(
+    //   (result, quoteToken) => {
+    //     if (quoteToken.symbol === baseToken.symbol) return result;
+    //     if (
+    //       Object.keys(state.byPair).indexOf(
+    //         getPairSymbol(quoteToken.symbol, baseToken.symbol)
+    //       ) !== -1
+    //     ) {
+    //       return result;
+    //     }
+
+    //     let pairSymbol = getPairSymbol(baseToken.symbol, quoteToken.symbol);
+    //     result.byPair[pairSymbol] = {
+    //       pair: pairSymbol,
+    //       baseTokenSymbol: baseToken.symbol,
+    //       quoteTokenSymbol: quoteToken.symbol,
+    //       baseTokenAddress: baseToken.address,
+    //       quoteTokenAddress: quoteToken.address,
+    //       baseTokenDecimals: baseToken.decimals,
+    //       quoteTokenDecimals: quoteToken.decimals,
+    //       pricepointMultiplier: 1e9
+    //     };
+    //     return result;
+    //   }, {
+    //     byPair: {}
+    //   }
+    // );
+
+    // return {
+    //   ...state,
+    //   byPair: { ...state.byPair,
+    //     ...newState.byPair
+    //   }
+    // };
   };
 
   return event;
@@ -106,21 +129,26 @@ export const tokenPairRemoved = (baseToken: Token) => {
 
 /**
  * Merge two arrays of token pairs
- * @param {*} arr1 
- * @param {*} arr2 
+ * @param {*} arr1
+ * @param {*} arr2
  */
-const mergeByTokenPair = (arr1: TokenPairData[], arr2: TokenPairData[]): TokenPairData[] => {
-  return [...arr1, ...arr2.filter(item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0)]
-}
+const mergeByTokenPair = (
+  arr1: TokenPairData[],
+  arr2: TokenPairData[]
+): TokenPairData[] => {
+  return [
+    ...arr1,
+    ...arr2.filter(
+      item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0
+    )
+  ];
+};
 
 export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
   const event = (state: TokenPairState): TokenPairState => {
     let newState = {
       ...state,
-      data: mergeByTokenPair(
-        state.data,
-        tokenPairData
-      )
+      data: mergeByTokenPair(state.data, tokenPairData)
     };
 
     return newState;
@@ -134,9 +162,8 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
     let newState;
 
     favorited
-      ?
-      (newState = [...state.favorites, tokenPair]) :
-      (newState = state.favorites.filter(elem => elem !== tokenPair));
+      ? (newState = [...state.favorites, tokenPair])
+      : (newState = state.favorites.filter(elem => elem !== tokenPair));
 
     return {
       ...state,

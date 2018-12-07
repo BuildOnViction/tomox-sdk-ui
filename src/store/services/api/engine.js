@@ -347,6 +347,13 @@ export const getTokenPairData = async () => {
   return parsedData;
 };
 
+export const getExchangeAddress = async () => {
+  let data = await fetchInfo();
+  let exchangeAddress = data.exchangeAddress;
+
+  return exchangeAddress;
+};
+
 // export const getOrderBookData = async () => {
 //   const data = parseOrderBookData(orderBookData)
 //   return data

@@ -14,6 +14,7 @@ import { Redirect } from 'react-router-dom';
 // import { ResizableBox } from 'react-resizable';
 
 type Props = {
+  isInitiated: boolean,
   authenticated: boolean,
   balancesLoading: boolean,
   baseTokenBalance: string,
@@ -22,7 +23,9 @@ type Props = {
   quoteTokenAllowance: string,
   baseTokenSymbol: string,
   quoteTokenSymbol: string,
-  getDefaultData: () => void
+  getDefaultData: () => void,
+  makeFee: string,
+  takeFee: string
 };
 
 type State = {
@@ -47,12 +50,31 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       intent: 'danger',
       message:
         'To start trading, you need to unlock funds and allow AMP to settle transactions when a match is found'
+    }),
+    quoteTokensLocked: (quoteTokenSymbol: string) => ({
+      title: `Unlock tokens to start trading`,
+      intent: 'danger',
+      message: `To start trading, unlock trading for ${quoteTokenSymbol} tokens on your wallet page.`
+    }),
+    baseTokensLocked: (baseTokenSymbol: string) => ({
+      title: `Unlock tokens to start trading`,
+      intent: 'danger',
+      message: `To start trading, unlock trading for ${baseTokenSymbol} tokens on your wallet page.`
+    }),
+    tokensLocked: (baseTokenSymbol: string, quoteTokenSymbol: string) => ({
+      title: `Unlock tokens to start trading`,
+      intent: `danger`,
+      message: `To start trading a currency pair, unlock trading for both tokens (${baseTokenSymbol} and ${quoteTokenSymbol}) on your wallet page.`
     })
   };
 
   componentDidMount() {
-    const { authenticated, getDefaultData } = this.props;
-    if (authenticated) getDefaultData();
+    // const { authenticated, getDefaultData } = this.props;
+    // if (authenticated) getDefaultData();
+
+    if (this.props.isConnected) {
+      this.props.getDefaultData();
+    }
 
     this.checkIfCalloutRequired();
   }
@@ -70,18 +92,32 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
     if (!authenticated) {
       let calloutOptions = this.callouts.notAuthenticated();
-      this.setState({ calloutVisible: true, calloutOptions });
+      return this.setState({ calloutVisible: true, calloutOptions });
     }
 
-    // TODO update when moving balances in redux from string to numbers
+    if (baseTokenBalance === '0.0' && quoteTokenBalance === '0.0') {
+      return;
+    }
+
     if (baseTokenBalance !== '0.0' && baseTokenAllowance === '0.0') {
       let calloutOptions = this.callouts.fundsLocked(baseTokenSymbol);
-      this.setState({ calloutVisible: true, calloutOptions });
+      return this.setState({ calloutVisible: true, calloutOptions });
     }
 
     if (quoteTokenBalance !== '0.0' && quoteTokenAllowance === '0.0') {
       let calloutOptions = this.callouts.fundsLocked(quoteTokenSymbol);
-      this.setState({ calloutVisible: true, calloutOptions });
+      return this.setState({ calloutVisible: true, calloutOptions });
+    }
+
+    // TODO update when moving balances in redux from string to numbers
+    if (baseTokenAllowance === '0.0') {
+      let calloutOptions = this.callouts.baseTokensLocked(baseTokenSymbol);
+      return this.setState({ calloutVisible: true, calloutOptions });
+    }
+
+    if (quoteTokenAllowance === '0.0') {
+      let calloutOptions = this.callouts.quoteTokensLocked(quoteTokenSymbol);
+      return this.setState({ calloutVisible: true, calloutOptions });
     }
   };
 
@@ -90,9 +126,9 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { authenticated } = this.props;
+    const { authenticated, isInitiated } = this.props;
     if (!authenticated) return <Redirect to="/login" />;
-
+    if (!isInitiated) return null;
     const { calloutOptions, calloutVisible } = this.state;
 
     return (

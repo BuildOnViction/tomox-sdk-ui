@@ -2,7 +2,22 @@
 import type { Signature, Transaction } from './common';
 import type { NewOrderParams, Order, RawOrder, OrderCancel } from './orders';
 import type { Trade } from './trades';
-import type { Provider } from './network';
+import type { Network, Connection } from './network';
+
+type Callback = (string, string, string) => Promise<void>;
+
+export type Provider = {
+  connection: Connection,
+  network: Network,
+  waitForTransaction: (string, ?number) => Promise<Object>,
+  getTransactionCount: string => Promise<number>,
+  getBalance: string => Promise<number>,
+  estimateGas: Transaction => Promise<Object>,
+  removeListener: (eventType: string, callback: Callback) => boolean,
+  on: (string, callback: Callback) => void,
+  listAccounts: () => string[],
+  getSigner: (address?: string) => Signer
+};
 
 export type SignerState = {
   +loading: boolean,
@@ -19,7 +34,7 @@ export type Signer = {
   signOrder: RawOrder => Promise<RawOrder>,
   signTrade: Trade => Promise<Trade>,
   // the first param by default is this signer
-  createRawOrder: NewOrderParams => Promise<Order>,
+  createRawOrder: NewOrderParams => Promise<RawOrder>,
   sendTransaction: Transaction => Promise<Object>,
   getAddress: () => Promise<string>,
   createOrderCancel: string => OrderCancel,

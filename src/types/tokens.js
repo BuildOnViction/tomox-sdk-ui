@@ -37,9 +37,13 @@ export type TokenPair = {
   +quoteTokenSymbol: string,
   +baseTokenAddress: string,
   +quoteTokenAddress: string,
-  +decimalsMultiplier: number,
-  +pricepointMultiplier: number
+  +decimalsMultiplier?: number,
+  +pricepointMultiplier?: number,
+  +makeFee: string,
+  +takeFee: string
 };
+
+export type TokenPairs = Array<TokenPair>;
 
 export type TokenData = {
   address: string,
@@ -47,7 +51,7 @@ export type TokenData = {
   balance: string,
   allowance: string,
   allowed: boolean,
-  allowancePending: boolean,
+  allowancePending?: boolean,
   image: TokenImage
 };
 
@@ -71,7 +75,19 @@ export type TokenState = {
   +symbols: Array<Symbol>,
   +bySymbol: {
     [Symbol]: Token
-  }
+  },
+  +data: {
+    +[string]: {
+      +pair: string,
+      +lastPrice: string,
+      +change: string,
+      +high: string,
+      +low: string,
+      +volume: string
+    }
+  },
+  +favorites: Array<string>,
+  +currentPair: string
 };
 
 export type TokenPairState = {

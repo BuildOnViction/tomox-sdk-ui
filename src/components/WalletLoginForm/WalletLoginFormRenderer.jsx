@@ -202,7 +202,10 @@ const WalletLoginFormRenderer = (props: Props) => {
   };
 
   return (
-    <Card elevation="1" style={{ width: '600px', position: 'relative' }}>
+    <Card
+      elevation="1"
+      //  style={{ width: '600px', position: 'relative' }}
+    >
       <RadioGroup
         name="method"
         onChange={handleChange}

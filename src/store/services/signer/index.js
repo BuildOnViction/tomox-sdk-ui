@@ -9,16 +9,21 @@ import {
   createOrderCancel
 } from './methods';
 import { NETWORK_URL } from '../../../config/url';
-
-import type { UpdateSignerParams, Signer } from '../../../types/signer';
-import type { Provider } from '../../../types/network';
+import { createProvider } from '../../../utils/provider';
+import { DEFAULT_NETWORK_ID } from '../../../config/environment';
+import type {
+  UpdateSignerParams,
+  Signer,
+  Provider
+} from '../../../types/signer';
+// import type { ProviderType } from '../../../types/common';
 
 // for testing with local
 window.utils = utils;
 
 export const createSigner = async (params: UpdateSignerParams): any => {
   try {
-    let { type, custom, url, networkId, wallet } = params;
+    let { type, custom, url, networkId = DEFAULT_NETWORK_ID, wallet } = params;
     let settings, address;
     if (!custom) {
       switch (type) {
@@ -31,13 +36,12 @@ export const createSigner = async (params: UpdateSignerParams): any => {
           settings = { type: 'metamask', networkId };
           return { settings, address };
         case 'rpc':
-          settings = { type: 'rpc', url: NETWORK_URL, networkId: 8888 };
+          settings = { type: 'rpc', url: NETWORK_URL, networkId };
           address = await createRpcSigner(settings.url, settings.networkId);
           return { settings, address };
         case 'wallet':
           if (!wallet) throw new Error('Wallet not found');
-          networkId = networkId || 8888;
-          settings = { type: 'wallet', url: NETWORK_URL, networkId: 8888 };
+          settings = { type: 'wallet', url: NETWORK_URL, networkId };
           address = await createLocalWalletSigner(wallet, networkId);
           return { settings, address };
         default:
@@ -61,7 +65,6 @@ export const createSigner = async (params: UpdateSignerParams): any => {
 
         case 'wallet':
           if (!wallet) throw new Error('Wallet not found');
-          networkId = networkId || 8888;
           settings = { type, url, networkId };
           address = await createLocalWalletSigner(wallet, networkId);
           return { settings, address };
@@ -92,9 +95,7 @@ export const addMethodsToSigner = (signer: Signer) => {
 
 export const createMetamaskSigner = async () => {
   let networkId = Number(window.web3.version.network);
-  let provider = new providers.Web3Provider(window.web3.currentProvider, {
-    chainId: networkId
-  });
+  let provider = createProvider('web3', networkId);
   let signer = provider.getSigner();
   addMethodsToSigner(signer);
 
@@ -110,13 +111,9 @@ Wallet.prototype.signDigest = function(hash) {
 
 export const createLocalWalletSigner = async (
   wallet: Object,
-  networkId: ?number
+  networkId: ?number = DEFAULT_NETWORK_ID
 ) => {
-  networkId = networkId || 8888;
-  let provider = new providers.JsonRpcProvider(NETWORK_URL, {
-    chainId: networkId,
-    name: undefined
-  });
+  let provider = createProvider('local');
   let signer = new Wallet(wallet.privateKey, provider);
 
   addMethodsToSigner(signer);
@@ -126,7 +123,7 @@ export const createLocalWalletSigner = async (
 };
 
 export const createInfuraRinkebyWalletSigner = async (wallet: Object) => {
-  let provider = new providers.InfuraProvider('rinkeby');
+  let provider = createProvider('rinkeby');
   let signer = new Wallet(wallet.key, provider);
   addMethodsToSigner(signer);
 
@@ -136,7 +133,7 @@ export const createInfuraRinkebyWalletSigner = async (wallet: Object) => {
 };
 
 export const createInfuraWalletSigner = async (wallet: Object) => {
-  let provider = new providers.InfuraProvider('homestead');
+  let provider = createProvider('homestead');
   let signer = new Wallet(wallet.key, provider);
   addMethodsToSigner(signer);
 
@@ -146,10 +143,7 @@ export const createInfuraWalletSigner = async (wallet: Object) => {
 };
 
 export const createRpcSigner = async (url: ?string, networkId: ?number) => {
-  let provider = new providers.JsonRpcProvider(url, {
-    chainId: networkId,
-    name: 'unspecified'
-  });
+  let provider = createProvider('rpc', networkId, url);
   let accountAddresses = await provider.listAccounts();
   let signer = provider.getSigner(accountAddresses[0]);
   addMethodsToSigner(signer);

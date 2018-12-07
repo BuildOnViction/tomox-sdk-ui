@@ -56,7 +56,7 @@ export default function walletPageSelector(state: State) {
 }
 
 export function queryAccountData(): ThunkAction {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState, { api }) => {
     const state = getState();
     const accountAddress = getAccountDomain(state).address();
 
@@ -69,10 +69,16 @@ export function queryAccountData(): ThunkAction {
         .filter((token: Token) => token.symbol !== 'ETH');
       if (!accountAddress) throw new Error('Account address is not set');
 
-      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
+      const currentBlock = await getCurrentBlock();
+      if (!currentBlock) throw new Error('');
+
+      let pairs = await api.fetchPairs();
+      let exchangeAddress = await api.getExchangeAddress();
+
+      const etherBalance = await accountBalancesService.queryEtherBalance(
         accountAddress
       );
-      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
+      const tokenBalances = await accountBalancesService.queryTokenBalances(
         accountAddress,
         tokens
       );
@@ -80,12 +86,14 @@ export function queryAccountData(): ThunkAction {
         accountAddress,
         tokens
       );
+
       const balances = [etherBalance].concat(tokenBalances);
-      const currentBlock = await getCurrentBlock();
 
       dispatch(accountActionTypes.updateCurrentBlock(currentBlock));
+      dispatch(actionCreators.updateTokenPairs(pairs));
       dispatch(actionCreators.updateBalances(balances));
       dispatch(actionCreators.updateAllowances(allowances));
+      dispatch(actionCreators.updateExchangeAddress(exchangeAddress));
 
       await accountBalancesService.subscribeTokenBalances(
         accountAddress,

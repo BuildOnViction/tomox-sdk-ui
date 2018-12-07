@@ -2,7 +2,8 @@
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  getAccountBalancesDomain
+  getAccountBalancesDomain,
+  getConnectionDomain
 } from '../domains';
 import * as actionCreators from '../actions/tradingPage';
 import type { State, ThunkAction } from '../../types';
@@ -18,8 +19,13 @@ export default function tradingPageSelector(state: State) {
   let accountDomain = getAccountDomain(state);
   let accountBalancesDomain = getAccountBalancesDomain(state);
   let pairDomain = getTokenPairsDomain(state);
-
-  let { baseTokenSymbol, quoteTokenSymbol } = pairDomain.getCurrentPair();
+  let { isInitiated, isConnected } = getConnectionDomain(state);
+  let {
+    makeFee,
+    takeFee,
+    baseTokenSymbol,
+    quoteTokenSymbol
+  } = pairDomain.getCurrentPair();
 
   let authenticated = accountDomain.authenticated();
   let baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol);
@@ -32,10 +38,14 @@ export default function tradingPageSelector(state: State) {
   );
 
   return {
+    makeFee,
+    takeFee,
     authenticated,
     baseTokenAllowance,
     baseTokenBalance,
     baseTokenSymbol,
+    isConnected,
+    isInitiated,
     quoteTokenAllowance,
     quoteTokenBalance,
     quoteTokenSymbol

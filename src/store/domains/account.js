@@ -5,7 +5,8 @@ const initialState = {
   address: null,
   privateKey: null,
   currentBlock: '',
-  showHelpModal: true
+  showHelpModal: true,
+  exchangeAddress: ''
 };
 
 export const initialized = () => {
@@ -48,12 +49,22 @@ export const showHelpModalUpdated = (showHelpModal: boolean) => {
   return event;
 };
 
+export const exchangeAddressUpdated = (exchangeAddress: string) => {
+  const event = (state: AccountState) => ({
+    ...state,
+    exchangeAddress
+  });
+
+  return event;
+};
+
 export default function accountDomain(state: AccountState) {
   return {
     address: () => state.address,
     privateKey: () => state.privateKey,
     currentBlock: () => state.currentBlock,
     authenticated: () => state.address !== null,
-    showHelpModal: () => state.showHelpModal
+    showHelpModal: () => state.showHelpModal,
+    exchangeAddress: () => state.exchangeAddress
   };
 }
