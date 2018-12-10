@@ -7,7 +7,8 @@ import type {
   InvalidateTxAction,
   RevertTxAction,
   SendTxAction,  
-  ValidateTxAction
+  ValidateTxAction,
+  ResetFormAction
 } from '../../types/transferTokensForm'
 
 const actionTypes = {
@@ -16,7 +17,8 @@ const actionTypes = {
   invalidateTx: 'transferTokensForm/INVALIDATE',
   sendTx: 'transferTokensForm/SEND',
   confirmTx: 'transferTokensForm/CONFIRM',
-  revertTx: 'transferTokensForm/REVERT'
+  revertTx: 'transferTokensForm/REVERT',
+  resetForm: 'transferTokensForm/RESET_FORM'
 }
 
 export function txError(status: TxStatus, statusMessage: string): TxErrorAction {
@@ -58,6 +60,12 @@ export function confirmTx(receipt: TxReceipt): ConfirmTxAction {
   return {
     type: actionTypes.confirmTx,
     payload: { receipt }
+  }
+}
+
+export function resetForm(): ResetFormAction {
+  return {
+    type: actionTypes.resetForm
   }
 }
 

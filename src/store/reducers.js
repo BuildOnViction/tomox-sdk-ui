@@ -158,6 +158,8 @@ export const transferTokensForm = createReducer(action => {
       return transferTokensFormEvents.txSent(payload.hash);
     case transferTokensFormActionTypes.confirmTx:
       return transferTokensFormEvents.txConfirmed(payload.receipt);
+    case transferTokensFormActionTypes.resetForm:
+        return transferTokensFormEvents.resetForm();
     default:
       return transferTokensFormEvents.initialized();
   }

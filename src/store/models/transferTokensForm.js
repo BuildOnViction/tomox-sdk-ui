@@ -204,3 +204,15 @@ export const sendTransferTokensTx = (params: TransferTokensTxParams): ThunkActio
     }
   };
 };
+
+export const resetForm = (): ThunkAction => {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    try {
+      dispatch(actionCreators.resetForm());
+    } catch (error) {
+      console.log(error);
+      let errorMessage = parseTransferTokensError(error);
+      dispatch(actionCreators.txError('error', errorMessage));
+    }
+  };
+}
