@@ -17,7 +17,8 @@ const actionTypes = {
   loginWithTrezorWallet: 'loginPage/LOGIN_WITH_TREZOR_WALLET',
   loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
   loginError: 'loginPage/LOGIN_ERROR',
-  getPublicKey: 'loginPage/GET_PUBLIC_KEY'
+  getPublicKey: 'loginPage/GET_PUBLIC_KEY',
+  toggleSelectAddressModal: 'loginPage/TOGGLE_SELECT_ADDRESS_MODAL'
 }
 
 export function createWallet(address: string, encryptedWallet: string): CreateWalletAction {
@@ -72,6 +73,13 @@ export function getPublicKey(data: Object) {
   return {
     type: actionTypes.getPublicKey,
     payload: data
+  }
+}
+
+export function toggleSelectAddressModal(isOpen) {
+  return {
+    type: actionTypes.toggleSelectAddressModal,
+    payload: isOpen
   }
 }
 
