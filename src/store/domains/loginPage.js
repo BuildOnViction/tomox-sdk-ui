@@ -4,7 +4,8 @@ import type { LoginPageState } from '../../types/loginPage';
 const initialState: LoginPageState = {
   loading: false,
   error: '',
-  publicKeyData: null
+  publicKeyData: null,
+  isSelectAddressModalOpen: false
 };
 //
 export const initialized = () => {
@@ -50,10 +51,20 @@ export const getPublicKey = (data: Object) => {
   return event;
 };
 
+export const toggleSelectAddressModal = (isOpen: boolean) => {
+  const event = (state: LoginPageState) => ({
+    ...state,
+    isSelectAddressModalOpen: isOpen
+  });
+
+  return event;
+};
+
 export default function getLoginPageDomain(state: LoginPageState) {
   return {
     isLoading: () => state.loading,
     getError: () => state.error,
-    getPublicKeyData: () => state.publicKeyData
+    getPublicKeyData: () => state.publicKeyData,
+    isSelectAddressModalOpen: () => state.isSelectAddressModalOpen
   };
 }

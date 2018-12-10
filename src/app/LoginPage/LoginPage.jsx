@@ -11,6 +11,7 @@ import { TrezorSigner } from '../../store/services/signer/trezor';
 type Props = {
     authenticated: boolean,
     loading: boolean,
+    isSelectAddressModalOpen: boolean,
     loginWithMetamask: () => void,
     loginWithWallet: LoginWithWallet => void,
     loginWithTrezorWallet: Object => void,
@@ -23,8 +24,7 @@ type Props = {
 
 type State = {
     view: string,
-    metamaskStatus: 'unlocked' | 'locked' | 'undefined',
-    isSelectAddressModalOpen: boolean
+    metamaskStatus: 'unlocked' | 'locked' | 'undefined'
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
@@ -32,21 +32,16 @@ class LoginPage extends React.PureComponent<Props, State> {
 
     state = {
         view: 'loginMethods',
-        metamaskStatus: 'undefined',
-        isSelectAddressModalOpen: false
+        metamaskStatus: 'undefined'
     };
 
     openSelectAddressModal = async () => {
         this.deviceService = new TrezorSigner();
         await this.props.getTrezorPublicKey(this.deviceService);
-
-        this.setState({
-            isSelectAddressModalOpen: true
-        });
     };
 
     closeSelectAddressModal = () => {
-        this.setState({ isSelectAddressModalOpen: false });
+        this.props.closeSelectAddressModal();
     };
 
     componentDidMount = () => {
@@ -107,9 +102,10 @@ class LoginPage extends React.PureComponent<Props, State> {
                 loginWithTrezorWallet,
                 loginWithLedgerWallet,
                 authenticated,
-                loading
+                loading,
+                isSelectAddressModalOpen
             },
-            state: { view, metamaskStatus, isSelectAddressModalOpen },
+            state: { view, metamaskStatus },
             showWalletLoginForm,
             showLoginMethods,
             showCreateWallet,

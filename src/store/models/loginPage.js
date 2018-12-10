@@ -29,6 +29,7 @@ export default function loginPageSelector(state: State) {
     authenticated: getAccountDomain(state).authenticated(),
     loading: getLoginPageDomain(state).isLoading(),
     error: getLoginPageDomain(state).getError(),
+    isSelectAddressModalOpen: getLoginPageDomain(state).isSelectAddressModalOpen(),
     getPublicKeyData: () => getLoginPageDomain(state).getPublicKeyData()
   };
 }
@@ -103,6 +104,20 @@ export function getTrezorPublicKey(deviceService: any, path: string): ThunkActio
       let result = await deviceService.getPublicKey(path);
 
       dispatch(actionCreators.getPublicKey(result));
+      dispatch(actionCreators.toggleSelectAddressModal(true));
+    } catch (e) {
+      dispatch(
+        notifierActionCreators.addNotification({ message: 'Login error' })
+      );
+      dispatch(actionCreators.loginError(e.message));
+    }
+  };
+}
+
+export function closeSelectAddressModal(): ThunkAction {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actionCreators.toggleSelectAddressModal(false));
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
