@@ -1,18 +1,18 @@
 //@flow
-import React from 'react';
-import { IndicatorSelect, StandardSelect } from '../SelectMenu';
-import ChartLoadingScreen from './ChartLoadingScreen';
-import { Card, Button, Collapse } from '@blueprintjs/core';
-import type { SendTimelineParams } from '../../types/ohlcv';
-import styled from 'styled-components';
-import { ResizableBox } from 'react-resizable';
+import React from 'react'
+import { IndicatorSelect, StandardSelect } from '../SelectMenu'
+import ChartLoadingScreen from './ChartLoadingScreen'
+import { Card, Button, Collapse } from '@blueprintjs/core'
+import type { SendTimelineParams } from '../../types/ohlcv'
+import styled from 'styled-components'
+import { ResizableBox } from 'react-resizable'
 
 type Indicator = {
   name: string,
   active: boolean,
   height: number,
   rank: number,
-};
+}
 
 export const timeSpans: Array<Object> = [
   { name: '1 min', label: '1m' },
@@ -25,7 +25,7 @@ export const timeSpans: Array<Object> = [
   { name: '1 day', label: '1d' },
   { name: '7 days', label: '7d' },
   { name: '1 month', label: '1M' },
-].map((p, index) => ({ ...p, rank: index }));
+].map((p, index) => ({ ...p, rank: index }))
 
 const indicators: Array<Indicator> = [
   { name: 'Volume', active: false, height: 0 },
@@ -34,14 +34,14 @@ const indicators: Array<Indicator> = [
   { name: 'RSI', active: false, height: 150 },
   { name: 'ATR', active: false, height: 150 },
   { name: 'ForceIndex', active: false, height: 150 },
-].map((p, index) => ({ ...p, rank: index }));
+].map((p, index) => ({ ...p, rank: index }))
 
 const chartTypes: Array<Object> = [
   { name: 'Candles', icon: 'timeline-bar-chart' },
   { name: 'Heikin Ashi', aicon: 'chart' },
   { name: 'Line', icon: 'timeline-line-chart' },
   { name: 'Area', icon: 'timeline-area-chart' },
-].map((p, index) => ({ ...p, rank: index }));
+].map((p, index) => ({ ...p, rank: index }))
 
 export const duration: Array<Object> = [
   { name: '1 Hour', label: '1h' },
@@ -55,7 +55,7 @@ export const duration: Array<Object> = [
   { name: '6 Month', label: '6M' },
   { name: '1 Year', label: '1Y' },
   { name: 'Full', label: 'Full' },
-].map((p, index) => ({ ...p, rank: index }));
+].map((p, index) => ({ ...p, rank: index }))
 
 type Props = {
   ohlcvData: Array<Object>,
@@ -63,11 +63,12 @@ type Props = {
   currentDuration: Object,
   noOfCandles: number,
   updateTimeLine: SendTimelineParams => void,
-  saveDuration: Object => void,
-  saveTimeSpan: Object => void,
-};
+  updateDuration: (Object, Object) => void,
+  updateTimeSpan: (Object, Object) => void,
+}
 
 type State = {
+  isOpen: boolean,
   chartHeight: number,
   indicatorHeight: number,
   currentChart: Object,
@@ -76,51 +77,61 @@ type State = {
   chartTypes: Array<Object>,
   duration: Array<Object>,
   expandedChard: boolean,
-};
+}
 
 export default class OHLCV extends React.PureComponent<Props, State> {
   state = {
     chartHeight: 500,
     indicatorHeight: 0,
     currentChart: chartTypes[0],
-    chartTypes: chartTypes,
-    indicators: indicators,
-    timeSpans: timeSpans,
-    duration: duration,
+    chartTypes,
+    indicators,
+    timeSpans,
+    duration,
     expandedChard: true,
     isOpen: true,
-  };
+  }
 
   changeDuration = (index: number) => {
-    const { duration } = this.state;
-    const { currentTimeSpan } = this.props;
+    const { duration } = this.state
+    const { currentTimeSpan } = this.props
 
-    this.props.updateDuration(duration[index], { updateWRT: 'duration', time: currentTimeSpan.label, duration: duration[index].label });
-    this.setState({ isOpen: true });
-  };
+    this.props.updateDuration(duration[index], {
+      updateWRT: 'duration',
+      time: currentTimeSpan.label,
+      duration: duration[index].label,
+    })
+    this.setState({ isOpen: true })
+  }
 
   changeTimeSpan = (e: Object) => {
-    const { currentDuration } = this.props;
+    const { currentDuration } = this.props
 
-    this.props.updateTimeSpan(e, { updateWRT: 'timespan', time: e.label, duration: currentDuration.label });
-    this.setState({ isOpen: true });
-  };
+    this.props.updateTimeSpan(e, {
+      updateWRT: 'timespan',
+      time: e.label,
+      duration: currentDuration.label,
+    })
+    this.setState({ isOpen: true })
+  }
 
   changeChartType = (e: Object) => {
-    this.setState({ currentChart: e, isOpen: true });
-  };
+    this.setState({ currentChart: e, isOpen: true })
+  }
 
   toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  };
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }))
+  }
 
   onUpdateIndicators = (indicator: Indicator, active: boolean) => {
-    const { indicators, indicatorHeight } = this.state;
-    let newIndicatorHeight;
+    const { indicators, indicatorHeight } = this.state
+    let newIndicatorHeight
 
     active
-      ? (newIndicatorHeight = indicatorHeight + indicators[indicator.rank].height)
-      : (newIndicatorHeight = indicatorHeight - indicators[indicator.rank].height);
+      ? (newIndicatorHeight =
+          indicatorHeight + indicators[indicator.rank].height)
+      : (newIndicatorHeight =
+          indicatorHeight - indicators[indicator.rank].height)
 
     this.setState({
       indicators: [
@@ -130,18 +141,25 @@ export default class OHLCV extends React.PureComponent<Props, State> {
       ],
       indicatorHeight: newIndicatorHeight,
       isOpen: true,
-    });
-  };
+    })
+  }
 
   render() {
     const {
       props: { ohlcvData, currentDuration, currentTimeSpan, noOfCandles },
-      state: { indicators, chartHeight, indicatorHeight, expandedChard, currentChart, isOpen },
+      state: {
+        indicators,
+        chartHeight,
+        indicatorHeight,
+        expandedChard,
+        currentChart,
+        isOpen,
+      },
       changeTimeSpan,
       onUpdateIndicators,
       changeDuration,
       changeChartType,
-    } = this;
+    } = this
     return (
       <Wrapper className="main-chart">
         <Toolbar
@@ -175,7 +193,7 @@ export default class OHLCV extends React.PureComponent<Props, State> {
           </ResizableBox>
         </Collapse>
       </Wrapper>
-    );
+    )
   }
 }
 
@@ -212,20 +230,31 @@ const Toolbar = ({
       />
     </TimeSpanMenu>
 
-    <DurationMenu duration={state.duration} currentDuration={currentDuration} changeDuration={changeDuration} />
+    <DurationMenu
+      duration={state.duration}
+      currentDuration={currentDuration}
+      changeDuration={changeDuration}
+    />
 
     <TimeSpanMenu>
-      <IndicatorSelect indicators={state.indicators} onUpdateIndicators={onUpdateIndicators} />
+      <IndicatorSelect
+        indicators={state.indicators}
+        onUpdateIndicators={onUpdateIndicators}
+      />
     </TimeSpanMenu>
-    <Button icon={isOpen ? 'chevron-up' : 'chevron-down'} minimal onClick={toggleCollapse} />
+    <Button
+      icon={isOpen ? 'chevron-up' : 'chevron-down'}
+      minimal
+      onClick={toggleCollapse}
+    />
   </ToolbarWrapper>
-);
+)
 
 const DurationMenu = ({ duration, changeDuration, currentDuration }) => {
   return (
     <DurationWrapper>
       {duration.map((dur, index) => {
-        const { label } = dur;
+        const { label } = dur
         return (
           <Button
             key={index}
@@ -235,11 +264,11 @@ const DurationMenu = ({ duration, changeDuration, currentDuration }) => {
             intent={currentDuration.label === label ? 'primary' : ''}
             active={currentDuration.label === label}
           />
-        );
+        )
       })}
     </DurationWrapper>
-  );
-};
+  )
+}
 
 const DurationWrapper = styled.div`
   position: relative;
@@ -255,7 +284,7 @@ const DurationWrapper = styled.div`
   &:active {
     background-color: transparent !important;
   }
-`;
+`
 
 const ToolbarWrapper = styled.div`
   width: 100%;
@@ -265,8 +294,7 @@ const ToolbarWrapper = styled.div`
   @media only screen and (max-width: 1200px) {
     display: none;
   }
-
-`;
+`
 
 const ChartTypeMenu = styled.div`
   position: relative;
@@ -275,11 +303,11 @@ const ChartTypeMenu = styled.div`
   display: flex;
   width: 30px;
   flex-direction: column;
-`;
+`
 
 const Wrapper = styled(Card)`
   height: 100%;
-`;
+`
 
 const TimeSpanMenu = styled.div`
   position: relative;
@@ -288,4 +316,4 @@ const TimeSpanMenu = styled.div`
   display: flex;
   width: auto;
   flex-direction: column;
-`;
+`
