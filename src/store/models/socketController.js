@@ -611,6 +611,17 @@ const handleOHLCVMessage = (
   if (event.payload.length === 0) return;
 
   let ohlcv = event.payload;
+
+  // Prevent undefined error
+  if (Array.isArray(ohlcv) && ohlcv.length < 1) {
+    return;
+  }
+
+  // Because it returns an object when there is 1 element
+  if (!Array.isArray(ohlcv)) {
+    ohlcv = [ohlcv];
+  }
+
   let { pairName } = ohlcv[0].pair;
   let { baseTokenDecimals } = pairs[pairName];
 

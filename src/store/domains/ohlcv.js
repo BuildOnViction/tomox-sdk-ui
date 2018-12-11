@@ -13,10 +13,18 @@ export const initialized = () => {
   return event
 }
 
-export const savedOHLCVData = (ohlcv: Array<Array<Object>>) => {
+export const savedOHLCVData = (ohlcv: Object[]) => {
   const event = (state: OHLCVState) => ({
     ...state,
     ohlcvData: ohlcv
+  })
+  return event
+}
+
+export const updateOHLCVData = (ohlcv: Object[]) => {
+  const event = (state: OHLCVState) => ({
+    ...state,
+    ohlcvData: state.ohlcvData.concat(ohlcv),
   })
   return event
 }

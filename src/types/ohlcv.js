@@ -1,7 +1,7 @@
 //@flow
 
 export type OHLCVState = {
-  +ohlcvData: Array<Object>,
+  +ohlcvData: Object[],
   +currentTimeSpan: Object,
   +currentDuration: Object,
   +noOfCandles: number

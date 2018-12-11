@@ -14,8 +14,8 @@ export const subscribeChart = (
 ) => {
   let message: WebsocketMessage;
   let now = Date.now();
-  duration = duration || 1;
-  units = units || 'hour';
+  duration = duration || 5;
+  units = units || 'sec';
   from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000);
   to = to || Math.floor(new Date(now).getTime() / 1000);
 
