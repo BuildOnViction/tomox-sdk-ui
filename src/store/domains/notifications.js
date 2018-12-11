@@ -31,7 +31,9 @@ export const notificationAdded = (
   return event;
 };
 
-export const notificationRemoved = (id: number) => {
+export const notificationRemoved = (
+  id: number
+): (NotificationState => NotificationState) => {
   const event = (state: NotificationState) => {
     return state.filter(notification => notification.id !== id);
   };

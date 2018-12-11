@@ -14,6 +14,7 @@ export type Trade = {
   pair: string,
   maker: string,
   taker: string,
+  change: string,
   signature: Signature
 };
 

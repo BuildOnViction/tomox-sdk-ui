@@ -1,76 +1,100 @@
 // @flow
-import React from 'react'
-import { MenuItem, Intent } from '@blueprintjs/core'
-import { MultiSelect } from '@blueprintjs/select'
+import React from 'react';
+import { MenuItem, Intent } from '@blueprintjs/core';
+import { MultiSelect } from '@blueprintjs/select';
 
-const INTENTS = [Intent.NONE, Intent.PRIMARY, Intent.SUCCESS, Intent.DANGER, Intent.WARNING]
+const INTENTS = [
+  Intent.NONE,
+  Intent.PRIMARY,
+  Intent.SUCCESS,
+  Intent.DANGER,
+  Intent.WARNING
+];
 
 type Indicator = {
   name: string,
   active: boolean,
   height: number,
   rank: number
-}
+};
 
 type Props = {
   indicators: Array<Indicator>,
   onUpdateIndicators: (Indicator, boolean) => void
-}
+};
 type State = {
   indicators: Array<Indicator>
-}
+};
 
-export default class CustomMultiSelect extends React.PureComponent<Props, State> {
+export default class CustomMultiSelect extends React.PureComponent<
+  Props,
+  State
+> {
   state = {
     indicators: this.props.indicators
-  }
+  };
 
   // silence-error: couldn't resolve built-in Func params
   itemRenderer(item: Object, { modifiers, handleClick }) {
-    return <MenuItem icon={item.active ? 'tick' : ''} onClick={handleClick} text={`${item.name}`} key={item.rank} />
+    return (
+      <MenuItem
+        icon={item.active ? 'tick' : ''}
+        onClick={handleClick}
+        text={`${item.name}`}
+        key={item.rank}
+      />
+    );
   }
 
   tagRenderer(item: Indicator) {
-    return item.name
+    return item.name;
   }
 
   onItemSelect = (e: Indicator) => {
-    const { indicators } = this.state
-    const active = !indicators[e.rank].active
+    const { indicators } = this.state;
+    const active = !indicators[e.rank].active;
 
-    this.props.onUpdateIndicators(e, active)
+    this.props.onUpdateIndicators(e, active);
     this.setState({
-      indicators: [...indicators.slice(0, e.rank), { ...indicators[e.rank], active }, ...indicators.slice(e.rank + 1)]
-    })
-  }
+      indicators: [
+        ...indicators.slice(0, e.rank),
+        { ...indicators[e.rank], active },
+        ...indicators.slice(e.rank + 1)
+      ]
+    });
+  };
 
   findTag = (tagName: string) => {
-    let foundIndicator = {}
-    const { indicators } = this.state
+    let foundIndicator = {};
+    const { indicators } = this.state;
     indicators.map((indicator, index) => {
       if (indicator.name === tagName) {
-        foundIndicator['indicator'] = indicator
-        foundIndicator['index'] = index
+        foundIndicator['indicator'] = indicator;
+        foundIndicator['index'] = index;
       }
-      return indicator
-    })
-    return foundIndicator
-  }
+      return indicator;
+    });
+    return foundIndicator;
+  };
 
   handleTagRemove = (tag: string) => {
-    const { indicators } = this.state
-    let { indicator: changedIndicator, index } = this.findTag(tag)
-    this.props.onUpdateIndicators(indicators[index], false)
-    changedIndicator.active = false
+    const { indicators } = this.state;
+    let { indicator: changedIndicator, index } = this.findTag(tag);
+    this.props.onUpdateIndicators(indicators[index], false);
+    changedIndicator.active = false;
     this.setState({
-      indicators: [...indicators.slice(0, index), changedIndicator, ...indicators.slice(index + 1)]
-    })
-  }
+      indicators: [
+        ...indicators.slice(0, index),
+        changedIndicator,
+        ...indicators.slice(index + 1)
+      ]
+    });
+  };
 
-  getSelectedItem = () => {
-    const { indicators } = this.state
-    return indicators.filter(item => item.active)
-  }
+  getSelectedItem = (): Array<Indicator> => {
+    const { indicators } = this.state;
+    return indicators.filter(item => item.active);
+  };
 
   render() {
     const {
@@ -79,16 +103,20 @@ export default class CustomMultiSelect extends React.PureComponent<Props, State>
       onItemSelect,
       itemRenderer,
       tagRenderer
-    } = this
+    } = this;
 
     const getTagProps = (value: string, index: number) => ({
       intent: INTENTS[index % INTENTS.length],
       minimal: true
-    })
+    });
 
     return (
       <MultiSelect
-        tagInputProps={{ tagProps: getTagProps, placeholder: 'Indicators', onRemove: this.handleTagRemove }}
+        tagInputProps={{
+          tagProps: getTagProps,
+          placeholder: 'Indicators',
+          onRemove: this.handleTagRemove
+        }}
         popoverProps={{ minimal: true }}
         itemRenderer={itemRenderer}
         tagRenderer={tagRenderer}
@@ -97,6 +125,6 @@ export default class CustomMultiSelect extends React.PureComponent<Props, State>
         selectedItems={getSelectedItem()}
         onItemSelect={onItemSelect}
       />
-    )
+    );
   }
 }

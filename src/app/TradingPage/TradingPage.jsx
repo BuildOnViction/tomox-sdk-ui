@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom';
 type Props = {
   isInitiated: boolean,
   authenticated: boolean,
+  isConnected: boolean,
   balancesLoading: boolean,
   baseTokenBalance: string,
   quoteTokenBalance: string,
