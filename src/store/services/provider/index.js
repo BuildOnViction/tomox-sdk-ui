@@ -1,8 +1,8 @@
-import { NETWORK_URL } from '../../../config/url';
+// import { NETWORK_URL } from '../../../config/url';
 import { DEFAULT_NETWORK_ID } from '../../../config/environment';
 import { ERC20 } from '../../../config/abis';
 import { EXCHANGE_ADDRESS } from '../../../config/contracts';
-import { utils, providers, Contract } from 'ethers';
+import { utils, Contract } from 'ethers';
 
 import { createProvider } from '../../../utils/provider';
 

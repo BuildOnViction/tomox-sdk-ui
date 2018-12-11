@@ -6,6 +6,7 @@ import {
   getTradeHash
   // getRandomNonce
 } from '../../../utils/crypto';
+
 import { encodeBytes } from '../../../utils/rlp';
 import { feedUpdateDigest, getSwarmSig } from '../../../utils/swarmFeed';
 import { createRawOrder as orderCreateRawOrder } from '../orders';

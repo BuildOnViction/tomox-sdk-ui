@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { addLocaleData } from 'react-intl';
-import viLocaleData from 'react-intl/locale-data/vi';
+import { connect } from 'react-redux';
+import { IntlProvider } from 'react-intl';
 import configureStore from './store/configureStore';
 import registerServiceWorker from './registerServiceWorker';
 import { AppContainer } from 'react-hot-loader';
@@ -10,18 +10,26 @@ import { Loading } from './components/Common';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 
+import * as messagesData from './locale';
+
 const { store, persistor } = configureStore();
 
 registerServiceWorker();
 
-// addLocaleData(viLocaleData);
+const ConnectedIntlProvider = connect(state => {
+  const { locale } = state.settings;
+  // const locale = 'vi';
+  return { locale, key: locale, messages: messagesData[locale] };
+})(IntlProvider);
 
 const render = AppComponent => {
   return ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
-          <AppComponent />
+          <ConnectedIntlProvider>
+            <AppComponent />
+          </ConnectedIntlProvider>
         </PersistGate>
       </Provider>
     </AppContainer>,

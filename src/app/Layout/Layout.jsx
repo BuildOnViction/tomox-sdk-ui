@@ -1,9 +1,8 @@
 // @flow
 import type { Node } from 'react';
 import React from 'react';
-import { IntlProvider } from 'react-intl';
 import { Link, NavLink } from 'react-router-dom';
-import { SvgIcon, Footer, Indent } from '../../components/Common';
+import { Footer, Indent } from '../../components/Common';
 import Notifier from '../../components/Notifier';
 import ConnectionStatus from '../../components/ConnectionStatus';
 import styled from 'styled-components';
@@ -29,8 +28,6 @@ export type Props = {
   authenticated: boolean,
   accountLoading: boolean,
   address: string,
-  locale: string,
-  messages: { [id: string]: string },
   currentBlock?: string,
   createProvider?: () => {}
 };
@@ -44,14 +41,7 @@ class Layout extends React.PureComponent<Props, State> {
     }
   }
   render() {
-    const {
-      children,
-      authenticated,
-      address,
-      locale,
-      messages,
-      currentBlock
-    } = this.props;
+    const { children, authenticated, address, currentBlock } = this.props;
     const menu = (
       <Menu>
         <MenuItem>
@@ -67,78 +57,67 @@ class Layout extends React.PureComponent<Props, State> {
     );
 
     return (
-      <IntlProvider locale={locale} messages={messages}>
-        <Wrapper>
-          <Notifier />
-          <Header>
-            <Navbar>
-              <NavbarGroup align={Alignment.LEFT}>
-                <NavbarHeading>
-                  <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
-                  <Indent />
-                  <Tag minimal intent="success">
-                    BETA
-                  </Tag>
-                </NavbarHeading>
-                {authenticated && (
-                  <React.Fragment>
-                    <NavbarDivider />
-                    {/* <NavbarDivider /> */}
-                    <NavbarLink to="/wallet">Wallet</NavbarLink>
-                    <NavbarLink to="/trade">Exchange</NavbarLink>
-                    <NavbarLink to="/settings">Settings</NavbarLink>
-                    <NavbarDivider />
-                  </React.Fragment>
-                )}
-              </NavbarGroup>
+      <Wrapper>
+        <Notifier />
+        <Header>
+          <Navbar>
+            <NavbarGroup align={Alignment.LEFT}>
+              <NavbarHeading>
+                <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
+                <Indent />
+                <Tag minimal intent="success">
+                  BETA
+                </Tag>
+              </NavbarHeading>
+              {authenticated && (
+                <React.Fragment>
+                  <NavbarDivider />
+                  {/* <NavbarDivider /> */}
+                  <NavbarLink to="/wallet">Wallet</NavbarLink>
+                  <NavbarLink to="/trade">Exchange</NavbarLink>
+                  <NavbarLink to="/settings">Settings</NavbarLink>
+                  <NavbarDivider />
+                </React.Fragment>
+              )}
+            </NavbarGroup>
 
-              <NavbarGroup align={Alignment.RIGHT}>
-                {currentBlock && (
-                  <Block>
-                    <span>Current Block: </span>
-                    <a
-                      href={
-                        'https://scan.testnet.tomochain.com/blocks/' +
-                        currentBlock
-                      }
-                      target="_blank"
-                    >
-                      {currentBlock}
-                    </a>
-                  </Block>
-                )}
+            <NavbarGroup align={Alignment.RIGHT}>
+              {currentBlock && (
+                <Block>
+                  <span>Current Block: </span>
+                  <a
+                    href={
+                      'https://scan.testnet.tomochain.com/blocks/' +
+                      currentBlock
+                    }
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {currentBlock}
+                  </a>
+                </Block>
+              )}
 
-                {/* <ProviderStatus>
-                  <SvgIcon
-                    style={{ marginRight: '10px' }}
-                    width="20px"
-                    icon="connect-signal"
-                    intent={authenticated ? 'success' : 'error'}
-                  />
-                  <p>{authenticated ? 'Connected' : 'Not Connected'}</p>
-                </ProviderStatus> */}
-
-                {!authenticated ? (
-                  <NavbarLink to="/login">Login</NavbarLink>
-                ) : (
-                  <React.Fragment>
-                    <ConnectionStatus />
-                    <Popover
-                      content={menu}
-                      position={Position.BOTTOM_RIGHT}
-                      minimal
-                    >
-                      <Button icon="key" text={address} />
-                    </Popover>
-                  </React.Fragment>
-                )}
-              </NavbarGroup>
-            </Navbar>
-          </Header>
-          <MainContent>{children}</MainContent>
-          <Footer />
-        </Wrapper>
-      </IntlProvider>
+              {!authenticated ? (
+                <NavbarLink to="/login">Login</NavbarLink>
+              ) : (
+                <React.Fragment>
+                  <ConnectionStatus />
+                  <Popover
+                    content={menu}
+                    position={Position.BOTTOM_RIGHT}
+                    minimal
+                  >
+                    <Button icon="key" text={address} />
+                  </Popover>
+                </React.Fragment>
+              )}
+            </NavbarGroup>
+          </Navbar>
+        </Header>
+        <MainContent>{children}</MainContent>
+        <Footer />
+      </Wrapper>
     );
   }
 }
@@ -157,15 +136,15 @@ const MainContent = styled.main`
   flex: 1;
 `;
 
-const ProviderStatus = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 50px;
-  & p {
-    margin: 0;
-  }
-`;
+// const ProviderStatus = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-right: 50px;
+//   & p {
+//     margin: 0;
+//   }
+// `;
 
 const Block = styled.div`
   word-wrap: break-word;

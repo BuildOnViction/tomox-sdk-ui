@@ -13,11 +13,8 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
     WETHBalance: selector.WETHBalance,
     WETHAllowance: selector.WETHAllowance,
     authenticated: selector.authenticated,
-    authenticated: selector.authenticated,
     address: selector.address,
     currentBlock: selector.currentBlock,
-    locale: 'en',
-    messages: {},
     accountLoading: selector.accountLoading
   };
 }

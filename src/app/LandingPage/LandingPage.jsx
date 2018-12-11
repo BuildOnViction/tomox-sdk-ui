@@ -1,14 +1,14 @@
-import React from 'react'
-import { NonIdealState } from '@blueprintjs/core'
-
+import React from 'react';
+import { NonIdealState } from '@blueprintjs/core';
+import { FormattedMessage } from 'react-intl';
 class LandingPage extends React.PureComponent {
   render() {
     return (
       <NonIdealState title="WORK IN PROGRESS" visual="wrench">
-        Landing Page
+        <FormattedMessage id="app.landingPage" />
       </NonIdealState>
-    )
+    );
   }
 }
 
-export default LandingPage
+export default LandingPage;

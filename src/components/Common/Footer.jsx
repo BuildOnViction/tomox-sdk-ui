@@ -67,7 +67,11 @@ const LinkWrapper = ({ className, to, children }) => {
       </Link>
     );
   }
-  return <a className={className}>{children}</a>;
+  return (
+    <a href="http://tomochain.com" className={className}>
+      {children}
+    </a>
+  );
 };
 
 const Wrapper = styled.div.attrs({

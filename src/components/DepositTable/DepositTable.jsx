@@ -6,7 +6,7 @@ import DepositModal from '../../components/DepositModal';
 import TransferTokensModal from '../../components/TransferTokensModal';
 import ConvertTokensModal from '../../components/ConvertTokensModal';
 
-import type { Symbol, Token, TokenData } from '../../types/tokens';
+import type { Symbol, TokenData } from '../../types/tokens';
 
 type Props = {
   connected: boolean,
