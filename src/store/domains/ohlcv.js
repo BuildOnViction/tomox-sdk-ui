@@ -5,7 +5,7 @@ const initialState: OHLCVState = {
   ohlcvData: [],
   noOfCandles: 150,
   currentTimeSpan: { name: '1 min', label: '1m' },
-  currentDuration: { name: '1 Hour', label: '1h' }
+  currentDuration: { name: '1 Hour', label: '1h' },
 }
 
 export const initialized = () => {
@@ -16,7 +16,7 @@ export const initialized = () => {
 export const savedOHLCVData = (ohlcv: Object[]) => {
   const event = (state: OHLCVState) => ({
     ...state,
-    ohlcvData: ohlcv
+    ohlcvData: ohlcv,
   })
   return event
 }
@@ -32,7 +32,7 @@ export const updateOHLCVData = (ohlcv: Object[]) => {
 export const savedTimeSpan = (currentTimeSpan: Object) => {
   const event = (state: OHLCVState) => ({
     ...state,
-    currentTimeSpan: currentTimeSpan
+    currentTimeSpan,
   })
   return event
 }
@@ -40,7 +40,7 @@ export const savedTimeSpan = (currentTimeSpan: Object) => {
 export const savedDuration = (currentDuration: Object) => {
   const event = (state: OHLCVState) => ({
     ...state,
-    currentDuration: currentDuration
+    currentDuration,
   })
   return event
 }
@@ -48,7 +48,7 @@ export const savedDuration = (currentDuration: Object) => {
 export const savedNoOfCandles = (noOfCandles: Object) => {
   const event = (state: OHLCVState) => ({
     ...state,
-    noOfCandles: noOfCandles
+    noOfCandles,
   })
   return event
 }
@@ -56,7 +56,7 @@ export const savedNoOfCandles = (noOfCandles: Object) => {
 export const ohlcvReset = () => {
   const event = (state: OHLCVState) => ({
     ...state,
-    ohlcvData: []
+    ohlcvData: [],
   })
 
   return event
@@ -66,6 +66,6 @@ export default function model(state: OHLCVState) {
   return {
     getState: () => state,
     getNoOfCandles: () => state.noOfCandles,
-    getOHLCVData: () => state.ohlcvData
+    getOHLCVData: () => state.ohlcvData,
   }
 }
