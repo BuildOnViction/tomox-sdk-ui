@@ -109,8 +109,8 @@ class WalletLoginForm extends React.PureComponent<Props, State> {
         value.length === 0
           ? this.setState({ jsonStatus: 'incomplete' })
           : isJson(value)
-            ? this.setState({ jsonStatus: 'valid' })
-            : this.setState({ jsonStatus: 'invalid' });
+          ? this.setState({ jsonStatus: 'valid' })
+          : this.setState({ jsonStatus: 'invalid' });
         break;
       case 'walletFile':
         break;
@@ -123,8 +123,8 @@ class WalletLoginForm extends React.PureComponent<Props, State> {
         value.length === 0
           ? this.setState({ mnemonicStatus: 'incomplete' })
           : (value: any).split(' ').length === 12
-            ? this.setState({ mnemonicStatus: 'valid' })
-            : this.setState({ mnemonicStatus: 'invalid' });
+          ? this.setState({ mnemonicStatus: 'valid' })
+          : this.setState({ mnemonicStatus: 'invalid' });
         break;
       default:
         return;
@@ -367,7 +367,7 @@ class WalletLoginForm extends React.PureComponent<Props, State> {
 
     const saveEncryptedWalletDisabled =
       method === 'privateKey' || method === 'mnemonic';
-    const savedWalletsDisabled =
+    const savedWalletDisabled =
       !localStorageWallets || localStorageWallets.length === 0;
 
     return (
@@ -400,7 +400,7 @@ class WalletLoginForm extends React.PureComponent<Props, State> {
         savedWalletPassword={savedWalletPassword}
         savedWalletPasswordStatus={savedWalletPasswordStatus}
         savedWalletPasswordProgress={savedWalletPasswordProgress}
-        savedWalletsDisabled={savedWalletsDisabled}
+        savedWalletDisabled={savedWalletDisabled}
       />
     );
   }

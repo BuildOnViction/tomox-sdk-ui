@@ -86,7 +86,7 @@ export async function queryTokenBalances(
 export async function queryExchangeTokenAllowances(
   owner: string,
   tokens: Array<Token>
-) {
+): Promise<AccountAllowance[]> {
   const provider = getProvider();
 
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId];
@@ -99,37 +99,38 @@ export async function queryExchangeTokenAllowances(
     // }
   });
 
-  let allowances = await Promise.all(allowancePromises);
+  let allowances: TokenBalances = await Promise.all(allowancePromises);
 
-  allowances = (allowances: TokenBalances)
+  const accountAllowances: AccountAllowance[] = allowances
     .filter(allowance => allowance !== null)
     .map((allowance, i) => ({
       symbol: tokens[i].symbol,
       allowance: utils.formatEther(allowance)
     }));
 
-  return allowances;
+  return accountAllowances;
 }
 
 export async function queryTokenAllowances(
   owner: string,
   spender: string,
   tokens: Array<Token>
-) {
-  let allowances;
+): Promise<AccountAllowance[]> {
   const provider = getProvider();
   const allowancePromises = tokens.map(token => {
     const contract = new Contract(token.address, ERC20, provider);
     return contract.allowance(owner, spender);
   });
 
-  allowances = await Promise.all(allowancePromises);
-  allowances = (allowances: TokenBalances).map((allowance, i) => ({
-    symbol: tokens[i].symbol,
-    allowance: utils.formatEther(allowance)
-  }));
+  let allowances: TokenBalances = await Promise.all(allowancePromises);
+  const accountAllowances: AccountAllowance[] = allowances.map(
+    (allowance, i) => ({
+      symbol: tokens[i].symbol,
+      allowance: utils.formatEther(allowance)
+    })
+  );
 
-  return allowances;
+  return accountAllowances;
 }
 
 export async function subscribeEtherBalance(

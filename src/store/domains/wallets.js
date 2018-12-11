@@ -1,15 +1,15 @@
 // @flow
-import type { WalletsState } from '../../types/wallets'
+import type { WalletsState } from '../../types/wallets';
 
 const initialState = {
   addresses: [],
   byAddress: {}
-}
+};
 
 export const initialized = () => {
-  const event = (state: WalletsState = initialState) => state
-  return event
-}
+  const event = (state: WalletsState = initialState) => state;
+  return event;
+};
 
 export const walletAdded = (address: string, encryptedWallet: ?string) => {
   const event = (state: WalletsState) => ({
@@ -22,29 +22,29 @@ export const walletAdded = (address: string, encryptedWallet: ?string) => {
         encryptedWallet: encryptedWallet || null
       }
     }
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 export const walletRemoved = (address: string) => {
-  const event = (state: WalletsState) => ({
+  const event = (state: WalletsState): WalletsState => ({
     ...state,
     addresses: state.addresses.filter(element => element !== address),
     byAddress: Object.keys(state.byAddress)
       .filter(key => key !== address)
       .reduce((result, current) => {
-        result[current] = state.byAddress[current]
-        return result
+        result[current] = state.byAddress[current];
+        return result;
       }, {})
-  })
+  });
 
-  return event
-}
+  return event;
+};
 
 export default function walletDomain(state: WalletsState) {
   return {
     addresses: () => state.addresses,
     byAddress: () => state.byAddress
-  }
+  };
 }

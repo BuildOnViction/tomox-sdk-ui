@@ -32,6 +32,12 @@ storiesOf('WalletLoginForm', module)
     withInfo({ source: false })(() => (
       <div className="bp3-dark">
         <WalletLoginFormRenderer
+          savedWallet={''}
+          savedWalletDisabled={false}
+          savedWalletPassword={''}
+          savedWalletPasswordProgress={20}
+          savedWalletPasswordStatus={'valid'}
+          savedWalletAddress={''}
           loading={true}
           method={'privateKey'}
           privateKey={''}
@@ -66,6 +72,13 @@ storiesOf('WalletLoginForm', module)
       <div className="bp3-dark">
         <WalletLoginFormRenderer
           loading={false}
+          savedWallet={''}
+          savedWalletAddress={''}
+          savedWalletPassword={''}
+          savedWalletDisabled={false}
+          savedEncryptedWalletDisabled={false}
+          savedWalletPasswordStatus={'valid'}
+          savedWalletPasswordProgress={10}
           method={'privateKey'}
           privateKey={''}
           privateKeyStatus={'incomplete'}

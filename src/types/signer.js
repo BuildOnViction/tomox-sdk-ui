@@ -1,6 +1,7 @@
 //@flow
 import type { Signature, Transaction } from './common';
 import type { NewOrderParams, Order, RawOrder, OrderCancel } from './orders';
+import type { Request } from './swarm';
 import type { Trade } from './trades';
 import type { Network, Connection } from './network';
 
@@ -37,9 +38,10 @@ export type Signer = {
   createRawOrder: NewOrderParams => Promise<RawOrder>,
   sendTransaction: Transaction => Promise<Object>,
   getAddress: () => Promise<string>,
-  createOrderCancel: string => OrderCancel,
+  createOrderCancel: string => Promise<OrderCancel>,
   updateSwarmFeed: (string, any) => Promise<boolean>,
-  getFeedRequest: string => Promise<Request>
+  getFeedRequest: string => Promise<Request>,
+  signingKey?: Object
 };
 
 export type UpdateSignerParams = {

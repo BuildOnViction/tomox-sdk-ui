@@ -57,7 +57,7 @@ type Props = {
   submit: (SyntheticEvent<>) => Promise<void>,
   showLoginMethods: () => void,
   saveEncryptedWalletDisabled: boolean,
-  savedWalletsDisabled: boolean
+  savedWalletDisabled: boolean
 };
 
 const inputStatuses = {
@@ -129,7 +129,7 @@ const WalletLoginFormRenderer = (props: Props) => {
     submit,
     saveEncryptedWalletDisabled,
     showLoginMethods,
-    savedWalletsDisabled
+    savedWalletDisabled
   } = props;
 
   const inputForms = {
@@ -142,7 +142,7 @@ const WalletLoginFormRenderer = (props: Props) => {
         savedWalletAddress={savedWalletAddress}
         savedWalletPassword={savedWalletPassword}
         savedWalletPasswordStatus={savedWalletPasswordStatus}
-        savedWalletDisabled={savedWalletsDisabled}
+        savedWalletDisabled={savedWalletDisabled}
       />
     ),
     privateKey: (
@@ -168,7 +168,7 @@ const WalletLoginFormRenderer = (props: Props) => {
         passwordHelpingText={passwordHelpingText}
         storeWallet={storeWallet}
         storePrivateKey={storePrivateKey}
-        savedWalletDisabled={savedWalletsDisabled}
+        savedWalletDisabled={savedWalletDisabled}
         saveEncryptedWalletDisabled={saveEncryptedWalletDisabled}
       />
     ),
@@ -215,7 +215,7 @@ const WalletLoginFormRenderer = (props: Props) => {
         <Radio
           label="Saved Wallet"
           value="savedWallet"
-          disabled={savedWalletsDisabled}
+          disabled={savedWalletDisabled}
         />
         <Radio label="Private Key" value="privateKey" />
         <Radio label="JSON" value="json" />
@@ -371,7 +371,7 @@ const JSONInputForm = ({
   password,
   passwordStatus,
   localStorageWallets,
-  savedWalletsDisabled,
+  savedWalletDisabled,
   passwordHelpingText,
   onEnterKeyPress,
   saveEncryptedWalletDisabled,
@@ -380,7 +380,7 @@ const JSONInputForm = ({
 }: *) => {
   return (
     <React.Fragment>
-      {!savedWalletsDisabled && (
+      {!savedWalletDisabled && (
         <InputPadding>
           <WalletSelect
             // silence-error: couldn't resolve

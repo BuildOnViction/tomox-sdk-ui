@@ -1,5 +1,5 @@
 // @flow
-import type { OrderBookState } from '../../types/orderBook';
+import type { OrderBookState, OrderBookData } from '../../types/orderBook';
 import SortedArray from 'sorted-array';
 import { round } from '../../utils/helpers';
 import { amountPrecision, pricePrecision } from '../../config/tokens';
@@ -133,9 +133,11 @@ export default function domain(state: OrderBookState) {
     getAsks: () => state.asks,
     getBids: () => state.bids,
     getSelectedOrder: () => state.selected,
-    getOrderedBids: () => state.sortedBids.map(price => state.bids[price]),
-    getOrderedAsks: () => state.sortedAsks.map(price => state.asks[price]),
-    getOrderBookData: (ln: number) => {
+    getOrderedBids: (): Array<Object> =>
+      state.sortedBids.map(price => state.bids[price]),
+    getOrderedAsks: (): Array<Object> =>
+      state.sortedAsks.map(price => state.asks[price]),
+    getOrderBookData: (ln: number): OrderBookData => {
       ln = ln || 300;
 
       let bids = state.sortedBids

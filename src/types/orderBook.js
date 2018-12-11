@@ -12,6 +12,11 @@ export type OrderBookState = {
   +sortedAsks: Array<number>
 };
 
+export type OrderBookData = {
+  +bids: Array<Object>,
+  +asks: Array<Object>
+};
+
 export type OrderListPropsTypes = {
   orderList: Array<Object>,
   bookName: string,
