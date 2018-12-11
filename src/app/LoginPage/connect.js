@@ -4,7 +4,8 @@ import loginPageSelector, {
     loginWithWallet,
     loginWithTrezorWallet,
     loginWithLedgerWallet,
-    getTrezorPublicKey
+    getTrezorPublicKey,
+    closeSelectAddressModal
 } from '../../store/models/loginPage';
 import { removeNotification } from '../../store/actions/app';
 
@@ -13,7 +14,8 @@ export function mapStateToProps(state, props) {
 
     return {
         authenticated: selector.authenticated,
-        loading: selector.loading
+        loading: selector.loading,
+        isSelectAddressModalOpen: selector.isSelectAddressModalOpen
     };
 }
 
@@ -23,7 +25,8 @@ const mapDispatchToProps = {
     loginWithTrezorWallet,
     loginWithLedgerWallet,
     removeNotification,
-    getTrezorPublicKey
+    getTrezorPublicKey,
+    closeSelectAddressModal
 };
 
 export default connect(

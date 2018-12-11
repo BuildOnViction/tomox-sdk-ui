@@ -83,6 +83,10 @@ export type ConfirmTxAction = {
   },
 };
 
+export type ResetFormAction = {
+  type: 'transferTokensForm/RESET_FORM'
+};
+
 export type TransferTokensFormEvent = any => TransferTokensFormState => TransferTokensFormState;
 
 export type TransferTokensFormAction =
@@ -91,4 +95,5 @@ export type TransferTokensFormAction =
   | InvalidateTxAction
   | SendTxAction
   | ConfirmTxAction
-  | RevertTxAction;
+  | RevertTxAction
+  | ResetFormAction;

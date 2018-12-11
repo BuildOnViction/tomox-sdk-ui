@@ -39,7 +39,7 @@ export const txInvalidated = (statusMessage: string) => {
 export const txSent = (hash: string) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
-    loading: false,
+    loading: true,
     status: 'sent',
     statusMessage: null,
     receipt: null,
@@ -75,6 +75,17 @@ export const txConfirmed = (receipt: TxReceipt) => {
     loading: false,
     status: 'confirmed',
     receipt: receipt
+  });
+  return event;
+};
+
+export const resetForm = () => {
+  const event = (state: TransferTokensFormState) => ({
+    ...state,
+    loading: false,
+    status: 'incomplete',
+    hash: null,
+    receipt: null
   });
   return event;
 };

@@ -58,6 +58,8 @@ export const loginPage = createReducer(action => {
       return loginPageEvents.authenticated();
     case loginPageActionTypes.getPublicKey:
       return loginPageEvents.getPublicKey(payload);
+    case loginPageActionTypes.toggleSelectAddressModal:
+      return loginPageEvents.toggleSelectAddressModal(payload);
     default:
       return loginPageEvents.initialized();
   }
@@ -158,6 +160,8 @@ export const transferTokensForm = createReducer(action => {
       return transferTokensFormEvents.txSent(payload.hash);
     case transferTokensFormActionTypes.confirmTx:
       return transferTokensFormEvents.txConfirmed(payload.receipt);
+    case transferTokensFormActionTypes.resetForm:
+        return transferTokensFormEvents.resetForm();
     default:
       return transferTokensFormEvents.initialized();
   }

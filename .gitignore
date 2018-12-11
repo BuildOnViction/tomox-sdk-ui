@@ -60,7 +60,6 @@ typings/
 
 #webstorm cofig files
 .idea
-.editorconfig
 
 #ignored css files
 src/styles/css/app.css
