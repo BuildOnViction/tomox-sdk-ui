@@ -3,22 +3,28 @@ import type { TokenPair } from '../../../types/tokens'
 import type { WebsocketMessage } from '../../../types/websocket'
 import { sendMessage } from './common'
 
-import { addMonths } from 'date-fns'
-
 export const subscribeChart = (
   pair: TokenPair,
-  from: number,
-  to: number,
-  duration: number,
-  units: string
+  timespan: string,
+  duration: string
 ) => {
-  const now = Date.now()
-  duration = duration || 5
-  units = units || 'sec'
-  from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000)
-  to = to || Math.floor(new Date(now).getTime() / 1000)
+  if (!window.socket) throw new Error('Socket connection not established')
 
-  const message: WebsocketMessage = {
+  const now = Date.now()
+  const lengthByDurationUnit = {
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000,
+    M: 30 * 24 * 60 * 60 * 1000,
+    Y: 12 * 30 * 24 * 60 * 60 * 1000,
+  }
+  const nameByTimespanUnit = {
+    m: 'min',
+    h: 'hour',
+    d: 'day',
+    M: 'month',
+  }
+
+  const message: WebsocketMessage = JSON.stringify({
     channel: 'ohlcv',
     event: {
       type: 'SUBSCRIBE',
@@ -26,26 +32,37 @@ export const subscribeChart = (
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
         quoteToken: pair.quoteTokenAddress,
-        from,
-        to,
-        units,
-        duration,
+        from:
+          duration === 'Full'
+            ? 0
+            : Math.floor(
+                (now -
+                  Number(duration.slice(0, -1)) *
+                    lengthByDurationUnit[duration.slice(-1)]) /
+                  1000
+              ),
+        to: Math.floor(now / 1000),
+        units: nameByTimespanUnit[timespan.slice(-1)],
+        duration: Number(timespan.slice(0, -1)),
       },
     },
-  }
+  })
 
-  return sendMessage(message).then(() => unsubscribeChart())
+  window.socket.send(message)
+  return () => unsubscribeChart(pair)
 }
 
 export const unsubscribeChart = () => {
-  const message: WebsocketMessage = {
+  if (!window.socket) throw new Error('Socket connection not established')
+
+  const message: WebsocketMessage = JSON.stringify({
     channel: 'ohlcv',
     event: {
       type: 'UNSUBSCRIBE',
     },
-  }
+  })
 
-  return sendMessage(message)
+  window.socket.send(message)
 }
 
 export const subscribeOrderBook = (pair: TokenPair) => {
