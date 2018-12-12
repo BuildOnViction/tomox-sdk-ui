@@ -1,9 +1,9 @@
 //@flow
-import type { TokenPair } from '../../../types/tokens';
-import type { WebsocketMessage } from '../../../types/websocket';
-import { sendMessage } from './common';
+import type { TokenPair } from '../../../types/tokens'
+import type { WebsocketMessage } from '../../../types/websocket'
+import { sendMessage } from './common'
 
-import { addMonths } from 'date-fns';
+import { addMonths } from 'date-fns'
 
 export const subscribeChart = (
   pair: TokenPair,
@@ -12,14 +12,13 @@ export const subscribeChart = (
   duration: number,
   units: string
 ) => {
-  let message: WebsocketMessage;
-  let now = Date.now();
-  duration = duration || 5;
-  units = units || 'sec';
-  from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000);
-  to = to || Math.floor(new Date(now).getTime() / 1000);
+  const now = Date.now()
+  duration = duration || 5
+  units = units || 'sec'
+  from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000)
+  to = to || Math.floor(new Date(now).getTime() / 1000)
 
-  message = {
+  const message: WebsocketMessage = {
     channel: 'ohlcv',
     event: {
       type: 'SUBSCRIBE',
@@ -27,82 +26,74 @@ export const subscribeChart = (
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
         quoteToken: pair.quoteTokenAddress,
-        from: from,
-        to: to,
-        units: units,
-        duration: duration
-      }
-    }
-  };
+        from,
+        to,
+        units,
+        duration,
+      },
+    },
+  }
 
-  return sendMessage(message).then(() => unsubscribeChart());
-};
+  return sendMessage(message).then(() => unsubscribeChart())
+}
 
 export const unsubscribeChart = () => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'ohlcv',
     event: {
-      type: 'UNSUBSCRIBE'
-    }
-  };
+      type: 'UNSUBSCRIBE',
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const subscribeOrderBook = (pair: TokenPair) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'orderbook',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress
-      }
-    }
-  };
+        quoteToken: pair.quoteTokenAddress,
+      },
+    },
+  }
 
-  return sendMessage(message).then(() => unsubscribeOrderBook());
-};
+  return sendMessage(message).then(() => unsubscribeOrderBook())
+}
 
 export const unsubscribeOrderBook = () => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'orderbook',
-    event: { type: 'UNSUBSCRIBE' }
-  };
+    event: { type: 'UNSUBSCRIBE' },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const subscribeTrades = (pair: TokenPair) => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'trades',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress
-      }
-    }
-  };
+        quoteToken: pair.quoteTokenAddress,
+      },
+    },
+  }
 
-  return sendMessage(message).then(() => unsubscribeTrades());
-};
+  return sendMessage(message).then(() => unsubscribeTrades())
+}
 
 export const unsubscribeTrades = () => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'trades',
-    event: { type: 'UNSUBSCRIBE' }
-  };
+    event: { type: 'UNSUBSCRIBE' },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
