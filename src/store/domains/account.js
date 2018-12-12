@@ -1,62 +1,62 @@
 // @flow
-import type { AccountState } from '../../types/account';
+import type { AccountState } from '../../types/account'
 
 const initialState = {
   address: null,
   privateKey: null,
   currentBlock: '',
   showHelpModal: true,
-  exchangeAddress: ''
-};
+  exchangeAddress: '',
+}
 
 export const initialized = () => {
-  const event = (state: AccountState = initialState) => state;
-  return event;
-};
+  const event = (state: AccountState = initialState) => state
+  return event
+}
 
 export const accountUpdated = (address: string, privateKey: string) => {
   const event = (state: AccountState) => ({
     ...state,
     address,
-    privateKey
-  });
-  return event;
-};
+    privateKey,
+  })
+  return event
+}
 
 export const accountRemoved = () => {
   const event = (state: AccountState) => ({
     ...state,
-    address: null
-  });
+    address: null,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const currentBlockUpdated = (currentBlock: string) => {
   const event = (state: AccountState) => ({
     ...state,
-    currentBlock: currentBlock
-  });
-  return event;
-};
+    currentBlock,
+  })
+  return event
+}
 
 export const showHelpModalUpdated = (showHelpModal: boolean) => {
   const event = (state: AccountState) => ({
     ...state,
-    showHelpModal
-  });
+    showHelpModal,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const exchangeAddressUpdated = (exchangeAddress: string) => {
   const event = (state: AccountState) => ({
     ...state,
-    exchangeAddress
-  });
+    exchangeAddress,
+  })
 
-  return event;
-};
+  return event
+}
 
 export default function accountDomain(state: AccountState) {
   return {
@@ -65,6 +65,6 @@ export default function accountDomain(state: AccountState) {
     currentBlock: () => state.currentBlock,
     authenticated: () => state.address !== null,
     showHelpModal: () => state.showHelpModal,
-    exchangeAddress: () => state.exchangeAddress
-  };
+    exchangeAddress: () => state.exchangeAddress,
+  }
 }
