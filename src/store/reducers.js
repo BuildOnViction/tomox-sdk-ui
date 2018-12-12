@@ -423,7 +423,7 @@ export const convertTokensForm = createReducer(action => {
 });
 
 export const settings = createReducer(action => {
-  const { type } = action;
+  const { type, payload } = action;
   switch (type) {
     case settingsActionTypes.togglePvtKeyLock:
       return settingsEvents.pvtKeyLockToggled();
@@ -431,6 +431,8 @@ export const settings = createReducer(action => {
       return settingsEvents.defaultGasLimitSet();
     case settingsActionTypes.setDefaultGasPrice:
       return settingsEvents.defaultGasPriceSet();
+    case settingsActionTypes.changeLocale:
+      return settingsEvents.changeLocale(payload)
     default:
       return settingsEvents.initialized();
   }

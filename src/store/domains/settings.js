@@ -1,43 +1,52 @@
-import type { SettingsState } from '../../types/settings';
+import type { SettingsState } from '../../types/settings'
 
 const initialState = {
   defaultGasLimit: 2100000,
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true,
-  locale: 'en'
-};
+  locale: 'en',
+}
 
 export const initialized = () => {
-  const event = (state: SettingsState = initialState) => state;
-  return event;
-};
+  const event = (state: SettingsState = initialState) => state
+  return event
+}
 
 export const defaultGasLimitSet = (defaultGasLimit: number) => {
   const event = (state: SettingsState) => ({
     ...state,
-    defaultGasLimit
-  });
+    defaultGasLimit,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const pvtKeyLockToggled = () => {
   const event = (state: SettingsState) => ({
     ...state,
-    pvtKeyLocked: !state.pvtKeyLocked
-  });
+    pvtKeyLocked: !state.pvtKeyLocked,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const defaultGasPriceSet = (defaultGasPrice: number) => {
   const event = (state: SettingsState) => ({
     ...state,
-    defaultGasPrice
-  });
+    defaultGasPrice,
+  })
 
-  return event;
-};
+  return event
+}
+
+export const changeLocale = (locale: string) => {
+  const event = (state: SettingsState) => ({
+    ...state,
+    locale,
+  })
+
+  return event
+}
 
 export default function model(state: SettingsState) {
   return {
@@ -46,7 +55,8 @@ export default function model(state: SettingsState) {
     pvtKeyLocked: () => state.pvtKeyLocked,
     gasSettings: () => ({
       defaultgasPrice: state.defaultGasPrice,
-      defaultGasLimit: state.defaultGasLimit
-    })
-  };
+      defaultGasLimit: state.defaultGasLimit,
+    }),
+    getLocale: () => state.locale,
+  }
 }
