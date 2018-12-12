@@ -183,6 +183,8 @@ export const ohlcv = createReducer(action => {
     case socketControllerActionTypes.initOHLCV:
     case ohlcvActionTypes.saveData:
       return ohlcvEvents.savedOHLCVData(payload.data);
+    case socketControllerActionTypes.updateOHLCV:
+      return ohlcvEvents.updateOHLCVData(payload.data);
     case ohlcvActionTypes.saveDuration:
       return ohlcvEvents.savedDuration(payload.data);
     case ohlcvActionTypes.saveTimeSpan:
