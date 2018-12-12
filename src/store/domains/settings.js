@@ -1,9 +1,10 @@
 import type { SettingsState } from '../../types/settings';
 
-export const initialState = {
+const initialState = {
   defaultGasLimit: 2100000,
   defaultGasPrice: 1000000000,
-  pvtKeyLocked: true
+  pvtKeyLocked: true,
+  locale: 'en'
 };
 
 export const initialized = () => {

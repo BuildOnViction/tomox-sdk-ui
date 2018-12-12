@@ -158,12 +158,10 @@ export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
 };
 
 export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
-  const event = (state: TokenPairState) => {
-    let newState;
-
-    favorited
-      ? (newState = [...state.favorites, tokenPair])
-      : (newState = state.favorites.filter(elem => elem !== tokenPair));
+  const event = (state: TokenPairState): TokenPairState => {
+    let newState = favorited
+      ? [...state.favorites, tokenPair]
+      : state.favorites.filter(elem => elem !== tokenPair);
 
     return {
       ...state,

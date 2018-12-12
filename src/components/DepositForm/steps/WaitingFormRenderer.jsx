@@ -7,7 +7,7 @@ const WaitingFormRenderer = (props: Props) => {
   const {
     tokens,
     token,
-    address,
+    // address,
     associatedAddress,
     balance,
     handleChangeToken,

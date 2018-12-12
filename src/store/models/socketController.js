@@ -218,7 +218,7 @@ function handleTokenListUpdated(
   getState
 ) {
   try {
-    let state = getState();
+    // let state = getState();
     if (event.payload) {
       let tokens = parseTokens(event.payload);
 

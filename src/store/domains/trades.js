@@ -104,7 +104,7 @@ export default function tradesDomain(state: TradesState) {
       return trades;
     },
 
-    marketTrades: (n: number) => {
+    marketTrades: (n: number): Trades => {
       let trades = getTrades(state);
       trades = sortTable(trades, 'time', 'desc');
       trades = trades.map((trade, index) => {
@@ -128,7 +128,7 @@ export default function tradesDomain(state: TradesState) {
       return trades;
     },
 
-    lastTrades: (n: number) => {
+    lastTrades: (n: number): Trades => {
       let trades = Object.values(state.byHash);
       let sortedTrades = sortTable(trades, 'time', 'desc');
       let lastTrades = (sortedTrades: Trades).slice(0, n);

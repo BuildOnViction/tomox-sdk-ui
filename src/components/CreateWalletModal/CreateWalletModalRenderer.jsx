@@ -1,6 +1,6 @@
 // @flow
-import React from 'react'
-import Download from '@axetroy/react-download'
+import React from 'react';
+import Download from '@axetroy/react-download';
 import {
   Button,
   Spinner,
@@ -12,9 +12,9 @@ import {
   Intent,
   Label,
   ProgressBar
-} from '@blueprintjs/core'
-import Steps from 'rc-steps'
-import styled from 'styled-components'
+} from '@blueprintjs/core';
+import Steps from 'rc-steps';
+import styled from 'styled-components';
 
 type Props = {
   address: string,
@@ -38,20 +38,20 @@ type Props = {
   storeWallet: boolean,
   storePrivateKey: boolean,
   encryptedWallet: string
-}
+};
 
 const intents = {
   invalid: Intent.DANGER,
   valid: Intent.SUCCESS,
   incomplete: Intent.PRIMARY
-}
+};
 const inputStatuses = {
   password: {
     incomplete: '',
     valid: '',
     invalid: 'Password is required.'
   }
-}
+};
 
 const CreateWalletWizardRenderer = (props: Props) => {
   const {
@@ -76,7 +76,7 @@ const CreateWalletWizardRenderer = (props: Props) => {
     handleChange,
     storeWallet,
     storePrivateKey
-  } = props
+  } = props;
 
   const buttons = [
     {
@@ -97,7 +97,7 @@ const CreateWalletWizardRenderer = (props: Props) => {
       onOkClick: complete,
       onCancelClick: goBackToDownloadWallet
     }
-  ]
+  ];
 
   const content = {
     '0': (
@@ -111,7 +111,9 @@ const CreateWalletWizardRenderer = (props: Props) => {
         encryptionPercentage={encryptionPercentage}
       />
     ),
-    '1': <WalletDownloadStep address={address} encryptedWallet={encryptedWallet} />,
+    '1': (
+      <WalletDownloadStep address={address} encryptedWallet={encryptedWallet} />
+    ),
     '2': (
       <WalletInformationStep
         address={address}
@@ -120,7 +122,7 @@ const CreateWalletWizardRenderer = (props: Props) => {
         handleChange={handleChange}
       />
     )
-  }
+  };
   return (
     <Dialog
       title={title}
@@ -145,7 +147,11 @@ const CreateWalletWizardRenderer = (props: Props) => {
           </div>
           <div className="bp3-dialog-footer">
             <div className="bp3-dialog-footer-actions">
-              <Button key="Previous" text={buttons[currentStep].cancel} onClick={buttons[currentStep].onCancelClick} />
+              <Button
+                key="Previous"
+                text={buttons[currentStep].cancel}
+                onClick={buttons[currentStep].onCancelClick}
+              />
               <Button
                 key="Next"
                 text={buttons[currentStep].ok}
@@ -157,8 +163,8 @@ const CreateWalletWizardRenderer = (props: Props) => {
         </div>
       )}
     </Dialog>
-  )
-}
+  );
+};
 
 const WalletPasswordStep = props => {
   const {
@@ -169,12 +175,15 @@ const WalletPasswordStep = props => {
     togglePasswordView,
     encryptionPercentage,
     passwordStatus
-  } = props
+  } = props;
   return (
     <div>
       <PasswordInputBox>
         <Label helpertext="Input a secure password that will be used to encrypt your wallet">
-          <FormGroup helperText={inputStatuses.password[passwordStatus]} intent={intents[passwordStatus]}>
+          <FormGroup
+            helperText={inputStatuses.password[passwordStatus]}
+            intent={intents[passwordStatus]}
+          >
             <InputGroup
               icon="password"
               placeholder="Input a secure password"
@@ -182,7 +191,11 @@ const WalletPasswordStep = props => {
               name="password"
               value={password}
               rightElement={
-                <Button minimal="true" onClick={togglePasswordView} icon={showPassword ? 'eye-open' : 'eye-off'} />
+                <Button
+                  minimal="true"
+                  onClick={togglePasswordView}
+                  icon={showPassword ? 'eye-open' : 'eye-off'}
+                />
               }
               onChange={handleChange}
               autoFocus
@@ -190,18 +203,25 @@ const WalletPasswordStep = props => {
           </FormGroup>
         </Label>
         <LinkBox>
-          <a href="">Learn how to secure your wallet</a>
+          <a href="http://tomochain.com">Learn how to secure your wallet</a>
         </LinkBox>
       </PasswordInputBox>
       <ProgressBarBox>
-        {showEncryptionProgress && <ProgressBar animate intent={Intent.PRIMARY} value={encryptionPercentage} stripes />}
+        {showEncryptionProgress && (
+          <ProgressBar
+            animate
+            intent={Intent.PRIMARY}
+            value={encryptionPercentage}
+            stripes
+          />
+        )}
       </ProgressBarBox>
     </div>
-  )
-}
+  );
+};
 
 const WalletDownloadStep = props => {
-  const { encryptedWallet, address } = props
+  const { encryptedWallet, address } = props;
   return (
     <WalletDownloadBox>
       <Icon icon="tick-circle" iconSize={150} intent={Intent.SUCCESS} />
@@ -212,11 +232,11 @@ const WalletDownloadStep = props => {
         </Button>
       </Download>
     </WalletDownloadBox>
-  )
-}
+  );
+};
 
 const WalletInformationStep = props => {
-  const { address, handleChange, storeWallet, storePrivateKey } = props
+  const { address, handleChange, storeWallet, storePrivateKey } = props;
   return (
     <div>
       <WalletInformationBox>
@@ -225,25 +245,33 @@ const WalletInformationStep = props => {
       </WalletInformationBox>
       <WalletStorageSettingsBox>
         <FormGroup helperText="Learn more about different options here">
-          <Checkbox name="storeWallet" checked={storeWallet} onChange={handleChange}>
+          <Checkbox
+            name="storeWallet"
+            checked={storeWallet}
+            onChange={handleChange}
+          >
             <strong>Save encrypted wallet in local storage</strong>
           </Checkbox>
-          <Checkbox name="storePrivateKey" checked={storePrivateKey} onChange={handleChange}>
+          <Checkbox
+            name="storePrivateKey"
+            checked={storePrivateKey}
+            onChange={handleChange}
+          >
             <strong>Save private key in session storage </strong>
           </Checkbox>
         </FormGroup>
       </WalletStorageSettingsBox>
     </div>
-  )
-}
+  );
+};
 
 const LoadingState = () => {
   return (
     <LoadingStateWrapper>
       <Spinner intent="primary" />
     </LoadingStateWrapper>
-  )
-}
+  );
+};
 
 const PasswordInputBox = styled.div`
   padding-top: 40px;
@@ -253,13 +281,13 @@ const PasswordInputBox = styled.div`
   align-items: stretch;
   width: 500px;
   margin: auto;
-`
+`;
 const LoadingStateWrapper = styled.div`
   height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const WalletInformationBox = styled.div`
   padding-top: 40px;
@@ -269,15 +297,15 @@ const WalletInformationBox = styled.div`
   align-items: center;
   width: 500px;
   margin: auto;
-`
+`;
 
 const WalletDownloadHeader = styled.h4`
   padding-top: 20px;
-`
+`;
 
 const WalletStorageSettingsBox = styled.div`
   padding-top: 80px;
-`
+`;
 
 const WalletDownloadBox = styled.div`
   display: flex;
@@ -286,14 +314,14 @@ const WalletDownloadBox = styled.div`
   align-items: center;
   margin-bottom: 20px;
   justify-content: center;
-`
+`;
 
 const ProgressBarBox = styled.div`
   margin-top: 15px;
-`
+`;
 
 const LinkBox = styled.div`
   margin-top: 10px;
-`
+`;
 
-export default CreateWalletWizardRenderer
+export default CreateWalletWizardRenderer;

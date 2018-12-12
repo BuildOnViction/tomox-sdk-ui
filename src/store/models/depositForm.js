@@ -11,7 +11,7 @@ import {
 
 import * as actionCreators from '../actions/accountBalances';
 import * as depositFormActionCreators from '../actions/depositForm';
-import * as accountBalancesService from '../services/accountBalances';
+// import * as accountBalancesService from '../services/accountBalances';
 import { getSigner } from '../services/signer';
 import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
 import { ERC20, WETH } from '../../config/abis';
@@ -37,7 +37,6 @@ export default function depositFormSelector(state: State) {
     blockchain: () => depositDomain.blockchain(),
     getAddressAssociation: (chain: Chain) =>
       depositDomain.getAddressAssociation(chain),
-    rankedTokens: () => tokenDomain.rankedTokens(),
     symbols: () => tokenDomain.symbols(),
     tokenIsSubscribed: (symbol: string) =>
       accountBalancesDomain.isSubscribed(symbol),
@@ -67,11 +66,13 @@ export function queryBalances(): ThunkAction {
       //   accountAddress
       // );
 
-      const tokenBalances = await provider.queryTokenBalances(
+      const tokenBalances: TokenBalances = await provider.queryTokenBalances(
         accountAddress,
         tokens
       );
-      const etherBalance = await provider.queryEtherBalance(accountAddress);
+      const etherBalance: TokenBalance = await provider.queryEtherBalance(
+        accountAddress
+      );
 
       const balances = [etherBalance].concat(tokenBalances);
       dispatch(actionCreators.updateBalances(balances));
@@ -135,8 +136,8 @@ export function subscribeBalance(token: Token): ThunkAction {
         unsubscribe();
 
         //Then we resubscribe the update balance listener.
-        const updateBalanceHandler = balance =>
-          dispatch(actionCreators.updateBalance(symbol, balance));
+        // const updateBalanceHandler = balance =>
+        //   dispatch(actionCreators.updateBalance(symbol, balance));
         // token.address === '0x0'
         // ? (unsubscribe = await provider.subscribeEtherBalance(accountAddress, updateBalanceHandler))
         // : (unsubscribe = await provider.subscribeTokenBalance(accountAddress, token, updateBalanceHandler))

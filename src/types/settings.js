@@ -2,7 +2,8 @@
 export type SettingsState = {
   +defaultGasLimit: number,
   +defaultGasPrice: number,
-  +pvtKeyLocked: boolean
+  +pvtKeyLocked: boolean,
+  +locale: string
 };
 
 export type SetDefaultGasLimitAction = {

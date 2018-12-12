@@ -75,10 +75,10 @@ export function queryAccountData(): ThunkAction {
       let pairs = await api.fetchPairs();
       let exchangeAddress = await api.getExchangeAddress();
 
-      const etherBalance = await accountBalancesService.queryEtherBalance(
+      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
         accountAddress
       );
-      const tokenBalances = await accountBalancesService.queryTokenBalances(
+      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
         accountAddress,
         tokens
       );

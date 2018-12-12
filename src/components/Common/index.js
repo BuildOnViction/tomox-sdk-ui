@@ -12,7 +12,7 @@ import {
   SmallText,
   SmallTextDiv,
   TextDiv,
-  EmphasizeText,
+  EmphasizedText,
   LargeText,
   HeaderText,
   LabelText,
@@ -26,7 +26,7 @@ export {
   TextDiv,
   SmallText,
   SmallTextDiv,
-  EmphasizeText,
+  EmphasizedText,
   LargeText,
   HeaderText,
   LabelText,
@@ -38,16 +38,15 @@ export { default as Spacer } from './Spacer';
 export { default as Chevron } from './Chevron';
 export { default as Centered } from './Centered';
 export { default as Colors } from './Colors';
-export { default as Variables } from './Variables';
 export { default as Divider } from './Divider';
 export { default as Heading } from './Heading';
 export { default as CenteredSpinner } from './CenteredSpinner';
 export { default as OverlaySpinner } from './OverlaySpinner';
 
 export {
-  default as RowStart,
+  default as RowCenter,
   RowEnd,
-  RowCenter,
+  RowStart,
   RowSpaceAround,
   RowSpaceBetween
 } from './Row';

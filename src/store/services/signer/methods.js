@@ -6,6 +6,7 @@ import {
   getTradeHash
   // getRandomNonce
 } from '../../../utils/crypto';
+
 import { encodeBytes } from '../../../utils/rlp';
 import { feedUpdateDigest, getSwarmSig } from '../../../utils/swarmFeed';
 import { createRawOrder as orderCreateRawOrder } from '../orders';
@@ -14,11 +15,15 @@ import { createRawOrder as orderCreateRawOrder } from '../orders';
 import { BZZ_URL } from '../../../config/url';
 
 // flow
-import type { NewOrderParams, RawOrder } from '../../../types/orders';
+import type {
+  NewOrderParams,
+  RawOrder,
+  OrderCancel
+} from '../../../types/orders';
 import type { Request } from '../../../types/swarm';
 import type { Trade } from '../../../types/trades';
 
-export const getFeedRequest = async function(topic: string):Promise<Request> {
+export const getFeedRequest = async function(topic: string): Promise<Request> {
   const userAddress = this.address;
   const url = `${BZZ_URL}/bzz-feed:/?user=${userAddress}&topic=${topic}&meta=1`;
   const request = await fetch(url).then(res => res.json());
@@ -26,8 +31,13 @@ export const getFeedRequest = async function(topic: string):Promise<Request> {
   return request;
 };
 
-export const updateSwarmFeed = async function(tokenAddress: string, messages: any) : Promise<boolean> {
-  const request:Request = await this.getFeedRequest(`${tokenAddress}000000000000000000000000`);
+export const updateSwarmFeed = async function(
+  tokenAddress: string,
+  messages: any
+): Promise<boolean> {
+  const request: Request = await this.getFeedRequest(
+    `${tokenAddress}000000000000000000000000`
+  );
   const data = encodeBytes(messages);
   if (!data) return false;
   // to upload to server, we need to convert it into Buffer if it is array
@@ -62,7 +72,9 @@ export const createRawOrder = async function(
   return order;
 };
 
-export const createOrderCancel = async function(orderHash: string) {
+export const createOrderCancel = async function(
+  orderHash: string
+): Promise<OrderCancel> {
   let orderCancel = {};
   orderCancel.orderHash = orderHash;
   orderCancel.hash = getOrderCancelHash(orderCancel);

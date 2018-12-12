@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { defineMessages, FormattedMessage } from 'react-intl'
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 class App extends Component {
   render() {
@@ -8,28 +8,18 @@ class App extends Component {
         <header className="App-header">
           <img className="App-logo" alt="logo" />
           <h1 className="App-title">
-            <FormattedMessage {...messages.title} />
+            <FormattedMessage id="app.title" />
           </h1>
         </header>
         <p className="App-intro">
-          <FormattedMessage {...messages.introduction} values={{ code: <code>src/App.js</code> }} />
+          <FormattedMessage
+            id="app.introduction"
+            values={{ code: <code>src/App.js</code> }}
+          />
         </p>
       </div>
-    )
+    );
   }
 }
 
-export default App
-
-const messages = defineMessages({
-  title: {
-    id: 'app.title',
-    description: 'Title of the Application',
-    defaultMessage: 'Welcome to React'
-  },
-  introduction: {
-    id: 'app.introduction',
-    description: 'Description of the Application',
-    defaultMessage: 'To get started, edit {code} and save to reload.'
-  }
-})
+export default App;

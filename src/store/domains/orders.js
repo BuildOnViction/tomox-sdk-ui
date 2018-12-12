@@ -73,10 +73,10 @@ export default function ordersDomain(state: OrdersState) {
     byHash: () => state.byHash,
     all: () => getOrders(state),
 
-    lastOrders: (n: number) => {
-      let orders = getOrders(state);
-      orders = (orders: Orders).slice(Math.max(orders.length - n, 0));
-      orders = (orders: Orders).map(order => {
+    lastOrders: (n: number): Orders => {
+      let orders: Orders = getOrders(state);
+      orders = orders.slice(Math.max(orders.length - n, 0));
+      orders = orders.map(order => {
         order.filled = formatNumber(order.filled, {
           precision: amountPrecision
         });
@@ -92,9 +92,9 @@ export default function ordersDomain(state: OrdersState) {
       return orders;
     },
 
-    history: () => {
-      let orders = getOrders(state);
-      let history = (orders: Orders).filter(
+    history: (): Orders => {
+      let orders: Orders = getOrders(state);
+      let history = orders.filter(
         order =>
           ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) ===
           -1
@@ -102,9 +102,9 @@ export default function ordersDomain(state: OrdersState) {
       return history;
     },
 
-    current: () => {
-      let orders = getOrders(state);
-      let current = (orders: Orders).filter(
+    current: (): Orders => {
+      let orders: Orders = getOrders(state);
+      let current = orders.filter(
         order => ['NEW', 'OPEN'].indexOf(order.status) === -1
       );
       return current;

@@ -1,15 +1,17 @@
 //@flow
 
-import type { NotificationState } from '../../types/notifications';
-import type { SettingsState } from '../../types/settings';
+import type {
+  NotificationState,
+  Notification
+} from '../../types/notifications';
 
-import { initialState } from './settings';
+const initialState = [];
 
 // eslint-disable-next-line
 let id = 0;
 
 export const initialized = () => {
-  const event = (state: SettingsState = initialState) => state;
+  const event = (state: NotificationState = initialState) => state;
   return event;
 };
 
@@ -31,7 +33,9 @@ export const notificationAdded = (
   return event;
 };
 
-export const notificationRemoved = (id: number) => {
+export const notificationRemoved = (
+  id: number
+): (NotificationState => NotificationState) => {
   const event = (state: NotificationState) => {
     return state.filter(notification => notification.id !== id);
   };
@@ -41,7 +45,8 @@ export const notificationRemoved = (id: number) => {
 
 export default function model(state: NotificationState) {
   return {
-    byId: () => state,
-    last: () => state[state.length - 1]
+    byId: (id: number): ?Notification =>
+      state.find(notification => notification.id === id),
+    last: (): ?Notification => state[state.length - 1]
   };
 }

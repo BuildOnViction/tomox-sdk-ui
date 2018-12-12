@@ -1,6 +1,6 @@
 //@flow
 
-import type { ConnectionState, ConnectionEvent } from '../../types/connection';
+import type { ConnectionState } from '../../types/connection';
 
 const initialState = {
   connectedCount: 0,

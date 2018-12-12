@@ -1,5 +1,5 @@
 // @flow
-import { providers, Wallet, utils } from 'ethers';
+import { Wallet, utils } from 'ethers';
 import {
   signOrder,
   signTrade,

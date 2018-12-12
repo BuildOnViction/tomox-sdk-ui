@@ -7,12 +7,15 @@ import {
 } from '../../helpers/utils';
 import { tokensBySymbol, tokenSymbols } from '../../config/tokens';
 
-import type { TokenState, Token, TokenImage } from '../../types/tokens';
+import type { TokenState, Token, TokenImage, Symbol } from '../../types/tokens';
 
 // we should generate these tokenSymbols instead of waiting for websocket update
 const initialState = {
   symbols: tokenSymbols,
-  bySymbol: tokensBySymbol
+  bySymbol: tokensBySymbol,
+  data: {},
+  favorites: [],
+  currentPair: 'AE/WETH'
 };
 
 // console.log(initialState);
@@ -38,7 +41,7 @@ export const initialized = () => {
 
 // update the whole tokenList
 export const tokenListUpdated = (tokens: Array<Token>) => {
-  const symbols = tokens.map(token => token.symbol);
+  const symbols: Symbol[] = tokens.map(token => token.symbol);
   const bySymbol = tokens.reduce((map, token) => {
     map[token.symbol] = token;
     return map;

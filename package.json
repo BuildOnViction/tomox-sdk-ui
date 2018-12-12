@@ -53,7 +53,7 @@
     "react-redux": "^5.0.7",
     "react-resizable": "^1.7.5",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^2.1.1",
     "react-stockcharts": "^0.7.7",
     "react-transition-group": "^2.4.0",
     "react-virtualized": "^9.20.1",
@@ -87,5 +87,11 @@
     "husky": "^0.14.3",
     "node-fetch": "^2.2.0",
     "react-hot-loader": "^4.3.11"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
