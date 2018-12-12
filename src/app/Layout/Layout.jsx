@@ -1,11 +1,9 @@
 // @flow
-import type { Node } from 'react';
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Footer, Indent } from '../../components/Common';
-import Notifier from '../../components/Notifier';
-import ConnectionStatus from '../../components/ConnectionStatus';
-import styled from 'styled-components';
+import type { Node } from 'react'
+import React from 'react'
+import styled from 'styled-components'
+import { Link, NavLink } from 'react-router-dom'
+import { HTMLSelect, Icon } from '@blueprintjs/core'
 import {
   Alignment,
   Button,
@@ -17,8 +15,13 @@ import {
   NavbarHeading,
   Popover,
   Position,
-  Tag
-} from '@blueprintjs/core';
+  Tag,
+} from '@blueprintjs/core'
+
+import { Footer, Indent } from '../../components/Common'
+import Notifier from '../../components/Notifier'
+import ConnectionStatus from '../../components/ConnectionStatus'
+import { locales } from '../../locale'
 
 export type Props = {
   ETHBalance: string,
@@ -28,20 +31,28 @@ export type Props = {
   authenticated: boolean,
   accountLoading: boolean,
   address: string,
+  locale: string,
   currentBlock?: string,
-  createProvider?: () => {}
-};
+  createProvider?: () => {},
+  changeLocale?: string => {},
+}
 
-export type State = {};
+export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
   componentDidMount() {
     if (this.props.createProvider) {
-      this.props.createProvider();
+      this.props.createProvider()
     }
   }
+
+  changeLocale = (e: Object) => {
+    const locale = e.target.value.toLowerCase()
+    this.props.changeLocale && this.props.changeLocale(locale)
+  }
+
   render() {
-    const { children, authenticated, address, currentBlock } = this.props;
+    const { children, authenticated, address, currentBlock } = this.props
     const menu = (
       <Menu>
         <MenuItem>
@@ -54,7 +65,7 @@ class Layout extends React.PureComponent<Props, State> {
           </MenuItemLink>
         </MenuItem>
       </Menu>
-    );
+    )
 
     return (
       <Wrapper>
@@ -112,29 +123,47 @@ class Layout extends React.PureComponent<Props, State> {
                   </Popover>
                 </React.Fragment>
               )}
+
+              <Navbar.Divider />
+              
+              <Icon icon="globe"/>
+              <HTMLSelect
+                large
+                minimal
+                onChange={this.changeLocale}
+                value={this.props.locale}
+              >
+                {locales.map(locale => {
+                  return (
+                    <option key={locale.value} value={locale.value}>
+                      {locale.label}
+                    </option>
+                  )
+                })}
+              </HTMLSelect>
             </NavbarGroup>
           </Navbar>
         </Header>
         <MainContent>{children}</MainContent>
         <Footer />
       </Wrapper>
-    );
+    )
   }
 }
 
-export default Layout;
+export default Layout
 
 const Wrapper = styled.div.attrs({ className: 'bp3-dark' })`
   height: 100%;
   display: flex;
   flex-direction: column;
-`;
+`
 
-const Header = styled.header``;
+const Header = styled.header``
 
 const MainContent = styled.main`
   flex: 1;
-`;
+`
 
 // const ProviderStatus = styled.div`
 //   display: flex;
@@ -155,24 +184,24 @@ const Block = styled.div`
   & span {
     margin-right: 5px;
   }
-`;
+`
 
 const NavbarHeaderLink = styled(Link).attrs({
   className: 'bp3-button bp3-minimal bp3-intent-primary',
-  role: 'button'
-})``;
+  role: 'button',
+})``
 
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
-  role: 'button'
-})``;
+  role: 'button',
+})``
 
-const MenuItem = styled.li``;
+const MenuItem = styled.li``
 
 const MenuItemLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: props =>
     `bp3-menu-item bp3-popover-dismiss bp3-icon-${props.icon}`,
-  role: 'button'
-})``;
+  role: 'button',
+})``

@@ -9,7 +9,7 @@ export default {
     'Never make transactions or send funds to anyone who claims to be a member of Tomochain support',
   'loginPage.noDisclosure':
     'Never disclose your password, private keys or other authentication elements to anyone, including Tomochain support',
-  'loginPage.loginMethodsHeading': 'Select a login method',
+  'loginPage.loginMethods': 'Select a login method',
   'loginPage.connect': 'Connect to {name}',
   'loginPage.import': 'Import your {name}',
   'loginPage.metamask': 'Metamask',

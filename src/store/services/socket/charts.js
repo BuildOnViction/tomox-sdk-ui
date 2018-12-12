@@ -1,25 +1,30 @@
 //@flow
-import type { TokenPair } from '../../../types/tokens';
-import type { WebsocketMessage } from '../../../types/websocket';
-import { sendMessage } from './common';
-
-import { addMonths } from 'date-fns';
+import type { TokenPair } from '../../../types/tokens'
+import type { WebsocketMessage } from '../../../types/websocket'
+import { sendMessage } from './common'
 
 export const subscribeChart = (
   pair: TokenPair,
-  from: number,
-  to: number,
-  duration: number,
-  units: string
+  timespan: string,
+  duration: string
 ) => {
-  let message: WebsocketMessage;
-  let now = Date.now();
-  duration = duration || 1;
-  units = units || 'hour';
-  from = from || Math.floor(addMonths(new Date(now), -2).getTime() / 1000);
-  to = to || Math.floor(new Date(now).getTime() / 1000);
+  if (!window.socket) throw new Error('Socket connection not established')
 
-  message = {
+  const now = Date.now()
+  const lengthByDurationUnit = {
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000,
+    M: 30 * 24 * 60 * 60 * 1000,
+    Y: 12 * 30 * 24 * 60 * 60 * 1000,
+  }
+  const nameByTimespanUnit = {
+    m: 'min',
+    h: 'hour',
+    d: 'day',
+    M: 'month',
+  }
+
+  const message: WebsocketMessage = JSON.stringify({
     channel: 'ohlcv',
     event: {
       type: 'SUBSCRIBE',
@@ -27,82 +32,85 @@ export const subscribeChart = (
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
         quoteToken: pair.quoteTokenAddress,
-        from: from,
-        to: to,
-        units: units,
-        duration: duration
-      }
-    }
-  };
+        from:
+          duration === 'Full'
+            ? 0
+            : Math.floor(
+                (now -
+                  Number(duration.slice(0, -1)) *
+                    lengthByDurationUnit[duration.slice(-1)]) /
+                  1000
+              ),
+        to: Math.floor(now / 1000),
+        units: nameByTimespanUnit[timespan.slice(-1)],
+        duration: Number(timespan.slice(0, -1)),
+      },
+    },
+  })
 
-  return sendMessage(message).then(() => unsubscribeChart());
-};
+  window.socket.send(message)
+  return () => unsubscribeChart(pair)
+}
 
 export const unsubscribeChart = () => {
-  let message: WebsocketMessage;
+  if (!window.socket) throw new Error('Socket connection not established')
 
-  message = {
+  const message: WebsocketMessage = JSON.stringify({
     channel: 'ohlcv',
     event: {
-      type: 'UNSUBSCRIBE'
-    }
-  };
+      type: 'UNSUBSCRIBE',
+    },
+  })
 
-  return sendMessage(message);
-};
+  window.socket.send(message)
+}
 
 export const subscribeOrderBook = (pair: TokenPair) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'orderbook',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress
-      }
-    }
-  };
+        quoteToken: pair.quoteTokenAddress,
+      },
+    },
+  }
 
-  return sendMessage(message).then(() => unsubscribeOrderBook());
-};
+  return sendMessage(message).then(() => unsubscribeOrderBook())
+}
 
 export const unsubscribeOrderBook = () => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'orderbook',
-    event: { type: 'UNSUBSCRIBE' }
-  };
+    event: { type: 'UNSUBSCRIBE' },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const subscribeTrades = (pair: TokenPair) => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'trades',
     event: {
       type: 'SUBSCRIBE',
       payload: {
         name: pair.pair,
         baseToken: pair.baseTokenAddress,
-        quoteToken: pair.quoteTokenAddress
-      }
-    }
-  };
+        quoteToken: pair.quoteTokenAddress,
+      },
+    },
+  }
 
-  return sendMessage(message).then(() => unsubscribeTrades());
-};
+  return sendMessage(message).then(() => unsubscribeTrades())
+}
 
 export const unsubscribeTrades = () => {
-  let message: WebsocketMessage;
-
-  message = {
+  const message: WebsocketMessage = {
     channel: 'trades',
-    event: { type: 'UNSUBSCRIBE' }
-  };
+    event: { type: 'UNSUBSCRIBE' },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
