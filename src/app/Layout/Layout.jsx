@@ -3,7 +3,7 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { Link, NavLink } from 'react-router-dom'
-import { HTMLSelect } from '@blueprintjs/core'
+import { HTMLSelect, Icon } from '@blueprintjs/core'
 import {
   Alignment,
   Button,
@@ -126,8 +126,10 @@ class Layout extends React.PureComponent<Props, State> {
 
               <Navbar.Divider />
               
+              <Icon icon="globe"/>
               <HTMLSelect
                 large
+                minimal
                 onChange={this.changeLocale}
                 value={this.props.locale}
               >

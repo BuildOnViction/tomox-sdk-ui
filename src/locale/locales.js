@@ -5,7 +5,7 @@ const locales: Object[] = [
   },
   {
     value: 'vi',
-    label: 'Vietnam',
+    label: 'Tiếng Việt',
   },
 ]
 
