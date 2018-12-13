@@ -22,7 +22,7 @@ export const savedOHLCVData = (ohlcv: Object[]) => {
 }
 
 export const updateOHLCVData = (ohlcv: Object[]) => {
-  const event = (state: OHLCVState) => ({
+  const event = (state: OHLCVState): OHLCVState => ({
     ...state,
     ohlcvData: state.ohlcvData.concat(ohlcv),
   })

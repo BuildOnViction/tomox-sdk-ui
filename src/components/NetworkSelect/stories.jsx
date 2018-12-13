@@ -11,7 +11,7 @@ const networks = [
   { name: 'Ropsten', id: 3 },
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
-  { name: 'Private', id: 8888 }
+  { name: 'Private', id: 8888 },
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 storiesOf('NetworkSelect', module)
@@ -20,7 +20,11 @@ storiesOf('NetworkSelect', module)
     'Default Export',
     withInfo({ text: README, source: false })(() => (
       <div className="bp3-dark">
-        <NetworkSelect networks={networks} handleChange={action('handleChange')} networkId={1} />
+        <NetworkSelect
+          networks={networks}
+          handleChange={action('handleChange')}
+          networkId={1}
+        />
       </div>
     ))
   )

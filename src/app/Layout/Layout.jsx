@@ -21,7 +21,7 @@ import {
 import { Footer, Indent } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import ConnectionStatus from '../../components/ConnectionStatus'
-import { locales } from '../../locale'
+import locales from '../../config/locales'
 
 export type Props = {
   ETHBalance: string,
@@ -125,8 +125,8 @@ class Layout extends React.PureComponent<Props, State> {
               )}
 
               <Navbar.Divider />
-              
-              <Icon icon="globe"/>
+
+              <Icon icon="globe" />
               <HTMLSelect
                 large
                 minimal

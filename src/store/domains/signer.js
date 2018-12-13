@@ -1,19 +1,22 @@
 // @flow
-import type { SignerSettings, SignerState } from '../../types/signer';
-import { NETWORK_URL } from '../../config/url';
+import type { SignerSettings, SignerState } from '../../types/signer'
+import {
+  ETHEREUM_NODE_HTTP_URL,
+  DEFAULT_NETWORK_ID,
+} from '../../config/environment'
 
 const initialState = {
   loading: false,
   error: '',
   type: 'rpc',
-  url: NETWORK_URL,
-  networkId: 8888,
-};
+  url: ETHEREUM_NODE_HTTP_URL,
+  networkId: DEFAULT_NETWORK_ID,
+}
 
 export const initialized = () => {
-  const event = (state: SignerState = initialState) => state;
-  return event;
-};
+  const event = (state: SignerState = initialState) => state
+  return event
+}
 
 export const signerUpdated = ({ type, url, networkId }: SignerSettings) => {
   const event = (state: SignerState) => ({
@@ -23,44 +26,48 @@ export const signerUpdated = ({ type, url, networkId }: SignerSettings) => {
     type: type || state.type,
     url: url || state.url,
     networkId: networkId || state.networkId,
-  });
+  })
 
-  return event;
-};
+  return event
+}
 
 export const signerRequested = () => {
   const event = (state: SignerState) => ({
     ...state,
     loading: true,
-  });
+  })
 
-  return event;
-};
+  return event
+}
 
 export const signerError = (error: string) => {
   const event = (state: SignerState) => ({
     ...state,
     loading: false,
-    error: error,
-  });
+    error,
+  })
 
-  return event;
-};
+  return event
+}
 
 export default function signerDomain(state: SignerState) {
   return {
     isLoading: () => state.loading,
     getError: () => state.error,
-    getCurrentSigner: () => ({ type: state.type, url: state.url, networkId: state.networkId }),
+    getCurrentSigner: () => ({
+      type: state.type,
+      url: state.url,
+      networkId: state.networkId,
+    }),
     getType: () => state.type,
     getUrl: () => state.url,
     getNetworkId: () => state.networkId,
-  };
+  }
 }
 
 // const localRPCProvider = {
 //   type: 'local',
-//   url: NETWORK_URL,
+//   url: ETHEREUM_NODE_HTTP_URL,
 //   networkID: 8888,
 //   networkName: ''
 // }
@@ -95,6 +102,6 @@ export default function signerDomain(state: SignerState) {
 //   loading: false,
 //   error: '',
 //   type: 'wallet',
-//   url: NETWORK_URL,
+//   url: ETHEREUM_NODE_HTTP_URL,
 //   networkId: 8888,
 // };

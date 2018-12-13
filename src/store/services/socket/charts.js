@@ -24,7 +24,7 @@ export const subscribeChart = (
     M: 'month',
   }
 
-  const message: WebsocketMessage = JSON.stringify({
+  const message: WebsocketMessage = {
     channel: 'ohlcv',
     event: {
       type: 'SUBSCRIBE',
@@ -46,23 +46,23 @@ export const subscribeChart = (
         duration: Number(timespan.slice(0, -1)),
       },
     },
-  })
+  }
 
-  window.socket.send(message)
-  return () => unsubscribeChart(pair)
+  window.socket.send(JSON.stringify(message))
+  return () => unsubscribeChart()
 }
 
 export const unsubscribeChart = () => {
   if (!window.socket) throw new Error('Socket connection not established')
 
-  const message: WebsocketMessage = JSON.stringify({
+  const message: WebsocketMessage = {
     channel: 'ohlcv',
     event: {
       type: 'UNSUBSCRIBE',
     },
-  })
+  }
 
-  window.socket.send(message)
+  window.socket.send(JSON.stringify(message))
 }
 
 export const subscribeOrderBook = (pair: TokenPair) => {

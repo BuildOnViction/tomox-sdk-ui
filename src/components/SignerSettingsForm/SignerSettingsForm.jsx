@@ -2,12 +2,13 @@
 import React from 'react'
 import SignerSettingsFormRenderer from './SignerSettingsFormRenderer'
 import type { SignerSettings, UpdateSignerParams } from '../../types/signer'
+import { DEFAULT_NETWORK_ID } from '../../config/environment'
 
 type Props = {
   loading: boolean,
   error: string,
   currentSigner: SignerSettings,
-  updateSigner: UpdateSignerParams => void
+  updateSigner: UpdateSignerParams => void,
 }
 
 type State = {
@@ -16,7 +17,7 @@ type State = {
   customType: 'wallet' | 'rpc',
   url: ?string,
   networkId: number,
-  wallet: Object
+  wallet: Object,
 }
 
 class SignerSettingsForm extends React.PureComponent<Props, State> {
@@ -26,7 +27,7 @@ class SignerSettingsForm extends React.PureComponent<Props, State> {
     customType: 'wallet',
     networkId: 1,
     url: '',
-    wallet: {}
+    wallet: {},
   }
 
   handleSubmit = (e: SyntheticEvent<>) => {
@@ -34,17 +35,18 @@ class SignerSettingsForm extends React.PureComponent<Props, State> {
     let { type, custom, url, customType, networkId, wallet } = this.state
     if (type === 'custom') type = customType
     this.props.updateSigner({
-      custom: custom,
-      type: type,
-      url: url,
-      networkId: networkId,
-      wallet: wallet
+      custom,
+      type,
+      url,
+      networkId,
+      wallet,
     })
   }
 
   handleChange = ({ target }: SyntheticInputEvent<>) => {
     const value = target.type === 'checkbox' ? target.checked : target.value
-    target.name === 'type' && this.setState({ custom: target.value === 'custom' })
+    target.name === 'type' &&
+      this.setState({ custom: target.value === 'custom' })
     this.setState({ [target.name]: value })
   }
 
@@ -81,7 +83,7 @@ const networks = [
   { name: 'Ropsten', id: 3 },
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
-  { name: 'Private', id: 8888 }
+  { name: 'Private', id: DEFAULT_NETWORK_ID },
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 export default SignerSettingsForm

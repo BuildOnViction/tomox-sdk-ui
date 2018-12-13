@@ -1,4 +1,4 @@
-const locales: Object[] = [
+export default [
   {
     value: 'en',
     label: 'English',
@@ -8,5 +8,3 @@ const locales: Object[] = [
     label: 'Tiếng Việt',
   },
 ]
-
-export default locales

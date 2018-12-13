@@ -3,162 +3,162 @@
 // import orders from '../../../jsons/orders.json';
 // import trades from '../../../jsons/trades.json';
 // import orderBookData from '../../../jsons/orderBookData.json';
-import { BACKEND_URL } from '../../../config/url';
+import { ENGINE_HTTP_URL } from '../../../config/environment'
 
 import {
   parseTokenPairData,
   parseOrders,
   parseTrades,
-  parseOrderBookData
-} from '../../../utils/parsers';
-import fetch from 'isomorphic-fetch';
+  parseOrderBookData,
+} from '../../../utils/parsers'
+import fetch from 'isomorphic-fetch'
 
-import type { Orders } from '../../../types/orders';
-import type { Trades } from '../../../types/trades';
-import type { PairAddresses } from '../../../types/pairs';
+import type { Orders } from '../../../types/orders'
+import type { Trades } from '../../../types/trades'
+import type { PairAddresses } from '../../../types/pairs'
 
 const request = (endpoint, options) => {
-  return fetch(`http://${BACKEND_URL}${endpoint}`, {
+  return fetch(`${ENGINE_HTTP_URL}${endpoint}`, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     mode: 'cors',
-    ...options
-  });
-};
+    ...options,
+  })
+}
 
 export const fetchInfo = async () => {
-  const response = await request(`/info`);
-  const { data, error } = await response.json();
+  const response = await request(`/info`)
+  const { data, error } = await response.json()
 
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchFees = async () => {
-  const response = await request('/fees');
-  const { data, error } = await response.json();
+  const response = await request('/fees')
+  const { data, error } = await response.json()
 
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchTokens = async () => {
-  const response = await request(`/tokens`);
-  const { data, error } = await response.json();
+  const response = await request(`/tokens`)
+  const { data, error } = await response.json()
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchToken = async (address: string) => {
-  const response = await request(`/tokens/${address}`);
-  const { data, error } = await response.json();
+  const response = await request(`/tokens/${address}`)
+  const { data, error } = await response.json()
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchPairs = async () => {
-  const response = await request(`/pairs`);
-  const { data, error } = await response.json();
+  const response = await request(`/pairs`)
+  const { data, error } = await response.json()
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchPair = async (baseToken: string, quoteToken: string) => {
   const response = await request(
     `/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`
-  );
-  const { data, error } = await response.json();
+  )
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(error);
-    throw new Error('Server Error');
+    console.log(error)
+    throw new Error('Server Error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchBalance = async (address: string) => {
-  const response = await request(`/balances/${address}`);
-  const { data, error } = await response.json();
+  const response = await request(`/balances/${address}`)
+  const { data, error } = await response.json()
 
   if (response.status !== 200) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchOrders = async (address: string) => {
-  const response = await request(`/orders?address=${address}`);
-  const { data, error } = await response.json();
+  const response = await request(`/orders?address=${address}`)
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data);
-    throw new Error('Server error');
+    console.log(data)
+    throw new Error('Server error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchOrderHistory = async (address: string) => {
-  const response = await request(`/orders/history?address=${address}`);
-  console.log(response.status);
-  const { data, error } = await response.json();
+  const response = await request(`/orders/history?address=${address}`)
+  console.log(response.status)
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data);
-    throw new Error('Server error');
+    console.log(data)
+    throw new Error('Server error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchOrderPositions = async (address: string) => {
-  const response = await request(`/orders/positions?address=${address}`);
-  console.log(response.status);
-  const { data, error } = await response.json();
+  const response = await request(`/orders/positions?address=${address}`)
+  console.log(response.status)
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data);
-    throw new Error('Server error');
+    console.log(data)
+    throw new Error('Server error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchTokenPairTrades = async (
   baseToken: string,
@@ -166,53 +166,53 @@ export const fetchTokenPairTrades = async (
 ) => {
   const response = await request(
     `/trades/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`
-  );
-  const { data, error } = await response.json();
+  )
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data);
-    throw new Error('Server Error');
+    console.log(data)
+    throw new Error('Server Error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchAddressTrades = async (address: string) => {
-  const response = await request(`/trades?address=${address}`);
-  const { data, error } = await response.json();
+  const response = await request(`/trades?address=${address}`)
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data);
-    throw new Error('Server Error');
+    console.log(data)
+    throw new Error('Server Error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchOrderBook = async (baseToken: string, quoteToken: string) => {
   const response = await request(
     `/orderbook?baseToken=${baseToken}&quoteToken=${quoteToken}`
-  );
-  const { data, error } = await response.json();
+  )
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    throw new Error('Server Error');
+    throw new Error('Server Error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchRawOrderBook = async (
   baseToken: string,
@@ -220,20 +220,20 @@ export const fetchRawOrderBook = async (
 ) => {
   const response = await request(
     `/orderbook/raw?baseToken=${baseToken}&quoteToken=${quoteToken}`
-  );
+  )
 
-  const { data, error } = await response.json();
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    throw new Error('Server Error');
+    throw new Error('Server Error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const generateDepositAddress = async (
   chain: string,
@@ -244,57 +244,57 @@ export const generateDepositAddress = async (
     `/deposit/generate-address?chain=${chain}&userAddress=${userAddress}`,
     {
       body: JSON.stringify(pairAddresses),
-      method: 'POST'
+      method: 'POST',
     }
-  );
+  )
 
-  const { data, error } = await response.json();
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    throw new Error('Server error');
+    throw new Error('Server error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const fetchTokenPairData = async () => {
-  const response = await request('/pairs/data');
+  const response = await request('/pairs/data')
 
-  const { data, error } = await response.json();
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    throw new Error('Server error');
+    throw new Error('Server error')
   }
 
-  return data;
-};
+  return data
+}
 
 export const createAccount = async (address: string) => {
   const response = await request(`/account/create?address=${address}`, {
-    method: 'POST'
-  });
+    method: 'POST',
+  })
 
-  const { data, error } = await response.json();
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
   if (response.status !== 200) {
-    throw new Error('Server error');
+    throw new Error('Server error')
   }
 
-  console.log(data);
-  return data;
-};
+  console.log(data)
+  return data
+}
 
 // export const getTokenPairData = async () => {
 //   const data = parseJSONToFixed(tokenPairData)
@@ -312,47 +312,47 @@ export const createAccount = async (address: string) => {
 // }
 
 export const getOrders = async (userAddress: string): Promise<Orders> => {
-  let orders = await fetchOrders(userAddress);
-  let parsedOrders = orders ? parseOrders(orders) : [];
-  return parsedOrders;
-};
+  const orders = await fetchOrders(userAddress)
+  const parsedOrders = orders ? parseOrders(orders) : []
+  return parsedOrders
+}
 
 export const getTrades = async (
   baseToken: string,
   quoteToken: string
 ): Promise<Trades> => {
-  let trades = await fetchTokenPairTrades(baseToken, quoteToken);
-  let parsedTrades = parseTrades(trades);
+  const trades = await fetchTokenPairTrades(baseToken, quoteToken)
+  const parsedTrades = parseTrades(trades)
 
-  return parsedTrades;
-};
+  return parsedTrades
+}
 
 export const getOrderBookData = async (
   baseToken: string,
   quoteToken: string
 ) => {
-  let orderbook = await fetchOrderBook(baseToken, quoteToken);
-  let { asks, bids } = parseOrderBookData(orderbook);
+  const orderbook = await fetchOrderBook(baseToken, quoteToken)
+  const { asks, bids } = parseOrderBookData(orderbook)
 
   return {
     asks,
-    bids
-  };
-};
+    bids,
+  }
+}
 
 export const getTokenPairData = async () => {
-  let data = await fetchTokenPairData();
-  let parsedData = parseTokenPairData(data);
+  const data = await fetchTokenPairData()
+  const parsedData = parseTokenPairData(data)
 
-  return parsedData;
-};
+  return parsedData
+}
 
 export const getExchangeAddress = async () => {
-  let data = await fetchInfo();
-  let exchangeAddress = data.exchangeAddress;
+  const data = await fetchInfo()
+  const exchangeAddress = data.exchangeAddress
 
-  return exchangeAddress;
-};
+  return exchangeAddress
+}
 
 // export const getOrderBookData = async () => {
 //   const data = parseOrderBookData(orderBookData)

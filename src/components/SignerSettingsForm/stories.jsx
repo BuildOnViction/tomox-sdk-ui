@@ -1,13 +1,13 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { text, withKnobs } from '@storybook/addon-knobs/react';
-import { withInfo } from '@storybook/addon-info';
-import SignerSettingsFormContainer from './index';
-import SignerSettingsForm from './SignerSettingsForm';
-import SignerSettingsFormRenderer from './SignerSettingsFormRenderer';
-import { NETWORK_URL } from '../../config/url';
-import README from './README.md';
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
+import { text, withKnobs } from '@storybook/addon-knobs/react'
+import { withInfo } from '@storybook/addon-info'
+import SignerSettingsFormContainer from './index'
+import SignerSettingsForm from './SignerSettingsForm'
+import SignerSettingsFormRenderer from './SignerSettingsFormRenderer'
+import { ETHEREUM_NODE_HTTP_URL } from '../../config/environment'
+import README from './README.md'
 
 const networks = [
   { name: 'Mainnet', id: 1 },
@@ -15,7 +15,7 @@ const networks = [
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
   { name: 'Private', id: 8888 },
-].map((m, index) => ({ ...m, rank: index + 1 }));
+].map((m, index) => ({ ...m, rank: index + 1 }))
 
 storiesOf('SignerSettingsForm', module)
   .addDecorator(withKnobs)
@@ -38,7 +38,11 @@ storiesOf('SignerSettingsForm', module)
         <SignerSettingsForm
           loading={false}
           error=""
-          currentSigner={{ type: 'rpc', url: NETWORK_URL, networkId: 8888 }}
+          currentSigner={{
+            type: 'rpc',
+            url: ETHEREUM_NODE_HTTP_URL,
+            networkId: 8888,
+          }}
           updateSigner={action('updateSigner')}
         />
       </div>
@@ -50,7 +54,11 @@ storiesOf('SignerSettingsForm', module)
       <div className="bp3-dark">
         <SignerSettingsFormRenderer
           options={{ provider: 'metamask', type: '', url: '', networkId: 8888 }}
-          currentSigner={{ type: 'local', url: NETWORK_URL, networkId: 8888 }}
+          currentSigner={{
+            type: 'local',
+            url: ETHEREUM_NODE_HTTP_URL,
+            networkId: 8888,
+          }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
           handleNetworkChange={action('handleNetworkChange')}
@@ -66,7 +74,11 @@ storiesOf('SignerSettingsForm', module)
         <SignerSettingsFormRenderer
           loading
           options={{ provider: 'metamask', type: '', url: '', networkId: 1 }}
-          currentSigner={{ type: 'local', url: NETWORK_URL, networkId: 8888 }}
+          currentSigner={{
+            type: 'local',
+            url: ETHEREUM_NODE_HTTP_URL,
+            networkId: 8888,
+          }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
           handleNetworkChange={action('handleNetworkChange')}
@@ -87,7 +99,11 @@ storiesOf('SignerSettingsForm', module)
           custom={true}
           networkId={2}
           customType=""
-          currentSigner={{ type: 'wallet', url: NETWORK_URL, networkId: 8888 }}
+          currentSigner={{
+            type: 'wallet',
+            url: ETHEREUM_NODE_HTTP_URL,
+            networkId: 8888,
+          }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
           handleNetworkChange={action('handleNetworkChange')}
@@ -108,7 +124,11 @@ storiesOf('SignerSettingsForm', module)
           custom={true}
           networkId={2}
           customType=""
-          currentSigner={{ type: 'local', url: NETWORK_URL, networkId: 8888 }}
+          currentSigner={{
+            type: 'local',
+            url: ETHEREUM_NODE_HTTP_URL,
+            networkId: 8888,
+          }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
           handleNetworkChange={action('handleNetworkChange')}
@@ -116,4 +136,4 @@ storiesOf('SignerSettingsForm', module)
         />
       </div>
     ))
-  );
+  )

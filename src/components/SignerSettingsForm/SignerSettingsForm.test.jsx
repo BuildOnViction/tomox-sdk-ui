@@ -1,7 +1,10 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import SignerSettingsForm from './SignerSettingsForm';
-import { NETWORK_URL } from '../../config/url';
+import React from 'react'
+import { shallow } from 'enzyme'
+import SignerSettingsForm from './SignerSettingsForm'
+import {
+  ETHEREUM_NODE_HTTP_URL,
+  DEFAULT_NETWORK_ID,
+} from '../../config/environment'
 
 describe('Rendering', () => {
   it('renders without crashing', () => {
@@ -9,9 +12,13 @@ describe('Rendering', () => {
       <SignerSettingsForm
         loading={false}
         error=""
-        currentSigner={{ type: 'rpc', url: NETWORK_URL, networkId: 8888 }}
+        currentSigner={{
+          type: 'rpc',
+          url: ETHEREUM_NODE_HTTP_URL,
+          networkId: DEFAULT_NETWORK_ID,
+        }}
         updateSigner={jest.fn()}
       />
-    );
-  });
-});
+    )
+  })
+})

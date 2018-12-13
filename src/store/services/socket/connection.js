@@ -1,33 +1,33 @@
-import { WEBSOCKET_URL } from '../../../config/url';
+import { ENGINE_WS_URL } from '../../../config/environment'
 
 export const createConnection = () => {
-  let socket;
+  let socket
 
   try {
-    window.socket = new WebSocket(WEBSOCKET_URL);
-    return socket;
+    window.socket = new WebSocket(ENGINE_WS_URL)
+    return socket
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const openConnection = (listener: Listener) => {
-  if (window.socket == null) throw new Error('Connection not established');
+  if (window.socket == null) throw new Error('Connection not established')
 
-  window.socket.onerror = event => listener(event);
-  window.socket.onopen = event => listener(event);
-  window.socket.onclose = event => listener(event);
+  window.socket.onerror = event => listener(event)
+  window.socket.onopen = event => listener(event)
+  window.socket.onclose = event => listener(event)
 
   return () => {
-    window.socket && window.socket.close();
-  };
-};
+    window.socket && window.socket.close()
+  }
+}
 
 export const onMessage = (listener: Listener) => {
-  if (!window.socket) throw new Error('Socket connection not established');
+  if (!window.socket) throw new Error('Socket connection not established')
 
   window.socket.onmessage = message => {
-    let { channel, event } = JSON.parse(message.data);
-    return listener({ channel, event });
-  };
-};
+    const { channel, event } = JSON.parse(message.data)
+    return listener({ channel, event })
+  }
+}
