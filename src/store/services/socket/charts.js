@@ -48,8 +48,7 @@ export const subscribeChart = (
     },
   }
 
-  window.socket.send(JSON.stringify(message))
-  return () => unsubscribeChart()
+  return sendMessage(message).then(() => unsubscribeChart())
 }
 
 export const unsubscribeChart = () => {
@@ -62,7 +61,7 @@ export const unsubscribeChart = () => {
     },
   }
 
-  window.socket.send(JSON.stringify(message))
+  return sendMessage(message)
 }
 
 export const subscribeOrderBook = (pair: TokenPair) => {
