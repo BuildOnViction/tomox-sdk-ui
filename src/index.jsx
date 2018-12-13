@@ -19,6 +19,7 @@ registerServiceWorker()
 const ConnectedIntlProvider = connect(state => {
   const { locale } = state.settings
   // const locale = 'vi';
+  if (locale === 'en') return { locale }
   return { locale, key: locale, messages: messagesData[locale] }
 })(IntlProvider)
 

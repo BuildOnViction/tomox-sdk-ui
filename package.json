@@ -11,6 +11,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject",
+    "extract-messages": "react-intl-cra 'src/**/*.jsx' -o 'src/locales/translations/messages.js'",
     "flow": "flow",
     "flowwatch": "fswatch -o ./ | xargs -n1 -I{} sh -c 'clear; printf \"\\033[3J\" && flow'",
     "sass": "sass src/styles/scss/index.scss:src/styles/css/index.css src/styles/scss/storybook.scss:src/styles/css/storybook.css",
@@ -85,7 +86,8 @@
     "flow-bin": "^0.87.0",
     "husky": "^0.14.3",
     "node-fetch": "^2.2.0",
-    "react-hot-loader": "^4.3.11"
+    "react-hot-loader": "^4.3.11",
+    "react-intl-cra": "^0.3.3"
   },
   "browserslist": [
     ">0.2%",

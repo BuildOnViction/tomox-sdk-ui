@@ -1,13 +1,13 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import styled from 'styled-components';
-import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core';
-import WalletLoginForm from '../../components/WalletLoginForm';
-import CreateWalletModal from '../../components/CreateWalletModal';
-import MetamaskIcon from '../../components/Icons/Metamask';
-import { KeyIcon, WalletIcon, Trezor } from '../../components/Icons';
-import { Centered, Divider, LargeText, Colors } from '../../components/Common';
-import type { CreateWalletParams } from '../../types/createWallet';
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core'
+import WalletLoginForm from '../../components/WalletLoginForm'
+import CreateWalletModal from '../../components/CreateWalletModal'
+import MetamaskIcon from '../../components/Icons/Metamask'
+import { KeyIcon, WalletIcon, Trezor } from '../../components/Icons'
+import { Centered, Divider, LargeText, Colors } from '../../components/Common'
+import type { CreateWalletParams } from '../../types/createWallet'
 
 type Props = {
   view: string,
@@ -17,8 +17,8 @@ type Props = {
   loginWithWallet: void => void,
   openSelectAddressModal: void => void,
   loginWithTrezorWallet: Object => void,
-  loginWithLedgerWallet: void => void
-};
+  loginWithLedgerWallet: void => void,
+}
 
 const LoginPageRenderer = (props: Props) => {
   const {
@@ -33,8 +33,8 @@ const LoginPageRenderer = (props: Props) => {
     showWalletLoginForm,
     metamaskStatus,
     showLoginMethods,
-    walletCreated
-  } = props;
+    walletCreated,
+  } = props
 
   const views = {
     loginMethods: (
@@ -61,11 +61,11 @@ const LoginPageRenderer = (props: Props) => {
         visible={view === 'createWallet'}
       />
     ),
-    loading: <LoginLoadingView />
-  };
+    loading: <LoginLoadingView />,
+  }
 
-  return views[view];
-};
+  return views[view]
+}
 
 const LoginMethodsView = (props: Props) => {
   const {
@@ -73,8 +73,8 @@ const LoginMethodsView = (props: Props) => {
     loginWithMetamask,
     openSelectAddressModal,
     metamaskStatus,
-    showCreateWallet
-  } = props;
+    showCreateWallet,
+  } = props
   return (
     <Wrapper>
       <Announcement>
@@ -82,36 +82,55 @@ const LoginMethodsView = (props: Props) => {
           <AnnouncementMessages>
             <FormattedMessage
               id="loginPage.announcement"
+              defaultMessage="Make sure you are visiting {link} to prevent any phishing attacks"
               values={{
                 link: (
                   <a href="https://tomochain.com/">https://tomochain.com/</a>
-                )
+                ),
               }}
             />
             <Reminder>
-              <FormattedMessage id="loginPage.noPlugins" />
+              <FormattedMessage
+                id="loginPage.noPlugins"
+                defaultMessage="Never install any browser plug-ins that claim to be associated with Tomochain"
+              />
             </Reminder>
             <Reminder>
-              <FormattedMessage id="loginPage.noPhoneCalls" />
+              <FormattedMessage
+                id="loginPage.noPhoneCalls"
+                defaultMessage="Never make any phone calls to anyone that claims to be a Tomochain representative"
+              />
             </Reminder>
             <Reminder>
-              <FormattedMessage id="loginPage.noOfficialStaffs" />
+              <FormattedMessage
+                id="loginPage.noOfficialStaffs"
+                defaultMessage="Never make transactions or send funds to anyone who claims to be a member of Tomochain support"
+              />
             </Reminder>
             <Reminder>
-              <FormattedMessage id="loginPage.noDisclosure" />
+              <FormattedMessage
+                id="loginPage.noDisclosure"
+                defaultMessage="Never disclose your password, private keys or other authentication elements to anyone, including Tomochain support"
+              />
             </Reminder>
           </AnnouncementMessages>
         </Callout>
       </Announcement>
       <LoginMethods>
         <LoginMethodsHeading>
-          <FormattedMessage id="loginPage.loginMethods" />
+          <FormattedMessage
+            id="loginPage.loginMethods"
+            defaultMessage="Please choose login methods"
+          />
         </LoginMethodsHeading>
         <LoginCards>
           <LoginCard onClick={loginWithMetamask}>
             <MetamaskIcon size={100} />
             <Heading>
-              <FormattedMessage id="loginPage.metamask" />
+              <FormattedMessage
+                id="loginPage.metamask"
+                defaultMessage="Metamask"
+              />
             </Heading>
             <MetamaskStatusTag>
               {metamaskStatuses[metamaskStatus]}
@@ -120,7 +139,10 @@ const LoginMethodsView = (props: Props) => {
           <LoginCard onClick={openSelectAddressModal}>
             <Trezor size={100} />
             <Heading>
-              <FormattedMessage id="loginPage.trezorWallet" />
+              <FormattedMessage
+                id="loginPage.trezorWallet"
+                defaultMessage="Trezor Wallet"
+              />
             </Heading>
             <HardwareWalletStatusTag>
               {recommendedStatus}
@@ -129,23 +151,26 @@ const LoginMethodsView = (props: Props) => {
           <LoginCard onClick={showWalletLoginForm}>
             <KeyIcon size={100} />
             <Heading>
-              <FormattedMessage id="loginPage.wallet" />
+              <FormattedMessage id="loginPage.wallet" defaultMessage="Wallet" />
             </Heading>
           </LoginCard>
           <LoginCard onClick={showCreateWallet}>
             <WalletIcon size={100} color={Colors.WHITE} />
             <Heading>
-              <FormattedMessage id="loginPage.createWallet" />
+              <FormattedMessage
+                id="loginPage.createWallet"
+                defaultMessage="Create Wallet"
+              />
             </Heading>
           </LoginCard>
         </LoginCards>
       </LoginMethods>
     </Wrapper>
-  );
-};
+  )
+}
 
 const WalletLoginFormView = (props: Props) => {
-  const { loginWithWallet, showLoginMethods } = props;
+  const { loginWithWallet, showLoginMethods } = props
   return (
     <WalletLoginViewWrapper>
       <WalletLoginForm
@@ -153,8 +178,8 @@ const WalletLoginFormView = (props: Props) => {
         showLoginMethods={showLoginMethods}
       />
     </WalletLoginViewWrapper>
-  );
-};
+  )
+}
 
 const LoginLoadingView = (props: Props) => {
   return (
@@ -163,17 +188,17 @@ const LoginLoadingView = (props: Props) => {
       <Divider />
       <LargeText intent="primary">Logging In ...</LargeText>
     </Centered>
-  );
-};
+  )
+}
 
-export default LoginPageRenderer;
+export default LoginPageRenderer
 
 const Wrapper = styled.div`
   display: grid;
   padding-left: 2em;
   padding-right: 2em;
   padding-top: 2em;
-`;
+`
 
 const WalletLoginViewWrapper = styled.div`
   margin-top: 5em;
@@ -181,43 +206,43 @@ const WalletLoginViewWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
+`
 
-const Announcement = styled.section``;
+const Announcement = styled.section``
 
 const Heading = styled.h4`
   margin-top: 10px;
   margin-bottom: 10px;
-`;
+`
 
-const Reminder = styled.div``;
+const Reminder = styled.div``
 
 const LoginMethods = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
+`
 
 const LoginMethodsHeading = styled.h3`
   display: flex;
   justify-content: center;
   padding-top: 60px;
-`;
+`
 
 const LoginCards = styled.div`
   padding-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-`;
+`
 
 const AnnouncementMessages = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
-`;
+`
 
 const LoginCard = styled(Card).attrs({
-  interactive: true
+  interactive: true,
 })`
   margin: 10px;
   height: 13em;
@@ -226,26 +251,26 @@ const LoginCard = styled(Card).attrs({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const MetamaskStatusTag = styled(Tag).attrs({
   intent: Intent.SUCCESS,
   interactive: true,
   minimal: true,
-  textalign: 'center'
-})``;
+  textalign: 'center',
+})``
 
 const HardwareWalletStatusTag = styled(Tag).attrs({
   intent: Intent.SUCCESS,
   interactive: true,
   minimal: true,
-  textalign: 'center'
-})``;
+  textalign: 'center',
+})``
 
 const metamaskStatuses = {
   undefined: 'Not found',
   locked: 'Locked',
-  unlocked: 'Connected'
-};
+  unlocked: 'Connected',
+}
 
-const recommendedStatus = 'Recommended';
+const recommendedStatus = 'Recommended'
