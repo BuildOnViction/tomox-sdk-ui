@@ -26,3 +26,11 @@ $ yarn start
 # run storybook
 $ yarn storybook
 ```
+
+## Traslations
+
+**Extract messages**  
+`yarn extract-messages`
+
+**Update translation**
+`yarn merge-translations --trim=true`
