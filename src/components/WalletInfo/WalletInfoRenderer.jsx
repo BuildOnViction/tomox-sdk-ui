@@ -1,8 +1,9 @@
-import React from 'react';
-import { Card, Button, Tag } from '@blueprintjs/core';
-import styled from 'styled-components';
-import TransferTokensModal from '../../components/TransferTokensModal';
-import TokenBalanceChart from '../../components/TokenBalanceChart';
+import React from 'react'
+import { Card, Button, Tag } from '@blueprintjs/core'
+import styled from 'styled-components'
+import TransferTokensModal from '../../components/TransferTokensModal'
+import TokenBalanceChart from '../../components/TokenBalanceChart'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 const WalletInfoRenderer = props => {
   const {
@@ -11,20 +12,20 @@ const WalletInfoRenderer = props => {
     accountAddress,
     balance,
     gasPrice,
-    gas
-  } = props;
+    gas,
+  } = props
 
   return (
     <WalletInfoCard>
       <Box>
         <Tag minimal large interactive intent="primary">
-          TOMOCHAIN BALANCE
+          {NATIVE_TOKEN_SYMBOL} BALANCE
         </Tag>
         <BalanceBox>{balance} TOMO</BalanceBox>
       </Box>
       <Box>
         <Tag minimal large interactive intent="primary">
-          TOMOCHAIN ADDRESS
+          {NATIVE_TOKEN_SYMBOL} ADDRESS
         </Tag>
         <AccountAddressBox>{accountAddress}</AccountAddressBox>
       </Box>
@@ -51,24 +52,24 @@ const WalletInfoRenderer = props => {
         handleClose={handleModalClose}
       />
     </WalletInfoCard>
-  );
-};
+  )
+}
 
 const WalletInfoCard = styled(Card)`
   height: 92vh;
-`;
+`
 
 const BalanceBox = styled.p`
   font-size: 14px;
   margin: auto;
   margin-left: 20px;
-`;
+`
 
 const AccountAddressBox = styled.p`
   font-size: 14px;
   margin: auto;
   margin-left: 20px;
-`;
+`
 
 const Box = styled.div`
   display: flex;
@@ -76,6 +77,6 @@ const Box = styled.div`
   justify-content: left;
   align-content: middle;
   text-align: center;
-`;
+`
 
-export default WalletInfoRenderer;
+export default WalletInfoRenderer
