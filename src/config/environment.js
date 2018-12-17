@@ -7,7 +7,7 @@ let ENGINE_HTTP_URL,
 
 const env = window.env || process.env
 
-console.log(env)
+// console.log(env)
 
 const WS_PROTOCOL = window.location.protocol.replace('http', 'ws')
 const standardizeWSProtocol = url => {
