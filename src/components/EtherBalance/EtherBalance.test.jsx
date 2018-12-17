@@ -1,10 +1,10 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import EtherBalance from './EtherBalance'
+import TomoBalance from './TomoBalance'
 
 it('renders without crashing', () => {
   shallow(
-    <EtherBalance address="test address" balance="test balance" isSubscribed={true} subscribeBalance={jest.fn()} />
+    <TomoBalance address="test address" balance="test balance" isSubscribed={true} subscribeBalance={jest.fn()} />
   )
 })
 
@@ -12,7 +12,7 @@ it('calls subscribeBalance() on mount and unsubscribe it on unmount', () => {
   const unsubscribeBalance = jest.fn()
   const subscribeBalance = jest.fn(() => unsubscribeBalance)
   const wrapper = shallow(
-    <EtherBalance
+    <TomoBalance
       address="test address"
       balance="test balance"
       isSubscribed={false}
@@ -31,7 +31,7 @@ it('resubscribes on certain conditions', () => {
   const unsubscribeBalance = jest.fn()
   const subscribeBalance = jest.fn(() => unsubscribeBalance)
   const wrapper = shallow(
-    <EtherBalance
+    <TomoBalance
       address="test address"
       balance="test balance"
       isSubscribed={false}
@@ -63,7 +63,7 @@ it('shows "loadingMessage" when balance being null, elsewise the balance', () =>
   const loadingMessage = 'Loading...'
   const balance = 'test balance'
   const wrapper = shallow(
-    <EtherBalance
+    <TomoBalance
       address="test address"
       balance={null}
       isSubscribed={true}

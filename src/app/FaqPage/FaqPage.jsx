@@ -10,14 +10,14 @@ class FaqPage extends React.PureComponent {
     return (
       <Container>
         <FaqItem
-          question="What is WETH ? Why should I convert my Ether to WETH for using the platform ?"
+          question="What is WETH ? Why should I convert my TOMO to WETH for using the platform ?"
           match={match}
         >
-          Ether or ETH is the native currency of the Ethereum blockchain. The
-          native ETH currency does not however implement the very convenient
+          TOMO or TOMO is the native currency of the Tomochain blockchain. The
+          native TOMO currency does not however implement the very convenient
           ERC20 token standard. WETH brings the ERC20 token standard to ether.
-          When you are converting ETH to WETH, you receive 1 WETH token for each
-          Ether you've converted. Using WETH allows decentralized applications
+          When you are converting TOMO to WETH, you receive 1 WETH token for each
+          TOMO you've converted. Using WETH allows decentralized applications
           such as the Tomochain decentralized exchanges to offer better
           functionality and a better user experience. You can convert your WETH
           back to ether at any time.
@@ -121,7 +121,7 @@ class FaqPage extends React.PureComponent {
           No, contrary to a some other decentralized exchange protocols, you do
           not need PRFT tokens or any special token to trade on the
           Tomochain-DEX. The Tomochain-DEX transaction fees are paid in WETH
-          (Wrapped-Ether, mentioned above) for convenience and better
+          (Wrapped-TOMO, mentioned above) for convenience and better
           integration with the rest of our protocol.
         </FaqItem>
         <Divider />
@@ -139,7 +139,7 @@ class FaqPage extends React.PureComponent {
           match={match}
         >
           While the ultimate vision is to make the Tomochain-DEX completely
-          decentralized, the current state of Ethereum scalabitiy does not allow
+          decentralized, the current state of Tomochain scalabitiy does not allow
           for building such an exchange while keeping a good user experience.
           Therefore, we use an off-chain orderbook system and matching-engine
           system that allows for immediate
@@ -147,7 +147,7 @@ class FaqPage extends React.PureComponent {
         <Divider />
         <FaqItem question="How do i get Proof Tokens ?" match={match}>
           Proof tokens are currently not listed on any decentralized exchange.
-          You can however get Proof Tokens on Etherdelta or IDEX until Proof
+          You can however get Proof Tokens on TOMOdelta or IDEX until Proof
           tokens get listen on other exchanges.
         </FaqItem>
         <Divider />

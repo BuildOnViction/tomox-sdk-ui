@@ -1,23 +1,22 @@
 // @flow
-import React from 'react';
-import { Button, Switch, Checkbox, InputGroup, Tag } from '@blueprintjs/core';
+import React from 'react'
+import { Button, Switch, Checkbox, InputGroup, Tag } from '@blueprintjs/core'
 import {
   RowSpaceBetween,
   ColoredCryptoIcon,
   TokenIcon,
-  Colors
-} from '../Common';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import type { TokenData } from '../../types/tokens';
-
-import type { Symbol } from '../../types/tokens';
+  Colors,
+} from '../Common'
+import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+import type { TokenData, Symbol } from '../../types/tokens'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 type Props = {
   connected: boolean,
   baseTokensData: Array<TokenData>,
   quoteTokensData: Array<TokenData>,
-  ETHTokenData: TokenData,
+  TOMOTokenData: TokenData,
   WETHTokenData: TokenData,
   tokenDataLength: number,
   // provider: string,
@@ -30,8 +29,8 @@ type Props = {
   openSendModal: string => void,
   toggleAllowance: Symbol => void,
   toggleZeroBalanceToken: void => void,
-  redirectToTradingPage: string => void
-};
+  redirectToTradingPage: string => void,
+}
 
 const DepositTableRenderer = (props: Props) => {
   const {
@@ -40,8 +39,8 @@ const DepositTableRenderer = (props: Props) => {
     // depositTableData,
     searchInput,
     handleSearchInputChange,
-    tokenDataLength
-  } = props;
+    tokenDataLength,
+  } = props
   return (
     <TableSection>
       <RowSpaceBetween style={{ marginBottom: '10px' }}>
@@ -74,7 +73,7 @@ const DepositTableRenderer = (props: Props) => {
       <TableBodyContainer>
         <Table>
           <TableBody>
-            <ETHRow {...props} />
+            <TOMORow {...props} />
             <WETHRow {...props} />
             <QuoteTokenRows {...props} />
             <BaseTokenRows {...props} />
@@ -83,24 +82,24 @@ const DepositTableRenderer = (props: Props) => {
         {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
       </TableBodyContainer>
     </TableSection>
-  );
-};
+  )
+}
 
-const ETHRow = (props: Props) => {
+const TOMORow = (props: Props) => {
   const {
     connected,
-    ETHTokenData,
+    TOMOTokenData,
     openDepositModal,
     openSendModal,
-    openConvertModal
-  } = props;
+    openConvertModal,
+  } = props
 
-  if (!ETHTokenData) return null;
+  if (!TOMOTokenData) return null
 
-  const { symbol, balance } = ETHTokenData;
+  const { symbol, balance } = TOMOTokenData
 
   return (
-    <Row key="ETH">
+    <Row key="TOMO">
       <Cell>
         <TokenNameWrapper>
           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
@@ -137,14 +136,14 @@ const ETHRow = (props: Props) => {
             disabled={!connected}
             intent="success"
             text="Convert to WETH"
-            onClick={() => openConvertModal('ETH', 'WETH')}
+            onClick={() => openConvertModal(NATIVE_TOKEN_SYMBOL, 'WETH')}
             rightIcon="random"
           />
         </ButtonWrapper>
       </Cell>
     </Row>
-  );
-};
+  )
+}
 
 const WETHRow = (props: Props) => {
   const {
@@ -153,12 +152,12 @@ const WETHRow = (props: Props) => {
     toggleAllowance,
     openDepositModal,
     openSendModal,
-    openConvertModal
-  } = props;
+    openConvertModal,
+  } = props
 
-  if (!WETHTokenData) return null;
+  if (!WETHTokenData) return null
 
-  const { symbol, balance, allowed, allowancePending } = WETHTokenData;
+  const { symbol, balance, allowed, allowancePending } = WETHTokenData
 
   return (
     <Row key="WETH">
@@ -208,15 +207,15 @@ const WETHRow = (props: Props) => {
           <Button
             disabled={!connected}
             intent="success"
-            text="Convert to ETH"
+            text="Convert to TOMO"
             rightIcon="random"
-            onClick={() => openConvertModal('WETH', 'ETH')}
+            onClick={() => openConvertModal('WETH', NATIVE_TOKEN_SYMBOL)}
           />
         </ButtonWrapper>
       </Cell>
     </Row>
-  );
-};
+  )
+}
 
 const QuoteTokenRows = (props: Props) => {
   const {
@@ -224,10 +223,10 @@ const QuoteTokenRows = (props: Props) => {
     quoteTokensData,
     toggleAllowance,
     openDepositModal,
-    openSendModal
-  } = props;
+    openSendModal,
+  } = props
 
-  if (!quoteTokensData) return null;
+  if (!quoteTokensData) return null
 
   return quoteTokensData.map(
     ({ symbol, balance, allowed, image, allowancePending }, index) => {
@@ -277,10 +276,10 @@ const QuoteTokenRows = (props: Props) => {
             </ButtonWrapper>
           </Cell>
         </Row>
-      );
+      )
     }
-  );
-};
+  )
+}
 
 const BaseTokenRows = (props: Props) => {
   const {
@@ -289,10 +288,10 @@ const BaseTokenRows = (props: Props) => {
     toggleAllowance,
     openDepositModal,
     openSendModal,
-    redirectToTradingPage
-  } = props;
+    redirectToTradingPage,
+  } = props
 
-  if (!baseTokensData) return null;
+  if (!baseTokensData) return null
 
   return baseTokensData.map(
     ({ symbol, balance, allowed, image, allowancePending }, index) => {
@@ -351,22 +350,22 @@ const BaseTokenRows = (props: Props) => {
             </ButtonWrapper>
           </Cell>
         </Row>
-      );
+      )
     }
-  );
-};
+  )
+}
 
 const Table = styled.table.attrs({
-  className: 'bp3-html-table bp3-interactive bp3-html-table-striped'
+  className: 'bp3-html-table bp3-interactive bp3-html-table-striped',
 })`
   width: 100%;
-`;
+`
 
 const TableBodyContainer = styled.div`
   width: 100%;
   height: 80%;
   overflow-y: auto;
-`;
+`
 
 const TableSection = styled.div`
   display: flex;
@@ -374,15 +373,15 @@ const TableSection = styled.div`
   flex-direction: column;
   height: 100%;
   width: 99%;
-`;
+`
 
-const TableBody = styled.tbody``;
+const TableBody = styled.tbody``
 
-const TableHeader = styled.thead``;
+const TableHeader = styled.thead``
 
 const TableHeaderCell = styled.th`
   width: 19%;
-`;
+`
 const Cell = styled.td`
   width: 19%;
   vertical-align: middle !important;
@@ -392,11 +391,11 @@ const Cell = styled.td`
   & p {
     margin-bottom: 0;
   }
-`;
+`
 
 const Row = styled.tr`
   width: 100%;
-`;
+`
 
 const TokenNameWrapper = styled.div`
   display: flex;
@@ -405,11 +404,11 @@ const TokenNameWrapper = styled.div`
   & img {
     margin-right: 12px;
   }
-`;
+`
 
 const HideTokenCheck = styled(Checkbox)`
   margin: 0 !important;
-`;
+`
 
 const NoToken = styled.p`
   height: 100%;
@@ -417,12 +416,12 @@ const NoToken = styled.p`
   justify-content: center;
   align-items: center;
   margin: 0;
-`;
+`
 
 const ButtonWrapper = styled.span`
   margin-left: 10px !important;
   margin-right: 10px !important;
-`;
+`
 
 const Ellipsis = styled.p`
   text-align: center;
@@ -430,6 +429,6 @@ const Ellipsis = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
-export default withRouter(DepositTableRenderer);
+export default withRouter(DepositTableRenderer)

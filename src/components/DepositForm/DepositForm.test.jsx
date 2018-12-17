@@ -14,7 +14,7 @@ describe('Rendering', () => {
     shallow(
       <DepositForm
         step="waiting"
-        balances={{ ETH: '1000 ' }}
+        balances={{ TOMO: '1000 ' }}
         address={mockAddress}
         tokens={mockTokens}
         queryBalances={jest.fn()}
@@ -40,7 +40,7 @@ describe('Component methods', () => {
     wrapper = shallow(
       <DepositForm
         step="waiting"
-        balances={{ ETH: '1000 ' }}
+        balances={{ TOMO: '1000 ' }}
         address={mockAddress}
         tokens={mockTokens}
         queryBalances={queryBalances}

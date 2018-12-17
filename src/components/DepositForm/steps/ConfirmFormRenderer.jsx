@@ -22,9 +22,9 @@ const ConfirmFormRenderer = (props: Props) => {
       confirmed: 'Allow Trading Transaction Successful'
     },
     convert: {
-      reverted: 'Convert Ether Transaction Failed',
-      sent: 'Converting Ether  ...',
-      confirmed: 'Convert Ether Transaction Successful'
+      reverted: 'Convert TOMO Transaction Failed',
+      sent: 'Converting TOMO  ...',
+      confirmed: 'Convert TOMO Transaction Successful'
     }
   }
 

@@ -30,7 +30,9 @@ export default function tradingPageSelector(state: State) {
   const authenticated = accountDomain.authenticated()
   const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
   const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
-  const baseTokenAllowance = accountBalancesDomain.tokenAllowance(baseTokenSymbol)
+  const baseTokenAllowance = accountBalancesDomain.tokenAllowance(
+    baseTokenSymbol
+  )
   const quoteTokenAllowance = accountBalancesDomain.tokenAllowance(
     quoteTokenSymbol
   )
@@ -65,7 +67,7 @@ export const getDefaultData = (): ThunkAction => {
       const currentPair = pairDomain.getCurrentPair()
       // let pairs = pairDomain.getPairsByCode();
 
-      const { baseTokenDecimals, quoteTokenDecimals } = currentPair
+      const { baseTokenDecimals } = currentPair
 
       let tokenPairData = await api.fetchTokenPairData()
 

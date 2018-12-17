@@ -42,7 +42,7 @@ storiesOf('OrderBook', module)
           asks={asks}
           currentPair={currentPair}
           bids={bids}
-          baseToken="ETH"
+          baseToken="TOMO"
           quoteToken="USDT"
         />
       </div>

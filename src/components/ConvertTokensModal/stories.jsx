@@ -16,7 +16,7 @@ storiesOf('Convert Tokens Modal', module)
             <ConvertTokensModal
               handleClose={handleClose}
               isOpen={isOpen}
-              fromToken="ETH"
+              fromToken="TOMO"
               toToken="WETH"
             />
           );
@@ -34,7 +34,7 @@ storiesOf('Convert Tokens Modal', module)
               handleClose={handleClose}
               isOpen={isOpen}
               fromToken="WETH"
-              toToken="ETH"
+              toToken="TOMO"
             />
           );
         }}

@@ -6,7 +6,7 @@ import type {
 import type { TxReceipt } from '../../types/common';
 
 const initialState = {
-  ETH: {
+  TOMO: {
     txSubmitted: false,
     convertTxStatus: null,
     convertTxReceipt: null,

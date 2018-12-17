@@ -1,16 +1,16 @@
 //@flow
-import React from 'react';
-import DepositFormRenderer from './DepositFormRenderer';
+import React from 'react'
+import DepositFormRenderer from './DepositFormRenderer'
 // import { generateDepositAddress } from '../../store/services/api';
-import { getSigner } from '../../store/services/signer';
-import { WETH_ADDRESS } from '../../config/contracts';
+import { getSigner } from '../../store/services/signer'
+import { WETH_ADDRESS } from '../../config/contracts'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import type { Token } from '../../types/tokens'
+import type { AccountBalance } from '../../types/accountBalances'
+import type { PairAddresses } from '../../types/pairs'
+import type { AddressAssociation, Chain } from '../../types/deposit'
 
-import type { Token } from '../../types/tokens';
-import type { AccountBalance } from '../../types/accountBalances';
-import type { PairAddresses } from '../../types/pairs';
-import type { AddressAssociation, Chain } from '../../types/deposit';
-
-type Step = 'waiting' | 'convert' | 'confirm';
+type Step = 'waiting' | 'convert' | 'confirm'
 
 type Props = {
   step: Step,
@@ -26,8 +26,8 @@ type Props = {
   confirmEtherDeposit: (boolean, boolean, number) => void,
   allowTx: Object,
   convertTx: Object,
-  addressAssociation: AddressAssociation
-};
+  addressAssociation: AddressAssociation,
+}
 
 type State = {
   token: Token,
@@ -36,8 +36,8 @@ type State = {
   shouldConvert: boolean,
   shouldAllow: boolean,
   showTokenSuggest: boolean,
-  unsubscribeBalance: ?(void) => void
-};
+  unsubscribeBalance: ?(void) => void,
+}
 
 class DepositForm extends React.PureComponent<Props, State> {
   state = {
@@ -47,42 +47,42 @@ class DepositForm extends React.PureComponent<Props, State> {
     shouldAllow: true,
     convertAmount: 50,
     showTokenSuggest: false,
-    unsubscribeBalance: null
-  };
+    unsubscribeBalance: null,
+  }
 
   componentDidMount() {
-    const { token } = this.state;
-    this.props.queryBalances();
-    this.subscribe(token);
+    const { token } = this.state
+    this.props.queryBalances()
+    this.subscribe(token)
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribe()
   }
 
   async subscribe(token: Token) {
-    const signer = getSigner();
-    const networkID = signer.provider.network.chainId;
-    const quoteToken = WETH_ADDRESS[networkID];
+    const signer = getSigner()
+    const networkID = signer.provider.network.chainId
+    const quoteToken = WETH_ADDRESS[networkID]
     const pairAddresses: PairAddresses = {
       name: `${token.symbol}/WETH`,
       baseToken: token.address,
-      quoteToken
-    };
+      quoteToken,
+    }
     const {
       subscribeBalance,
       chain,
       address,
-      updateAddressAssociation
-    } = this.props;
+      updateAddressAssociation,
+    } = this.props
 
     // console.log(pairAddresses);
-    this.unsubscribe();
+    this.unsubscribe()
 
-    const unsubscribeBalance = await subscribeBalance(token);
+    const unsubscribeBalance = await subscribeBalance(token)
 
     // now call websocket to update associated Address, we can remove subscribe function
-    updateAddressAssociation(chain, address, pairAddresses);
+    updateAddressAssociation(chain, address, pairAddresses)
     // let association = await generateDepositAddress(
     //   'ethereum',
     //   this.props.address,
@@ -92,73 +92,73 @@ class DepositForm extends React.PureComponent<Props, State> {
     // console.log(association);
 
     this.setState({
-      unsubscribeBalance
-    });
+      unsubscribeBalance,
+    })
   }
 
   unsubscribe() {
     if (typeof this.state.unsubscribeBalance === 'function')
-      this.state.unsubscribeBalance();
+      this.state.unsubscribeBalance()
   }
 
   handleChangeToken = (e: Object) => {
-    this.setState({ inputToken: e });
-  };
+    this.setState({ inputToken: e })
+  }
 
   handleSubmitChangeToken = async (e: SyntheticEvent<>) => {
-    const newToken = this.state.inputToken || this.state.token;
+    const newToken = this.state.inputToken || this.state.token
 
     this.setState({
       showTokenSuggest: false,
-      token: newToken
-    });
-    this.subscribe(newToken);
-  };
+      token: newToken,
+    })
+    this.subscribe(newToken)
+  }
 
   handleChangeConvertAmount = (e: number) => {
-    this.setState({ convertAmount: e });
-  };
+    this.setState({ convertAmount: e })
+  }
 
   handleConfirm = () => {
-    this.unsubscribe();
-    const { token, shouldAllow, shouldConvert, convertAmount } = this.state;
-    const { confirmTokenDeposit, confirmEtherDeposit } = this.props;
+    this.unsubscribe()
+    const { token, shouldAllow, shouldConvert, convertAmount } = this.state
+    const { confirmTokenDeposit, confirmEtherDeposit } = this.props
 
-    token.symbol === 'ETH'
+    token.symbol === NATIVE_TOKEN_SYMBOL
       ? confirmEtherDeposit(shouldConvert, shouldAllow, convertAmount)
-      : confirmTokenDeposit(token, shouldAllow);
-  };
+      : confirmTokenDeposit(token, shouldAllow)
+  }
 
   toggleTokenSuggest = () => {
-    this.setState({ showTokenSuggest: !this.state.showTokenSuggest });
-  };
+    this.setState({ showTokenSuggest: !this.state.showTokenSuggest })
+  }
 
   toggleShouldAllowTrading = () => {
-    this.setState({ shouldAllow: !this.state.shouldAllow });
-  };
+    this.setState({ shouldAllow: !this.state.shouldAllow })
+  }
 
   toggleShouldConvert = () => {
-    this.setState({ shouldConvert: !this.state.shouldConvert });
-  };
+    this.setState({ shouldConvert: !this.state.shouldConvert })
+  }
 
   transactionStatus = () => {
-    const { token } = this.state;
-    const { allowTx, convertTx } = this.props;
-    const allowTxStatus = allowTx.allowTxStatus;
-    const convertTxStatus = convertTx.convertTxStatus;
+    const { token } = this.state
+    const { allowTx, convertTx } = this.props
+    const allowTxStatus = allowTx.allowTxStatus
+    const convertTxStatus = convertTx.convertTxStatus
 
-    if (token.symbol === 'ETH') {
+    if (token.symbol === NATIVE_TOKEN_SYMBOL) {
       if (allowTxStatus === 'failed' || convertTxStatus === 'failed')
-        return 'failed';
+        return 'failed'
       if (allowTxStatus === 'confirmed' && convertTxStatus === 'confirmed')
-        return 'confirmed';
-      if (allowTxStatus === 'sent' && convertTxStatus === 'sent') return 'sent';
+        return 'confirmed'
+      if (allowTxStatus === 'sent' && convertTxStatus === 'sent') return 'sent'
     } else {
-      if (allowTxStatus === 'failed') return 'failed';
-      if (allowTxStatus === 'confirmed') return 'confirmed';
-      if (allowTxStatus === 'sent') return 'sent';
+      if (allowTxStatus === 'failed') return 'failed'
+      if (allowTxStatus === 'confirmed') return 'confirmed'
+      if (allowTxStatus === 'sent') return 'sent'
     }
-  };
+  }
 
   render() {
     const {
@@ -168,8 +168,8 @@ class DepositForm extends React.PureComponent<Props, State> {
       tokens,
       allowTx,
       convertTx,
-      addressAssociation
-    } = this.props;
+      addressAssociation,
+    } = this.props
 
     const {
       shouldAllow,
@@ -177,16 +177,16 @@ class DepositForm extends React.PureComponent<Props, State> {
       convertAmount,
       inputToken,
       showTokenSuggest,
-      token
-    } = this.state;
+      token,
+    } = this.state
     const balance = balances[token.symbol]
       ? balances[token.symbol].balance
-      : null;
-    const isEtherDeposit = token.symbol === 'ETH';
-    const allowTradingCheckboxDisabled = isEtherDeposit && !shouldConvert;
+      : null
+    const isEtherDeposit = token.symbol === NATIVE_TOKEN_SYMBOL
+    const allowTradingCheckboxDisabled = isEtherDeposit && !shouldConvert
     const submitButtonDisabled =
       (!isEtherDeposit && allowTradingCheckboxDisabled) ||
-      (!shouldConvert || allowTradingCheckboxDisabled);
+      (!shouldConvert || allowTradingCheckboxDisabled)
 
     return (
       <DepositFormRenderer
@@ -215,8 +215,8 @@ class DepositForm extends React.PureComponent<Props, State> {
         {...allowTx}
         {...convertTx}
       />
-    );
+    )
   }
 }
 
-export default DepositForm;
+export default DepositForm

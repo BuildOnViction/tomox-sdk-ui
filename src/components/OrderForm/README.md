@@ -6,8 +6,8 @@ import OrderForm from '../../components/OrderForm';
 * `formName` - Name of Form Sell/Buy
 * `askPrice` - Current Ask Price of quote token
 * `bidPrice` - Current Bid price of quote token
-* `quoteToken` - Quote token/coin/currency (ETH/BTC) => ETH
-* `baseToken` - Base token/coin/currency (ETH/BTC) => BTC
+* `quoteToken` - Quote token/coin/currency (TOMO/BTC) => TOMO
+* `baseToken` - Base token/coin/currency (TOMO/BTC) => BTC
 * `totalQuoteBalance` - Total Balance of quote
 * `totalBaseBalance` - Total Balance of base
 
@@ -15,7 +15,7 @@ import OrderForm from '../../components/OrderForm';
 ```js
 <OrderForm
   formName="Sell"
-  quoteToken="ETH"
+  quoteToken="TOMO"
   baseToken="BTC"
   askPrice={0.25}
   bidPrice={0.29}

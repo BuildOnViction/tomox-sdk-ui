@@ -18,7 +18,7 @@ storiesOf('Order Form', module)
           totalQuoteBalance={1000}
           totalBaseBalance={10}
           formType="Sell"
-          quoteToken="ETH"
+          quoteToken="TOMO"
           baseToken="BTC"
         />
       </div>
@@ -34,7 +34,7 @@ storiesOf('Order Form', module)
           totalQuoteBalance={1000}
           totalBaseBalance={10}
           formType="Buy"
-          quoteToken="ETH"
+          quoteToken="TOMO"
           baseToken="BTC"
         />
       </div>

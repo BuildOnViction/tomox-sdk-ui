@@ -19,7 +19,7 @@ export const getCurrentBlock = async () => {
  * @description Generates a brain wallet from a username/password pair
  * @param username [String]
  * @param password [String]
- * @returns [Object] - Ethers.js wallet object
+ * @returns [Object] - TOMOs.js wallet object
  */
 export const generateBrainWalletPrivateKey = async (username, password) => {
   let wallet = await Wallet.fromBrainWallet(username, password);
@@ -28,7 +28,7 @@ export const generateBrainWalletPrivateKey = async (username, password) => {
 
 /**
  * @description Creates a random (unencrypted) ethers.js wallet object
- * @returns [Object] - Ethers.js wallet object
+ * @returns [Object] - TOMOs.js wallet object
  */
 export const createRandomWallet = async () => {
   let wallet = await Wallet.createRandom();
@@ -38,7 +38,7 @@ export const createRandomWallet = async () => {
 /**
  * @description Creates an (unencrypted) ethers.js wallet object
  * @param privateKey [String]
- * @returns [Object] - Ethers.js wallet object
+ * @returns [Object] - TOMOs.js wallet object
  */
 export const createWalletFromPrivateKey = privateKey => {
   let wallet;
@@ -90,7 +90,7 @@ export const createWalletFromMnemonic = async mnemonic => {
  * @description Creates an encrypted ethers.js wallet object and returns it
  * along with it's address
  * @param password [String]
- * @returns [Object] - Ethers.js encrypted wallet and wallet address
+ * @returns [Object] - TOMOs.js encrypted wallet and wallet address
  */
 export const createAndEncryptWallet = async (password, callback) => {
   let wallet = await Wallet.createRandom();
@@ -103,7 +103,7 @@ export const createAndEncryptWallet = async (password, callback) => {
  * @description Decrypts an ethers.js wallet object and returns the plain decrypted object
  * @param jsonWallet [Object]
  * @param password
- * @returns [Object] - Ethers.js wallet
+ * @returns [Object] - TOMOs.js wallet
  */
 export const decryptWallet = async (jsonWallet, password) => {
   let wallet = await Wallet.fromEncryptedWallet(jsonWallet, password);

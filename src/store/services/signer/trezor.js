@@ -1,7 +1,7 @@
 import { Signer, providers, utils } from 'ethers'
 import TrezorConnect from 'trezor-connect'
 
-import { ETHEREUM_NODE_HTTP_URL, DEFAULT_NETWORK_ID } from '../../../config/environment'
+import { TOMOCHAIN_NODE_HTTP_URL, DEFAULT_NETWORK_ID } from '../../../config/environment'
 import { addMethodsToSigner } from './index'
 
 const defaultDPath = "m/44'/60'/0'/0"
@@ -10,7 +10,7 @@ export class TrezorSigner extends Signer {
   constructor(path = defaultDPath) {
     super()
     const networkId = DEFAULT_NETWORK_ID === 'default' ? DEFAULT_NETWORK_ID : parseInt(DEFAULT_NETWORK_ID, 10)
-    this.provider = new providers.JsonRpcProvider(ETHEREUM_NODE_HTTP_URL, {
+    this.provider = new providers.JsonRpcProvider(TOMOCHAIN_NODE_HTTP_URL, {
       chainId: networkId,
     })
     this.address = null

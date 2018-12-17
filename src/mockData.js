@@ -52,7 +52,7 @@ export const mockHash2 = '0xef84afe5a43b81190ec676257261b930e1c3fc8e5002b813d7f5
 export const mockAddress = '0xe8e84ee367bc63ddb38d3d01bccef106c194dc47'
 
 export const mockTokens = [
-  { symbol: 'ETH', address: '0x0' },
+  { symbol: 'TOMO', address: '0x0' },
   { symbol: 'EOS', address: '0x8d0a722b76c0dcb91bf62334afd11f925c0adb95' },
   { symbol: 'WETH', address: '0x2eb24432177e82907de24b7c5a6e0a5c03226135' },
   { symbol: 'ZRX', address: '0xc73eec564e96e6653943d6d0e32121d455917653' }

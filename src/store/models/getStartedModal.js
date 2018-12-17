@@ -24,8 +24,8 @@ export default function convertTokensFormSelector(state: State) {
   let getStartedModalDomain = getGetStartedModalDomain(state);
 
   return {
-    ETHAddress: () => accountDomain.address(),
-    ETHBalance: () => accountBalancesDomain.etherBalance(),
+    TOMOAddress: () => accountDomain.address(),
+    TomoBalance: () => accountBalancesDomain.tomoBalance(),
     WETHBalance: () => accountBalancesDomain.tokenBalance('WETH'),
     WETHAllowance: () => accountBalancesDomain.tokenAllowance('WETH'),
     networkID: () => signerDomain.getNetworkID(),
@@ -77,12 +77,12 @@ export const convertETH = (convertAmount: number): ThunkAction => {
       convertTxReceipt.status === 0 || allowTxReceipt.status === 0
         ? dispatch(
             notificationActionCreators.addErrorNotification({
-              message: 'ETH conversion transaction failed'
+              message: 'TOMO conversion transaction failed'
             })
           )
         : dispatch(
             notificationActionCreators.addSuccessNotification({
-              message: 'ETH conversion transaction successful!'
+              message: 'TOMO conversion transaction successful!'
             })
           );
     } catch (error) {

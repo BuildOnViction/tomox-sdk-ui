@@ -35,7 +35,7 @@ it('handles dataSaved event properly', () => {
     totalQuoteBalance: 100,
     totalBaseBalance: 1000,
     formName: 'Sell',
-    quoteToken: 'ETH',
+    quoteToken: 'TOMO',
     baseToken: 'USD',
     decimals: 7,
     loggedIn: false
@@ -48,6 +48,6 @@ it('handles dataSaved event properly', () => {
   expect(orderForm.getTotalQuoteBalance()).toEqual(100)
   expect(orderForm.getTotalBaseBalance()).toEqual(1000)
   expect(orderForm.getFormName()).toEqual('Sell')
-  expect(orderForm.getQuoteToken()).toEqual('ETH')
+  expect(orderForm.getQuoteToken()).toEqual('TOMO')
   expect(orderForm.getBaseToken()).toEqual('USD')
 })

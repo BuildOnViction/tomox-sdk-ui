@@ -11,7 +11,7 @@ import { getTrades } from '../../store/services/api';
 
 const currentPair = {
   baseTokenSymbol: 'TOMO',
-  quoteTokenSymbol: 'ETH',
+  quoteTokenSymbol: 'TOMO',
 };
 
 storiesOf('Trades', module)

@@ -1,19 +1,19 @@
 import { connect } from 'react-redux'
-import getEtherBalance from '../../store/models/etherBalance'
-import * as etherBalanceActionCreators from '../../store/models/etherBalance'
+import getTomoBalance from '../../store/models/tomoBalance'
+import * as tomoBalanceActionCreators from '../../store/models/tomoBalance'
 
 export function mapStateToProps(state, props) {
-  const etherBalance = getEtherBalance(state)
+  const tomoBalance = getTomoBalance(state)
 
   return {
-    balance: etherBalance.get(props.address),
-    isSubscribed: etherBalance.isSubscribed(props.address)
+    balance: tomoBalance.get(props.address),
+    isSubscribed: tomoBalance.isSubscribed(props.address)
   }
 }
 
 export function mapDispatchToProps(dispatch, props) {
   return {
-    subscribeBalance: () => dispatch(etherBalanceActionCreators.subscribeBalance(props.address))
+    subscribeBalance: () => dispatch(tomoBalanceActionCreators.subscribeBalance(props.address))
   }
 }
 

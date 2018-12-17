@@ -30,12 +30,12 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
         {
             path: "m/44'/60'/0'/0",
             desc:
-                'Jaxx, Metamask, Exodus, imToken, TREZOR (ETH) & Digital Bitbox',
+                'Jaxx, Metamask, Exodus, imToken, TREZOR (TOMO) & Digital Bitbox',
             defaultType: 'trezor'
         },
         {
             path: "m/44'/60'/0'",
-            desc: 'Ledger (ETH)',
+            desc: 'Ledger (TOMO)',
             defaultType: 'ledger'
         },
         {

@@ -2,7 +2,7 @@ import accountDomain from './account';
 import accountBalancesDomain from './accountBalances';
 import depositFormDomain from './depositForm';
 import getStartedModalDomain from './getStartedModal';
-import etherBalanceDomain from './etherBalance';
+import tomoBalanceDomain from './tomoBalance';
 import transferTokensFormDomain from './transferTokensForm';
 import loginPageDomain from './loginPage';
 import ohlcvDomain from './ohlcv';
@@ -28,8 +28,8 @@ export const getDepositFormDomain = state =>
   depositFormDomain(state.depositForm);
 export const getGetStartedModalDomain = state =>
   getStartedModalDomain(state.getStartedModal);
-export const getEtherBalanceDomain = state =>
-  etherBalanceDomain(state.etherBalance);
+export const getTomoBalanceDomain = state =>
+  tomoBalanceDomain(state.tomoBalance);
 export const getTransferTokensFormDomain = state =>
   transferTokensFormDomain(state.transferTokensForm);
 export const getLoginPageDomain = state => loginPageDomain(state.loginPage);

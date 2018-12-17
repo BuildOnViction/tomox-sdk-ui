@@ -11,7 +11,7 @@ type Props = {
   hash: string
 };
 
-//TODO Add link to Etherscan
+//TODO Add link to TOMOscan
 const SmallTxNotification = (props: Props) => {
   const { status, hash, txName } = props;
   console.log(hash);
@@ -28,7 +28,7 @@ const SmallTxNotification = (props: Props) => {
                 <Indent /> {txName} pending
               </div>
               <Button minimal disabled>
-                View on Etherscan
+                View on TOMOscan
               </Button>
             </NotificationBox>
           </Callout>
@@ -41,7 +41,7 @@ const SmallTxNotification = (props: Props) => {
             <NotificationBox>
               {txName} successful
               <Button minimal disabled>
-                View on Etherscan
+                View on TOMOscan
               </Button>
             </NotificationBox>
           </Callout>
@@ -54,7 +54,7 @@ const SmallTxNotification = (props: Props) => {
             <NotificationBox>
               {txName} error
               <Button minimal disabled>
-                View on Etherscan
+                View on TOMOscan
               </Button>
             </NotificationBox>
           </Callout>

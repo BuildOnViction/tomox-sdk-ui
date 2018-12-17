@@ -136,9 +136,9 @@ const ConfirmFormRenderer = (props: Props) => {
       confirmed: 'Allow Trading Transaction Successful'
     },
     convert: {
-      reverted: 'Convert Ether Transaction Failed',
-      sent: 'Converting Ether  ...',
-      confirmed: 'Convert Ether Transaction Successful'
+      reverted: 'Convert TOMO Transaction Failed',
+      sent: 'Converting TOMO  ...',
+      confirmed: 'Convert TOMO Transaction Successful'
     }
   };
 
@@ -250,20 +250,20 @@ const ConfirmFormRenderer = (props: Props) => {
 };
 
 const messages = {
-  ETH: {
-    title: `Tokenize your Ether for trading!`,
-    callout: `To be able to trade on the Tomochain platform, you will need to convert you Ether (ETH) to tokenized ether (WETH).
-    ETH and WETH can be converted at anytime through a smart-contract and 1 ETH = 1 WETH consistently. To perform other normal blockchain transactions, you will need Ether to pay for gas. Therefore
-    we recommend tokenizing around 90% of your ETH`,
-    label1: `Choose the fraction of ETH you want to tokenize.`,
-    info1: `WETH is reequired for trading. You can convert back to ETH at any time. Read more about WETH here`,
+  TOMO: {
+    title: `Tokenize your TOMO for trading!`,
+    callout: `To be able to trade on the Tomochain platform, you will need to convert you TOMO (TOMO) to tokenized ether (WETH).
+    TOMO and WETH can be converted at anytime through a smart-contract and 1 TOMO = 1 WETH consistently. To perform other normal blockchain transactions, you will need TOMO to pay for gas. Therefore
+    we recommend tokenizing around 90% of your TOMO`,
+    label1: `Choose the fraction of TOMO you want to tokenize.`,
+    info1: `WETH is reequired for trading. You can convert back to TOMO at any time. Read more about WETH here`,
     info2: 'Required for trading'
   },
   WETH: {
-    title: `Convert back to Ether`,
-    callout: `To be able to trade on the Tomochain platform, you will need to convert you Ether (ETH) to tokenized ether (WETH). ETH and WETH can be converted at anytime through a smart-contract and 1 ETH = 1 WETH consistently`,
-    label1: `Choose the fraction of WETH (tokenized Ether) you want to convert to ETH`,
-    info1: `WETH is reequired for trading. You can convert between WETH (tokenized ether) and ETH at any time. Read more about WETH here`,
+    title: `Convert back to TOMO`,
+    callout: `To be able to trade on the Tomochain platform, you will need to convert you TOMO (TOMO) to tokenized ether (WETH). TOMO and WETH can be converted at anytime through a smart-contract and 1 TOMO = 1 WETH consistently`,
+    label1: `Choose the fraction of WETH (tokenized TOMO) you want to convert to TOMO`,
+    info1: `WETH is reequired for trading. You can convert between WETH (tokenized ether) and TOMO at any time. Read more about WETH here`,
     info2: 'Required for trading'
   }
 };

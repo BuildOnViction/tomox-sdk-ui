@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import SignerSettingsForm from './SignerSettingsForm'
 import {
-  ETHEREUM_NODE_HTTP_URL,
+  TOMOCHAIN_NODE_HTTP_URL,
   DEFAULT_NETWORK_ID,
 } from '../../config/environment'
 
@@ -14,7 +14,7 @@ describe('Rendering', () => {
         error=""
         currentSigner={{
           type: 'rpc',
-          url: ETHEREUM_NODE_HTTP_URL,
+          url: TOMOCHAIN_NODE_HTTP_URL,
           networkId: DEFAULT_NETWORK_ID,
         }}
         updateSigner={jest.fn()}

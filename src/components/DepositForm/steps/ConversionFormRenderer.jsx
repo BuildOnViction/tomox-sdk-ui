@@ -49,12 +49,12 @@ const ConversionStepRenderer = (props: Props) => {
         To be able to trade on the Tomochain platform, you will need to allow
         the exchange smart-contract to trade with your tokens. Learn more.
       </Callout>
-      <EtherBalanceBox>
+      <TomoBalanceBox>
         <p>Your total wallet balance is currently:</p>
         <h1>
           {balance} {token.symbol}
         </h1>
-      </EtherBalanceBox>
+      </TomoBalanceBox>
       {isEtherDeposit && renderSliderBox(props)}
       <br />
       <Checkbox
@@ -91,7 +91,7 @@ const renderSliderBox = (props: Props) => {
     <div>
       <Checkbox
         checked={shouldConvert}
-        label="Convert to Wrapper Ether"
+        label="Convert to Wrapper TOMO"
         onChange={toggleShouldConvert}
       />
 
@@ -110,7 +110,7 @@ const renderSliderBox = (props: Props) => {
   );
 };
 
-const EtherBalanceBox = styled.div`
+const TomoBalanceBox = styled.div`
   padding-top: 40px;
   padding-bottom: 40px;
   display: flex;

@@ -1,7 +1,7 @@
 const actionTypes = {
-  subscribeBalance: 'etherBalance/SUBSCRIBE_BALANCE',
-  updateBalance: 'etherBalance/UPDATE_BALANCE',
-  unsubscribeBalance: 'etherBalance/UNSUBSCRIBE_BALANCE'
+  subscribeBalance: 'tomoBalance/SUBSCRIBE_BALANCE',
+  updateBalance: 'tomoBalance/UPDATE_BALANCE',
+  unsubscribeBalance: 'tomoBalance/UNSUBSCRIBE_BALANCE'
 }
 
 export function subscribeBalance(address) {

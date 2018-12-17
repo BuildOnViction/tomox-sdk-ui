@@ -8,6 +8,7 @@ import {
 } from '../domains'
 
 import { quoteTokens } from '../../config/quotes'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 import * as accountBalancesService from '../services/accountBalances'
 import * as actionCreators from '../actions/walletPage'
@@ -22,17 +23,17 @@ export default function createSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const settingsDomain = getSettingsDomain(state)
 
-  const ETHBalance = accountBalancesDomain.etherBalance()
+  const TomoBalance = accountBalancesDomain.tomoBalance()
   const WETHBalance = accountBalancesDomain.tokenBalance('WETH')
   const WETHAllowance = accountBalancesDomain.tokenAllowance('WETH')
   const authenticated = accountDomain.authenticated()
   const address = accountDomain.address()
   const currentBlock = accountDomain.currentBlock()
-  const accountLoading = !(ETHBalance && WETHBalance && WETHAllowance)
+  const accountLoading = !(TomoBalance && WETHBalance && WETHAllowance)
   const locale = settingsDomain.getLocale()
 
   return {
-    ETHBalance,
+    TomoBalance,
     WETHBalance,
     WETHAllowance,
     authenticated,
@@ -54,10 +55,10 @@ export function queryAccountData(): ThunkAction {
 
       tokens = quotes
         .concat(tokens)
-        .filter((token: Token) => token.symbol !== 'ETH')
+        .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
       if (!accountAddress) throw new Error('Account address is not set')
 
-      const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
+      const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
         accountAddress
       )
       const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
@@ -68,7 +69,7 @@ export function queryAccountData(): ThunkAction {
         accountAddress,
         tokens
       )
-      const balances = [etherBalance].concat(tokenBalances)
+      const balances = [tomoBalance].concat(tokenBalances)
 
       dispatch(actionCreators.updateBalances(balances))
       dispatch(actionCreators.updateAllowances(allowances))
@@ -79,12 +80,12 @@ export function queryAccountData(): ThunkAction {
         balance => dispatch(actionCreators.updateBalance(balance))
       )
 
-      await accountBalancesService.subscribeEtherBalance(
+      await accountBalancesService.subscribeTomoBalance(
         accountAddress,
         balance =>
           dispatch(
             actionCreators.updateBalance({
-              symbol: 'ETH',
+              symbol: NATIVE_TOKEN_SYMBOL,
               balance,
             })
           )
@@ -100,7 +101,7 @@ export function queryAccountData(): ThunkAction {
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
-          message: 'Could not connect to Ethereum network',
+          message: 'Could not connect to Tomochain network',
         })
       )
       console.log(e)

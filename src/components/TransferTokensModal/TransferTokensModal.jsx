@@ -14,7 +14,7 @@ type Props = {
 
 const TransferTokensModal = (props: Props) => (
   <Modal
-    title="Send Ether or Tokens"
+    title="Send TOMO or Tokens"
     icon="info-sign"
     isOpen={props.isOpen}
     onClose={props.handleClose}

@@ -1,10 +1,10 @@
-import { getEtherBalanceDomain } from '../domains'
+import { getTomoBalanceDomain } from '../domains'
 
-import * as actionCreators from '../actions/etherBalance'
+import * as actionCreators from '../actions/tomoBalance'
 import * as ether from '../services/ether'
 
 export default function getEtherTxSelector(state) {
-  return getEtherBalanceDomain(state)
+  return getTomoBalanceDomain(state)
 }
 
 export function subscribeBalance(address) {

@@ -55,7 +55,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         action: {
           href: `https://scan.testnet.tomochain.com/txs/${options.txHash}`,
           target: '_blank',
-          text: <strong>View on Etherscan</strong>
+          text: <strong>View on TOMOscan</strong>
         },
         message: (
           <React.Fragment>
@@ -79,7 +79,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         action: {
           href: `https://scan.testnet.tomochain.com/txs/${options.txHash}`,
           target: '_blank',
-          text: <strong>View on Etherscan</strong>
+          text: <strong>View on TOMOscan</strong>
         },
         message: (
           <React.Fragment>

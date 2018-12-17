@@ -1,8 +1,8 @@
 //@flow
-import React from 'react';
-import ConvertTokensFormRenderer from './ConvertTokensFormRenderer';
-
-import type { TxReceipt } from '../../types/common';
+import React from 'react'
+import ConvertTokensFormRenderer from './ConvertTokensFormRenderer'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import type { TxReceipt } from '../../types/common'
 
 type Props = {
   txSubmitted: boolean,
@@ -20,16 +20,16 @@ type Props = {
   allowTxHash: string,
   convertFromWETHtoETH: number => void,
   convertFromETHtoWETH: (boolean, number) => void,
-  reset: string => void
-};
+  reset: string => void,
+}
 
 type State = {
   convertAmount: number,
   convertFraction: number,
   shouldConvert: boolean,
   shouldAllow: boolean,
-  showTokenSuggest: boolean
-};
+  showTokenSuggest: boolean,
+}
 
 class ConvertTokensForm extends React.PureComponent<Props, State> {
   state = {
@@ -37,26 +37,26 @@ class ConvertTokensForm extends React.PureComponent<Props, State> {
     shouldAllow: true,
     convertFraction: 0,
     convertAmount: 0,
-    showTokenSuggest: false
-  };
+    showTokenSuggest: false,
+  }
 
   handleChangeConvertFraction = (convertFraction: number) => {
     this.setState((prevState, { fromTokenBalance }) => {
       return {
         ...prevState,
-        convertFraction: convertFraction,
-        convertAmount: (fromTokenBalance * convertFraction) / 100
-      };
-    });
-  };
+        convertFraction,
+        convertAmount: (fromTokenBalance * convertFraction) / 100,
+      }
+    })
+  }
 
   toggleTokenSuggest = () => {
-    this.setState({ showTokenSuggest: !this.state.showTokenSuggest });
-  };
+    this.setState({ showTokenSuggest: !this.state.showTokenSuggest })
+  }
 
   toggleShouldAllowTrading = () => {
-    this.setState({ shouldAllow: !this.state.shouldAllow });
-  };
+    this.setState({ shouldAllow: !this.state.shouldAllow })
+  }
 
   //TODO refactor this
   transactionStatus = () => {
@@ -64,47 +64,47 @@ class ConvertTokensForm extends React.PureComponent<Props, State> {
       fromToken,
       allowTxStatus,
       convertTxStatus,
-      txSubmitted
-    } = this.props;
+      txSubmitted,
+    } = this.props
 
-    if (fromToken === 'ETH') {
+    if (fromToken === NATIVE_TOKEN_SYMBOL) {
       if (allowTxStatus === 'failed' || convertTxStatus === 'failed')
-        return 'failed';
+        return 'failed'
       if (allowTxStatus === 'confirmed' && convertTxStatus === 'confirmed')
-        return 'confirmed';
-      if (allowTxStatus === 'sent' && convertTxStatus === 'sent') return 'sent';
-      if (txSubmitted === true) return 'submitted';
+        return 'confirmed'
+      if (allowTxStatus === 'sent' && convertTxStatus === 'sent') return 'sent'
+      if (txSubmitted === true) return 'submitted'
     } else {
-      if (convertTxStatus === 'failed') return 'failed';
-      if (convertTxStatus === 'confirmed') return 'confirmed';
-      if (convertTxStatus === 'sent') return 'sent';
-      if (txSubmitted === true) return 'submitted';
+      if (convertTxStatus === 'failed') return 'failed'
+      if (convertTxStatus === 'confirmed') return 'confirmed'
+      if (convertTxStatus === 'sent') return 'sent'
+      if (txSubmitted === true) return 'submitted'
     }
 
-    return 'waiting';
-  };
+    return 'waiting'
+  }
 
   handleConvertTokens = () => {
     const {
       fromToken,
       toToken,
       convertFromWETHtoETH,
-      convertFromETHtoWETH
-    } = this.props;
+      convertFromETHtoWETH,
+    } = this.props
 
-    const { convertAmount, shouldAllow } = this.state;
+    const { convertAmount, shouldAllow } = this.state
 
-    if (fromToken === 'WETH' && toToken === 'ETH')
-      return convertFromWETHtoETH(convertAmount);
-    if (fromToken === 'ETH' && toToken === 'WETH')
-      return convertFromETHtoWETH(shouldAllow, convertAmount);
-  };
+    if (fromToken === 'WETH' && toToken === NATIVE_TOKEN_SYMBOL)
+      return convertFromWETHtoETH(convertAmount)
+    if (fromToken === NATIVE_TOKEN_SYMBOL && toToken === 'WETH')
+      return convertFromETHtoWETH(shouldAllow, convertAmount)
+  }
 
   handleReset = () => {
-    const { reset, fromToken } = this.props;
+    const { reset, fromToken } = this.props
 
-    reset(fromToken);
-  };
+    reset(fromToken)
+  }
 
   render() {
     const {
@@ -119,13 +119,13 @@ class ConvertTokensForm extends React.PureComponent<Props, State> {
       convertTxHash,
       allowTxStatus,
       allowTxReceipt,
-      allowTxHash
-    } = this.props;
+      allowTxHash,
+    } = this.props
 
-    const { shouldAllow, convertFraction, convertAmount } = this.state;
+    const { shouldAllow, convertFraction, convertAmount } = this.state
 
-    const transactionStatus = this.transactionStatus();
-    if (!fromToken) return null;
+    const transactionStatus = this.transactionStatus()
+    if (!fromToken) return null
 
     return (
       <ConvertTokensFormRenderer
@@ -150,8 +150,8 @@ class ConvertTokensForm extends React.PureComponent<Props, State> {
         allowTxHash={allowTxHash}
         reset={this.handleReset}
       />
-    );
+    )
   }
 }
 
-export default ConvertTokensForm;
+export default ConvertTokensForm

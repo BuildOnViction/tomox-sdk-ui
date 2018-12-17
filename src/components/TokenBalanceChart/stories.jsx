@@ -8,7 +8,7 @@ const data = [
   { symbol: 'EOS', value: 400 },
   { symbol: 'WETH', value: 300 },
   { symbol: 'ZRX', value: 300 },
-  { symbol: 'ETH', value: 200 }
+  { symbol: 'TOMO', value: 200 }
 ];
 
 storiesOf('TokenBalanceChart', module)

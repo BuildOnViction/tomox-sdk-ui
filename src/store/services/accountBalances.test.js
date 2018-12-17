@@ -28,27 +28,27 @@ describe('updateAllowance', () => {
   })
 
   // it('loads the current provider', async () => {
-  //   await accountBalancesService.queryEtherBalance(address);
+  //   await accountBalancesService.queryTomoBalance(address);
   //   expect(signerService.getProvider).toHaveBeenCalledTimes(1);
   // });
   //
   // it('the provider returns the current ether balance', async () => {
-  //   await accountBalancesService.queryEtherBalance(address);
+  //   await accountBalancesService.queryTomoBalance(address);
   //
   //   expect(getBalance).toHaveBeenCalledTimes(1);
   //   expect(getBalance).toHaveBeenCalledWith('0x4dc5790733b997f3db7fc49118ab013182d6ba9b');
   // });
   //
   // it('returns the formatted ether balance', async () => {
-  //   let result = await accountBalancesService.queryEtherBalance(address);
+  //   let result = await accountBalancesService.queryTomoBalance(address);
   //
   //   expect(utils.formatEther).toHaveBeenCalledTimes(1);
   //   expect(utils.formatEther).toHaveBeenCalledWith('test getBalance');
-  //   expect(result).toEqual({ symbol: 'ETH', balance: 1000 });
+  //   expect(result).toEqual({ symbol: 'TOMO', balance: 1000 });
   // });
 })
 
-describe('queryEtherBalance', () => {
+describe('queryTomoBalance', () => {
   let getBalance
   let providerMock
   let address
@@ -62,23 +62,23 @@ describe('queryEtherBalance', () => {
   })
 
   it('loads the current provider', async () => {
-    await accountBalancesService.queryEtherBalance(address)
+    await accountBalancesService.queryTomoBalance(address)
     expect(signerService.getProvider).toHaveBeenCalledTimes(1)
   })
 
   it('the provider returns the current ether balance', async () => {
-    await accountBalancesService.queryEtherBalance(address)
+    await accountBalancesService.queryTomoBalance(address)
 
     expect(getBalance).toHaveBeenCalledTimes(1)
     expect(getBalance).toHaveBeenCalledWith('0x4dc5790733b997f3db7fc49118ab013182d6ba9b')
   })
 
   it('returns the formatted ether balance', async () => {
-    let result = await accountBalancesService.queryEtherBalance(address)
+    let result = await accountBalancesService.queryTomoBalance(address)
 
     expect(utils.formatEther).toHaveBeenCalledTimes(1)
     expect(utils.formatEther).toHaveBeenCalledWith('test getBalance')
-    expect(result).toEqual({ symbol: 'ETH', balance: '1000.0000' })
+    expect(result).toEqual({ symbol: 'TOMO', balance: '1000.0000' })
   })
 })
 
@@ -202,7 +202,7 @@ describe('queryTokenAllowances', () => {
   })
 })
 
-describe('subscribeEtherBalance(address, callback', () => {
+describe('subscribeTomoBalance(address, callback', () => {
   let on, getBalance, removeListener
   let providerMock
 
@@ -219,14 +219,14 @@ describe('subscribeEtherBalance(address, callback', () => {
     const address = 'test address'
     const callback = jest.fn()
 
-    await accountBalancesService.subscribeEtherBalance(address, callback)
+    await accountBalancesService.subscribeTomoBalance(address, callback)
     expect(signerService.getProvider).toHaveBeenCalledTimes(1)
   })
 
   it('subscribe to the provided address, unsubscribes it when calling the return function', async () => {
     const address = 'test address'
     const callback = jest.fn()
-    const unsubscribe = await accountBalancesService.subscribeEtherBalance(address, callback)
+    const unsubscribe = await accountBalancesService.subscribeTomoBalance(address, callback)
 
     expect(on).toHaveBeenCalledTimes(1)
     expect(on.mock.calls[0][0]).toEqual(address)
@@ -242,7 +242,7 @@ describe('subscribeEtherBalance(address, callback', () => {
     const address = 'test address'
     const callback = jest.fn()
 
-    await accountBalancesService.subscribeEtherBalance(address, callback)
+    await accountBalancesService.subscribeTomoBalance(address, callback)
 
     on.mock.calls[0][1]('test balance')
 

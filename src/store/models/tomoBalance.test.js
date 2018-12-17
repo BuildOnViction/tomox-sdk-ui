@@ -1,11 +1,11 @@
-import createStore from '../../store/configureStore'
+import createStore from '../configureStore'
 import * as ether from '../services/ether'
-import getEtherBalanceModel from './etherBalance'
-import * as actionCreators from './etherBalance'
+import getTomoBalanceModel from './tomoBalance'
+import * as actionCreators from './tomoBalance'
 
 jest.mock('../services/ether')
 
-let unsubscribe = jest.fn()
+const unsubscribe = jest.fn()
 let model
 
 beforeEach(() => {
@@ -16,13 +16,15 @@ it('handle subscribeBalance properly', () => {
   const address = 'test address'
   const { store } = createStore()
 
-  model = getEtherBalanceModel(store.getState())
+  model = getTomoBalanceModel(store.getState())
   expect(model.get(address)).toEqual(null)
   expect(model.isSubscribed(address)).toEqual(false)
 
-  const returnFunction = store.dispatch(actionCreators.subscribeBalance(address))
+  const returnFunction = store.dispatch(
+    actionCreators.subscribeBalance(address)
+  )
 
-  model = getEtherBalanceModel(store.getState())
+  model = getTomoBalanceModel(store.getState())
   expect(model.get(address)).toEqual(null)
   expect(model.isSubscribed(address)).toEqual(true)
 
@@ -32,19 +34,19 @@ it('handle subscribeBalance properly', () => {
   const callback = ether.subscribeBalance.mock.calls[0][1]
 
   callback('test balance 1')
-  model = getEtherBalanceModel(store.getState())
+  model = getTomoBalanceModel(store.getState())
   expect(model.get(address)).toEqual('test balance 1')
   expect(model.isSubscribed(address)).toEqual(true)
 
   callback('test balance 2')
-  model = getEtherBalanceModel(store.getState())
+  model = getTomoBalanceModel(store.getState())
   expect(model.get(address)).toEqual('test balance 2')
   expect(model.isSubscribed(address)).toEqual(true)
 
   returnFunction()
   expect(unsubscribe).toHaveBeenCalledTimes(1)
 
-  model = getEtherBalanceModel(store.getState())
+  model = getTomoBalanceModel(store.getState())
   expect(model.get(address)).toEqual(null)
   expect(model.isSubscribed(address)).toEqual(false)
 })

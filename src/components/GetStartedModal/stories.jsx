@@ -88,12 +88,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={0}
+          TomoBalance={0}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'incomplete'}
           approveTxHash={null}
           convertTxStatus={'incomplete'}
@@ -123,12 +123,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={0}
+          TomoBalance={0}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'incomplete'}
           approveTxHash={null}
           convertTxStatus={'incomplete'}
@@ -145,7 +145,7 @@ storiesOf('GetStartedModal', module)
     ))
   )
   .add(
-    'GetStartedModalRenderer (Step 2 - User has ETH)',
+    'GetStartedModalRenderer (Step 2 - User has TOMO)',
     withInfo()(() => (
       <div className="bp3-dark">
         <GetStartedModalRenderer
@@ -158,12 +158,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={'0.50'}
+          TomoBalance={'0.50'}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'incomplete'}
           approveTxHash={null}
           convertTxStatus={'incomplete'}
@@ -180,7 +180,7 @@ storiesOf('GetStartedModal', module)
     ))
   )
   .add(
-    'GetStartedModalRenderer (Step 2 - User has ETH - Transactions Pending)',
+    'GetStartedModalRenderer (Step 2 - User has TOMO - Transactions Pending)',
     withInfo()(() => (
       <div className="bp3-dark">
         <GetStartedModalRenderer
@@ -193,12 +193,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={'0.50'}
+          TomoBalance={'0.50'}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'sent'}
           approveTxHash={'0x1'}
           convertTxStatus={'sent'}
@@ -215,7 +215,7 @@ storiesOf('GetStartedModal', module)
     ))
   )
   .add(
-    'GetStartedModalRenderer (Step 2 - User has ETH - Transactions Complete)',
+    'GetStartedModalRenderer (Step 2 - User has TOMO - Transactions Complete)',
     withInfo()(() => (
       <div className="bp3-dark">
         <GetStartedModalRenderer
@@ -228,12 +228,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={'0.25'}
+          TomoBalance={'0.25'}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'confirmed'}
           approveTxHash={'0x1'}
           convertTxStatus={'confirmed'}
@@ -263,12 +263,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={'0.25'}
+          TomoBalance={'0.25'}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'confirmed'}
           approveTxHash={'0x1'}
           convertTxStatus={'confirmed'}
@@ -285,7 +285,7 @@ storiesOf('GetStartedModal', module)
     ))
   )
   .add(
-    'GetStartedModalRenderer (Step 3 - User has ETH - Transactions Complete)',
+    'GetStartedModalRenderer (Step 3 - User has TOMO - Transactions Complete)',
     withInfo()(() => (
       <div className="bp3-dark">
         <GetStartedModalRenderer
@@ -298,12 +298,12 @@ storiesOf('GetStartedModal', module)
           userHasApprovedWETH={false}
           handleConvertETH={action('handleConvertETH')}
           handleApproveWETH={action('handleApproveWETH')}
-          ETHBalance={'0.25'}
+          TomoBalance={'0.25'}
           WETHBalance={0}
           convertAmount={0}
           convertFraction={0}
           changeConvertETHFraction={action('changeConvertETHFraction')}
-          ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+          TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
           approveTxStatus={'confirmed'}
           approveTxHash={'0x1'}
           convertTxStatus={'confirmed'}
@@ -320,7 +320,7 @@ storiesOf('GetStartedModal', module)
     ))
   );
 // .add(
-//   'GetStartedModalRenderer (Step 2 - No ETH/No WETH/No Allowance)',
+//   'GetStartedModalRenderer (Step 2 - No TOMO/No WETH/No Allowance)',
 //   withInfo()(() => (
 //     <div className="bp3-dark">
 //       <Card>
@@ -334,12 +334,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={false}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxState={null}
 //           convertTxState={null}
 //         />
@@ -348,7 +348,7 @@ storiesOf('GetStartedModal', module)
 //   ))
 // )
 // .add(
-//   'GetStartedModalRenderer (Step 2 - ETH/No WETH/No Allowance)',
+//   'GetStartedModalRenderer (Step 2 - TOMO/No WETH/No Allowance)',
 //   withInfo()(() => (
 //     <div className="bp3-dark">
 //       <Card>
@@ -362,12 +362,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={false}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxState={null}
 //           convertTxState={null}
 //         />
@@ -376,7 +376,7 @@ storiesOf('GetStartedModal', module)
 //   ))
 // )
 // .add(
-//   'GetStartedModalRenderer (Step 2 - ETH/WETH/No Allowance)',
+//   'GetStartedModalRenderer (Step 2 - TOMO/WETH/No Allowance)',
 //   withInfo()(() => (
 //     <div className="bp3-dark">
 //       <Card>
@@ -390,12 +390,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={false}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxState={null}
 //           convertTxState={null}
 //         />
@@ -404,7 +404,7 @@ storiesOf('GetStartedModal', module)
 //   ))
 // )
 // .add(
-//   'GetStartedModalRenderer (Step 2 - ETH/WETH/Allowance)',
+//   'GetStartedModalRenderer (Step 2 - TOMO/WETH/Allowance)',
 //   withInfo()(() => (
 //     <div className="bp3-dark">
 //       <Card>
@@ -418,12 +418,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={true}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxState={null}
 //           convertTxState={null}
 //         />
@@ -446,12 +446,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={true}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxState={null}
 //           convertTxState={null}
 //         />
@@ -474,12 +474,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={true}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxStatus={confirmedApproveTxState.approveTxStatus}
 //           approveTxHash={confirmedApproveTxState.approveTxHash}
 //           convertTxStatus={confirmedConvertTxState.convertTxStatus}
@@ -504,12 +504,12 @@ storiesOf('GetStartedModal', module)
 //           userHasApprovedWETH={false}
 //           handleConvertETH={action('handleConvertETH')}
 //           handleApproveWETH={action('handleApproveWETH')}
-//           ETHBalance={0}
+//           TomoBalance={0}
 //           WETHBalance={0}
 //           convertAmount={0}
 //           convertFraction={0}
 //           changeConvertETHFraction={action('changeConvertETHFraction')}
-//           ETHAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
+//           TOMOAddress={'0x7df6035a91f2c58d229907AF4D9d5Fc12737F21e'}
 //           approveTxStatus={pendingApproveTxState.approveTxStatus}
 //           approveTxHash={pendingApproveTxState.approveTxHash}
 //           convertTxStatus={pendingConvertTxState.convertTxStatus}

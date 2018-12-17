@@ -3,10 +3,10 @@ import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import createStore from '../../store/configureStore'
 import connect, { mapDispatchToProps, mapStateToProps } from './connect'
-import getEtherBalance from '../../store/models/etherBalance'
-import * as etherBalanceActionCreators from '../../store/models/etherBalance'
+import getTomoBalance from '../../store/models/tomoBalance'
+import * as tomoBalanceActionCreators from '../../store/models/tomoBalance'
 
-jest.mock('../../store/models/etherBalance')
+jest.mock('../../store/models/tomoBalance')
 
 describe('mapStateToProps(state, props)', () => {
   let get
@@ -16,7 +16,7 @@ describe('mapStateToProps(state, props)', () => {
     get = jest.fn(() => 'test get')
     isSubscribed = jest.fn(() => 'test isSubscribed')
 
-    getEtherBalance.mockReturnValue({ get, isSubscribed })
+    getTomoBalance.mockReturnValue({ get, isSubscribed })
   })
 
   it('returns something as expected', () => {
@@ -32,13 +32,13 @@ describe('mapStateToProps(state, props)', () => {
     expect(result).toEqual(expected)
   })
 
-  it('calls getEtherBalance(state) and then the returned api with props.address', () => {
+  it('calls getTomoBalance(state) and then the returned api with props.address', () => {
     const state = {}
     const props = { address: 'test address' }
 
     mapStateToProps(state, props)
 
-    expect(getEtherBalance).toBeCalledWith(state)
+    expect(getTomoBalance).toBeCalledWith(state)
     expect(get).toBeCalledWith(props.address)
     expect(isSubscribed).toBeCalledWith(props.address)
   })
@@ -46,7 +46,7 @@ describe('mapStateToProps(state, props)', () => {
 
 describe('mapDispatchToProps(dispatch, props)', () => {
   beforeEach(() => {
-    etherBalanceActionCreators.subscribeBalance.mockReturnValue('test subscribeBalance')
+    tomoBalanceActionCreators.subscribeBalance.mockReturnValue('test subscribeBalance')
   })
 
   it('returns something as expected', () => {
@@ -66,7 +66,7 @@ describe('mapDispatchToProps(dispatch, props)', () => {
     const result = actionDispatchers.subscribeBalance()
 
     expect(result).toEqual('test dispatch')
-    expect(etherBalanceActionCreators.subscribeBalance).toBeCalledWith(props.address)
+    expect(tomoBalanceActionCreators.subscribeBalance).toBeCalledWith(props.address)
     expect(dispatch).toBeCalledWith('test subscribeBalance')
   })
 })

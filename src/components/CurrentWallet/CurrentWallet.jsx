@@ -37,7 +37,7 @@ export default class CurrentWallet extends React.PureComponent {
 
   render() {
     const {
-      props: { accountAddress, gasPrice, gas, pvtKeyLocked, accountPrivateKey, etherBalance },
+      props: { accountAddress, gasPrice, gas, pvtKeyLocked, accountPrivateKey, tomoBalance },
       state: { showPrivateKey, showEth, currentBlock, locked, isModalOpen },
       togglePrivateKey,
       handleModalClose,
@@ -50,7 +50,7 @@ export default class CurrentWallet extends React.PureComponent {
         showEth={showEth}
         gasPrice={gasPrice}
         gas={gas}
-        balance={etherBalance}
+        balance={tomoBalance}
         locked={locked}
         isModalOpen={isModalOpen}
         currentBlock={currentBlock}

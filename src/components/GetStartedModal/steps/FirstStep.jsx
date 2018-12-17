@@ -13,12 +13,12 @@ type Props = {
   userHasApprovedWETH: boolean,
   handleConvertETH: void => void,
   handleApproveWETH: void => void,
-  ETHBalance: number,
+  TomoBalance: number,
   WETHBalance: number,
   convertAmount: number,
   convertFraction: number,
   changeConvertETHFraction: number => void,
-  ETHAddress: string,
+  TOMOAddress: string,
   approveTxStatus: string,
   approveTxHash: string,
   convertTxStatus: string,
@@ -48,10 +48,10 @@ const FirstStep = (props: Props) => {
             1) Before starting, make sure you are on https://amp.exchange.com.{' '}
           </li>
           <li>
-            2) Tomochain allows you to trade from your own Ethereum wallet. We
+            2) Tomochain allows you to trade from your own Tomochain wallet. We
             can not control your funds.
           </li>
-          <li>3) All trades are settled on the Ethereum blockchain. </li>
+          <li>3) All trades are settled on the Tomochain blockchain. </li>
           <li>4) Only invest and trade what you can afford to risk. </li>
         </ul>
       </ModalBody>

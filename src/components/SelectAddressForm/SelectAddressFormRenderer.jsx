@@ -41,7 +41,7 @@ const SelectAddressFormRenderer = (props: Props) => {
                                 <Address>
                                     {address.addressString.substring(0, 22)}
                                 </Address>
-                                <Balance>{address.balance} ETH</Balance>
+                                <Balance>{address.balance} TOMO</Balance>
                                 <AnchorButton
                                     text="IMPORT"
                                     rightIcon="chevron-right"

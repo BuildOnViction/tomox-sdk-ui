@@ -24,7 +24,7 @@ export default function convertTokensFormSelector(state: State) {
   let signerDomain = getSignerDomain(state);
 
   let tokens = tokenDomain.bySymbol();
-  tokens['ETH'] = { symbol: 'ETH', address: '0x0' };
+  tokens['TOMO'] = { symbol: 'TOMO', address: '0x0' };
 
   return {
     accountAddress: () => accountDomain.address(),
@@ -57,14 +57,14 @@ export const convertFromWETHtoETH = (convertAmount: number): ThunkAction => {
         dispatch(actionCreators.revertConvertTx('WETH', txReceipt));
         dispatch(
           notificationActionCreators.addErrorNotification({
-            message: 'ETH conversion transaction failed'
+            message: 'TOMO conversion transaction failed'
           })
         );
       } else {
         dispatch(actionCreators.confirmConvertTx('WETH', txReceipt));
         dispatch(
           notificationActionCreators.addSuccessNotification({
-            message: 'ETH conversion transaction successful!'
+            message: 'TOMO conversion transaction successful!'
           })
         );
       }
@@ -80,7 +80,7 @@ export const convertFromETHtoWETH = (
 ): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      dispatch(actionCreators.confirm('ETH'));
+      dispatch(actionCreators.confirm('TOMO'));
 
       let signer = getSigner();
       let networkID = signer.provider.network.chainId;
@@ -104,8 +104,8 @@ export const convertFromETHtoWETH = (
           convertTxPromise,
           allowTxPromise
         ]);
-        dispatch(actionCreators.sendConvertTx('ETH', convertTx.hash));
-        dispatch(actionCreators.sendAllowTx('ETH', allowTx.hash));
+        dispatch(actionCreators.sendConvertTx('TOMO', convertTx.hash));
+        dispatch(actionCreators.sendAllowTx('TOMO', allowTx.hash));
 
         let [convertTxReceipt, allowTxReceipt] = await Promise.all([
           signer.provider.waitForTransaction(convertTx.hash),
@@ -113,36 +113,36 @@ export const convertFromETHtoWETH = (
         ]);
 
         convertTxReceipt.status === 0
-          ? dispatch(actionCreators.revertConvertTx('ETH', convertTxReceipt))
-          : dispatch(actionCreators.confirmConvertTx('ETH', convertTxReceipt));
+          ? dispatch(actionCreators.revertConvertTx('TOMO', convertTxReceipt))
+          : dispatch(actionCreators.confirmConvertTx('TOMO', convertTxReceipt));
 
         allowTxReceipt.status === 0
-          ? dispatch(actionCreators.revertAllowTx('ETH', allowTxReceipt))
-          : dispatch(actionCreators.confirmAllowTx('ETH', allowTxReceipt));
+          ? dispatch(actionCreators.revertAllowTx('TOMO', allowTxReceipt))
+          : dispatch(actionCreators.confirmAllowTx('TOMO', allowTxReceipt));
 
         convertTxReceipt.status === 0 || allowTxReceipt.status === 0
           ? dispatch(
               notificationActionCreators.addErrorNotification({
-                message: 'ETH conversion transaction failed'
+                message: 'TOMO conversion transaction failed'
               })
             )
           : dispatch(
               notificationActionCreators.addSuccessNotification({
-                message: 'ETH conversion transaction successful!'
+                message: 'TOMO conversion transaction successful!'
               })
             );
       } else {
         let convertTx = await weth.deposit({
           value: utils.parseEther(convertAmount.toString())
         });
-        dispatch(actionCreators.sendConvertTx('ETH', convertTx.hash));
+        dispatch(actionCreators.sendConvertTx('TOMO', convertTx.hash));
         let convertTxReceipt = await signer.provider.waitForTransaction(
           convertTx.hash
         );
 
         convertTxReceipt.status === 0
-          ? dispatch(actionCreators.revertConvertTx('ETH', convertTxReceipt))
-          : dispatch(actionCreators.confirmConvertTx('ETH', convertTxReceipt));
+          ? dispatch(actionCreators.revertConvertTx('TOMO', convertTxReceipt))
+          : dispatch(actionCreators.confirmConvertTx('TOMO', convertTxReceipt));
       }
     } catch (error) {
       //TODO add an error here

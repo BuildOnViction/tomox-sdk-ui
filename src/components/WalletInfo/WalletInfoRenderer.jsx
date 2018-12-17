@@ -18,13 +18,13 @@ const WalletInfoRenderer = props => {
     <WalletInfoCard>
       <Box>
         <Tag minimal large interactive intent="primary">
-          ETHEREUM BALANCE
+          TOMOCHAIN BALANCE
         </Tag>
-        <BalanceBox>{balance} ETH</BalanceBox>
+        <BalanceBox>{balance} TOMO</BalanceBox>
       </Box>
       <Box>
         <Tag minimal large interactive intent="primary">
-          ETHEREUM ADDRESS
+          TOMOCHAIN ADDRESS
         </Tag>
         <AccountAddressBox>{accountAddress}</AccountAddressBox>
       </Box>

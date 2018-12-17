@@ -11,7 +11,7 @@ import {
 import { createProvider } from '../../../utils/provider'
 import {
   DEFAULT_NETWORK_ID,
-  ETHEREUM_NODE_HTTP_URL,
+  TOMOCHAIN_NODE_HTTP_URL,
 } from '../../../config/environment'
 import type {
   UpdateSignerParams,
@@ -38,12 +38,12 @@ export const createSigner = async (params: UpdateSignerParams): any => {
           settings = { type: 'metamask', networkId }
           return { settings, address }
         case 'rpc':
-          settings = { type: 'rpc', url: ETHEREUM_NODE_HTTP_URL, networkId }
+          settings = { type: 'rpc', url: TOMOCHAIN_NODE_HTTP_URL, networkId }
           address = await createRpcSigner(settings.url, settings.networkId)
           return { settings, address }
         case 'wallet':
           if (!wallet) throw new Error('Wallet not found')
-          settings = { type: 'wallet', url: ETHEREUM_NODE_HTTP_URL, networkId }
+          settings = { type: 'wallet', url: TOMOCHAIN_NODE_HTTP_URL, networkId }
           address = await createLocalWalletSigner(wallet, networkId)
           return { settings, address }
         default:

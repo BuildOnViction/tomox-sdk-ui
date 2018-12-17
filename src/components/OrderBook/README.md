@@ -13,7 +13,7 @@ import OrderBook from '../../components/OrderBook';
 <OrderBook
   buyOrderList={buyOrderList}
   sellOrderList={sellOrderList}
-  baseToken="ETH"
+  baseToken="TOMO"
   quoteToken="USDT"
 />
 ```

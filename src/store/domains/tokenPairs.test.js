@@ -7,10 +7,10 @@ import { quoteTokens } from '../../config/quotes';
 //create an initial state. The default initial state used in the application has to many
 //tokens to be used for tests. Therefore we recreate an initial state with less tokens
 //to test the token pair model
-const symbols = ['ETH', 'EOS', 'WETH', 'ZRX'];
+const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX'];
 
 const tokensBySymbol = {
-  ETH: { symbol: 'ETH', address: '0x0' },
+  TOMO: { symbol: 'TOMO', address: '0x0' },
   EOS: { symbol: 'EOS', address: '0x8d0a722b76c0dcb91bf62334afd11f925c0adb95' },
   WETH: { symbol: 'WETH', address: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6' },
   ZRX: { symbol: 'ZRX', address: '0xc73eec564e96e6653943d6d0e32121d455917653' },

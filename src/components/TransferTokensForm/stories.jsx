@@ -10,10 +10,10 @@ import { Card } from '@blueprintjs/core';
 import { receipt, receiver, tokens } from '../../data';
 import README from './README.md';
 
-storiesOf('Send Ether/Tokens Form', module)
+storiesOf('Send TOMO/Tokens Form', module)
   .addDecorator(withKnobs)
   .add(
-    'Connected Send Ether/Tokens Form',
+    'Connected Send TOMO/Tokens Form',
     withInfo({
       text: README,
       propTablesExclude: [TransferTokensFormContainer],
@@ -27,7 +27,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Form',
+    'Send TOMO/Tokens Form',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -50,7 +50,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Renderer (Transaction Confirmed)',
+    'Send TOMO/Tokens Renderer (Transaction Confirmed)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -76,7 +76,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Renderer (Transaction Sent)',
+    'Send TOMO/Tokens Renderer (Transaction Sent)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -101,7 +101,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Renderer (Transaction Valid)',
+    'Send TOMO/Tokens Renderer (Transaction Valid)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -127,7 +127,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Renderer (Transaction Invalid)',
+    'Send TOMO/Tokens Renderer (Transaction Invalid)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -152,7 +152,7 @@ storiesOf('Send Ether/Tokens Form', module)
     ))
   )
   .add(
-    'Send Ether/Tokens Renderer (Transaction Reverted)',
+    'Send TOMO/Tokens Renderer (Transaction Reverted)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>

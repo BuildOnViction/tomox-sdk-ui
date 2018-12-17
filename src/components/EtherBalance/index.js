@@ -1,4 +1,4 @@
-import EtherBalance from './EtherBalance'
+import TomoBalance from './TomoBalance'
 import connect from './connect'
 
-export default connect(EtherBalance)
+export default connect(TomoBalance)

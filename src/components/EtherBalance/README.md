@@ -1,5 +1,5 @@
 ```js
-import EtherBalance from '../../components/EtherBalance';
+import TomoBalance from '../../components/TomoBalance';
 ```
 
 #### Properties
@@ -8,7 +8,7 @@ import EtherBalance from '../../components/EtherBalance';
 
 #### Example
 ```js
-<EtherBalance
+<TomoBalance
   account="0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE"
   loadingMessage="Loading..."
 />

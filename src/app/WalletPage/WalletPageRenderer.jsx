@@ -12,7 +12,7 @@ import type { TokenData } from '../../types/tokens';
 type Props = {
   gas: number,
   gasPrice: number,
-  etherBalance: string,
+  tomoBalance: string,
   tokenData: Array<TokenData>,
   baseTokens: Array<string>,
   quoteTokens: Array<string>,
@@ -29,7 +29,7 @@ const WalletPageRenderer = (props: Props) => {
   const {
     gas,
     gasPrice,
-    etherBalance,
+    tomoBalance,
     tokenData,
     baseTokens,
     quoteTokens,
@@ -48,7 +48,7 @@ const WalletPageRenderer = (props: Props) => {
         <WalletInfoBox>
           <WalletInfo
             accountAddress={accountAddress}
-            etherBalance={etherBalance}
+            tomoBalance={tomoBalance}
             gasPrice={gasPrice}
             gas={gas}
           />

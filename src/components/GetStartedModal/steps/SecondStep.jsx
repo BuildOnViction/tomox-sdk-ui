@@ -23,12 +23,12 @@ type Props = {
   userHasApprovedWETH: boolean,
   handleConvertETH: void => void,
   handleApproveWETH: void => void,
-  ETHBalance: number,
+  TomoBalance: number,
   WETHBalance: number,
   convertAmount: number,
   convertFraction: number,
   changeConvertETHFraction: number => void,
-  ETHAddress: string,
+  TOMOAddress: string,
   convertTxStatus: string,
   convertTxHash: string,
   approveTxStatus: string,
@@ -60,12 +60,12 @@ const SecondStep = (props: Props) => {
     userHasApprovedWETH,
     handleConvertETH,
     handleApproveWETH,
-    ETHBalance,
+    TomoBalance,
     WETHBalance,
     convertAmount,
     convertFraction,
     changeConvertETHFraction,
-    ETHAddress,
+    TOMOAddress,
     convertTxStatus,
     convertTxHash,
     approveTxStatus,
@@ -196,12 +196,12 @@ const SecondStep = (props: Props) => {
     return (
       <React.Fragment>
         <ModalBody>
-          <Callout intent="success" title="Tokenize your ETH to start trading!">
+          <Callout intent="success" title="Tokenize your TOMO to start trading!">
             <p>
-              Wrapped Ether, or WETH, is a tokenized and tradeable version of
-              regular Ether. Ether needs to be wrapped to trade with it on
-              Paradex. You can convert your WETH back to ETH anytime. Be sure to
-              keep some regular ETH to pay misc. gas costs. Read more WETH
+              Wrapped TOMO, or WETH, is a tokenized and tradeable version of
+              regular TOMO. TOMO needs to be wrapped to trade with it on
+              Paradex. You can convert your WETH back to TOMO anytime. Be sure to
+              keep some regular TOMO to pay misc. gas costs. Read more WETH
               (tokenized or 'wrapped') ether here.
             </p>
             <br />
@@ -229,10 +229,10 @@ const SecondStep = (props: Props) => {
             <BalancesBox>
               <BalanceBox>
                 <h2>
-                  {formatNumber(Number(ETHBalance) - convertAmount, {
+                  {formatNumber(Number(TomoBalance) - convertAmount, {
                     precision: 3
                   })}{' '}
-                  ETH
+                  TOMO
                 </h2>
               </BalanceBox>
               <BalanceBox>
@@ -282,7 +282,7 @@ const SecondStep = (props: Props) => {
                   large
                   intent="primary"
                   onClick={handleConvertETH}
-                  text="Convert ETH"
+                  text="Convert TOMO"
                 />
               </div>
             </FooterActionsBox>
@@ -331,17 +331,17 @@ const SecondStep = (props: Props) => {
     return (
       <React.Fragment>
         <ModalBody>
-          <Callout intent="success" title="Deposit Ether">
-            Send ETH to the address displayed below. This form will update once
+          <Callout intent="success" title="Deposit TOMO">
+            Send TOMO$1 to the address displayed below. This form will update once
             we detect your balance has changed.
           </Callout>
           <WaitingFormBox>
             <SpinnerBox>
               <Spinner intent="primary" size={100} />
             </SpinnerBox>
-            <Address>{ETHAddress}</Address>
+            <Address>{TOMOAddress}</Address>
             <CurrentBalanceBox>
-              (Your current balance is {ETHBalance} ETH)
+              (Your current balance is {TomoBalance} TOMO)
             </CurrentBalanceBox>
           </WaitingFormBox>
         </ModalBody>

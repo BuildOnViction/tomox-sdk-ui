@@ -3,7 +3,7 @@
 import { providers } from 'ethers'
 import {
   DEFAULT_NETWORK_ID,
-  ETHEREUM_NODE_HTTP_URL,
+  TOMOCHAIN_NODE_HTTP_URL,
 } from '../config/environment'
 
 import type { ProviderType } from '../types/common'
@@ -20,7 +20,7 @@ export const createProvider = (
     case 'rinkeby':
       return new providers.InfuraProvider('rinkeby')
     case 'local':
-      return new providers.JsonRpcProvider(ETHEREUM_NODE_HTTP_URL, {
+      return new providers.JsonRpcProvider(TOMOCHAIN_NODE_HTTP_URL, {
         chainId: parseInt(DEFAULT_NETWORK_ID, 10),
         name: undefined,
       })

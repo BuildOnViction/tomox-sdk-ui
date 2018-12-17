@@ -19,7 +19,7 @@ const WaitingFormRenderer = (props: Props) => {
   return (
     <div>
       <Callout intent="primary" title="Notice">
-        Send Ether to the address display below. This form will update once your
+        Send TOMO to the address display below. This form will update once your
         account balance is changed.
       </Callout>
       <WaitingFormBox>

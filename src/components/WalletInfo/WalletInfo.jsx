@@ -10,7 +10,7 @@ export default class WalletInfo extends React.PureComponent {
 
   render() {
     const {
-      props: { accountAddress, gasPrice, gas, etherBalance },
+      props: { accountAddress, gasPrice, gas, tomoBalance },
       state: { currentBlock, isModalOpen },
       handleModalClose,
       toggleBalance
@@ -20,7 +20,7 @@ export default class WalletInfo extends React.PureComponent {
       <WalletInfoRenderer
         gasPrice={gasPrice}
         gas={gas}
-        balance={etherBalance}
+        balance={tomoBalance}
         isModalOpen={isModalOpen}
         currentBlock={currentBlock}
         accountAddress={accountAddress}

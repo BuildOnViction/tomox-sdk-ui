@@ -3,16 +3,16 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { text, withKnobs } from '@storybook/addon-knobs/react'
 import { withInfo } from '@storybook/addon-info'
-import EtherBalanceContainer from './index'
-import EtherBalanceComponent from './EtherBalance'
+import TomoBalanceContainer from './index'
+import TomoBalanceComponent from './TomoBalance'
 import README from './README.md'
 
-storiesOf('EtherBalance', module)
+storiesOf('TomoBalance', module)
   .addDecorator(withKnobs)
   .add(
     'Default Export',
-    withInfo({ text: README, propTablesExclude: [EtherBalanceContainer], source: false })(() => (
-      <EtherBalanceContainer
+    withInfo({ text: README, propTablesExclude: [TomoBalanceContainer], source: false })(() => (
+      <TomoBalanceContainer
         address={text('account', '0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE')}
         loadingMessage="Loading..."
       />
@@ -21,7 +21,7 @@ storiesOf('EtherBalance', module)
   .add(
     'Inner Component (Loading)',
     withInfo()(() => (
-      <EtherBalanceComponent
+      <TomoBalanceComponent
         address="0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE"
         balance={null}
         isSubscribed={true}
@@ -33,7 +33,7 @@ storiesOf('EtherBalance', module)
   .add(
     'Inner Component (Loaded)',
     withInfo()(() => (
-      <EtherBalanceComponent
+      <TomoBalanceComponent
         address="0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE"
         balance="1.2345"
         isSubscribed={true}

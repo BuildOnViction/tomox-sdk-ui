@@ -27,7 +27,7 @@ const CurrentWalletRenderer = props => {
         <CardTitle>Current Wallet</CardTitle>
         <Row>
           <h3>Balance: </h3>
-          <h2>{formatNumber(balance, { precision: 3 })} ETH</h2>
+          <h2>{formatNumber(balance, { precision: 3 })} TOMO</h2>
         </Row>
         <Row>
           <h3>Address: </h3>
@@ -48,7 +48,7 @@ const CurrentWalletRenderer = props => {
             href={'https://etherscan.io/address/' + accountAddress}
             target="_blank"
           >
-            View Wallet on Etherscan
+            View Wallet on TOMOscan
           </a>
         </Row>
         <TransferTokensModal
@@ -122,7 +122,7 @@ export default CurrentWalletRenderer;
 //     <BalancesWrapper>
 //       {showEth && <Button style={{ marginRight: '13px' }} onClick={toggleBalance} icon="chevron-left" minimal="true" />}
 //       <h2>
-//         <EthBalance showEth={showEth}>{balance} ETH</EthBalance>
+//         <EthBalance showEth={showEth}>{balance} TOMO</EthBalance>
 //         <WethBalance showEth={showEth}>{balance} WETH</WethBalance>
 //       </h2>
 //       {!showEth && <Button onClick={toggleBalance} icon="chevron-right" minimal="true" />}
@@ -135,7 +135,7 @@ export default CurrentWalletRenderer;
 //     <BalancesWrapper>
 //       {showEth && <Button style={{ marginRight: '13px' }} onClick={toggleBalance} icon="chevron-left" minimal="true" />}
 //       <h2>
-//         <EthBalance showEth={showEth}>{balance} ETH</EthBalance>
+//         <EthBalance showEth={showEth}>{balance} TOMO</EthBalance>
 //         <WthBalanceMuted showEth={showEth}>[{balance} WETH]</WthBalanceMuted>
 //       </h2>
 //       {!showEth && <Button onClick={toggleBalance} icon="chevron-right" minimal="true" />}

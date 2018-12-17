@@ -10,7 +10,7 @@ import { loadShowHelpModalSetting } from '../../store/services/storage';
 type Props = {
   connected: boolean,
   accountAddress: string,
-  etherBalance: string,
+  tomoBalance: string,
   gasPrice: number,
   gas: number,
   authenticated: boolean,
@@ -59,7 +59,7 @@ class WalletPage extends React.PureComponent<Props> {
       connected,
       authenticated,
       accountAddress,
-      etherBalance,
+      tomoBalance,
       gasPrice,
       gas,
       toggleAllowance,
@@ -79,7 +79,7 @@ class WalletPage extends React.PureComponent<Props> {
       <WalletPageRenderer
         gas={gas}
         gasPrice={gasPrice}
-        etherBalance={etherBalance}
+        tomoBalance={tomoBalance}
         tokenData={tokenData}
         baseTokens={baseTokens}
         quoteTokens={quoteTokens}

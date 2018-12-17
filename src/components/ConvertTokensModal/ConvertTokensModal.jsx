@@ -15,7 +15,7 @@ type Props = {
 const ConvertTokensFormModal = (props: Props) => {
   return (
     <Modal
-      title="Deposit Ether or Tokens"
+      title="Deposit TOMO or Tokens"
       icon="info-sign"
       isOpen={props.isOpen}
       onClose={props.handleClose}

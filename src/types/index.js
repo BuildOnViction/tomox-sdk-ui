@@ -2,10 +2,10 @@
 import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
 import type { SignerEvent, SignerSettingsAction, SignerState } from './signer';
 import type {
-  EtherBalanceAction,
-  EtherBalanceEvent,
-  EtherBalanceState
-} from './etherBalance';
+  TomoBalanceAction,
+  TomoBalanceEvent,
+  TomoBalanceState
+} from './tomoBalance';
 import type {
   AccountBalancesAction,
   AccountBalancesEvent,
@@ -50,7 +50,7 @@ export type ReduxInitAction = {
 
 export type Action =
   | ReduxInitAction
-  | EtherBalanceAction
+  | TomoBalanceAction
   | TransferTokensFormAction
   | AccountBalancesAction
   | AccountAction
@@ -63,7 +63,7 @@ export type Action =
 
 export type Event =
   | LoginPageEvent
-  | EtherBalanceEvent
+  | TomoBalanceEvent
   | TransferTokensFormEvent
   | TokenEvent
   | TokenPairEvent
@@ -79,7 +79,7 @@ export type ActionHandler = Action => Event;
 export type State = {
   loginPage: LoginPageState,
   signer: SignerState,
-  etherBalance: EtherBalanceState,
+  tomoBalance: TomoBalanceState,
   accountBalances: AccountBalancesState,
   transferTokensForm: TransferTokensFormState,
   ohlcv: OHLCVState,

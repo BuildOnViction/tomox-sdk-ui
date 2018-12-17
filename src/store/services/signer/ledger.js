@@ -2,7 +2,7 @@ import { Signer, providers, utils } from 'ethers'
 import LedgerEth from '@ledgerhq/hw-app-eth'
 
 import {
-  ETHEREUM_NODE_HTTP_URL,
+  TOMOCHAIN_NODE_HTTP_URL,
   DEFAULT_NETWORK_ID,
 } from '../../../config/environment'
 import { addMethodsToSigner } from './index'
@@ -14,7 +14,7 @@ export class LedgerSigner extends Signer {
     super()
     this.ledgerEth = new LedgerEth()
     const networkId = DEFAULT_NETWORK_ID
-    this.provider = new providers.JsonRpcProvider(ETHEREUM_NODE_HTTP_URL, {
+    this.provider = new providers.JsonRpcProvider(TOMOCHAIN_NODE_HTTP_URL, {
       chainId: networkId,
     })
     window.signer = { instance: this, type: 'hardwareWallet' }

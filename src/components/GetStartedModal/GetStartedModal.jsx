@@ -5,8 +5,8 @@ import GetStartedModalRenderer from './GetStartedModalRenderer';
 import { setShowHelpModalSetting } from '../../store/services/storage';
 
 type Props = {
-  ETHAddress: string,
-  ETHBalance: number,
+  TOMOAddress: string,
+  TomoBalance: number,
   WETHBalance: number,
   WETHAllowance: number,
   convertETH: number => void,
@@ -50,11 +50,11 @@ class GetStartedModal extends React.PureComponent<Props, State> {
   };
 
   changeConvertETHFraction = (convertFraction: number) => {
-    this.setState((prevState, { ETHBalance }) => {
+    this.setState((prevState, { TomoBalance }) => {
       return {
         ...prevState,
         convertFraction: convertFraction,
-        convertAmount: (ETHBalance * convertFraction) / 100
+        convertAmount: (TomoBalance * convertFraction) / 100
       };
     });
   };
@@ -120,8 +120,8 @@ class GetStartedModal extends React.PureComponent<Props, State> {
     } = this.state;
 
     const {
-      ETHAddress,
-      ETHBalance,
+      TOMOAddress,
+      TomoBalance,
       WETHBalance,
       WETHAllowance,
       approveTxState,
@@ -130,7 +130,7 @@ class GetStartedModal extends React.PureComponent<Props, State> {
       isOpen
     } = this.props;
 
-    const userHasETH = ETHBalance > 0;
+    const userHasETH = TomoBalance > 0;
     const userHasWETH = WETHBalance > 0;
     const userHasApprovedWETH = WETHAllowance > 0;
     const { approveTxStatus, approveTxHash } = approveTxState;
@@ -149,8 +149,8 @@ class GetStartedModal extends React.PureComponent<Props, State> {
         handleClose={this.handleClose}
         handleConvertETH={this.handleConvertETH}
         handleApproveWETH={this.handleApproveWETH}
-        ETHAddress={ETHAddress}
-        ETHBalance={ETHBalance}
+        TOMOAddress={TOMOAddress}
+        TomoBalance={TomoBalance}
         WETHBalance={WETHBalance}
         convertAmount={convertAmount}
         convertFraction={convertFraction}

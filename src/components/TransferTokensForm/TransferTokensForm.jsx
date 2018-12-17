@@ -6,7 +6,7 @@ import TransferTokensFormRenderer from './TransferTokensFormRenderer';
 //   convertToWei
 // } from '../../utils/bignumber'
 
-import type { EtherTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
+import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
 import type { Token } from '../../types/tokens';
 
 type State = {
@@ -29,9 +29,9 @@ type Props = {
   gasPrice: number,
   hash: string,
   receipt: Object,
-  validateEtherTx: EtherTxParams => void,
+  validateEtherTx: TOMOTxParams => void,
   validateTransferTokensTx: TransferTokensTxParams => void,
-  sendEtherTx: EtherTxParams => void,
+  sendEtherTx: TOMOTxParams => void,
   sendTransferTokensTx: TransferTokensTxParams => void,
   resetForm: void => void
 };

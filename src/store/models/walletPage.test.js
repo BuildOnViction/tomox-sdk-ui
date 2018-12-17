@@ -22,7 +22,7 @@ const testAddress = '0x7a9f3cd060ab180f36c17fe6bdf9974f577d77aa'
 
 const ether = {
   address: '0x0',
-  symbol: 'ETH',
+  symbol: 'TOMO',
   balance: 1000
 }
 
@@ -40,7 +40,7 @@ const zrx = {
 
 beforeEach(() => {
   jest.resetAllMocks()
-  accountBalancesService.queryEtherBalance.mockReturnValue({ symbol: 'ETH', balance: 1000 })
+  accountBalancesService.queryTomoBalance.mockReturnValue({ symbol: 'TOMO', balance: 1000 })
 
   accountBalancesService.queryTokenBalances.mockReturnValue([
     { symbol: 'REQ', balance: 2000 },
@@ -50,7 +50,7 @@ beforeEach(() => {
   accountBalancesService.queryExchangeTokenAllowances.mockReturnValue([
     { symbol: 'REQ', allowance: 0 },
     { symbol: 'ZRX', allowance: 0 },
-    { symbol: 'ETH', allowance: 0 }
+    { symbol: 'TOMO', allowance: 0 }
   ])
 
   accountBalancesService.updateAllowance.mockReturnValue(Promise.resolve({ allowance: 1000 }))
@@ -63,13 +63,13 @@ it('handles toggleAllowance Successfully', async () => {
   const notificationsDomain = getNotificationsDomain(store.getState())
 
   const getTokenDomainMock = jest.fn(() => ({
-    symbols: () => ['REQ', 'ETH', 'ZRX'],
-    bySymbol: () => ({ REQ: req, ETH: ether, ZRX: zrx }),
+    symbols: () => ['REQ', 'TOMO', 'ZRX'],
+    bySymbol: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
     tokens: () => [zrx, ether, req]
   }))
 
   const getAccountBalancesDomainMock = jest.fn(() => ({
-    balances: () => ({ REQ: req, ETH: ether, ZRX: zrx }),
+    balances: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
     isAllowed: tokenSymbol => accountBalancesDomain.isAllowed(tokenSymbol)
   }))
 
@@ -101,8 +101,8 @@ it('handles toggleAllowance Successfully', async () => {
 
 it('handles queryAccountData properly', async () => {
   const getTokenDomainMock = jest.fn(() => ({
-    symbols: () => ['REQ', 'ETH', 'ZRX'],
-    bySymbol: () => ({ REQ: req, ETH: ether, ZRX: zrx }),
+    symbols: () => ['REQ', 'TOMO', 'ZRX'],
+    bySymbol: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
     tokens: () => [zrx, ether, req]
   }))
 
@@ -131,8 +131,8 @@ it('handles queryAccountData properly', async () => {
 
   await store.dispatch(actionCreators.queryAccountData())
 
-  expect(accountBalancesService.queryEtherBalance).toHaveBeenCalledTimes(1)
-  expect(accountBalancesService.queryEtherBalance).toHaveBeenCalledWith(testAddress)
+  expect(accountBalancesService.queryTomoBalance).toHaveBeenCalledTimes(1)
+  expect(accountBalancesService.queryTomoBalance).toHaveBeenCalledWith(testAddress)
   expect(walletService.getCurrentBlock).toHaveBeenCalledTimes(1)
   expect(accountBalancesService.queryTokenBalances).toHaveBeenCalledTimes(1)
   expect(accountBalancesService.queryTokenBalances).toHaveBeenCalledWith(testAddress, [...quotes, ...[zrx, req]])
@@ -143,9 +143,9 @@ it('handles queryAccountData properly', async () => {
   ])
 
   accountBalancesDomain = getAccountBalancesDomain(store.getState())
-  expect(accountBalancesDomain.isSubscribed('ETH')).toEqual(false)
-  expect(accountBalancesDomain.isAllowed('ETH')).toEqual(false)
-  expect(accountBalancesDomain.get('ETH')).toEqual(1000)
+  expect(accountBalancesDomain.isSubscribed('TOMO')).toEqual(false)
+  expect(accountBalancesDomain.isAllowed('TOMO')).toEqual(false)
+  expect(accountBalancesDomain.get('TOMO')).toEqual(1000)
   expect(accountBalancesDomain.get('REQ')).toEqual(2000)
   expect(accountBalancesDomain.isSubscribed('REQ')).toEqual(false)
   expect(accountBalancesDomain.isAllowed('REQ')).toEqual(false)

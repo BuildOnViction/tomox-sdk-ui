@@ -24,7 +24,7 @@ import ConnectionStatus from '../../components/ConnectionStatus'
 import locales from '../../config/locales'
 
 export type Props = {
-  ETHBalance: string,
+  TomoBalance: string,
   WETHBalance: string,
   WETHAllowance: string,
   children?: Node,

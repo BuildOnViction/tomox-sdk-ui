@@ -15,7 +15,7 @@ export type TransferTokensFormState = {
   +receipt: ?TxReceipt,
 };
 
-export type EtherTxParams = {
+export type TOMOTxParams = {
   amount: number,
   receiver: string,
   gas: number,

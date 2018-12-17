@@ -1,33 +1,34 @@
 // @flow
-import { Contract } from 'ethers';
+import { Contract } from 'ethers'
 import {
   getAccountBalancesDomain,
   getAccountDomain,
   getDepositFormDomain,
   getSignerDomain,
   getTokenDomain,
-  getDepositDomain
-} from '../domains';
+  getDepositDomain,
+} from '../domains'
 
-import * as actionCreators from '../actions/accountBalances';
-import * as depositFormActionCreators from '../actions/depositForm';
+import * as actionCreators from '../actions/accountBalances'
+import * as depositFormActionCreators from '../actions/depositForm'
 // import * as accountBalancesService from '../services/accountBalances';
-import { getSigner } from '../services/signer';
-import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
-import { ERC20, WETH } from '../../config/abis';
+import { getSigner } from '../services/signer'
+import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import { ERC20, WETH } from '../../config/abis'
 
-import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
-import type { Chain } from '../../types/deposit';
-import type { PairAddresses } from '../../types/pairs';
-import type { State, ThunkAction } from '../../types';
+import type { Token, TokenBalance, TokenBalances } from '../../types/tokens'
+import type { Chain } from '../../types/deposit'
+import type { PairAddresses } from '../../types/pairs'
+import type { State, ThunkAction } from '../../types'
 
 export default function depositFormSelector(state: State) {
-  let accountDomain = getAccountDomain(state);
-  let tokenDomain = getTokenDomain(state);
-  let depositDomain = getDepositDomain(state);
-  let accountBalancesDomain = getAccountBalancesDomain(state);
-  let signerDomain = getSignerDomain(state);
-  let depositFormDomain = getDepositFormDomain(state);
+  const accountDomain = getAccountDomain(state)
+  const tokenDomain = getTokenDomain(state)
+  const depositDomain = getDepositDomain(state)
+  const accountBalancesDomain = getAccountBalancesDomain(state)
+  const signerDomain = getSignerDomain(state)
+  const depositFormDomain = getDepositFormDomain(state)
 
   return {
     accountAddress: () => accountDomain.address(),
@@ -44,70 +45,72 @@ export default function depositFormSelector(state: State) {
     networkId: () => signerDomain.getNetworkId(),
     getStep: () => depositFormDomain.getStep(),
     getAllowTxState: () => depositFormDomain.getAllowTxState(),
-    getConvertTxState: () => depositFormDomain.getConvertTxState()
-  };
+    getConvertTxState: () => depositFormDomain.getConvertTxState(),
+  }
 }
 
 export function queryBalances(): ThunkAction {
   return async (dispatch, getState, { provider }) => {
     try {
-      const state = getState();
-      const accountAddress = depositFormSelector(state).accountAddress();
-      let tokens = depositFormSelector(state).tokens();
-      tokens = tokens.filter((token: Token) => token.symbol !== 'ETH');
+      const state = getState()
+      const accountAddress = depositFormSelector(state).accountAddress()
+      let tokens = depositFormSelector(state).tokens()
+      tokens = tokens.filter(
+        (token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL
+      )
 
-      if (!accountAddress) throw new Error('Account address is not set');
+      if (!accountAddress) throw new Error('Account address is not set')
 
       // const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
       //   accountAddress,
       //   tokens
       // );
-      // const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
+      // const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
       //   accountAddress
       // );
 
       const tokenBalances: TokenBalances = await provider.queryTokenBalances(
         accountAddress,
         tokens
-      );
-      const etherBalance: TokenBalance = await provider.queryEtherBalance(
+      )
+      const tomoBalance: TokenBalance = await provider.queryTomoBalance(
         accountAddress
-      );
+      )
 
-      const balances = [etherBalance].concat(tokenBalances);
-      dispatch(actionCreators.updateBalances(balances));
+      const balances = [tomoBalance].concat(tokenBalances)
+      dispatch(actionCreators.updateBalances(balances))
     } catch (error) {
-      console.log('queryBalances', error.message);
+      console.log('queryBalances', error.message)
     }
-  };
+  }
 }
 
 export function subscribeBalance(token: Token): ThunkAction {
   return async (dispatch, getState, { provider }) => {
     try {
-      let unsubscribe;
-      const { symbol } = token;
-      const state = getState();
-      const accountAddress = depositFormSelector(state).accountAddress();
-      const tokenSymbols = depositFormSelector(state).symbols();
+      let unsubscribe
+      const { symbol } = token
+      const state = getState()
+      const accountAddress = depositFormSelector(state).accountAddress()
+      const tokenSymbols = depositFormSelector(state).symbols()
       const tokenIsSubscribed = depositFormSelector(state).tokenIsSubscribed(
         symbol
-      );
+      )
 
       const updateBalanceHandler = balance => {
-        dispatch(actionCreators.updateBalance(symbol, balance));
-        dispatch(depositFormActionCreators.deposit());
-      };
+        dispatch(actionCreators.updateBalance(symbol, balance))
+        dispatch(depositFormActionCreators.deposit())
+      }
 
-      if (tokenIsSubscribed) return;
-      if (!accountAddress) throw new Error('Account address is not set');
+      if (tokenIsSubscribed) return
+      if (!accountAddress) throw new Error('Account address is not set')
       if (tokenSymbols.indexOf(symbol) === -1)
-        throw new Error('Token is not subscribed');
+        throw new Error('Token is not subscribed')
 
-      dispatch(actionCreators.subscribeBalance(symbol));
+      dispatch(actionCreators.subscribeBalance(symbol))
 
       // token.address === '0x0'
-      //   ? (unsubscribe = await accountBalancesService.subscribeEtherBalance(
+      //   ? (unsubscribe = await accountBalancesService.subscribeTomoBalance(
       //       accountAddress,
       //       updateBalanceHandler
       //     ))
@@ -119,35 +122,35 @@ export function subscribeBalance(token: Token): ThunkAction {
 
       const assignUnsubscribe = token => {
         return token.address === '0x0'
-          ? provider.subscribeEtherBalance(accountAddress, updateBalanceHandler)
+          ? provider.subscribeTomoBalance(accountAddress, updateBalanceHandler)
           : provider.subscribeTokenBalance(
               accountAddress,
               token,
               updateBalanceHandler
-            );
-      };
+            )
+      }
 
-      unsubscribe = await assignUnsubscribe(token);
+      unsubscribe = await assignUnsubscribe(token)
       // token.address === '0x0'
-      //   ? (unsubscribe = await provider.subscribeEtherBalance(accountAddress, updateBalanceHandler))
+      //   ? (unsubscribe = await provider.subscribeTomoBalance(accountAddress, updateBalanceHandler))
       //   : (unsubscribe = await provider.subscribeTokenBalance(accountAddress, token, updateBalanceHandler));
 
       return async () => {
-        unsubscribe();
+        unsubscribe()
 
         //Then we resubscribe the update balance listener.
         // const updateBalanceHandler = balance =>
         //   dispatch(actionCreators.updateBalance(symbol, balance));
         // token.address === '0x0'
-        // ? (unsubscribe = await provider.subscribeEtherBalance(accountAddress, updateBalanceHandler))
+        // ? (unsubscribe = await provider.subscribeTomoBalance(accountAddress, updateBalanceHandler))
         // : (unsubscribe = await provider.subscribeTokenBalance(accountAddress, token, updateBalanceHandler))
-        unsubscribe = await assignUnsubscribe(token);
-        dispatch(actionCreators.unsubscribeBalance(symbol));
-      };
+        unsubscribe = await assignUnsubscribe(token)
+        dispatch(actionCreators.unsubscribeBalance(symbol))
+      }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
-  };
+  }
 }
 
 export const confirmEtherDeposit = (
@@ -157,31 +160,31 @@ export const confirmEtherDeposit = (
 ): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      dispatch(depositFormActionCreators.confirm());
-      let signer = getSigner();
-      let network = depositFormSelector(getState()).networkId();
-      let weth = new Contract(WETH_ADDRESS[network], WETH, signer);
+      dispatch(depositFormActionCreators.confirm())
+      const signer = getSigner()
+      const network = depositFormSelector(getState()).networkId()
+      const weth = new Contract(WETH_ADDRESS[network], WETH, signer)
 
       if (shouldConvert) {
         if (shouldAllow) {
           // let convertTxParams = { value: 1000 };
-          let convertTxPromise = weth.deposit();
+          const convertTxPromise = weth.deposit()
 
           // let allowTxParams = {};
-          let allowTxPromise = weth.approve(EXCHANGE_ADDRESS[network], -1, {});
+          const allowTxPromise = weth.approve(EXCHANGE_ADDRESS[network], -1, {})
 
-          let [convertTx, allowTx] = await Promise.all([
+          const [convertTx, allowTx] = await Promise.all([
             convertTxPromise,
-            allowTxPromise
-          ]);
+            allowTxPromise,
+          ])
 
-          dispatch(depositFormActionCreators.sendConvertTx(convertTx.hash));
-          dispatch(depositFormActionCreators.sendAllowTx(allowTx.hash));
+          dispatch(depositFormActionCreators.sendConvertTx(convertTx.hash))
+          dispatch(depositFormActionCreators.sendAllowTx(allowTx.hash))
 
-          let [convertTxReceipt, allowTxReceipt] = await Promise.all([
+          const [convertTxReceipt, allowTxReceipt] = await Promise.all([
             signer.provider.waitForTransaction(convertTx.hash),
-            signer.provider.waitForTransaction(allowTx.hash)
-          ]);
+            signer.provider.waitForTransaction(allowTx.hash),
+          ])
 
           convertTxReceipt.status === '0x0'
             ? dispatch(
@@ -189,20 +192,18 @@ export const confirmEtherDeposit = (
               )
             : dispatch(
                 depositFormActionCreators.confirmConvertTx(convertTxReceipt)
-              );
+              )
 
           allowTxReceipt.status === '0x0'
             ? dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt))
-            : dispatch(
-                depositFormActionCreators.confirmAllowTx(allowTxReceipt)
-              );
+            : dispatch(depositFormActionCreators.confirmAllowTx(allowTxReceipt))
         } else {
           // let convertTxParams = { value: 1000 };
-          let convertTx = await weth.convert();
-          dispatch(depositFormActionCreators.sendConvertTx(convertTx.hash));
-          let convertTxReceipt = await signer.provider.waitForTransaction(
+          const convertTx = await weth.convert()
+          dispatch(depositFormActionCreators.sendConvertTx(convertTx.hash))
+          const convertTxReceipt = await signer.provider.waitForTransaction(
             convertTx.hash
-          );
+          )
 
           convertTxReceipt.status === '0x0'
             ? dispatch(
@@ -210,14 +211,14 @@ export const confirmEtherDeposit = (
               )
             : dispatch(
                 depositFormActionCreators.confirmConvertTx(convertTxReceipt)
-              );
+              )
         }
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
-  };
-};
+  }
+}
 
 export const confirmTokenDeposit = (
   { address }: Token,
@@ -225,29 +226,29 @@ export const confirmTokenDeposit = (
 ): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      let signer = getSigner();
-      let exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId];
-      let token = new Contract(address, ERC20, signer);
+      const signer = getSigner()
+      const exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId]
+      const token = new Contract(address, ERC20, signer)
 
       if (shouldAllow) {
-        let allowTx = await token.approve(exchange, -1);
-        dispatch(depositFormActionCreators.sendAllowTx(allowTx.hash));
+        const allowTx = await token.approve(exchange, -1)
+        dispatch(depositFormActionCreators.sendAllowTx(allowTx.hash))
 
-        let allowTxReceipt = await signer.provider.waitForTransaction(
+        const allowTxReceipt = await signer.provider.waitForTransaction(
           allowTx.hash
-        );
+        )
 
         allowTxReceipt.status === '0x0'
           ? dispatch(depositFormActionCreators.revertAllowTx(allowTxReceipt))
-          : dispatch(depositFormActionCreators.confirmAllowTx(allowTxReceipt));
+          : dispatch(depositFormActionCreators.confirmAllowTx(allowTxReceipt))
       }
 
-      dispatch(depositFormActionCreators.confirm());
+      dispatch(depositFormActionCreators.confirm())
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
-  };
-};
+  }
+}
 
 export const updateAddressAssociation = (
   chain: string,
@@ -255,6 +256,6 @@ export const updateAddressAssociation = (
   pairAddresses: PairAddresses
 ): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
-    socket.sendNewDepositMessage(chain, associatedAddress, pairAddresses);
-  };
-};
+    socket.sendNewDepositMessage(chain, associatedAddress, pairAddresses)
+  }
+}

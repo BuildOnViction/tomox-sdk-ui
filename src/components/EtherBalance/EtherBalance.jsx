@@ -25,7 +25,7 @@ type Props = {
 /**
  * Placeholder component for ether balance
  */
-class EtherBalance extends React.PureComponent<Props> {
+class TomoBalance extends React.PureComponent<Props> {
   subscribe() {
     if (this.props.isSubscribed) {
       return
@@ -67,4 +67,4 @@ class EtherBalance extends React.PureComponent<Props> {
   }
 }
 
-export default EtherBalance
+export default TomoBalance

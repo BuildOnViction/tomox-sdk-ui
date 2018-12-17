@@ -2,7 +2,7 @@ import { utils } from 'ethers';
 import { ether } from './constants';
 
 /**
- * for Example ETH => WEI
+ * for Example TOMO => WEI
  * @param value
  * @param decimals
  * @returns {string}

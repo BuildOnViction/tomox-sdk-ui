@@ -12,7 +12,7 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
   const selector = layoutSelector(state)
 
   return {
-    ETHBalance: selector.ETHBalance,
+    TomoBalance: selector.TomoBalance,
     WETHBalance: selector.WETHBalance,
     WETHAllowance: selector.WETHAllowance,
     authenticated: selector.authenticated,

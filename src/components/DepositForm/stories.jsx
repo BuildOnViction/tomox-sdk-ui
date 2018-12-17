@@ -42,7 +42,7 @@ const { store: customStore2 } = configureStore({
 storiesOf('Deposit Form', module)
   .addDecorator(withKnobs)
   .add(
-    'Connected Deposit Ether/Tokens Form',
+    'Connected Deposit TOMO/Tokens Form',
     withInfo({
       text: README,
       source: false
@@ -55,7 +55,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Connected Convert Ether/Tokens Form (Ether)',
+    'Connected Convert TOMO/Tokens Form (TOMO)',
     withInfo({
       text: README,
       source: false
@@ -68,7 +68,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Waiting for deposit)',
+    'Deposit TOMO/Tokens Form (Waiting for deposit)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -100,7 +100,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Waiting for conversion - Ether)',
+    'Deposit TOMO/Tokens Form (Waiting for conversion - TOMO)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -132,7 +132,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Convert - Ether - No Conversion)',
+    'Deposit TOMO/Tokens Form (Convert - TOMO - No Conversion)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -165,7 +165,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Conversion - Token)',
+    'Deposit TOMO/Tokens Form (Conversion - Token)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -198,7 +198,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Confirm - Ether)',
+    'Deposit TOMO/Tokens Form (Confirm - TOMO)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -228,7 +228,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Confirm - Pending Transaction)',
+    'Deposit TOMO/Tokens Form (Confirm - Pending Transaction)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -263,7 +263,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Confirm - Transaction Failed)',
+    'Deposit TOMO/Tokens Form (Confirm - Transaction Failed)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -298,7 +298,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Confirm - Transactions Failed/Pending)',
+    'Deposit TOMO/Tokens Form (Confirm - Transactions Failed/Pending)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>
@@ -333,7 +333,7 @@ storiesOf('Deposit Form', module)
     ))
   )
   .add(
-    'Deposit Ether/Tokens Form (Confirm - Transaction Successfull)',
+    'Deposit TOMO/Tokens Form (Confirm - Transaction Successfull)',
     withInfo()(() => (
       <div className="bp3-dark">
         <Card>

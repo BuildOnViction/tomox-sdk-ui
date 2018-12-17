@@ -1,7 +1,7 @@
 // @flow
 import type { SignerSettings, SignerState } from '../../types/signer'
 import {
-  ETHEREUM_NODE_HTTP_URL,
+  TOMOCHAIN_NODE_HTTP_URL,
   DEFAULT_NETWORK_ID,
 } from '../../config/environment'
 
@@ -9,7 +9,7 @@ const initialState = {
   loading: false,
   error: '',
   type: 'rpc',
-  url: ETHEREUM_NODE_HTTP_URL,
+  url: TOMOCHAIN_NODE_HTTP_URL,
   networkId: DEFAULT_NETWORK_ID,
 }
 
@@ -67,7 +67,7 @@ export default function signerDomain(state: SignerState) {
 
 // const localRPCProvider = {
 //   type: 'local',
-//   url: ETHEREUM_NODE_HTTP_URL,
+//   url: TOMOCHAIN_NODE_HTTP_URL,
 //   networkID: 8888,
 //   networkName: ''
 // }
@@ -102,6 +102,6 @@ export default function signerDomain(state: SignerState) {
 //   loading: false,
 //   error: '',
 //   type: 'wallet',
-//   url: ETHEREUM_NODE_HTTP_URL,
+//   url: TOMOCHAIN_NODE_HTTP_URL,
 //   networkId: 8888,
 // };

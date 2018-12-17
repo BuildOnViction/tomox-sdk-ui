@@ -29,7 +29,7 @@ const SignerSettingsFormRenderer = (props: Props) => {
       <Card interactive={true}>
         <RadioGroup name="type" onChange={handleChange} selectedValue={type} label="Choose a signing method">
           <Radio label="Metamask" value="metamask" />
-          <Radio label="Local Ethereum Node" value="rpc" />
+          <Radio label="Local Tomochain Node" value="rpc" />
           <Radio label="Wallet" value="wallet" />
           <Radio label="Custom Signer" value="custom" />
         </RadioGroup>

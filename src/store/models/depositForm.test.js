@@ -22,13 +22,13 @@ jest.mock('../domains')
 jest.mock('./signerSettings')
 jest.mock('ethers')
 
-let unsubscribeEtherBalance = jest.fn()
+let unsubscribeTomoBalance = jest.fn()
 let unsubscribeTokenBalance = jest.fn()
 let domain, depositFormDomain, model
 
 beforeEach(() => {
   jest.resetAllMocks()
-  accountBalancesService.subscribeEtherBalance.mockReturnValue(unsubscribeEtherBalance)
+  accountBalancesService.subscribeTomoBalance.mockReturnValue(unsubscribeTomoBalance)
   accountBalancesService.subscribeTokenBalance.mockReturnValue(unsubscribeTokenBalance)
 })
 
@@ -89,11 +89,11 @@ it('handles subscribeBalance (ether) properly', async () => {
   getAccountBalancesDomain.mockImplementation(require.requireActual('../domains').getAccountBalancesDomain)
   const { store } = createStore()
   const testAddress = '0x7a9f3cd060ab180f36c17fe6bdf9974f577d77aa'
-  const token = { address: '0x0', symbol: 'ETH' }
+  const token = { address: '0x0', symbol: 'TOMO' }
 
   const getTokenDomainMock = jest.fn(() => ({
-    symbols: () => ['ETH'],
-    bySymbol: () => ({ ETH: token })
+    symbols: () => ['TOMO'],
+    bySymbol: () => ({ TOMO: token })
   }))
 
   const getAccountDomainMock = jest.fn(() => ({ address: () => testAddress }))
@@ -101,34 +101,34 @@ it('handles subscribeBalance (ether) properly', async () => {
   getAccountDomain.mockImplementation(getAccountDomainMock)
 
   domain = getAccountBalancesDomain(store.getState())
-  expect(domain.get('ETH')).toEqual(null)
-  expect(domain.isSubscribed('ETH')).toEqual(false)
+  expect(domain.get('TOMO')).toEqual(null)
+  expect(domain.isSubscribed('TOMO')).toEqual(false)
 
   const unsubscribeCallback = await store.dispatch(actionCreators.subscribeBalance(token))
 
   domain = getAccountBalancesDomain(store.getState())
-  expect(domain.get('ETH')).toEqual(null)
-  expect(domain.isSubscribed('ETH')).toEqual(true)
+  expect(domain.get('TOMO')).toEqual(null)
+  expect(domain.isSubscribed('TOMO')).toEqual(true)
 
-  expect(accountBalancesService.subscribeEtherBalance).toHaveBeenCalledTimes(1)
-  const updateBalanceCallback = accountBalancesService.subscribeEtherBalance.mock.calls[0][1]
+  expect(accountBalancesService.subscribeTomoBalance).toHaveBeenCalledTimes(1)
+  const updateBalanceCallback = accountBalancesService.subscribeTomoBalance.mock.calls[0][1]
 
   updateBalanceCallback(1000)
   domain = getAccountBalancesDomain(store.getState())
-  expect(domain.get('ETH')).toEqual(1000)
-  expect(domain.isSubscribed('ETH')).toEqual(true)
+  expect(domain.get('TOMO')).toEqual(1000)
+  expect(domain.isSubscribed('TOMO')).toEqual(true)
 
   updateBalanceCallback(2000)
   domain = getAccountBalancesDomain(store.getState())
-  expect(domain.get('ETH')).toEqual(2000)
-  expect(domain.isSubscribed('ETH')).toEqual(true)
+  expect(domain.get('TOMO')).toEqual(2000)
+  expect(domain.isSubscribed('TOMO')).toEqual(true)
 
   unsubscribeCallback()
-  expect(unsubscribeEtherBalance).toHaveBeenCalledTimes(1)
+  expect(unsubscribeTomoBalance).toHaveBeenCalledTimes(1)
 
   domain = getAccountBalancesDomain(store.getState())
-  expect(domain.get('ETH')).toEqual(2000)
-  expect(domain.isSubscribed('ETH')).toEqual(false)
+  expect(domain.get('TOMO')).toEqual(2000)
+  expect(domain.isSubscribed('TOMO')).toEqual(false)
 })
 
 it('subscribeBalance (ether) updates the depositForm model correctly', async () => {
@@ -137,11 +137,11 @@ it('subscribeBalance (ether) updates the depositForm model correctly', async () 
 
   const { store } = createStore()
   const testAddress = '0x7a9f3cd060ab180f36c17fe6bdf9974f577d77aa'
-  const token = { address: '0x0', symbol: 'ETH' }
+  const token = { address: '0x0', symbol: 'TOMO' }
 
   const getTokenDomainMock = jest.fn(() => ({
-    symbols: () => ['ETH'],
-    bySymbol: () => ({ ETH: token })
+    symbols: () => ['TOMO'],
+    bySymbol: () => ({ TOMO: token })
   }))
 
   const getAccountDomainMock = jest.fn(() => ({ address: () => testAddress }))
@@ -156,8 +156,8 @@ it('subscribeBalance (ether) updates the depositForm model correctly', async () 
   model = DepositFormSelector(store.getState())
   expect(model.getStep()).toEqual('waiting')
 
-  expect(accountBalancesService.subscribeEtherBalance).toHaveBeenCalledTimes(1)
-  const updateBalanceCallback = accountBalancesService.subscribeEtherBalance.mock.calls[0][1]
+  expect(accountBalancesService.subscribeTomoBalance).toHaveBeenCalledTimes(1)
+  const updateBalanceCallback = accountBalancesService.subscribeTomoBalance.mock.calls[0][1]
 
   updateBalanceCallback(1000)
   model = DepositFormSelector(store.getState())

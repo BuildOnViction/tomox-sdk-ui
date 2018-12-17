@@ -6,7 +6,7 @@ import { withInfo } from '@storybook/addon-info'
 import SignerSettingsFormContainer from './index'
 import SignerSettingsForm from './SignerSettingsForm'
 import SignerSettingsFormRenderer from './SignerSettingsFormRenderer'
-import { ETHEREUM_NODE_HTTP_URL } from '../../config/environment'
+import { TOMOCHAIN_NODE_HTTP_URL } from '../../config/environment'
 import README from './README.md'
 
 const networks = [
@@ -40,7 +40,7 @@ storiesOf('SignerSettingsForm', module)
           error=""
           currentSigner={{
             type: 'rpc',
-            url: ETHEREUM_NODE_HTTP_URL,
+            url: TOMOCHAIN_NODE_HTTP_URL,
             networkId: 8888,
           }}
           updateSigner={action('updateSigner')}
@@ -56,7 +56,7 @@ storiesOf('SignerSettingsForm', module)
           options={{ provider: 'metamask', type: '', url: '', networkId: 8888 }}
           currentSigner={{
             type: 'local',
-            url: ETHEREUM_NODE_HTTP_URL,
+            url: TOMOCHAIN_NODE_HTTP_URL,
             networkId: 8888,
           }}
           handleSubmit={action('handleSubmit')}
@@ -76,7 +76,7 @@ storiesOf('SignerSettingsForm', module)
           options={{ provider: 'metamask', type: '', url: '', networkId: 1 }}
           currentSigner={{
             type: 'local',
-            url: ETHEREUM_NODE_HTTP_URL,
+            url: TOMOCHAIN_NODE_HTTP_URL,
             networkId: 8888,
           }}
           handleSubmit={action('handleSubmit')}
@@ -101,7 +101,7 @@ storiesOf('SignerSettingsForm', module)
           customType=""
           currentSigner={{
             type: 'wallet',
-            url: ETHEREUM_NODE_HTTP_URL,
+            url: TOMOCHAIN_NODE_HTTP_URL,
             networkId: 8888,
           }}
           handleSubmit={action('handleSubmit')}
@@ -126,7 +126,7 @@ storiesOf('SignerSettingsForm', module)
           customType=""
           currentSigner={{
             type: 'local',
-            url: ETHEREUM_NODE_HTTP_URL,
+            url: TOMOCHAIN_NODE_HTTP_URL,
             networkId: 8888,
           }}
           handleSubmit={action('handleSubmit')}
