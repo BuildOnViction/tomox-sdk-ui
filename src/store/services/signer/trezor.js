@@ -9,7 +9,7 @@ const defaultDPath = "m/44'/60'/0'/0"
 export class TrezorSigner extends Signer {
   constructor(path = defaultDPath) {
     super()
-    const networkId = DEFAULT_NETWORK_ID
+    const networkId = DEFAULT_NETWORK_ID === 'default' ? DEFAULT_NETWORK_ID : parseInt(DEFAULT_NETWORK_ID, 10)
     this.provider = new providers.JsonRpcProvider(ETHEREUM_NODE_HTTP_URL, {
       chainId: networkId,
     })
