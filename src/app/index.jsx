@@ -1,22 +1,21 @@
-import './env';
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Layout from './Layout';
-import LandingPage from './LandingPage';
-import LoginPage from './LoginPage';
-import WalletPage from './WalletPage';
-import FaqPage from './FaqPage';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import Layout from './Layout'
+import LandingPage from './LandingPage'
+import LoginPage from './LoginPage'
+import WalletPage from './WalletPage'
+import FaqPage from './FaqPage'
 // import ExchangePage from './ExchangePage';
-import SettingsPage from './SettingsPage';
-import LogoutPage from './LogoutPage';
-import TradingPage from './TradingPage';
-import { connect } from 'react-redux';
+import SettingsPage from './SettingsPage'
+import LogoutPage from './LogoutPage'
+import TradingPage from './TradingPage'
+import { connect } from 'react-redux'
 
 // import SocketManager from '../components/SocketManager';
-import SocketController from '../components/SocketController';
-import { ConnectedRouter } from 'connected-react-router';
-import history from '../store/history';
-import '../styles/css/index.css';
+import SocketController from '../components/SocketController'
+import { ConnectedRouter } from 'connected-react-router'
+import history from '../store/history'
+import '../styles/css/index.css'
 
 const App = () => (
   <ConnectedRouter history={history}>
@@ -35,12 +34,12 @@ const App = () => (
       </Layout>
     </SocketController>
   </ConnectedRouter>
-);
+)
 
 // export default App;
 // update when url change
 export default connect(state => {
   return {
-    location: state.router.location.pathname
-  };
-})(App);
+    location: state.router.location.pathname,
+  }
+})(App)
