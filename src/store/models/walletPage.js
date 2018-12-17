@@ -3,103 +3,104 @@ import {
   getAccountBalancesDomain,
   getAccountDomain,
   getTokenDomain,
-  getTransferTokensFormDomain
-} from '../domains';
+  getTransferTokensFormDomain,
+} from '../domains'
 
-import * as actionCreators from '../actions/walletPage';
-import * as notifierActionCreators from '../actions/app';
-import * as accountActionTypes from '../actions/account';
-import * as accountBalancesService from '../services/accountBalances';
-import { quoteTokens, quoteTokenSymbols } from '../../config/quotes';
-import { getCurrentBlock } from '../services/wallet';
-import { push } from 'connected-react-router';
-import type { State, ThunkAction } from '../../types';
-import type { Token, TokenBalance, TokenBalances } from '../../types/tokens';
-import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
+import * as actionCreators from '../actions/walletPage'
+import * as notifierActionCreators from '../actions/app'
+import * as accountActionTypes from '../actions/account'
+import * as accountBalancesService from '../services/accountBalances'
+import { quoteTokens, quoteTokenSymbols } from '../../config/quotes'
+import { getCurrentBlock } from '../services/wallet'
+import { push } from 'connected-react-router'
+import type { State, ThunkAction } from '../../types'
+import type { Token, TokenBalance, TokenBalances } from '../../types/tokens'
+import { ALLOWANCE_THRESHOLD } from '../../utils/constants'
+import { NATIVE_TOKEN } from '../../config/tokens'
 
 export default function walletPageSelector(state: State) {
-  let accountBalancesDomain = getAccountBalancesDomain(state);
-  let accountDomain = getAccountDomain(state);
-  let tokenDomain = getTokenDomain(state);
-  let transferTokensFormDomain = getTransferTokensFormDomain(state);
+  const accountBalancesDomain = getAccountBalancesDomain(state)
+  const accountDomain = getAccountDomain(state)
+  const tokenDomain = getTokenDomain(state)
+  const transferTokensFormDomain = getTransferTokensFormDomain(state)
 
   // ETH is not a token so we add it to the list to display in the deposit table
-  let ETH = {
-    symbol: 'ETH',
-    address: '0x0'
-  };
-  let tokens = tokenDomain.tokens();
-  let quoteTokens = quoteTokenSymbols;
-  let baseTokens = tokenDomain
+  const ETH = {
+    symbol: NATIVE_TOKEN,
+    address: '0x0',
+  }
+  const tokens = tokenDomain.tokens()
+  const quoteTokens = quoteTokenSymbols
+  const baseTokens = tokenDomain
     .symbols()
-    .filter(symbol => quoteTokens.indexOf(symbol) !== -1);
-  let tokenData = accountBalancesDomain.getBalancesAndAllowances(
+    .filter(symbol => quoteTokens.indexOf(symbol) !== -1)
+  const tokenData = accountBalancesDomain.getBalancesAndAllowances(
     [ETH].concat(tokens)
-  );
+  )
 
   return {
     etherBalance: accountBalancesDomain.formattedEtherBalance(),
     balancesLoading: accountBalancesDomain.loading(),
     WETHBalance: accountBalancesDomain.tokenBalance('WETH'),
     WETHAllowance: accountBalancesDomain.tokenAllowance('WETH'),
-    tokenData: tokenData,
-    quoteTokens: quoteTokens,
-    baseTokens: baseTokens,
+    tokenData,
+    quoteTokens,
+    baseTokens,
     accountAddress: accountDomain.address(),
     authenticated: accountDomain.authenticated(),
     currentBlock: accountDomain.currentBlock(),
     showHelpModal: accountDomain.showHelpModal(),
     connected: true,
     gas: transferTokensFormDomain.getGas(),
-    gasPrice: transferTokensFormDomain.getGasPrice()
-  };
+    gasPrice: transferTokensFormDomain.getGasPrice(),
+  }
 }
 
 export function queryAccountData(): ThunkAction {
   return async (dispatch, getState, { api }) => {
-    const state = getState();
-    const accountAddress = getAccountDomain(state).address();
+    const state = getState()
+    const accountAddress = getAccountDomain(state).address()
 
     try {
-      let tokens = getTokenDomain(state).tokens();
-      let quotes = quoteTokens;
+      let tokens = getTokenDomain(state).tokens()
+      const quotes = quoteTokens
 
       tokens = quotes
         .concat(tokens)
-        .filter((token: Token) => token.symbol !== 'ETH');
-      if (!accountAddress) throw new Error('Account address is not set');
+        .filter((token: Token) => token.symbol !== 'ETH')
+      if (!accountAddress) throw new Error('Account address is not set')
 
-      const currentBlock = await getCurrentBlock();
-      if (!currentBlock) throw new Error('');
+      const currentBlock = await getCurrentBlock()
+      if (!currentBlock) throw new Error('')
 
-      let pairs = await api.fetchPairs();
-      let exchangeAddress = await api.getExchangeAddress();
+      const pairs = await api.fetchPairs()
+      const exchangeAddress = await api.getExchangeAddress()
 
       const etherBalance: TokenBalance = await accountBalancesService.queryEtherBalance(
         accountAddress
-      );
+      )
       const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
         accountAddress,
         tokens
-      );
+      )
       const allowances = await accountBalancesService.queryExchangeTokenAllowances(
         accountAddress,
         tokens
-      );
+      )
 
-      const balances = [etherBalance].concat(tokenBalances);
+      const balances = [etherBalance].concat(tokenBalances)
 
-      dispatch(accountActionTypes.updateCurrentBlock(currentBlock));
-      dispatch(actionCreators.updateTokenPairs(pairs));
-      dispatch(actionCreators.updateBalances(balances));
-      dispatch(actionCreators.updateAllowances(allowances));
-      dispatch(actionCreators.updateExchangeAddress(exchangeAddress));
+      dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
+      dispatch(actionCreators.updateTokenPairs(pairs))
+      dispatch(actionCreators.updateBalances(balances))
+      dispatch(actionCreators.updateAllowances(allowances))
+      dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
 
       await accountBalancesService.subscribeTokenBalances(
         accountAddress,
         tokens,
         balance => dispatch(actionCreators.updateBalance(balance))
-      );
+      )
 
       await accountBalancesService.subscribeEtherBalance(
         accountAddress,
@@ -107,80 +108,80 @@ export function queryAccountData(): ThunkAction {
           dispatch(
             actionCreators.updateBalance({
               symbol: 'ETH',
-              balance: balance
+              balance,
             })
           )
-      );
+      )
 
       await accountBalancesService.subscribeTokenAllowances(
         accountAddress,
         tokens,
         allowance => {
-          return dispatch(actionCreators.updateAllowance(allowance));
+          return dispatch(actionCreators.updateAllowance(allowance))
         }
-      );
+      )
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
-          message: 'Could not connect to Ethereum network'
+          message: 'Could not connect to Ethereum network',
         })
-      );
-      console.log(e);
+      )
+      console.log(e)
     }
-  };
+  }
 }
 
 export function redirectToTradingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
-    let defaultQuoteToken = quoteTokens[0];
-    let pair = `${symbol}/${defaultQuoteToken.symbol}`;
+    const defaultQuoteToken = quoteTokens[0]
+    const pair = `${symbol}/${defaultQuoteToken.symbol}`
 
-    dispatch(actionCreators.updateCurrentPair(pair));
-    dispatch(push('/trade'));
-  };
+    dispatch(actionCreators.updateCurrentPair(pair))
+    dispatch(push('/trade'))
+  }
 }
 
 export function toggleAllowance(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
     try {
-      const state = getState();
-      const tokens = getTokenDomain(state).bySymbol();
-      const accountAddress = getAccountDomain(state).address();
-      const isAllowed = getAccountBalancesDomain(state).isAllowed(symbol);
+      const state = getState()
+      const tokens = getTokenDomain(state).bySymbol()
+      const accountAddress = getAccountDomain(state).address()
+      const isAllowed = getAccountBalancesDomain(state).isAllowed(symbol)
       const isPending = getAccountBalancesDomain(state).isAllowancePending(
         symbol
-      );
-      const tokenContractAddress = tokens[symbol].address;
+      )
+      const tokenContractAddress = tokens[symbol].address
 
-      if (isPending) throw new Error('Trading approval pending');
+      if (isPending) throw new Error('Trading approval pending')
 
       const approvalConfirmedHandler = txConfirmed => {
         txConfirmed
           ? dispatch(
               notifierActionCreators.addSuccessNotification({
-                message: `${symbol} Approval Successful. You can now start trading!`
+                message: `${symbol} Approval Successful. You can now start trading!`,
               })
             )
           : dispatch(
               notifierActionCreators.addErrorNotification({
-                message: `${symbol} Approval Failed. Please try again.`
+                message: `${symbol} Approval Failed. Please try again.`,
               })
-            );
-      };
+            )
+      }
 
       const approvalRemovedHandler = txConfirmed => {
         txConfirmed
           ? dispatch(
               notifierActionCreators.addSuccessNotification({
-                message: `${symbol} Allowance Removal Successful.`
+                message: `${symbol} Allowance Removal Successful.`,
               })
             )
           : dispatch(
               notifierActionCreators.addErrorNotification({
-                message: `${symbol} Allowance Removal Failed. Please try again.`
+                message: `${symbol} Allowance Removal Failed. Please try again.`,
               })
-            );
-      };
+            )
+      }
 
       if (isAllowed) {
         accountBalancesService.updateExchangeAllowance(
@@ -188,41 +189,41 @@ export function toggleAllowance(symbol: string): ThunkAction {
           accountAddress,
           0,
           approvalRemovedHandler
-        );
+        )
         dispatch(
           notifierActionCreators.addSuccessNotification({
-            message: `Locking ${symbol}. You will not be able to trade ${symbol} after the transaction is confirmed`
+            message: `Locking ${symbol}. You will not be able to trade ${symbol} after the transaction is confirmed`,
           })
-        );
+        )
       } else {
         accountBalancesService.updateExchangeAllowance(
           tokenContractAddress,
           accountAddress,
           ALLOWANCE_THRESHOLD,
           approvalConfirmedHandler
-        );
+        )
         dispatch(
           notifierActionCreators.addSuccessNotification({
-            message: `Unlocking ${symbol}. You will be able to trade  ${symbol} after the transaction is confirmed.`
+            message: `Unlocking ${symbol}. You will be able to trade  ${symbol} after the transaction is confirmed.`,
           })
-        );
+        )
       }
 
       dispatch(
         actionCreators.updateAllowance({
           symbol,
-          allowance: 'pending'
+          allowance: 'pending',
         })
-      );
+      )
     } catch (e) {
-      console.log(e);
+      console.log(e)
       if (e.message === 'Trading approval pending') {
         dispatch(
           notifierActionCreators.addErrorNotification({
-            message: 'Trading approval pending'
+            message: 'Trading approval pending',
           })
-        );
+        )
       }
     }
-  };
+  }
 }

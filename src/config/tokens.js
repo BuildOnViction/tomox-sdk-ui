@@ -1,8 +1,8 @@
-import { DEFAULT_NETWORK_ID } from './environment.js';
-import addresses from './addresses.json';
-import images from './images.json';
+import { DEFAULT_NETWORK_ID } from './environment.js'
+import addresses from './addresses.json'
+import images from './images.json'
 
-export const defaultDecimals = 18;
+export const defaultDecimals = 18
 
 export const defaultTokenDecimals = {
   AE: 18,
@@ -29,28 +29,30 @@ export const defaultTokenDecimals = {
   TRX: 18,
   WETH: 18,
   WTC: 18,
-  ZRX: 18
-};
+  ZRX: 18,
+}
 
-let tokensBySymbolTable = {
-  [DEFAULT_NETWORK_ID]: {}
-};
+const tokensBySymbolTable = {
+  [DEFAULT_NETWORK_ID]: {},
+}
 
-for (let token in addresses[DEFAULT_NETWORK_ID]) {
+for (const token in addresses[DEFAULT_NETWORK_ID]) {
   if (token !== 'Exchange') {
     tokensBySymbolTable[DEFAULT_NETWORK_ID][token] = {
       symbol: token,
       address: addresses[DEFAULT_NETWORK_ID][token],
       decimals: defaultTokenDecimals[token] || defaultDecimals,
-      image: images[DEFAULT_NETWORK_ID][token]
-    };
+      image: images[DEFAULT_NETWORK_ID][token],
+    }
   }
 }
 
-export const tokensBySymbol = tokensBySymbolTable[DEFAULT_NETWORK_ID];
-export const tokenSymbols = Object.keys(tokensBySymbol);
-export const tokens = Object.values(tokensBySymbol);
-export const tokenImages = images[DEFAULT_NETWORK_ID];
+export const tokensBySymbol = tokensBySymbolTable[DEFAULT_NETWORK_ID]
+export const tokenSymbols = Object.keys(tokensBySymbol)
+export const tokens = Object.values(tokensBySymbol)
+export const tokenImages = images[DEFAULT_NETWORK_ID]
 
-export const pricePrecision = 7;
-export const amountPrecision = 3;
+export const pricePrecision = 7
+export const amountPrecision = 3
+
+export const NATIVE_TOKEN = 'TOMO'
