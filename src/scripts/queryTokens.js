@@ -43,7 +43,7 @@ files
     if (json.networks[networkID]) {
       symbol = file.slice(0, -5)
       if (symbol === 'WETH9') symbol = 'WETH'
-      if (contractConfig.tokens.includes(symbol)) {
+      if (contractConfig.tokens.includes(symbol) || symbol === 'Exchange') {
         address = json.networks[networkID].address
         contracts[networkID][symbol] = utils.getAddress(address)
       }
