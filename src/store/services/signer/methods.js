@@ -41,8 +41,8 @@ export const updateSwarmFeed = async function(
   messages: any
 ): Promise<boolean> {
   // padding topic for token address
-  const topic = padTopic(tokenAddress)
-  const request: Request = await this.getFeedRequest(topic)
+  let topic = padTopic(tokenAddress)
+  const feedRequest: Request = await this.getFeedRequest(topic)
 
   const data = encodeBytes(messages)
   if (!data) return false
@@ -50,7 +50,8 @@ export const updateSwarmFeed = async function(
   const digest = feedUpdateDigest(feedRequest, data)
   const signature = getSwarmSig(this.signingKey.signDigest(digest))
   // the user from feed is lowercase
-  const { user, topic } = feedRequest.feed
+  const { user } = feedRequest.feed
+  topic = feedRequest.feed.topic
   if (user.toLowerCase() !== this.address.toLowerCase()) {
     throw new Error('Can not update other account')
   }
