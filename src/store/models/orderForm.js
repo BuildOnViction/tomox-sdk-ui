@@ -227,8 +227,14 @@ export const sendNewOrder = (
         },
       ]
       // console.log(order.baseToken, feedOrder)
-      await signer.updateSwarmFeed(order.baseToken, feedOrder)
-      console.log("Send feed done")
+      const result = await signer.updateSwarmFeed(order.baseToken, feedOrder)
+      console.log("result", result)
+
+      if (result) {
+        return dispatch(
+          appActionCreators.addSuccessNotification({ message: 'Order is updated successfully on decentralize storage' })
+        )
+      }
     } catch (e) {
       console.log(e)
 

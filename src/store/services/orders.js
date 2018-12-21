@@ -1,33 +1,16 @@
 //@flow
 
-import {
-  utils
-} from 'ethers';
-import {
-  getOrderHash,
-  getTradeHash,
-  getRandomNonce
-} from '../../utils/crypto';
-import {
-  EXCHANGE_ADDRESS
-} from '../../config/contracts';
-import {
-  round
-} from '../../utils/helpers';
+import { utils } from 'ethers'
+import { getOrderHash, getTradeHash, getRandomNonce } from '../../utils/crypto'
+import { EXCHANGE_ADDRESS } from '../../config/contracts'
+import { round } from '../../utils/helpers'
 // import {
 //   ether
 // } from '../../utils/constants';
 // flow
-import type {
-  NewOrderParams,
-  RawOrder
-} from '../../types/orders';
-import type {
-  Signer
-} from '../../types/signer';
-import type {
-  Trade
-} from '../../types/trades';
+import type { NewOrderParams, RawOrder } from '../../types/orders'
+import type { Signer } from '../../types/signer'
+import type { Trade } from '../../types/trades'
 
 /**
  * In the future, this order will be send to swarm feed
@@ -35,29 +18,22 @@ import type {
  * @param {Signer} signer
  */
 
-export const createRawOrder = async function (
+export const createRawOrder = async function(
   signer: Signer,
   params: NewOrderParams
-): Promise < RawOrder > {
-  let order = {};
-  let {
-    userAddress,
-    side,
-    pair,
-    amount,
-    price,
-    makeFee,
-    takeFee
-  } = params;
-  let {
+): Promise<RawOrder> {
+  const order = {}
+  let { userAddress, side, pair, amount, price, makeFee, takeFee } = params
+  const {
     baseTokenDecimals,
     quoteTokenDecimals,
     baseTokenAddress,
-    quoteTokenAddress
-  } = pair;
-  let exchangeAddress = EXCHANGE_ADDRESS[signer.provider.network.chainId];
+    quoteTokenAddress,
+  } = pair
+  const exchangeAddress = EXCHANGE_ADDRESS[signer.provider.network.chainId]
 
-  if (baseTokenDecimals < quoteTokenDecimals) throw Error('Pair currently not supported (decimals error)')
+  if (baseTokenDecimals < quoteTokenDecimals)
+    throw Error('Pair currently not supported (decimals error)')
 
   // The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
   // that are used to turn decimal values into rounded integers that can be converted into
@@ -67,57 +43,54 @@ export const createRawOrder = async function (
   // So in the end we have:
   // amountPoints ~ amount * amountMultiplier ~ amount * 1e18
   // pricePoints ~ price * priceMultiplier ~ price * 1e6
-  let amountPrecisionMultiplier = 1e6;
-  let pricePrecisionMultiplier = 1e9;
+  const amountPrecisionMultiplier = 1e6
+  const pricePrecisionMultiplier = 1e9
 
   // let amountMultiplier = ether; //1e18
-  let priceMultiplier = utils.bigNumberify('1000000000'); //1e9
+  const priceMultiplier = utils.bigNumberify('1000000000') //1e9
 
   // let decimalsPriceMultiplier = utils.bigNumberify((10 ** (baseTokenDecimals - quoteTokenDecimals)).toString())
-  let amountMultiplier = utils.bigNumberify((10 ** baseTokenDecimals).toString())
+  const amountMultiplier = utils.bigNumberify(
+    (10 ** baseTokenDecimals).toString()
+  )
 
+  amount = round(amount * amountPrecisionMultiplier, 0)
+  price = round(price * pricePrecisionMultiplier, 0)
 
-  amount = round(amount * amountPrecisionMultiplier, 0);
-  price = round(price * pricePrecisionMultiplier, 0);
-
-  let amountPoints = utils
+  const amountPoints = utils
     .bigNumberify(amount)
     .mul(amountMultiplier)
-    .div(utils.bigNumberify(amountPrecisionMultiplier));
-  let pricepoint = utils
+    .div(utils.bigNumberify(amountPrecisionMultiplier))
+  const pricepoint = utils
     .bigNumberify(price)
     .mul(priceMultiplier)
-    .div(utils.bigNumberify(pricePrecisionMultiplier));
+    .div(utils.bigNumberify(pricePrecisionMultiplier))
 
-  order.exchangeAddress = exchangeAddress;
-  order.userAddress = userAddress;
-  order.baseToken = baseTokenAddress;
-  order.quoteToken = quoteTokenAddress;
-  order.amount = amountPoints.toString();
-  order.pricepoint = pricepoint.toString();
-  order.side = side;
-  order.makeFee = makeFee;
-  order.takeFee = takeFee;
-  order.nonce = getRandomNonce();
-  order.hash = getOrderHash(order);
+  order.exchangeAddress = exchangeAddress
+  order.userAddress = userAddress
+  order.baseToken = baseTokenAddress
+  order.quoteToken = quoteTokenAddress
+  order.amount = amountPoints.toString()
+  order.pricepoint = pricepoint.toString()
+  order.side = side
+  order.makeFee = makeFee
+  order.takeFee = takeFee
+  order.nonce = getRandomNonce()
+  order.hash = getOrderHash(order)
 
   // new order
-  order.status = 'NEW';
+  order.status = 'NEW'
 
-  let signature = await signer.signMessage(utils.arrayify(order.hash));
-  let {
-    r,
-    s,
-    v
-  } = utils.splitSignature(signature);
+  const signature = await signer.signMessage(utils.arrayify(order.hash))
+  const { r, s, v } = utils.splitSignature(signature)
   order.signature = {
     r,
     s,
-    v
-  };
+    v,
+  }
 
-  return order;
-};
+  return order
+}
 
 // export const createRawOrder = async (signer, params) => {
 //   let order = {};
@@ -184,52 +157,44 @@ export const createRawOrder = async function (
 // };
 
 export const validateOrderHash = (hash: string, order: RawOrder): boolean => {
-  let computedHash = getOrderHash(order);
+  const computedHash = getOrderHash(order)
 
-  return computedHash !== hash ? false : true;
-};
+  return computedHash === hash
+}
 
 export const validateTradeHash = (hash: string, trade: Trade): boolean => {
-  let computedHash = getTradeHash(trade);
+  const computedHash = getTradeHash(trade)
 
-  return computedHash !== hash ? false : true;
-};
+  return computedHash === hash
+}
 
 // We currently assume that the order is already signed
 export const signOrder = async (signer: Signer, order: RawOrder) => {
-  let computedHash = getOrderHash(order);
-  if (order.hash !== computedHash) throw new Error('Invalid Hash');
+  const computedHash = getOrderHash(order)
+  if (order.hash !== computedHash) throw new Error('Invalid Hash')
 
-  let signature = await signer.signMessage(utils.arrayify(order.hash));
-  let {
-    r,
-    s,
-    v
-  } = utils.splitSignature(signature);
+  const signature = await signer.signMessage(utils.arrayify(order.hash))
+  const { r, s, v } = utils.splitSignature(signature)
 
   order.signature = {
     r,
     s,
-    v
-  };
-  return order;
-};
+    v,
+  }
+  return order
+}
 
 export const signTrade = async (signer: Signer, trade: Trade) => {
-  let computedHash = getTradeHash(trade);
-  if (trade.hash !== computedHash) throw new Error('Invalid Hash');
+  const computedHash = getTradeHash(trade)
+  if (trade.hash !== computedHash) throw new Error('Invalid Hash')
 
-  let signature = await signer.signMessage(utils.arrayify(trade.hash));
-  let {
-    r,
-    s,
-    v
-  } = utils.splitSignature(signature);
+  const signature = await signer.signMessage(utils.arrayify(trade.hash))
+  const { r, s, v } = utils.splitSignature(signature)
 
   trade.signature = {
     r,
     s,
-    v
-  };
-  return trade;
-};
+    v,
+  }
+  return trade
+}
