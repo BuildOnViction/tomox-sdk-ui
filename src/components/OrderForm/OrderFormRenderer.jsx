@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React from 'react'
 import {
   Tabs,
   Tab,
@@ -8,10 +8,10 @@ import {
   InputGroup,
   Label,
   Colors,
-  Collapse
-} from '@blueprintjs/core';
-import { HeaderText, MutedText } from '../Common';
-import styled from 'styled-components';
+  Collapse,
+} from '@blueprintjs/core'
+import { HeaderText, MutedText } from '../Common'
+import styled from 'styled-components'
 
 type Props = {
   selectedTabId: string,
@@ -30,8 +30,8 @@ type Props = {
   onInputChange: Object => void,
   handleChangeOrderType: string => void,
   toggleCollapse: (SyntheticEvent<>) => void,
-  handleSubmit: (SyntheticEvent<>) => void
-};
+  handleSendOrder: void => void,
+}
 
 const OrderFormRenderer = (props: Props) => {
   const {
@@ -51,8 +51,8 @@ const OrderFormRenderer = (props: Props) => {
     onInputChange,
     handleChangeOrderType,
     toggleCollapse,
-    handleSubmit
-  } = props;
+    handleSendOrder
+  } = props
 
   return (
     <Wrapper className="order-form">
@@ -98,7 +98,7 @@ const OrderFormRenderer = (props: Props) => {
                 amount={amount}
                 total={total}
                 onInputChange={onInputChange}
-                handleSubmit={handleSubmit}
+                handleSendOrder={handleSendOrder}
               />
             }
           />
@@ -118,7 +118,7 @@ const OrderFormRenderer = (props: Props) => {
                 amount={amount}
                 total={total}
                 onInputChange={onInputChange}
-                handleSubmit={handleSubmit}
+                handleSendOrder={handleSendOrder}
               />
             }
           />
@@ -138,15 +138,95 @@ const OrderFormRenderer = (props: Props) => {
                 amount={amount}
                 total={total}
                 onInputChange={onInputChange}
-                handleSubmit={handleSubmit}
+                handleSendOrder={handleSendOrder}
               />
             }
           />
         </Tabs>
       </Collapse>
     </Wrapper>
-  );
-};
+  )
+}
+
+const LimitOrderPanel = props => {
+  const {
+    price,
+    side,
+    amount,
+    loggedIn,
+    fraction,
+    total,
+    quoteToken,
+    baseToken,
+    onInputChange,
+    handleSendOrder,
+  } = props
+
+  return (
+    <React.Fragment>
+      <InputBox>
+        <InputLabel>
+          Price <MutedText>({quoteToken})</MutedText>
+        </InputLabel>
+        <PriceInputGroup
+          name="price"
+          onChange={onInputChange}
+          value={price}
+          placeholder="Price"
+        />
+      </InputBox>
+      <InputBox>
+        <InputLabel>
+          Amount <MutedText>({baseToken})</MutedText>
+        </InputLabel>
+        <PriceInputGroup
+          name="amount"
+          onChange={onInputChange}
+          value={amount}
+          placeholder="Amount"
+          rightElement={
+            <Total>
+              Total: ~{total} {quoteToken}
+            </Total>
+          }
+        />
+      </InputBox>
+      <RadioButtonsWrapper>
+        <RadioButton
+          value={25}
+          fraction={fraction}
+          onInputChange={onInputChange}
+        />
+        <RadioButton
+          value={50}
+          fraction={fraction}
+          onInputChange={onInputChange}
+        />
+        <RadioButton
+          value={75}
+          fraction={fraction}
+          onInputChange={onInputChange}
+        />
+        <RadioButton
+          value={100}
+          fraction={fraction}
+          onInputChange={onInputChange}
+        />
+      </RadioButtonsWrapper>
+      {loggedIn ? (
+        <Button
+          intent={side === 'BUY' ? 'success' : 'danger'}
+          text={side}
+          onClick={handleSendOrder}
+          name="order"
+          fill
+        />
+      ) : (
+        <Button large intent="primary" text="Login" fill />
+      )}
+    </React.Fragment>
+  )
+}
 
 const MarketOrderPanel = (props: *) => {
   const {
@@ -158,8 +238,9 @@ const MarketOrderPanel = (props: *) => {
     total,
     quoteToken,
     baseToken,
-    onInputChange
-  } = props;
+    onInputChange,
+    handleSendOrder,
+  } = props
 
   return (
     <React.Fragment>
@@ -217,94 +298,15 @@ const MarketOrderPanel = (props: *) => {
           intent={side === 'BUY' ? 'success' : 'danger'}
           text={side}
           name="order"
-          onClick={onInputChange}
+          onClick={handleSendOrder}
           fill
         />
       ) : (
         <Button large intent="primary" text="Login" />
       )}
     </React.Fragment>
-  );
-};
-
-const LimitOrderPanel = props => {
-  const {
-    price,
-    side,
-    amount,
-    loggedIn,
-    fraction,
-    total,
-    quoteToken,
-    baseToken,
-    onInputChange
-  } = props;
-
-  return (
-    <React.Fragment>
-      <InputBox>
-        <InputLabel>
-          Price <MutedText>({quoteToken})</MutedText>
-        </InputLabel>
-        <PriceInputGroup
-          name="price"
-          onChange={onInputChange}
-          value={price}
-          placeholder="Price"
-        />
-      </InputBox>
-      <InputBox>
-        <InputLabel>
-          Amount <MutedText>({baseToken})</MutedText>
-        </InputLabel>
-        <PriceInputGroup
-          name="amount"
-          onChange={onInputChange}
-          value={amount}
-          placeholder="Amount"
-          rightElement={
-            <Total>
-              Total: ~{total} {quoteToken}
-            </Total>
-          }
-        />
-      </InputBox>
-      <RadioButtonsWrapper>
-        <RadioButton
-          value={25}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={50}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={75}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={100}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-      </RadioButtonsWrapper>
-      {loggedIn ? (
-        <Button
-          intent={side === 'BUY' ? 'success' : 'danger'}
-          text={side}
-          onClick={onInputChange}
-          name="order"
-          fill
-        />
-      ) : (
-        <Button large intent="primary" text="Login" fill />
-      )}
-    </React.Fragment>
-  );
-};
+  )
+}
 
 const StopLimitOrderPanel = (props: *) => {
   const {
@@ -315,8 +317,9 @@ const StopLimitOrderPanel = (props: *) => {
     total,
     quoteToken,
     baseToken,
-    onInputChange
-  } = props;
+    onInputChange,
+    handleSendOrder,
+  } = props
 
   return (
     <React.Fragment>
@@ -367,7 +370,7 @@ const StopLimitOrderPanel = (props: *) => {
         <Button
           intent={side === 'BUY' ? 'success' : 'danger'}
           name="order"
-          onClick={onInputChange}
+          onClick={handleSendOrder}
           text={side}
           fill
         />
@@ -375,13 +378,13 @@ const StopLimitOrderPanel = (props: *) => {
         <Button large intent="primary" text="Login" />
       )}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default OrderFormRenderer;
+export default OrderFormRenderer
 
 const RadioButton = props => {
-  const { onInputChange, value } = props;
+  const { onInputChange, value } = props
   return (
     <Box>
       {value}%
@@ -392,17 +395,17 @@ const RadioButton = props => {
         value={value}
       />
     </Box>
-  );
-};
+  )
+}
 
 const OrderFormHeader = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const Wrapper = styled(Card)`
   min-width: 240px;
-`;
+`
 
 const ButtonRow = styled.span`
   display: flex;
@@ -410,13 +413,13 @@ const ButtonRow = styled.span`
   & .bp3-button {
     margin-left: 5px;
   }
-`;
+`
 const RadioButtonsWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-top: 5px;
-`;
+`
 
 const Box = styled(Label)`
   width: 45px;
@@ -440,23 +443,23 @@ const Box = styled(Label)`
   .bp3-input-group {
     width: 0px;
   }
-`;
+`
 
 const PriceInputGroup = styled(InputGroup).attrs({
-  className: 'bp3-fill'
-})``;
+  className: 'bp3-fill',
+})``
 
 const InputBox = styled.div`
   display: flex;
   padding-top: 5px;
   padding-bottom: 5px;
-`;
+`
 
 const InputLabel = styled.div`
   height: 100%;
   margin: auto;
   width: 180px;
-`;
+`
 
 const Total = styled.div`
   color: ${Colors.GRAY3};
@@ -464,4 +467,4 @@ const Total = styled.div`
   height: 100%;
   padding-top: 8px;
   padding-right: 4px;
-`;
+`
