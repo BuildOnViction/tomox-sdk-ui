@@ -17,6 +17,11 @@ function safeXORBytes(dst, a, b) {
   return n;
 }
 
+module.exports.padTopic = function(topic) {
+  const bytesTopic = utils.padZeros(topic, 32);
+  return utils.hexlify(bytesTopic);
+};
+
 module.exports.getSwarmSig = function(signature) {
   const sig =
     typeof signature === 'string' ? signature : utils.joinSignature(signature);

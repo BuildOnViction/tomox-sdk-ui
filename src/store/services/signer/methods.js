@@ -8,7 +8,11 @@ import {
 } from '../../../utils/crypto'
 
 import { encodeBytes } from '../../../utils/rlp'
-import { feedUpdateDigest, getSwarmSig } from '../../../utils/swarmFeed'
+import {
+  feedUpdateDigest,
+  getSwarmSig,
+  padTopic,
+} from '../../../utils/swarmFeed'
 import { createRawOrder as orderCreateRawOrder } from '../orders'
 // import { EXCHANGE_ADDRESS } from '../../../config/contracts';
 // import { round } from '../../../utils/helpers';
@@ -35,9 +39,8 @@ export const updateSwarmFeed = async function(
   tokenAddress: string,
   messages: any
 ): Promise<boolean> {
-  const request: Request = await this.getFeedRequest(
-    `${tokenAddress}000000000000000000000000`
-  )
+  const topic = padTopic(tokenAddress)
+  const request: Request = await this.getFeedRequest(topic)
   const data = encodeBytes(messages)
   if (!data) return false
   // to upload to server, we need to convert it into Buffer if it is array
