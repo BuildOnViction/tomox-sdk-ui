@@ -75,22 +75,21 @@ function rlpEncode(object) {
       } else if (object < 128) {
         // fits single byte
         return [object]
-      } 
-        // TODO: encode int to w.str directly
-        const buf = new Array(8)
-        const s = putint(buf, object)
-        // console.log('s: ' + s, [0x80 + byte(s), ...buf.slice(0, s)]);
-        return [0x80 + byte(s), ...buf.slice(0, s)]
-      
+      }
+      // TODO: encode int to w.str directly
+      const buf = new Array(8)
+      const s = putint(buf, object)
+      // console.log('s: ' + s, [0x80 + byte(s), ...buf.slice(0, s)]);
+      return [0x80 + byte(s), ...buf.slice(0, s)]
+
     case 'string':
       if (!object.startsWith('0x')) {
         const strBytes = utils.toUtf8Bytes(object)
         if (strBytes.length === 1 && strBytes[0] <= 0x7f) {
           // fits single byte, no string header
           return [strBytes[0]]
-        } 
-          return [encodeLength(strBytes.length, 0x80), ...strBytes]
-        
+        }
+        return [encodeLength(strBytes.length, 0x80), ...strBytes]
       }
       // we got hex string here
       const data = Array.prototype.slice.call(utils.arrayify(object))
@@ -143,7 +142,7 @@ function rlpEncode(object) {
 }
 
 // for non-babel
-export const encodeBytes = object => {
+module.exports.encodeBytes = object => {
   const bytes = rlpEncode(object)
   return new Uint8Array(bytes)
 }
