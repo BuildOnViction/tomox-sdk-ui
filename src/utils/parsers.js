@@ -1,96 +1,94 @@
 //@flow
-import { isFloat, isInteger, round } from './helpers';
+import { isFloat, isInteger, round } from './helpers'
 
-import { utils } from 'ethers';
+import { utils } from 'ethers'
 
 import {
   pricePrecision,
   amountPrecision,
-  defaultDecimals
-} from '../config/tokens';
+  defaultDecimals,
+} from '../config/tokens'
 
-import type { TokenPairData, Token, Tokens } from '../types/tokens';
-import type { AddressAssociationPayload } from '../types/deposit';
-import type { Order, Orders } from '../types/orders';
-import type { Trade, Trades } from '../types/trades';
+import type { TokenPairData, Token, Tokens } from '../types/tokens'
+import type { AddressAssociationPayload } from '../types/deposit'
+import type { Order, Orders } from '../types/orders'
+import type { Trade, Trades } from '../types/trades'
 
 export const parseJSONData = (obj: Object): Object => {
-  for (let key in obj) {
+  for (const key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-      parseJSONData(obj[key]);
+      parseJSONData(obj[key])
     } else if (typeof obj[key] === typeof []) {
-      obj[key].forEach(elem => parseJSONData(elem));
-    } else {
-      if (typeof obj[key] === 'string') {
-        if (isFloat(obj[key])) {
-          obj[key] = parseFloat(obj[key]);
-        } else if (isInteger(obj[key])) {
-          obj[key] = parseInt(obj[key], 10);
-        }
-      }
-    }
-  }
-
-  return obj;
-};
-
-export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
-  for (let key in obj) {
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      parseJSONToFixed(obj[key], decimals);
-    } else if (typeof obj[key] === typeof []) {
-      obj[key].forEach(elem => parseJSONToFixed(elem, decimals));
+      obj[key].forEach(elem => parseJSONData(elem))
     } else if (typeof obj[key] === 'string') {
       if (isFloat(obj[key])) {
-        obj[key] = round(obj[key], decimals);
+        obj[key] = parseFloat(obj[key])
       } else if (isInteger(obj[key])) {
-        obj[key] = round(obj[key], decimals);
+        obj[key] = parseInt(obj[key], 10)
       }
-    } else if (typeof obj[key] === 'number') {
-      obj[key] = round(obj[key], decimals);
     }
   }
 
-  return obj;
-};
+  return obj
+}
+
+export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
+  for (const key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      parseJSONToFixed(obj[key], decimals)
+    } else if (typeof obj[key] === typeof []) {
+      obj[key].forEach(elem => parseJSONToFixed(elem, decimals))
+    } else if (typeof obj[key] === 'string') {
+      if (isFloat(obj[key])) {
+        obj[key] = round(obj[key], decimals)
+      } else if (isInteger(obj[key])) {
+        obj[key] = round(obj[key], decimals)
+      }
+    } else if (typeof obj[key] === 'number') {
+      obj[key] = round(obj[key], decimals)
+    }
+  }
+
+  return obj
+}
 
 export const parseAddressAssociation = (
   payload: ?Object
 ): ?AddressAssociationPayload => {
   if (!payload) {
-    return null;
+    return null
   }
-  const { chain, ...addressAssociation } = payload;
-  return { chain, addressAssociation };
-};
+  const { chain, ...addressAssociation } = payload
+  return { chain, addressAssociation }
+}
 
 export const parseToken = (token: Object): Token => ({
   address: token.contractAddress,
   decimals: token.decimals,
   symbol: token.symbol,
-  image: token.image
-});
+  image: token.image,
+})
 
 export const parseTokens = (tokens: Array<Object>): Tokens => {
-  let parsed = tokens.map(parseToken);
+  const parsed = tokens.map(parseToken)
 
-  return parsed;
-};
+  return parsed
+}
 
 export const parseTokenAmount = (
-  amount: number,
+  amount: string,
   tokenDecimals: number = defaultDecimals,
   precision: number = amountPrecision
 ): number => {
-  let precisionMultiplier = utils.bigNumberify((10 ** precision).toString());
-  let decimalsMultiplier = utils.bigNumberify((10 ** tokenDecimals).toString());
-  let bigAmount = utils
+  const precisionMultiplier = utils.bigNumberify(10).pow(precision)
+  const baseMultiplier = utils.bigNumberify(10).pow(tokenDecimals)
+  const bigAmount = utils
     .bigNumberify(amount)
     .mul(precisionMultiplier)
-    .div(decimalsMultiplier);
+    .div(baseMultiplier)
 
-  return Number(bigAmount) / Number(precisionMultiplier);
-};
+  return Number(bigAmount) / Number(precisionMultiplier)
+}
 
 export const parsePricepoint = (
   pricepoint: number,
@@ -100,8 +98,8 @@ export const parsePricepoint = (
   return (
     Math.round((pricepoint / pricePointMultiplier) * Math.pow(10, precision)) /
     Math.pow(10, precision)
-  );
-};
+  )
+}
 
 export const parseOrder = (
   order: Object,
@@ -117,18 +115,20 @@ export const parseOrder = (
   pair: order.pairName,
   type: 'LIMIT',
   status: order.status,
-  cancellable: order.cancellable
-});
+  cancellable: order.cancellable,
+})
 
 export const parseOrders = (
   orders: Array<Object>,
   tokenDecimals: number = defaultDecimals,
   precision: number = amountPrecision
 ): Orders => {
-  let parsed = orders.map(order => parseOrder(order, tokenDecimals, precision));
+  const parsed = orders.map(order =>
+    parseOrder(order, tokenDecimals, precision)
+  )
 
-  return parsed;
-};
+  return parsed
+}
 
 export const parseTrade = (
   trade: Object,
@@ -147,47 +147,49 @@ export const parseTrade = (
   maker: utils.getAddress(trade.maker),
   taker: utils.getAddress(trade.taker),
   signature: trade.signature,
-  tradeNonce: trade.tradeNonce
-});
+  tradeNonce: trade.tradeNonce,
+})
 
 export const parseTrades = (
   trades: Array<Object>,
   tokenDecimals: number = defaultDecimals,
   precision: number = amountPrecision
 ): Trades => {
-  let parsed = trades.map(trade => parseTrade(trade, tokenDecimals, precision));
+  const parsed = trades.map(trade =>
+    parseTrade(trade, tokenDecimals, precision)
+  )
 
-  return parsed;
-};
+  return parsed
+}
 
 export const parseOrderBookData = (
   data: Object,
   tokenDecimals: number = defaultDecimals,
   precision: number = amountPrecision
 ): Object => {
-  let { bids, asks } = data;
+  let { bids, asks } = data
 
   asks = asks.map(ask => ({
     price: parsePricepoint(ask.pricepoint),
-    amount: parseTokenAmount(ask.amount, tokenDecimals, precision)
-  }));
+    amount: parseTokenAmount(ask.amount, tokenDecimals, precision),
+  }))
 
   bids = bids.map(bid => ({
     price: parsePricepoint(bid.pricepoint),
-    amount: parseTokenAmount(bid.amount, tokenDecimals, precision)
-  }));
+    amount: parseTokenAmount(bid.amount, tokenDecimals, precision),
+  }))
 
   return {
     asks,
-    bids
-  };
-};
+    bids,
+  }
+}
 
 export const parseTokenPairData = (
   data: Array<Object>,
   tokenDecimals: number = defaultDecimals
 ): Array<TokenPairData> => {
-  let parsed = data.map(datum => ({
+  const parsed = data.map(datum => ({
     base: null,
     quote: null,
     favorited: null,
@@ -200,26 +202,26 @@ export const parseTokenPairData = (
     low: datum.low ? parsePricepoint(datum.low) : null,
     volume: datum.volume
       ? parseTokenAmount(datum.volume, tokenDecimals, 0)
-      : null
-  }));
+      : null,
+  }))
 
-  return parsed;
-};
+  return parsed
+}
 
 export const parseOHLCV = (
   data: Array<Object>,
   baseTokenDecimals: number = defaultDecimals
 ): Array<Object> => {
-  let parsed = data.map(datum => {
+  const parsed = data.map(datum => {
     return {
       date: new Date(datum.timestamp),
       open: parsePricepoint(datum.open),
       high: parsePricepoint(datum.high),
       low: parsePricepoint(datum.low),
       close: parsePricepoint(datum.close),
-      volume: parseTokenAmount(datum.volume, baseTokenDecimals, 2)
-    };
-  });
+      volume: parseTokenAmount(datum.volume, baseTokenDecimals, 2),
+    }
+  })
 
-  return parsed;
-};
+  return parsed
+}

@@ -1,53 +1,53 @@
 // @flow
-import type { Orders, OrdersState } from '../../types/orders';
-import { formatNumber } from 'accounting-js';
-import { amountPrecision, pricePrecision } from '../../config/tokens';
+import type { Orders, OrdersState } from '../../types/orders'
+import { formatNumber } from 'accounting-js'
+import { amountPrecision, pricePrecision } from '../../config/tokens'
 
 const initialState = {
-  byHash: {}
-};
+  byHash: {},
+}
 
 export const initialized = () => {
-  const event = (state: OrdersState = initialState) => state;
-  return event;
-};
+  const event = (state: OrdersState = initialState) => state
+  return event
+}
 
 export function ordersInitialized(orders: Orders) {
   const event = (state: OrdersState) => {
-    let newState = orders.reduce((result, item) => {
+    const newState = orders.reduce((result, item) => {
       result[item.hash] = {
         ...state[item.hash],
-        ...item
-      };
-      return result;
-    }, {});
+        ...item,
+      }
+      return result
+    }, {})
 
-    return { byHash: newState };
-  };
+    return { byHash: newState }
+  }
 
-  return event;
+  return event
 }
 
 export function ordersUpdated(orders: Orders) {
   const event = (state: OrdersState) => {
-    let newState = orders.reduce((result, item) => {
+    const newState = orders.reduce((result, item) => {
       result[item.hash] = {
         ...state[item.hash],
-        ...item
-      };
-      return result;
-    }, {});
+        ...item,
+      }
+      return result
+    }, {})
 
     return {
       ...state,
       byHash: {
         ...state.byHash,
-        ...newState
-      }
-    };
-  };
+        ...newState,
+      },
+    }
+  }
 
-  return event;
+  return event
 }
 
 export const ordersDeleted = (hashes: Array<number>) => {
@@ -56,17 +56,17 @@ export const ordersDeleted = (hashes: Array<number>) => {
     byHash: Object.keys(state.byHash)
       .filter(key => hashes.indexOf(key) === -1)
       .reduce((result, current) => {
-        result[current] = state.byHash[current];
-        return result;
-      }, {})
-  });
+        result[current] = state.byHash[current]
+        return result
+      }, {}),
+  })
 
-  return event;
-};
+  return event
+}
 
 const getOrders = (state: OrdersState): Orders => {
-  return Object.keys(state.byHash).map(key => state.byHash[key]);
-};
+  return Object.keys(state.byHash).map(key => state.byHash[key])
+}
 
 export default function ordersDomain(state: OrdersState) {
   return {
@@ -74,40 +74,40 @@ export default function ordersDomain(state: OrdersState) {
     all: () => getOrders(state),
 
     lastOrders: (n: number): Orders => {
-      let orders: Orders = getOrders(state);
-      orders = orders.slice(Math.max(orders.length - n, 0));
+      let orders: Orders = getOrders(state)
+      orders = orders.slice(Math.max(orders.length - n, 0))
       orders = orders.map(order => {
         order.filled = formatNumber(order.filled, {
-          precision: amountPrecision
-        });
+          precision: amountPrecision,
+        })
         order.amount = formatNumber(order.amount, {
-          precision: amountPrecision
-        });
-        order.price = formatNumber(order.price, { precision: pricePrecision });
+          precision: amountPrecision,
+        })
+        order.price = formatNumber(order.price, { precision: pricePrecision })
         order.cancellable =
-          order.status === 'OPEN' || order.status === 'PARTIAL_FILLED';
-        return order;
-      });
+          order.status === 'OPEN' || order.status === 'PARTIAL_FILLED'
+        return order
+      })
 
-      return orders;
+      return orders
     },
 
     history: (): Orders => {
-      let orders: Orders = getOrders(state);
-      let history = orders.filter(
+      const orders: Orders = getOrders(state)
+      const history = orders.filter(
         order =>
           ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) ===
           -1
-      );
-      return history;
+      )
+      return history
     },
 
     current: (): Orders => {
-      let orders: Orders = getOrders(state);
-      let current = orders.filter(
+      const orders: Orders = getOrders(state)
+      const current = orders.filter(
         order => ['NEW', 'OPEN'].indexOf(order.status) === -1
-      );
-      return current;
-    }
-  };
+      )
+      return current
+    },
+  }
 }
