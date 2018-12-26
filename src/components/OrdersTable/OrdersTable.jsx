@@ -38,7 +38,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     let result = { ALL: orders };
     let filters = [
       'OPEN',
-      'CANCELED',
+      'CANCELLED',
       'PENDING',
       'EXECUTED',
       'PARTIALLY_FILLED'
