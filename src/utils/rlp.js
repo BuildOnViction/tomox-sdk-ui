@@ -141,8 +141,7 @@ function rlpEncode(object) {
   }
 }
 
-// for non-babel
-module.exports.encodeBytes = object => {
+export const encodeBytes = object => {
   const bytes = rlpEncode(object)
   return new Uint8Array(bytes)
 }
