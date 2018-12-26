@@ -27,7 +27,7 @@ type Props = {
     OPEN: Array<Order>,
     PENDING: Array<Order>,
     EXECUTED: Array<Order>,
-    CANCELED: Array<Order>,
+    CANCELLED: Array<Order>,
     FILLED: Array<Order>
   }
 };
@@ -77,12 +77,12 @@ const OrdersTableRenderer = (props: Props) => {
             }
           />
           <Tab
-            id="canceled"
-            title="CANCELED"
+            id="cancelled"
+            title="CANCELLED"
             panel={
               <OrdersTablePanel
                 loading={loading}
-                orders={orders['CANCELED']}
+                orders={orders['CANCELLED']}
                 cancelOrder={cancelOrder}
               />
             }
