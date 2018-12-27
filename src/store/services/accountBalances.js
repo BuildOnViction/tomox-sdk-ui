@@ -1,10 +1,10 @@
 // @flow
-import { Contract, utils } from 'ethers'
-import { ERC20 } from '../../config/abis'
-import { EXCHANGE_ADDRESS } from '../../config/contracts'
-import { getProvider, getSigner } from './signer'
-import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
-import type { Token, TokenBalance, TokenBalances } from '../../types/tokens'
+import {Contract, utils} from 'ethers'
+import {ERC20} from '../../config/abis'
+import {EXCHANGE_ADDRESS} from '../../config/contracts'
+import {getProvider, getSigner} from './signer'
+import {NATIVE_TOKEN_SYMBOL} from '../../config/tokens'
+import type {Token, TokenBalance, TokenBalances} from '../../types/tokens'
 import type {
   // AccountBalance,
   AccountAllowance,
@@ -26,7 +26,7 @@ export async function updateAllowance(
   spender: string,
   address: string,
   balance: number,
-  txConfirmHandler: boolean => void
+  txConfirmHandler: boolean => void,
 ) {
   const signer = getSigner()
 
@@ -42,7 +42,7 @@ export async function updateExchangeAllowance(
   tokenAddress: string,
   address: string,
   balance: number,
-  txConfirmHandler: boolean => void
+  txConfirmHandler: boolean => void,
 ) {
   const signer = getSigner()
   const exchange = EXCHANGE_ADDRESS[signer.provider.network.chainId]
@@ -50,12 +50,21 @@ export async function updateExchangeAllowance(
   const tx = await contract.approve(exchange, balance)
   const receipt = await signer.provider.waitForTransaction(tx.hash)
 
-  receipt.status === 1 ? txConfirmHandler(true) : txConfirmHandler(false)
+  if (receipt.status === 1) {
+    txConfirmHandler(true)
+  } else {
+    /**
+     * Hoang - Dec 27th, 2018 - Workaround for dex-protocol
+     * Because only Post-byzantium blocks will have a status (0 indicated failure during execution)
+     * https://docs.ethers.io/ethers.js/html/api-providers.html#transaction-receipt
+     */
+    receipt.transactionHash ? txConfirmHandler(true) : txConfirmHandler(false)
+  }
 }
 
 export async function queryTokenBalances(
   address: string,
-  tokens: Array<Token>
+  tokens: Array<Token>,
 ): Promise<TokenBalances> {
   const provider = getProvider()
 
@@ -83,7 +92,7 @@ export async function queryTokenBalances(
 
 export async function queryExchangeTokenAllowances(
   owner: string,
-  tokens: Array<Token>
+  tokens: Array<Token>,
 ): Promise<AccountAllowance[]> {
   const provider = getProvider()
 
@@ -112,7 +121,7 @@ export async function queryExchangeTokenAllowances(
 export async function queryTokenAllowances(
   owner: string,
   spender: string,
-  tokens: Array<Token>
+  tokens: Array<Token>,
 ): Promise<AccountAllowance[]> {
   const provider = getProvider()
   const allowancePromises = tokens.map(token => {
@@ -125,7 +134,7 @@ export async function queryTokenAllowances(
     (allowance, i) => ({
       symbol: tokens[i].symbol,
       allowance: utils.formatEther(allowance),
-    })
+    }),
   )
 
   return accountAllowances
@@ -133,7 +142,7 @@ export async function queryTokenAllowances(
 
 export async function subscribeTomoBalance(
   address: string,
-  callback: number => void
+  callback: number => void,
 ) {
   const provider = getProvider()
   const initialBalance = await provider.getBalance(address)
@@ -152,7 +161,7 @@ export async function subscribeTomoBalance(
 export async function subscribeTokenBalance(
   address: string,
   token: Object,
-  callback: number => void
+  callback: number => void,
 ) {
   const provider = getProvider()
   const contract = new Contract(token.address, ERC20, provider)
@@ -175,7 +184,7 @@ export async function subscribeTokenBalance(
 export async function subscribeTokenBalances(
   address: string,
   tokens: Array<Token>,
-  callback: TokenBalance => any
+  callback: TokenBalance => any,
 ) {
   const provider = getProvider()
   const handlers = []
@@ -208,7 +217,7 @@ export async function subscribeTokenBalances(
 export async function subscribeTokenAllowance(
   address: string,
   token: Object,
-  callback: number => void
+  callback: number => void,
 ) {
   const provider = getProvider()
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId]
@@ -232,7 +241,7 @@ export async function subscribeTokenAllowance(
 export async function subscribeTokenAllowances(
   address: string,
   tokens: Array<Token>,
-  callback: AccountAllowance => any
+  callback: AccountAllowance => any,
 ) {
   const provider = getProvider()
   const exchange = EXCHANGE_ADDRESS[provider.network.chainId]
