@@ -108,7 +108,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       })
     } else {
       total = (quoteTokenBalance / 100) * fraction
-      amount = total * unformat(price)
+      amount = total / unformat(price)
 
       this.setState({
         fraction,
@@ -158,7 +158,8 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleAmountChange = (amount: string) => {
-    let { price, selectedTabId, stopPrice } = this.state
+    const { selectedTabId } = this.state
+    let { price, stopPrice } = this.state
     let total
 
     stopPrice = unformat(stopPrice)
@@ -176,19 +177,24 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleTotalChange = (total: string) => {
-    let { price, selectedTabId, stopPrice } = this.state
+    const { selectedTabId } = this.state
+    let { price, stopPrice } = this.state
     let amount
 
     price = unformat(price)
     stopPrice = unformat(stopPrice)
 
-    selectedTabId === 'stop'
-      ? stopPrice === 0
-        ? (amount = 0)
-        : (amount = unformat(total) / stopPrice)
-      : price === 0
-      ? (amount = 0)
-      : (amount = unformat(total) / price)
+    if (selectedTabId === 'stop') {
+      if (stopPrice === 0) {
+        amount = 0
+      } else {
+        amount = unformat(total) / stopPrice
+      }
+    } else if (price === 0) {
+      amount = 0
+    } else {
+      amount = unformat(total) / price
+    }
 
     this.setState({
       price: formatNumber(price, { precision: 3 }),
