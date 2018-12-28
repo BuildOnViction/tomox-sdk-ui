@@ -2,6 +2,7 @@
 import React from 'react'
 import OrderFormRenderer from './OrderFormRenderer'
 import { formatNumber, unformat } from 'accounting-js'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
 
 type Props = {
   side: 'BUY' | 'SELL',
@@ -52,8 +53,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { side, askPrice, bidPrice } = this.props
 
     side === 'BUY'
-      ? this.setState({ price: formatNumber(askPrice, { precision: 3 }) })
-      : this.setState({ price: formatNumber(bidPrice, { precision: 3 }) })
+      ? this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
+      : this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
   }
 
   onInputChange = ({ target }: Object) => {
@@ -103,8 +104,8 @@ class OrderForm extends React.PureComponent<Props, State> {
 
       this.setState({
         fraction,
-        amount: formatNumber(amount, { precision: 3 }),
-        total: formatNumber(total, { precision: 3 }),
+        amount: formatNumber(amount, { precision: amountPrecision }),
+        total: formatNumber(total, { precision: pricePrecision }),
       })
     } else {
       total = (quoteTokenBalance / 100) * fraction
@@ -112,8 +113,8 @@ class OrderForm extends React.PureComponent<Props, State> {
 
       this.setState({
         fraction,
-        amount: formatNumber(amount, { precision: 3 }),
-        total: formatNumber(total, { precision: 3 }),
+        amount: formatNumber(amount, { precision: amountPrecision }),
+        total: formatNumber(total, { precision: pricePrecision }),
       })
     }
   }
@@ -125,8 +126,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     const total = amount * unformat(price)
 
     this.setState({
-      total: formatNumber(total, { precision: 3 }),
-      amount: formatNumber(amount, { precision: 3 }),
+      total: formatNumber(total, { precision: pricePrecision }),
+      amount: formatNumber(amount, { precision: amountPrecision }),
       price,
     })
   }
@@ -138,8 +139,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     stopPrice = unformat(stopPrice)
 
     this.setState({
-      amount: formatNumber(amount, { precision: 3 }),
-      stopPrice: formatNumber(stopPrice, { precision: 3 }),
+      amount: formatNumber(amount, { precision: amountPrecision }),
+      stopPrice: formatNumber(stopPrice, { precision: pricePrecision }),
       limitPrice,
     })
   }
@@ -151,8 +152,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     const total = amount * unformat(stopPrice)
 
     this.setState({
-      total: formatNumber(total, { precision: 3 }),
-      amount: formatNumber(amount, { precision: 3 }),
+      total: formatNumber(total, { precision: pricePrecision }),
+      amount: formatNumber(amount, { precision: amountPrecision }),
       stopPrice,
     })
   }
@@ -170,8 +171,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       : (total = price * unformat(amount))
 
     this.setState({
-      total: formatNumber(total, { precision: 3 }),
-      price: formatNumber(price, { precision: 3 }),
+      total: formatNumber(total, { precision: pricePrecision }),
+      price: formatNumber(price, { precision: pricePrecision }),
       amount,
     })
   }
@@ -197,9 +198,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      price: formatNumber(price, { precision: 3 }),
-      stopPrice: formatNumber(stopPrice, { precision: 3 }),
-      amount: formatNumber(amount, { precision: 3 }),
+      price: formatNumber(price, { precision: pricePrecision }),
+      stopPrice: formatNumber(stopPrice, { precision: pricePrecision }),
+      amount: formatNumber(amount, { precision: amountPrecision }),
       total,
     })
   }
@@ -219,13 +220,13 @@ class OrderForm extends React.PureComponent<Props, State> {
     })
 
     if (tabId === 'limit' && side === 'BUY') {
-      this.setState({ price: formatNumber(askPrice, { precision: 3 }) })
+      this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
     } else if (tabId === 'limit') {
-      this.setState({ price: formatNumber(bidPrice, { precision: 3 }) })
+      this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
     } else if (tabId === 'market' && side === 'BUY') {
-      this.setState({ price: formatNumber(askPrice, { precision: 3 }) })
+      this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
     } else if (tabId === 'market') {
-      this.setState({ price: formatNumber(bidPrice, { precision: 3 }) })
+      this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
     }
   }
 
