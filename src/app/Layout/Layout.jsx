@@ -19,10 +19,14 @@ import {
 } from '@blueprintjs/core'
 
 import { Footer, Indent } from '../../components/Common'
+import {
+  Devices,
+} from '../../components/Common/Variables'
 import Notifier from '../../components/Notifier'
 import ConnectionStatus from '../../components/ConnectionStatus'
 import locales from '../../config/locales'
 import { REACT_APP_DEX_VERSION } from '../../config/environment'
+import TomoXLogo from '../../components/Common/TomoXLogo'
 
 export type Props = {
   TomoBalance: string,
@@ -75,12 +79,11 @@ class Layout extends React.PureComponent<Props, State> {
           <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
               <NavbarHeading>
-                {/*TODO: Update TomoX icon*/}
-                <NavbarHeaderLink to="/">TomoX</NavbarHeaderLink>
-                <Indent />
-                <Tag minimal intent="success">
-                  {REACT_APP_DEX_VERSION}
-                </Tag>
+                <NavbarHeaderBox>
+                  <TomoXLogo height={10} width={10} alt="TomoX Logo" />
+                  <Indent />
+                  <Tag minimal intent="success">{REACT_APP_DEX_VERSION}</Tag>
+                </NavbarHeaderBox>
               </NavbarHeading>
               {authenticated && (
                 <React.Fragment>
@@ -165,6 +168,16 @@ const Header = styled.header``
 
 const MainContent = styled.main`
   flex: 1;
+`
+
+const NavbarHeaderBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  @media ${Devices.tablet} {
+    display: none;
+  }
 `
 
 // const ProviderStatus = styled.div`
