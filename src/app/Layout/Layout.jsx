@@ -80,7 +80,7 @@ class Layout extends React.PureComponent<Props, State> {
             <NavbarGroup align={Alignment.LEFT}>
               <NavbarHeading>
                 <NavbarHeaderBox>
-                  <TomoXLogo height={10} width={10} alt="TomoX Logo" />
+                  <TomoXLogo height={25} width={25} alt="TomoX Logo" />
                   <Indent />
                   <Tag minimal intent="success">{REACT_APP_DEX_VERSION}</Tag>
                 </NavbarHeaderBox>
