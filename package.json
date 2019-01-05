@@ -7,8 +7,8 @@
     "url": "https://github.com/tomochain/dex-client.git"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn sass && react-scripts start",
+    "build": "yarn sass && react-scripts build",
     "test": "react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject",
     "extract-messages": "react-intl-cra 'src/**/*.jsx' -o 'src/locales/translations/messages.json'",
