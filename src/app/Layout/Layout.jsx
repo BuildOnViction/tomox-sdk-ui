@@ -2,7 +2,7 @@
 import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { HTMLSelect, Icon } from '@blueprintjs/core'
 import {
   Alignment,
@@ -82,16 +82,16 @@ class Layout extends React.PureComponent<Props, State> {
                 <NavbarHeaderBox>
                   <TomoXLogo height={25} width={25} alt="TomoX Logo" />
                   <Indent />
-                  <Tag minimal intent="success">{REACT_APP_DEX_VERSION}</Tag>
+                  <Tag minimal intent="success"><DexVersion>{REACT_APP_DEX_VERSION}</DexVersion></Tag>
                 </NavbarHeaderBox>
               </NavbarHeading>
               {authenticated && (
                 <React.Fragment>
-                  <NavbarDivider />
-                  {/* <NavbarDivider /> */}
+                  <NavbarDivider hideOnMobile />
                   <NavbarLink to="/wallet">Wallet</NavbarLink>
+                  <NavbarLink to="/markets">Markets</NavbarLink>
                   <NavbarLink to="/trade">Exchange</NavbarLink>
-                  <NavbarLink to="/settings">Settings</NavbarLink>
+                  <NavbarLink to="/settings" hideOnMobile>Settings</NavbarLink>
                   <NavbarDivider />
                 </React.Fragment>
               )}
@@ -166,6 +166,11 @@ const Wrapper = styled.div.attrs({ className: 'bp3-dark' })`
 
 const Header = styled.header``
 
+const DexVersion = styled.span`
+  font-size: 0.8rem;
+  font-weight: 500;
+`
+
 const MainContent = styled.main`
   flex: 1;
 `
@@ -180,16 +185,6 @@ const NavbarHeaderBox = styled.div`
   }
 `
 
-// const ProviderStatus = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-right: 50px;
-//   & p {
-//     margin: 0;
-//   }
-// `;
-
 const Block = styled.div`
   word-wrap: break-word;
   display: flex;
@@ -200,11 +195,6 @@ const Block = styled.div`
     margin-right: 5px;
   }
 `
-
-const NavbarHeaderLink = styled(Link).attrs({
-  className: 'bp3-button bp3-minimal bp3-intent-primary',
-  role: 'button',
-})``
 
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
