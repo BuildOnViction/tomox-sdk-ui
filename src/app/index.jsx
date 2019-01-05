@@ -1,17 +1,17 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 import Layout from './Layout'
 import LandingPage from './LandingPage'
 import LoginPage from './LoginPage'
 import WalletPage from './WalletPage'
 import FaqPage from './FaqPage'
-// import ExchangePage from './ExchangePage';
 import SettingsPage from './SettingsPage'
 import LogoutPage from './LogoutPage'
 import TradingPage from './TradingPage'
-import { connect } from 'react-redux'
+import MarketsPage from './MarketsPage'
 
-// import SocketManager from '../components/SocketManager';
 import SocketController from '../components/SocketController'
 import { ConnectedRouter } from 'connected-react-router'
 import history from '../store/history'
@@ -25,11 +25,11 @@ const App = () => (
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/wallet" component={WalletPage} />
-          <Route path="/faq" component={FaqPage} />
-          {/* <Route path="/exchange" component={ExchangePage} /> */}
-          <Route path="/settings" component={SettingsPage} />
-          <Route path="/logout" component={LogoutPage} />
+          <Route path="/markets" component={MarketsPage} />
           <Route path="/trade" component={TradingPage} />
+          <Route path="/settings" component={SettingsPage} />
+          <Route path="/faq" component={FaqPage} />
+          <Route path="/logout" component={LogoutPage} />
         </Switch>
       </Layout>
     </SocketController>

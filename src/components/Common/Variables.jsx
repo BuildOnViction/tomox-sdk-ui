@@ -3,12 +3,12 @@ export const Icons = {
   ICONS20_FAMILY: 'Icons20',
 
   ICON_SIZE_STANDARD: '16px',
-  ICON_SIZE_LARGE: '20Ppx'
-};
+  ICON_SIZE_LARGE: '20Ppx',
+}
 
 export const Grids = {
-  GRID_SIZE: 10
-};
+  GRID_SIZE: 10,
+}
 
 export const Fonts = {
   FONT_FAMILY:
@@ -17,24 +17,45 @@ export const Fonts = {
 
   FONT_SIZE: Grids.GRID_SIZE * 1.4,
   FONT_SIZE_LARGE: Grids.GRID_SIZE * 1.6,
-  FONT_SIZE_SMALL: Grids.GRID_SIZE * 1.2
-};
+  FONT_SIZE_SMALL: Grids.GRID_SIZE * 1.2,
+}
 
 export const Line = {
-  LINE_HEIGHT: (Grids.GRID_SIZE * 1.8) / Fonts.FONT_SIZE + 0.0001
-};
+  LINE_HEIGHT: (Grids.GRID_SIZE * 1.8) / Fonts.FONT_SIZE + 0.0001,
+}
 
 export const Buttons = {
   BUTTON_HEIGHT: Grids.GRID_SIZE * 3,
   BUTTON_HEIGHT_SMALL: Grids.GRID_SIZE * 2.4,
-  BUTTON_HEIGHT_LARGE: Grids.GRID_SIZE * 4
-};
+  BUTTON_HEIGHT_LARGE: Grids.GRID_SIZE * 4,
+}
 
 export const Inputs = {
   INPUT_HEIGHT: Grids.GRID_SIZE * 3,
-  INPUT_HEIGHT_LARGE: Grids.GRID_SIZE * 4
-};
+  INPUT_HEIGHT_LARGE: Grids.GRID_SIZE * 4,
+}
 
 export const NavBar = {
-  NAVBAR_HEIGHT: Grids.GRID_SIZE * 5
-};
+  NAVBAR_HEIGHT: Grids.GRID_SIZE * 5,
+}
+
+export const Sizes = {
+  mobileS: '375px',
+  mobileM: '425px',
+  mobileL: '768px',
+  tablet: '1024px',
+  laptop: '1440px',
+  laptopL: '2560px',
+  desktop: '3000px',
+}
+
+export const Devices = {
+  mobileS: `(max-width: ${Sizes.mobileS})`,
+  mobileM: `(max-width: ${Sizes.mobileM})`,
+  mobileL: `(max-width: ${Sizes.mobileL})`,
+  tablet: `(max-width: ${Sizes.tablet})`,
+  laptop: `(max-width: ${Sizes.laptop})`,
+  laptopL: `(max-width: ${Sizes.laptopL})`,
+  desktop: `(max-width: ${Sizes.desktop})`,
+  desktopL: `(max-width: ${Sizes.desktop})`,
+}

@@ -5,8 +5,8 @@ export default {
   invalidAddress:
     'invalid input argument (arg="_to", reason="invalid address", value=null, version=4.0.4)',
   cannotReadLowerCaseOfUndefined:
-    "Cannot read property 'toLowerCase' of undefined"
-};
+    "Cannot read property 'toLowerCase' of undefined",
+}
 
 export const errorMessages = {
   invalidJSON: 'invalid json response',
@@ -22,80 +22,86 @@ export const errorMessages = {
   gasRequiredExceedsAllowance:
     'gas required exceeds allowance or always failing transaction',
   metamaskUserDeniedSignature:
-    'MetaMask Message Signature: User denied message signature.'
-};
+    'MetaMask Message Signature: User denied message signature.',
+}
 
 export const parseTransferEtherError = (error: Error) => {
-  let errorMessage = error.message;
+  const errorMessage = error.message
 
   if (errorMessage.includes(errorMessages.invalidAddressInputArgument))
-    return 'Invalid Receiver Address';
+    return 'Invalid Receiver Address'
   if (errorMessage.includes(errorMessages.cannotReadLowerCaseOfUndefined))
-    return 'Invalid Receiver Address';
+    return 'Invalid Receiver Address'
   if (errorMessage.includes(errorMessages.invalidValueInputArgument))
-    return 'Invalid Transaction Value';
+    return 'Invalid Transaction Value'
   if (errorMessage.includes(errorMessages.gasRequiredExceedsAllowance))
-    return 'Insufficient Balance';
+    return 'Insufficient Balance'
   if (errorMessage.includes(errorMessages.invalidDecimalValue))
-    return 'Invalid Transaction Value';
+    return 'Invalid Transaction Value'
   if (errorMessage.includes(errorMessages.metamaskUserDeniedSignature))
-    return 'Message signature denied';
+    return 'Message signature denied'
 
-  return errorMessage;
-};
+  return errorMessage
+}
 
 export const parseTransferTokensError = (error: Error) => {
-  let errorMessage = error.message;
+  const errorMessage = error.message
 
   if (errorMessage.includes(errorMessages.invalidAddressInputArgument))
-    return 'Invalid Receiver Address';
+    return 'Invalid Receiver Address'
   if (errorMessage.includes(errorMessages.cannotReadLowerCaseOfUndefined))
-    return 'Invalid Receiver Address';
+    return 'Invalid Receiver Address'
   if (errorMessage.includes(errorMessages.invalidValueInputArgument))
-    return 'Invalid Transaction Amount';
+    return 'Invalid Transaction Amount'
   if (errorMessage.includes(errorMessages.gasRequiredExceedsAllowance))
-    return 'Insufficient Balance';
+    return 'Insufficient Balance'
   if (errorMessage.includes(errorMessages.invalidDecimalValue))
-    return 'Invalid Transaction Value';
+    return 'Invalid Transaction Value'
   if (errorMessage.includes(errorMessages.metamaskUserDeniedSignature))
-    return 'Message signature denied';
+    return 'Message signature denied'
 
-  return errorMessage;
-};
+  return errorMessage
+}
 
 export const parseNewOrderError = (error: Error) => {
-  let errorMessage = error.message;
+  const errorMessage = error.message
 
-  window.errorMessage = errorMessage;
+  window.errorMessage = errorMessage
 
   if (errorMessage.includes(errorMessages.invalidJSON))
-    return 'Connection error';
+    return 'Connection error'
   if (errorMessage.includes(errorMessages.ioTimeout))
-    return 'Connection was broken and re-opened. Please try again';
+    return 'Connection was broken and re-opened. Please try again'
   if (errorMessage.includes(errorMessages.metamaskUserDeniedSignature))
-    return 'Message signature denied';
+    return 'Message signature denied'
 
-  return errorMessage;
-};
+  return errorMessage
+}
 
 export const parseCancelOrderError = (error: Error) => {
-  let errorMessage = error.message;
+  const errorMessage = error.message
 
   if (errorMessage.includes(errorMessages.invalidJSON))
-    return 'Connection error';
+    return 'Connection error'
   if (errorMessage.includes(errorMessages.ioTimeout))
-    return 'Connection was broken and re-opened. Please try again';
+    return 'Connection was broken and re-opened. Please try again'
   if (errorMessage.includes(errorMessages.metamaskUserDeniedSignature))
-    return 'Message signature denied';
+    return 'Message signature denied'
 
-  return errorMessage;
-};
+  return errorMessage
+}
 
 export const parseRequestSignatureError = (error: Error) => {
-  let errorMessage = error.message;
+  const errorMessage = error.message
 
   if (errorMessage.includes(errorMessages.metamaskUserDeniedSignature))
-    return 'Message signature denied';
+    return 'Message signature denied'
 
-  return errorMessage;
-};
+  return errorMessage
+}
+
+export const parseQueryMarketDataError = (error: Error) => {
+  const errorMessage = error.message
+
+  return errorMessage
+}

@@ -1,5 +1,5 @@
 //@flow
-import { isFloat, isInteger, round } from './helpers'
+import { isFloat, isInteger, round, computeChange } from './helpers'
 
 import { utils } from 'ethers'
 
@@ -206,6 +206,31 @@ export const parseTokenPairData = (
   }))
 
   return parsed
+}
+
+export const parseTokenPairsData = (data: APIPairData, pairs: Object) => {
+
+  let result = []
+
+  data.forEach(datum => {
+    const pair = pairs[datum.pair.pairName]
+
+    if (pair) {
+      result.push({
+        pair: pair.pair,
+        price: datum.price ? parsePricepoint(datum.price, pair) : null,
+        lastPrice: datum.close ? parsePricepoint(datum.close, pair) : null,
+        change: datum.open ? computeChange(datum.open, datum.close) : null,
+        high: datum.high ? parsePricepoint(datum.high, pair) : null,
+        low: datum.low ? parsePricepoint(datum.low, pair) : null,
+        volume: datum.volume ? parseTokenAmount(datum.volume, pair, 0) : null,
+        orderVolume: datum.orderVolume ? parseTokenAmount(datum.orderVolume, pair, 0) : null,
+        orderCount: datum.orderCount ? datum.orderCount : null,
+      })
+    }
+  })
+
+  return result
 }
 
 export const parseOHLCV = (
