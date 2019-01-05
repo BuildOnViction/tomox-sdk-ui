@@ -90,7 +90,7 @@ class Layout extends React.PureComponent<Props, State> {
               </NavbarHeading>
               {authenticated && (
                 <React.Fragment>
-                  <NavbarDivider hideOnMobile />
+                  <NavbarDivider />
                   <NavbarLink to="/wallet">Wallet</NavbarLink>
                   <NavbarLink to="/markets">Markets</NavbarLink>
                   <NavbarLink to="/trade">Exchange</NavbarLink>

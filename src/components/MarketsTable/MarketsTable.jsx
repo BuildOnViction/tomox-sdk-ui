@@ -1,10 +1,10 @@
 // @flow
 
-import React from 'react';
-import styled from 'styled-components';
-import MarketsTableRenderer from './MarketsTableRenderer';
+import React from 'react'
+import styled from 'styled-components'
+import MarketsTableRenderer from './MarketsTableRenderer'
 
-import type { TokenPair } from '../../types/tokens';
+import type { TokenPair } from '../../types/tokens'
 
 type Props = {
   pairs: Array<TokenPair>,
@@ -20,24 +20,24 @@ type State = {
 
 class MarketsTable extends React.PureComponent<Props, State> {
   static defaultProps = {
-    pairs: []
+    pairs: [],
   }
 
   state = {
     searchInput: '',
-    selectedTab: this.props.quoteTokens[0] 
+    selectedTab: this.props.quoteTokens[0],
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
-    this.setState({ searchInput: e.target.value });
+    this.setState({ searchInput: e.target.value })
   };
 
-  handleChangeTab = (selectedTab: string ) => {
+  handleChangeTab = (selectedTab: string) => {
     this.setState({ selectedTab })
   }
 
   filterTokens = (pairs: Array<TokenPair>) => {
-    const { searchInput, selectedTab } = this.state;
+    const { searchInput, selectedTab } = this.state
 
     if (selectedTab !== 'ALL') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
     pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
@@ -46,20 +46,20 @@ class MarketsTable extends React.PureComponent<Props, State> {
   };
 
   render() {
-    let {
+    const {
       pairs,
       redirectToTradingPage,
       quoteTokens,
-      currentReferenceCurrency
-     } = this.props;
+      currentReferenceCurrency,
+    } = this.props
 
-    let {
+    const {
       searchInput,
-      selectedTab
-     } = this.state;
+      selectedTab,
+    } = this.state
 
-     let filteredPairs = this.filterTokens(pairs)
-     let tabs = quoteTokens.concat(['ALL'])
+    const filteredPairs = this.filterTokens(pairs)
+    const tabs = quoteTokens.concat(['ALL'])
 
     return (
       <Wrapper>
@@ -75,12 +75,12 @@ class MarketsTable extends React.PureComponent<Props, State> {
           currentReferenceCurrency={currentReferenceCurrency}
         />
       </Wrapper>
-    );
+    )
   }
 }
 
-export default MarketsTable;
+export default MarketsTable
 
 const Wrapper = styled.div`
   height: 100%;
-`;
+`

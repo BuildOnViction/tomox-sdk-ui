@@ -1,13 +1,5 @@
 // @flow
-
-import type { TokenPair } from './tokens';
-
-import type {
-  AccountAllowance,
-  AccountAllowances,
-  AccountBalance,
-  AccountBalances
-} from './accountBalances';
+import type { AccountAllowance, AccountAllowances, AccountBalance, AccountBalances } from './accountBalances'
 
 export type UpdateAccountBalanceAction = {
   type: 'walletPage/UPDATE_BALANCE',

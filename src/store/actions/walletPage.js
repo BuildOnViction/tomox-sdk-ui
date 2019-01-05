@@ -6,16 +6,16 @@ import type {
   UpdateAccountBalanceAction,
   UpdateTokenPairsAction,
   UpdateCurrentPairAction,
-  UpdateExchangeAddressAction
-} from '../../types/walletPage';
-import type { TokenPairs } from '../../types/tokens';
+  UpdateExchangeAddressAction,
+} from '../../types/walletPage'
+import type { TokenPairs } from '../../types/tokens'
 
 import type {
   AccountAllowances,
   AccountBalances,
   AccountBalance,
-  AccountAllowance
-} from '../../types/accountBalances';
+  AccountAllowance,
+} from '../../types/accountBalances'
 
 const actionTypes = {
   updateBalance: 'walletPage/UPDATE_BALANCE',
@@ -25,14 +25,14 @@ const actionTypes = {
   updateCurrentPair: 'walletPage/UPDATE_CURRENT_PAIR',
   updateTokenPairs: 'walletPage/UPDATE_TOKEN_PAIRS',
   updateShowHelpModal: 'walletPage/UPDATE_SHOW_HELP_MODAL',
-  updateExchangeAddress: 'walletPage/UPDATE_EXCHANGE_ADDRESS'
-};
+  updateExchangeAddress: 'walletPage/UPDATE_EXCHANGE_ADDRESS',
+}
 
 export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
   return {
     type: actionTypes.updateTokenPairs,
-    payload: { pairs }
-  };
+    payload: { pairs },
+  }
 }
 
 export function updateBalances(
@@ -40,8 +40,8 @@ export function updateBalances(
 ): UpdateAccountBalancesAction {
   return {
     type: actionTypes.updateBalances,
-    payload: { balances }
-  };
+    payload: { balances },
+  }
 }
 
 export function updateBalance(
@@ -49,8 +49,8 @@ export function updateBalance(
 ): UpdateAccountBalanceAction {
   return {
     type: actionTypes.updateBalance,
-    payload: balance
-  };
+    payload: balance,
+  }
 }
 
 export function updateAllowances(
@@ -58,8 +58,8 @@ export function updateAllowances(
 ): UpdateAccountAllowancesAction {
   return {
     type: actionTypes.updateAllowances,
-    payload: { allowances }
-  };
+    payload: { allowances },
+  }
 }
 
 export function updateAllowance(
@@ -67,8 +67,8 @@ export function updateAllowance(
 ): UpdateAccountAllowanceAction {
   return {
     type: actionTypes.updateAllowance,
-    payload: allowance
-  };
+    payload: allowance,
+  }
 }
 
 export function updateExchangeAddress(
@@ -76,22 +76,22 @@ export function updateExchangeAddress(
 ): UpdateExchangeAddressAction {
   return {
     type: actionTypes.updateExchangeAddress,
-    payload: { exchangeAddress }
-  };
+    payload: { exchangeAddress },
+  }
 }
 
 export function updateCurrentPair(pair: string): UpdateCurrentPairAction {
   return {
     type: actionTypes.updateCurrentPair,
-    payload: { pair }
-  };
+    payload: { pair },
+  }
 }
 
 export function closeHelpModal() {
   return {
     type: actionTypes.updateShowHelpModal,
-    payload: { showHelpModal: false }
-  };
+    payload: { showHelpModal: false },
+  }
 }
 
-export default actionTypes;
+export default actionTypes
