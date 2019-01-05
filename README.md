@@ -35,7 +35,7 @@ $ yarn storybook
 **Update translation**
 `yarn merge-translations --trim=true`
 
-## Contributions
+## Contribution
 
 Please try your best to follow the guidance here:
 
