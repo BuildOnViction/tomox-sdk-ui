@@ -10,13 +10,16 @@ import {
   Menu,
   MenuDivider,
   Navbar,
-  NavbarDivider,
   NavbarGroup,
   NavbarHeading,
   Popover,
   Position,
   Tag,
 } from '@blueprintjs/core'
+
+import {
+  NavbarDivider,
+} from '../../components/Common'
 
 import { Footer, Indent } from '../../components/Common'
 import {
@@ -91,7 +94,7 @@ class Layout extends React.PureComponent<Props, State> {
                   <NavbarLink to="/wallet">Wallet</NavbarLink>
                   <NavbarLink to="/markets">Markets</NavbarLink>
                   <NavbarLink to="/trade">Exchange</NavbarLink>
-                  <NavbarLink to="/settings" hideOnMobile>Settings</NavbarLink>
+                  <NavbarLink to="/settings">Settings</NavbarLink>
                   <NavbarDivider />
                 </React.Fragment>
               )}

@@ -27,6 +27,10 @@ import {
   BlueGlowingButton,
 } from './Button'
 
+import {
+  NavbarDivider,
+} from './Blueprint'
+
 
 export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton }
 
@@ -42,6 +46,10 @@ export {
   LabelText,
   MutedText,
   LinkText,
+}
+
+export {
+  NavbarDivider,
 }
 
 export { default as Spacer } from './Spacer'
