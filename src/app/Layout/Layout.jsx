@@ -75,7 +75,8 @@ class Layout extends React.PureComponent<Props, State> {
           <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
               <NavbarHeading>
-                <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
+                {/*TODO: Update TomoX icon*/}
+                <NavbarHeaderLink to="/">TomoX</NavbarHeaderLink>
                 <Indent />
                 <Tag minimal intent="success">
                   {REACT_APP_DEX_VERSION}
