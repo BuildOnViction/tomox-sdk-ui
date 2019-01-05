@@ -22,6 +22,7 @@ const defaultInitialState: TokenPairState = {
   data: [],
   favorites: [],
   currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
+  sortedPairs: [],
 }
 
 //By default the application is started with a default create from tokens in a configuration file. To
@@ -181,5 +182,20 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
     getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+    getTokenPairsWithDataArray: () => {
+      let tokenPairData = []
+      const symbols = state.sortedPairs
+
+      symbols.forEach(symbol => {
+        if (state.data[symbol] && state.byPair[symbol]) {
+          tokenPairData.push({
+            ...state.data[symbol],
+            ...state.byPair[symbol],
+          })
+        }
+      })
+
+      return tokenPairData
+    },
   }
 }

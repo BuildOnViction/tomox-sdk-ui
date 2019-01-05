@@ -96,7 +96,8 @@ export type TokenPairState = {
   },
   +data: Array<TokenPairData>,
   +favorites: Array<string>,
-  +currentPair: string
+  +currentPair: string,
+  +sortedPairs: Array<string>,
 };
 
 export type TokenEvent = any => TokenState => TokenState;
