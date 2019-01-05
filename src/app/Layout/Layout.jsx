@@ -22,6 +22,7 @@ import { Footer, Indent } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import ConnectionStatus from '../../components/ConnectionStatus'
 import locales from '../../config/locales'
+import { REACT_APP_DEX_VERSION } from '../../config/environment'
 
 export type Props = {
   TomoBalance: string,
@@ -77,7 +78,7 @@ class Layout extends React.PureComponent<Props, State> {
                 <NavbarHeaderLink to="/">Tomochain</NavbarHeaderLink>
                 <Indent />
                 <Tag minimal intent="success">
-                  BETA
+                  {REACT_APP_DEX_VERSION}
                 </Tag>
               </NavbarHeading>
               {authenticated && (

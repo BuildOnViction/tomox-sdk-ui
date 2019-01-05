@@ -4,7 +4,7 @@ let envPath
 
 switch (process.env.NODE_ENV) {
   case 'development':
-    envPath = '~/.env.dev'
+    envPath = '~/.env.development'
     break
   case 'test':
     envPath = '~/.env.test'
