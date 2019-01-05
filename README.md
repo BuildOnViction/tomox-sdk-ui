@@ -34,3 +34,9 @@ $ yarn storybook
 
 **Update translation**
 `yarn merge-translations --trim=true`
+
+## Contributions
+
+Please try your best to follow the guidance here:
+
+https://chris.beams.io/posts/git-commit/
