@@ -43,69 +43,84 @@ export const currentPairUpdated = (pair: string) => {
   return event
 }
 
-export const tokenPairUpdated = (pairs: TokenPairs) => {
+export const tokenPairsUpdated = (pairs: TokenPairs) => {
   const event = (state: TokenPairState) => {
-    const byPair = pairs.reduce((result, pair) => {
-      const pairSymbol = getPairSymbol(
-        pair.baseTokenSymbol,
-        pair.quoteTokenSymbol
-      )
+    const byPair = pairs.reduce(
+      (result, pair) => {
+        const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+        result[pairSymbol] = {
+          pair: pairSymbol,
+          baseTokenSymbol: pair.baseTokenSymbol,
+          quoteTokenSymbol: pair.quoteTokenSymbol,
+          baseTokenAddress: pair.baseTokenAddress,
+          quoteTokenAddress: pair.quoteTokenAddress,
+          baseTokenDecimals: pair.baseTokenDecimals,
+          quoteTokenDecimals: pair.quoteTokenDecimals,
+          makeFee: pair.makeFee,
+          takeFee: pair.takeFee,
+          listed: pair.listed,
+          active: pair.active,
+          rank: pair.rank,
+        }
 
-      result[pairSymbol] = {
-        pair: pairSymbol,
-        baseTokenSymbol: pair.baseTokenSymbol,
-        quoteTokenSymbol: pair.quoteTokenSymbol,
-        baseTokenAddress: pair.baseTokenAddress,
-        quoteTokenAddress: pair.quoteTokenAddress,
-        baseTokenDecimals: pair.baseTokenDecimals,
-        quoteTokenDecimals: pair.quoteTokenDecimals,
-        makeFee: pair.makeFee,
-        takeFee: pair.takeFee,
-      }
+        return result
+      },
+      {}
+    )
 
-      return result
-    }, {})
+    const sortedPairs = pairs.map(pair => {
+      const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+      return pairSymbol
+    })
+
+    return {
+      ...state,
+      byPair: {
+        ...state.byPair,
+        ...byPair,
+      },
+      sortedPairs: [...new Set([...state.sortedPairs, ...sortedPairs])],
+    }
+  }
+
+  return event
+}
+
+export const tokenPairsReset = (pairs: TokenPairs) => {
+  const event = (state: TokenPairState) => {
+    const byPair = pairs.reduce(
+      (result, pair) => {
+        const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+        result[pairSymbol] = {
+          pair: pairSymbol,
+          baseTokenSymbol: pair.baseTokenSymbol,
+          quoteTokenSymbol: pair.quoteTokenSymbol,
+          baseTokenAddress: pair.baseTokenAddress,
+          quoteTokenAddress: pair.quoteTokenAddress,
+          baseTokenDecimals: pair.baseTokenDecimals,
+          quoteTokenDecimals: pair.quoteTokenDecimals,
+          makeFee: pair.makeFee,
+          takeFee: pair.takeFee,
+          listed: pair.listed,
+          active: pair.active,
+          rank: pair.rank,
+        }
+
+        return result
+      },
+      {}
+    )
+
+    const sortedPairs = pairs.map(pair => {
+      const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+      return pairSymbol
+    })
 
     return {
       ...state,
       byPair,
+      sortedPairs: [...new Set([...sortedPairs])],
     }
-
-    // if (baseToken.symbol === NATIVE_TOKEN_SYMBOL) return;
-    // let newState = quoteTokens.reduce(
-    //   (result, quoteToken) => {
-    //     if (quoteToken.symbol === baseToken.symbol) return result;
-    //     if (
-    //       Object.keys(state.byPair).indexOf(
-    //         getPairSymbol(quoteToken.symbol, baseToken.symbol)
-    //       ) !== -1
-    //     ) {
-    //       return result;
-    //     }
-
-    //     let pairSymbol = getPairSymbol(baseToken.symbol, quoteToken.symbol);
-    //     result.byPair[pairSymbol] = {
-    //       pair: pairSymbol,
-    //       baseTokenSymbol: baseToken.symbol,
-    //       quoteTokenSymbol: quoteToken.symbol,
-    //       baseTokenAddress: baseToken.address,
-    //       quoteTokenAddress: quoteToken.address,
-    //       baseTokenDecimals: baseToken.decimals,
-    //       quoteTokenDecimals: quoteToken.decimals,
-    //       pricepointMultiplier: 1e9
-    //     };
-    //     return result;
-    //   }, {
-    //     byPair: {}
-    //   }
-    // );
-
-    // return {
-    //   ...state,
-    //   byPair: { ...state.byPair,
-    //     ...newState.byPair
-    //   }
-    // };
   }
 
   return event
