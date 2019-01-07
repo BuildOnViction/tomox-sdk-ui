@@ -27,7 +27,7 @@ export default function marketsTableSelector(state: State) {
     pairs,
     quoteTokens,
     authenticated: accountDomain.authenticated(),
-    currentReferenceCurrency: referenceCurrency.symbol,
+    currentReferenceCurrency: referenceCurrency ? referenceCurrency.symbol : '$',
   }
 }
 

@@ -63,6 +63,7 @@ const MarketsTableRenderer = (props: Props) => {
           {tabs.map((tab, i) => {
             return (
               <Button
+                key={i}
                 text={tab}
                 minimal
                 onClick={() => handleChangeTab(tab)}
