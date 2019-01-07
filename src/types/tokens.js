@@ -31,16 +31,17 @@ export type RankedToken = {
 
 export type TokenPair = {
   +pair: string,
-  +baseTokenDecimals: number,
-  +quoteTokenDecimals: number,
   +baseTokenSymbol: string,
   +quoteTokenSymbol: string,
   +baseTokenAddress: string,
+  +baseTokenDecimals: number,
+  +quoteTokenDecimals: number,
   +quoteTokenAddress: string,
-  +decimalsMultiplier?: number,
-  +pricepointMultiplier?: number,
   +makeFee: string,
-  +takeFee: string
+  +takeFee: string,
+  +listed: bool,
+  +active: bool,
+  +rank: number,
 };
 
 export type TokenPairs = Array<TokenPair>;

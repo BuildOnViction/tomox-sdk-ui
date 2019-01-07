@@ -9,10 +9,11 @@ import {
   defaultDecimals,
 } from '../config/tokens'
 
-import type { TokenPairData, Token, Tokens } from '../types/tokens'
+import type { TokenPair, TokenPairData, Token, Tokens } from '../types/tokens'
 import type { AddressAssociationPayload } from '../types/deposit'
 import type { Order, Orders } from '../types/orders'
 import type { Trade, Trades } from '../types/trades'
+import type { APIPairData } from '../types/api'
 
 export const parseJSONData = (obj: Object): Object => {
   for (const key in obj) {
@@ -75,17 +76,11 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
   return parsed
 }
 
-export const parseTokenAmount = (
-  amount: string,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
-): number => {
+export const parseTokenAmount = (amount: string, pair: TokenPair, precision: number = 2) => {
+  const { baseTokenDecimals } = pair
   const precisionMultiplier = utils.bigNumberify(10).pow(precision)
-  const baseMultiplier = utils.bigNumberify(10).pow(tokenDecimals)
-  const bigAmount = utils
-    .bigNumberify(amount)
-    .mul(precisionMultiplier)
-    .div(baseMultiplier)
+  const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
+  const bigAmount = utils.bigNumberify(amount).mul(precisionMultiplier).div(baseMultiplier)
 
   return Number(bigAmount) / Number(precisionMultiplier)
 }
