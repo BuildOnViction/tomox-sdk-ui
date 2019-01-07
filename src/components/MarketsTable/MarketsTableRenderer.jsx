@@ -77,19 +77,21 @@ const MarketsTableRenderer = (props: Props) => {
       </RowSpaceBetween>
       <Table>
         <TableHeader>
-          <TableHeaderCell>Market</TableHeaderCell>
-          <TableHeaderCell>Price</TableHeaderCell>
-          <TableHeaderCell>Price ({currentReferenceCurrency})</TableHeaderCell>
-          <TableHeaderCell>Volume</TableHeaderCell>
-          <TableHeaderCell>
-            Order Volume
-            <span> </span>
-            <Help position={Position.RIGHT}>
-              The total amount of bids and asks currently in the orderbook
-            </Help>
-          </TableHeaderCell>
-          <TableHeaderCell>Change 24H</TableHeaderCell>
-          <TableHeaderCell></TableHeaderCell>
+          <TableHeaderRow>
+            <TableHeaderCell>Market</TableHeaderCell>
+            <TableHeaderCell>Price</TableHeaderCell>
+            <TableHeaderCell>Price ({currentReferenceCurrency})</TableHeaderCell>
+            <TableHeaderCell>Volume</TableHeaderCell>
+            <TableHeaderCell>
+              Order Volume
+              <span> </span>
+              <Help position={Position.RIGHT}>
+                The total amount of bids and asks currently in the orderbook
+              </Help>
+            </TableHeaderCell>
+            <TableHeaderCell>Change 24H</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+          </TableHeaderRow>
         </TableHeader>
       </Table>
       <TableBodyContainer>
@@ -193,7 +195,11 @@ const TableBody = styled.tbody`
   border: none !important
 `
 
-const TableHeader = styled.tr`
+const TableHeader = styled.thead`
+  width: 100%;
+`
+
+const TableHeaderRow = styled.tr`
   width: 100%;
 `
 
