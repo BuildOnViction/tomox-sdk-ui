@@ -1,3 +1,3 @@
-import WalletInfo from './WalletInfo';
+import WalletInfo from './WalletInfo'
 
-export default WalletInfo;
+export default WalletInfo
