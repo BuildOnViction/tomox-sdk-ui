@@ -561,42 +561,35 @@ const handleOrderBookMessage = (
   }
 }
 
-const handleTradesMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  // console.log(event)
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleTradesMessage = (event: WebsocketMessage): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
 
-  let trades = event.payload
-  const { pairName } = trades[0]
-  const { baseTokenDecimals } = pairs[pairName]
+    let trades = event.payload
+    const { pairName } = trades[0]
+    const pair = pairs[pairName]
 
-  try {
-    switch (event.type) {
-      case 'INIT':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.initTradesTable(trades))
-        break
-      case 'UPDATE':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.updateTradesTable(trades))
-        break
-      default:
-        return
+    try {
+      switch (event.type) {
+        case 'INIT':
+          trades = parseTrades(trades, pair)
+          dispatch(actionCreators.initTradesTable(trades))
+          break
+        case 'UPDATE':
+          trades = parseTrades(trades, pair)
+          dispatch(actionCreators.updateTradesTable(trades))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
     }
-  } catch (e) {
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-    console.log(e)
   }
 }
 

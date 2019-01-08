@@ -3,42 +3,42 @@ const actionTypes = {
   addErrorNotification: 'app/ADD_DANGER_NOTIFICATION',
   addSuccessNotification: 'app/ADD_SUCCESS_NOTIFICATION',
   removeNotification: 'app/REMOVE_NOTIFICATION',
-  updateCurrentBlock: 'app/UPDATE_CURRENT_BLOCK'
-};
+  updateCurrentBlock: 'app/UPDATE_CURRENT_BLOCK',
+}
 
 export function addNotification(options) {
   return {
     type: actionTypes.addNotification,
     payload: {
-      options
-    }
-  };
+      options,
+    },
+  }
 }
 
 export function addOrderAddedNotification() {
   return {
     type: actionTypes.addNotification,
     payload: {
-      notificationType: 'orderAdded'
-    }
-  };
+      notificationType: 'orderAdded',
+    },
+  }
 }
 
 export function addOrderCancelledNotification() {
   return {
     type: actionTypes.addNotification,
     payload: {
-      notificationType: 'orderCancelled'
-    }
-  };
+      notificationType: 'orderCancelled',
+    },
+  }
 }
 
 export function addOrderMatchedNotification() {
   return {
     type: actionTypes.addNotification,
     payload: {
-      notificationType: 'orderMatched'
-    }
+      notificationType: 'orderMatched',
+    },
   }
 }
 
@@ -47,9 +47,9 @@ export function addOrderPendingNotification(options) {
     type: actionTypes.addNotification,
     payload: {
       notificationType: 'orderPending',
-      options
-    }
-  };
+      options,
+    },
+  }
 }
 
 export function addOrderSuccessNotification(options) {
@@ -57,9 +57,9 @@ export function addOrderSuccessNotification(options) {
     type: actionTypes.addNotification,
     payload: {
       notificationType: 'orderSuccess',
-      options
-    }
-  };
+      options,
+    },
+  }
 }
 
 export function addTxSuccessNotification(options) {
@@ -67,9 +67,9 @@ export function addTxSuccessNotification(options) {
     type: actionTypes.addNotification,
     payload: {
       notificationType: 'txSuccess',
-      options
-    }
-  };
+      options,
+    },
+  }
 }
 
 export function addTxRevertedNotification(options) {
@@ -77,55 +77,55 @@ export function addTxRevertedNotification(options) {
     type: actionTypes.addNotification,
     payload: {
       notificationType: 'txReverted',
-      options
-    }
-  };
+      options,
+    },
+  }
 }
 
 export function addSuccessNotification({
-  message
-}) {
+                                         message,
+                                       }) {
   return {
     type: actionTypes.addNotification,
     payload: {
       options: {
         intent: 'success',
-        message: message
-      }
-    }
-  };
+        message,
+      },
+    },
+  }
 }
 
 export function addErrorNotification({
-  message
-}) {
+                                       message,
+                                     }) {
   return {
     type: actionTypes.addNotification,
     payload: {
       options: {
         intent: 'danger',
-        message: message
-      }
-    }
-  };
+        message,
+      },
+    },
+  }
 }
 
 export function removeNotification(id) {
   return {
     type: actionTypes.removeNotification,
     payload: {
-      id
-    }
-  };
+      id,
+    },
+  }
 }
 
 export function updateCurrentBlock(currentBlock: string) {
   return {
     type: actionTypes.updateCurrentBlock,
     payload: {
-      currentBlock
-    }
-  };
+      currentBlock,
+    },
+  }
 }
 
-export default actionTypes;
+export default actionTypes

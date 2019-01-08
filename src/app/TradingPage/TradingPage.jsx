@@ -14,9 +14,9 @@ import { Redirect } from 'react-router-dom'
 // import { ResizableBox } from 'react-resizable';
 
 type Props = {
-  isInitiated: boolean,
   authenticated: boolean,
   isConnected: boolean,
+  isInitiated: boolean,
   balancesLoading: boolean,
   baseTokenBalance: string,
   quoteTokenBalance: string,
@@ -24,10 +24,13 @@ type Props = {
   quoteTokenAllowance: string,
   baseTokenSymbol: string,
   quoteTokenSymbol: string,
-  getDefaultData: () => void,
+  pairIsAllowed: boolean,
+  pairName: string,
+  queryTradingPageData: () => void,
   makeFee: string,
-  takeFee: string
-};
+  takeFee: string,
+  toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+}
 
 type State = {
   calloutVisible: boolean,
@@ -70,14 +73,19 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    // const { authenticated, getDefaultData } = this.props;
-    // if (authenticated) getDefaultData();
-
     if (this.props.isConnected) {
-      this.props.getDefaultData()
+      this.props.queryTradingPageData()
     }
 
     this.checkIfCalloutRequired()
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.isConnected || !this.props.isConnected) {
+      return
+    }
+
+    this.props.queryTradingPageData()
   }
 
   checkIfCalloutRequired = () => {

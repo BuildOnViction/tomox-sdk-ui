@@ -12,7 +12,7 @@ import {
 import type { TokenPair, TokenPairData, Token, Tokens } from '../types/tokens'
 import type { AddressAssociationPayload } from '../types/deposit'
 import type { Order, Orders } from '../types/orders'
-import type { Trade, Trades } from '../types/trades'
+import type { Trade } from '../types/trades'
 import type { APIPairData } from '../types/api'
 
 export const parseJSONData = (obj: Object): Object => {
@@ -139,34 +139,24 @@ export const parseOrders = (
   return parsed
 }
 
-export const parseTrade = (
-  trade: Object,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
-): Trade => ({
-  time: trade.createdAt,
-  price: parsePricepoint(trade.pricepoint),
-  amount: parseTokenAmount(trade.amount, tokenDecimals, precision),
-  hash: trade.hash,
-  orderHash: trade.orderHash,
-  type: trade.type || 'LIMIT',
-  side: trade.side,
-  pair: trade.pairName,
-  status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
-  maker: utils.getAddress(trade.maker),
-  taker: utils.getAddress(trade.taker),
-  signature: trade.signature,
-  tradeNonce: trade.tradeNonce,
-})
+export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = pricePrecision) => {
+  return {
+    time: trade.createdAt,
+    price: parsePricepoint(trade.pricepoint, pair, precision),
+    amount: parseTokenAmount(trade.amount, pair, precision),
+    hash: trade.hash,
+    orderHash: trade.orderHash,
+    type: trade.type || 'LIMIT',
+    side: trade.side,
+    pair: trade.pairName,
+    status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
+    maker: utils.getAddress(trade.maker),
+    taker: utils.getAddress(trade.taker),
+  }
+}
 
-export const parseTrades = (
-  trades: Array<Object>,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
-): Trades => {
-  const parsed = trades.map(trade =>
-    parseTrade(trade, tokenDecimals, precision)
-  )
+export const parseTrades = (trades: Array<Trade>, pair: TokenPair, precision: number = pricePrecision) => {
+  const parsed = (trades: any).map(trade => parseTrade(trade, pair, precision))
 
   return parsed
 }

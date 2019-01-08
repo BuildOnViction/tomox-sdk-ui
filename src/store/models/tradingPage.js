@@ -2,16 +2,20 @@
 import {
   getTokenPairsDomain,
   getAccountDomain,
+  getTokenDomain,
   getAccountBalancesDomain,
   getConnectionDomain,
 } from '../domains'
+
 import * as actionCreators from '../actions/tradingPage'
+import * as notifierActionCreators from '../actions/app'
+
 import type { State, ThunkAction } from '../../types'
 import { getSigner } from '../services/signer'
 import {
   // parseTrades,
   parseOrders,
-  parseTokenPairData,
+  parseTokenPairsData,
 } from '../../utils/parsers'
 
 // eslint-disable-next-line
@@ -52,7 +56,7 @@ export default function tradingPageSelector(state: State) {
   }
 }
 
-export const getDefaultData = (): ThunkAction => {
+export const queryTradingPageData = (): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
       socket.unsubscribeChart()
@@ -65,13 +69,13 @@ export const getDefaultData = (): ThunkAction => {
 
       const userAddress = await signer.getAddress()
       const currentPair = pairDomain.getCurrentPair()
-      // let pairs = pairDomain.getPairsByCode();
+      const pairs = pairDomain.getPairsByCode()
 
       const { baseTokenDecimals } = currentPair
 
       let tokenPairData = await api.fetchTokenPairData()
 
-      tokenPairData = parseTokenPairData(tokenPairData, baseTokenDecimals)
+      tokenPairData = parseTokenPairsData(tokenPairData, pairs)
 
       let orders = await api.fetchOrders(userAddress)
       orders = parseOrders(orders, baseTokenDecimals)
@@ -88,6 +92,30 @@ export const getDefaultData = (): ThunkAction => {
       )
     } catch (e) {
       console.log(e)
+    }
+  }
+}
+
+export function toggleAllowances(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
+  return async (dispatch, getState, { txProvider }) => {
+    try {
+      const state = getState()
+      const tokens = getTokenDomain(state).bySymbol()
+      const baseTokenAddress = tokens[baseTokenSymbol].address
+      const quoteTokenAddress = tokens[quoteTokenSymbol].address
+
+      const txConfirmHandler = (txConfirmed) => {
+        txConfirmed
+          ? dispatch(notifierActionCreators.addSuccessNotification({ message: `Approval Successful. You can now start trading!` }))
+          : dispatch(notifierActionCreators.addErrorNotification({ message: `Approval Failed. Please try again.` }))
+      }
+
+      txProvider.updatePairAllowances(baseTokenAddress, quoteTokenAddress, txConfirmHandler)
+      dispatch(notifierActionCreators.addSuccessNotification({ message: `Unlocking ${baseTokenSymbol}/${quoteTokenSymbol} trading. Your transaction should be approved within a few minutes` }))
+
+    } catch (e) {
+      console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }
