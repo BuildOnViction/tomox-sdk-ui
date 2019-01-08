@@ -1,5 +1,5 @@
 // @flow
-import type { AccountState, AccountParams, ReferenceCurrency } from '../../types/account'
+import type { AccountState, ReferenceCurrency } from '../../types/account'
 
 const initialState = {
   address: null,

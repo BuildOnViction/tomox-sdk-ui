@@ -55,12 +55,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       pair,
       baseTokenSymbol,
       quoteTokenSymbol,
-      baseTokenAddress,
-      quoteTokenAddress,
       price,
       change,
-      high,
-      low,
       volume,
       orderVolume,
     } = pairs[index]
