@@ -58,19 +58,21 @@ export type TokenData = {
 
 export type TokenPairData = {
   pair: string,
-  lastPrice: ?number,
-  change: ?number,
-  high: ?number,
-  low: ?number,
-  volume: ?number,
+  lastPrice: string,
+  change: string,
+  high: string,
+  open: string,
+  low: string,
+  volume: string,
   base: ?string,
   quote: ?string,
-  favorited: ?string
+  favorited: ?string,
+  orderCount: string,
+  orderVolume: string,
 };
 
 export type TokenPairDataArray = Array<TokenPairData>;
-// export type TokenPairDataMap = { [string]: TokenPairData };
-export type TokenPairDataMap = Array<TokenPairData>;
+export type TokenPairDataMap = { [string]: TokenPairData };
 
 export type TokenState = {
   +symbols: Array<Symbol>,

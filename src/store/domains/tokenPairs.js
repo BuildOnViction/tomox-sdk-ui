@@ -143,33 +143,29 @@ export const tokenPairRemoved = (baseToken: Token) => {
   return event
 }
 
-/**
- * Merge two arrays of token pairs
- * @param {*} arr1
- * @param {*} arr2
- */
-const mergeByTokenPair = (
-  arr1: TokenPairData[],
-  arr2: TokenPairData[]
-): TokenPairData[] => {
-  return [
-    ...arr1,
-    ...arr2.filter(
-      item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0
-    ),
-  ]
-}
+export const tokenPairDataUpdated = (tokenPairData: Array<TokenPairData>) => {
+  const event = (state: TokenPairDataMap) => {
 
-export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
-  const event = (state: TokenPairState): TokenPairState => {
+    const data = tokenPairData.reduce((result, item) => {
+      return {
+        ...result,
+        [item.pair]: {
+          ...state.data[item.pair],
+          ...item,
+        },
+      }
+    }, {})
+
     const newState = {
       ...state,
-      data: mergeByTokenPair(state.data, tokenPairData),
+      data: {
+        ...state.data,
+        ...data,
+      },
     }
 
     return newState
   }
-
   return event
 }
 
@@ -197,8 +193,26 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
     getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+
+    //Merge token pair properties and data
+    getTokenPairsWithDataObject: () => {
+      const symbols = Object.keys(state.byPair)
+      return symbols.reduce((
+        (result, symbol) => {
+          if (state.data[symbol] && state.byPair[symbol]) {
+            result[symbol] = {
+              ...state.data[symbol],
+              ...state.byPair[symbol],
+            }
+          }
+
+          return result
+        }
+      ), {})
+    },
+
     getTokenPairsWithDataArray: () => {
-      let tokenPairData = []
+      const tokenPairData = []
       const symbols = state.sortedPairs
 
       symbols.forEach(symbol => {
