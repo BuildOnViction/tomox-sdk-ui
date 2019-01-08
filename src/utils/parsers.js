@@ -76,6 +76,14 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
   return parsed
 }
 
+/**
+ * Parse amount
+ *
+ * @param amount
+ * @param pair
+ * @param precision
+ * @returns {number}
+ */
 export const parseTokenAmount = (amount: string, pair: TokenPair, precision: number = 2) => {
   const { baseTokenDecimals } = pair
   const precisionMultiplier = utils.bigNumberify(10).pow(precision)
@@ -85,15 +93,21 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
   return Number(bigAmount) / Number(precisionMultiplier)
 }
 
-export const parsePricepoint = (
-  pricepoint: number,
-  pricePointMultiplier: number = 1e9,
-  precision: number = pricePrecision
-): number => {
-  return (
-    Math.round((pricepoint / pricePointMultiplier) * Math.pow(10, precision)) /
-    Math.pow(10, precision)
-  )
+/**
+ * Parse price
+ *
+ * @param pricepoint
+ * @param pair
+ * @param precision
+ * @returns {number}
+ */
+export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 6) => {
+  const { quoteTokenDecimals } = pair
+  const priceMultiplier = utils.bigNumberify(10).pow(18)
+  const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
+  const bigPricepoint = utils.bigNumberify(pricepoint)
+
+  return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
 }
 
 export const parseOrder = (
@@ -205,7 +219,7 @@ export const parseTokenPairData = (
 
 export const parseTokenPairsData = (data: APIPairData, pairs: Object) => {
 
-  let result = []
+  const result = []
 
   data.forEach(datum => {
     const pair = pairs[datum.pair.pairName]

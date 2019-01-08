@@ -19,7 +19,7 @@ import type {
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
 const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
-  data: [],
+  data: {},
   favorites: [],
   currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
   sortedPairs: [],
