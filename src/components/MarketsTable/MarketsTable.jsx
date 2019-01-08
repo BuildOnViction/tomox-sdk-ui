@@ -9,7 +9,7 @@ import type { TokenPair } from '../../types/tokens'
 type Props = {
   pairs: Array<TokenPair>,
   quoteTokens: Array<string>,
-  redirectToTradingPage: (string, string) => void,
+  redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   currentReferenceCurrency: string,
 };
 

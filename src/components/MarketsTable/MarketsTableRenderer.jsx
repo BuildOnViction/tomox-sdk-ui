@@ -29,7 +29,7 @@ type Props = {
   searchInput: string,
   pairs: Array<Object>,
   handleSearchInputChange: (SyntheticInputEvent<>) => void,
-  redirectToTradingPage: (string, string) => void,
+  redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   selectedTab: string,
   handleChangeTab: string => void,
   tabs: Array<string>,
