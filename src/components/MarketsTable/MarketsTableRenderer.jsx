@@ -108,7 +108,7 @@ const MarketsTableRenderer = (props: Props) => {
       {pairs.length === 0 && (
         <Centered my={4}>
           <TomoXLogo height="150em" width="150em" />
-          <LargeText muted>No tokens to display!</LargeText>
+          <LargeText muted>No pairs to display!</LargeText>
         </Centered>
       )}
     </TableSection>
