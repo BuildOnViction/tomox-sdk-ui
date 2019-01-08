@@ -28,6 +28,7 @@ import DAI from './Icons/icon/dai.js'
 import USD from './Icons/icon/usd.js'
 import FLMI from './Icons/icon/flmi.js'
 import FRECN from './Icons/icon/frecn.js'
+import TOMO from './Icons/icon/tomo.js'
 
 import Generic from './Icons/icon/generic.js'
 
@@ -77,6 +78,8 @@ const ColoredCryptoIcon = ({ name, color, size }) => {
       return <REP width={size} height={size} viewBox="0 0 32 32" />
     case 'SNT':
       return <SNT width={size} height={size} viewBox="0 0 32 32" />
+    case 'TOMO':
+      return <TOMO width={size} height={size} viewBox="0 0 32 32" />
     case 'TRX':
       return <TRX width={size} height={size} viewBox="0 0 32 32" />
     case 'TUSD':
