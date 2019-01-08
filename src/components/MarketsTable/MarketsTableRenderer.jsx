@@ -184,6 +184,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
                   rowRenderer={this.rowRenderer}
                   noRowsRenderer={this.noRowsRenderer}
                   overscanRowCount={0}
+                  pairs={pairs}
                 />
               )}
             </AutoSizer>
