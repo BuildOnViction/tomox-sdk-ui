@@ -84,7 +84,7 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
  * @param precision
  * @returns {number}
  */
-export const parseTokenAmount = (amount: string, pair: TokenPair, precision: number = 2) => {
+export const parseTokenAmount = (amount: string, pair: TokenPair, precision: number = amountPrecision) => {
   const { baseTokenDecimals } = pair
   const precisionMultiplier = utils.bigNumberify(10).pow(precision)
   const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
@@ -101,7 +101,7 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
  * @param precision
  * @returns {number}
  */
-export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 6) => {
+export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = pricePrecision) => {
   const { quoteTokenDecimals } = pair
   const priceMultiplier = utils.bigNumberify(10).pow(18)
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
