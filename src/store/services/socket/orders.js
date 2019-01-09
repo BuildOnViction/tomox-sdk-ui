@@ -3,6 +3,8 @@ import type { WebsocketMessage } from '../../../types/websocket'
 import { sendMessage } from './common'
 
 export const sendNewOrderMessage = async (orderPayload: Object) => {
+  if (!window.socket) throw new Error('Socket connection not established')
+
   const message: WebsocketMessage = {
     channel: 'orders',
     event: {
@@ -16,6 +18,8 @@ export const sendNewOrderMessage = async (orderPayload: Object) => {
 }
 
 export const sendNewOrderCancelMessage = (orderCancelPayload: Object) => {
+  if (!window.socket) throw new Error('Socket connection not established')
+
   const message: WebsocketMessage = {
     channel: 'orders',
     event: {
