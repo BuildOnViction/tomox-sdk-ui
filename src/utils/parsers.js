@@ -13,6 +13,7 @@ import type { TokenPair, TokenPairData, Token, Tokens } from '../types/tokens'
 import type { AddressAssociationPayload } from '../types/deposit'
 import type { Order, Orders } from '../types/orders'
 import type { Trade } from '../types/trades'
+import type { OrderBookData } from '../types/orderBook'
 import type { APIPairData } from '../types/api'
 
 export const parseJSONData = (obj: Object): Object => {
@@ -54,7 +55,7 @@ export const parseJSONToFixed = (obj: Object, decimals: number = 2): Object => {
 }
 
 export const parseAddressAssociation = (
-  payload: ?Object
+  payload: ?Object,
 ): ?AddressAssociationPayload => {
   if (!payload) {
     return null
@@ -113,7 +114,7 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
 export const parseOrder = (
   order: Object,
   tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
+  precision: number = amountPrecision,
 ): Order => ({
   time: order.createdAt,
   amount: parseTokenAmount(order.amount, tokenDecimals, precision),
@@ -130,10 +131,10 @@ export const parseOrder = (
 export const parseOrders = (
   orders: Array<Object>,
   tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
+  precision: number = amountPrecision,
 ): Orders => {
   const parsed = orders.map(order =>
-    parseOrder(order, tokenDecimals, precision)
+    parseOrder(order, tokenDecimals, precision),
   )
 
   return parsed
@@ -161,32 +162,25 @@ export const parseTrades = (trades: Array<Trade>, pair: TokenPair, precision: nu
   return parsed
 }
 
-export const parseOrderBookData = (
-  data: Object,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision
-): Object => {
+export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precision: number = 2) => {
   let { bids, asks } = data
 
   asks = asks.map(ask => ({
-    price: parsePricepoint(ask.pricepoint),
-    amount: parseTokenAmount(ask.amount, tokenDecimals, precision),
+    price: parsePricepoint(ask.pricepoint, pair, precision),
+    amount: parseTokenAmount(ask.amount, pair, precision),
   }))
 
   bids = bids.map(bid => ({
-    price: parsePricepoint(bid.pricepoint),
-    amount: parseTokenAmount(bid.amount, tokenDecimals, precision),
+    price: parsePricepoint(bid.pricepoint, pair, precision),
+    amount: parseTokenAmount(bid.amount, pair, precision),
   }))
 
-  return {
-    asks,
-    bids,
-  }
+  return { asks, bids }
 }
 
 export const parseTokenPairData = (
   data: Array<Object>,
-  tokenDecimals: number = defaultDecimals
+  tokenDecimals: number = defaultDecimals,
 ): Array<TokenPairData> => {
   const parsed = data.map(datum => ({
     base: null,
@@ -207,7 +201,7 @@ export const parseTokenPairData = (
   return parsed
 }
 
-export const parseTokenPairsData = (data: APIPairData, pairs: Object) => {
+export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<TokenPair> => {
 
   const result = []
 
@@ -234,7 +228,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object) => {
 
 export const parseOHLCV = (
   data: Array<Object>,
-  baseTokenDecimals: number = defaultDecimals
+  baseTokenDecimals: number = defaultDecimals,
 ): Array<Object> => {
   const parsed = data.map(datum => {
     return {

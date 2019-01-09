@@ -517,47 +517,36 @@ function handleOrderError(
   }
 }
 
-const handleOrderBookMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleOrderBookMessage = (event: WebsocketMessage): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+    if (event.type === 'ERROR' || !event.payload) return
+    // if (event.payload.length === 0) return
 
-  // console.log(event, pairs);
+    const { pairName } = event.payload
+    const pairInfo = pairs[pairName]
 
-  const { pairName } = event.payload
-  const {
-    baseTokenDecimals,
-    // quoteTokenDecimals
-  } = pairs[pairName]
+    try {
+      switch (event.type) {
+        case 'INIT':
+          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          dispatch(actionCreators.initOrderBook(bids, asks))
+          break
 
-  try {
-    const { bids, asks } = parseOrderBookData(event.payload, baseTokenDecimals)
-    console.log(bids)
-    switch (event.type) {
-      case 'INIT':
-        dispatch(actionCreators.initOrderBook(bids, asks))
-        break
+        case 'UPDATE':
+          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          dispatch(actionCreators.updateOrderBook(bids, asks))
+          break
 
-      case 'UPDATE':
-        dispatch(actionCreators.updateOrderBook(bids, asks))
-        break
-
-      default:
-        return
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
     }
-  } catch (e) {
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-    console.log(e)
   }
 }
 
