@@ -14,6 +14,7 @@ import type { AddressAssociationPayload } from '../types/deposit'
 import type { Order, Orders } from '../types/orders'
 import type { Trade } from '../types/trades'
 import type { OrderBookData } from '../types/orderBook'
+import type { Candles } from '../types/ohlcv'
 import type { APIPairData } from '../types/api'
 
 export const parseJSONData = (obj: Object): Object => {
@@ -226,18 +227,15 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
   return result
 }
 
-export const parseOHLCV = (
-  data: Array<Object>,
-  baseTokenDecimals: number = defaultDecimals,
-): Array<Object> => {
-  const parsed = data.map(datum => {
+export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
+  const parsed = (data: Candles).map(datum => {
     return {
       date: new Date(datum.timestamp),
-      open: parsePricepoint(datum.open),
-      high: parsePricepoint(datum.high),
-      low: parsePricepoint(datum.low),
-      close: parsePricepoint(datum.close),
-      volume: parseTokenAmount(datum.volume, baseTokenDecimals, 2),
+      open: parsePricepoint(datum.open, pair),
+      high: parsePricepoint(datum.high, pair),
+      low: parsePricepoint(datum.low, pair),
+      close: parsePricepoint(datum.close, pair),
+      volume: parseTokenAmount(datum.volume, pair, 2),
     }
   })
 

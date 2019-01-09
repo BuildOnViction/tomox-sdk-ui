@@ -582,51 +582,37 @@ const handleTradesMessage = (event: WebsocketMessage): ThunkAction => {
   }
 }
 
-const handleOHLCVMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleOHLCVMessage = (event: WebsocketMessage): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
-
-  let ohlcv = event.payload
-
-  // Prevent undefined error
-  if (Array.isArray(ohlcv) && ohlcv.length < 1) {
-    return
-  }
-
-  // Because it returns an object when there is 1 element
-  if (!Array.isArray(ohlcv)) {
-    ohlcv = [ohlcv]
-  }
-
-  const { pairName } = ohlcv[0].pair
-  const { baseTokenDecimals } = pairs[pairName]
-
-  try {
-    switch (event.type) {
-      case 'INIT':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.initOHLCV(ohlcv))
-        break
-      case 'UPDATE':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.updateOHLCV(ohlcv))
-        break
-      default:
-        return
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) {
+      dispatch(actionCreators.initOHLCV([]))
+      return
     }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
+
+    let ohlcv = event.payload
+    const { pairName } = ohlcv[0].pair
+    const pair = pairs[pairName]
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          ohlcv = parseOHLCV(ohlcv, pair)
+          dispatch(actionCreators.initOHLCV(ohlcv))
+          break
+        case 'UPDATE':
+          ohlcv = parseOHLCV(ohlcv, pair)
+          dispatch(actionCreators.updateOHLCV(ohlcv))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
   }
 }
