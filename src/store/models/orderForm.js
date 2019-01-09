@@ -1,12 +1,11 @@
 // @flow
-import * as appActionCreators from '../actions/app'
+import * as notifierActionCreators from '../actions/app'
 import {
   getTokenPairsDomain,
   getOrderBookDomain,
   getAccountDomain,
   getAccountBalancesDomain,
 } from '../domains/'
-// import * as orderService from '../services/orders'
 
 import { utils } from 'ethers'
 import type { State, ThunkAction } from '../../types'
@@ -50,14 +49,10 @@ export default function getOrderFormSelector(state: State) {
   }
 }
 
-export const defaultFunction = (): ThunkAction => {
-  return async (dispatch, getState) => {}
-}
-
 export const sendNewOrder = (
   side: Side,
   amount: number,
-  price: number
+  price: number,
 ): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     try {
@@ -65,6 +60,7 @@ export const sendNewOrder = (
       const tokenPairDomain = getTokenPairsDomain(state)
       const accountBalancesDomain = getAccountBalancesDomain(state)
       const accountDomain = getAccountDomain(state)
+
       const pair = tokenPairDomain.getCurrentPair()
       const exchangeAddress = accountDomain.exchangeAddress()
 
@@ -73,12 +69,12 @@ export const sendNewOrder = (
         quoteTokenSymbol,
         baseTokenDecimals,
         quoteTokenDecimals,
+        makeFee,
+        takeFee,
       } = pair
 
       const signer = getSigner()
       const userAddress = await signer.getAddress()
-      const makeFee = pair.makeFee || '0'
-      const takeFee = pair.takeFee || '0'
 
       const params = {
         side,
@@ -100,19 +96,11 @@ export const sendNewOrder = (
         ? (sellTokenSymbol = quoteTokenSymbol)
         : (sellTokenSymbol = baseTokenSymbol)
 
-      const sellTokenBalance = accountBalancesDomain.getBigNumberBalance(
-        sellTokenSymbol
-      )
+      const sellTokenBalance = accountBalancesDomain.getBigNumberBalance(sellTokenSymbol)
       const baseAmount = utils.bigNumberify(order.amount)
-      const quoteAmount = utils
-        .bigNumberify(order.amount)
-        .mul(utils.bigNumberify(order.pricepoint))
-        .div(pairMultiplier)
+      const quoteAmount = (utils.bigNumberify(order.amount).mul(utils.bigNumberify(order.pricepoint))).div(pairMultiplier)
       const minQuoteAmount = minOrderAmount(makeFee, takeFee)
-      const formattedMinQuoteAmount = utils.formatUnits(
-        minQuoteAmount,
-        quoteTokenDecimals
-      )
+      const formattedMinQuoteAmount = utils.formatUnits(minQuoteAmount, quoteTokenDecimals)
 
       //In case the order is a sell, the fee is subtracted from the received amount of quote token so there is no requirement
       order.side === 'BUY'
@@ -120,89 +108,15 @@ export const sendNewOrder = (
         : (totalSellAmount = baseAmount)
 
       if (quoteAmount.lt(minQuoteAmount)) {
-        return dispatch(
-          appActionCreators.addErrorNotification({
-            message: `Order value should be higher than ${formattedMinQuoteAmount} ${quoteTokenSymbol}`,
-          })
-        )
+        return dispatch(notifierActionCreators.addErrorNotification({ message: `Order value should be higher than ${formattedMinQuoteAmount} ${quoteTokenSymbol}` }))
       }
 
       if (sellTokenBalance.lt(totalSellAmount)) {
-        return dispatch(
-          appActionCreators.addErrorNotification({
-            message: `Insufficient ${sellTokenSymbol} balance`,
-          })
-        )
+        return dispatch(notifierActionCreators.addErrorNotification({ message: `Insufficient ${sellTokenSymbol} balance` }))
       }
 
       console.log(order)
       socket.sendNewOrderMessage(order)
-
-      // let defaultPriceMultiplier = utils.bigNumberify(1e9);
-      // let decimalsPriceMultiplier = utils.bigNumberify(
-      //   (10 ** (baseTokenDecimals - quoteTokenDecimals)).toString()
-      // );
-      // let pricepointMultiplier = defaultPriceMultiplier.mul(
-      //   decimalsPriceMultiplier
-      // );
-
-      // let order = await signer.createRawOrder(params);
-      // let sellTokenSymbol, sellAmount;
-      // console.log(order, pricepointMultiplier);
-      // sellTokenSymbol =
-      //   order.side === 'BUY' ? quoteTokenSymbol : baseTokenSymbol;
-
-      // sellAmount =
-      //   order.side === 'BUY'
-      //     ? utils
-      //         .bigNumberify(order.amount)
-      //         .mul(utils.bigNumberify(order.pricepoint))
-      //         .div(pricepointMultiplier)
-      //     : utils.bigNumberify(order.amount);
-
-      // let buyTokenSymbol = pair.baseTokenAddress === order.buyToken ? pair.baseTokenSymbol : pair.quoteTokenSymbol
-      // let sellTokenSymbol = pair.baseTokenAddress === order.sellToken ? pair.baseTokenSymbol : pair.quoteTokenSymbol
-      // let buyTokenBalance = accountBalancesDomain.getBigNumberBalance(buyTokenSymbol)
-
-      // let WETHBalance = accountBalancesDomain.getBigNumberBalance('WETH');
-      // let sellTokenBalance = accountBalancesDomain.getBigNumberBalance(
-      //   sellTokenSymbol
-      // );
-
-      // let buyAmount = utils.bigNumberify(order.buyAmount)
-      // let sellAmount = utils.bigNumberify(order.sellAmount)
-      // let fee = utils.bigNumberify(makeFee);
-
-      // if (buyTokenBalance.lt(buyAmount)) {
-      //   return dispatch(
-      //     appActionCreators.addErrorNotification({
-      //       message: `Insufficient ${buyTokenSymbol} balance`
-      //     })
-      //   )
-      // }
-
-      // if (sellTokenBalance.lt(sellAmount)) {
-      //   return dispatch(
-      //     appActionCreators.addErrorNotification({
-      //       message: `Insufficient ${sellTokenSymbol} balance`
-      //     })
-      //   );
-      // }
-
-      //TODO include the case where WETH is the token balance
-      // if (WETHBalance.lt(fee)) {
-      //   return dispatch(
-      //     appActionCreators.addErrorNotification({
-      //       message: 'Insufficient WETH Balance'
-      //     })
-      //   );
-      // }
-
-      // dispatch(
-      //   appActionCreators.addSuccessNotification({ message: `Order valid` })
-      // );
-
-      // socket.sendNewOrderMessage(order);
 
       // update to swarm feed
       const feedOrder = [
@@ -226,26 +140,17 @@ export const sendNewOrder = (
           signature: joinSignature(order.signature),
         },
       ]
-      // console.log(order.baseToken, feedOrder)
+
       const result = await signer.updateSwarmFeed(order.baseToken, feedOrder)
       console.log("result", result)
 
       if (result) {
-        return dispatch(
-          appActionCreators.addSuccessNotification({ message: 'Order is updated successfully on decentralize storage' })
-        )
+        return dispatch(notifierActionCreators.addSuccessNotification({ message: 'Order is updated successfully on decentralize storage' }))
       }
     } catch (e) {
       console.log(e)
-
-      // if (e.message === errors.invalidJSON) {
-      //   return dispatch(appActionCreators.addErrorNotification({ message: 'Connection error' }))
-      // }
-
-      // return dispatch(appActionCreators.addErrorNotification({ message: 'Unknown error' }))
-
       const message = parseNewOrderError(e)
-      return dispatch(appActionCreators.addErrorNotification({ message }))
+      return dispatch(notifierActionCreators.addErrorNotification({ message }))
     }
   }
 }

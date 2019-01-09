@@ -1,11 +1,7 @@
 //@flow
 import { utils } from 'ethers'
-import {
-  getOrderHash,
-  getOrderCancelHash,
-  getTradeHash,
-  // getRandomNonce
-} from '../../../utils/crypto'
+import { getOrderHash, getOrderCancelHash, getTradeHash, getRandomNonce } from '../../../utils/crypto'
+import { computePricepoint, computeAmountPoints } from '../../../utils/helpers'
 
 import { encodeBytes } from '../../../utils/rlp'
 import {
@@ -13,21 +9,18 @@ import {
   getSwarmSig,
   padTopic,
 } from '../../../utils/swarmFeed'
-import { createRawOrder as orderCreateRawOrder } from '../orders'
-// import { EXCHANGE_ADDRESS } from '../../../config/contracts';
-// import { round } from '../../../utils/helpers';
+
 import { BZZ_URL } from '../../../config/environment'
 
 // flow
 import type {
-  NewOrderParams,
   RawOrder,
   OrderCancel,
 } from '../../../types/orders'
 import type { Request } from '../../../types/swarm'
 import type { Trade } from '../../../types/trades'
 
-export const getFeedRequest = async function(topic: string): Promise<Request> {
+export const getFeedRequest = async function (topic: string): Promise<Request> {
   const userAddress = this.address
   const url = `${BZZ_URL}/bzz-feed:/?user=${userAddress}&topic=${topic}&meta=1`
   const res = await fetch(url)
@@ -36,9 +29,9 @@ export const getFeedRequest = async function(topic: string): Promise<Request> {
   return feedRequest
 }
 
-export const updateSwarmFeed = async function(
+export const updateSwarmFeed = async function (
   tokenAddress: string,
-  messages: any
+  messages: any,
 ): Promise<boolean> {
   // padding topic for token address
   let topic = padTopic(tokenAddress)
@@ -75,15 +68,48 @@ export const updateSwarmFeed = async function(
   }
 }
 
-export const createRawOrder = async function(
-  params: NewOrderParams
-): Promise<RawOrder> {
-  const order = await orderCreateRawOrder(this, params)
+// The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
+// that are used to turn decimal values into rounded integers that can be converted into
+// big numbers that can be used to compute large amounts (ex: in wei) with the amountMultiplier
+// and priceMultiplier. After multiplying with amountMultiplier and priceMultiplier, the result
+// numbers are divided by the precision multipliers.
+// So in the end we have:
+// amountPoints ~ amount * amountMultiplier ~ amount * 1e18
+// pricePoints ~ price * priceMultiplier ~ price * 1e6
+export const createRawOrder = async function (params: any) {
+  const order = {}
+  const { userAddress, exchangeAddress, side, pair, amount, price, makeFee, takeFee } = params
+  const { baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = pair
+
+
+  const precisionMultiplier = utils.bigNumberify(10).pow(9)
+  const priceMultiplier = utils.bigNumberify(10).pow(18)
+  const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
+  const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
+  const pricepoint = computePricepoint({ price, priceMultiplier, quoteMultiplier, precisionMultiplier })
+  const amountPoints = computeAmountPoints({ amount, baseMultiplier, precisionMultiplier })
+
+  order.exchangeAddress = exchangeAddress
+  order.userAddress = userAddress
+  order.baseToken = baseTokenAddress
+  order.quoteToken = quoteTokenAddress
+  order.amount = amountPoints.toString()
+  order.pricepoint = pricepoint.toString()
+  order.side = side
+  order.makeFee = makeFee
+  order.takeFee = takeFee
+  order.nonce = getRandomNonce()
+  order.hash = getOrderHash(order)
+
+  const signature = await this.signMessage(utils.arrayify(order.hash))
+  const { r, s, v } = utils.splitSignature(signature)
+
+  order.signature = { R: r, S: s, V: v }
   return order
 }
 
-export const createOrderCancel = async function(
-  orderHash: string
+export const createOrderCancel = async function (
+  orderHash: string,
 ): Promise<OrderCancel> {
   const orderCancel = {}
   orderCancel.orderHash = orderHash
@@ -96,7 +122,7 @@ export const createOrderCancel = async function(
   return orderCancel
 }
 
-export const signOrder = async function(order: RawOrder): Promise<RawOrder> {
+export const signOrder = async function (order: RawOrder): Promise<RawOrder> {
   order.hash = getOrderHash(order)
 
   const signature = await this.signMessage(utils.arrayify(order.hash))
@@ -106,7 +132,7 @@ export const signOrder = async function(order: RawOrder): Promise<RawOrder> {
   return order
 }
 
-export const signTrade = async function(trade: Trade): Promise<Trade> {
+export const signTrade = async function (trade: Trade): Promise<Trade> {
   trade.hash = getTradeHash(trade)
 
   const signature = await this.signMessage(utils.arrayify(trade.hash))
