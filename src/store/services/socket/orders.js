@@ -1,47 +1,47 @@
 //@flow
-import type { WebsocketMessage } from '../../../types/websocket';
-import { sendMessage } from './common';
+import type { WebsocketMessage } from '../../../types/websocket'
+import { sendMessage } from './common'
 
 export const sendNewOrderMessage = async (orderPayload: Object) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'NEW_ORDER',
       hash: orderPayload.hash,
-      payload: orderPayload
-    }
-  };
+      payload: orderPayload,
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const sendNewOrderCancelMessage = (orderCancelPayload: Object) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'CANCEL_ORDER',
       hash: orderCancelPayload.hash,
-      payload: orderCancelPayload
-    }
-  };
+      payload: orderCancelPayload,
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const sendNewSubmitSignatureMessage = (
   hash: string,
   order: Object,
   remainingOrder: Object,
-  matches: Array<Object>
+  matches: Array<Object>,
 ) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'orders',
     event: {
       type: 'SUBMIT_SIGNATURE',
-      hash: hash,
-      payload: { order, remainingOrder, matches }
-    }
-  };
+      hash,
+      payload: { order, remainingOrder, matches },
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
