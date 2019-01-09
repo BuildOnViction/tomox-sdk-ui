@@ -49,11 +49,7 @@ export default function getOrderFormSelector(state: State) {
   }
 }
 
-export const sendNewOrder = (
-  side: Side,
-  amount: number,
-  price: number,
-): ThunkAction => {
+export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
