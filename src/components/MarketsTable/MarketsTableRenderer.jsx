@@ -189,7 +189,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       </TableSection>
     )
   }
-};
+}
 
 
 const ChangeCell = styled(SmallText).attrs({ className: 'change' })`
