@@ -1,33 +1,41 @@
 //@flow
-export type Symbol = string;
-
-export type TokenImage = {
-  meta: string,
-  url: string
-};
+export type Symbol = string
 
 export type Token = {
   address: string,
-  symbol: Symbol,
+  symbol: string,
   decimals: number,
-  image: TokenImage
-};
+  quote?: ?bool,
+  registered?: ?bool,
+  listed?: ?bool,
+  USDRate?: ?number,
+  EURRate?: ?number,
+  JPYRate?: ?number,
+  rank?: ?number,
+}
 
-export type TokenBalance = {
-  symbol: Symbol,
-  balance: number,
-  allowance?: string
-};
+export type APIToken = {
+  address: string,
+  symbol: string,
+  decimals: number,
+  quote?: ?bool,
+  registered?: ?bool,
+  listed?: ?bool,
+  active?: ?bool,
+  rank?: ?number,
+}
 
-export type Tokens = Array<Token>;
-export type TokenBalances = Array<TokenBalance>;
+export type Tokens = Array<Token>
+export type APITokens = Array<APIToken>
 
 export type RankedToken = {
   address: string,
   symbol: string,
   decimals: number,
-  rank: number
-};
+  rank: number,
+  registered?: bool,
+  listed?: bool,
+}
 
 export type TokenPair = {
   +pair: string,
@@ -42,19 +50,57 @@ export type TokenPair = {
   +listed: bool,
   +active: bool,
   +rank: number,
-};
+}
 
-export type TokenPairs = Array<TokenPair>;
+export type TokenPairs = Array<TokenPair>
+
+export type TokenPairState = {
+  +byPair: {
+    +[string]: {
+      +pair: string,
+      +baseTokenSymbol: string,
+      +quoteTokenSymbol: string,
+      +baseTokenAddress: string,
+      +quoteTokenAddress: string,
+      +baseTokenDecimals: number,
+      +quoteTokenDecimals: number,
+      +makeFee: string,
+      +takeFee: string,
+      +listed: bool,
+      +active: bool,
+      +rank: number,
+    },
+  },
+  +data: {
+    +[string]: {
+      +pair: string,
+      +lastPrice: string,
+      +change: string,
+      +high: string,
+      +low: string,
+      +volume: string,
+    },
+  },
+  +favorites: Array<string>,
+  +currentPair: string,
+  +sortedPairs: Array<string>
+}
 
 export type TokenData = {
   address: string,
-  symbol: Symbol,
+  symbol: string,
   balance: string,
   allowance: string,
-  allowed: boolean,
-  allowancePending?: boolean,
-  image: TokenImage
-};
+}
+
+export type TokenRate = {
+  symbol: string,
+  USD: number,
+  EUR: number,
+  JPY: number,
+}
+
+export type TokenRates = Array<TokenRate>
 
 export type TokenPairData = {
   pair: string,
@@ -69,39 +115,14 @@ export type TokenPairData = {
   favorited: ?string,
   orderCount: string,
   orderVolume: string,
-};
+}
 
-export type TokenPairDataArray = Array<TokenPairData>;
-export type TokenPairDataMap = { [string]: TokenPairData };
+export type TokenPairDataArray = Array<TokenPairData>
+export type TokenPairDataMap = { [string]: TokenPairData }
 
 export type TokenState = {
-  +symbols: Array<Symbol>,
-  +bySymbol: {
-    [Symbol]: Token
-  },
-  +data: {
-    +[string]: {
-      +pair: string,
-      +lastPrice: string,
-      +change: string,
-      +high: string,
-      +low: string,
-      +volume: string
-    }
-  },
-  +favorites: Array<string>,
-  +currentPair: string
-};
+  +bySymbol: { [Symbol]: Token },
+}
 
-export type TokenPairState = {
-  +byPair: {
-    +[string]: TokenPair
-  },
-  +data: Array<TokenPairData>,
-  +favorites: Array<string>,
-  +currentPair: string,
-  +sortedPairs: Array<string>,
-};
-
-export type TokenEvent = any => TokenState => TokenState;
-export type TokenPairEvent = any => TokenPairState => TokenPairState;
+export type TokenEvent = any => TokenState => TokenState
+export type TokenPairEvent = any => TokenPairState => TokenPairState

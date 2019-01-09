@@ -1,32 +1,47 @@
 //@flow
 
-import type { Order } from './orders';
+export type Bid = {
+  pricepoint: string,
+  amount: string
+}
+
+export type Ask = {
+  pricepoint: string,
+  amount: string,
+}
 
 export type OrderBookState = {
-  +selected: ?Order,
   +quoteToken: string,
   +baseToken: string,
   +bids: Object,
   +asks: Object,
   +sortedBids: Array<number>,
-  +sortedAsks: Array<number>
-};
+  +sortedAsks: Array<number>,
+  +selected: ?{
+    pricepoint: string,
+    amount: string,
+  }
+}
 
 export type OrderBookData = {
-  +bids: Array<Object>,
-  +asks: Array<Object>
-};
+  +quoteToken: string,
+  +baseToken: string,
+  +bids: Array<Bid>,
+  +asks: Array<Ask>,
+  +sortedBids: Array<number>,
+  +sortedAsks: Array<number>,
+}
 
 export type OrderListPropsTypes = {
   orderList: Array<Object>,
   bookName: string,
   baseToken: string,
   quoteToken: string,
-  decimals: number
-};
+  decimals: number,
+}
 
 export type SingleOrderPropsTypes = {
   order: Object,
   index: number,
-  decimals: number
-};
+  decimals: number,
+}
