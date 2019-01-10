@@ -188,12 +188,12 @@ export const parseTrades = (trades: Trades, pair: TokenPair, precision: number =
 export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precision: number = 2) => {
   let { bids, asks } = data
 
-  asks = asks.map(ask => ({
+  asks = (asks: any).map(ask => ({
     price: parsePricepoint(ask.pricepoint, pair, precision),
     amount: parseTokenAmount(ask.amount, pair, precision),
   }))
 
-  bids = bids.map(bid => ({
+  bids = (bids: any).map(bid => ({
     price: parsePricepoint(bid.pricepoint, pair, precision),
     amount: parseTokenAmount(bid.amount, pair, precision),
   }))
