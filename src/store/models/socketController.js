@@ -65,7 +65,7 @@ export function openConnection(): ThunkAction {
         case 'trades':
           return dispatch(handleTradesMessage(event))
         case 'ohlcv':
-          return handleOHLCVMessage(dispatch, event, getState)
+          return dispatch(handleOHLCVMessage(event))
         case 'tokens':
           return handleTokenMessage(dispatch, event, getState)
         case 'deposit':
@@ -553,7 +553,7 @@ const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
   }
 }
 
-const handleOHLCVMessage = (event: WebsocketMessage): ThunkAction => {
+const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
     const { pairs } = socketControllerSelector(state)
