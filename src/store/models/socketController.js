@@ -61,9 +61,9 @@ export function openConnection(): ThunkAction {
         case 'orders':
           return handleOrderMessage(dispatch, event)
         case 'orderbook':
-          return handleOrderBookMessage(dispatch, event, getState)
+          return dispatch(handleOrderBookMessage(event))
         case 'trades':
-          return handleTradesMessage(dispatch, event, getState)
+          return dispatch(handleTradesMessage(event))
         case 'ohlcv':
           return handleOHLCVMessage(dispatch, event, getState)
         case 'tokens':
@@ -488,7 +488,7 @@ function handleOrderError(event: WebsocketEvent): ThunkAction {
   }
 }
 
-const handleOrderBookMessage = (event: WebsocketMessage): ThunkAction => {
+const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
     const { pairs } = socketControllerSelector(state)
@@ -521,7 +521,7 @@ const handleOrderBookMessage = (event: WebsocketMessage): ThunkAction => {
   }
 }
 
-const handleTradesMessage = (event: WebsocketMessage): ThunkAction => {
+const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
     const { pairs } = socketControllerSelector(state)

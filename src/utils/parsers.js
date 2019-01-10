@@ -12,7 +12,7 @@ import {
 import type { TokenPair, TokenPairData, Token, Tokens } from '../types/tokens'
 import type { AddressAssociationPayload } from '../types/deposit'
 import type { Order, Orders } from '../types/orders'
-import type { Trade } from '../types/trades'
+import type { Trade, Trades } from '../types/trades'
 import type { OrderBookData } from '../types/orderBook'
 import type { Candles } from '../types/ohlcv'
 import type { APIPairData } from '../types/api'
@@ -150,7 +150,7 @@ export const parseOrders = (orders: Orders, pairs: Object, precision: number = 2
   return parsedOrders
 }
 
-export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = pricePrecision) => {
+export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = 2) => {
   return {
     time: trade.createdAt,
     price: parsePricepoint(trade.pricepoint, pair, precision),
@@ -166,8 +166,21 @@ export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = pr
   }
 }
 
-export const parseTrades = (trades: Array<Trade>, pair: TokenPair, precision: number = pricePrecision) => {
-  const parsed = (trades: any).map(trade => parseTrade(trade, pair, precision))
+export const parseTrades = (trades: Trades, pair: TokenPair, precision: number = 2) => {
+  const parsed = (trades: any).map(trade => ({
+    time: trade.createdAt,
+    price: parsePricepoint(trade.pricepoint, pair, precision),
+    amount: parseTokenAmount(trade.amount, pair, precision),
+    hash: trade.hash,
+    txHash: trade.txHash,
+    orderHash: trade.orderHash,
+    type: trade.type || 'LIMIT',
+    side: trade.side,
+    pair: trade.pairName,
+    status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
+    maker: utils.getAddress(trade.maker),
+    taker: utils.getAddress(trade.taker),
+  }))
 
   return parsed
 }
