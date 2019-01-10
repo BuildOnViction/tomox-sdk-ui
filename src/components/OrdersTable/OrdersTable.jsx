@@ -1,9 +1,9 @@
 //@flow
-import React from 'react';
-import OrdersTableRenderer from './OrdersTableRenderer';
-import { sortTable } from '../../utils/helpers';
+import React from 'react'
+import OrdersTableRenderer from './OrdersTableRenderer'
+import { sortTable } from '../../utils/helpers'
 
-import type { Order } from '../../types/orders';
+import type { Order } from '../../types/orders'
 
 type Props = {
   orders: Array<Order>,
@@ -17,56 +17,56 @@ type State = {
 };
 
 class OrdersTable extends React.PureComponent<Props, State> {
-  static defaultProps = { authenticated: true };
+  static defaultProps = { authenticated: true }
   state = {
     selectedTabId: 'all',
-    isOpen: false
-  };
+    isOpen: false,
+  }
 
   changeTab = (tabId: string) => {
-    this.setState({ selectedTabId: tabId });
-  };
+    this.setState({ selectedTabId: tabId })
+  }
 
   toggleCollapse = () => {
     this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-  };
+      isOpen: !prevState.isOpen,
+    }))
+  }
 
   filterOrders = () => {
-    const { orders } = this.props;
-    let result = { ALL: orders };
-    let filters = [
+    const { orders } = this.props
+    const result = { ALL: orders }
+    const filters = [
       'OPEN',
       'CANCELLED',
       'PENDING',
       'EXECUTED',
-      'PARTIALLY_FILLED'
-    ];
+      'PARTIALLY_FILLED',
+    ]
 
-    for (let filter of filters) {
+    for (const filter of filters) {
       // silence-error: currently too many flow errors, waiting for rest to be resolved
       result[filter] = orders.filter(order => {
-        return order.status === filter;
-      });
+        return order.status === filter
+      })
     }
 
-    for (let filter of filters.concat('ALL')) {
+    for (const filter of filters.concat('ALL')) {
       // silence-error: currently too many flow errors, waiting for rest to be resolved
       result[filter] = sortTable(result[filter], 'time', (a, b) => {
         // sort by DESC
-        return a < b ? 1 : -1;
-      });
+        return a < b ? 1 : -1
+      })
     }
 
-    return result;
-  };
+    return result
+  }
 
   render() {
-    const { authenticated, orders, cancelOrder } = this.props;
-    const { selectedTabId, isOpen } = this.state;
-    const filteredOrders = this.filterOrders();
-    const loading = orders.length < 1;
+    const { authenticated, orders, cancelOrder } = this.props
+    const { selectedTabId, isOpen } = this.state
+    const filteredOrders = this.filterOrders()
+    const loading = orders.length < 1
 
     return (
       <OrdersTableRenderer
@@ -80,8 +80,8 @@ class OrdersTable extends React.PureComponent<Props, State> {
         // silence-error: currently too many flow errors, waiting for rest to be resolved
         orders={filteredOrders}
       />
-    );
+    )
   }
 }
 
-export default OrdersTable;
+export default OrdersTable
