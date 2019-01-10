@@ -112,33 +112,42 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
   return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
 }
 
-export const parseOrder = (
-  order: Object,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision,
-): Order => ({
-  time: order.createdAt,
-  amount: parseTokenAmount(order.amount, tokenDecimals, precision),
-  filled: parseTokenAmount(order.filledAmount, tokenDecimals, precision),
-  price: parsePricepoint(order.pricepoint),
-  hash: order.hash,
-  side: order.side,
-  pair: order.pairName,
-  type: 'LIMIT',
-  status: order.status,
-  cancellable: order.cancellable,
-})
+export const parseOrder = (order: Order, pair: TokenPair, precision: number = 2) => {
 
-export const parseOrders = (
-  orders: Array<Object>,
-  tokenDecimals: number = defaultDecimals,
-  precision: number = amountPrecision,
-): Orders => {
-  const parsed = orders.map(order =>
-    parseOrder(order, tokenDecimals, precision),
-  )
+  return {
+    time: order.createdAt,
+    amount: parseTokenAmount(order.amount, pair, precision),
+    filled: parseTokenAmount(order.filledAmount, pair, precision),
+    price: parsePricepoint(order.pricepoint, pair, precision),
+    hash: order.hash,
+    side: order.side,
+    pair: order.pairName,
+    type: 'LIMIT',
+    status: order.status,
+  }
+}
 
-  return parsed
+export const parseOrders = (orders: Orders, pairs: Object, precision: number = 2) => {
+  const parsedOrders = []
+
+  orders.forEach(order => {
+    const pair = pairs[order.pairName]
+    if (pair) {
+      parsedOrders.push({
+        time: order.createdAt,
+        amount: parseTokenAmount(order.amount, pair, precision),
+        filled: parseTokenAmount(order.filledAmount, pair, precision),
+        price: parsePricepoint(order.pricepoint, pair, precision),
+        hash: order.hash,
+        side: order.side,
+        pair: order.pairName,
+        type: 'LIMIT',
+        status: order.status,
+      })
+    }
+  })
+
+  return parsedOrders
 }
 
 export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = pricePrecision) => {
