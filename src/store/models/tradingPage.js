@@ -35,10 +35,10 @@ export default function tradingPageSelector(state: State) {
   const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
   const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
   const baseTokenAllowance = accountBalancesDomain.tokenAllowance(
-    baseTokenSymbol
+    baseTokenSymbol,
   )
   const quoteTokenAllowance = accountBalancesDomain.tokenAllowance(
-    quoteTokenSymbol
+    quoteTokenSymbol,
   )
 
   return {
@@ -66,19 +66,21 @@ export const queryTradingPageData = (): ThunkAction => {
       const state = getState()
       const signer = getSigner()
       const pairDomain = getTokenPairsDomain(state)
-
-      const userAddress = await signer.getAddress()
       const currentPair = pairDomain.getCurrentPair()
       const pairs = pairDomain.getPairsByCode()
 
-      const { baseTokenDecimals } = currentPair
+      const userAddress = await signer.getAddress()
 
-      let tokenPairData = await api.fetchTokenPairData()
+      let [
+        tokenPairData,
+        orders,
+      ] = await Promise.all([
+        api.fetchTokenPairData(),
+        api.fetchOrders(userAddress),
+      ])
 
       tokenPairData = parseTokenPairsData(tokenPairData, pairs)
-
-      let orders = await api.fetchOrders(userAddress)
-      orders = parseOrders(orders, baseTokenDecimals)
+      orders = parseOrders(orders, pairs)
 
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
       dispatch(actionCreators.initOrdersTable(orders))
@@ -88,7 +90,7 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.subscribeChart(
         currentPair,
         state.ohlcv.currentTimeSpan.label,
-        state.ohlcv.currentDuration.label
+        state.ohlcv.currentDuration.label,
       )
     } catch (e) {
       console.log(e)
@@ -139,7 +141,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       socket.subscribeChart(
         tokenPair,
         state.ohlcv.currentTimeSpan.label,
-        state.ohlcv.currentDuration.label
+        state.ohlcv.currentDuration.label,
       )
     } catch (e) {
       console.log(e)
