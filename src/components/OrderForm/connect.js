@@ -8,10 +8,10 @@ export const mapStateToProps = (state: State) => {
 }
 
 export const mapDispatchToProps = {
-  sendNewOrder
+  sendNewOrder,
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )

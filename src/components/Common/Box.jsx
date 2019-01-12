@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 import {
   space,
   width,
@@ -35,37 +35,37 @@ import {
   // bgColor,
   // fontFamily,
   // fontStyle,
-  height
+  height,
   // maxHeight,
   // minHeight,
   // sizeHeight,
   // display,
   // size,
   // verticalAlign
-} from 'styled-system';
+} from 'styled-system'
 
-import { Divider } from '@blueprintjs/core';
+import { Divider } from '@blueprintjs/core'
 
 export const Box = styled.div`
   ${space}
   ${width}
   ${height}
   ${color}
-`;
+`
 
 export const DividerBox = styled(Divider)`
   ${space}
   ${width}
   ${height}
   ${color}
-`;
+`
 
 export const TextBox = styled(Box)`
   ${fontSize}
   ${textAlign}
   ${justifySelf}
   ${alignSelf}
-`;
+`
 
 export const Flex = styled(Box)`
   display: flex;
@@ -74,7 +74,7 @@ export const Flex = styled(Box)`
   ${flexWrap}
   ${flexBasis}
   ${flexDirection}
-`;
+`
 
 export const FlexRow = styled(Box)`
   display: flex;
@@ -83,7 +83,7 @@ export const FlexRow = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`;
+`
 
 export const FlexColumn = styled(Box)`
   display: flex;
@@ -92,10 +92,10 @@ export const FlexColumn = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`;
+`
 
 export const FlexItem = styled.div`
   ${flex}
   ${justifySelf}
   ${alignSelf}
-`;
+`
