@@ -1,22 +1,34 @@
 // @flow
 import React from 'react'
-import OrderFormRenderer from './OrderFormRenderer'
+import { utils } from 'ethers'
 import { formatNumber, unformat } from 'accounting-js'
+
+import type { SIDE } from '../../types/orderForm'
+
+import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 
 type Props = {
-  side: 'BUY' | 'SELL',
+  side: SIDE,
   askPrice: number,
   bidPrice: number,
   baseTokenBalance: number,
   quoteTokenBalance: number,
-  baseToken: string,
-  quoteToken: string,
+  baseTokenSymbol: string,
+  quoteTokenSymbol: string,
+  baseTokenDecimals: number,
+  quoteTokenDecimals: number,
+  makeFee: string,
+  takeFee: string,
   loggedIn: boolean,
+  pairIsAllowed: boolean,
+  pairAllowanceIsPending: boolean,
+  unlockPair: (string, string) => void,
   sendNewOrder: (string, number, number) => void,
 }
 
 type State = {
+  side: SIDE,
   fraction: number,
   priceType: string,
   selectedTabId: string,
@@ -38,6 +50,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   state = {
+    side: 'BUY',
     fraction: 0,
     isOpen: true,
     priceType: 'null',
@@ -85,7 +98,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleSendOrder = () => {
     let { amount, price } = this.state
-    const { side } = this.props
+    const { side } = this.state
 
     amount = unformat(amount)
     price = unformat(price)
@@ -117,6 +130,10 @@ class OrderForm extends React.PureComponent<Props, State> {
         total: formatNumber(total, { precision: pricePrecision }),
       })
     }
+  }
+
+  handleSideChange = (side: SIDE) => {
+    this.setState({ side })
   }
 
   handlePriceChange = (price: string) => {
@@ -205,6 +222,12 @@ class OrderForm extends React.PureComponent<Props, State> {
     })
   }
 
+  handleUnlockPair = () => {
+    const { baseTokenSymbol, quoteTokenSymbol } = this.props
+
+    this.props.unlockPair(baseTokenSymbol, quoteTokenSymbol)
+  }
+
   handleChangeOrderType = (tabId: string) => {
     const { askPrice, bidPrice, side } = this.props
 
@@ -237,6 +260,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   render() {
     const {
       state: {
+        side,
         selectedTabId,
         fraction,
         priceType,
@@ -247,12 +271,42 @@ class OrderForm extends React.PureComponent<Props, State> {
         amount,
         total,
       },
-      props: { side, baseToken, loggedIn, quoteToken },
+      props: {
+        baseTokenSymbol,
+        quoteTokenSymbol,
+        baseTokenDecimals,
+        quoteTokenDecimals,
+        loggedIn,
+        pairIsAllowed,
+        pairAllowanceIsPending,
+        makeFee,
+        takeFee,
+        baseTokenBalance,
+        quoteTokenBalance,
+      },
       onInputChange,
       handleChangeOrderType,
+      handleUnlockPair,
       toggleCollapse,
       handleSendOrder,
+      handleSideChange,
     } = this
+
+    let maxAmount
+    const formattedMakeFee = utils.formatUnits(makeFee, quoteTokenDecimals)
+    const maxQuoteTokenAmount = quoteTokenBalance - Number(formattedMakeFee)
+
+    if (price !== '0.000') {
+      if (side === 'BUY') {
+        maxAmount = formatNumber(maxQuoteTokenAmount / unformat(price), { decimals: 3 })
+      } else {
+        maxAmount = formatNumber(baseTokenBalance, { decimals: 3 })
+      }
+    } else {
+      maxAmount = '0.0'
+    }
+
+    const insufficientBalance = (unformat(amount) > unformat(maxAmount))
 
     return (
       <OrderFormRenderer
@@ -264,15 +318,25 @@ class OrderForm extends React.PureComponent<Props, State> {
         stopPrice={stopPrice}
         limitPrice={limitPrice}
         amount={amount}
+        maxAmount={maxAmount}
         total={total}
         isOpen={isOpen}
-        baseToken={baseToken}
-        quoteToken={quoteToken}
+        makeFee={makeFee}
+        takeFee={takeFee}
+        baseTokenSymbol={baseTokenSymbol}
+        quoteTokenSymbol={quoteTokenSymbol}
+        baseTokenDecimals={baseTokenDecimals}
+        quoteTokenDecimals={quoteTokenDecimals}
         loggedIn={loggedIn}
+        insufficientBalance={insufficientBalance}
+        pairIsAllowed={pairIsAllowed}
+        pairAllowanceIsPending={pairAllowanceIsPending}
         onInputChange={onInputChange}
+        handleUnlockPair={handleUnlockPair}
         toggleCollapse={toggleCollapse}
         handleChangeOrderType={handleChangeOrderType}
         handleSendOrder={handleSendOrder}
+        handleSideChange={handleSideChange}
       />
     )
   }

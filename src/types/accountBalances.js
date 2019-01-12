@@ -1,74 +1,60 @@
 // @flow
-
-import type { TokenBalance } from './tokens';
-
 export type AccountBalanceState = {
   symbol: string,
   balance: string,
   subscribed: boolean,
-  allowance: string
+  allowance: string,
 };
 
 export type AccountBalancesState = { +[string]: AccountBalanceState };
 
-export type AccountBalance = TokenBalance;
-
-// // allowance is maybe because TokenBalance allowance is optional
-// export type AccountBalance = TokenBalance & {
-//   allowance: ?string
-// };
+export type AccountBalance = {
+  symbol: string,
+  balance: string,
+  allowance?: string,
+};
 
 export type AccountAllowance = {
   symbol: string,
-  allowance: string | 'pending'
+  allowance: string | 'pending',
 };
 
 export type AccountAllowances = Array<AccountAllowance>;
 export type AccountBalances = Array<AccountBalance>;
-export type AccountBalancesMap = {
-  [string]: AccountBalance
-};
+export type AccountBalancesMap = { [string]: AccountBalance }
 
 export type SubscribeAccountBalanceAction = {
   type: 'accountBalances/SUBSCRIBE_BALANCE',
-  payload: {
-    symbol: string
-  }
+  payload: { symbol: string },
 };
 
 export type UpdateAccountBalanceAction = {
   type: 'accountBalances/UPDATE_BALANCE',
-  payload: AccountBalance
+  payload: AccountBalance,
 };
 
 export type UnsubscribeAccountBalanceAction = {
   type: 'accountBalances/UNSUBSCRIBE_BALANCE',
-  payload: {
-    symbol: string
-  }
+  payload: { symbol: string },
 };
 
 export type UpdateAccountBalancesAction = {
   type: 'accountBalances/UPDATE_BALANCES',
-  payload: {
-    balances: AccountBalances
-  }
+  payload: { balances: AccountBalances },
 };
 
 export type UpdateAccountAllowanceAction = {
   type: 'accountBalances/UPDATE_ALLOWANCE',
-  payload: AccountAllowance
+  payload: AccountAllowance,
 };
 
 export type UpdateAccountAllowancesAction = {
   type: 'accountBalances/UPDATE_ALLOWANCES',
-  payload: {
-    allowances: AccountAllowances
-  }
+  payload: { allowances: AccountAllowances },
 };
 
 export type ClearAccountBalancesAction = {
-  type: 'accountBalances/CLEAR_BALANCES'
+  type: 'accountBalances/CLEAR_BALANCES',
 };
 
 export type AccountBalancesEvent = any => AccountBalancesState => AccountBalancesState;

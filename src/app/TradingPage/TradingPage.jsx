@@ -1,6 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import { Redirect } from 'react-router-dom'
+import { Grid } from 'styled-css-grid'
+
 import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
@@ -8,10 +11,6 @@ import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
 import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-import { Grid } from 'styled-css-grid'
-
-import { Redirect } from 'react-router-dom'
-// import { ResizableBox } from 'react-resizable';
 
 type Props = {
   authenticated: boolean,
@@ -41,7 +40,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   state = {
     calloutVisible: false,
     calloutOptions: {},
-  };
+  }
 
   callouts = {
     notAuthenticated: () => ({
@@ -70,7 +69,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       intent: `danger`,
       message: `To start trading a currency pair, unlock trading for both tokens (${baseTokenSymbol} and ${quoteTokenSymbol}) on your wallet page.`,
     }),
-  };
+  }
 
   componentDidMount() {
     if (this.props.isConnected) {
@@ -128,11 +127,11 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       const calloutOptions = this.callouts.quoteTokensLocked(quoteTokenSymbol)
       return this.setState({ calloutVisible: true, calloutOptions })
     }
-  };
+  }
 
   closeCallout = () => {
     this.setState({ calloutVisible: false })
-  };
+  }
 
   render() {
     const { authenticated, isInitiated } = this.props
@@ -150,8 +149,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               {...calloutOptions}
             />
             <TokenSearcher />
-            <OrderForm side="BUY" />
-            <OrderForm side="SELL" />
+            <OrderForm />
           </Grid>
         </SidePanel>
 

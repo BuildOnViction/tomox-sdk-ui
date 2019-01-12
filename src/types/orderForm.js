@@ -1,5 +1,7 @@
 //@flow
 
+export type SIDE = 'BUY' | 'SELL'
+
 export type OrderFormState = {
   formName: string,
   askPrice: number,

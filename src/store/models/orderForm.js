@@ -1,10 +1,14 @@
 // @flow
 import * as notifierActionCreators from '../actions/app'
+import * as actionCreators from '../actions/orderForm'
+
 import {
   getTokenPairsDomain,
   getOrderBookDomain,
-  getAccountDomain,
   getAccountBalancesDomain,
+  getAccountDomain,
+  getTokenDomain,
+  getOrdersDomain,
 } from '../domains/'
 
 import { utils } from 'ethers'
@@ -12,32 +16,44 @@ import type { State, ThunkAction } from '../../types'
 import type { Side } from '../../types/orders'
 import { getSigner } from '../services/signer'
 import { parseNewOrderError } from '../../config/errors'
-import { joinSignature } from 'ethers/utils'
+// import { joinSignature } from 'ethers/utils'
 import { max, minOrderAmount } from '../../utils/helpers'
 
 export default function getOrderFormSelector(state: State) {
   const tokenPairDomain = getTokenPairsDomain(state)
   const orderBookDomain = getOrderBookDomain(state)
+  const orderDomain = getOrdersDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
-
+  const accountDomain = getAccountDomain(state)
   const currentPair = tokenPairDomain.getCurrentPair()
-  const baseToken = currentPair.baseTokenSymbol
-  const quoteToken = currentPair.quoteTokenSymbol
-  const makeFee = currentPair.makeFee
-  const takeFee = currentPair.takeFee
-  const baseTokenDecimals = currentPair.baseTokenDecimals
-  const quoteTokenDecimals = currentPair.quoteTokenDecimals
-  const baseTokenBalance = accountBalancesDomain.get(baseToken)
-  const quoteTokenBalance = accountBalancesDomain.get(quoteToken)
+
+  const {
+    baseTokenSymbol,
+    quoteTokenSymbol,
+    makeFee,
+    takeFee,
+    baseTokenDecimals,
+    quoteTokenDecimals,
+  } = currentPair
+
   const askPrice = orderBookDomain.getAskPrice()
   const bidPrice = orderBookDomain.getBidPrice()
   const selectedOrder = orderBookDomain.getSelectedOrder()
 
+  const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
+  const currentAddress = accountDomain.address()
+  const baseTokenLockedBalance = orderDomain.lockedBalanceByToken(baseTokenSymbol, currentAddress)
+  const quoteTokenLockedBalance = orderDomain.lockedBalanceByToken(quoteTokenSymbol, currentAddress)
+  const baseTokenBalance = baseToken.balance - baseTokenLockedBalance
+  const quoteTokenBalance = quoteToken.balance - quoteTokenLockedBalance
+  const pairIsAllowed = baseToken.allowed && quoteToken.allowed
+  const pairAllowanceIsPending = baseToken.allowancePending || quoteToken.allowancePending
+
   return {
     selectedOrder,
     currentPair,
-    baseToken,
-    quoteToken,
+    baseTokenSymbol,
+    quoteTokenSymbol,
     baseTokenBalance,
     quoteTokenBalance,
     baseTokenDecimals,
@@ -46,6 +62,8 @@ export default function getOrderFormSelector(state: State) {
     bidPrice,
     makeFee,
     takeFee,
+    pairIsAllowed,
+    pairAllowanceIsPending,
   }
 }
 
@@ -147,6 +165,40 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
       console.log(e)
       const message = parseNewOrderError(e)
       return dispatch(notifierActionCreators.addErrorNotification({ message }))
+    }
+  }
+}
+
+export function unlockPair(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
+  return async (dispatch, getState, { txProvider }) => {
+
+    try {
+      const state = getState()
+      const tokens = getTokenDomain(state).bySymbol()
+      const baseTokenAddress = tokens[baseTokenSymbol].address
+      const quoteTokenAddress = tokens[quoteTokenSymbol].address
+
+      const txSentHandler = (txHash1, txHash2) => {
+        const tx1 = { type: 'Token Unlocked', hash: txHash1, time: Date.now(), status: 'PENDING' }
+        const tx2 = { type: 'Token Unlocked', hash: txHash2, time: Date.now(), status: 'PENDING' }
+
+        dispatch(actionCreators.unlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2))
+      }
+
+      const txConfirmHandler = (txConfirmed, txHash1, txHash2) => {
+        const tx1 = { type: 'Token Unlocked', hash: txHash1, time: Date.now(), status: 'CONFIRMED' }
+        const tx2 = { type: 'Token Unlocked', hash: txHash2, time: Date.now(), status: 'CONFIRMED' }
+        const errorMessage = `Approval failed. Please try again`
+
+        txConfirmed
+          ? dispatch(actionCreators.confirmUnlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2))
+          : dispatch(actionCreators.errorUnlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2, errorMessage))
+      }
+
+      txProvider.updatePairAllowances(baseTokenAddress, quoteTokenAddress, txConfirmHandler, txSentHandler)
+    } catch (e) {
+      console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }

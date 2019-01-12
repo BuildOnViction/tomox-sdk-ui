@@ -194,6 +194,27 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         }
       })
     },
+    getBalancesAndAllowancesBySymbol(symbols: Array<string>) {
+      return (symbols: any).map(symbol => {
+        if (!state[symbol]) {
+          return {
+            balance: null,
+            allowed: null,
+            allowancePending: null,
+          }
+        }
+
+        const balance = state[symbol].balance
+        const allowance = state[symbol].allowance
+        const allowed = Number(allowance) >= Math.max(Number(balance), 100000)
+
+        return {
+          balance,
+          allowed,
+          allowancePending: state[symbol].allowancePending,
+        }
+      })
+    },
     depositTableData() {
       return (Object.values(state): any).map(item => {
         return {

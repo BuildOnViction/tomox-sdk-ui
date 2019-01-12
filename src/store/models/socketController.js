@@ -498,16 +498,21 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
 
     const { pairName } = event.payload
     const pairInfo = pairs[pairName]
+    let bids, asks, orderBookData
 
     try {
       switch (event.type) {
         case 'INIT':
-          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          orderBookData = parseOrderBookData(event.payload, pairInfo)
+          bids = orderBookData.bids
+          asks = orderBookData.asks
           dispatch(actionCreators.initOrderBook(bids, asks))
           break
 
         case 'UPDATE':
-          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          orderBookData = parseOrderBookData(event.payload, pairInfo)
+          bids = orderBookData.bids
+          asks = orderBookData.asks
           dispatch(actionCreators.updateOrderBook(bids, asks))
           break
 
