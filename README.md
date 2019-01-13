@@ -35,6 +35,33 @@ $ yarn storybook
 **Update translation**
 `yarn merge-translations --trim=true`
 
+## Development Roadmap
+`This part should be added in the repository of the whole DEX project (not created yet) !`
+
+1. Authentication (support logging in by these methods):
+   - [x] Private key
+   - [x] Keystore / JSON File
+   - [x] Mnemonic Phrase
+   - [x] Metamask
+   - [x] Trezor Hardware Wallet
+   - [ ] Ledger Hardware Wallet
+2. Wallet Management
+   - [x] Deposit TOMO
+   - [x] Deposit other tokens by using TOMO currency
+   - [x] Send TOMO or other tokens to other accounts
+   - [ ] Add custom tokens
+   - [ ] List transactions
+3. Exchange
+   - [x] Buy/Sell TOMO or other tokens
+   - [x] Order Book
+   - [x] Market Prices
+   - [ ] Trades History
+   - [ ] OHLCV Chart (Candlestick chart)
+4. Protocol Level
+   - [ ] Store order book decentralized
+   - [ ] Integrate matching engine in Tomochain protocol
+   - [ ] Update balance on-chain
+
 ## Contribution
 
 Please try your best to follow the guidance here:
