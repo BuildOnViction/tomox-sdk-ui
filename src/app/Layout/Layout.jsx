@@ -92,7 +92,7 @@ class Layout extends React.PureComponent<Props, State> {
                 <React.Fragment>
                   <NavbarDivider />
                   <NavbarLink to="/wallet">Wallet</NavbarLink>
-                  {/*<NavbarLink to="/markets">Markets</NavbarLink>*/}
+                  <NavbarLink to="/markets">Markets</NavbarLink>
                   <NavbarLink to="/trade">Exchange</NavbarLink>
                   <NavbarLink to="/settings">Settings</NavbarLink>
                   <NavbarDivider />

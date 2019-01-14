@@ -112,17 +112,17 @@ export const fetchBalance = async (address: string) => {
 
 export const fetchOrders = async (address: string) => {
   const response = await request(`/orders?address=${address}`)
-  const { data, error } = await response.json()
 
   if (response.status === 400) {
+    const { error } = await response.json()
     throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data)
     throw new Error('Server error')
   }
 
+  const { data } = await response.json()
   return data
 }
 

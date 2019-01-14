@@ -166,29 +166,17 @@ export function unsubscribeOrderBook(pair: string): UnsubscribeOrderBookAction {
   }
 }
 
-export function initOrderBook(
-  bids: Array<Object>,
-  asks: Array<Object>,
-): InitOrderBookAction {
+export function initOrderBook(bids: Array<Object>, asks: Array<Object>): InitOrderBookAction {
   return {
     type: actionTypes.initOrderBook,
-    payload: {
-      bids,
-      asks,
-    },
+    payload: { bids, asks },
   }
 }
 
-export function updateOrderBook(
-  bids: Array<Object>,
-  asks: Array<Object>,
-): UpdateOrderBookAction {
+export function updateOrderBook(bids: Array<Object>, asks: Array<Object>): UpdateOrderBookAction {
   return {
     type: actionTypes.updateOrderBook,
-    payload: {
-      bids,
-      asks,
-    },
+    payload: { bids, asks },
   }
 }
 

@@ -1,40 +1,40 @@
 // @flow
-import { sortTable } from '../../utils/helpers';
-import { formatNumber } from 'accounting-js';
-import { amountPrecision, pricePrecision } from '../../config/tokens';
+import { sortTable } from '../../utils/helpers'
+import { formatNumber } from 'accounting-js'
+import { amountPrecision, pricePrecision } from '../../config/tokens'
 
-import type { Trade, Trades, TradesState } from '../../types/trades';
+import type { Trade, Trades, TradesState } from '../../types/trades'
 
 const initialState = {
-  byHash: {}
-};
+  byHash: {},
+}
 
 export const initialized = () => {
-  const event = (state: TradesState = initialState) => state;
-  return event;
-};
+  const event = (state: TradesState = initialState) => state
+  return event
+}
 
 export const tradesUpdated = (trades: Trades) => {
   const event = (state: TradesState) => {
-    let newState = trades.reduce((result, item) => {
+    const newState = trades.reduce((result, item) => {
       result[item.hash] = {
         ...state[item.hash],
-        ...item
-      };
-      return result;
-    }, {});
+        ...item,
+      }
+      return result
+    }, {})
 
     return {
       ...state,
       byHash: {
         ...state.byHash,
-        ...newState
-      }
-    };
-  };
+        ...newState,
+      },
+    }
+  }
 
-  return event;
-};
+  return event
+}
 
 export const tradesDeleted = (trades: Trades) => {
   const event = (state: TradesState) => ({
@@ -42,44 +42,44 @@ export const tradesDeleted = (trades: Trades) => {
     byHash: Object.keys(state.byHash)
       .filter(key => trades.indexOf(key) === -1)
       .reduce((result, current) => {
-        result[current] = state.byHash[current];
-        return result;
-      }, {})
-  });
+        result[current] = state.byHash[current]
+        return result
+      }, {}),
+  })
 
-  return event;
-};
+  return event
+}
 
 export const tradesInitialized = (trades: Trades) => {
   const event = (state: TradesState) => {
-    let newState = trades.reduce((result, item) => {
+    const newState = trades.reduce((result, item) => {
       result[item.hash] = {
         ...state[item.hash],
-        ...item
-      };
-      return result;
-    }, {});
+        ...item,
+      }
+      return result
+    }, {})
 
-    return { byHash: newState };
-  };
+    return { byHash: newState }
+  }
 
-  return event;
-};
+  return event
+}
 
 export const tradesReset = () => {
   const event = (state: TradesState) => {
     return {
       ...state,
-      byHash: {}
-    };
-  };
+      byHash: {},
+    }
+  }
 
-  return event;
-};
+  return event
+}
 
 const getTrades = (state: TradesState): Trades => {
-  return Object.keys(state.byHash).map(key => state.byHash[key]);
-};
+  return Object.keys(state.byHash).map(key => state.byHash[key])
+}
 
 export default function tradesDomain(state: TradesState) {
   return {
@@ -87,52 +87,52 @@ export default function tradesDomain(state: TradesState) {
     all: () => getTrades(state),
 
     userTrades: (address: string) => {
-      let trades = getTrades(state);
-      let isUserTrade = (trade: Trade) =>
-        trade.taker === address || trade.maker === address;
+      let trades = getTrades(state)
+      const isUserTrade = (trade: Trade) =>
+        trade.taker === address || trade.maker === address
 
-      trades = trades.filter(trade => isUserTrade(trade));
-      trades = sortTable(trades, 'time', 'desc');
+      trades = trades.filter(trade => isUserTrade(trade))
+      trades = sortTable(trades, 'time', 'desc')
       trades = trades.map(trade => {
         return {
           ...trade,
           amount: formatNumber(trade.amount, { precision: amountPrecision }),
-          price: formatNumber(trade.price, { precision: pricePrecision })
-        };
-      });
+          price: formatNumber(trade.price, { precision: pricePrecision }),
+        }
+      })
 
-      return trades;
+      return trades
     },
 
     marketTrades: (n: number): Trades => {
-      let trades = getTrades(state);
-      trades = sortTable(trades, 'time', 'desc');
+      let trades = getTrades(state)
+      trades = sortTable(trades, 'time', 'desc')
       trades = trades.map((trade, index) => {
-        let change;
+        let change
 
         index === trades.length - 1
           ? (change = 'positive')
           : trade.price >= trades[index + 1].price
           ? (change = 'positive')
-          : (change = 'negative');
+          : (change = 'negative')
 
         return {
           ...trade,
           amount: formatNumber(trade.amount, { precision: amountPrecision }),
           price: formatNumber(trade.price, { precision: pricePrecision }),
-          change
-        };
-      });
+          change,
+        }
+      })
 
-      trades = (trades: Trades).slice(0, n);
-      return trades;
+      trades = (trades: Trades).slice(0, n)
+      return trades
     },
 
     lastTrades: (n: number): Trades => {
-      let trades = Object.values(state.byHash);
-      let sortedTrades = sortTable(trades, 'time', 'desc');
-      let lastTrades = (sortedTrades: Trades).slice(0, n);
-      return lastTrades;
-    }
-  };
+      const trades = Object.values(state.byHash)
+      const sortedTrades = sortTable(trades, 'time', 'desc')
+      const lastTrades = (sortedTrades: Trades).slice(0, n)
+      return lastTrades
+    },
+  }
 }

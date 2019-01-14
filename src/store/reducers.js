@@ -275,8 +275,10 @@ export const tokenPairs = createReducer(action => {
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
+    case walletPageActionTypes.updateTokenPairs:
+      return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
     case tokensActionTypes.updateTokens:
-      return tokenPairsEvents.tokenPairUpdated(payload)
+      return tokenPairsEvents.tokenPairsUpdated(payload)
     case tokensActionTypes.removeTokens:
       return tokenPairsEvents.tokenPairRemoved(payload)
     case tokenSearcherActionTypes.updateFavorite:

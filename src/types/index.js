@@ -1,52 +1,52 @@
 // @flow
-import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
-import type { SignerEvent, SignerSettingsAction, SignerState } from './signer';
+import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux'
+import type { SignerEvent, SignerSettingsAction, SignerState } from './signer'
 import type {
   TomoBalanceAction,
   TomoBalanceEvent,
-  TomoBalanceState
-} from './tomoBalance';
+  TomoBalanceState,
+} from './tomoBalance'
 import type {
   AccountBalancesAction,
   AccountBalancesEvent,
-  AccountBalancesState
-} from './accountBalances';
+  AccountBalancesState,
+} from './accountBalances'
 import type {
   TransferTokensFormAction,
   TransferTokensFormEvent,
-  TransferTokensFormState
-} from './transferTokensForm';
-import type { OHLCVState } from './ohlcv';
-import type { OrderBookState } from './orderBook';
-import type { TradeHistoryState } from './tradeHistory';
-import type { OrderHistoryState } from './orderHistory';
-import type { OrderFormState } from './orderForm';
+  TransferTokensFormState,
+} from './transferTokensForm'
+import type { OHLCVState } from './ohlcv'
+import type { OrderBookState } from './orderBook'
+import type { TradeHistoryState } from './tradeHistory'
+import type { OrderHistoryState } from './orderHistory'
+import type { OrderFormState } from './orderForm'
 import type {
   TokenState,
   TokenPairState,
   TokenEvent,
-  TokenPairEvent
-} from './tokens';
-import type { AccountState, AccountAction, AccountEvent } from './account';
+  TokenPairEvent,
+} from './tokens'
+import type { AccountState, AccountAction, AccountEvent } from './account'
 import type {
   LoginPageState,
   LoginPageAction,
-  LoginPageEvent
-} from './loginPage';
-import type { LogoutPageAction } from './logoutPage';
+  LoginPageEvent,
+} from './loginPage'
+import type { LogoutPageAction } from './logoutPage'
 import type {
   DepositFormAction,
   DepositFormEvent,
-  DepositFormState
-} from './depositForm';
-import type { SettingsAction, SettingsEvent, SettingsState } from './settings';
-import type { WalletsAction, WalletsEvent, WalletsState } from './wallets';
-import type { NotificationState } from './notifications';
-import type { WebsocketState } from './websocket';
+  DepositFormState,
+} from './depositForm'
+import type { SettingsAction, SettingsEvent, SettingsState } from './settings'
+import type { WalletsAction, WalletsEvent, WalletsState } from './wallets'
+import type { NotificationState } from './notifications'
+import type { WebsocketState } from './websocket'
 
 export type ReduxInitAction = {
   type: '@@INIT'
-};
+}
 
 export type Action =
   | ReduxInitAction
@@ -59,7 +59,7 @@ export type Action =
   | WalletsAction
   | LoginPageAction
   | LogoutPageAction
-  | SignerSettingsAction;
+  | SignerSettingsAction
 
 export type Event =
   | LoginPageEvent
@@ -72,9 +72,9 @@ export type Event =
   | DepositFormEvent
   | SettingsEvent
   | WalletsEvent
-  | SignerEvent;
+  | SignerEvent
 
-export type ActionHandler = Action => Event;
+export type ActionHandler = Action => Event
 
 export type State = {
   loginPage: LoginPageState,
@@ -95,22 +95,23 @@ export type State = {
   wallets: WalletsState,
   notifications: NotificationState,
   websocket: WebsocketState
-};
+}
 
-export type Store = ReduxStore<State, Action>;
-export type Dispatch = ReduxDispatch<Action>;
-export type GetState = () => State;
-export type PromiseAction = Promise<Action>;
+export type Store = ReduxStore<State, Action>
+export type Dispatch = ReduxDispatch<Action>
+export type GetState = () => State
+export type PromiseAction = Promise<Action>
 export type ExtraArgument = {
   socket: Object,
   api: Object,
   trading: Object,
-  provider: Object
-};
+  provider: Object,
+  txProvider: Object,
+}
 
 export type ThunkAction = (
   dispatch: Dispatch,
   getState: GetState,
-  ExtraArgument
-) => any;
-// export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
+  ExtraArgument,
+) => any
+// export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any

@@ -1,16 +1,16 @@
 //@flow
-import type { Signature } from './common';
+import type { Signature } from './common'
 
-import type { TokenPair } from './tokens';
+import type { TokenPair } from './tokens'
 
-export type Side = 'BUY' | 'SELL';
-export type OrderType = 'MARKET' | 'LIMIT';
+export type Side = 'BUY' | 'SELL'
+export type OrderType = 'MARKET' | 'LIMIT'
 export type OrderStatus =
   | 'NEW'
   | 'OPEN'
   | 'CANCELLED'
   | 'FILLED'
-  | 'PARTIALLY_FILLED';
+  | 'PARTIALLY_FILLED'
 
 export type NewOrderParams = {
   userAddress: string,
@@ -20,8 +20,8 @@ export type NewOrderParams = {
   price: number,
   makeFee: string,
   takeFee: string,
-  side: Side
-};
+  side: Side,
+}
 
 export type RawOrder = {
   exchangeAddress: string,
@@ -36,14 +36,14 @@ export type RawOrder = {
   takeFee: string,
   status: string,
   hash: string,
-  signature: Signature
-};
+  signature: Signature,
+}
 
 export type OrderCancel = {
   orderHash: string,
   hash: string,
-  signature: Signature
-};
+  signature: Signature,
+}
 
 export type Order = {
   time: number,
@@ -55,13 +55,13 @@ export type Order = {
   pair: string,
   type: OrderType,
   status: OrderStatus,
-  cancellable: boolean
-};
+  cancellable: boolean,
+}
 
 // eslint-disable-next-line
-export type Orders = Array<Order>;
+export type Orders = Array<Order>
 
 // eslint-disable-next-line
 export type OrdersState = {
-  byHash: { [key: string]: Order }
-};
+  byHash: { [key: string]: Order },
+}

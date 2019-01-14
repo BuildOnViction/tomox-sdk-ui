@@ -1,11 +1,11 @@
-import React from 'react';
-import WalletInfoRenderer from './WalletInfoRenderer';
+import React from 'react'
+import WalletInfoRenderer from './WalletInfoRenderer'
 
 export default class WalletInfo extends React.PureComponent {
   state = { isModalOpen: false };
 
   handleModalClose = () => {
-    this.setState({ isModalOpen: !this.state.isModalOpen });
+    this.setState({ isModalOpen: !this.state.isModalOpen })
   };
 
   render() {
@@ -13,8 +13,8 @@ export default class WalletInfo extends React.PureComponent {
       props: { accountAddress, gasPrice, gas, tomoBalance },
       state: { currentBlock, isModalOpen },
       handleModalClose,
-      toggleBalance
-    } = this;
+      toggleBalance,
+    } = this
 
     return (
       <WalletInfoRenderer
@@ -27,6 +27,6 @@ export default class WalletInfo extends React.PureComponent {
         toggleBalance={toggleBalance}
         handleModalClose={handleModalClose}
       />
-    );
+    )
   }
 }

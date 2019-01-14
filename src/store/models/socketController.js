@@ -59,13 +59,13 @@ export function openConnection(): ThunkAction {
       // we can pass dispatch, or call dispatch to update redux
       switch (channel) {
         case 'orders':
-          return handleOrderMessage(dispatch, event, getState)
+          return handleOrderMessage(dispatch, event)
         case 'orderbook':
-          return handleOrderBookMessage(dispatch, event, getState)
+          return dispatch(handleOrderBookMessage(event))
         case 'trades':
-          return handleTradesMessage(dispatch, event, getState)
+          return dispatch(handleTradesMessage(event))
         case 'ohlcv':
-          return handleOHLCVMessage(dispatch, event, getState)
+          return dispatch(handleOHLCVMessage(event))
         case 'tokens':
           return handleTokenMessage(dispatch, event, getState)
         case 'deposit':
@@ -237,107 +237,84 @@ function handleTokenListUpdated(
   }
 }
 
-const handleOrderMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
+const handleOrderMessage = (dispatch, event: WebsocketEvent) => {
   const { type } = event
 
   switch (type) {
     case 'ORDER_ADDED':
-      return handleOrderAdded(dispatch, event, getState)
+      return dispatch(handleOrderAdded(event))
     case 'ORDER_CANCELLED':
-      return handleOrderCancelled(dispatch, event, getState)
+      return dispatch(handleOrderCancelled(event))
     case 'ORDER_MATCHED':
-      return handleOrderMatched(dispatch, event, getState)
-    case 'ERROR':
-      return handleOrderError(dispatch, event, getState)
-    // methods that need async
+      return dispatch(handleOrderMatched(event))
     case 'ORDER_SUCCESS':
       return dispatch(handleOrderSuccess(event))
     case 'ORDER_PENDING':
       return dispatch(handleOrderPending(event))
+    case 'ERROR':
+      return dispatch(handleOrderError(event))
     default:
       console.log('Unknown', event)
       return
   }
 }
 
-function handleOrderAdded(dispatch: Dispatch, event: WebsocketEvent, getState) {
-  try {
-    const state = getState()
-    const { pairs } = socketControllerSelector(state)
-    let order = event.payload
-    if (order) {
-      const { baseTokenDecimals } = pairs[order.pairName]
-
-      order = parseOrder(order, baseTokenDecimals)
+function handleOrderAdded(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const { pairs } = socketControllerSelector(state)
+      let order = event.payload
+      const pairInfo = pairs[order.pairName]
+      order = parseOrder(order, pairInfo)
+      console.log(order)
 
       dispatch(appActionCreators.addOrderAddedNotification())
       dispatch(actionCreators.updateOrdersTable([order]))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
+
   }
 }
 
-function handleOrderCancelled(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) {
-  try {
-    const state = getState()
-    const { pairs } = socketControllerSelector(state)
-    let order = event.payload
-    if (order) {
-      const { baseTokenDecimals } = pairs[order.pairName]
+function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const { pairs } = socketControllerSelector(state)
+      let order = event.payload
+      const pairInfo = pairs[order.pairName]
 
-      order = parseOrder(order, baseTokenDecimals)
+      order = parseOrder(order, pairInfo)
 
       dispatch(appActionCreators.addOrderCancelledNotification())
       dispatch(actionCreators.updateOrdersTable([order]))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
   }
 }
 
-function handleOrderMatched(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) {
-  try {
-    const state = getState()
-    const { pairs } = socketControllerSelector(state)
-    let order = event.payload
-    if (order) {
-      const { baseTokenDecimals } = pairs[order.pairName]
+function handleOrderMatched(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const { pairs } = socketControllerSelector(state)
+      const { matches } = event.payload
+      const takerOrder = matches.takerOrder
+      const pairInfo = pairs[takerOrder.pairName]
 
-      order = parseOrder(order, baseTokenDecimals)
+      const order = parseOrder(takerOrder, pairInfo)
 
       dispatch(appActionCreators.addOrderMatchedNotification())
       dispatch(actionCreators.updateOrdersTable([order]))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
   }
 }
 
@@ -502,149 +479,111 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
   }
 }
 
-function handleOrderError(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) {
-  if (event.payload) {
-    const { message } = event.payload
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: `Error: ${message}`,
-      }),
-    )
+function handleOrderError(event: WebsocketEvent): ThunkAction {
+  return async dispatch => {
+    if (event.payload) {
+      const { message } = event.payload
+      dispatch(appActionCreators.addErrorNotification({ message: `Error: ${message}` }))
+    }
   }
 }
 
-const handleOrderBookMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+    if (event.type === 'ERROR' || !event.payload) return
+    // if (event.payload.length === 0) return
 
-  // console.log(event, pairs);
+    const { pairName } = event.payload
+    const pairInfo = pairs[pairName]
 
-  const { pairName } = event.payload
-  const {
-    baseTokenDecimals,
-    // quoteTokenDecimals
-  } = pairs[pairName]
+    try {
+      switch (event.type) {
+        case 'INIT':
+          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          dispatch(actionCreators.initOrderBook(bids, asks))
+          break
 
-  try {
-    const { bids, asks } = parseOrderBookData(event.payload, baseTokenDecimals)
-    console.log(bids)
-    switch (event.type) {
-      case 'INIT':
-        dispatch(actionCreators.initOrderBook(bids, asks))
-        break
+        case 'UPDATE':
+          var { bids, asks } = parseOrderBookData(event.payload, pairInfo)
+          dispatch(actionCreators.updateOrderBook(bids, asks))
+          break
 
-      case 'UPDATE':
-        dispatch(actionCreators.updateOrderBook(bids, asks))
-        break
-
-      default:
-        return
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
     }
-  } catch (e) {
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-    console.log(e)
   }
 }
 
-const handleTradesMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  // console.log(event)
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
 
-  let trades = event.payload
-  const { pairName } = trades[0]
-  const { baseTokenDecimals } = pairs[pairName]
+    let trades = event.payload
+    const { pairName } = trades[0]
+    const pair = pairs[pairName]
 
-  try {
-    switch (event.type) {
-      case 'INIT':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.initTradesTable(trades))
-        break
-      case 'UPDATE':
-        trades = parseTrades(trades, baseTokenDecimals)
-        dispatch(actionCreators.updateTradesTable(trades))
-        break
-      default:
-        return
+    try {
+      switch (event.type) {
+        case 'INIT':
+          trades = parseTrades(trades, pair)
+          dispatch(actionCreators.initTradesTable(trades))
+          break
+        case 'UPDATE':
+          trades = parseTrades(trades, pair)
+          dispatch(actionCreators.updateTradesTable(trades))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
     }
-  } catch (e) {
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-    console.log(e)
   }
 }
 
-const handleOHLCVMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const state = getState()
-  const { pairs } = socketControllerSelector(state)
+const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { pairs } = socketControllerSelector(state)
 
-  if (!event.payload) return
-  if (event.payload.length === 0) return
-
-  let ohlcv = event.payload
-
-  // Prevent undefined error
-  if (Array.isArray(ohlcv) && ohlcv.length < 1) {
-    return
-  }
-
-  // Because it returns an object when there is 1 element
-  if (!Array.isArray(ohlcv)) {
-    ohlcv = [ohlcv]
-  }
-
-  const { pairName } = ohlcv[0].pair
-  const { baseTokenDecimals } = pairs[pairName]
-
-  try {
-    switch (event.type) {
-      case 'INIT':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.initOHLCV(ohlcv))
-        break
-      case 'UPDATE':
-        ohlcv = parseOHLCV(ohlcv, baseTokenDecimals)
-        dispatch(actionCreators.updateOHLCV(ohlcv))
-        break
-      default:
-        return
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) {
+      dispatch(actionCreators.initOHLCV([]))
+      return
     }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
+
+    let ohlcv = event.payload
+    const { pairName } = ohlcv[0].pair
+    const pair = pairs[pairName]
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          ohlcv = parseOHLCV(ohlcv, pair)
+          dispatch(actionCreators.initOHLCV(ohlcv))
+          break
+        case 'UPDATE':
+          ohlcv = parseOHLCV(ohlcv, pair)
+          dispatch(actionCreators.updateOHLCV(ohlcv))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
   }
 }

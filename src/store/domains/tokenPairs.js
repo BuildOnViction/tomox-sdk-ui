@@ -19,7 +19,7 @@ import type {
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
 const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
-  data: [],
+  data: {},
   favorites: [],
   currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
   sortedPairs: [],
@@ -43,69 +43,84 @@ export const currentPairUpdated = (pair: string) => {
   return event
 }
 
-export const tokenPairUpdated = (pairs: TokenPairs) => {
+export const tokenPairsUpdated = (pairs: TokenPairs) => {
   const event = (state: TokenPairState) => {
-    const byPair = pairs.reduce((result, pair) => {
-      const pairSymbol = getPairSymbol(
-        pair.baseTokenSymbol,
-        pair.quoteTokenSymbol
-      )
+    const byPair = pairs.reduce(
+      (result, pair) => {
+        const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+        result[pairSymbol] = {
+          pair: pairSymbol,
+          baseTokenSymbol: pair.baseTokenSymbol,
+          quoteTokenSymbol: pair.quoteTokenSymbol,
+          baseTokenAddress: pair.baseTokenAddress,
+          quoteTokenAddress: pair.quoteTokenAddress,
+          baseTokenDecimals: pair.baseTokenDecimals,
+          quoteTokenDecimals: pair.quoteTokenDecimals,
+          makeFee: pair.makeFee,
+          takeFee: pair.takeFee,
+          listed: pair.listed,
+          active: pair.active,
+          rank: pair.rank,
+        }
 
-      result[pairSymbol] = {
-        pair: pairSymbol,
-        baseTokenSymbol: pair.baseTokenSymbol,
-        quoteTokenSymbol: pair.quoteTokenSymbol,
-        baseTokenAddress: pair.baseTokenAddress,
-        quoteTokenAddress: pair.quoteTokenAddress,
-        baseTokenDecimals: pair.baseTokenDecimals,
-        quoteTokenDecimals: pair.quoteTokenDecimals,
-        makeFee: pair.makeFee,
-        takeFee: pair.takeFee,
-      }
+        return result
+      },
+      {}
+    )
 
-      return result
-    }, {})
+    const sortedPairs = pairs.map(pair => {
+      const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+      return pairSymbol
+    })
+
+    return {
+      ...state,
+      byPair: {
+        ...state.byPair,
+        ...byPair,
+      },
+      sortedPairs: [...new Set([...state.sortedPairs, ...sortedPairs])],
+    }
+  }
+
+  return event
+}
+
+export const tokenPairsReset = (pairs: TokenPairs) => {
+  const event = (state: TokenPairState) => {
+    const byPair = pairs.reduce(
+      (result, pair) => {
+        const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+        result[pairSymbol] = {
+          pair: pairSymbol,
+          baseTokenSymbol: pair.baseTokenSymbol,
+          quoteTokenSymbol: pair.quoteTokenSymbol,
+          baseTokenAddress: pair.baseTokenAddress,
+          quoteTokenAddress: pair.quoteTokenAddress,
+          baseTokenDecimals: pair.baseTokenDecimals,
+          quoteTokenDecimals: pair.quoteTokenDecimals,
+          makeFee: pair.makeFee,
+          takeFee: pair.takeFee,
+          listed: pair.listed,
+          active: pair.active,
+          rank: pair.rank,
+        }
+
+        return result
+      },
+      {}
+    )
+
+    const sortedPairs = pairs.map(pair => {
+      const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+      return pairSymbol
+    })
 
     return {
       ...state,
       byPair,
+      sortedPairs: [...new Set([...sortedPairs])],
     }
-
-    // if (baseToken.symbol === NATIVE_TOKEN_SYMBOL) return;
-    // let newState = quoteTokens.reduce(
-    //   (result, quoteToken) => {
-    //     if (quoteToken.symbol === baseToken.symbol) return result;
-    //     if (
-    //       Object.keys(state.byPair).indexOf(
-    //         getPairSymbol(quoteToken.symbol, baseToken.symbol)
-    //       ) !== -1
-    //     ) {
-    //       return result;
-    //     }
-
-    //     let pairSymbol = getPairSymbol(baseToken.symbol, quoteToken.symbol);
-    //     result.byPair[pairSymbol] = {
-    //       pair: pairSymbol,
-    //       baseTokenSymbol: baseToken.symbol,
-    //       quoteTokenSymbol: quoteToken.symbol,
-    //       baseTokenAddress: baseToken.address,
-    //       quoteTokenAddress: quoteToken.address,
-    //       baseTokenDecimals: baseToken.decimals,
-    //       quoteTokenDecimals: quoteToken.decimals,
-    //       pricepointMultiplier: 1e9
-    //     };
-    //     return result;
-    //   }, {
-    //     byPair: {}
-    //   }
-    // );
-
-    // return {
-    //   ...state,
-    //   byPair: { ...state.byPair,
-    //     ...newState.byPair
-    //   }
-    // };
   }
 
   return event
@@ -128,33 +143,29 @@ export const tokenPairRemoved = (baseToken: Token) => {
   return event
 }
 
-/**
- * Merge two arrays of token pairs
- * @param {*} arr1
- * @param {*} arr2
- */
-const mergeByTokenPair = (
-  arr1: TokenPairData[],
-  arr2: TokenPairData[]
-): TokenPairData[] => {
-  return [
-    ...arr1,
-    ...arr2.filter(
-      item2 => arr1.findIndex(item1 => item1.pair === item2.pair) < 0
-    ),
-  ]
-}
+export const tokenPairDataUpdated = (tokenPairData: Array<TokenPairData>) => {
+  const event = (state: TokenPairDataMap) => {
 
-export const tokenPairDataUpdated = (tokenPairData: TokenPairDataMap) => {
-  const event = (state: TokenPairState): TokenPairState => {
+    const data = tokenPairData.reduce((result, item) => {
+      return {
+        ...result,
+        [item.pair]: {
+          ...state.data[item.pair],
+          ...item,
+        },
+      }
+    }, {})
+
     const newState = {
       ...state,
-      data: mergeByTokenPair(state.data, tokenPairData),
+      data: {
+        ...state.data,
+        ...data,
+      },
     }
 
     return newState
   }
-
   return event
 }
 
@@ -182,8 +193,26 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
     getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+
+    //Merge token pair properties and data
+    getTokenPairsWithDataObject: () => {
+      const symbols = Object.keys(state.byPair)
+      return symbols.reduce((
+        (result, symbol) => {
+          if (state.data[symbol] && state.byPair[symbol]) {
+            result[symbol] = {
+              ...state.data[symbol],
+              ...state.byPair[symbol],
+            }
+          }
+
+          return result
+        }
+      ), {})
+    },
+
     getTokenPairsWithDataArray: () => {
-      let tokenPairData = []
+      const tokenPairData = []
       const symbols = state.sortedPairs
 
       symbols.forEach(symbol => {

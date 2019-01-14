@@ -8,6 +8,11 @@ import {
 } from 'accounting-js'
 
 import {
+  List,
+  AutoSizer,
+} from 'react-virtualized'
+
+import {
   Button,
   InputGroup,
   Position,
@@ -29,7 +34,7 @@ type Props = {
   searchInput: string,
   pairs: Array<Object>,
   handleSearchInputChange: (SyntheticInputEvent<>) => void,
-  redirectToTradingPage: (string, string) => void,
+  redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   selectedTab: string,
   handleChangeTab: string => void,
   tabs: Array<string>,
@@ -37,95 +42,31 @@ type Props = {
   currentReferenceCurrency: string,
 };
 
-const MarketsTableRenderer = (props: Props) => {
-  const {
-    pairs,
-    searchInput,
-    handleSearchInputChange,
-    redirectToTradingPage,
-    selectedTab,
-    handleChangeTab,
-    currentReferenceCurrency,
-    tabs,
-  } = props
+class MarketsTableRenderer extends React.PureComponent<Props> {
 
-  return (
-    <TableSection>
-      <RowSpaceBetween style={{ marginBottom: '10px' }}>
-        <InputGroup
-          type="string"
-          leftIcon="search"
-          placeholder="Search Token ..."
-          value={searchInput}
-          onChange={handleSearchInputChange}
-        />
-        <ButtonRow>
-          {tabs.map((tab, i) => {
-            return (
-              <Button
-                key={i}
-                text={tab}
-                minimal
-                onClick={() => handleChangeTab(tab)}
-                active={selectedTab === tab}
-                intent={selectedTab === tab ? 'primary' : ''}
-              />
-            )
-          })
-          }
-        </ButtonRow>
-      </RowSpaceBetween>
-      <Table>
-        <TableHeader>
-          <TableHeaderCell>Market</TableHeaderCell>
-          <TableHeaderCell>Price</TableHeaderCell>
-          <TableHeaderCell>Price ({currentReferenceCurrency})</TableHeaderCell>
-          <TableHeaderCell>Volume</TableHeaderCell>
-          <TableHeaderCell>
-            Order Volume
-            <span> </span>
-            <Help position={Position.RIGHT}>
-              The total amount of bids and asks currently in the orderbook
-            </Help>
-          </TableHeaderCell>
-          <TableHeaderCell>Change 24H</TableHeaderCell>
-          <TableHeaderCell></TableHeaderCell>
-        </TableHeader>
-      </Table>
-      <TableBodyContainer>
-        <Table>
-          <TableBody>
-            <MarketTableRow
-              pairs={pairs}
-              redirectToTradingPage={redirectToTradingPage}
-              currentReferenceCurrency={currentReferenceCurrency}
-            />
-          </TableBody>
-        </Table>
-      </TableBodyContainer>
-      {pairs.length === 0 && (
-        <Centered my={4}>
-          <TomoXLogo height="150em" width="150em" />
-          <LargeText muted>No tokens to display!</LargeText>
-        </Centered>
-      )}
-    </TableSection>
-  )
-}
+  rowRenderer = ({ key, index, style }: *) => {
+    const {
+      pairs,
+      redirectToTradingPage,
+      currentReferenceCurrency,
+    } = this.props
 
-const MarketTableRow = (props: *) => {
-  const {
-    redirectToTradingPage,
-    pairs,
-    currentReferenceCurrency,
-  } = props
+    const {
+      pair,
+      baseTokenSymbol,
+      quoteTokenSymbol,
+      price,
+      change,
+      volume,
+      orderVolume,
+    } = pairs[index]
 
-  return pairs.map(({ pair, baseTokenSymbol, quoteTokenSymbol, baseTokenAddress, quoteTokenAddress, price, change, high, low, volume, orderVolume }, index) => {
+
     return (
-      <Row key={index} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
+      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)} style={style}>
         <Cell>
           <FlexRow alignItems="center">
-            <CryptoIconPair size={32} baseToken={baseTokenSymbol} quoteToken={quoteTokenSymbol} />
+            <CryptoIconPair size={35} baseToken={baseTokenSymbol} quoteToken={quoteTokenSymbol} />
             <SmallText p={2} muted>{pair}</SmallText>
           </FlexRow>
         </Cell>
@@ -163,22 +104,103 @@ const MarketTableRow = (props: *) => {
         </Cell>
       </Row>
     )
-  })
+  }
+
+  noRowsRenderer = () => {
+    return (
+      <Centered my={4}>
+        <TomoXLogo height="150em" width="150em" />
+        <LargeText muted>No pairs to display!</LargeText>
+      </Centered>
+    )
+  }
+
+  render() {
+    const {
+      pairs,
+      searchInput,
+      handleSearchInputChange,
+      selectedTab,
+      handleChangeTab,
+      currentReferenceCurrency,
+      tabs,
+    } = this.props
+
+    return (
+      <TableSection>
+        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+          <InputGroup
+            type="string"
+            leftIcon="search"
+            placeholder="Search Token ..."
+            value={searchInput}
+            onChange={handleSearchInputChange}
+          />
+          <ButtonRow>
+            {tabs.map((tab, i) => {
+              return (
+                <Button
+                  key={i}
+                  text={tab}
+                  minimal
+                  onClick={() => handleChangeTab(tab)}
+                  active={selectedTab === tab}
+                  intent={selectedTab === tab ? 'primary' : ''}
+                />
+              )
+            })
+            }
+          </ButtonRow>
+        </RowSpaceBetween>
+
+        <TableHeader>
+          <TableHeaderCell>Market</TableHeaderCell>
+          <TableHeaderCell>Price</TableHeaderCell>
+          <TableHeaderCell>Price ({currentReferenceCurrency})</TableHeaderCell>
+          <TableHeaderCell>Volume</TableHeaderCell>
+          <TableHeaderCell>
+            Order Volume
+            <span> </span>
+            <Help position={Position.RIGHT}>
+              The total amount of bids and asks currently in the orderbook
+            </Help>
+          </TableHeaderCell>
+          <TableHeaderCell>Change 24H</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
+        </TableHeader>
+        <Table>
+          <TableBody>
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  width={width}
+                  height={height}
+                  rowCount={pairs.length}
+                  rowHeight={60}
+                  rowRenderer={this.rowRenderer}
+                  noRowsRenderer={this.noRowsRenderer}
+                  overscanRowCount={0}
+                  pairs={pairs}
+                />
+              )}
+            </AutoSizer>
+          </TableBody>
+        </Table>
+      </TableSection>
+    )
+  }
 }
+
 
 const ChangeCell = styled(SmallText).attrs({ className: 'change' })`
   color: ${props => (props.change > 0 ? Colors.GREEN5 : Colors.RED4)} !important;
 `
 
-const Table = styled.table.attrs({
-  className: 'bp3-html-table bp3-condensed',
+const Table = styled.div.attrs({
+  className: '',
 })`
   width: 100%;
   border: none !important;
-`
-
-const TableBodyContainer = styled.div`
-  overflow-y: scroll;
 `
 
 const TableSection = styled.div`
@@ -189,29 +211,34 @@ const TableSection = styled.div`
   width: 100%;
 `
 
-const TableBody = styled.tbody`
-  border: none !important
+const TableBody = styled.div`
+  height: 80vh;
 `
 
-const TableHeader = styled.tr`
+const TableHeader = styled.div`
   width: 100%;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `
 
-const TableHeaderCell = styled.th`
-width: 15%;
-text-align: middle;
-`
-
-const Cell = styled.td`
+const TableHeaderCell = styled.div`
   width: 15%;
-  vertical-align: middle !important;
-  & label {
-    margin: 0;
-  }
 `
 
-const Row = styled.tr`
+const Cell = styled.div`
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+
+const Row = styled.div`
   width: 100%;
+  display: flex;
+  height: 60px;
+  padding-left: 6px;
+
   &:hover {
     background-color: ${Colors.BLUE_MUTED} !important;
     cursor: pointer;

@@ -8,8 +8,6 @@ import type { TokenPair } from '../../types/tokens'
 export type Props = {
   authenticated: boolean,
   connected: boolean,
-  toggleAllowance: (string, string) => void,
-  redirectToTradingPage: (string, string) => void,
   quoteTokens: Array<string>,
   loading: boolean,
   pairs: Array<TokenPair>,
@@ -27,8 +25,6 @@ class MarketsPage extends React.PureComponent<Props, State> {
     const {
       connected,
       pairs,
-      toggleAllowance,
-      redirectToTradingPage,
       quoteTokens,
       loading,
     } = this.props
@@ -38,9 +34,7 @@ class MarketsPage extends React.PureComponent<Props, State> {
         pairs={pairs}
         quoteTokens={quoteTokens}
         connected={connected}
-        toggleAllowance={toggleAllowance}
         loading={loading}
-        redirectToTradingPage={redirectToTradingPage}
       />
     )
   }
