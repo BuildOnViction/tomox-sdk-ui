@@ -48,7 +48,7 @@ export const subscribeChart = (
     },
   }
 
-  return sendMessage(message).then(() => unsubscribeChart())
+  return sendMessage(message)
 }
 
 export const unsubscribeChart = () => {
@@ -77,7 +77,7 @@ export const subscribeOrderBook = (pair: TokenPair) => {
     },
   }
 
-  return sendMessage(message).then(() => unsubscribeOrderBook())
+  return sendMessage(message)
 }
 
 export const unsubscribeOrderBook = () => {
@@ -102,7 +102,7 @@ export const subscribeTrades = (pair: TokenPair) => {
     },
   }
 
-  return sendMessage(message).then(() => unsubscribeTrades())
+  return sendMessage(message)
 }
 
 export const unsubscribeTrades = () => {
