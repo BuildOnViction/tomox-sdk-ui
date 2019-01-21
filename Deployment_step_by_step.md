@@ -55,6 +55,14 @@ yarn deploy-contracts
 ```
 node scripts/update_contract_addresses.js
 ```
+5. Create .env file
+```
+cp .env.sample .env
+```
+6. Update .env file with your parameters (if needed)
+```
+For example, change TOMO__MAINNET_PRIVATE_KEY to your Ethereum client's private key
+```
 6. Register pairs on smart contract
 ```
 node scripts/register_pairs.js {network}
