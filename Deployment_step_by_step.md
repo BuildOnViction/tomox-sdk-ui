@@ -71,7 +71,7 @@ network can be `mainnet`, `homestead`, `rinkeby` or `local`.
 We should choose `local` for current deployment
 8. Generate Exchange in Golang
 ```
-node scripts/generateExchangeGo.js ../dex-server/contracts/contractsinterfaces/exchange.go
+yarn generate-exchange-go
 ```
 
 ----------------
