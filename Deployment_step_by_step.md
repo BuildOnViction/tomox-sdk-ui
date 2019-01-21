@@ -51,6 +51,29 @@ yarn global add truffle
 ```
 yarn deploy-contracts
 ```
+5. Update contract addresses in file `config/contractAddresses.json`
+```
+node scripts/update_contract_addresses.js
+```
+6. Register pairs on smart contract
+```
+node scripts/register_pairs.js {network}
+```
+network can be `mainnet`, `homestead`, `rinkeby` or `local`.
+
+We should choose `local` for current deployment
+7. Register operators on smart contract
+```
+node scripts/register_operators.js {network}
+```
+network can be `mainnet`, `homestead`, `rinkeby` or `local`.
+
+We should choose `local` for current deployment
+8. Generate Exchange in Golang
+```
+node scripts/generateExchangeGo.js ../dex-server/contracts/contractsinterfaces/exchange.go
+```
+
 ----------------
 ## IV. dex-client
 1. Clone it:
