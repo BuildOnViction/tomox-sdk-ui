@@ -319,84 +319,53 @@ function handleOrderMatched(event: WebsocketEvent): ThunkAction {
 }
 
 function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
       const { pairs } = socketControllerSelector(state)
       const signer = getSigner()
       const signerAddress = await signer.getAddress()
-      // if (!event.payload) {
-      //   throw new Error('No matches found');
-      // }
-      const { matches } = event.payload || {}
+      const matches = event.payload.matches
       const trades = matches.trades
       const txHash = trades[0].txHash
       const pairName = trades[0].pairName
       let userOrders = []
       let userTrades = []
-      const userIsTaker =
-        utils.getAddress(matches.takerOrder.userAddress) === signerAddress
-      const {
-        baseTokenDecimals,
-        // quoteTokenDecimals
-      } = pairs[pairName]
+      const userIsTaker = utils.getAddress(matches.takerOrder.userAddress) === signerAddress
+      const pairInfo = pairs[pairName]
+
       if (userIsTaker) {
-        const parsedOrder = parseOrder(matches.takerOrder, baseTokenDecimals)
+        const parsedOrder = parseOrder(matches.takerOrder, pairInfo)
         userOrders = [parsedOrder]
-        userTrades = matches.trades.map(trade =>
-          parseTrade(trade, baseTokenDecimals),
-        )
+
+        userTrades = matches.trades.map(trade => parseTrade(trade, pairInfo))
         const { price, amount, side, filled, pair } = parsedOrder
-        dispatch(
-          appActionCreators.addOrderSuccessNotification({
-            txHash,
-            pair,
-            price,
-            amount,
-            filled,
-            side,
-          }),
-        )
+        dispatch(appActionCreators.addOrderSuccessNotification({ txHash, pair, price, amount, filled, side }))
+
+
       } else {
         matches.makerOrders.forEach(order => {
           if (utils.getAddress(order.userAddress) === signerAddress) {
-            const parsedOrder = parseOrder(order, baseTokenDecimals)
+            const parsedOrder = parseOrder(order, pairInfo)
             userOrders.push(parsedOrder)
             const { price, amount, filled, side, pair } = parsedOrder
-            dispatch(
-              appActionCreators.addOrderSuccessNotification({
-                txHash,
-                pair,
-                price,
-                amount,
-                filled,
-                side,
-              }),
-            )
+            dispatch(appActionCreators.addOrderSuccessNotification({ txHash, pair, price, amount, filled, side }))
           }
         })
 
         matches.trades.forEach(trade => {
-          if (
-            utils.getAddress(trade.maker) === signerAddress ||
-            utils.getAddress(trade.taker) === signerAddress
-          ) {
-            userTrades.push(parseTrade(trade, baseTokenDecimals))
+          if (utils.getAddress(trade.maker) === signerAddress || utils.getAddress(trade.maker) === signerAddress) {
+            userTrades.push(parseTrade(trade, pairInfo))
           }
         })
       }
 
-      if (userOrders.length > 0)
-        dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0)
-        dispatch(actionCreators.updateTradesTable(userTrades))
+
+      if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
     } catch (e) {
       console.log(e)
-      dispatch(
-        appActionCreators.addErrorNotification({
-          message: e.message,
-        }),
-      )
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }
@@ -408,73 +377,46 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
       const state = getState()
       const { pairs } = socketControllerSelector(state)
       const signerAddress = await signer.getAddress()
-      const { matches } = event.payload || {}
+      const matches = event.payload.matches
       const trades = matches.trades
       const txHash = trades[0].txHash
       const pairName = trades[0].pairName
       let userOrders = []
       let userTrades = []
-      const userIsTaker =
-        utils.getAddress(matches.takerOrder.userAddress) === signerAddress
-      const { baseTokenDecimals } = pairs[pairName]
+      const userIsTaker = utils.getAddress(matches.takerOrder.userAddress) === signerAddress
+      const pairInfo = pairs[pairName]
 
       if (userIsTaker) {
-        const parsedOrder = parseOrder(matches.takerOrder)
+        const parsedOrder = parseOrder(matches.takerOrder, pairInfo)
         userOrders = [parsedOrder]
-        userTrades = matches.trades.map(trade =>
-          parseTrade(trade, baseTokenDecimals),
-        )
+        userTrades = matches.trades.map(trade => parseTrade(trade, pairInfo))
         const { price, amount, side, filled, pair } = parsedOrder
-        dispatch(
-          appActionCreators.addOrderPendingNotification({
-            txHash,
-            pair,
-            price,
-            amount,
-            filled,
-            side,
-          }),
-        )
+        dispatch(appActionCreators.addOrderPendingNotification({ txHash, pair, price, amount, filled, side }))
+
+
       } else {
         matches.makerOrders.forEach(order => {
           if (utils.getAddress(order.userAddress) === signerAddress) {
-            const parsedOrder = parseOrder(order, baseTokenDecimals)
+            const parsedOrder = parseOrder(order, pairInfo)
+
             userOrders.push(parsedOrder)
             const { price, amount, filled, side, pair } = parsedOrder
-            dispatch(
-              appActionCreators.addOrderPendingNotification({
-                txHash,
-                pair,
-                price,
-                amount,
-                filled,
-                side,
-              }),
-            )
+            dispatch(appActionCreators.addOrderPendingNotification({ txHash, pair, price, amount, filled, side }))
           }
         })
 
         matches.trades.forEach(trade => {
-          if (
-            utils.getAddress(trade.maker) === signerAddress ||
-            utils.getAddress(trade.taker) === signerAddress
-          ) {
-            userTrades.push(parseTrade(trade, baseTokenDecimals))
+          if (utils.getAddress(trade.maker) === signerAddress || utils.getAddress(trade.maker) === signerAddress) {
+            userTrades.push(parseTrade(trade, pairInfo))
           }
         })
       }
 
-      if (userOrders.length > 0)
-        dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0)
-        dispatch(actionCreators.updateTradesTable(userTrades))
+      if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
     } catch (e) {
       console.log(e)
-      dispatch(
-        appActionCreators.addErrorNotification({
-          message: e.message,
-        }),
-      )
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }
