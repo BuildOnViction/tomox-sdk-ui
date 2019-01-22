@@ -512,6 +512,11 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
     }
 
     let ohlcv = event.payload
+    if (!Array.isArray(ohlcv)) {
+      // In case of INIT OHLCV, the payload is an array
+      // But in case of UPDATE OHLCV, the payload is an object
+      ohlcv = [ohlcv]
+    }
     const { pairName } = ohlcv[0].pair
     const pair = pairs[pairName]
 
