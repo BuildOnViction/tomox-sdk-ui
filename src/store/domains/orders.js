@@ -67,7 +67,8 @@ export const ordersDeleted = (hashes: Array<number>) => {
 }
 
 const getOrders = (state: OrdersState): Orders => {
-  return Object.keys(state.byHash).map(key => state.byHash[key])
+  const orders = Object.keys(state.byHash).map(key => state.byHash[key])
+  return JSON.parse(JSON.stringify(orders))
 }
 
 export default function ordersDomain(state: OrdersState) {
