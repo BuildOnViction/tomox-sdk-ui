@@ -17,7 +17,7 @@ export const capitalizeFirstLetter = (str: string) => {
 }
 
 export const relativeDate = (time: number) => {
-  const formattedDate = formatRelative(time, new Date())
+  const formattedDate = formatRelative(new Date(time), new Date())
   return capitalizeFirstLetter(formattedDate)
 }
 
