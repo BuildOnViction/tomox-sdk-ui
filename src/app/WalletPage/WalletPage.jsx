@@ -29,11 +29,11 @@ type Props = {
 };
 
 class WalletPage extends React.PureComponent<Props> {
-  componentDidMount() {
-    const { authenticated, queryAccountData } = this.props;
+  // componentDidMount() {
+  //   const { authenticated, queryAccountData } = this.props;
 
-    if (authenticated) queryAccountData();
-  }
+  //   if (authenticated) queryAccountData();
+  // }
 
   checkOpenHelpModal = () => {
     const showHelpModalSetting = loadShowHelpModalSetting();

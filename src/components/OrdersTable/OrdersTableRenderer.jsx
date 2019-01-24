@@ -47,7 +47,7 @@ const OrdersTableRenderer = (props: Props) => {
       <OrdersTableHeader>
         <Heading>Orders</Heading>
         <Button
-          icon={isOpen ? 'chevron-left' : 'chevron-down'}
+          icon={isOpen ? 'chevron-up' : 'chevron-down'}
           minimal
           onClick={toggleCollapse}
         />
@@ -135,6 +135,7 @@ const OrdersTablePanel = (props: {
           <HeaderCell className="status">STATUS</HeaderCell>
           <HeaderCell className="side">SIDE</HeaderCell>
           <HeaderCell className="time">TIME</HeaderCell>
+          <HeaderCell className="cancel" />
         </ListHeader>
       </ListHeaderWrapper>
       <ListBodyWrapper className="list">

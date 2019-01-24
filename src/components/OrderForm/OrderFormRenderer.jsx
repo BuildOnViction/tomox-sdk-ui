@@ -515,7 +515,7 @@ const StopLimitOrderPanel = (props: *) => {
 
       <MaxAmount>Total: ~{total} {quoteTokenSymbol}</MaxAmount>
       <MaxAmount>Max: ~{maxAmount} {baseTokenSymbol}</MaxAmount>
-      <MaxAmount>Fee: {makeFee} {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol} </MaxAmount>
+      {makeFee && <MaxAmount>Fee: {makeFee} {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol} </MaxAmount>}
 
       <Button
         intent={side === 'BUY' ? 'success' : 'danger'}

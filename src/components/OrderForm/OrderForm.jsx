@@ -293,7 +293,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     } = this
 
     let maxAmount
-    const formattedMakeFee = utils.formatUnits(makeFee, quoteTokenDecimals)
+    const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
     const maxQuoteTokenAmount = quoteTokenBalance - Number(formattedMakeFee)
 
     if (price !== '0.000') {

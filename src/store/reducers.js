@@ -12,6 +12,7 @@ import getStartedModalActionTypes from './actions/getStartedModal'
 import settingsActionTypes from './actions/settings'
 import createWalletActionTypes from './actions/createWallet'
 import walletPageActionTypes from './actions/walletPage'
+import accountInitActionTypes from './actions/accountInit'
 import tradingPageActionTypes from './actions/tradingPage'
 import socketControllerActionTypes from './actions/socketController'
 import loginPageActionTypes from './actions/loginPage'
@@ -101,9 +102,9 @@ export const accountBalances = createReducer(action => {
       ])
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
-    case walletPageActionTypes.updateBalances:
+    case accountInitActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
-    case walletPageActionTypes.updateBalance:
+    case accountInitActionTypes.updateBalance:
       return accountBalancesEvents.updated([
         {
           symbol: payload.symbol,
@@ -111,9 +112,9 @@ export const accountBalances = createReducer(action => {
           allowance: payload.allowance,
         },
       ])
-    case walletPageActionTypes.updateAllowances:
+    case accountInitActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances)
-    case walletPageActionTypes.updateAllowance:
+    case accountInitActionTypes.updateAllowance:
       return accountBalancesEvents.allowancesUpdated([
         {
           symbol: payload.symbol,
@@ -275,7 +276,7 @@ export const tokenPairs = createReducer(action => {
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case walletPageActionTypes.updateTokenPairs:
+    case accountInitActionTypes.updateTokenPairs:
       return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
     case tokensActionTypes.updateTokens:
       return tokenPairsEvents.tokenPairsUpdated(payload)
@@ -316,7 +317,7 @@ export const account = createReducer(action => {
       return accountEvents.accountUpdated(payload.address, '')
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)
-    case walletPageActionTypes.updateExchangeAddress:
+    case accountInitActionTypes.updateExchangeAddress:
       return accountEvents.exchangeAddressUpdated(payload.exchangeAddress)
     case layoutActionTypes.updateReferenceCurrency:
       return accountEvents.referenceCurrencyUpdated(payload.referenceCurrency)
