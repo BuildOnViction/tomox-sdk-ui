@@ -103,8 +103,10 @@ export const accountBalances = createReducer(action => {
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
     case accountInitActionTypes.updateBalances:
+    case walletPageActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
     case accountInitActionTypes.updateBalance:
+    case walletPageActionTypes.updateBalance:
       return accountBalancesEvents.updated([
         {
           symbol: payload.symbol,
@@ -113,8 +115,10 @@ export const accountBalances = createReducer(action => {
         },
       ])
     case accountInitActionTypes.updateAllowances:
+    case walletPageActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances)
     case accountInitActionTypes.updateAllowance:
+    case walletPageActionTypes.updateAllowance:
       return accountBalancesEvents.allowancesUpdated([
         {
           symbol: payload.symbol,
@@ -277,6 +281,7 @@ export const tokenPairs = createReducer(action => {
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case accountInitActionTypes.updateTokenPairs:
+    case walletPageActionTypes.updateTokenPairs:
       return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
     case tokensActionTypes.updateTokens:
       return tokenPairsEvents.tokenPairsUpdated(payload)
@@ -318,6 +323,7 @@ export const account = createReducer(action => {
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)
     case accountInitActionTypes.updateExchangeAddress:
+    case walletPageActionTypes.updateExchangeAddress:
       return accountEvents.exchangeAddressUpdated(payload.exchangeAddress)
     case layoutActionTypes.updateReferenceCurrency:
       return accountEvents.referenceCurrencyUpdated(payload.referenceCurrency)
