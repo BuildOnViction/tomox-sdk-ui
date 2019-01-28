@@ -12,6 +12,7 @@ import getStartedModalActionTypes from './actions/getStartedModal'
 import settingsActionTypes from './actions/settings'
 import createWalletActionTypes from './actions/createWallet'
 import walletPageActionTypes from './actions/walletPage'
+import accountInitActionTypes from './actions/accountInit'
 import tradingPageActionTypes from './actions/tradingPage'
 import socketControllerActionTypes from './actions/socketController'
 import loginPageActionTypes from './actions/loginPage'
@@ -101,8 +102,10 @@ export const accountBalances = createReducer(action => {
       ])
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
+    case accountInitActionTypes.updateBalances:
     case walletPageActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
+    case accountInitActionTypes.updateBalance:
     case walletPageActionTypes.updateBalance:
       return accountBalancesEvents.updated([
         {
@@ -111,8 +114,10 @@ export const accountBalances = createReducer(action => {
           allowance: payload.allowance,
         },
       ])
+    case accountInitActionTypes.updateAllowances:
     case walletPageActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances)
+    case accountInitActionTypes.updateAllowance:
     case walletPageActionTypes.updateAllowance:
       return accountBalancesEvents.allowancesUpdated([
         {
@@ -275,6 +280,7 @@ export const tokenPairs = createReducer(action => {
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
+    case accountInitActionTypes.updateTokenPairs:
     case walletPageActionTypes.updateTokenPairs:
       return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
     case tokensActionTypes.updateTokens:
@@ -316,6 +322,7 @@ export const account = createReducer(action => {
       return accountEvents.accountUpdated(payload.address, '')
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)
+    case accountInitActionTypes.updateExchangeAddress:
     case walletPageActionTypes.updateExchangeAddress:
       return accountEvents.exchangeAddressUpdated(payload.exchangeAddress)
     case layoutActionTypes.updateReferenceCurrency:
