@@ -15,7 +15,7 @@ const initialState = {
   bySymbol: tokensBySymbol,
   data: {},
   favorites: [],
-  currentPair: 'AE/WETH'
+  currentPair: 'ETH/TOMO'
 };
 
 // console.log(initialState);

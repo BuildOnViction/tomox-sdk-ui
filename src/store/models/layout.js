@@ -65,14 +65,14 @@ export function queryAccountData(): ThunkAction {
         accountAddress,
         tokens
       )
-      const allowances = await accountBalancesService.queryExchangeTokenAllowances(
-        accountAddress,
-        tokens
-      )
+      // const allowances = await accountBalancesService.queryExchangeTokenAllowances(
+      //   accountAddress,
+      //   tokens
+      // )
       const balances = [tomoBalance].concat(tokenBalances)
 
       dispatch(actionCreators.updateBalances(balances))
-      dispatch(actionCreators.updateAllowances(allowances))
+      // dispatch(actionCreators.updateAllowances(allowances))
 
       await accountBalancesService.subscribeTokenBalances(
         accountAddress,
@@ -91,13 +91,13 @@ export function queryAccountData(): ThunkAction {
           )
       )
 
-      await accountBalancesService.subscribeTokenAllowances(
-        accountAddress,
-        tokens,
-        allowance => {
-          return dispatch(actionCreators.updateAllowance(allowance))
-        }
-      )
+      // await accountBalancesService.subscribeTokenAllowances(
+      //   accountAddress,
+      //   tokens,
+      //   allowance => {
+      //     return dispatch(actionCreators.updateAllowance(allowance))
+      //   }
+      // )
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
