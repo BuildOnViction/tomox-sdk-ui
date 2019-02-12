@@ -9,7 +9,7 @@ import {
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as accountActionTypes from '../actions/account'
-import * as accountBalancesService from '../services/accountBalances'
+// import * as accountBalancesService from '../services/accountBalances'
 import { quoteTokens, quoteTokenSymbols } from '../../config/quotes'
 import { getCurrentBlock } from '../services/wallet'
 import { push } from 'connected-react-router'
@@ -76,13 +76,15 @@ export function queryAccountData(): ThunkAction {
       const pairs = await api.fetchPairs()
       const exchangeAddress = await api.getExchangeAddress()
 
-      const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
-        accountAddress
-      )
-      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
-        accountAddress,
-        tokens
-      )
+      // const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
+      //   accountAddress
+      // )
+      const tomoBalance: TokenBalance = await api.fetchTomoBalance(accountAddress)
+      // const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
+      //   accountAddress,
+      //   tokens
+      // )
+      const tokenBalances: TokenBalances = await api.fetchTokenBalances(accountAddress, tokens)
       // const allowances = await accountBalancesService.queryExchangeTokenAllowances(
       //   accountAddress,
       //   tokens
@@ -96,22 +98,22 @@ export function queryAccountData(): ThunkAction {
       // dispatch(actionCreators.updateAllowances(allowances))
       dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
 
-      await accountBalancesService.subscribeTokenBalances(
-        accountAddress,
-        tokens,
-        balance => dispatch(actionCreators.updateBalance(balance))
-      )
+      // await accountBalancesService.subscribeTokenBalances(
+      //   accountAddress,
+      //   tokens,
+      //   balance => dispatch(actionCreators.updateBalance(balance))
+      // )
 
-      await accountBalancesService.subscribeTomoBalance(
-        accountAddress,
-        balance =>
-          dispatch(
-            actionCreators.updateBalance({
-              symbol: NATIVE_TOKEN_SYMBOL,
-              balance,
-            })
-          )
-      )
+      // await accountBalancesService.subscribeTomoBalance(
+      //   accountAddress,
+      //   balance =>
+      //     dispatch(
+      //       actionCreators.updateBalance({
+      //         symbol: NATIVE_TOKEN_SYMBOL,
+      //         balance,
+      //       })
+      //     )
+      // )
 
       // await accountBalancesService.subscribeTokenAllowances(
       //   accountAddress,

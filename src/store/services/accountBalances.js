@@ -3,23 +3,23 @@ import {Contract, utils} from 'ethers'
 import {ERC20} from '../../config/abis'
 // import {EXCHANGE_ADDRESS} from '../../config/contracts'
 import {getProvider} from './signer'
-import {NATIVE_TOKEN_SYMBOL} from '../../config/tokens'
-import type {Token, TokenBalance, TokenBalances} from '../../types/tokens'
+// import {NATIVE_TOKEN_SYMBOL} from '../../config/tokens'
+import type {Token, TokenBalance} from '../../types/tokens'
 // import type {
 //   AccountBalance,
 //   AccountAllowance,
 // } from '../../types/accountBalances'
 
-export async function queryTomoBalance(address: string): Promise<TokenBalance> {
-  const provider = getProvider()
+// export async function queryTomoBalance(address: string): Promise<TokenBalance> {
+//   const provider = getProvider()
 
-  const balance = await provider.getBalance(address)
+//   const balance = await provider.getBalance(address)
 
-  return {
-    symbol: NATIVE_TOKEN_SYMBOL,
-    balance: parseFloat(utils.formatEther(balance)),
-  }
-}
+//   return {
+//     symbol: NATIVE_TOKEN_SYMBOL,
+//     balance: parseFloat(utils.formatEther(balance)),
+//   }
+// }
 
 // export async function updateAllowance(
 //   tokenAddress: string,
@@ -62,33 +62,32 @@ export async function queryTomoBalance(address: string): Promise<TokenBalance> {
 //   }
 // }
 
-export async function queryTokenBalances(
-  address: string,
-  tokens: Array<Token>,
-): Promise<TokenBalances> {
-  const provider = getProvider()
+// export async function queryTokenBalances(
+//   address: string,
+//   tokens: Array<Token>,
+// ): Promise<TokenBalances> {
+//   const provider = getProvider()
 
-  const balancePromises = tokens.map(async token => {
-    const contract = new Contract(token.address, ERC20, provider)
-    // try {
-    return await contract.balanceOf(address)
-    // } catch (e) {
-    //   // console.log(address, e);
-    //   return null;
-    // }
-  })
+//   const balancePromises = tokens.map(async token => {
+//     const contract = new Contract(token.address, ERC20, provider)
+//     // try {
+//     return await contract.balanceOf(address)
+//     // } catch (e) {
+//     //   // console.log(address, e);
+//     //   return null;
+//     // }
+//   })
 
-  const balances = await Promise.all(balancePromises)
+//   const balances = await Promise.all(balancePromises)
 
-  const tokenBalances = balances
-    .filter(balance => balance !== null)
-    .map((balance, i) => ({
-      symbol: tokens[i].symbol,
-      balance: utils.formatEther(balance),
-    }))
-  // console.log('balances', balances);
-  return tokenBalances
-}
+//   const tokenBalances = balances
+//     .filter(balance => balance !== null)
+//     .map((balance, i) => ({
+//       symbol: tokens[i].symbol,
+//       balance: utils.formatEther(balance),
+//     }))
+//   return tokenBalances
+// }
 
 // export async function queryExchangeTokenAllowances(
 //   owner: string,

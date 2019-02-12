@@ -1,7 +1,7 @@
 import {
   DEFAULT_NETWORK_ID
 } from './environment.js'
-// import addresses from './addresses.json';
+import addresses from './addresses.json'
 import {
   defaultTokenDecimals
 } from './tokens'
@@ -19,8 +19,7 @@ export const quoteSymbolTokens = ['TOMO']
 for (let token of quoteSymbolTokens) {
   const tokenData = {
     symbol: token,
-    address: '0x0',
-    // address: addresses[DEFAULT_NETWORK_ID][token],
+    address: addresses[DEFAULT_NETWORK_ID][token],
     decimals: defaultTokenDecimals[token] || 18,
     image: images[DEFAULT_NETWORK_ID][token]
   }
