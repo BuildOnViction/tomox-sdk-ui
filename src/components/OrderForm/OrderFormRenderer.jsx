@@ -232,10 +232,10 @@ const LimitOrderPanel = props => {
     quoteTokenSymbol,
     quoteTokenDecimals,
     insufficientBalance,
-    pairIsAllowed,
+    // pairIsAllowed,
     pairAllowanceIsPending,
     onInputChange,
-    handleUnlockPair,
+    // handleUnlockPair,
     handleSendOrder,
   } = props
 
@@ -262,9 +262,11 @@ const LimitOrderPanel = props => {
       ButtonElement = (
         <GreenGlowingButton
           intent="success"
-          text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
+          // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
+          text={ side }
           name="order"
-          onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
+          // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
+          onClick={ handleSendOrder }
           disabled={insufficientBalance}
           fill
         />
@@ -290,9 +292,11 @@ const LimitOrderPanel = props => {
     ButtonElement = (
       <RedGlowingButton
         intent="danger"
-        text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
+        // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
+        text={ side }
         name="order"
-        onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
+        // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
+        onClick={ handleSendOrder }
         disabled={insufficientBalance}
         fill
       />

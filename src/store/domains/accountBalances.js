@@ -95,7 +95,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     },
     // we assume that account balances are loading as long as we have no TOMO and no WETH state.
     loading(): boolean {
-      return !(state[NATIVE_TOKEN_SYMBOL] && state['WETH'])
+      return !(state[NATIVE_TOKEN_SYMBOL])
     },
     formattedBalances(): * {
       const keys = Object.keys(state)
