@@ -139,79 +139,79 @@ import type {Token, TokenBalance} from '../../types/tokens'
 //   return accountAllowances
 // }
 
-export async function subscribeTomoBalance(
-  address: string,
-  callback: number => void,
-) {
-  const provider = getProvider()
-  const initialBalance = await provider.getBalance(address)
+// export async function subscribeTomoBalance(
+//   address: string,
+//   callback: number => void,
+// ) {
+//   const provider = getProvider()
+//   const initialBalance = await provider.getBalance(address)
 
-  const handler = async balance => {
-    if (balance !== initialBalance) callback(utils.formatEther(balance))
-  }
+//   const handler = async balance => {
+//     if (balance !== initialBalance) callback(utils.formatEther(balance))
+//   }
 
-  provider.on(address, handler)
+//   provider.on(address, handler)
 
-  return () => {
-    provider.removeListener(address, handler)
-  }
-}
+//   return () => {
+//     provider.removeListener(address, handler)
+//   }
+// }
 
-export async function subscribeTokenBalance(
-  address: string,
-  token: Object,
-  callback: number => void,
-) {
-  const provider = getProvider()
-  const contract = new Contract(token.address, ERC20, provider)
+// export async function subscribeTokenBalance(
+//   address: string,
+//   token: Object,
+//   callback: number => void,
+// ) {
+//   const provider = getProvider()
+//   const contract = new Contract(token.address, ERC20, provider)
 
-  const initialBalance = await contract.balanceOf(address)
-  const handler = async (sender, receiver, tokens) => {
-    if (receiver === address) {
-      const balance = await contract.balanceOf(receiver)
-      if (balance !== initialBalance) callback(utils.formatEther(balance))
-    }
-  }
+//   const initialBalance = await contract.balanceOf(address)
+//   const handler = async (sender, receiver, tokens) => {
+//     if (receiver === address) {
+//       const balance = await contract.balanceOf(receiver)
+//       if (balance !== initialBalance) callback(utils.formatEther(balance))
+//     }
+//   }
 
-  contract.ontransfer = handler
+//   contract.ontransfer = handler
 
-  return () => {
-    provider.removeListener(address, handler)
-  }
-}
+//   return () => {
+//     provider.removeListener(address, handler)
+//   }
+// }
 
-export async function subscribeTokenBalances(
-  address: string,
-  tokens: Array<Token>,
-  callback: TokenBalance => any,
-) {
-  const provider = getProvider()
-  const handlers = []
+// export async function subscribeTokenBalances(
+//   address: string,
+//   tokens: Array<Token>,
+//   callback: TokenBalance => any,
+// ) {
+//   const provider = getProvider()
+//   const handlers = []
 
-  tokens.map(async token => {
-    const contract = new Contract(token.address, ERC20, provider)
-    // const initialBalance = await contract.balanceOf(address)
+//   tokens.map(async token => {
+//     const contract = new Contract(token.address, ERC20, provider)
+//     // const initialBalance = await contract.balanceOf(address)
 
-    const handler = async (sender, receiver, amount) => {
-      if (receiver === address || sender === address) {
-        const balance = await contract.balanceOf(address)
-        callback({
-          symbol: token.symbol,
-          balance: utils.formatEther(balance),
-        })
-      }
-    }
+//     const handler = async (sender, receiver, amount) => {
+//       if (receiver === address || sender === address) {
+//         const balance = await contract.balanceOf(address)
+//         callback({
+//           symbol: token.symbol,
+//           balance: utils.formatEther(balance),
+//         })
+//       }
+//     }
 
-    window.abi = ERC20
+//     window.abi = ERC20
 
-    contract.ontransfer = handler
-    handlers.push(handler)
-  })
+//     contract.ontransfer = handler
+//     handlers.push(handler)
+//   })
 
-  return () => {
-    handlers.forEach(handler => provider.removeListener(address, handler))
-  }
-}
+//   return () => {
+//     handlers.forEach(handler => provider.removeListener(address, handler))
+//   }
+// }
 
 // export async function subscribeTokenAllowance(
 //   address: string,
