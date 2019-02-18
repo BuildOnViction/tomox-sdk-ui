@@ -19,7 +19,7 @@ export const OrderBookRenderer = (props: Props) => {
   const { bids, asks } = props;
   return (
     <React.Fragment>
-      <ResizableBox height={500} width={Infinity}>
+      <ResizableBox height={510} width={Infinity}>
         <OrderBookBox>
           {!bids && <Loading />}
           {bids && (
@@ -101,7 +101,7 @@ const ListContainer = styled.div`
 `;
 const List = styled.ul`
   height: 90%;
-  max-height: 500px;
+  max-height: 472px;
   overflow-y: auto;
 `;
 
