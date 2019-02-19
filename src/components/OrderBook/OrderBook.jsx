@@ -93,6 +93,8 @@ class OrderBook extends React.Component<Props, State> {
     const { bids, asks, currentPair } = this.props;
     const { selectedTabId, isOpen } = this.state;
 
+    asks.reverse()
+
     return (
       <div>
         <Wrapper className="order-book">
