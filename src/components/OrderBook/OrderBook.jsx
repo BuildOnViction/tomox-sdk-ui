@@ -96,7 +96,7 @@ class OrderBook extends React.Component<Props, State> {
     return (
       <div>
         <Wrapper className="order-book">
-          <OrderBookHeader>
+          {/* <OrderBookHeader>
             <Heading>
               Order Book
               <Text muted>
@@ -109,12 +109,12 @@ class OrderBook extends React.Component<Props, State> {
               minimal
               onClick={this.toggleCollapse}
             />
-          </OrderBookHeader>
+          </OrderBookHeader> */}
           <Collapse isOpen={isOpen} transitionDuration={100}>
             <Tabs selectedTabId={selectedTabId} onChange={this.changeTab}>
               <Tab
                 id="list"
-                title="Order List"
+                title="Order Book"
                 panel={<OrderListRenderer bids={bids} asks={asks} />}
               />
               <Tab
@@ -147,7 +147,7 @@ const Heading = styled.h3`
   margin: auto;
 `;
 const Wrapper = styled(Card)`
-  min-width: 500px;
+  // min-width: 500px;
   width: 100%;
   min-height: 50px;
 `;

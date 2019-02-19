@@ -20,7 +20,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
   static defaultProps = { authenticated: true }
   state = {
     selectedTabId: 'all',
-    isOpen: false,
+    isOpen: true,
   }
 
   changeTab = (tabId: string) => {

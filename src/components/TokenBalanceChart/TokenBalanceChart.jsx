@@ -4,7 +4,7 @@ import { Sector } from 'recharts';
 import { Colors } from '../Common';
 import { formatNumber } from 'accounting-js'
 
-const colors = ["#8884d8", "#83a6ed", "#FFBB28", "#8dd1e1", "#82ca9d", "#a4de6c", "#d0ed57", "#ffc658", "#a4de6c", "#d0ed57", "#ffc658", "#C6627F", "#BC5779", "#B24C74", "#A6436F", "#9A3A6B", "#8D3367", "#7E2D63", "#6E285F", "#5C255C"]
+const colors = ['#f28f43', '#5384ba', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#77a1e5', '#c42525', '#a6c96a']
 
 type State = {
   activeIndex: number

@@ -13,6 +13,7 @@ import {
   Spinner,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
+import { HeaderText } from '../Common/Text'
 
 import type { SIDE } from '../../types/orderForm'
 
@@ -23,18 +24,22 @@ import {
   FlexRow,
   Box,
 } from '../Common'
+import { renderFilteredItems } from '@blueprintjs/select';
 
 type Props = {
   selectedTabId: string,
   side: 'BUY' | 'SELL',
   fraction: number,
   priceType: string,
-  price: string,
+  buyPrice: string,
+  sellPrice: string,
   stopPrice: string,
   limitPrice: string,
-  amount: string,
+  buyAmount: string,
+  sellAmount: string,
   maxAmount: string,
-  total: string,
+  buyTotal: string,
+  sellTotal: string,
   makeFee: string,
   takeFee: string,
   baseTokenSymbol: string,
@@ -60,13 +65,17 @@ const OrderFormRenderer = (props: Props) => {
     side,
     fraction,
     priceType,
-    price,
+    buyPrice,
+    sellPrice,
     stopPrice,
     limitPrice,
     isOpen,
-    amount,
-    maxAmount,
-    total,
+    buyAmount,
+    sellAmount,
+    buyMaxAmount,
+    sellMaxAmount,
+    buyTotal,
+    sellTotal,
     makeFee,
     takeFee,
     baseTokenSymbol,
@@ -74,7 +83,8 @@ const OrderFormRenderer = (props: Props) => {
     baseTokenDecimals,
     quoteTokenDecimals,
     loggedIn,
-    insufficientBalance,
+    insufficientBalanceToBuy,
+    insufficientBalanceToSell,
     pairIsAllowed,
     pairAllowanceIsPending,
     onInputChange,
@@ -82,29 +92,11 @@ const OrderFormRenderer = (props: Props) => {
     handleUnlockPair,
     toggleCollapse,
     handleSendOrder,
-    handleSideChange,
   } = props
 
   return (
     <Wrapper className="order-form">
       <OrderFormHeader>
-        {/* <HeaderText text={`${side} ${baseTokenSymbol}`} /> */}
-        <ButtonRow>
-          <Button
-            text="BUY"
-            minimal
-            onClick={() => handleSideChange('BUY')}
-            active={side === 'BUY'}
-            intent="success"
-          />
-          <Button
-            text="SELL"
-            minimal
-            onClick={() => handleSideChange('SELL')}
-            active={side === 'SELL'}
-            intent="danger"
-          />
-        </ButtonRow>
         <ButtonRow>
           <Button
             text="Limit"
@@ -136,17 +128,22 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                buyPrice={buyPrice}
+                sellPrice={sellPrice}
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                buyAmount={buyAmount}
+                sellAmount={sellAmount}
+                buyMaxAmount={buyMaxAmount}
+                sellMaxAmount={sellMaxAmount}
+                buyTotal={buyTotal}
+                sellTotal={sellTotal}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                insufficientBalanceToBuy={insufficientBalanceToBuy}
+                insufficientBalanceToSell={insufficientBalanceToSell}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -165,17 +162,17 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                // price={price} //Todo: First step I resolve for only limit order
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                // amount={amount}
+                // maxAmount={maxAmount}
+                // total={total}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                // insufficientBalance={insufficientBalance}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -194,17 +191,17 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                // price={price}
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                // amount={amount}
+                // maxAmount={maxAmount}
+                // total={total}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                // insufficientBalance={insufficientBalance}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -219,100 +216,65 @@ const OrderFormRenderer = (props: Props) => {
   )
 }
 
-const LimitOrderPanel = props => {
+const FractionList = (props) => {
+  const { side, fraction, onInputChange } = props
+
+  return (
+    <React.Fragment>
+      <RadioButtonsWrapper>
+        <RadioButton
+          value={25}
+          fraction={fraction}
+          onInputChange={(e) => onInputChange(side, e)}
+        />
+        <RadioButton
+          value={50}
+          fraction={fraction}
+          onInputChange={(e) => onInputChange(side, e)}
+        />
+        <RadioButton
+          value={75}
+          fraction={fraction}
+          onInputChange={(e) => onInputChange(side, e)}
+        />
+        <RadioButton
+          value={100}
+          fraction={fraction}
+          onInputChange={(e) => onInputChange(side, e)}
+        />
+      </RadioButtonsWrapper>
+    </React.Fragment>  
+  )
+}
+
+const BuyLimitOrderPanel = (props) => {
   const {
-    price,
+    buyPrice,
     side,
-    amount,
-    maxAmount,
+    buyAmount,
+    buyMaxAmount,
     fraction,
-    total,
+    buyTotal,
     makeFee,
     baseTokenSymbol,
     quoteTokenSymbol,
     quoteTokenDecimals,
-    insufficientBalance,
-    // pairIsAllowed,
-    pairAllowanceIsPending,
+    insufficientBalanceToBuy,
     onInputChange,
-    // handleUnlockPair,
     handleSendOrder,
   } = props
 
-  let ButtonElement
-
-  if (side === 'BUY') {
-    if (pairAllowanceIsPending) {
-      ButtonElement = (
-        <GreenGlowingButton
-          intent="success"
-          name="order"
-          disabled
-          fill
-        >
-          <FlexRow alignItems="center">
-            <Box px={2}>
-              <Spinner size={15} intent="success" />
-            </Box>
-            Pending
-          </FlexRow>
-        </GreenGlowingButton>
-      )
-    } else {
-      ButtonElement = (
-        <GreenGlowingButton
-          intent="success"
-          // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
-          text={ side }
-          name="order"
-          // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-          onClick={ handleSendOrder }
-          disabled={insufficientBalance}
-          fill
-        />
-      )
-    }
-  } else if (pairAllowanceIsPending) {
-    ButtonElement = (
-      <RedGlowingButton
-        intent="danger"
-        name="order"
-        disabled
-        fill
-      >
-        <FlexRow alignItems="center">
-          <Box px={2}>
-            <Spinner size={15} intent="danger" />
-          </Box>
-          Pending
-        </FlexRow>
-      </RedGlowingButton>
-    )
-  } else {
-    ButtonElement = (
-      <RedGlowingButton
-        intent="danger"
-        // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
-        text={ side }
-        name="order"
-        // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-        onClick={ handleSendOrder }
-        disabled={insufficientBalance}
-        fill
-      />
-    )
-  }
-
   return (
-    <React.Fragment>
+    <BuyLimitOrderContainer>
+      <HeaderRow><HeaderText text={`Buy ${baseTokenSymbol}`} /></HeaderRow>
       <InputBox>
         <InputLabel>
           Price <MutedText>({quoteTokenSymbol})</MutedText>
         </InputLabel>
         <PriceInputGroup
           name="price"
-          onChange={onInputChange}
-          value={price}
+          onChange={(e) => onInputChange('BUY', e)}
+          value={buyPrice}
           placeholder="Price"
         />
       </InputBox>
@@ -322,46 +284,111 @@ const LimitOrderPanel = props => {
         </InputLabel>
         <PriceInputGroup
           name="amount"
-          onChange={onInputChange}
-          value={amount}
+          onChange={(e) => onInputChange('BUY', e)}
+          value={buyAmount}
           placeholder="Amount"
-          rightElement={
-            <Total>
-              Total: ~{total} {quoteTokenSymbol}
-            </Total>
-          }
+          // rightElement={
+          //   <Total>
+          //     Total: ~{buyTotal} {quoteTokenSymbol}
+          //   </Total>
+          // }
         />
       </InputBox>
-      <RadioButtonsWrapper>
-        <RadioButton
-          value={25}
-          fraction={fraction}
-          onInputChange={onInputChange}
+      <FractionList 
+        side="BUY"
+        fraction={fraction}
+        onInputChange={onInputChange} 
         />
-        <RadioButton
-          value={50}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={75}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={100}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-      </RadioButtonsWrapper>
 
-      {total && <MaxAmount>Total: ~{total} {quoteTokenSymbol}</MaxAmount>}
-      {maxAmount && <MaxAmount>Max: ~{maxAmount} {baseTokenSymbol}</MaxAmount>}
+      {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
+      {buyMaxAmount && <MaxAmount>Max: ~{buyMaxAmount} {baseTokenSymbol}</MaxAmount>}
       {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
+      <GreenGlowingButton
+        intent="success"
+        text="BUY"
+        name="order"
+        onClick={() => handleSendOrder('BUY')}
+        disabled={insufficientBalanceToBuy}
+        fill
+      />
+    </BuyLimitOrderContainer>
+  )
+}
 
-      {ButtonElement}
+const SellLimitOrderPanel = (props) => {
+  const {
+    sellPrice,
+    side,
+    sellAmount,
+    sellMaxAmount,
+    fraction,
+    sellTotal,
+    makeFee,
+    baseTokenSymbol,
+    quoteTokenSymbol,
+    quoteTokenDecimals,
+    insufficientBalanceToSell,
+    onInputChange,
+    handleSendOrder,
+  } = props
 
-    </React.Fragment>
+  return (
+    <SellLimitOrderContainer>
+      <HeaderRow><HeaderText text={`Sell ${baseTokenSymbol}`} /></HeaderRow>
+      <InputBox>
+        <InputLabel>
+          Price <MutedText>({quoteTokenSymbol})</MutedText>
+        </InputLabel>
+        <PriceInputGroup
+          name="price"
+          onChange={(e) => onInputChange('SELL', e)}
+          value={sellPrice}
+          placeholder="Price"
+        />
+      </InputBox>
+      <InputBox>
+        <InputLabel>
+          Amount <MutedText>({baseTokenSymbol})</MutedText>
+        </InputLabel>
+        <PriceInputGroup
+          name="amount"
+          onChange={(e) => onInputChange('SELL', e)}
+          value={sellAmount}
+          placeholder="Amount"
+          // rightElement={
+          //   <Total>
+          //     Total: ~{sellTotal} {quoteTokenSymbol}
+          //   </Total>
+          // }
+        />
+      </InputBox>
+      <FractionList 
+        side="SELL"
+        fraction={fraction}
+        onInputChange={onInputChange} 
+        />
+
+      {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
+      {sellMaxAmount && <MaxAmount>Max: ~{sellMaxAmount} {baseTokenSymbol}</MaxAmount>}
+      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
+      <RedGlowingButton
+        intent="danger"
+        text="SELL"
+        name="order"
+        onClick={() => handleSendOrder('SELL')}
+        disabled={insufficientBalanceToSell}
+        fill
+      />
+    </SellLimitOrderContainer>
+  )
+}
+
+const LimitOrderPanel = props => {
+  return (
+    <LimitOrderContainer>
+      <BuyLimitOrderPanel {...props} />
+      <SellLimitOrderPanel {...props} />
+    </LimitOrderContainer>
   )
 }
 
@@ -624,3 +651,19 @@ const MaxAmount = styled.div`
   justify-content: flex-end;
   padding-bottom: 5px;
   `
+const LimitOrderContainer = styled.div`
+  display: flex;
+`
+
+const BuyLimitOrderContainer = styled.div`
+  padding-right: 20px;
+  border-right: 1px solid #27343d;
+`
+
+const SellLimitOrderContainer = styled.div`
+  padding-left: 20px;
+`
+
+const HeaderRow = styled.div`
+  margin-bottom: 10px;
+`

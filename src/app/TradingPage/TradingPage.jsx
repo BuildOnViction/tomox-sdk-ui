@@ -141,28 +141,28 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
     return (
       <TradingPageLayout>
-        <SidePanel>
-          <Grid columns={1} alignContent="start">
-            <CloseableCallout
-              visible={calloutVisible}
-              handleClose={this.closeCallout}
-              {...calloutOptions}
-            />
-            <TokenSearcher />
-            <OrderForm />
-          </Grid>
-        </SidePanel>
-
         <MainPanel>
           <Grid columns={1} alignContent="start">
             <OHLCV />
             <OrdersTableBox />
+          </Grid>
+        </MainPanel>
+
+        <SidePanel>
+          <Grid columns={1} alignContent="start">
+            {/* <CloseableCallout
+              visible={calloutVisible}
+              handleClose={this.closeCallout}
+              {...calloutOptions}
+            />
+            <TokenSearcher /> */}
             <OrdersAndTradesTableBox>
               <OrderBookBox />
               <TradesTableBox />
             </OrdersAndTradesTableBox>
+            <OrderForm />
           </Grid>
-        </MainPanel>
+        </SidePanel>
       </TradingPageLayout>
     )
   }

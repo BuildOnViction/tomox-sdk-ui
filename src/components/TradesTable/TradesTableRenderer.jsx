@@ -34,7 +34,7 @@ const TradesTableRenderer = (props: Props) => {
   return (
     <div>
       <Wrapper className="trade-history">
-        <TradesTableHeader>
+        {/* <TradesTableHeader>
           <Heading>
             Trades
             <Text muted>
@@ -47,7 +47,7 @@ const TradesTableRenderer = (props: Props) => {
             minimal
             onClick={toggleCollapse}
           />
-        </TradesTableHeader>
+        </TradesTableHeader> */}
         <Collapse isOpen={isOpen}>
           {/* <Tabs selectedTabId={selectedTabId} onChange={onChange}>
             <Tab id="24h" title="24H" panel={<Panel trades={tradeHistory} />} />
@@ -78,12 +78,12 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
     return <CenteredMessage message="No trades for this token pair" />;
 
   return (
-    <ResizableBox height={400} width={Infinity}>
+    <ResizableBox height={490} width={Infinity}>
       <ListHeader className="heading">
         <HeadingRow>
           <HeaderCell>PRICE</HeaderCell>
           <HeaderCell>AMOUNT</HeaderCell>
-          <HeaderCell>STATUS</HeaderCell>
+          {/* <HeaderCell>STATUS</HeaderCell> */}
           <HeaderCell cellName="time">TIME</HeaderCell>
         </HeadingRow>
       </ListHeader>
@@ -107,7 +107,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
               {trade.price}
             </Cell>
             <Cell>{trade.amount}</Cell>
-            <Cell side={trade.side}>{trade.status}</Cell>
+            {/* <Cell side={trade.side}>{trade.status}</Cell> */}
             {/* {format(trade.time, 'DD/MM/YYYY HH:MM:SS Z ')} */}
             <Cell cellName="time" muted>
               {relativeDate(trade.time)}
@@ -132,7 +132,7 @@ const UserTradesPanel = (props: { trades: Array<Trade> }) => {
         <HeadingRow>
           <HeaderCell>PRICE</HeaderCell>
           <HeaderCell>AMOUNT</HeaderCell>
-          <HeaderCell>STATUS</HeaderCell>
+          {/* <HeaderCell>STATUS</HeaderCell> */}
           <HeaderCell cellName="time">TIME</HeaderCell>
         </HeadingRow>
       </ListHeader>
@@ -146,7 +146,7 @@ const UserTradesPanel = (props: { trades: Array<Trade> }) => {
           >
             <Cell>{trade.price}</Cell>
             <Cell>{trade.amount}</Cell>
-            <Cell>{trade.status}</Cell>
+            {/* <Cell>{trade.status}</Cell> */}
             <Cell cellName="time" muted>
               {relativeDate(trade.time)}
             </Cell>

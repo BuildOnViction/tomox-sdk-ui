@@ -19,25 +19,9 @@ export const OrderBookRenderer = (props: Props) => {
   const { bids, asks } = props;
   return (
     <React.Fragment>
-      <ResizableBox height={510} width={Infinity}>
+      <ResizableBox height={490} width={Infinity}>
         <OrderBookBox>
           {!bids && <Loading />}
-          {bids && (
-            <ListContainer className="list-container">
-              <ListHeading>
-                <HeaderRow>
-                  <HeaderCell>TOTAL</HeaderCell>
-                  <HeaderCell>AMOUNT</HeaderCell>
-                  <HeaderCell>PRICE</HeaderCell>
-                </HeaderRow>
-              </ListHeading>
-              <List className="bp3-list-unstyled list">
-                {bids.map((order, index) => (
-                  <BuyOrder key={index} index={index} order={order} />
-                ))}
-              </List>
-            </ListContainer>
-          )}
           {asks && (
             <ListContainer className="list-container left-list">
               <ListHeading>
@@ -50,6 +34,15 @@ export const OrderBookRenderer = (props: Props) => {
               <List className="bp3-list-unstyled list">
                 {asks.map((order, index) => (
                   <SellOrder key={index} index={index} order={order} />
+                ))}
+              </List>
+            </ListContainer>
+          )}
+          {bids && (
+            <ListContainer className="list-container">
+              <List className="bp3-list-unstyled list">
+                {bids.map((order, index) => (
+                  <BuyOrder key={index} index={index} order={order} />
                 ))}
               </List>
             </ListContainer>
@@ -70,9 +63,9 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell style={{ width: '20%' }}>{order.total}</Cell>
-      <Cell style={{ width: '20%' }}>{order.amount}</Cell>
-      <Cell>{order.price}</Cell>
+      <Cell style={{color: Colors.BUY}}>{order.price}</Cell>
+      <Cell>{order.amount}</Cell>
+      <Cell>{order.total}</Cell> 
     </Row>
   );
 };
@@ -82,7 +75,7 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row key={index}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell>{order.price}</Cell>
+      <Cell style={{color: Colors.SELL}}>{order.price}</Cell>
       <Cell>{order.amount}</Cell>
       <Cell>{order.total}</Cell>
     </Row>
@@ -92,7 +85,7 @@ const SellOrder = (props: SingleOrderProps) => {
 const OrderBookBox = styled.div.attrs({})`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: stretch;
 `;
 const ListContainer = styled.div`
@@ -101,7 +94,7 @@ const ListContainer = styled.div`
 `;
 const List = styled.ul`
   height: 90%;
-  max-height: 472px;
+  max-height: 224px;
   overflow-y: auto;
 `;
 
@@ -136,7 +129,7 @@ const Row = styled.li.attrs({
 const SellRowBackGround = styled.span`
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   height: 100%;
   width: ${props => 100 * props.amount}% !important;
   background-color: ${Colors.SELL_MUTED} !important;
