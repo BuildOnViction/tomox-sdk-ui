@@ -120,12 +120,12 @@ const OrdersTablePanel = (props: {
   orders: Array<Order>,
   cancelOrder: string => void
 }) => {
-  const { loading, orders, cancelOrder } = props;
-  return loading ? (
-    <Loading />
-  ) : orders.length < 1 ? (
-    <CenteredMessage message="No orders" />
-  ) : (
+  const { loading, orders, cancelOrder } = props
+
+  if (loading) return <Loading />
+  if (orders.length === 0) return <CenteredMessage message="No orders" />
+
+  return (
     <ListContainer className="list-container">
       <ListHeaderWrapper className="heading">
         <ListHeader className="heading">
