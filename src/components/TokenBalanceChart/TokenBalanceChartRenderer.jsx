@@ -41,15 +41,15 @@ const TokenBalanceChartRenderer = (props: Props) => {
     )
 
   return (
-    <ResponsiveContainer height={400} width="100%">
+    <ResponsiveContainer height={350} width="100%">
       <PieChart>
         <Pie
           activeIndex={activeIndex}
           activeShape={renderActiveShape}
           dataKey="value"
           data={data}
-          cx={'44%'}
-          cy={'40%'}
+          cx={'50%'}
+          cy={'55%'}
           innerRadius={100}
           outerRadius={130}
           fill={Colors.PRIMARY}
