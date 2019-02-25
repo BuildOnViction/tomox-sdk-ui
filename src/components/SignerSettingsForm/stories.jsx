@@ -6,7 +6,7 @@ import { withInfo } from '@storybook/addon-info'
 import SignerSettingsFormContainer from './index'
 import SignerSettingsForm from './SignerSettingsForm'
 import SignerSettingsFormRenderer from './SignerSettingsFormRenderer'
-import { TOMOCHAIN_NODE_HTTP_URL } from '../../config/environment'
+import { TOMOCHAIN_NODE_HTTP_URL, DEFAULT_NETWORK_ID } from '../../config/environment'
 import README from './README.md'
 
 const networks = [
@@ -14,7 +14,7 @@ const networks = [
   { name: 'Ropsten', id: 3 },
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
-  { name: 'Private', id: 8888 },
+  { name: 'Private', id: DEFAULT_NETWORK_ID },
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 storiesOf('SignerSettingsForm', module)
@@ -41,7 +41,7 @@ storiesOf('SignerSettingsForm', module)
           currentSigner={{
             type: 'rpc',
             url: TOMOCHAIN_NODE_HTTP_URL,
-            networkId: 8888,
+            networkId: DEFAULT_NETWORK_ID,
           }}
           updateSigner={action('updateSigner')}
         />
@@ -53,11 +53,11 @@ storiesOf('SignerSettingsForm', module)
     withInfo()(() => (
       <div className="bp3-dark">
         <SignerSettingsFormRenderer
-          options={{ provider: 'metamask', type: '', url: '', networkId: 8888 }}
+          options={{ provider: 'metamask', type: '', url: '', networkId: DEFAULT_NETWORK_ID }}
           currentSigner={{
             type: 'local',
             url: TOMOCHAIN_NODE_HTTP_URL,
-            networkId: 8888,
+            networkId: DEFAULT_NETWORK_ID,
           }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
@@ -77,7 +77,7 @@ storiesOf('SignerSettingsForm', module)
           currentSigner={{
             type: 'local',
             url: TOMOCHAIN_NODE_HTTP_URL,
-            networkId: 8888,
+            networkId: DEFAULT_NETWORK_ID,
           }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
@@ -102,7 +102,7 @@ storiesOf('SignerSettingsForm', module)
           currentSigner={{
             type: 'wallet',
             url: TOMOCHAIN_NODE_HTTP_URL,
-            networkId: 8888,
+            networkId: DEFAULT_NETWORK_ID,
           }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
@@ -127,7 +127,7 @@ storiesOf('SignerSettingsForm', module)
           currentSigner={{
             type: 'local',
             url: TOMOCHAIN_NODE_HTTP_URL,
-            networkId: 8888,
+            networkId: DEFAULT_NETWORK_ID,
           }}
           handleSubmit={action('handleSubmit')}
           handleChange={action('handleChange')}
