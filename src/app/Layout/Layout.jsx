@@ -88,16 +88,6 @@ class Layout extends React.PureComponent<Props, State> {
                   <Tag minimal intent="success"><DexVersion>{REACT_APP_DEX_VERSION}</DexVersion></Tag>
                 </NavbarHeaderBox>
               </NavbarHeading>
-              {authenticated && (
-                <React.Fragment>
-                  <NavbarDivider />
-                  <NavbarLink to="/wallet">Wallet</NavbarLink>
-                  <NavbarLink to="/markets">Markets</NavbarLink>
-                  <NavbarLink to="/trade">Exchange</NavbarLink>
-                  <NavbarLink to="/settings">Settings</NavbarLink>
-                  <NavbarDivider />
-                </React.Fragment>
-              )}
             </NavbarGroup>
 
             <NavbarGroup align={Alignment.RIGHT}>
@@ -154,7 +144,14 @@ class Layout extends React.PureComponent<Props, State> {
         </Header>
         <MainContainer>
           <MenuBar>
-            Menu
+            {authenticated && (
+              <React.Fragment>
+                <NavbarLink to="/wallet">Wallet</NavbarLink>
+                <NavbarLink to="/markets">Markets</NavbarLink>
+                <NavbarLink to="/trade">Exchange</NavbarLink>
+                <NavbarLink to="/settings">Settings</NavbarLink>
+              </React.Fragment>
+            )}
           </MenuBar>
           <MainContent>{children}</MainContent>
         </MainContainer>
@@ -180,11 +177,13 @@ const DexVersion = styled.span`
 
 const MainContainer = styled.main`
   display: grid;
-  grid-template-columns: 180px auto;
+  grid-template-columns: 11% auto;
 `
 
 const MenuBar = styled.div`
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `
 
 const MainContent = styled.main`

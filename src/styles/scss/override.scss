@@ -1,5 +1,9 @@
 @import "vars";
 
+body {
+  font-family: $tm_font_family;
+}
+
 // Adapting the steps package to the blueprint dark theme
 .rc-steps-item-icon {
   border: 1px solid $pt-dark-divider-black !important;
