@@ -2,6 +2,8 @@
 
 body {
   font-family: $tm_font_family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 // Adapting the steps package to the blueprint dark theme
