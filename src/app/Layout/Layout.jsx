@@ -21,7 +21,7 @@ import {
   NavbarDivider,
 } from '../../components/Common'
 
-import { Footer, Indent } from '../../components/Common'
+import { Indent } from '../../components/Common'
 import {
   Devices,
 } from '../../components/Common/Variables'
@@ -158,7 +158,6 @@ class Layout extends React.PureComponent<Props, State> {
           </MenuBar>
           <MainContent>{children}</MainContent>
         </MainContainer>
-        <Footer />
       </Wrapper>
     )
   }
