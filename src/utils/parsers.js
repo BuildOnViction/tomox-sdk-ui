@@ -253,6 +253,7 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   const parsed = (data: Candles).map(datum => {
     return {
       date: new Date(datum.timestamp),
+      time: datum.timestamp,
       open: parsePricepoint(datum.open, pair),
       high: parsePricepoint(datum.high, pair),
       low: parsePricepoint(datum.low, pair),

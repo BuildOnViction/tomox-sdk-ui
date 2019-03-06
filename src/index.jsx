@@ -13,7 +13,7 @@ import { PersistGate } from 'redux-persist/es/integration/react'
 
 import * as messagesData from './locales'
 
-const { store, persistor } = configureStore()
+const { store, persistor } = configureStore
 
 registerServiceWorker()
 

@@ -11,7 +11,7 @@ import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
 import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-
+import TVChartContainer from '../../components/TVChartContainer'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -29,6 +29,7 @@ type Props = {
   makeFee: string,
   takeFee: string,
   toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+  ohlcvData: Array<Object>,
 }
 
 type State = {
@@ -95,7 +96,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol,
+      quoteTokenSymbol
     } = this.props
 
     if (!authenticated) {
@@ -134,7 +135,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, isInitiated } = this.props
+    const { authenticated, isInitiated, quoteTokenSymbol } = this.props
     if (!authenticated) return <Redirect to="/login" />
     if (!isInitiated) return null
     const { calloutOptions, calloutVisible } = this.state
@@ -143,9 +144,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       <TradingPageLayout>
         <MainPanel>
           <Grid columns={1} alignContent="start">
-            <OHLCV />
+            {quoteTokenSymbol && <TVChartContainer />}
+            {/* <OHLCV />             */}
             <OrdersTableBox />
-          </Grid>
+          </Grid>          
         </MainPanel>
 
         <SidePanel>
