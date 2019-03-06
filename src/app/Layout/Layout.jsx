@@ -152,7 +152,12 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarGroup>
           </Navbar>
         </Header>
-        <MainContent>{children}</MainContent>
+        <MainContainer>
+          <MenuBar>
+            Menu
+          </MenuBar>
+          <MainContent>{children}</MainContent>
+        </MainContainer>
         <Footer />
       </Wrapper>
     )
@@ -172,6 +177,15 @@ const Header = styled.header``
 const DexVersion = styled.span`
   font-size: 0.8rem;
   font-weight: 500;
+`
+
+const MainContainer = styled.main`
+  display: grid;
+  grid-template-columns: 180px auto;
+`
+
+const MenuBar = styled.div`
+
 `
 
 const MainContent = styled.main`
