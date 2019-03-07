@@ -156,8 +156,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               visible={calloutVisible}
               handleClose={this.closeCallout}
               {...calloutOptions}
-            />
-            <TokenSearcher /> */}
+            /> */}
+            {/* <TokenSearcher /> */}
             <OrdersAndTradesTableBox>
               <OrderBookBox />
               <TradesTableBox />

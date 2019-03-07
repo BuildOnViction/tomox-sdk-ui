@@ -44,19 +44,19 @@ const OrdersTableRenderer = (props: Props) => {
   } = props;
   return (
     <Wrapper className="order-history">
-      <OrdersTableHeader>
+      {/* <OrdersTableHeader>
         <Heading>Orders</Heading>
         <Button
           icon={isOpen ? 'chevron-up' : 'chevron-down'}
           minimal
           onClick={toggleCollapse}
         />
-      </OrdersTableHeader>
+      </OrdersTableHeader> */}
       <Collapse isOpen={isOpen}>
         <Tabs selectedTabId={selectedTabId} onChange={onChange}>
           <Tab
             id="all"
-            title="ALL"
+            title="All"
             panel={
               <OrdersTablePanel
                 loading={loading}
@@ -67,7 +67,7 @@ const OrdersTableRenderer = (props: Props) => {
           />
           <Tab
             id="open"
-            title="OPEN"
+            title="Open"
             panel={
               <OrdersTablePanel
                 loading={loading}
@@ -78,7 +78,7 @@ const OrdersTableRenderer = (props: Props) => {
           />
           <Tab
             id="cancelled"
-            title="CANCELLED"
+            title="Cancelled"
             panel={
               <OrdersTablePanel
                 loading={loading}
@@ -89,7 +89,7 @@ const OrdersTableRenderer = (props: Props) => {
           />
           <Tab
             id="pending"
-            title="PENDING"
+            title="Pending"
             panel={
               <OrdersTablePanel
                 loading={loading}
@@ -100,7 +100,7 @@ const OrdersTableRenderer = (props: Props) => {
           />
           <Tab
             id="executed"
-            title="EXECUTED"
+            title="Executed"
             panel={
               <OrdersTablePanel
                 loading={loading}

@@ -1,6 +1,12 @@
 @import "../../../node_modules/@blueprintjs/core/lib/scss/variables.scss";
 
-$tm_dark_blue: #252C40;
+$tm-dark-blue: #252C40;
+$tm-light-blue: #394362;
+$tm-gray: #6e7793;
+$tm-light-gray: #9ca4ba;
+$tm-white: #fff;
+$tm-orange: #ff9a4d;
+
 $tm-font-family: SFProText,
     -apple-system,
     "BlinkMacSystemFont",
@@ -13,6 +19,8 @@ $tm-font-family: SFProText,
     "Helvetica Neue",
     "Icons16", // support inline Palantir icons
     sans-serif !default;
+
+$tm-font-size-md: 14px;
 
 /*
  * Custom Colors

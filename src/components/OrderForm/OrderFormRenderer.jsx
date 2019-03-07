@@ -266,7 +266,7 @@ const BuyLimitOrderPanel = (props) => {
 
   return (
     <BuyLimitOrderContainer>
-      <HeaderRow><HeaderText text={`Buy ${baseTokenSymbol}`} /></HeaderRow>
+      <HeaderRow>{`Buy ${baseTokenSymbol}`}</HeaderRow>
       <InputBox>
         <InputLabel>
           Price <MutedText>({quoteTokenSymbol})</MutedText>
@@ -334,7 +334,7 @@ const SellLimitOrderPanel = (props) => {
 
   return (
     <SellLimitOrderContainer>
-      <HeaderRow><HeaderText text={`Sell ${baseTokenSymbol}`} /></HeaderRow>
+      <HeaderRow>{`Sell ${baseTokenSymbol}`}</HeaderRow>
       <InputBox>
         <InputLabel>
           Price <MutedText>({quoteTokenSymbol})</MutedText>

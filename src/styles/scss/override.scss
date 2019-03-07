@@ -2,8 +2,47 @@
 
 body {
   font-family: $tm_font_family;
+  font-size: $tm-font-size-md;
+  color: $tm-gray;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.tm-theme-dark {
+  .bp3-navbar,
+  .bp3-card {
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .bp3-elevation-0 {
+    box-shadow: 0 0 0 1px $tm-light-blue;
+  }
+  .bp3-button:not([class*="bp3-intent-"]),
+  .bp3-tab {
+    color: $tm-light-gray;
+  }
+  .bp3-running-text table th, 
+  table.bp3-html-table th,
+  .bp3-running-text table td, 
+  table.bp3-html-table td {
+    color: $tm-light-gray;
+  }
+  .bp3-html-select select, .bp3-select select {
+    color: $tm-white;
+  }
+  .bp3-button.bp3-minimal.bp3-intent-primary:active, 
+  .bp3-button.bp3-minimal.bp3-intent-primary.bp3-active {
+    color: $tm-white;
+  }
+  .bp3-tab[aria-selected="true"], 
+  .bp3-tab:not([aria-disabled="true"]):hover {
+    color: $tm-white;
+  }
+  .bp3-html-select.bp3-large select, 
+  .bp3-select.bp3-large select {
+    font-size: $tm-font-size-md;
+  }
 }
 
 // Adapting the steps package to the blueprint dark theme
