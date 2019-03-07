@@ -9,13 +9,13 @@ import images from './images.json'
 
 const quoteTokensTable = {
   [DEFAULT_NETWORK_ID]: []
-};
+}
 
 
 let quoteTokensBySymbolsTable = {
   [DEFAULT_NETWORK_ID]: {}
 }
-export const quoteSymbolTokens = ['TOMO']
+export const quoteSymbolTokens = ['BTC', 'ETH', 'USDT', 'TOMO']
 for (let token of quoteSymbolTokens) {
   const tokenData = {
     symbol: token,

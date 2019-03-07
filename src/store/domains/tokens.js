@@ -13,9 +13,9 @@ import type { TokenState, Token, TokenImage, Symbol } from '../../types/tokens';
 const initialState = {
   symbols: tokenSymbols,
   bySymbol: tokensBySymbol,
-  data: {},
-  favorites: [],
-  currentPair: 'ETH/TOMO'
+  // data: {},
+  // favorites: [],
+  // currentPair: 'ETH/TOMO'
 };
 
 // console.log(initialState);
@@ -81,7 +81,7 @@ export default function getTokenDomain(state: TokenState) {
     bySymbol: () => state.bySymbol,
     symbols: () => state.symbols,
     tokens: () => Object.values(state.bySymbol),
-    pair: () => state.currentPair,
+    // pair: () => state.currentPair,
     rankedTokens: () =>
       (Object.values(state.bySymbol): any).map((m, index) => ({
         ...m,
