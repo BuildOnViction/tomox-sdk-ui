@@ -51,15 +51,18 @@ export default class TVChartContainer extends React.PureComponent {
 			autosize: this.props.autosize,
 			studies_overrides: this.props.studiesOverrides,
 			theme: 'Dark',
+			custom_css_url: 'http://localhost:3000/tvchart.css',
 			overrides: {
+				"volumePaneSize": "medium",
 				"mainSeriesProperties.showCountdown": true,
-				"paneProperties.background": "#131722",
+				"paneProperties.background": "#252C40",
 				"paneProperties.vertGridProperties.color": "#363c4e",
 				"paneProperties.horzGridProperties.color": "#363c4e",
 				"symbolWatermarkProperties.transparency": 90,
 				"scalesProperties.textColor" : "#AAA",
 				"mainSeriesProperties.candleStyle.wickUpColor": '#336854',
 				"mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
+				"timeScale.rightOffset": 1,
 			}
 		};
 
