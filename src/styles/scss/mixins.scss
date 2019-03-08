@@ -1,0 +1,10 @@
+@mixin sidebar-link($normal-url, $active-url) {
+    i {
+        background: url($normal-url) no-repeat 0 center;
+    }
+
+    &.active i,
+    &:hover i {
+        background: url($active-url) no-repeat 0 center;
+    }
+}

@@ -3,7 +3,7 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { HTMLSelect, Icon } from '@blueprintjs/core'
+import { HTMLSelect, Icon, Switch } from '@blueprintjs/core'
 import {
   Alignment,
   Button,
@@ -57,6 +57,10 @@ class Layout extends React.PureComponent<Props, State> {
   changeLocale = (e: Object) => {
     const locale = e.target.value.toLowerCase()
     this.props.changeLocale && this.props.changeLocale(locale)
+  }
+
+  handleThemeChange = () => {
+
   }
 
   render() {
@@ -143,15 +147,13 @@ class Layout extends React.PureComponent<Props, State> {
           </Navbar>
         </Header>
         <MainContainer>
-          <MenuBar>
-            {authenticated && (
-              <React.Fragment>
-                <NavbarLink to="/wallet">Wallet</NavbarLink>
-                <NavbarLink to="/markets">Markets</NavbarLink>
-                <NavbarLink to="/trade">Exchange</NavbarLink>
-                <NavbarLink to="/settings">Settings</NavbarLink>
-              </React.Fragment>
-            )}
+          <MenuBar className="sidebar"> 
+            <NavLink className="sidebar-item markets-link" to="/markets"><span><i></i> Markets</span></NavLink>  
+            <NavLink className="sidebar-item exchange-link" to="/trade"><span><i></i> Exchange</span></NavLink>         
+            <NavLink className="sidebar-item portfolio-link" to="/wallet"><span><i></i> Portfolio</span></NavLink>                      
+            <NavLink className="sidebar-item docs-faq-link" to="/settings"><span><i></i> Docs/FAQ</span></NavLink>
+            {/* <NavLink className="sidebar-item" to="/settings">Settings</NavLink> */}
+            <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </MenuBar>
           <MainContent>{children}</MainContent>
         </MainContainer>
