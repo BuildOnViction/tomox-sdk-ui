@@ -2,10 +2,11 @@
 import configureStore from '../../../store/configureStore';
 import { parseOHLCV } from '../../../utils/parsers'
 import * as actionCreators from '../../../store/actions/socketController'
+import { ENGINE_HTTP_URL } from '../../../config/environment';
 
 var rp = require('request-promise').defaults({json: true})
 
-const api_root = 'https://dex.devnet.tomochain.com/api'
+const api_root = ENGINE_HTTP_URL
 const history = {}
 const { store } = configureStore
 

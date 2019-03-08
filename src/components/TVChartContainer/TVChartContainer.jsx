@@ -33,6 +33,9 @@ export default class TVChartContainer extends React.PureComponent {
   			updateTimeSpan,
 		} = this.props
 
+		const { location: { origin } } = window
+		const custom_css_url = `${ origin }/tvchart.css`
+
 		const widgetOptions = {
 			debug: false,
 			symbol: this.props.symbol,
@@ -51,7 +54,7 @@ export default class TVChartContainer extends React.PureComponent {
 			autosize: this.props.autosize,
 			studies_overrides: this.props.studiesOverrides,
 			theme: 'Dark',
-			custom_css_url: 'http://localhost:3000/tvchart.css',
+			custom_css_url,
 			overrides: {
 				"volumePaneSize": "medium",
 				"mainSeriesProperties.showCountdown": true,
