@@ -31,6 +31,9 @@ import locales from '../../config/locales'
 import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
+import supportIconUrl from '../../assets/images/support_icon_gray.svg'
+import notificationIconUrl from '../../assets/images/notification_icon_gray.svg'
+import globeIconUrl from '../../assets/images/globe_icon_gray.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -86,11 +89,11 @@ class Layout extends React.PureComponent<Props, State> {
         <Notifier />
         <Header className="tm-header">
           <Navbar>
-            <NavbarGroup align={Alignment.LEFT}>
-              <NavbarHeading>
-                <TomoXLogo height={40} width={40} alt="TomoX Logo" />
-              </NavbarHeading>
+            <NavbarHeading className="logo">
+              <TomoXLogo height={40} width={40} alt="TomoX Logo" />
+            </NavbarHeading>
 
+            <NavbarGroup align={Alignment.LEFT}>
               <TokenInfo className="token-info">
                 {currentPair && (
                   <Popover
@@ -147,55 +150,59 @@ class Layout extends React.PureComponent<Props, State> {
               </TokenInfo>
             </NavbarGroup>
 
-            <NavbarGroup align={Alignment.RIGHT}>
-              {currentBlock && (
-                <Block>
-                  <span>Current Block: </span>
-                  <a
-                    href={
-                      'https://scan.testnet.tomochain.com/blocks/' +
-                      currentBlock
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {currentBlock}
-                  </a>
-                </Block>
-              )}
+            <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <SupportItem className="utility-item support">
+                  <i>support</i>
+              </SupportItem>
 
-              {!authenticated ? (
-                <NavbarLink to="/login">Login</NavbarLink>
-              ) : (
-                <React.Fragment>
-                  <ConnectionStatus />
-                  <Popover
-                    content={menu}
-                    position={Position.BOTTOM_RIGHT}
-                    minimal
-                  >
-                    <Button icon="key" text={address} />
-                  </Popover>
-                </React.Fragment>
-              )}
+              <NotificationItem className="utility-item notification">
+                  <i>notification</i>
+              </NotificationItem>
 
-              <Navbar.Divider />
+              <UserItem className="utility-item notification">
+                {!authenticated ? (
+                  <NavbarLink to="/login">
+                    <span>Login</span>/<span>Register</span></NavbarLink>
+                ) : (
+                  <React.Fragment>
+                    <Popover
+                      content={menu}
+                      position={Position.BOTTOM_RIGHT}
+                      minimal
+                    >
+                      <Icon icon="user" iconSize={20} />
+                    </Popover>
+                  </React.Fragment>
+                )}
+              </UserItem>
 
-              <Icon icon="globe" />
-              <HTMLSelect
-                large
-                minimal
-                onChange={this.changeLocale}
-                value={this.props.locale}
-              >
-                {locales.map(locale => {
-                  return (
-                    <option key={locale.value} value={locale.value}>
-                      {locale.label}
-                    </option>
-                  )
-                })}
-              </HTMLSelect>
+              <LanguageItem className="utility-item language">
+                <i>language</i>              
+
+                <Popover
+                  content={'abc'}
+                  position={Position.BOTTOM_RIGHT}
+                  minimal>
+                  <div className="languages-dropdown">
+                    <span>English</span> 
+                    <span className="arrow"></span>
+                  </div>
+                </Popover>  
+                {/* <HTMLSelect
+                  large
+                  minimal
+                  onChange={this.changeLocale}
+                  value={this.props.locale}
+                >
+                  {locales.map(locale => {
+                    return (
+                      <option key={locale.value} value={locale.value}>
+                        {locale.label}
+                      </option>
+                    )
+                  })}
+                </HTMLSelect> */}
+              </LanguageItem>
             </NavbarGroup>
           </Navbar>
         </Header>
@@ -248,6 +255,14 @@ const MainContent = styled.main`
 const TokenInfo = styled.div``
 
 const TokenTick = styled.div``
+
+const SupportItem = styled.div``
+
+const NotificationItem = styled.div``
+
+const LanguageItem = styled.div``
+
+const UserItem = styled.div``
 
 const Block = styled.div`
   word-wrap: break-word;
