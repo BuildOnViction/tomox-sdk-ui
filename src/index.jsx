@@ -15,7 +15,7 @@ import * as messagesData from './locales'
 
 const { store, persistor } = configureStore
 
-registerServiceWorker()
+// registerServiceWorker()
 
 const ConnectedIntlProvider = connect(state => {
   const { locale } = state.settings
