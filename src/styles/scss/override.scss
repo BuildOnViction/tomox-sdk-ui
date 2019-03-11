@@ -9,7 +9,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bp3-navbar {
+  height: 80px;
+}
+
 .tm-theme-dark {
+  .down {
+    color: $tm-red;
+  }
+
+  .up {
+    color: $tm-green;
+  }
+
   .bp3-navbar,
   .bp3-card {
     background-color: transparent;
@@ -113,81 +125,55 @@ body {
       left: calc(100% - 13px)
     }
   }
+
+  .tm-header {
+    .tokens-dropdown {
+      color: $tm-light-gray;
+      cursor: pointer;
+      .arrow {
+        display: inline-block;
+        width: 10px;
+        height: 5px;
+        margin-left: 6px;
+        margin-bottom: 4px;
+        background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+      }
+      &:hover {
+        color: $tm-white;
+      }
+    }
+
+    .bp3-navbar-divider {
+      height: 30px;
+      margin: 0 26.5px;
+      border-left: 1px solid $tm-light-blue;
+    }
+
+    .token-info {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+
+    .token-tick {
+      display: flex;
+      flex-flow: row nowrap;
+      font-size: $tm-font-size-sm;
+      color: $tm-white;
+      .tick {
+        margin-right: 50px;
+        &:last-child {
+          margin-right: 0;
+        }
+        span {
+          margin-right: 12px;
+        }
+      }
+      .title {
+        color: $tm-gray;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
 
-// Adapting the steps package to the blueprint dark theme
-.rc-steps-item-icon {
-  border: 1px solid $pt-dark-divider-black !important;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
-  text-align: center;
-  border-radius: 26px;
-  font-size: 14px;
-  margin-right: 8px;
-}
-
-.rc-steps-item-title {
-  font-size: 14px;
-  margin-bottom: 4px;
-  color: $white !important;
-  font-weight: bold;
-  display: inline-block;
-  padding-right: 10px;
-  position: relative;
-}
-
-.rc-steps-item-wait .rc-steps-item-title {
-  color: rgba(0, 0, 0, 0.43);
-}
-
-.rc-steps-item-wait .rc-steps-item-icon {
-  border-color: #ccc;
-  background-color: $dark-gray5 !important;
-}
-
-.rc-steps-item-process .rc-steps-item-title {
-  color: rgba(0, 0, 0, 0.43);
-}
-
-.rc-steps-item-process .rc-steps-item-icon {
-  background: $pt-intent-primary !important;
-}
-
-.rc-steps-item-process .rc-steps-item-title {
-  color: rgba(0, 0, 0, 0.43);
-}
-
-.rc-steps-item-finish .rc-steps-item-icon {
-  border-color: $pt-intent-primary !important;
-  background-color: $dark-gray5 !important;
-}
-
-.rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
-  border-color: $pt-intent-primary !important;
-  color: $pt-intent-primary !important;
-  background-color: $dark-gray5 !important;
-  font-weight: bolder;
-}
-
-.rc-steps-item-wait .rc-steps-item-icon > .rc-steps-icon {
-  color: #ccc;
-}
-
-.react-resizable {
-  position: relative;
-}
-.react-resizable-handle {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  bottom: -6px;
-  right: -6px;
-  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
-  background-position: bottom right;
-  padding: 0 3px 3px 0;
-  background-repeat: no-repeat;
-  background-origin: content-box;
-  box-sizing: border-box;
-  cursor: se-resize;
-}

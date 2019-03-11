@@ -30,6 +30,7 @@ import ConnectionStatus from '../../components/ConnectionStatus'
 import locales from '../../config/locales'
 import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
+import TokenSearcher from '../../components/TokenSearcher'
 
 export type Props = {
   TomoBalance: string,
@@ -64,7 +65,8 @@ class Layout extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { children, authenticated, address, currentBlock } = this.props
+    const { children, authenticated, address, currentBlock, currentPair } = this.props
+
     const menu = (
       <Menu>
         <MenuItem>
@@ -82,16 +84,67 @@ class Layout extends React.PureComponent<Props, State> {
     return (
       <Wrapper>
         <Notifier />
-        <Header>
+        <Header className="tm-header">
           <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
               <NavbarHeading>
-                <NavbarHeaderBox>
-                  <TomoXLogo height={25} width={25} alt="TomoX Logo" />
-                  <Indent />
-                  <Tag minimal intent="success"><DexVersion>{REACT_APP_DEX_VERSION}</DexVersion></Tag>
-                </NavbarHeaderBox>
+                <TomoXLogo height={40} width={40} alt="TomoX Logo" />
               </NavbarHeading>
+
+              <TokenInfo className="token-info">
+                {currentPair && (
+                  <Popover
+                    content={<TokenSearcher />}
+                    position={Position.BOTTOM_LEFT}
+                    minimal>
+                    <div className="tokens-dropdown">
+                      <span>{currentPair.pair}</span> 
+                      <i className="arrow"></i>
+                    </div>
+                  </Popover>
+                )}
+
+                <NavbarDivider />
+
+                <TokenTick className="token-tick">
+                  <div className="tick last-price">
+                    <div className="title">Last Price</div>
+                    <div>
+                      <span>0.00382726</span>
+                      <span className="up">$0.40</span>
+                    </div>
+                  </div>
+
+                  <div className="tick change">
+                    <div className="title">24h Change</div>
+                    <div className="down">
+                      <span>-0.00002726</span>
+                      <span>-6.33%</span>
+                    </div>
+                  </div>
+
+                  <div className="tick high">
+                    <div className="title">24h High</div>
+                    <div className="up">
+                      <span>0.00382783</span>
+                    </div>
+                  </div>
+
+                  <div className="tick low">
+                    <div className="title">24h Low</div>
+                    <div className="down">
+                      <span>0.00382783</span>
+                    </div>
+                  </div>
+
+                  <div className="tick volume">
+                    <div className="title">24h Volume</div>
+                    <div>
+                      <span>247.382783</span>
+                    </div>
+                  </div>
+                </TokenTick>
+              </TokenInfo>
             </NavbarGroup>
 
             <NavbarGroup align={Alignment.RIGHT}>
@@ -192,15 +245,9 @@ const MainContent = styled.main`
   flex: 1;
 `
 
-const NavbarHeaderBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+const TokenInfo = styled.div``
 
-  @media ${Devices.tablet} {
-    display: none;
-  }
-`
+const TokenTick = styled.div``
 
 const Block = styled.div`
   word-wrap: break-word;
