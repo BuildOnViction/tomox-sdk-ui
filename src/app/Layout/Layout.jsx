@@ -180,7 +180,7 @@ class Layout extends React.PureComponent<Props, State> {
                 <i>language</i>              
 
                 <Popover
-                  content={'abc'}
+                  content={'todo: languages list'}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">

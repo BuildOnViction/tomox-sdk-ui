@@ -29,12 +29,23 @@ body {
 }
 
 .tm-theme-dark {
+  background: $tm-dark-blue;
+
   .down {
     color: $tm-red !important;
   }
 
   .up {
     color: $tm-green !important;
+  }
+
+  .arrow-down {
+    display: inline-block;
+    width: 10px;
+    height: 5px;
+    margin-left: 6px;
+    margin-bottom: 4px;
+    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
   }
 
   .bp3-navbar,
@@ -244,10 +255,52 @@ body {
   }
 
   .trade-history {
-    color: #fff;
+    color: $tm-white;
     font-size: $tm-font-size-sm;
     .title {
       color: $tm-gray;
+    }
+  }
+
+  .order-book {
+    color: $tm-white;
+    font-size: $tm-font-size-sm;
+    .order-book-header {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      .title {
+        font-size: $tm-font-size-md;
+      }
+      .decimals-dropdown {
+        color: $tm-gray;
+      }
+      .filter-list {
+        display: flex;
+        flex-flow: row nowrap;
+        .filter {
+          display: inline-block;
+          font-size: 0;
+          height: 10px;
+          width: 12px;
+          margin-left: 13px;
+        }
+        .filter-sell {
+          background: url(../../assets/images/filter_sell_icon_gray.svg) no-repeat center center;
+        }
+        .filter-all {
+          background: url(../../assets/images/filter_all_icon_gray.svg) no-repeat center center;
+        }
+        .filter-buy {
+          background: url(../../assets/images/filter_buy_icon_gray.svg) no-repeat center center;
+        }
+      }
+    }
+    .order-book-content {
+      .header-cell {
+        color: $tm-orange;
+      }
     }
   }
 }

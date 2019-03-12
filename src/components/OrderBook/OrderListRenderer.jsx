@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import { Loading, Colors } from '../Common';
-import { ResizableBox } from 'react-resizable';
+import React from 'react'
+import styled from 'styled-components'
+import { Loading, Colors } from '../Common'
+import { Popover, Card, Position } from '@blueprintjs/core'
 
 type BidOrAsk = {
   price: number,
@@ -16,42 +16,59 @@ type Props = {
 };
 
 export const OrderBookRenderer = (props: Props) => {
-  const { bids, asks } = props;
+  const { bids, asks } = props
   return (
-    <React.Fragment>
-      <ResizableBox height={490} width={Infinity}>
-        <OrderBookBox>
-          {!bids && <Loading />}
-          {asks && (
-            <ListContainer className="list-container left-list">
-              <ListHeading>
-                <HeaderRow>
-                  <HeaderCell>PRICE</HeaderCell>
-                  <HeaderCell>AMOUNT</HeaderCell>
-                  <HeaderCell>TOTAL</HeaderCell>
-                </HeaderRow>
-              </ListHeading>
-              <List className="bp3-list-unstyled list">
-                {asks.map((order, index) => (
-                  <SellOrder key={index} index={index} order={order} />
-                ))}
-              </List>
-            </ListContainer>
-          )}
-          {bids && (
-            <ListContainer className="list-container">
-              <List className="bp3-list-unstyled list">
-                {bids.map((order, index) => (
-                  <BuyOrder key={index} index={index} order={order} />
-                ))}
-              </List>
-            </ListContainer>
-          )}
-        </OrderBookBox>
-      </ResizableBox>
-    </React.Fragment>
-  );
-};
+    <Wrapper>
+      <OrderBookHeader className="order-book-header">
+        <Title className="title">Orderbook</Title>
+
+        <Popover
+          content={'todo: decimals list'}
+          position={Position.BOTTOM_RIGHT}
+          minimal>
+          <div className="decimals-dropdown">
+            <span>7 decimals</span> 
+            <span className="arrow-down"></span>
+          </div>
+        </Popover>
+
+        <FilterList className="filter-list">
+          <FilterSell className="filter filter-sell"><i>filter sell</i></FilterSell>
+          <FilterAll className="filter filter-all"><i>filter all</i></FilterAll>
+          <FilterBuy className="filter filter-buy"><i>filter buy</i></FilterBuy>
+        </FilterList>
+      </OrderBookHeader>
+      <OrderBookContent className="order-book-content">
+        {!bids && <Loading />}
+        {asks && (
+          <ListContainer className="list-container left-list">
+            <ListHeading>
+              <HeaderRow>
+                <HeaderCell className="header-cell">Price</HeaderCell>
+                <HeaderCell className="header-cell">Amount</HeaderCell>
+                <HeaderCell className="header-cell">Volume</HeaderCell>
+              </HeaderRow>
+            </ListHeading>
+            <List className="bp3-list-unstyled list">
+              {asks.map((order, index) => (
+                <SellOrder key={index} index={index} order={order} />
+              ))}
+            </List>
+          </ListContainer>
+        )}
+        {bids && (
+          <ListContainer className="list-container">
+            <List className="bp3-list-unstyled list">
+              {bids.map((order, index) => (
+                <BuyOrder key={index} index={index} order={order} />
+              ))}
+            </List>
+          </ListContainer>
+        )}
+      </OrderBookContent>
+    </Wrapper>
+  )
+}
 
 export type SingleOrderProps = {
   order: Object,
@@ -59,7 +76,7 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order } = props;
+  const { order } = props
   return (
     <Row>
       <BuyRowBackground amount={order.relativeTotal} />
@@ -67,11 +84,11 @@ const BuyOrder = (props: SingleOrderProps) => {
       <Cell>{order.amount}</Cell>
       <Cell>{order.total}</Cell> 
     </Row>
-  );
-};
+  )
+}
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, index } = props;
+  const { order, index } = props
   return (
     <Row key={index}>
       <SellRowBackGround amount={order.relativeTotal} />
@@ -79,27 +96,37 @@ const SellOrder = (props: SingleOrderProps) => {
       <Cell>{order.amount}</Cell>
       <Cell>{order.total}</Cell>
     </Row>
-  );
-};
+  )
+}
 
-const OrderBookBox = styled.div.attrs({})`
+const Wrapper = styled(Card).attrs({
+  className: 'order-book',
+})``
+const OrderBookHeader = styled.div``
+const Title = styled.div``
+const FilterList = styled.div``
+const FilterSell = styled.div``
+const FilterAll = styled.div``
+const FilterBuy = styled.div``
+
+const OrderBookContent = styled.div.attrs({})`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-`;
+`
 const ListContainer = styled.div`
   height: 91%;
   width: 100%;
-`;
+`
 const List = styled.ul`
   height: 90%;
   max-height: 224px;
   overflow-y: auto;
-`;
+`
 
 const Row = styled.li.attrs({
-  className: 'row'
+  className: 'row',
 })`
   cursor: pointer;
   display: flex;
@@ -109,7 +136,7 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 5px 10px !important;
+  padding: 5px 0 !important;
   border: 1px transparent;
   border-radius: 2px;
   box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
@@ -124,7 +151,7 @@ const Row = styled.li.attrs({
       -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
     z-index: 1;
   }
-`;
+`
 
 const SellRowBackGround = styled.span`
   position: absolute;
@@ -134,7 +161,7 @@ const SellRowBackGround = styled.span`
   width: ${props => 100 * props.amount}% !important;
   background-color: ${Colors.SELL_MUTED} !important;
   z-index: 1;
-`;
+`
 
 const BuyRowBackground = styled.span`
   position: absolute;
@@ -144,11 +171,11 @@ const BuyRowBackground = styled.span`
   width: ${props => 100 * props.amount}% !important;
   background-color: ${Colors.BUY_MUTED} !important;
   z-index: 1;
-`;
+`
 
 const Cell = styled.span`
   min-width: 35px;
-`;
+`
 
 const ListHeading = styled.ul`
   width: 100%;
@@ -156,8 +183,7 @@ const ListHeading = styled.ul`
   flex-direction: row;
   justify-content: space-around;
   margin: 0px;
-  padding-left: 10px !important;
-`;
+`
 
 const HeaderRow = styled.li`
   display: flex;
@@ -165,13 +191,10 @@ const HeaderRow = styled.li`
   margin: 0px !important;
   padding-bottom: 10px;
   width: 100%;
-  span {
-    font-weight: 600;
-  }
-`;
+`
 
 const HeaderCell = styled.span`
   width: 20%;
-`;
+`
 
-export default OrderBookRenderer;
+export default OrderBookRenderer

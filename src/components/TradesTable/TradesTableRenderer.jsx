@@ -43,13 +43,13 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
       <ListHeader className="heading">
         <HeadingRow>
           <HeaderCell 
-            width="33.3%"
+            width="33%"
             textAlign="left">Time</HeaderCell>
           <HeaderCell 
-            width="33.3%"
+            width="34%"
             textAlign="center">Price</HeaderCell>
           <HeaderCell 
-            width="33.3%"
+            width="33%"
             textAlign="right">Amount</HeaderCell>
         </HeadingRow>
       </ListHeader>
@@ -57,7 +57,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
         {trades.map((trade, index) => (
           <Row key={index}>
             <Cell 
-              width="33"
+              width="33%"
               textAlign="left">
               {formatDate(trade.time, 'pp')}
             </Cell>
@@ -69,7 +69,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             </Cell>
             <Cell 
               textAlign="right"
-              width="33">{trade.amount}</Cell>
+              width="33%">{trade.amount}</Cell>
           </Row>
         ))}
       </ListBody>
