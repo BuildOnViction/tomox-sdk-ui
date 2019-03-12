@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
-import { Grid } from 'styled-css-grid'
+import { Grid, Cell } from 'styled-css-grid'
 
 import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
@@ -142,36 +142,22 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
     return (
       <TradingPageLayout>
-        <MainPanel>
-          <Grid columns={1} alignContent="start">
-            {quoteTokenSymbol && <TVChartContainer />}
-            {/* <OHLCV />             */}
-            <OrdersTableBox />
-          </Grid>          
-        </MainPanel>
-
-        <SidePanel>
-          <Grid columns={1} alignContent="start">
-            {/* <CloseableCallout
-              visible={calloutVisible}
-              handleClose={this.closeCallout}
-              {...calloutOptions}
-            /> */}
-            {/* <TokenSearcher /> */}
-            <OrdersAndTradesTableBox>
-              <OrderBookBox />
-              <TradesTableBox />
-            </OrdersAndTradesTableBox>
-            <OrderForm />
-          </Grid>
-        </SidePanel>
+        <Grid flow="row dense" columns={5}>
+          <Cell width={3} height={5}>{quoteTokenSymbol && <TVChartContainer />}</Cell>
+          <Cell width={2} height={5}>
+            <OrderBookBox />
+            <TradesTableBox />
+          </Cell>
+          <Cell width={3} height={3}><OrdersTableBox /></Cell>
+          <Cell width={2} height={3}><OrderForm /></Cell>
+        </Grid>
       </TradingPageLayout>
     )
   }
 }
 
 const TradingPageLayout = styled.div.attrs({
-  className: 'trading-page-layout',
+  // className: 'trading-page-layout',
 })``
 
 const SidePanel = styled.div.attrs({
