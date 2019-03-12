@@ -30,11 +30,11 @@ body {
 
 .tm-theme-dark {
   .down {
-    color: $tm-red;
+    color: $tm-red !important;
   }
 
   .up {
-    color: $tm-green;
+    color: $tm-green !important;
   }
 
   .bp3-navbar,
@@ -240,6 +240,14 @@ body {
           background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
         }
       }
+    }
+  }
+
+  .trade-history {
+    color: #fff;
+    font-size: $tm-font-size-sm;
+    .title {
+      color: $tm-gray;
     }
   }
 }
