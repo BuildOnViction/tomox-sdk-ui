@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors } from '../Common'
-import { Popover, Card, Position } from '@blueprintjs/core'
+import { Popover, Card, Position, AbstractPureComponent } from '@blueprintjs/core'
 
 type BidOrAsk = {
   price: number,
@@ -15,71 +15,76 @@ type Props = {
   asks: Array<BidOrAsk>
 };
 
-export const OrderBookRenderer = (props: Props) => {
-  const { bids, asks } = props
-  return (
-    <Wrapper>
-      <OrderBookHeader className="order-book-header">
-        <Title className="title">Orderbook</Title>
+export class OrderBookRenderer extends React.PureComponent<Props> {
+  componentDidMount() {
+    const $listSell = document.getElementById('list-sell')
+    console.log($listSell)
+  }
 
-        <Popover
-          content={'todo: decimals list'}
-          position={Position.BOTTOM_RIGHT}
-          minimal>
-          <div className="decimals-dropdown">
-            <span>7 decimals</span> 
-            <span className="arrow-down"></span>
-          </div>
-        </Popover>
+  render() {
+    const { bids, asks } = this.props
+    return (
+      <Wrapper>
+        <OrderBookHeader className="order-book-header">
+          <Title className="title">Orderbook</Title>
 
-        <FilterList className="filter-list">
-          <FilterSell className="filter filter-sell"><i>filter sell</i></FilterSell>
-          <FilterAll className="filter filter-all"><i>filter all</i></FilterAll>
-          <FilterBuy className="filter filter-buy"><i>filter buy</i></FilterBuy>
-        </FilterList>
-      </OrderBookHeader>
+          <Popover
+            content={'todo: decimals list'}
+            position={Position.BOTTOM_RIGHT}
+            minimal>
+            <div className="decimals-dropdown">
+              <span>7 decimals</span> 
+              <span className="arrow-down"></span>
+            </div>
+          </Popover>
 
-      <OrderBookContent className="order-book-content">
-        {!bids && <Loading />}
+          <FilterList className="filter-list">
+            <FilterSell className="filter filter-sell"><i>filter sell</i></FilterSell>
+            <FilterAll className="filter filter-all"><i>filter all</i></FilterAll>
+            <FilterBuy className="filter filter-buy"><i>filter buy</i></FilterBuy>
+          </FilterList>
+        </OrderBookHeader>
 
-        <ListHeading>
-          <HeaderRow>
-            <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
-            <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
-            <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
-          </HeaderRow>
-        </ListHeading>
+        <OrderBookContent className="order-book-content">
+          {!bids && <Loading />}
 
-        {asks && (
-          <ListContainer className="list-container list-sell">
-            <List className="bp3-list-unstyled list">
-              {asks.map((order, index) => (
-                <SellOrder key={index} index={index} order={order} />
-              ))}
-            </List>
-          </ListContainer>
-        )}
+          <ListHeading>
+            <HeaderRow>
+              <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
+              <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
+              <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
+            </HeaderRow>
+          </ListHeading>
 
-        <LatestTick className="latest-tick">
-          <LatestPrice className="latest-price" width="67%">
-            <CryptoPrice className="crypto">282.6300000</CryptoPrice>
-            <CashPrice className="cash">$0.68</CashPrice>
-          </LatestPrice>
-          <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
-        </LatestTick>
+          <ListContent className="list-container">
+            {asks && (
+              <List className="bp3-list-unstyled list list-sell" id="list-sell">
+                {asks.map((order, index) => (
+                  <SellOrder key={index} index={index} order={order} />
+                ))}
+              </List>
+            )}
 
-        {bids && (
-          <ListContainer className="list-container list-buy">
-            <List className="bp3-list-unstyled list">
-              {bids.map((order, index) => (
-                <BuyOrder key={index} index={index} order={order} />
-              ))}
-            </List>
-          </ListContainer>
-        )}
-      </OrderBookContent>
-    </Wrapper>
-  )
+            <LatestTick className="latest-tick">
+              <LatestPrice className="latest-price" width="67%">
+                <CryptoPrice className="crypto">282.6300000</CryptoPrice>
+                <CashPrice className="cash">$0.68</CashPrice>
+              </LatestPrice>
+              <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
+            </LatestTick>
+
+            {bids && (
+              <List className="bp3-list-unstyled list list-buy" id="list-buy">
+                {bids.map((order, index) => (
+                  <BuyOrder key={index} index={index} order={order} />
+                ))}
+              </List>
+            )}
+          </ListContent>
+        </OrderBookContent>
+      </Wrapper>
+    )
+  }
 }
 
 export type SingleOrderProps = {
@@ -192,6 +197,8 @@ const ListHeading = styled.ul`
   justify-content: space-around;
   margin: 0px;
 `
+
+const ListContent = styled.div``
 
 const HeaderRow = styled.li`
   display: flex;

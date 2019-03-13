@@ -57,7 +57,22 @@
       .header-cell {
         color: $tm-orange;
       }
+
+      .list-container {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .list-sell,
+      .list-buy {
+        height: calc((100% - 30px) / 2);
+        overflow: hidden;
+      }
+
       .latest-tick {
+        flex-grow: 0;
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
@@ -66,11 +81,13 @@
         padding-left: 10px;
         background: $tm-black;
       }
+
       .latest-price {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
+
       .latest-price .crypto {
         font-size: $tm-font-size-h3;
       }
