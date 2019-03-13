@@ -44,9 +44,9 @@ export const OrderBookRenderer = (props: Props) => {
 
         <ListHeading>
           <HeaderRow>
-            <HeaderCell className="header-cell">Price</HeaderCell>
-            <HeaderCell className="header-cell">Amount</HeaderCell>
-            <HeaderCell className="header-cell">Volume</HeaderCell>
+            <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
+            <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
+            <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
           </HeaderRow>
         </ListHeading>
 
@@ -60,13 +60,13 @@ export const OrderBookRenderer = (props: Props) => {
           </ListContainer>
         )}
 
-        <LastestTick>
-          <LatestPrice>
-            <CryptoPrice>282.6300000</CryptoPrice>
-            <CashPrice>$0.68</CashPrice>
+        <LatestTick className="latest-tick">
+          <LatestPrice className="latest-price" width="67%">
+            <CryptoPrice className="crypto">282.6300000</CryptoPrice>
+            <CashPrice className="cash">$0.68</CashPrice>
           </LatestPrice>
-          <PercentChange>+19.33%</PercentChange>
-        </LastestTick>
+          <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
+        </LatestTick>
 
         {bids && (
           <ListContainer className="list-container list-buy">
@@ -92,9 +92,9 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell style={{color: Colors.BUY}}>{order.price}</Cell>
-      <Cell>{order.amount}</Cell>
-      <Cell>{order.total}</Cell> 
+      <Cell className="up" width="33%">{order.price}</Cell>
+      <Cell className="text-right" width="34%">{order.amount}</Cell>
+      <Cell className="text-right" width="33%">{order.total}</Cell> 
     </Row>
   )
 }
@@ -104,9 +104,9 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row key={index}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell style={{color: Colors.SELL}}>{order.price}</Cell>
-      <Cell>{order.amount}</Cell>
-      <Cell>{order.total}</Cell>
+      <Cell className="down" width="33%">{order.price}</Cell>
+      <Cell className="text-right" width="34%">{order.amount}</Cell>
+      <Cell className="text-right" width="33%">{order.total}</Cell>
     </Row>
   )
 }
@@ -130,11 +130,9 @@ const OrderBookContent = styled.div.attrs({})`
   justify-content: stretch;
 `
 const ListContainer = styled.div`
-  height: 91%;
   width: 100%;
 `
 const List = styled.ul`
-  height: 90%;
   max-height: 224px;
   overflow-y: auto;
 `
@@ -146,14 +144,10 @@ const Row = styled.li.attrs({
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  justify-content: space-between;
   position: relative;
   width: 100%;
   margin: 0px !important;
   padding: 5px 0 !important;
-  border: 1px transparent;
-  border-radius: 2px;
-  box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
 
   &:hover {
     background-color: ${Colors.BLUE_MUTED};
@@ -188,7 +182,7 @@ const BuyRowBackground = styled.span`
 `
 
 const Cell = styled.span`
-  min-width: 35px;
+  width: ${props => props.width? props.width : "35px"}
 `
 
 const ListHeading = styled.ul`
@@ -208,13 +202,17 @@ const HeaderRow = styled.li`
 `
 
 const HeaderCell = styled.span`
-  width: 20%;
+  width: ${props => props.width? props.width : "35px"}
 `
 
-const LastestTick = styled.div``
-const LatestPrice = styled.div``
+const LatestTick = styled.div``
+const LatestPrice = styled.div`
+  width: ${props => props.width? props.width : "70px"}
+`
 const CryptoPrice = styled.span``
 const CashPrice = styled.span``
-const PercentChange = styled.div``
+const PercentChange = styled.div`
+  width: ${props => props.width? props.width : "35px"}
+`
 
 export default OrderBookRenderer

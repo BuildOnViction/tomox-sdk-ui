@@ -17,6 +17,8 @@
   .order-book {
     color: $tm-white;
     font-size: $tm-font-size-sm;
+    display: flex;
+    flex-direction: column;
     .order-book-header {
       display: flex;
       flex-flow: row nowrap;
@@ -50,9 +52,27 @@
         }
       }
     }
+
     .order-book-content {
       .header-cell {
         color: $tm-orange;
+      }
+      .latest-tick {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        height: 30px;
+        margin-left: -10px;
+        padding-left: 10px;
+        background: $tm-black;
+      }
+      .latest-price {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .latest-price .crypto {
+        font-size: $tm-font-size-h3;
       }
     }
   }
