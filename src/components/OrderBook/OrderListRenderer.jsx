@@ -41,15 +41,17 @@ export const OrderBookRenderer = (props: Props) => {
 
       <OrderBookContent className="order-book-content">
         {!bids && <Loading />}
+
+        <ListHeading>
+          <HeaderRow>
+            <HeaderCell className="header-cell">Price</HeaderCell>
+            <HeaderCell className="header-cell">Amount</HeaderCell>
+            <HeaderCell className="header-cell">Volume</HeaderCell>
+          </HeaderRow>
+        </ListHeading>
+
         {asks && (
-          <ListContainer className="list-container left-list">
-            <ListHeading>
-              <HeaderRow>
-                <HeaderCell className="header-cell">Price</HeaderCell>
-                <HeaderCell className="header-cell">Amount</HeaderCell>
-                <HeaderCell className="header-cell">Volume</HeaderCell>
-              </HeaderRow>
-            </ListHeading>
+          <ListContainer className="list-container list-sell">
             <List className="bp3-list-unstyled list">
               {asks.map((order, index) => (
                 <SellOrder key={index} index={index} order={order} />
@@ -57,8 +59,17 @@ export const OrderBookRenderer = (props: Props) => {
             </List>
           </ListContainer>
         )}
+
+        <LastestTick>
+          <LatestPrice>
+            <CryptoPrice>282.6300000</CryptoPrice>
+            <CashPrice>$0.68</CashPrice>
+          </LatestPrice>
+          <PercentChange>+19.33%</PercentChange>
+        </LastestTick>
+
         {bids && (
-          <ListContainer className="list-container">
+          <ListContainer className="list-container list-buy">
             <List className="bp3-list-unstyled list">
               {bids.map((order, index) => (
                 <BuyOrder key={index} index={index} order={order} />
@@ -102,7 +113,9 @@ const SellOrder = (props: SingleOrderProps) => {
 
 const Wrapper = styled.div.attrs({
   className: 'order-book',
-})``
+})`
+  height: 100%;
+`
 const OrderBookHeader = styled.div``
 const Title = styled.div``
 const FilterList = styled.div``
@@ -197,5 +210,11 @@ const HeaderRow = styled.li`
 const HeaderCell = styled.span`
   width: 20%;
 `
+
+const LastestTick = styled.div``
+const LatestPrice = styled.div``
+const CryptoPrice = styled.span``
+const CashPrice = styled.span``
+const PercentChange = styled.div``
 
 export default OrderBookRenderer

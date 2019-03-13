@@ -1,20 +1,6 @@
 @import "vars";
 @import "mixins";
 
-html,
-body {
-  height: 100vh;
-  overflow: hidden;
-}
-
-body {
-  font-family: $tm_font_family;
-  font-size: $tm-font-size-md;
-  color: $tm-gray;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .bp3-navbar {
   padding: 0;
 }

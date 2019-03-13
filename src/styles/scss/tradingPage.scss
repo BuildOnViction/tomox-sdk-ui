@@ -2,13 +2,8 @@
 
 .tm-theme-dark {
   .orderbook-trades {
-    // display: flex;
     box-shadow: 0 0 0 1px $tm-light-blue;
     padding: 10px;
-    // .order-book,
-    // .trade-history {
-    //   width: 50%;
-    // }
   }
 
   .trade-history {
@@ -27,6 +22,7 @@
       flex-flow: row nowrap;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 3px;
       .title {
         font-size: $tm-font-size-md;
       }
@@ -59,5 +55,9 @@
         color: $tm-orange;
       }
     }
+  }
+
+  .tvchart-wrapper {
+    box-shadow: 0 0 0 1px $tm-light-blue;
   }
 }

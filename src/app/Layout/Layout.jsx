@@ -237,7 +237,7 @@ const DexVersion = styled.span`
   font-weight: 500;
 `
 
-const MainContainer = styled.main`
+const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 11% auto;
 `
@@ -250,6 +250,7 @@ const MenuBar = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
+  height: calc(100vh - 80px)
 `
 
 const TokenInfo = styled.div``

@@ -141,8 +141,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <Grid flow="row dense" columns={5}>
-        <Cell width={3} height={5}>{quoteTokenSymbol && <TVChartContainer />}</Cell>
+      <Grid flow="row dense" columns={5} rows={8} height="100%">
+        <Cell width={3} height={5} className="tvchart-wrapper">{quoteTokenSymbol && <TVChartContainer />}</Cell>
         <Cell width={2} height={5} className="orderbook-trades">
           <Grid columns={2} height="100%" gap="20px">
             <Cell width={1}><OrderBook /></Cell>
@@ -150,7 +150,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           </Grid>
         </Cell>
         <Cell width={3} height={3}><OrdersTable /></Cell>
-        <Cell width={2} height={5}><OrderForm /></Cell>
+        <Cell width={2} height={3}><OrderForm /></Cell>
       </Grid>
     )
   }
