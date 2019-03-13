@@ -38,6 +38,7 @@ export const OrderBookRenderer = (props: Props) => {
           <FilterBuy className="filter filter-buy"><i>filter buy</i></FilterBuy>
         </FilterList>
       </OrderBookHeader>
+
       <OrderBookContent className="order-book-content">
         {!bids && <Loading />}
         {asks && (
@@ -99,7 +100,7 @@ const SellOrder = (props: SingleOrderProps) => {
   )
 }
 
-const Wrapper = styled(Card).attrs({
+const Wrapper = styled.div.attrs({
   className: 'order-book',
 })``
 const OrderBookHeader = styled.div``

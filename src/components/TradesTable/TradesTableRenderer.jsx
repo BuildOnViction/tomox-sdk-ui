@@ -24,11 +24,9 @@ const TradesTableRenderer = (props: Props) => {
   } = props
 
   return (
-    <div>
-      <Wrapper className="trade-history">
-        <MarketTradesPanel trades={trades} />
-      </Wrapper>
-    </div>
+    <Wrapper className="trade-history">
+      <MarketTradesPanel trades={trades} />
+    </Wrapper>
   )
 }
 
@@ -77,7 +75,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
   )
 }
 
-const Wrapper = styled(Card)`
+const Wrapper = styled.div`
   margin: auto;
   height: 100% !important;
 `;

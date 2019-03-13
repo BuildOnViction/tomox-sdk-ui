@@ -141,45 +141,18 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <TradingPageLayout>
-        <Grid flow="row dense" columns={5}>
-          <Cell width={3} height={5}>{quoteTokenSymbol && <TVChartContainer />}</Cell>
-          <Cell width={2} height={5}>
-            <OrderBookBox />
-            <TradesTableBox />
-          </Cell>
-          <Cell width={3} height={3}><OrdersTableBox /></Cell>
-          <Cell width={2} height={3}><OrderForm /></Cell>
-        </Grid>
-      </TradingPageLayout>
+      <Grid flow="row dense" columns={5}>
+        <Cell width={3} height={5}>{quoteTokenSymbol && <TVChartContainer />}</Cell>
+        <Cell width={2} height={5} className="orderbook-trades">
+          <Grid columns={2} height="100%" gap="20px">
+            <Cell width={1}><OrderBook /></Cell>
+            <Cell width={1}><TradesTable /></Cell>
+          </Grid>
+        </Cell>
+        <Cell width={3} height={3}><OrdersTable /></Cell>
+        <Cell width={2} height={5}><OrderForm /></Cell>
+      </Grid>
     )
   }
 }
 
-const TradingPageLayout = styled.div.attrs({
-  // className: 'trading-page-layout',
-})``
-
-const SidePanel = styled.div.attrs({
-  className: 'trading-page-side-panel',
-})``
-
-const MainPanel = styled.div.attrs({
-  className: 'trading-page-main-panel',
-})``
-
-const OrderBookBox = styled(OrderBook).attrs({
-  className: 'trading-page-orderbook',
-})``
-
-const TradesTableBox = styled(TradesTable).attrs({
-  className: 'trading-page-tradestable',
-})``
-
-const OrdersTableBox = styled(OrdersTable).attrs({
-  className: 'trading-page-orderstable',
-})``
-
-const OrdersAndTradesTableBox = styled.div.attrs({
-  className: 'trading-page-orders-and-trades-tables',
-})``
