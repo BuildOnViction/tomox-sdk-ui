@@ -10,47 +10,7 @@
   height: 80px;
 }
 
-.tm-header .logo {
-  float: left;
-  width: 11%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
-
 .tm-theme-dark {
-  background: $tm-dark-blue;
-
-  .down {
-    color: $tm-red !important;
-  }
-
-  .up {
-    color: $tm-green !important;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .text-left {
-    text-align: left;
-  }
-
-  .text-right {
-    text-align: right;
-  }
-
-  .arrow-down {
-    display: inline-block;
-    width: 10px;
-    height: 5px;
-    margin-left: 6px;
-    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
-  }
-
   .bp3-navbar,
   .bp3-card {
     background-color: transparent;

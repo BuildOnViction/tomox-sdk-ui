@@ -19,7 +19,7 @@ type State = {
 class OrdersTable extends React.PureComponent<Props, State> {
   static defaultProps = { authenticated: true }
   state = {
-    selectedTabId: 'all',
+    selectedTabId: 'open-orders',
     isOpen: true,
   }
 

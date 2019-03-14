@@ -149,7 +149,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             <Cell width={1}><TradesTable /></Cell>
           </Grid>
         </Cell>
-        <Cell width={3} height={3}><OrdersTable /></Cell>
+        <Cell width={3} height={3} className="orders-table-cell"><OrdersTable /></Cell>
         <Cell width={2} height={3}><OrderForm /></Cell>
       </Grid>
     )

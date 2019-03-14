@@ -215,7 +215,7 @@ class Layout extends React.PureComponent<Props, State> {
             {/* <NavLink className="sidebar-item" to="/settings">Settings</NavLink> */}
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </MenuBar>
-          <MainContent>{children}</MainContent>
+          <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
       </Wrapper>
     )
