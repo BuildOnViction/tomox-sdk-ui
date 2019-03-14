@@ -38,7 +38,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
 
   return (
     <React.Fragment>
-      <ListHeader className="heading">
+      <ListHeader className="header">
         <HeadingRow>
           <HeaderCell 
             width="33%"
@@ -51,7 +51,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             textAlign="right">Amount</HeaderCell>
         </HeadingRow>
       </ListHeader>
-      <ListBody className="list">
+      <ListBody className="content">
         {trades.map((trade, index) => (
           <Row key={index}>
             <Cell 
@@ -89,8 +89,6 @@ const ListHeader = styled.ul`
 `;
 
 const ListBody = styled.ul`
-  height: 90%;
-  max-height: 500px;
   overflow-y: auto;
   margin: 0;
 `
@@ -112,8 +110,7 @@ const Row = styled.li.attrs({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  padding: 3.5px 0 !important;
 `
 
 const Cell = styled.span`

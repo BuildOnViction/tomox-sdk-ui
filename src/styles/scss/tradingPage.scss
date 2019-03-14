@@ -9,8 +9,14 @@
   .trade-history {
     color: $tm-white;
     font-size: $tm-font-size-sm;
-    .title {
-      color: $tm-gray;
+    .header {  
+      height: 16px;    
+      .title {
+        color: $tm-gray;
+      }
+    }
+    .content {
+      height: calc(100% - 16px);
     }
   }
 
@@ -24,22 +30,34 @@
       flex-flow: row nowrap;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 3px;
+      height: 16px;
+      margin-bottom: 4px;
       .title {
         font-size: $tm-font-size-md;
       }
       .decimals-dropdown {
         color: $tm-gray;
+
+        .arrow-down {
+          height: 4px;
+          width: 8px;
+          background-size: 100%;
+          margin-bottom: 1 px;
+        }
       }
       .filter-list {
         display: flex;
         flex-flow: row nowrap;
+        height: 14px;
+        margin-top: 5px;
+        margin-bottom: 7px;
         .filter {
           display: inline-block;
           font-size: 0;
           height: 10px;
           width: 12px;
           margin-left: 13px;
+          cursor: pointer;
         }
         .filter-sell {
           background: url(../../assets/images/filter_sell_icon_gray.svg) no-repeat center center;
@@ -54,6 +72,13 @@
     }
 
     .order-book-content {
+      height: calc(100% - 20px);
+
+      .list-header {
+        height: 14px;
+        margin-bottom: 10px;
+      }
+
       .header-cell {
         color: $tm-orange;
       }
@@ -62,13 +87,7 @@
         display: flex;
         flex-direction: column;
         position: relative;
-        overflow: hidden;
-      }
-
-      .list-sell,
-      .list-buy {
-        height: calc((100% - 30px) / 2);
-        overflow: hidden;
+        height: calc(100% - 24px);
       }
 
       .latest-tick {
@@ -90,6 +109,66 @@
 
       .latest-price .crypto {
         font-size: $tm-font-size-h3;
+      }
+    }
+  }
+
+  .order-book.all {
+    .order-book-header .filter-list .filter-all {
+      background: url(../../assets/images/filter_all_icon_orange.svg) no-repeat center center;
+    }
+
+    .order-book-content {
+      .list-sell,
+      .list-buy {
+        height: calc((100% - 30px) / 2);
+        overflow: hidden;
+      } 
+    }
+  }
+
+  .order-book.sell {
+    .order-book-header .filter-list .filter-sell {
+      background: url(../../assets/images/filter_sell_icon_orange.svg) no-repeat center center;
+    }
+
+    .order-book-content {
+      .list-buy {
+        display: none;
+      }
+
+      .list-sell {
+        height: calc(100% - 30px);
+        margin-bottom: 30px;
+      }
+
+      .latest-tick {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .order-book.buy {
+    .order-book-header .filter-list .filter-buy {
+      background: url(../../assets/images/filter_buy_icon_orange.svg) no-repeat center center;
+    }
+
+    .order-book-content {
+      .list-sell {
+        display: none;
+      }
+
+      .list-buy {
+        height: calc(100% - 30px);
+        margin-top: 30px;
+      }
+
+      .latest-tick {
+        position: absolute;
+        top: 0;
+        width: 100%;
       }
     }
   }

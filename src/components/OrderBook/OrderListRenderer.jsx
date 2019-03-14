@@ -16,15 +16,46 @@ type Props = {
 };
 
 export class OrderBookRenderer extends React.PureComponent<Props> {
+  state = {
+    filter: 'all',
+  }
+
   componentDidMount() {
-    const $listSell = document.getElementById('list-sell')
-    console.log($listSell)
+    this.scrollToBottom('list-sell')
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom('list-sell')
+  }
+
+  scrollToBottom(id: String) {
+    if (this.state.filter !== 'all') return
+    const $listSell = document.getElementById(id)
+    $listSell.scrollTop = $listSell.scrollHeight
+  }
+
+  changeFilter(value: String) {
+    this.setState({
+      filter: value,
+    })
+  }
+
+  getOrderBookClass() {
+    const { filter } = this.state
+    switch (filter) {
+      case 'sell':
+        return 'order-book sell'
+      case 'buy':
+        return 'order-book buy'
+      default:
+        return 'order-book all'
+    }
   }
 
   render() {
     const { bids, asks } = this.props
     return (
-      <Wrapper>
+      <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
           <Title className="title">Orderbook</Title>
 
@@ -39,16 +70,16 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           </Popover>
 
           <FilterList className="filter-list">
-            <FilterSell className="filter filter-sell"><i>filter sell</i></FilterSell>
-            <FilterAll className="filter filter-all"><i>filter all</i></FilterAll>
-            <FilterBuy className="filter filter-buy"><i>filter buy</i></FilterBuy>
+            <FilterSell className="filter filter-sell" onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
+            <FilterAll className="filter filter-all" onClick={() => this.changeFilter('all')}><i>filter all</i></FilterAll>
+            <FilterBuy className="filter filter-buy" onClick={() => this.changeFilter('buy')}><i>filter buy</i></FilterBuy>
           </FilterList>
         </OrderBookHeader>
 
-        <OrderBookContent className="order-book-content">
+        <OrderBookContent className="order-book-content all">
           {!bids && <Loading />}
 
-          <ListHeading>
+          <ListHeading className="list-header">
             <HeaderRow>
               <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
               <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
@@ -65,13 +96,15 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               </List>
             )}
 
-            <LatestTick className="latest-tick">
-              <LatestPrice className="latest-price" width="67%">
-                <CryptoPrice className="crypto">282.6300000</CryptoPrice>
-                <CashPrice className="cash">$0.68</CashPrice>
-              </LatestPrice>
-              <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
-            </LatestTick>
+            {(asks.length > 0) && (
+              <LatestTick className="latest-tick">
+                <LatestPrice className="latest-price" width="67%">
+                  <CryptoPrice className="crypto">282.6300000</CryptoPrice>
+                  <CashPrice className="cash">$0.68</CashPrice>
+                </LatestPrice>
+                <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
+              </LatestTick>
+            )}
 
             {bids && (
               <List className="bp3-list-unstyled list list-buy" id="list-buy">
@@ -116,9 +149,7 @@ const SellOrder = (props: SingleOrderProps) => {
   )
 }
 
-const Wrapper = styled.div.attrs({
-  className: 'order-book',
-})`
+const Wrapper = styled.div`
   height: 100%;
 `
 const OrderBookHeader = styled.div``
@@ -138,7 +169,6 @@ const ListContainer = styled.div`
   width: 100%;
 `
 const List = styled.ul`
-  max-height: 224px;
   overflow-y: auto;
 `
 
@@ -152,7 +182,7 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 5px 0 !important;
+  padding: 3.5px 0 !important;
 
   &:hover {
     background-color: ${Colors.BLUE_MUTED};
