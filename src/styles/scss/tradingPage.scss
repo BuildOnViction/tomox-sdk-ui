@@ -207,14 +207,17 @@
       .header {
         box-shadow: 0 1px 0 0 $tm-light-blue;
         padding: 0 10px 10px 10px;
-        .cancel {
-          color: $tm-orange;
-        }
-
-        .cancel .arrow-down {
-          margin-bottom: 0;
-          margin-top: 5px;
-          background: url(../../assets/images/arrow_down_orange.svg) no-repeat center center;
+        .cancel-btn {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            color: $tm-orange;
+            .arrow-down {
+              margin-bottom: 0;
+              background: url(../../assets/images/arrow_down_orange.svg) no-repeat center center;
+            }
+          }   
         }
       }
 

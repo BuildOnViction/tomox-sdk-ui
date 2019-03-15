@@ -110,7 +110,7 @@ const OrdersTablePanel = (props: {
             content="todo: cancel list"
             position={Position.BOTTOM_LEFT}
             minimal>
-            <div>
+            <div className="cancel-btn">
               <span>Cancel All</span>
               <i className="arrow-down">arrow down</i>
             </div>            
@@ -140,7 +140,7 @@ const OrderRow = (props: {
   const { order, cancelOrder } = props
   return (
     <Row className="order-row">
-      <Cell width="15%" className="date" muted>
+      <Cell width="12%" className="date" muted>
         {formatDate(order.time, 'LL-dd H:k:mm')}
       </Cell>
       <Cell width="10%" className="pair" muted>
@@ -167,7 +167,7 @@ const OrderRow = (props: {
       <Cell width="15%" className="trigger-conditions" muted>
         -
       </Cell>
-      <Cell width="10%" className="cancel" muted>
+      <Cell width="13%" className="cancel" muted>
         {order.status === 'OPEN' && (
           <Icon 
             icon="cross" 
