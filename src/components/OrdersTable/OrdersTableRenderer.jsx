@@ -39,7 +39,7 @@ const OrdersTableRenderer = (props: Props) => {
     orders,
   } = props
   return (
-    <Wrapper>
+    <React.Fragment>
       <Tabs selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
@@ -79,7 +79,7 @@ const OrdersTableRenderer = (props: Props) => {
           title="Funds"
         />
       </Tabs>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 
@@ -204,7 +204,7 @@ const OrdersTableHeader = styled.div`
   grid-gap: 10px;
   align-items: center;
 `;
-const Wrapper = styled.div``
+// const Wrapper = styled.div``
 
 const ListContainer = styled.div`
   height: 100%;

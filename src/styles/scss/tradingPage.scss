@@ -181,7 +181,10 @@
     padding: 10px 0;
     box-shadow: 0 0 0 1px $tm-light-blue;
     font-size: $tm-font-size-sm;
-    overflow: auto;
+
+    .bp3-tabs {
+      height: 100%;
+    }
 
     .bp3-tab-list {
       padding: 0 10px;
@@ -192,7 +195,9 @@
     }
 
     .bp3-tab-panel {
-      margin-top: 15px;
+      margin-top: 0;
+      padding-top: 15px;
+      height: calc(100% - 19px);
     }
 
     .bp3-tab {
@@ -205,6 +210,7 @@
     }
 
     .list-container {
+      height: 100%;
       .header {
         box-shadow: 0 1px 0 0 $tm-light-blue;
         padding: 0 10px 10px 10px;
@@ -220,6 +226,11 @@
             }
           }   
         }
+      }
+
+      .list {
+        height: calc(100% - 25px);
+        overflow: auto;
       }
 
       .order-row {
