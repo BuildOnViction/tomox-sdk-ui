@@ -53,7 +53,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { bids, asks } = this.props
+    const { bids, asks, latestTrade } = this.props
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
@@ -96,13 +96,21 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               </List>
             )}
 
-            {(asks.length > 0) && (
+            {latestTrade && (
               <LatestTick className="latest-tick">
                 <LatestPrice className="latest-price" width="67%">
-                  <CryptoPrice className="crypto">282.6300000</CryptoPrice>
-                  <CashPrice className="cash">$0.68</CashPrice>
+                  <CryptoPrice className="crypto">{latestTrade.price}</CryptoPrice>
+                  <CashPrice className="cash">$-</CashPrice>
                 </LatestPrice>
-                <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
+                {
+                  (Number(latestTrade.percent) === 0) 
+                  ? (<PercentChange className="percent-change text-right" width="33%">{latestTrade.percent}</PercentChange>)
+                  :  (
+                      (latestTrade.change === "positive") 
+                      ? (<PercentChange className="percent-change up text-right" width="33%">+{latestTrade.percent}</PercentChange>)
+                      : (<PercentChange className="percent-change down text-right" width="33%">-{latestTrade.percent}</PercentChange>)
+                    )
+                }                
               </LatestTick>
             )}
 
