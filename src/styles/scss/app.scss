@@ -1,25 +1,62 @@
 @import "vars";
 
+html,
 body {
-  background-color: $pt-dark-app-background-color;
+  height: 100vh;
+  overflow: hidden;
 }
 
-//The following media queries adjust the browser zoom depending on the screen width
-// @media only screen and (max-width: 3000px) {
-//   body {
-//     zoom: 0.9;
-//   }
-// }
+body {
+  font-family: $tm_font_family;
+  font-size: $tm-font-size-md;
+  color: $tm-gray;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-// @media only screen and (max-width: 2000px) {
-//   body {
-//     zoom: 0.75;
-//   }
+.tm-header .logo {
+  float: left;
+  width: 11%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
 
-// }
+.main-content {
+  padding-bottom: 20px;
+}
 
-// @media only screen and (max-width: 1600px) {
-//   body {
-//     zoom: 0.75;
-//   }
-// }
+.tm-theme-dark {
+  background: $tm-dark-blue;
+
+  .down {
+    color: $tm-red !important;
+  }
+
+  .up {
+    color: $tm-green !important;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .arrow-down {
+    display: inline-block;
+    width: 10px;
+    height: 5px;
+    margin-left: 6px;
+    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+    font-size: 0;
+  }
+}

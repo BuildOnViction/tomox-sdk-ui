@@ -2,7 +2,7 @@ import { utils } from 'ethers'
 // import type { BN, Numberish } from '../types/common';
 
 import ethereum_address from 'ethereum-address'
-import { formatRelative } from 'date-fns'
+import { format, formatRelative } from 'date-fns'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -13,12 +13,17 @@ export const randInt = (min, max) => {
 }
 
 export const capitalizeFirstLetter = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase()
 }
 
 export const relativeDate = (time: number) => {
   const formattedDate = formatRelative(new Date(time), new Date())
   return capitalizeFirstLetter(formattedDate)
+}
+
+export const formatDate = (time: number, pattern: string) => {
+  const formattedDate = format(new Date(time), pattern)
+  return formattedDate
 }
 
 export const isFloat = n => parseFloat(n.match(/^-?\d*(\.\d+)?$/)) > 0

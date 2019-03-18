@@ -26,7 +26,7 @@ const DepthChartRenderer = (props: ChartProps) => {
         className="depth-chart"
         style={{
           width: '100%',
-          height: '500px'
+          height: '490px'
         }}
         options={{
           type: 'serial',

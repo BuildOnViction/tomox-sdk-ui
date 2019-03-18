@@ -1,4 +1,5 @@
 import { utils } from 'ethers'
+import { DEFAULT_NETWORK_ID } from './config/environment';
 
 export const receipt = {
   status: '0x1',
@@ -51,7 +52,7 @@ export const networks = [
   { name: 'Ropsten', id: 3 },
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
-  { name: 'Private', id: 8888 }
+  { name: 'Private', id: DEFAULT_NETWORK_ID }
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 export const receiver = '0x52bc44d5378309ee2abf1539bf71de1b7d7be3b5'

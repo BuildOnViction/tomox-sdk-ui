@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
-import { Grid } from 'styled-css-grid'
+import { Grid, Cell } from 'styled-css-grid'
 
 import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
@@ -11,7 +11,7 @@ import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
 import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-
+import TVChartContainer from '../../components/TVChartContainer'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -29,6 +29,7 @@ type Props = {
   makeFee: string,
   takeFee: string,
   toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+  ohlcvData: Array<Object>,
 }
 
 type State = {
@@ -95,7 +96,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol,
+      quoteTokenSymbol
     } = this.props
 
     if (!authenticated) {
@@ -134,64 +135,24 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, isInitiated } = this.props
+    const { authenticated, isInitiated, quoteTokenSymbol } = this.props
     if (!authenticated) return <Redirect to="/login" />
     if (!isInitiated) return null
     const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <TradingPageLayout>
-        <SidePanel>
-          <Grid columns={1} alignContent="start">
-            <CloseableCallout
-              visible={calloutVisible}
-              handleClose={this.closeCallout}
-              {...calloutOptions}
-            />
-            <TokenSearcher />
-            <OrderForm />
+      <Grid flow="row dense" columns={5} rows={8} gap="10px" height="100%">
+        <Cell width={3} height={5} className="tvchart-wrapper">{quoteTokenSymbol && <TVChartContainer />}</Cell>
+        <Cell width={2} height={5} className="orderbook-trades">
+          <Grid columns={2} height="100%" gap="20px">
+            <Cell width={1}><OrderBook /></Cell>
+            <Cell width={1}><TradesTable /></Cell>
           </Grid>
-        </SidePanel>
-
-        <MainPanel>
-          <Grid columns={1} alignContent="start">
-            <OHLCV />
-            <OrdersTableBox />
-            <OrdersAndTradesTableBox>
-              <OrderBookBox />
-              <TradesTableBox />
-            </OrdersAndTradesTableBox>
-          </Grid>
-        </MainPanel>
-      </TradingPageLayout>
+        </Cell>
+        <Cell width={3} height={3} className="orders-table-cell"><OrdersTable /></Cell>
+        <Cell width={2} height={3}><OrderForm /></Cell>
+      </Grid>
     )
   }
 }
 
-const TradingPageLayout = styled.div.attrs({
-  className: 'trading-page-layout',
-})``
-
-const SidePanel = styled.div.attrs({
-  className: 'trading-page-side-panel',
-})``
-
-const MainPanel = styled.div.attrs({
-  className: 'trading-page-main-panel',
-})``
-
-const OrderBookBox = styled(OrderBook).attrs({
-  className: 'trading-page-orderbook',
-})``
-
-const TradesTableBox = styled(TradesTable).attrs({
-  className: 'trading-page-tradestable',
-})``
-
-const OrdersTableBox = styled(OrdersTable).attrs({
-  className: 'trading-page-orderstable',
-})``
-
-const OrdersAndTradesTableBox = styled.div.attrs({
-  className: 'trading-page-orders-and-trades-tables',
-})``

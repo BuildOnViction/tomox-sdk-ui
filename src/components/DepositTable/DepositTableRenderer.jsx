@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Button, Switch, Checkbox, InputGroup, Tag } from '@blueprintjs/core'
+import { Button, Checkbox, InputGroup } from '@blueprintjs/core'
 import {
   RowSpaceBetween,
   ColoredCryptoIcon,
@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import type { TokenData, Symbol } from '../../types/tokens'
-import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+// import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 type Props = {
   connected: boolean,
@@ -63,7 +63,7 @@ const DepositTableRenderer = (props: Props) => {
           <Row>
             <TableHeaderCell>Token Name</TableHeaderCell>
             <TableHeaderCell>Balances</TableHeaderCell>
-            <TableHeaderCell>Unlocked</TableHeaderCell>
+            {/* <TableHeaderCell>Unlocked</TableHeaderCell> */}
             <TableHeaderCell style={{ width: '40%' }}>
               Allow trading
             </TableHeaderCell>
@@ -74,7 +74,7 @@ const DepositTableRenderer = (props: Props) => {
         <Table>
           <TableBody>
             <TOMORow {...props} />
-            <WETHRow {...props} />
+            {/* <WETHRow {...props} /> */}
             <QuoteTokenRows {...props} />
             <BaseTokenRows {...props} />
           </TableBody>
@@ -91,7 +91,7 @@ const TOMORow = (props: Props) => {
     TOMOTokenData,
     openDepositModal,
     openSendModal,
-    openConvertModal,
+    // openConvertModal,
   } = props
 
   if (!TOMOTokenData) return null
@@ -111,7 +111,7 @@ const TOMORow = (props: Props) => {
           <Ellipsis>{balance}</Ellipsis>
         </div>
       </Cell>
-      <Cell />
+      {/* <Cell /> */}
       <Cell style={{ width: '40%' }}>
         <ButtonWrapper>
           <Button
@@ -131,7 +131,7 @@ const TOMORow = (props: Props) => {
             onClick={() => openSendModal(symbol)}
           />
         </ButtonWrapper>
-        <ButtonWrapper>
+        {/* <ButtonWrapper>
           <Button
             disabled={!connected}
             intent="success"
@@ -139,89 +139,89 @@ const TOMORow = (props: Props) => {
             onClick={() => openConvertModal(NATIVE_TOKEN_SYMBOL, 'WETH')}
             rightIcon="random"
           />
-        </ButtonWrapper>
+        </ButtonWrapper> */}
       </Cell>
     </Row>
   )
 }
 
-const WETHRow = (props: Props) => {
-  const {
-    connected,
-    WETHTokenData,
-    toggleAllowance,
-    openDepositModal,
-    openSendModal,
-    openConvertModal,
-  } = props
+// const WETHRow = (props: Props) => {
+//   const {
+//     connected,
+//     WETHTokenData,
+//     toggleAllowance,
+//     openDepositModal,
+//     openSendModal,
+//     openConvertModal,
+//   } = props
 
-  if (!WETHTokenData) return null
+//   if (!WETHTokenData) return null
 
-  const { symbol, balance, allowed, allowancePending } = WETHTokenData
+//   const { symbol, balance, allowed, allowancePending } = WETHTokenData
 
-  return (
-    <Row key="WETH">
-      <Cell>
-        <TokenNameWrapper>
-          <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
-          <span>{symbol}</span>
-        </TokenNameWrapper>
-      </Cell>
-      <Cell>
-        <div title={balance} style={{ maxWidth: 200 }}>
-          <Ellipsis>{balance}</Ellipsis>
-        </div>
-      </Cell>
-      <Cell>
-        <Switch
-          inline
-          checked={allowed}
-          onChange={() => toggleAllowance(symbol)}
-        />
-        {allowancePending && (
-          <Tag intent="success" large minimal interactive icon="time">
-            Pending
-          </Tag>
-        )}
-      </Cell>
-      <Cell style={{ width: '40%' }}>
-        <ButtonWrapper>
-          <Button
-            disabled={!connected}
-            intent="primary"
-            rightIcon="import"
-            text="Deposit"
-            onClick={() => openDepositModal(symbol)}
-          />
-        </ButtonWrapper>
-        <ButtonWrapper>
-          <Button
-            disabled={!connected}
-            intent="primary"
-            rightIcon="export"
-            text="Send"
-            onClick={() => openSendModal(symbol)}
-          />
-        </ButtonWrapper>
-        <ButtonWrapper>
-          <Button
-            disabled={!connected}
-            intent="success"
-            text="Convert to TOMO"
-            rightIcon="random"
-            onClick={() => openConvertModal('WETH', NATIVE_TOKEN_SYMBOL)}
-          />
-        </ButtonWrapper>
-      </Cell>
-    </Row>
-  )
-}
+//   return (
+//     <Row key="WETH">
+//       <Cell>
+//         <TokenNameWrapper>
+//           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
+//           <span>{symbol}</span>
+//         </TokenNameWrapper>
+//       </Cell>
+//       <Cell>
+//         <div title={balance} style={{ maxWidth: 200 }}>
+//           <Ellipsis>{balance}</Ellipsis>
+//         </div>
+//       </Cell>
+//       <Cell>
+//         <Switch
+//           inline
+//           checked={allowed}
+//           onChange={() => toggleAllowance(symbol)}
+//         />
+//         {allowancePending && (
+//           <Tag intent="success" large minimal interactive icon="time">
+//             Pending
+//           </Tag>
+//         )}
+//       </Cell>
+//       <Cell style={{ width: '40%' }}>
+//         <ButtonWrapper>
+//           <Button
+//             disabled={!connected}
+//             intent="primary"
+//             rightIcon="import"
+//             text="Deposit"
+//             onClick={() => openDepositModal(symbol)}
+//           />
+//         </ButtonWrapper>
+//         <ButtonWrapper>
+//           <Button
+//             disabled={!connected}
+//             intent="primary"
+//             rightIcon="export"
+//             text="Send"
+//             onClick={() => openSendModal(symbol)}
+//           />
+//         </ButtonWrapper>
+//         <ButtonWrapper>
+//           <Button
+//             disabled={!connected}
+//             intent="success"
+//             text="Convert to TOMO"
+//             rightIcon="random"
+//             onClick={() => openConvertModal('WETH', NATIVE_TOKEN_SYMBOL)}
+//           />
+//         </ButtonWrapper>
+//       </Cell>
+//     </Row>
+//   )
+// }
 
 const QuoteTokenRows = (props: Props) => {
   const {
     connected,
     quoteTokensData,
-    toggleAllowance,
+    // toggleAllowance,
     openDepositModal,
     openSendModal,
   } = props
@@ -243,7 +243,7 @@ const QuoteTokenRows = (props: Props) => {
               <Ellipsis>{balance}</Ellipsis>
             </div>
           </Cell>
-          <Cell>
+          {/* <Cell>
             <Switch
               inline
               checked={allowed}
@@ -254,7 +254,7 @@ const QuoteTokenRows = (props: Props) => {
                 Pending
               </Tag>
             )}
-          </Cell>
+          </Cell> */}
           <Cell style={{ width: '40%' }}>
             <ButtonWrapper>
               <Button
@@ -285,7 +285,7 @@ const BaseTokenRows = (props: Props) => {
   const {
     baseTokensData,
     connected,
-    toggleAllowance,
+    // toggleAllowance,
     openDepositModal,
     openSendModal,
     redirectToTradingPage,
@@ -308,7 +308,7 @@ const BaseTokenRows = (props: Props) => {
               <Ellipsis>{balance}</Ellipsis>
             </div>
           </Cell>
-          <Cell>
+          {/* <Cell>
             <Switch
               inline
               checked={allowed}
@@ -319,7 +319,7 @@ const BaseTokenRows = (props: Props) => {
                 Pending
               </Tag>
             )}
-          </Cell>
+          </Cell> */}
           <Cell style={{ width: '40%' }}>
             <ButtonWrapper>
               <Button
@@ -419,12 +419,12 @@ const NoToken = styled.p`
 `
 
 const ButtonWrapper = styled.span`
-  margin-left: 10px !important;
+  // margin-left: 10px !important;
   margin-right: 10px !important;
 `
 
 const Ellipsis = styled.p`
-  text-align: center;
+  // text-align: center;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;

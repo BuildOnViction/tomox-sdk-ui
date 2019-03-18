@@ -1,7 +1,7 @@
 import {
   DEFAULT_NETWORK_ID
 } from './environment.js'
-import addresses from './addresses.json';
+import addresses from './addresses.json'
 import {
   defaultTokenDecimals
 } from './tokens'
@@ -9,13 +9,13 @@ import images from './images.json'
 
 const quoteTokensTable = {
   [DEFAULT_NETWORK_ID]: []
-};
+}
 
 
 let quoteTokensBySymbolsTable = {
   [DEFAULT_NETWORK_ID]: {}
 }
-export const quoteSymbolTokens = ['WETH', 'DAI']
+export const quoteSymbolTokens = ['BTC', 'ETH', 'USDT', 'TOMO']
 for (let token of quoteSymbolTokens) {
   const tokenData = {
     symbol: token,

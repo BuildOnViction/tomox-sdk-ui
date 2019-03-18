@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import { Loading, Colors } from '../Common';
-import { ResizableBox } from 'react-resizable';
+import React from 'react'
+import styled from 'styled-components'
+import { Loading, Colors } from '../Common'
+import { Popover, Card, Position, AbstractPureComponent } from '@blueprintjs/core'
 
 type BidOrAsk = {
   price: number,
@@ -15,50 +15,110 @@ type Props = {
   asks: Array<BidOrAsk>
 };
 
-export const OrderBookRenderer = (props: Props) => {
-  const { bids, asks } = props;
-  return (
-    <React.Fragment>
-      <ResizableBox height={500} width={Infinity}>
-        <OrderBookBox>
+export class OrderBookRenderer extends React.PureComponent<Props> {
+  state = {
+    filter: 'all',
+  }
+
+  componentDidMount() {
+    this.scrollToBottom('list-sell')
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom('list-sell')
+  }
+
+  scrollToBottom(id: String) {
+    if (this.state.filter !== 'all') return
+    const $listSell = document.getElementById(id)
+    $listSell.scrollTop = $listSell.scrollHeight
+  }
+
+  changeFilter(value: String) {
+    this.setState({
+      filter: value,
+    })
+  }
+
+  getOrderBookClass() {
+    const { filter } = this.state
+    switch (filter) {
+      case 'sell':
+        return 'order-book sell'
+      case 'buy':
+        return 'order-book buy'
+      default:
+        return 'order-book all'
+    }
+  }
+
+  render() {
+    const { bids, asks } = this.props
+    return (
+      <Wrapper className={ this.getOrderBookClass() }>
+        <OrderBookHeader className="order-book-header">
+          <Title className="title">Orderbook</Title>
+
+          <Popover
+            content={'todo: decimals list'}
+            position={Position.BOTTOM_RIGHT}
+            minimal>
+            <div className="decimals-dropdown">
+              <span>7 decimals</span> 
+              <span className="arrow-down"></span>
+            </div>
+          </Popover>
+
+          <FilterList className="filter-list">
+            <FilterSell className="filter filter-sell" onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
+            <FilterAll className="filter filter-all" onClick={() => this.changeFilter('all')}><i>filter all</i></FilterAll>
+            <FilterBuy className="filter filter-buy" onClick={() => this.changeFilter('buy')}><i>filter buy</i></FilterBuy>
+          </FilterList>
+        </OrderBookHeader>
+
+        <OrderBookContent className="order-book-content all">
           {!bids && <Loading />}
-          {bids && (
-            <ListContainer className="list-container">
-              <ListHeading>
-                <HeaderRow>
-                  <HeaderCell>TOTAL</HeaderCell>
-                  <HeaderCell>AMOUNT</HeaderCell>
-                  <HeaderCell>PRICE</HeaderCell>
-                </HeaderRow>
-              </ListHeading>
-              <List className="bp3-list-unstyled list">
-                {bids.map((order, index) => (
-                  <BuyOrder key={index} index={index} order={order} />
-                ))}
-              </List>
-            </ListContainer>
-          )}
-          {asks && (
-            <ListContainer className="list-container left-list">
-              <ListHeading>
-                <HeaderRow>
-                  <HeaderCell>PRICE</HeaderCell>
-                  <HeaderCell>AMOUNT</HeaderCell>
-                  <HeaderCell>TOTAL</HeaderCell>
-                </HeaderRow>
-              </ListHeading>
-              <List className="bp3-list-unstyled list">
+
+          <ListHeading className="list-header">
+            <HeaderRow>
+              <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
+              <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
+              <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
+            </HeaderRow>
+          </ListHeading>
+
+          <ListContent className="list-container">
+            {asks && (
+              <List className="bp3-list-unstyled list list-sell" id="list-sell">
                 {asks.map((order, index) => (
                   <SellOrder key={index} index={index} order={order} />
                 ))}
               </List>
-            </ListContainer>
-          )}
-        </OrderBookBox>
-      </ResizableBox>
-    </React.Fragment>
-  );
-};
+            )}
+
+            {(asks.length > 0) && (
+              <LatestTick className="latest-tick">
+                <LatestPrice className="latest-price" width="67%">
+                  <CryptoPrice className="crypto">282.6300000</CryptoPrice>
+                  <CashPrice className="cash">$0.68</CashPrice>
+                </LatestPrice>
+                <PercentChange className="percent-change up text-right" width="33%">+19.33%</PercentChange>
+              </LatestTick>
+            )}
+
+            {bids && (
+              <List className="bp3-list-unstyled list list-buy" id="list-buy">
+                {bids.map((order, index) => (
+                  <BuyOrder key={index} index={index} order={order} />
+                ))}
+              </List>
+            )}
+          </ListContent>
+        </OrderBookContent>
+      </Wrapper>
+    )
+  }
+}
 
 export type SingleOrderProps = {
   order: Object,
@@ -66,60 +126,63 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order } = props;
+  const { order } = props
   return (
     <Row>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell style={{ width: '20%' }}>{order.total}</Cell>
-      <Cell style={{ width: '20%' }}>{order.amount}</Cell>
-      <Cell>{order.price}</Cell>
+      <Cell className="up" width="33%">{order.price}</Cell>
+      <Cell className="text-right" width="34%">{order.amount}</Cell>
+      <Cell className="text-right" width="33%">{order.total}</Cell> 
     </Row>
-  );
-};
+  )
+}
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, index } = props;
+  const { order, index } = props
   return (
     <Row key={index}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell>{order.price}</Cell>
-      <Cell>{order.amount}</Cell>
-      <Cell>{order.total}</Cell>
+      <Cell className="down" width="33%">{order.price}</Cell>
+      <Cell className="text-right" width="34%">{order.amount}</Cell>
+      <Cell className="text-right" width="33%">{order.total}</Cell>
     </Row>
-  );
-};
+  )
+}
 
-const OrderBookBox = styled.div.attrs({})`
+const Wrapper = styled.div`
+  height: 100%;
+`
+const OrderBookHeader = styled.div``
+const Title = styled.div``
+const FilterList = styled.div``
+const FilterSell = styled.div``
+const FilterAll = styled.div``
+const FilterBuy = styled.div``
+
+const OrderBookContent = styled.div.attrs({})`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: stretch;
-`;
+`
 const ListContainer = styled.div`
-  height: 91%;
   width: 100%;
-`;
+`
 const List = styled.ul`
-  height: 90%;
-  max-height: 500px;
   overflow-y: auto;
-`;
+`
 
 const Row = styled.li.attrs({
-  className: 'row'
+  className: 'row',
 })`
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  justify-content: space-between;
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 5px 10px !important;
-  border: 1px transparent;
-  border-radius: 2px;
-  box-shadow: inset 0px 1px 0 0 rgba(16, 22, 26, 0.15);
+  padding: 3.5px 0 !important;
 
   &:hover {
     background-color: ${Colors.BLUE_MUTED};
@@ -131,17 +194,17 @@ const Row = styled.li.attrs({
       -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
     z-index: 1;
   }
-`;
+`
 
 const SellRowBackGround = styled.span`
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   height: 100%;
   width: ${props => 100 * props.amount}% !important;
   background-color: ${Colors.SELL_MUTED} !important;
   z-index: 1;
-`;
+`
 
 const BuyRowBackground = styled.span`
   position: absolute;
@@ -151,11 +214,11 @@ const BuyRowBackground = styled.span`
   width: ${props => 100 * props.amount}% !important;
   background-color: ${Colors.BUY_MUTED} !important;
   z-index: 1;
-`;
+`
 
 const Cell = styled.span`
-  min-width: 35px;
-`;
+  width: ${props => props.width? props.width : "35px"}
+`
 
 const ListHeading = styled.ul`
   width: 100%;
@@ -163,8 +226,9 @@ const ListHeading = styled.ul`
   flex-direction: row;
   justify-content: space-around;
   margin: 0px;
-  padding-left: 10px !important;
-`;
+`
+
+const ListContent = styled.div``
 
 const HeaderRow = styled.li`
   display: flex;
@@ -172,13 +236,20 @@ const HeaderRow = styled.li`
   margin: 0px !important;
   padding-bottom: 10px;
   width: 100%;
-  span {
-    font-weight: 600;
-  }
-`;
+`
 
 const HeaderCell = styled.span`
-  width: 20%;
-`;
+  width: ${props => props.width? props.width : "35px"}
+`
 
-export default OrderBookRenderer;
+const LatestTick = styled.div``
+const LatestPrice = styled.div`
+  width: ${props => props.width? props.width : "70px"}
+`
+const CryptoPrice = styled.span``
+const CashPrice = styled.span``
+const PercentChange = styled.div`
+  width: ${props => props.width? props.width : "35px"}
+`
+
+export default OrderBookRenderer

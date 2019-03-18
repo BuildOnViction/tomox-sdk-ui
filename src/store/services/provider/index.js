@@ -4,7 +4,7 @@ import { EXCHANGE_ADDRESS } from '../../../config/contracts'
 import { utils, Contract } from 'ethers'
 
 import { createProvider } from '../../../utils/provider'
-import { NATIVE_TOKEN_SYMBOL } from '../../../config/tokens'
+// import { NATIVE_TOKEN_SYMBOL } from '../../../config/tokens'
 
 export const createConnection = () => {
   switch (DEFAULT_NETWORK_ID) {
@@ -263,12 +263,12 @@ export async function subscribeTokenAllowances(
   }
 }
 
-export async function queryTomoBalance(address: string) {
-  const provider = window.provider
-  const balance = await provider.getBalance(address)
+// export async function queryTomoBalance(address: string) {
+//   const provider = window.provider
+//   const balance = await provider.getBalance(address)
 
-  return {
-    symbol: NATIVE_TOKEN_SYMBOL,
-    balance: utils.formatEther(balance),
-  }
-}
+//   return {
+//     symbol: NATIVE_TOKEN_SYMBOL,
+//     balance: utils.formatEther(balance),
+//   }
+// }
