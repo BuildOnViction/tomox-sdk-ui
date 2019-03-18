@@ -4,27 +4,18 @@ import styled from 'styled-components'
 import {
   Tabs,
   Tab,
-  Card,
   Button,
   InputGroup,
   Label,
   Colors,
-  Collapse,
-  Spinner,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
-import { HeaderText } from '../Common/Text'
 
 import type { SIDE } from '../../types/orderForm'
 
 import {
   MutedText,
-  RedGlowingButton,
-  GreenGlowingButton,
-  FlexRow,
-  Box,
 } from '../Common'
-import { renderFilteredItems } from '@blueprintjs/select';
 
 type Props = {
   selectedTabId: string,
@@ -69,7 +60,6 @@ const OrderFormRenderer = (props: Props) => {
     sellPrice,
     stopPrice,
     limitPrice,
-    isOpen,
     buyAmount,
     sellAmount,
     buyMaxAmount,
@@ -90,36 +80,16 @@ const OrderFormRenderer = (props: Props) => {
     onInputChange,
     handleChangeOrderType,
     handleUnlockPair,
-    toggleCollapse,
     handleSendOrder,
   } = props
 
   return (
-    <Wrapper className="order-form">
-      <OrderFormHeader>
-        <ButtonRow>
-          <Button
-            text="Limit"
-            minimal
-            onClick={() => handleChangeOrderType('limit')}
-            active={selectedTabId === 'limit'}
-            intent={selectedTabId === 'limit' ? 'primary' : ''}
-          />
-          <Button
-            text="Market"
-            disabled
-            minimal
-            onClick={() => handleChangeOrderType('market')}
-            active={selectedTabId === 'market'}
-            intent={selectedTabId === 'market' ? 'primary' : ''}
-          />
-          <Button icon={isOpen ? 'chevron-up' : 'chevron-down'} minimal onClick={toggleCollapse} />
-        </ButtonRow>
-      </OrderFormHeader>
-      <Collapse isOpen={isOpen}>
-        <Tabs selectedTabId={selectedTabId}>
+    <Tabs 
+        selectedTabId={selectedTabId} 
+        onChange={handleChangeOrderType}>
           <Tab
             id="limit"
+            title="Limit"
             panel={
               <LimitOrderPanel
                 loggedIn={loggedIn}
@@ -154,6 +124,8 @@ const OrderFormRenderer = (props: Props) => {
           />
           <Tab
             id="market"
+            title="Market"
+            disabled="true"
             panel={
               <MarketOrderPanel
                 loggedIn={loggedIn}
@@ -183,6 +155,8 @@ const OrderFormRenderer = (props: Props) => {
           />
           <Tab
             id="stop"
+            title="Stop-Limit"
+            disabled="true"
             panel={
               <StopLimitOrderPanel
                 loggedIn={loggedIn}
@@ -211,8 +185,6 @@ const OrderFormRenderer = (props: Props) => {
             }
           />
         </Tabs>
-      </Collapse>
-    </Wrapper>
   )
 }
 
@@ -220,7 +192,7 @@ const FractionList = (props) => {
   const { side, fraction, onInputChange } = props
 
   return (
-    <React.Fragment>
+    <FractionListBox>
       <RadioButtonsWrapper>
         <RadioButton
           value={25}
@@ -243,7 +215,7 @@ const FractionList = (props) => {
           onInputChange={(e) => onInputChange(side, e)}
         />
       </RadioButtonsWrapper>
-    </React.Fragment>  
+    </FractionListBox>  
   )
 }
 
@@ -266,32 +238,28 @@ const BuyLimitOrderPanel = (props) => {
 
   return (
     <BuyLimitOrderContainer>
-      <HeaderRow>{`Buy ${baseTokenSymbol}`}</HeaderRow>
+      <HeaderRow>
+        <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
+        <DecreaseToken>{`-${quoteTokenSymbol}`}</DecreaseToken>
+      </HeaderRow>
       <InputBox>
         <InputLabel>
-          Price <MutedText>({quoteTokenSymbol})</MutedText>
+          Price:
         </InputLabel>
         <PriceInputGroup
           name="price"
           onChange={(e) => onInputChange('BUY', e)}
           value={buyPrice}
-          placeholder="Price"
         />
       </InputBox>
       <InputBox>
         <InputLabel>
-          Amount <MutedText>({baseTokenSymbol})</MutedText>
+          Amount:
         </InputLabel>
         <PriceInputGroup
           name="amount"
           onChange={(e) => onInputChange('BUY', e)}
           value={buyAmount}
-          placeholder="Amount"
-          // rightElement={
-          //   <Total>
-          //     Total: ~{buyTotal} {quoteTokenSymbol}
-          //   </Total>
-          // }
         />
       </InputBox>
       <FractionList 
@@ -300,12 +268,24 @@ const BuyLimitOrderPanel = (props) => {
         onInputChange={onInputChange} 
         />
 
-      {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
+      <InputBox>
+        <InputLabel>
+          Total:
+        </InputLabel>
+        <PriceInputGroup
+          name="buy-total"
+          readOnly
+          // onChange={(e) => onInputChange('BUY', e)}
+          value={buyTotal}
+        />
+      </InputBox>
+
+      {/* {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
       {buyMaxAmount && <MaxAmount>Max: ~{buyMaxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
-      <GreenGlowingButton
+      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
+      <BuyButton
         intent="success"
-        text="BUY"
+        text="Buy"
         name="order"
         onClick={() => handleSendOrder('BUY')}
         disabled={insufficientBalanceToBuy}
@@ -334,32 +314,29 @@ const SellLimitOrderPanel = (props) => {
 
   return (
     <SellLimitOrderContainer>
-      <HeaderRow>{`Sell ${baseTokenSymbol}`}</HeaderRow>
+      <HeaderRow>
+        <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
+        <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken>
+      </HeaderRow>
       <InputBox>
         <InputLabel>
-          Price <MutedText>({quoteTokenSymbol})</MutedText>
+          Price:
         </InputLabel>
         <PriceInputGroup
           name="price"
           onChange={(e) => onInputChange('SELL', e)}
           value={sellPrice}
-          placeholder="Price"
         />
+
       </InputBox>
       <InputBox>
         <InputLabel>
-          Amount <MutedText>({baseTokenSymbol})</MutedText>
+          Amount:
         </InputLabel>
         <PriceInputGroup
           name="amount"
           onChange={(e) => onInputChange('SELL', e)}
           value={sellAmount}
-          placeholder="Amount"
-          // rightElement={
-          //   <Total>
-          //     Total: ~{sellTotal} {quoteTokenSymbol}
-          //   </Total>
-          // }
         />
       </InputBox>
       <FractionList 
@@ -368,12 +345,25 @@ const SellLimitOrderPanel = (props) => {
         onInputChange={onInputChange} 
         />
 
-      {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
+      {/* {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
       {sellMaxAmount && <MaxAmount>Max: ~{sellMaxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
-      <RedGlowingButton
+      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
+      
+      <InputBox>
+        <InputLabel>
+          Total:
+        </InputLabel>
+        <PriceInputGroup
+          name="sell-total"
+          readOnly
+          // onChange={(e) => onInputChange('SELL', e)}
+          value={sellTotal}
+        />
+      </InputBox>
+      
+      <SellButton
         intent="danger"
-        text="SELL"
+        text="Sell"
         name="order"
         onClick={() => handleSendOrder('SELL')}
         disabled={insufficientBalanceToSell}
@@ -385,10 +375,10 @@ const SellLimitOrderPanel = (props) => {
 
 const LimitOrderPanel = props => {
   return (
-    <LimitOrderContainer>
+    <OrderWrapper>
       <BuyLimitOrderPanel {...props} />
       <SellLimitOrderPanel {...props} />
-    </LimitOrderContainer>
+    </OrderWrapper>
   )
 }
 
@@ -573,50 +563,44 @@ const RadioButton = props => {
   )
 }
 
-const OrderFormHeader = styled.div`
+const FractionListBox = styled.div.attrs({
+  className: 'clearfix',
+})``
+
+const RadioButtonsWrapper = styled.div`
+  width: calc(100% - 60px);
+  float: right;
   display: flex;
   justify-content: space-between;
 `
 
-const Wrapper = styled(Card)`
-  min-width: 240px;
-`
-
-const ButtonRow = styled.span`
-  display: flex;
-  justify-content: flex-end;
-  & .bp3-button {
-    margin-left: 5px;
-  }
-`
-const RadioButtonsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 5px;
-`
-
 const RadioButtonBox = styled(Label)`
-  width: 45px;
-  height: 30px;
-  display: flex;
-  margin-left: 10px;
-  margin-bottom: 16px;
-  background: #27343d;
+  min-width: 35px;
+  width: 15%;
+  padding: 5px 0;
   text-align: center;
-  padding: 8px 0;
-  justify-content: center;
   cursor: pointer;
-  border: 1px solid #2584c1;
-  box-shadow: none;
-  border-radius: 3px;
-  input {
+  input.bp3-input {
     opacity: 0;
     width: 0px;
+    height: 0;
     margin: 0px;
   }
   .bp3-input-group {
     width: 0px;
+    height: 0;
+  }
+  &:first-child {
+    text-align: left;
+  }
+  &:last-child {
+    text-align: right;
+  }
+  span {
+    height: 17px;
+  }
+  &:hover span {
+    color: #fff;
   }
 `
 
@@ -632,8 +616,9 @@ const InputBox = styled.div`
 
 const InputLabel = styled.div`
   height: 100%;
+  width: 60px;
   margin: auto;
-  width: 180px;
+  margin-right: 10px;
 `
 
 const Total = styled.div`
@@ -651,19 +636,37 @@ const MaxAmount = styled.div`
   justify-content: flex-end;
   padding-bottom: 5px;
   `
-const LimitOrderContainer = styled.div`
-  display: flex;
-`
 
-const BuyLimitOrderContainer = styled.div`
-  padding-right: 20px;
-  border-right: 1px solid #27343d;
-`
+const OrderWrapper = styled.div.attrs({
+  className: 'order-wrapper'
+})``
 
-const SellLimitOrderContainer = styled.div`
-  padding-left: 20px;
-`
+const BuyLimitOrderContainer = styled.div.attrs({
+  className: 'buy-side',
+})``
 
-const HeaderRow = styled.div`
+const SellLimitOrderContainer = styled.div.attrs({
+  className: 'sell-side',
+})``
+
+const HeaderRow = styled.div.attrs({
+  className: 'header',
+})`
   margin-bottom: 10px;
 `
+
+const BaseToken = styled.span.attrs({
+  className: 'base-token',
+})``
+
+const DecreaseToken = styled.span.attrs({
+  className: 'decrease-token',
+})``
+
+const BuyButton = styled(Button).attrs({
+  className: "buy-btn",
+})``
+
+const SellButton = styled(Button).attrs({
+  className: "sell-btn",
+})``

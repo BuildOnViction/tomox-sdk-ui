@@ -150,7 +150,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           </Grid>
         </Cell>
         <Cell width={3} height={3} className="orders-table-cell"><OrdersTable /></Cell>
-        <Cell width={2} height={3}><OrderForm /></Cell>
+        <Cell width={2} height={3} className="order-form-cell"><OrderForm /></Cell>
       </Grid>
     )
   }

@@ -3,6 +3,7 @@
 html,
 body {
   height: 100vh;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -26,6 +27,7 @@ body {
 
 .main-content {
   padding-bottom: 20px;
+  padding-right: 20px;
 }
 
 .tm-theme-dark {
@@ -58,5 +60,176 @@ body {
     margin-left: 6px;
     background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
     font-size: 0;
+  }
+
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .sidebar .sidebar-item {    
+    padding: 30px 0 30px 2px;
+    span {
+      color: $tm-light-gray;
+      display: flex;
+      height: 40px;
+      line-height: 40px;
+      padding-left: 18px;
+      align-items: center;
+      i {
+        display: inline-block;
+        height: 23px;
+        width: 20px;
+        margin-right: 10px;
+      }
+    }
+    &.active span,
+    &:hover span {
+      color: $tm_white;
+      box-shadow: -2px 0 0 0 $tm_orange;
+    }
+  }
+
+  .sidebar .markets-link {
+    @include sidebar-link("../../assets/images/markets_icon_gray.svg", "../../assets/images/markets_icon_white.svg");
+  }
+
+  .sidebar .exchange-link {
+    @include sidebar-link("../../assets/images/exchange_icon_gray.svg", "../../assets/images/exchange_icon_white.svg");
+  }
+
+  .sidebar .portfolio-link {
+    @include sidebar-link("../../assets/images/portfolio_icon_gray.svg", "../../assets/images/portfolio_icon_white.svg");
+  }
+
+  .sidebar .docs-faq-link {
+    @include sidebar-link("../../assets/images/docs-faq_icon_gray.svg", "../../assets/images/docs-faq_icon_white.svg");
+  }
+
+  .sidebar .switch-theme {
+    color: $tm-light-gray;
+    padding-left: 20px;
+    margin-top: auto;
+    margin-bottom: 30px;
+    .bp3-control-indicator {
+      width: 24px;
+      height: 14px;
+      background-color: transparent !important;
+      border: 1px solid $tm-light-gray;
+      margin-top: 3px;
+      &::before {
+        top: -1px;
+        width: 10px;
+        height: 10px;
+        background-color: $tm-orange;
+      }
+    }
+    input:checked ~ .bp3-control-indicator::before {
+      left: calc(100% - 13px)
+    }
+  }
+
+  .tm-header {
+    .tokens-dropdown {
+      color: $tm-light-gray;
+      cursor: pointer;
+      .arrow {
+        display: inline-block;
+        width: 10px;
+        height: 5px;
+        margin-left: 6px;
+        margin-bottom: 4px;
+        background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+      }
+      &:hover {
+        color: $tm-white;
+      }
+    }
+
+    .bp3-navbar-divider {
+      height: 30px;
+      margin: 0 26.5px;
+      border-left: 1px solid $tm-light-blue;
+    }
+
+    .token-info {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+
+    .token-tick {
+      display: flex;
+      flex-flow: row nowrap;
+      font-size: $tm-font-size-sm;
+      color: $tm-white;
+      .tick {
+        margin-right: 50px;
+        &:last-child {
+          margin-right: 0;
+        }
+        span {
+          margin-right: 12px;
+        }
+      }
+      .title {
+        color: $tm-gray;
+        margin-bottom: 5px;
+      }
+    }
+
+    .utilities-menu {
+      padding-right: 20px;
+      .utility-item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+        &:last-child {
+          margin-right: 0;
+        }
+        i {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          font-size: 0;
+        }
+      }
+
+      .support i {
+        background: url(../../assets/images/support_icon_gray.svg) no-repeat center center;
+        &:hover {
+          background: url(../../assets/images/support_icon_white.svg) no-repeat center center;
+        }
+      }
+
+      .notification i {
+        background: url(../../assets/images/notification_icon_gray.svg) no-repeat center center;
+        &:hover {
+          background: url(../../assets/images/notification_icon_white.svg) no-repeat center center;
+        }
+      }
+
+      .language {
+        i {
+          margin-right: 7px;
+          background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
+        }
+        &:hover {
+          color: $tm_white;
+          i {
+            background: url(../../assets/images/globe_icon_white.svg) no-repeat center center;
+          }
+        }
+        .arrow {
+          display: inline-block;
+          width: 10px;
+          height: 5px;
+          margin-left: 10px;
+          background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+        }
+      }
+    }
   }
 }

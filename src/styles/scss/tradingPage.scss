@@ -181,6 +181,7 @@
     padding: 10px 0;
     box-shadow: 0 0 0 1px $tm-light-blue;
     font-size: $tm-font-size-sm;
+    overflow: auto;
 
     .bp3-tab-list {
       padding: 0 10px;
@@ -203,7 +204,7 @@
       padding-right: 50px;
     }
 
-    .list-container{
+    .list-container {
       .header {
         box-shadow: 0 1px 0 0 $tm-light-blue;
         padding: 0 10px 10px 10px;
@@ -232,5 +233,83 @@
         }
       }
     } 
+  }
+
+  .order-form-cell {
+    box-shadow: 0 0 0 1px $tm-light-blue;
+    padding: 10px;
+    overflow: auto;
+    font-size: $tm-font-size-sm;
+
+    .bp3-tab-indicator-wrapper {
+      display: none;
+    }
+
+    .bp3-tab {
+      line-height: initial;
+    }
+
+    .bp3-tab-list > *:not(:last-child) {
+      margin-right: 0;
+      padding-right: 40px;
+    }
+
+    .bp3-input {
+      border-radius: initial;
+      box-shadow: initial;
+      background: $tm-black;
+      color: $tm-white;
+      font-size: $tm-font-size-md;
+    }
+
+    .buy-btn,
+    .sell-btn {
+      border-radius: initial;
+      box-shadow: initial;
+      margin-top: 9px;
+    }
+
+    .buy-btn {
+      background: $tm-green;
+    }
+
+    .sell-btn {
+      background: $tm-red;
+    }
+
+    .order-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: relative;
+
+      label.bp3-label {
+        margin-top: -5px;
+        margin-bottom: 0;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        right: 50%;
+        height: 80%;
+        border-right: 1px solid $tm-light-blue;
+      }
+
+      .buy-side,
+      .sell-side {
+        width: calc(50% - 12px);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .base-token {
+          font-size: $tm-font-size-md;
+        }
+      }
+    }
   }
 }
