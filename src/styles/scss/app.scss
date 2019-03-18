@@ -4,13 +4,19 @@ html,
 body {
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
+}
+
+.tm-theme {
+  min-width: 1200px;
+  height: 100%;
 }
 
 body {
   font-family: $tm_font_family;
   font-size: $tm-font-size-md;
   color: $tm-gray;
+  background: $tm-dark-blue;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -224,7 +224,7 @@ class Layout extends React.PureComponent<Props, State> {
 
 export default Layout
 
-const Wrapper = styled.div.attrs({ className: 'tm-theme-dark' })`
+const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
   height: 100%;
   display: flex;
   flex-direction: column;
