@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
+import { Tabs, Tab } from '@blueprintjs/core'
 
 import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
@@ -142,7 +143,16 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
     return (
       <Grid flow="row dense" columns={5} rows={8} gap="10px" height="100%">
-        <Cell width={3} height={5} className="tvchart-wrapper">{quoteTokenSymbol && <TVChartContainer />}</Cell>
+        <Cell width={3} height={5} className="charts-cell">
+          <Tabs
+            id="tabs-chart"
+            onChange={this.handleTabsChartChange}
+            selectedTabId={this.state.chartTadId}
+          >
+              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartContainer />} />
+              <Tab id="depth" title="Depth" />
+          </Tabs>
+        </Cell>
         <Cell width={2} height={5} className="orderbook-trades">
           <Grid columns={2} height="100%" gap="20px">
             <Cell width={1}><OrderBook /></Cell>
@@ -155,4 +165,6 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     )
   }
 }
+
+
 
