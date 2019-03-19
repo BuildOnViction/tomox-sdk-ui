@@ -57,7 +57,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             <Cell 
               width="33%"
               textAlign="left">
-              {formatDate(trade.time, 'pp')}
+              {formatDate(trade.time, 'kk: mm: ss')}
             </Cell>
             <Cell
               width="34%"
