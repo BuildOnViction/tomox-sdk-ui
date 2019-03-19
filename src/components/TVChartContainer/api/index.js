@@ -1,19 +1,14 @@
 /* eslint-disable */
 
-import appStore from '../../../store/configureStore';
-import historyProvider from './historyProvider'
+import configureStore from '../../../store/configureStore'
 import stream from './stream'
-import * as socket from '../../../store/services/socket'
-import { parseOHLCV } from '../../../utils/parsers'
 
-const { store } = appStore
+const { store } = configureStore
 const supportedResolutions = ["1", "3", "5", "15", "30", "60", "120", "240", "D"]
 
 const config = {
     supported_resolutions: supportedResolutions
 }; 
-
-var prevBars = []
 
 export default {
 	onReady: cb => {
@@ -28,16 +23,14 @@ export default {
 		// expects a symbolInfo object in response
 		console.log('======resolveSymbol running')
 		// console.log('resolveSymbol:',{symbolName})
-		var split_data = symbolName.split(/[:/]/)
-		// console.log({split_data})
 		var symbol_stub = {
 			name: symbolName,
 			description: '',
 			type: 'crypto',
 			session: '24x7',
 			timezone: 'Etc/UTC',
-			ticker: `${split_data[1]}/${split_data[2]}`,
-			exchange: split_data[0],
+			ticker: symbolName,
+			exchange: '',
 			minmov: 1,
 			pricescale: 100,
 			has_intraday: true,
@@ -47,9 +40,6 @@ export default {
 			data_status: 'streaming',
 		}
 
-		// if (split_data[2].match(/USD|EUR|JPY|AUD|GBP|KRW|CNY/)) {
-		// 	symbol_stub.pricescale = 100
-		// }
 		setTimeout(function() {
 			onSymbolResolvedCallback(symbol_stub)
 			console.log('Resolving that symbol....', symbol_stub)
@@ -64,16 +54,13 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
-		historyProvider.getBars(symbolInfo, resolution, from, to, firstDataRequest)
-		.then(bars => {
-			if (bars.length) {
-				onHistoryCallback(bars, {noData: false})
+		const unsubscribeStore = store.subscribe(() => {
+			if (firstDataRequest) {
+				const { ohlcv: { ohlcvData } } = store.getState()
+				onHistoryCallback(ohlcvData, {noData: false})
 			} else {
 				onHistoryCallback([], {noData: true})
-			}
-		}).catch(err => {
-			console.log({err})
-			onErrorCallback(err)
+			}						
 		})
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {

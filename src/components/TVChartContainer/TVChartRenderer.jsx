@@ -9,10 +9,10 @@ function getLanguageFromURL() {
 	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-export default class TVChartContainer extends React.PureComponent {
+export default class TVChartRenderer extends React.PureComponent {
 
 	static defaultProps = {
-		symbol: 'TomoX:ETH/TOMO',
+		// pair: 'ETH/TOMO',
 		interval: '1',
 		containerId: 'tv_chart_container',
 		libraryPath: '/charting_library/',
@@ -27,10 +27,11 @@ export default class TVChartContainer extends React.PureComponent {
 
 	componentDidMount() {
 		const { 
-			currentDuration, 
-			currentTimeSpan,
-			updateDuration,
-  			updateTimeSpan,
+			// currentDuration, 
+			// currentTimeSpan,
+			// updateDuration,
+			// updateTimeSpan,
+			currentPair: { pair },
 		} = this.props
 
 		const { location: { origin } } = window
@@ -38,7 +39,7 @@ export default class TVChartContainer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: this.props.symbol,
+			symbol: pair,
 			datafeed: Datafeed,
 			interval: this.props.interval,
 			container_id: this.props.containerId,
@@ -91,7 +92,7 @@ export default class TVChartContainer extends React.PureComponent {
 		return (
 			<div
 				id={ this.props.containerId }
-				className={ 'TVChartContainer' }
+				className={ 'TVChartRenderer' }
 			/>
 		);
 	}

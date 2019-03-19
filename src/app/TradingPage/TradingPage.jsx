@@ -1,18 +1,18 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
 import { Tabs, Tab } from '@blueprintjs/core'
 
-import OHLCV from '../../components/OHLCV'
+// import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
-import { CloseableCallout } from '../../components/Common'
+// import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
-import TokenSearcher from '../../components/TokenSearcher'
+// import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-import TVChartContainer from '../../components/TVChartContainer'
+import TVChartRenderer from '../../components/TVChartContainer'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -149,7 +149,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             onChange={this.handleTabsChartChange}
             selectedTabId={this.state.chartTadId}
           >
-              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartContainer />} />
+              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
               <Tab id="depth" title="Depth" />
           </Tabs>
         </Cell>

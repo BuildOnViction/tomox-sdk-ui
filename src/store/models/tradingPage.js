@@ -62,7 +62,7 @@ export default function tradingPageSelector(state: State) {
 export const queryTradingPageData = (): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
-      // socket.unsubscribeChart()
+      socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
 
@@ -90,11 +90,11 @@ export const queryTradingPageData = (): ThunkAction => {
 
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
-      // socket.subscribeChart(
-      //   currentPair,
-      //   state.ohlcv.currentTimeSpan.label,
-      //   state.ohlcv.currentDuration.label,
-      // )
+      socket.subscribeChart(
+        currentPair,
+        state.ohlcv.currentTimeSpan.label,
+        state.ohlcv.currentDuration.label,
+      )
     } catch (e) {
       console.log(e)
     }

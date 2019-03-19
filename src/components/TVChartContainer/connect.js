@@ -3,10 +3,16 @@ import ohlcvModel, {
   updateDuration,
   updateTimeSpan,
 } from '../../store/models/ohlcv'
+import { getTokenPairsDomain } from '../../store/domains'
 import type { State } from '../../types'
 
 export const mapStateToProps = (state: State) => {
-  return ohlcvModel(state).getState()
+  const ohlcv = ohlcvModel(state).getState()
+  const currentPair = getTokenPairsDomain(state).getCurrentPair()
+  return {
+    ohlcv,
+    currentPair,
+  }
 }
 
 export const mapDispatchToProps = {
