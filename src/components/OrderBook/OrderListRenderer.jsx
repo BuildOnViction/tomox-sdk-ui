@@ -100,15 +100,15 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               <LatestTick className="latest-tick">
                 <LatestPrice className="latest-price" width="67%">
                   <CryptoPrice className="crypto">{latestTrade.price}</CryptoPrice>
-                  <CashPrice className="cash">$-</CashPrice>
+                  <CashPrice className="cash">$_.__</CashPrice>
                 </LatestPrice>
                 {
                   (Number(latestTrade.percent) === 0) 
-                  ? (<PercentChange className="percent-change text-right" width="33%">{latestTrade.percent}</PercentChange>)
+                  ? (<PercentChange className="percent-change text-right" width="33%">{latestTrade.percent}%</PercentChange>)
                   :  (
                       (latestTrade.change === "positive") 
-                      ? (<PercentChange className="percent-change up text-right" width="33%">+{latestTrade.percent}</PercentChange>)
-                      : (<PercentChange className="percent-change down text-right" width="33%">-{latestTrade.percent}</PercentChange>)
+                      ? (<PercentChange className="percent-change up text-right" width="33%">+{latestTrade.percent}%</PercentChange>)
+                      : (<PercentChange className="percent-change down text-right" width="33%">-{latestTrade.percent}%</PercentChange>)
                     )
                 }                
               </LatestTick>
