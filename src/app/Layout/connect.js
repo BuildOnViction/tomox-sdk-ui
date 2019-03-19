@@ -21,6 +21,7 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
     accountLoading: selector.accountLoading,
     locale: selector.locale,
     currentPair: selector.currentPair,
+    pathname: selector.pathname,
   }
 }
 

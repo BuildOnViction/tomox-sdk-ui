@@ -34,6 +34,7 @@ export default function createSelector(state: State) {
   const accountLoading = !(TomoBalance && WETHBalance && WETHAllowance)
   const locale = settingsDomain.getLocale()
   const currentPair = tokenPairs.getCurrentPair()
+  const { router: { location: { pathname }}} = state
 
   return {
     TomoBalance,
@@ -45,6 +46,7 @@ export default function createSelector(state: State) {
     currentBlock,
     locale,
     currentPair,
+    pathname,
   }
 }
 

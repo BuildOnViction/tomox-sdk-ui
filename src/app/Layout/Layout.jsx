@@ -21,19 +21,19 @@ import {
   NavbarDivider,
 } from '../../components/Common'
 
-import { Indent } from '../../components/Common'
-import {
-  Devices,
-} from '../../components/Common/Variables'
+// import { Indent } from '../../components/Common'
+// import {
+//   Devices,
+// } from '../../components/Common/Variables'
 import Notifier from '../../components/Notifier'
-import ConnectionStatus from '../../components/ConnectionStatus'
-import locales from '../../config/locales'
-import { REACT_APP_DEX_VERSION } from '../../config/environment'
+// import ConnectionStatus from '../../components/ConnectionStatus'
+// import locales from '../../config/locales'
+// import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-import supportIconUrl from '../../assets/images/support_icon_gray.svg'
-import notificationIconUrl from '../../assets/images/notification_icon_gray.svg'
-import globeIconUrl from '../../assets/images/globe_icon_gray.svg'
+// import supportIconUrl from '../../assets/images/support_icon_gray.svg'
+// import notificationIconUrl from '../../assets/images/notification_icon_gray.svg'
+// import globeIconUrl from '../../assets/images/globe_icon_gray.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -68,7 +68,8 @@ class Layout extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { children, authenticated, address, currentBlock, currentPair } = this.props
+    const { children, authenticated, address, currentPair, pathname } = this.props
+    console.log('=====================', pathname)
 
     const menu = (
       <Menu>
@@ -94,6 +95,7 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarHeading>
 
             <NavbarGroup align={Alignment.LEFT}>
+            {(pathname === '/trade') && (
               <TokenInfo className="token-info">
                 {currentPair && (
                   <Popover
@@ -148,6 +150,7 @@ class Layout extends React.PureComponent<Props, State> {
                   </div>
                 </TokenTick>
               </TokenInfo>
+            )}
             </NavbarGroup>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
