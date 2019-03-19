@@ -239,3 +239,14 @@ body {
     }
   }
 }
+
+@media (max-width: 1400px) {
+  .tm-theme {
+    .tm-header {
+      .token-tick .tick,
+      .utilities-menu .utility-item {
+        margin-right: 20px;
+      }
+    }
+  } 
+}
