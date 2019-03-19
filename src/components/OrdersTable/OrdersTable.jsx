@@ -66,7 +66,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     const { authenticated, orders, cancelOrder } = this.props
     const { selectedTabId, isOpen } = this.state
     const filteredOrders = this.filterOrders()
-    const loading = orders.length < 1
+    const loading = !orders
 
     return (
       <OrdersTableRenderer
