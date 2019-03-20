@@ -48,7 +48,7 @@
       .filter-list {
         display: flex;
         flex-flow: row nowrap;
-        height: 14px;
+        align-items: center;
         margin-top: 5px;
         margin-bottom: 7px;
         .filter {
@@ -64,6 +64,7 @@
         }
         .filter-all {
           background: url(../../assets/images/filter_all_icon_gray.svg) no-repeat center center;
+          height: 16px;
         }
         .filter-buy {
           background: url(../../assets/images/filter_buy_icon_gray.svg) no-repeat center center;
