@@ -25,6 +25,14 @@ class DepthChart extends React.Component<Props, State> {
     })
   }
 
+  processData = (list: Array<BidOrAsk>, type: string) => {
+    return list.map(item => {
+      item[`${type}total`] = item.total
+      item[`${type}amount`] = item.amount
+      return item
+    })
+  }
+
   toolTip = (item: Object, graph: Object) => {
     let txt
     if (graph.id === 'asks') {
@@ -65,11 +73,13 @@ class DepthChart extends React.Component<Props, State> {
 
   render() {
     const { bids, asks } = this.props
+    const processedBids = this.processData(bids, 'bids')
+    const processedAsks = this.processData(asks, 'asks')
 
     return (
       <DepthChartRenderer
-        bids={bids}
-        asks={asks}
+        bids={processedBids}
+        asks={processedAsks}
         toolTip={this.toolTip}
       />
     )

@@ -185,17 +185,22 @@
 
     .bp3-tab {
       font-size: $tm-font-size-sm;
+      margin-right: 30px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
 
     .bp3-tab-list {
       display: flex;
       justify-content: flex-end;
-      padding: 0 10px;
+      margin-top: 5px;
+      padding: 0 20px;
     }
 
     .bp3-tab-panel {
       margin-top: 0;
-      height: calc(100% - 30px);
+      height: calc(100% - 35px);
     }
 
     .bp3-tab[aria-selected=true], 
