@@ -13,6 +13,7 @@ import TradesTable from '../../components/TradesTable'
 // import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
 import TVChartRenderer from '../../components/TVChartContainer'
+import DepthChart from '../../components/DepthChart'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -139,11 +140,11 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     const { authenticated, isInitiated, quoteTokenSymbol } = this.props
     if (!authenticated) return <Redirect to="/login" />
     if (!isInitiated) return null
-    const { calloutOptions, calloutVisible } = this.state
+    // const { calloutOptions, calloutVisible } = this.state
 
     return (
       <Grid flow="row dense" 
-        columns={"1fr minmax(500px, 600px)"} 
+        columns={"7.5fr minmax(520px, 4.5fr)"} 
         rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
         gap="10px" 
         height="100%">
@@ -154,7 +155,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             selectedTabId={this.state.chartTadId}
           >
               <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
-              <Tab id="depth" title="Depth" />
+              <Tab id="depth" title="Depth" panel={<DepthChart />} />
           </Tabs>
         </Cell>
         <Cell className="orderbook-trades">
