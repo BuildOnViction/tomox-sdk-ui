@@ -86,7 +86,7 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper className={pathname === "/trade" ? "collapse-sidebar" : ""}>
+      <Wrapper className={pathname === "/trade" ? "exchange-page" : ""}>
         <Notifier />
         <Header className="tm-header">
           <Navbar>
@@ -213,7 +213,9 @@ class Layout extends React.PureComponent<Props, State> {
           <Sidebar className="sidebar"> 
             <NavLink className="sidebar-item markets-link" to="/markets">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} content="Markets" position={Position.RIGHT}>
+                <Tooltip disabled={pathname !== "/trade"} 
+                  portalClassName="sidebar-tooltip"
+                  content="Markets" position={Position.RIGHT}>
                   <i></i> 
                 </Tooltip>
                 <SidebarItemTitle>Markets</SidebarItemTitle>
@@ -221,7 +223,10 @@ class Layout extends React.PureComponent<Props, State> {
             </NavLink>  
             <NavLink className="sidebar-item exchange-link" to="/trade">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} content="Exchange" position={Position.RIGHT}>
+                <Tooltip disabled={pathname !== "/trade"} 
+                  portalClassName="sidebar-tooltip"
+                  content="Exchange" 
+                  position={Position.RIGHT}>
                   <i></i> 
                 </Tooltip>
                 <SidebarItemTitle>Exchange</SidebarItemTitle>
@@ -229,7 +234,10 @@ class Layout extends React.PureComponent<Props, State> {
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} content="Portfolio" position={Position.RIGHT}>
+                <Tooltip disabled={pathname !== "/trade"} 
+                  portalClassName="sidebar-tooltip"
+                  content="Portfolio" 
+                  position={Position.RIGHT}>
                   <i></i> 
                 </Tooltip> 
                 <SidebarItemTitle>Portfolio</SidebarItemTitle>
@@ -237,7 +245,10 @@ class Layout extends React.PureComponent<Props, State> {
               </NavLink>                      
             <NavLink className="sidebar-item docs-faq-link" to="/settings">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} content="Docs/FAQ" position={Position.RIGHT}>
+                <Tooltip disabled={pathname !== "/trade"} 
+                  portalClassName="sidebar-tooltip"
+                  content="Docs/FAQ" 
+                  position={Position.RIGHT}>
                   <i></i> 
                 </Tooltip> 
                 <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
@@ -272,7 +283,7 @@ const MainContainer = styled.div.attrs({
   className: 'main-container',
 })`
   display: grid;
-  grid-template-columns: 11% auto;
+  grid-template-columns: 155px 1fr;
 `
 
 const Sidebar = styled.div`
