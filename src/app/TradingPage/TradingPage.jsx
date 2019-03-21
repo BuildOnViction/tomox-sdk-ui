@@ -142,8 +142,12 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <Grid flow="row dense" columns={5} rows={8} gap="10px" height="100%">
-        <Cell width={3} height={5} className="charts-cell">
+      <Grid flow="row dense" 
+        columns={"1fr minmax(500px, 600px)"} 
+        rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+        gap="10px" 
+        height="100%">
+        <Cell className="charts-cell">
           <Tabs
             id="tabs-chart"
             onChange={this.handleTabsChartChange}
@@ -153,14 +157,14 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               <Tab id="depth" title="Depth" />
           </Tabs>
         </Cell>
-        <Cell width={2} height={5} className="orderbook-trades">
+        <Cell className="orderbook-trades">
           <Grid columns={2} height="100%" gap="20px">
             <Cell width={1}><OrderBook /></Cell>
             <Cell width={1}><TradesTable /></Cell>
           </Grid>
         </Cell>
-        <Cell width={3} height={3} className="orders-table-cell"><OrdersTable /></Cell>
-        <Cell width={2} height={3} className="order-form-cell"><OrderForm /></Cell>
+        <Cell className="orders-table-cell"><OrdersTable /></Cell>
+        <Cell className="order-form-cell"><OrderForm /></Cell>
       </Grid>
     )
   }
