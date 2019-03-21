@@ -5,3 +5,10 @@ html.theme-dark .group-2JyOhh7Z-,
 html.theme-dark .chart-controls-bar {
     background-color: #252C40;
 }
+
+.chart-container {
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top-color: #394362 !important;
+    border-left-color: #394362 !important;
+}
