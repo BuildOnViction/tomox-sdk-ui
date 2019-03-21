@@ -14,6 +14,7 @@ import {
   NavbarHeading,
   Popover,
   Position,
+  Tooltip,
   Tag,
 } from '@blueprintjs/core'
 
@@ -69,7 +70,6 @@ class Layout extends React.PureComponent<Props, State> {
 
   render() {
     const { children, authenticated, address, currentPair, pathname } = this.props
-    console.log('=====================', pathname)
 
     const menu = (
       <Menu>
@@ -86,7 +86,7 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper>
+      <Wrapper className={pathname === "/trade" ? "collapse-sidebar" : ""}>
         <Notifier />
         <Header className="tm-header">
           <Navbar>
@@ -210,14 +210,42 @@ class Layout extends React.PureComponent<Props, State> {
           </Navbar>
         </Header>
         <MainContainer>
-          <MenuBar className="sidebar"> 
-            <NavLink className="sidebar-item markets-link" to="/markets"><span><i></i> Markets</span></NavLink>  
-            <NavLink className="sidebar-item exchange-link" to="/trade"><span><i></i> Exchange</span></NavLink>         
-            <NavLink className="sidebar-item portfolio-link" to="/wallet"><span><i></i> Portfolio</span></NavLink>                      
-            <NavLink className="sidebar-item docs-faq-link" to="/settings"><span><i></i> Docs/FAQ</span></NavLink>
+          <Sidebar className="sidebar"> 
+            <NavLink className="sidebar-item markets-link" to="/markets">
+              <SidebarItemBox>
+                <Tooltip disabled={pathname !== "/trade"} content="Markets" position={Position.RIGHT}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Markets</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>  
+            <NavLink className="sidebar-item exchange-link" to="/trade">
+              <SidebarItemBox>
+                <Tooltip disabled={pathname !== "/trade"} content="Exchange" position={Position.RIGHT}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Exchange</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>         
+            <NavLink className="sidebar-item portfolio-link" to="/wallet">
+              <SidebarItemBox>
+                <Tooltip disabled={pathname !== "/trade"} content="Portfolio" position={Position.RIGHT}>
+                  <i></i> 
+                </Tooltip> 
+                <SidebarItemTitle>Portfolio</SidebarItemTitle>
+              </SidebarItemBox>
+              </NavLink>                      
+            <NavLink className="sidebar-item docs-faq-link" to="/settings">
+              <SidebarItemBox>
+                <Tooltip disabled={pathname !== "/trade"} content="Docs/FAQ" position={Position.RIGHT}>
+                  <i></i> 
+                </Tooltip> 
+                <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+              </SidebarItemBox>
+              </NavLink>
             {/* <NavLink className="sidebar-item" to="/settings">Settings</NavLink> */}
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
-          </MenuBar>
+          </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
       </Wrapper>
@@ -240,16 +268,26 @@ const DexVersion = styled.span`
   font-weight: 500;
 `
 
-const MainContainer = styled.div`
+const MainContainer = styled.div.attrs({
+  className: 'main-container',
+})`
   display: grid;
   grid-template-columns: 11% auto;
 `
 
-const MenuBar = styled.div`
+const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 `
+
+const SidebarItemBox = styled.div.attrs({
+  className: 'sidebar-item-box'
+})``
+
+const SidebarItemTitle = styled.span.attrs({
+  className: 'sidebar-item-title'
+})``
 
 const MainContent = styled.main`
   flex: 1;

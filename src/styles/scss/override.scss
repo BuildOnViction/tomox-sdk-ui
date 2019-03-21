@@ -62,3 +62,13 @@
   }
 }
 
+.bp3-tooltip .bp3-popover-content {
+  background: $tm-light-blue;
+  color: $tm-white;
+}
+
+.bp3-tooltip .bp3-popover-arrow-border,
+.bp3-tooltip .bp3-popover-arrow-fill{
+  fill: $tm-light-blue;
+}
+
