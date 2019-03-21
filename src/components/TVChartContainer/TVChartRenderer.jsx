@@ -70,7 +70,7 @@ export default class TVChartRenderer extends React.PureComponent {
 				"paneProperties.background": "#252C40",
 				"paneProperties.vertGridProperties.color": "transparent",
 				"paneProperties.horzGridProperties.color": "#394362",
-				"symbolWatermarkProperties.transparency": 90,
+				"paneProperties.legendProperties.showSeriesTitle": false,
 				"scalesProperties.textColor" : "#6e7793",
 				"scalesProperties.fontSize": 12,
 				"scalesProperties.lineColor": "#394362",
