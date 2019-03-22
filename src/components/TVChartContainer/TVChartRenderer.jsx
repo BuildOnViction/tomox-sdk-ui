@@ -25,7 +25,7 @@ export default class TVChartRenderer extends React.PureComponent {
 		studiesOverrides: {},
 	};
 
-	componentDidMount() {
+	createWidget() {
 		const { 
 			// currentDuration, 
 			// currentTimeSpan,
@@ -48,12 +48,8 @@ export default class TVChartRenderer extends React.PureComponent {
 			disabled_features: [
 				'use_localstorage_for_settings', 
 				'volume_force_overlay', 
-				'header_symbol_search', 
 				'symbol_search_hot_key',
-				'header_screenshot',
-				'header_compare',
-				'border_around_the_chart',
-				'header_saveload',
+				// 'header_widget',
 			],
 			enabled_features: [],
 			charts_storage_url: this.props.chartsStorageUrl,
@@ -77,14 +73,19 @@ export default class TVChartRenderer extends React.PureComponent {
 				"mainSeriesProperties.candleStyle.wickUpColor": '#336854',
 				"mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
 				"timeScale.rightOffset": 5,
-			}
-		};
+			},
+			time_frames: [],
+		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
 
 		widget.onChartReady(() => {		
 			console.log('Chart loaded!')
 		})
+	}
+
+	componentDidMount() {
+		this.createWidget()
 	}
 
 	render() {

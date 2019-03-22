@@ -54,13 +54,16 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
+		console.log('==============================', firstDataRequest)
 		const unsubscribeStore = store.subscribe(() => {
-			if (firstDataRequest) {
-				const { ohlcv: { ohlcvData } } = store.getState()
-				onHistoryCallback(ohlcvData, {noData: false})
-			} else {
-				onHistoryCallback([], {noData: true})
-			}						
+			setTimeout(_ => {
+				if (firstDataRequest) {
+					const { ohlcv: { ohlcvData } } = store.getState()
+					onHistoryCallback(ohlcvData, {noData: false})
+				} else {
+					onHistoryCallback([], {noData: true})
+				}
+			}, 0)									
 		})
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {

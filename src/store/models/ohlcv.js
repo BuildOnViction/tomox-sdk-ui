@@ -34,6 +34,7 @@ export const updateTimeSpan = (
   config: Object
 ): ThunkAction => {
   return (dispatch, getState, { socket }) => {
+    socket.unsubscribeChart()
     dispatch(actionCreators.saveTimeSpan(currentTimeSpan))
     dispatch(updateTimeLine(config))
 

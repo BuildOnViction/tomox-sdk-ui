@@ -7,8 +7,9 @@ html.theme-dark .chart-controls-bar {
 }
 
 .chart-container {
-    border-right: none !important;
-    border-bottom: none !important;
-    border-top-color: #394362 !important;
-    border-left-color: #394362 !important;
+    border: none !important;
+}
+
+.layout__area--left {
+    border-right: 1px solid #394362;
 }

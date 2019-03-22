@@ -12,6 +12,12 @@ export default {
         updateCb(bar)
       }      
     }) 
+
+    window.tvWidget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
+      console.log('on change interval===============================')
+      resetCache()
+      window.tvWidget.chart().resetData()
+    })
   },
   unsubscribeBars: function(uid) {
     window.unsubscribe()
