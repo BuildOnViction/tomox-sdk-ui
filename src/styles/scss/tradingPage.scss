@@ -266,7 +266,9 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        padding: 15px 10px;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 10px;
         &:nth-child(2n + 1) {
           background: #1f2538;
         }

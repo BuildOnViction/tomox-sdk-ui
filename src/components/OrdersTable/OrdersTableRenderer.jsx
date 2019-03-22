@@ -140,10 +140,10 @@ const OrderRow = (props: {
   const { order, cancelOrder } = props
   return (
     <Row className="order-row">
-      <Cell width="12%" className="date" muted>
+      <Cell width="12%" className="date" title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
         {formatDate(order.time, 'LL-dd H:k:mm')}
       </Cell>
-      <Cell width="10%" className="pair" muted>
+      <Cell width="10%" className="pair" title={order.pair} muted>
         {order.pair}
       </Cell>
       <Cell width="5%" className="type" muted>
@@ -152,7 +152,7 @@ const OrderRow = (props: {
       <Cell width="5%" className={`side ${order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
         {capitalizeFirstLetter(order.side)}
       </Cell>
-      <Cell width="10%" className="price" muted>
+      <Cell width="10%" className="price" title={order.price} muted>
         {order.price}
       </Cell>
       <Cell width="10%" className="amount" muted>
@@ -245,9 +245,12 @@ const Cell = styled.span.attrs({
       : Colors.WHITE}
 
   min-width: 35px;
-  display: flex;
-  align-items: center;
+  // display: flex;
+  // align-items: center;
   width: ${props => (props.width ? props.width : '10%')};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
