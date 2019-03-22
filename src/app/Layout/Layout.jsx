@@ -215,7 +215,9 @@ class Layout extends React.PureComponent<Props, State> {
               <SidebarItemBox>
                 <Tooltip disabled={pathname !== "/trade"} 
                   portalClassName="sidebar-tooltip"
-                  content="Markets" position={Position.RIGHT}>
+                  content="Markets" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
                 <SidebarItemTitle>Markets</SidebarItemTitle>
@@ -226,7 +228,8 @@ class Layout extends React.PureComponent<Props, State> {
                 <Tooltip disabled={pathname !== "/trade"} 
                   portalClassName="sidebar-tooltip"
                   content="Exchange" 
-                  position={Position.RIGHT}>
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
                 <SidebarItemTitle>Exchange</SidebarItemTitle>
@@ -237,7 +240,8 @@ class Layout extends React.PureComponent<Props, State> {
                 <Tooltip disabled={pathname !== "/trade"} 
                   portalClassName="sidebar-tooltip"
                   content="Portfolio" 
-                  position={Position.RIGHT}>
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
                   <i></i> 
                 </Tooltip> 
                 <SidebarItemTitle>Portfolio</SidebarItemTitle>
@@ -248,7 +252,8 @@ class Layout extends React.PureComponent<Props, State> {
                 <Tooltip disabled={pathname !== "/trade"} 
                   portalClassName="sidebar-tooltip"
                   content="Docs/FAQ" 
-                  position={Position.RIGHT}>
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
                   <i></i> 
                 </Tooltip> 
                 <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
@@ -293,12 +298,20 @@ const Sidebar = styled.div`
 `
 
 const SidebarItemBox = styled.div.attrs({
-  className: 'sidebar-item-box'
-})``
+  className: 'sidebar-item-box',
+})`
+  .bp3-popover-target {
+    display: flex;
+    align-items: center;
+  }
+`
 
 const SidebarItemTitle = styled.span.attrs({
-  className: 'sidebar-item-title'
-})``
+  className: 'sidebar-item-title',
+})`
+  height: 40px;
+  padding-top: 1px;
+`
 
 const MainContent = styled.main`
   flex: 1;
