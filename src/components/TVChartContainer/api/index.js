@@ -4,7 +4,7 @@ import configureStore from '../../../store/configureStore'
 import stream from './stream'
 
 const { store } = configureStore
-const supportedResolutions = ["1", "3", "5", "15", "30", "60", "120", "240", "D"]
+const supportedResolutions = ["1", "5", "15", "30", "60", "120", "240", "D", "1W", "1M"]
 
 const config = {
     supported_resolutions: supportedResolutions
@@ -34,7 +34,7 @@ export default {
 			minmov: 1,
 			pricescale: 100,
 			has_intraday: true,
-			intraday_multipliers: ['1', '60'],
+			intraday_multipliers: supportedResolutions,
 			supported_resolution:  supportedResolutions,
 			volume_precision: 8,
 			data_status: 'streaming',
@@ -54,16 +54,18 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
-		console.log('==============================', firstDataRequest)
 		const unsubscribeStore = store.subscribe(() => {
-			setTimeout(_ => {
-				if (firstDataRequest) {
-					const { ohlcv: { ohlcvData } } = store.getState()
-					onHistoryCallback(ohlcvData, {noData: false})
-				} else {
-					onHistoryCallback([], {noData: true})
-				}
-			}, 0)									
+
+			if (firstDataRequest) {
+				const { ohlcv: { ohlcvData } } = store.getState()				
+				onHistoryCallback(ohlcvData, {noData: false})
+
+				window.tvWidget.latestBar = JSON.parse(JSON.stringify(ohlcvData.slice(-1)[0]))
+				firstDataRequest = false
+				unsubscribeStore()
+			} else {	
+				onHistoryCallback([], {noData: true})
+			}
 		})
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {

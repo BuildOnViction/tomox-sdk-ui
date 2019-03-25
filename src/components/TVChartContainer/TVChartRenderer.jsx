@@ -12,8 +12,6 @@ function getLanguageFromURL() {
 export default class TVChartRenderer extends React.PureComponent {
 
 	static defaultProps = {
-		// pair: 'ETH/TOMO',
-		interval: '1',
 		containerId: 'tv_chart_container',
 		libraryPath: '/charting_library/',
 		chartsStorageUrl: 'https://saveload.tradingview.com',
@@ -27,10 +25,13 @@ export default class TVChartRenderer extends React.PureComponent {
 
 	createWidget() {
 		const { 
-			// currentDuration, 
-			// currentTimeSpan,
-			// updateDuration,
-			// updateTimeSpan,
+			ohlcv: {
+				// currentDuration, 
+				currentTimeSpan,
+				// updateDuration,
+				// updateTimeSpan,				
+			},
+			changeTimeSpan,
 			currentPair: { pair },
 		} = this.props
 
@@ -41,7 +42,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			debug: false,
 			symbol: pair,
 			datafeed: Datafeed,
-			interval: this.props.interval,
+			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
 			library_path: this.props.libraryPath,
 			locale: getLanguageFromURL() || 'en',
@@ -49,7 +50,11 @@ export default class TVChartRenderer extends React.PureComponent {
 				'use_localstorage_for_settings', 
 				'volume_force_overlay', 
 				'symbol_search_hot_key',
-				// 'header_widget',
+				'header_symbol_search', 
+				'header_screenshot',
+				'header_compare',
+				'header_saveload',
+				'header_undo_redo',
 			],
 			enabled_features: [],
 			charts_storage_url: this.props.chartsStorageUrl,
@@ -81,6 +86,10 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		widget.onChartReady(() => {		
 			console.log('Chart loaded!')
+
+			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
+				changeTimeSpan(interval)
+			})
 		})
 	}
 
@@ -95,6 +104,6 @@ export default class TVChartRenderer extends React.PureComponent {
 				id={ this.props.containerId }
 				className={ 'TVChartRenderer' }
 			/>
-		);
+		)
 	}
 }

@@ -10,6 +10,12 @@ export default function getOHLCVModel(state: State) {
   return OHLCVModel(state.ohlcv)
 }
 
+export const resetOHLCVData = (): ThunkAction => {
+  return (dispatch) => {
+    dispatch(actionCreators.resetOHLCVData())
+  }
+}
+
 export const updateTimeLine = ({
   updateWRT,
 }: SendTimelineParams): ThunkAction => {

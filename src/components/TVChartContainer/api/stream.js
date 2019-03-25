@@ -4,23 +4,24 @@ import configureStore from '../../../store/configureStore'
 const { store } = configureStore
 
 export default {
-  subscribeBars: (symbolInfo, resolution, updateCb, uid, resetCache) => {   
+  subscribeBars: (symbolInfo, resolution, updateCb, uid, resetCache) => { 
+
     window.unsubscribe = store.subscribe(() => {
       const { ohlcv: { ohlcvData } } = store.getState()
-      if (ohlcvData && ohlcvData.length > 0) {
-        const bar = ohlcvData.slice(-1)[0]
-        updateCb(bar)
+
+      if (ohlcvData && ohlcvData.length > 0 && window.tvWidget.latestBar) {
+        const currLatestBar = ohlcvData.slice(-1)[0]
+
+        if (currLatestBar.time !== window.tvWidget.latestBar.time) {
+          window.tvWidget.latestBar = JSON.parse(JSON.stringify(currLatestBar))
+          updateCb(currLatestBar)
+        }
       }      
     }) 
-
-    window.tvWidget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
-      console.log('on change interval===============================')
-      resetCache()
-      window.tvWidget.chart().resetData()
-    })
   },
   unsubscribeBars: function(uid) {
     window.unsubscribe()
+    window.tvWidget.latestBar = null
   }
 }
 
