@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from 'styled-components';
 
 // import { ToolbarChart } from './ToolbarChart'
 import TVChartRenderer from './TVChartRenderer'
@@ -122,5 +121,3 @@ export default class TVChart extends React.PureComponent {
         )
     }        
 }
-
-const ChartWrapper = styled.div``

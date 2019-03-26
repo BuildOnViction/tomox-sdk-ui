@@ -31,7 +31,7 @@ import {
   NavbarDivider,
 } from './Blueprint'
 
-
+export { DarkMode } from './Colors'
 export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton }
 
 export { Box, TextBox, DividerBox, Flex, FlexItem, FlexRow, FlexColumn }
@@ -78,6 +78,7 @@ export { default as Loading } from './Loading'
 export { default as CenteredMessage } from './CenteredMessage'
 export { default as LoadData } from './LoadData'
 export { default as CryptoIcon } from './CryptoIcon'
+export { default as UtilityIcon } from './UtilityIcon'
 
 export { default as ImageIcon } from './ImageIcon'
 export { default as TokenIcon } from './TokenIcon'

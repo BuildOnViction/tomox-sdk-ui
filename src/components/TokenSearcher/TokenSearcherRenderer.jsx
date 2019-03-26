@@ -238,7 +238,7 @@ const TokenRow = ({
 
   return (
     <li key={pair} className="row">
-      <CryptoIcon name={base} />
+      <CryptoIcon name={base} size={20} />
       <span className="base" onClick={() => changeSelectedToken(token)}>
         {isFavoriteTokensList ? pair : base}
       </span>
@@ -329,7 +329,7 @@ const SelectedPair = ({
       <Row>
         <ColumnStart>
           <RowStart>
-            <TokenIcon size={60} image={tokenImages[base]} name={base} />
+            <TokenIcon size={60} image={tokenImages[base]} symbol={base} name={base} />
             <TokenPair>{pair}</TokenPair>
           </RowStart>
           <Box mt={3}>

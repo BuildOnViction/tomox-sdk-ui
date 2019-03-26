@@ -2,7 +2,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Loading, CenteredMessage } from '../Common';
-import { Card } from '@blueprintjs/core';
 import { formatDate } from '../../utils/helpers';
 
 import type { Trade } from '../../types/trades';

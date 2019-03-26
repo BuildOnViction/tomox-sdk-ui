@@ -25,7 +25,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
 
   state = {
     searchInput: '',
-    selectedTab: this.props.quoteTokens[0],
+    selectedTab: 'All',
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
@@ -39,7 +39,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
   filterTokens = (pairs: Array<TokenPair>) => {
     const { searchInput, selectedTab } = this.state
 
-    if (selectedTab !== 'ALL') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+    if (selectedTab.toLowerCase() !== 'all') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
     pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
 
     return pairs
@@ -59,7 +59,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
     } = this.state
 
     const filteredPairs = this.filterTokens(pairs)
-    const tabs = quoteTokens.concat(['ALL'])
+    const tabs = ['Favorites', ...quoteTokens, 'All']
 
     return (
       <Wrapper>

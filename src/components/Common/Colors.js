@@ -233,3 +233,15 @@ export const Inputs = {
 export const NavBar = {
   PT_NAVBAR_HEIGHT: Grids.PT_GRID_SIZE * 5
 }
+
+export const DarkMode = {
+  BLACK: '#1f2538',
+  DARK_BLUE: '#252C40',
+  LIGHT_BLUE: '#394362',
+  GRAY: '#6e7793',
+  LIGHT_GRAY: '#9ca4ba',
+  WHITE: '#fff',
+  ORANGE: '#ff9a4d',
+  GREEN: '#00c38c',
+  RED: '#f94d5c',
+}
