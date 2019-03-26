@@ -226,6 +226,10 @@ const SearchWrapper= styled(InputGroup)`
     min-width: 300px;
     background: ${DarkMode.BLACK};
     border-radius: 0;
+    &:focus, 
+    &.bp3-active {
+      box-shadow: none;
+    }
   }
 `
 
