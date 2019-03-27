@@ -3,7 +3,7 @@ import { space, width } from 'styled-system';
 
 import React from 'react';
 import styled from 'styled-components';
-import Colors from './Colors';
+import Colors, { DarkMode } from './Colors';
 import { Fonts } from './Variables';
 
 export const Text = styled.span`
@@ -33,7 +33,7 @@ export const SmallText = styled.span`
     props.intent
       ? Colors[props.intent]
       : props.muted
-      ? Colors.TEXT_MUTED
+      ? DarkMode.GRAY
       : Colors.TEXT};
 `;
 

@@ -66,37 +66,31 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <UtilityIcon name="Favorite" size={12} />
         </Cell>
         <Cell>
-          <FlexRow alignItems="center">
-            <CryptoIcon name={baseTokenSymbol} size={25} />
-            <SmallText p={2} muted>{pair}</SmallText>
-          </FlexRow>
+          <CryptoIcon name={baseTokenSymbol} size={25} />
+          <PairTitle>{pair}</PairTitle>
         </Cell>
-        <Cell>
-          <PriceNumber muted>
-            {formatNumber(lastPrice, { precision: 2 })}
+        <Cell width="25%">
+          <PriceNumber>
+            <ChangeCell change={change}>{formatNumber(lastPrice, { precision: 2 })}</ChangeCell>
           </PriceNumber>
-          <PriceNumber muted>
-            {currentReferenceCurrency}
-            {formatNumber(lastPrice, { precision: 2 })} 
+          <PriceNumber>
+            <SmallText muted>
+              {currentReferenceCurrency}
+              {formatNumber(lastPrice, { precision: 2 })} 
+            </SmallText>
           </PriceNumber>
         </Cell>
         <Cell>
-          <ChangeCell change={change}>{change ? `${change}%` : 'N.A'}</ChangeCell>
+          <ChangeCell change={change}>{change > 0 ? `+${change}%` : change}</ChangeCell>
         </Cell>
         <Cell>
-          <SmallText muted>
             {formatNumber(high, { precision: 2 })}
-          </SmallText>
         </Cell>
         <Cell>
-          <SmallText muted>
-            {formatNumber(low, { precision: 2 })}
-          </SmallText>
+          {formatNumber(low, { precision: 2 })}
         </Cell>
-        <Cell>
-          <SmallText muted>
-            {orderVolume ? formatNumber(orderVolume, { precision: 2 }) : 'N.A'}
-          </SmallText>
+        <Cell align="flex-end" flexGrow={2}>
+          {orderVolume ? formatNumber(orderVolume, { precision: 2 }) : 'N.A'}
         </Cell>
       </Row>
     )
@@ -123,7 +117,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
     return (
       <TableSection>
-        <HeaderWrapper style={{ marginBottom: '10px' }}>
+        <HeaderWrapper>
           <TabsWrapper>
             {
               tabs.map((tab, i) => {
@@ -151,31 +145,30 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
         <TableHeader>
           <TableHeaderCell width="25px"></TableHeaderCell>
-          <TableHeaderCell>Pair</TableHeaderCell>
-          <TableHeaderCell>Last Price</TableHeaderCell>
-          <TableHeaderCell>24h Change</TableHeaderCell>
-          <TableHeaderCell>24h High</TableHeaderCell>
-          <TableHeaderCell>24h Low</TableHeaderCell>
-          <TableHeaderCell>24h Volume</TableHeaderCell>
+          <TableHeaderCell><SmallText muted>Pair</SmallText></TableHeaderCell>
+          <TableHeaderCell width="25%"><SmallText muted>Last Price</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>24h Change</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>24h High</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>24h Low</SmallText></TableHeaderCell>
+          <TableHeaderCell align="flex-end" flexGrow={2}><SmallText muted>24h Volume</SmallText></TableHeaderCell>
         </TableHeader>
-        <Table>
-          <TableBody>
-            <AutoSizer>
-              {({ width, height }) => (
-                <List
-                  width={width}
-                  height={height}
-                  rowCount={pairs.length}
-                  rowHeight={60}
-                  rowRenderer={this.rowRenderer}
-                  noRowsRenderer={this.noRowsRenderer}
-                  overscanRowCount={0}
-                  pairs={pairs}
-                />
-              )}
-            </AutoSizer>
-          </TableBody>
-        </Table>
+
+        <TableBody>
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                width={width}
+                height={height}
+                rowCount={pairs.length}
+                rowHeight={60}
+                rowRenderer={this.rowRenderer}
+                noRowsRenderer={this.noRowsRenderer}
+                overscanRowCount={0}
+                pairs={pairs}
+              />
+            )}
+          </AutoSizer>
+        </TableBody>
       </TableSection>
     )
   }
@@ -188,10 +181,10 @@ const TabItem = (props) => {
         <TabIcon>
           <UtilityIcon name={props.name} 
             size={12}
-            color={props.active ? '#fff' : ''} />
+            color={props.active ? DarkMode.WHITE : ''} />
         </TabIcon>)}
 
-      <TabTitle key={props.key}
+      <TabTitle
         active={props.active}
         onClick={props.onClick}>
         {props.text}
@@ -200,11 +193,11 @@ const TabItem = (props) => {
   )
 }
 
-const ChangeCell = styled(SmallText).attrs({ className: 'change' })`
+const ChangeCell = styled.span`
   color: ${props => (props.change > 0 ? Colors.GREEN5 : Colors.RED4)} !important;
 `
 
-const PriceNumber = styled(SmallText)`
+const PriceNumber = styled.span`
   margin-right: 25px;
 
   &:last-child {
@@ -216,7 +209,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  box-shadow: 0 0 0 1px #37405f;
+  box-shadow: 0 1px 0 0 #37405f;
   padding-bottom: 20px;
 `
 
@@ -233,42 +226,50 @@ const SearchWrapper= styled(InputGroup)`
   }
 `
 
-const Table = styled.div.attrs({
-  className: '',
-})`
-  width: 100%;
-  border: none !important;
-`
-
 const TableSection = styled.div`
   display: flex;
   justify-content: start;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 145px);
   width: 100%;
+  overflow: hidden;
 `
 
 const TableBody = styled.div`
-  height: 80vh;
+  height: calc(100% - 100px);
+  color: ${DarkMode.WHITE}
 `
 
 const TableHeader = styled.div`
   width: 100%;
+  height: 50px;
   display: flex;
+  align-items: center;  
   padding: 0 20px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  &:last-child {
+    flex-grow: 2;
+  }
 `
 
 const TableHeaderCell = styled.div`
+  display: flex;
   width: ${props => props.width || '15%'};
+  justify-content: ${({align}) => align || 'flex-start'};
+  flex-grow: ${({flexGrow}) => flexGrow || 0}
 `
 
 const Cell = styled.div`
-  width: ${props => props.width || '15%'};
+  width: ${({width}) => width || '15%'};
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: ${({align}) => align || 'flex-start'}
+  flex-grow: ${({flexGrow}) => flexGrow || 0}
+`
+
+const PairTitle = styled.div`
+  color: ${DarkMode.WHITE};
+  margin-left: 9px;
 `
 
 const Row = styled.div`
@@ -304,9 +305,9 @@ const TabTitle = styled.span`
   cursor: pointer;
   display: flex;
   margin-right: 60px;
-  color: ${props => props.active ? '#fff' : 'inherit' };
+  color: ${props => props.active ? DarkMode.WHITE : 'inherit' };
   &:hover {
-    color: '#fff';
+    color: ${DarkMode.WHITE};
   }
 `
 

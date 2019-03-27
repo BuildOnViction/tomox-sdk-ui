@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import styled from 'styled-components'
 import MarketsTableRenderer from './MarketsTableRenderer'
 
 import type { TokenPair } from '../../types/tokens'
@@ -62,25 +61,21 @@ class MarketsTable extends React.PureComponent<Props, State> {
     const tabs = ['Favorites', ...quoteTokens, 'All']
 
     return (
-      <Wrapper>
-        <MarketsTableRenderer
-          pairs={filteredPairs}
-          searchInput={searchInput}
-          handleSearchInputChange={this.handleSearchInputChange}
-          redirectToTradingPage={redirectToTradingPage}
-          quoteTokens={quoteTokens}
-          tabs={tabs}
-          selectedTab={selectedTab}
-          handleChangeTab={this.handleChangeTab}
-          currentReferenceCurrency={currentReferenceCurrency}
-        />
-      </Wrapper>
+      <MarketsTableRenderer
+        pairs={filteredPairs}
+        searchInput={searchInput}
+        handleSearchInputChange={this.handleSearchInputChange}
+        redirectToTradingPage={redirectToTradingPage}
+        quoteTokens={quoteTokens}
+        tabs={tabs}
+        selectedTab={selectedTab}
+        handleChangeTab={this.handleChangeTab}
+        currentReferenceCurrency={currentReferenceCurrency}
+      />
     )
   }
 }
 
 export default MarketsTable
 
-const Wrapper = styled.div`
-  height: 100%;
-`
+
