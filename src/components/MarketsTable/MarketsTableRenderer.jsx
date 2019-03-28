@@ -46,6 +46,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       pairs,
       redirectToTradingPage,
       currentReferenceCurrency,
+      updateFavorite,
     } = this.props
 
     const {
@@ -57,13 +58,14 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       low,
       change,
       orderVolume,
+      favorited,
     } = pairs[index]
 
 
     return (
       <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)} style={style}>
-        <Cell width="25px">
-          <UtilityIcon name="Favorite" size={12} />
+        <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
+          <UtilityIcon name={favorited ? "Favorite-Solid" : "Favorite"} size={12} />
         </Cell>
         <Cell>
           <CryptoIcon name={baseTokenSymbol} size={25} />
@@ -81,7 +83,11 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           </PriceNumber>
         </Cell>
         <Cell>
-          <ChangeCell change={change}>{change > 0 ? `+${change}%` : change}</ChangeCell>
+          <ChangeCell change={change}>
+            {change > 0 ? `+${formatNumber(change, { precision: 2 })}` 
+            : change === 0 ? formatNumber(change, { precision: 2 })
+            : formatNumber(change, { precision: 2 })}%
+          </ChangeCell>
         </Cell>
         <Cell>
             {formatNumber(high, { precision: 2 })}
@@ -194,7 +200,7 @@ const TabItem = (props) => {
 }
 
 const ChangeCell = styled.span`
-  color: ${props => (props.change > 0 ? Colors.GREEN5 : Colors.RED4)} !important;
+  color: ${({change}) => (change > 0 ? DarkMode.GREEN : (change === 0) ? DarkMode.WHITE : DarkMode.RED)} !important;
 `
 
 const PriceNumber = styled.span`

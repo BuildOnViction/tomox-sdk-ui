@@ -38,11 +38,22 @@ class MarketsTable extends React.PureComponent<Props, State> {
   filterTokens = (pairs: Array<TokenPair>) => {
     const { searchInput, selectedTab } = this.state
 
-    if (selectedTab.toLowerCase() !== 'all') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+    if (selectedTab.toLowerCase() !== 'all'
+      && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+
+    if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
+    
     pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
 
     return pairs
-  };
+  }
+
+  handleFavoriteClick = (e, pair, favorited) => {
+    e.stopPropagation()
+
+    const { updateFavorite } = this.props
+    updateFavorite(pair, favorited)
+  }
 
   render() {
     const {
@@ -71,6 +82,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
         selectedTab={selectedTab}
         handleChangeTab={this.handleChangeTab}
         currentReferenceCurrency={currentReferenceCurrency}
+        updateFavorite={this.handleFavoriteClick}
       />
     )
   }

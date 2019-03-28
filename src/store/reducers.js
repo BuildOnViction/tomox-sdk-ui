@@ -289,6 +289,7 @@ export const tokenPairs = createReducer(action => {
     case tokensActionTypes.removeTokens:
       return tokenPairsEvents.tokenPairRemoved(payload)
     case tokenSearcherActionTypes.updateFavorite:
+    case marketsTableActionTypes.updateFavorite:
       return tokenPairsEvents.tokenPairFavorited(
         payload.code,
         payload.favorite
