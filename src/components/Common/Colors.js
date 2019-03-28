@@ -249,4 +249,9 @@ export const DarkMode = {
 export const Theme = {
   HEADER_HEIGHT_LG: '80px',
   HEADER_HEIGHT_MD: '50px',
+  ROW_HEIGHT_LG: '60px',
+  ROW_HEIGHT_MD: '50px',
+  BREAK_POINT_MD: '1280px',
+  FONT_SIZE_MD: '14px',
+  FONT_SIZE_SM: '12px',
 }

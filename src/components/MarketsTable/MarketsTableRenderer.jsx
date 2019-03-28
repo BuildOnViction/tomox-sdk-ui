@@ -16,15 +16,14 @@ import {
 } from '@blueprintjs/core'
 
 import {
+  Theme,
   CryptoIcon,
   UtilityIcon,
-  Colors,
   DarkMode,
   TomoXLogo,
   Centered,
   LargeText,
   SmallText,
-  FlexRow,
 } from '../Common'
 
 type Props = {
@@ -63,7 +62,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)} style={style}>
+      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "Favorite-Solid" : "Favorite"} size={12} />
         </Cell>
@@ -281,12 +280,17 @@ const PairTitle = styled.div`
 const Row = styled.div`
   display: flex;
   width: 100%;
-  height: 60px;
+  height: ${Theme.ROW_HEIGHT_LG};
   padding: 0 20px;
   cursor: pointer;
 
   &:nth-child(2n+1) {
     background: ${DarkMode.BLACK};
+  }
+
+  @media only screen and (max-width: ${Theme.BREAK_POINT_MD}) {
+    height: ${Theme.ROW_HEIGHT_MD};
+    font-size: ${Theme.FONT_SIZE_SM};
   }
 `
 
