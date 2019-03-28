@@ -245,3 +245,8 @@ export const DarkMode = {
   GREEN: '#00c38c',
   RED: '#f94d5c',
 }
+
+export const Theme = {
+  HEADER_HEIGHT_LG: '80px',
+  HEADER_HEIGHT_MD: '50px',
+}

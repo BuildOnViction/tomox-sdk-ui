@@ -18,6 +18,7 @@ import {
 
 import {
   NavbarDivider,
+  Theme,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -282,7 +283,11 @@ const SidebarItemTitle = styled.span.attrs({
 
 const MainContent = styled.main`
   flex: 1;
-  height: calc(100vh - 80px)
+  height: calc(100vh - ${Theme.HEADER_HEIGHT_LG});
+
+  @media only screen and (max-width: 1280px) {
+    height: calc(100vh - ${Theme.HEADER_HEIGHT_MD});
+  }
 `
 
 const TokenInfo = styled.div``

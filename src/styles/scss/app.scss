@@ -21,10 +21,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bp3-navbar,
+.bp3-navbar-group {
+  height: $header-height-lg;
+}
+
 .tm-header .logo {
   float: left;
   width: 155px;
-  height: 80px;
+  height: $header-height-lg;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -280,6 +285,21 @@ body {
           margin-left: -4px !important;
         }
       }
+    }
+  } 
+}
+
+@media only screen and (max-width: 1280px) {
+  .bp3-navbar,
+  .bp3-navbar-group {
+    height: $header-height-md;
+  }
+
+  .tm-header .logo {
+    height: $header-height-md;
+    img {
+      height: 25px !important;
+      width: 25px !important;
     }
   } 
 }
