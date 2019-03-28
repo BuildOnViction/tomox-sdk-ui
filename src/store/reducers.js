@@ -1,5 +1,7 @@
 // @flow
-import createReducer from './createReducer'
+import storage from 'redux-persist/lib/storage'
+
+import createReducer, { createReducerPersist } from './createReducer'
 import accountBalancesActionTypes from './actions/accountBalances'
 import transferTokensFormActionTypes from './actions/transferTokensForm'
 import ohlcvActionTypes from './actions/ohlcv'
@@ -274,7 +276,12 @@ export const tokens = createReducer(action => {
   }
 })
 
-export const tokenPairs = createReducer(action => {
+export const tokenPairs = createReducerPersist({
+  key: 'tokenPairs',
+  keyPrefix: 'tomo:',
+  storage,
+  whitelist: ['favorites'],
+}, action => {
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
