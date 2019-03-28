@@ -3,10 +3,9 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { HTMLSelect, Icon, Switch } from '@blueprintjs/core'
+import { Icon, Switch } from '@blueprintjs/core'
 import {
   Alignment,
-  Button,
   Menu,
   MenuDivider,
   Navbar,
@@ -15,26 +14,14 @@ import {
   Popover,
   Position,
   Tooltip,
-  Tag,
 } from '@blueprintjs/core'
 
 import {
   NavbarDivider,
 } from '../../components/Common'
-
-// import { Indent } from '../../components/Common'
-// import {
-//   Devices,
-// } from '../../components/Common/Variables'
 import Notifier from '../../components/Notifier'
-// import ConnectionStatus from '../../components/ConnectionStatus'
-// import locales from '../../config/locales'
-// import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-// import supportIconUrl from '../../assets/images/support_icon_gray.svg'
-// import notificationIconUrl from '../../assets/images/notification_icon_gray.svg'
-// import globeIconUrl from '../../assets/images/globe_icon_gray.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -191,20 +178,6 @@ class Layout extends React.PureComponent<Props, State> {
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
-                {/* <HTMLSelect
-                  large
-                  minimal
-                  onChange={this.changeLocale}
-                  value={this.props.locale}
-                >
-                  {locales.map(locale => {
-                    return (
-                      <option key={locale.value} value={locale.value}>
-                        {locale.label}
-                      </option>
-                    )
-                  })}
-                </HTMLSelect> */}
               </LanguageItem>
             </NavbarGroup>
           </Navbar>
@@ -259,7 +232,6 @@ class Layout extends React.PureComponent<Props, State> {
                 <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
               </SidebarItemBox>
               </NavLink>
-            {/* <NavLink className="sidebar-item" to="/settings">Settings</NavLink> */}
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
@@ -278,11 +250,6 @@ const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
 `
 
 const Header = styled.header``
-
-const DexVersion = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
-`
 
 const MainContainer = styled.div.attrs({
   className: 'main-container',
@@ -329,17 +296,6 @@ const NotificationItem = styled.div``
 const LanguageItem = styled.div``
 
 const UserItem = styled.div``
-
-const Block = styled.div`
-  word-wrap: break-word;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 20px;
-  & span {
-    margin-right: 5px;
-  }
-`
 
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
