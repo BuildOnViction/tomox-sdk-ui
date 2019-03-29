@@ -106,7 +106,7 @@ export const MutedText = styled.span`
       : props.large
       ? Fonts.FONT_SIZE_LARGE
       : Fonts.FONT_SIZE}
-  color: ${Colors.TEXT_MUTED};
+  color: ${DarkMode.GRAY};
 `;
 
 export const LinkText = styled.div`

@@ -56,6 +56,7 @@ const MarketsPageRenderer = (props: Props) => {
               })
             }
           </StatsWrapper>
+          
           <MarketsTable />
         </React.Fragment>
       )}
