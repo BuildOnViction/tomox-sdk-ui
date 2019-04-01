@@ -5,6 +5,7 @@ import {
   getTokenDomain,
   getAccountBalancesDomain,
   getConnectionDomain,
+  getOhlcvDomain,
 } from '../domains'
 
 import * as actionCreators from '../actions/tradingPage'
@@ -23,6 +24,7 @@ export default function tradingPageSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const pairDomain = getTokenPairsDomain(state)
+  const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
     makeFee,
@@ -53,6 +55,7 @@ export default function tradingPageSelector(state: State) {
     quoteTokenAllowance,
     quoteTokenBalance,
     quoteTokenSymbol,
+    ohlcvData,
   }
 }
 

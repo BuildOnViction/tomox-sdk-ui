@@ -1,17 +1,19 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
-import { Grid } from 'styled-css-grid'
+import { Grid, Cell } from 'styled-css-grid'
+import { Tabs, Tab } from '@blueprintjs/core'
 
-import OHLCV from '../../components/OHLCV'
+// import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
-import { CloseableCallout } from '../../components/Common'
+// import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
-import TokenSearcher from '../../components/TokenSearcher'
+// import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-
+import TVChartRenderer from '../../components/TVChartContainer'
+import DepthChart from '../../components/DepthChart'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -29,6 +31,7 @@ type Props = {
   makeFee: string,
   takeFee: string,
   toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+  ohlcvData: Array<Object>,
 }
 
 type State = {
@@ -95,7 +98,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol,
+      quoteTokenSymbol
     } = this.props
 
     if (!authenticated) {
@@ -134,64 +137,39 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, isInitiated } = this.props
+    const { authenticated, isInitiated, quoteTokenSymbol } = this.props
     if (!authenticated) return <Redirect to="/login" />
     if (!isInitiated) return null
-    const { calloutOptions, calloutVisible } = this.state
+    // const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <TradingPageLayout>
-        <SidePanel>
-          <Grid columns={1} alignContent="start">
-            <CloseableCallout
-              visible={calloutVisible}
-              handleClose={this.closeCallout}
-              {...calloutOptions}
-            />
-            <TokenSearcher />
-            <OrderForm />
+      <Grid flow="row dense" 
+        columns={"7.5fr minmax(520px, 4.5fr)"} 
+        rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+        gap="10px" 
+        height="100%">
+        <Cell className="charts-cell">
+          <Tabs
+            id="tabs-chart"
+            onChange={this.handleTabsChartChange}
+            selectedTabId={this.state.chartTadId}
+          >
+              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
+              <Tab id="depth" title="Depth" panel={<DepthChart />} />
+          </Tabs>
+        </Cell>
+        <Cell className="orderbook-trades">
+          <Grid columns={2} height="100%" gap="20px">
+            <Cell width={1}><OrderBook /></Cell>
+            <Cell width={1}><TradesTable /></Cell>
           </Grid>
-        </SidePanel>
-
-        <MainPanel>
-          <Grid columns={1} alignContent="start">
-            <OHLCV />
-            <OrdersTableBox />
-            <OrdersAndTradesTableBox>
-              <OrderBookBox />
-              <TradesTableBox />
-            </OrdersAndTradesTableBox>
-          </Grid>
-        </MainPanel>
-      </TradingPageLayout>
+        </Cell>
+        <Cell className="orders-table-cell"><OrdersTable /></Cell>
+        <Cell className="order-form-cell"><OrderForm /></Cell>
+      </Grid>
     )
   }
 }
 
-const TradingPageLayout = styled.div.attrs({
-  className: 'trading-page-layout',
-})``
 
-const SidePanel = styled.div.attrs({
-  className: 'trading-page-side-panel',
-})``
 
-const MainPanel = styled.div.attrs({
-  className: 'trading-page-main-panel',
-})``
-
-const OrderBookBox = styled(OrderBook).attrs({
-  className: 'trading-page-orderbook',
-})``
-
-const TradesTableBox = styled(TradesTable).attrs({
-  className: 'trading-page-tradestable',
-})``
-
-const OrdersTableBox = styled(OrdersTable).attrs({
-  className: 'trading-page-orderstable',
-})``
-
-const OrdersAndTradesTableBox = styled.div.attrs({
-  className: 'trading-page-orders-and-trades-tables',
-})``

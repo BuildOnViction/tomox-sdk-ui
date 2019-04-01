@@ -5,6 +5,7 @@ import {
   getAccountBalancesDomain,
   getTokenDomain,
   getSettingsDomain,
+  getTokenPairsDomain
 } from '../domains'
 
 import { quoteTokens } from '../../config/quotes'
@@ -22,6 +23,7 @@ export default function createSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const settingsDomain = getSettingsDomain(state)
+  const tokenPairs = getTokenPairsDomain(state)
 
   const TomoBalance = accountBalancesDomain.tomoBalance()
   const WETHBalance = accountBalancesDomain.tokenBalance('WETH')
@@ -31,6 +33,8 @@ export default function createSelector(state: State) {
   const currentBlock = accountDomain.currentBlock()
   const accountLoading = !(TomoBalance && WETHBalance && WETHAllowance)
   const locale = settingsDomain.getLocale()
+  const currentPair = tokenPairs.getCurrentPair()
+  const { router: { location: { pathname }}} = state
 
   return {
     TomoBalance,
@@ -41,6 +45,8 @@ export default function createSelector(state: State) {
     accountLoading,
     currentBlock,
     locale,
+    currentPair,
+    pathname,
   }
 }
 

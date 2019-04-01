@@ -50,7 +50,7 @@ export default function depositFormSelector(state: State) {
 }
 
 export function queryBalances(): ThunkAction {
-  return async (dispatch, getState, { provider }) => {
+  return async (dispatch, getState, { api }) => {
     try {
       const state = getState()
       const accountAddress = depositFormSelector(state).accountAddress()
@@ -69,13 +69,16 @@ export function queryBalances(): ThunkAction {
       //   accountAddress
       // );
 
-      const tokenBalances: TokenBalances = await provider.queryTokenBalances(
-        accountAddress,
-        tokens
-      )
-      const tomoBalance: TokenBalance = await provider.queryTomoBalance(
-        accountAddress
-      )
+      // const tokenBalances: TokenBalances = await provider.queryTokenBalances(
+      //   accountAddress,
+      //   tokens
+      // )
+      // const tomoBalance: TokenBalance = await provider.queryTomoBalance(
+      //   accountAddress
+      // )
+
+      const tomoBalance: TokenBalance = await api.fetchTomoBalance(accountAddress)
+      const tokenBalances: TokenBalances = await api.fetchTokenBalances(accountAddress, tokens)
 
       const balances = [tomoBalance].concat(tokenBalances)
       dispatch(actionCreators.updateBalances(balances))

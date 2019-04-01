@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import Chart from './Chart'
-import { Loading } from '../Common'
+import { Loading, TomoXLogo, Centered, LargeText } from '../Common'
 import { TypeChooser } from 'react-stockcharts/lib/helper'
 import AutoScaler from '../AutoScaler'
 import styled from 'styled-components'
@@ -38,9 +38,21 @@ export default class ChartLoadingScreen extends React.PureComponent<Props> {
       data
     } = this.props
 
-    if (!data || data.length < 1) {
+    if (!data) {
       return <Loading />
     }
+
+    if (data.length < 1) {
+      return (
+        <React.Fragment>
+          <Centered>
+            <TomoXLogo height="100px" width="100px" />
+            <LargeText muted>No trades during this period. Make the first one!</LargeText>
+          </Centered>
+        </React.Fragment>
+      )
+    }
+
     return (
       <Wrapper className="chart-container">
         <TypeChooser>

@@ -21,7 +21,13 @@ export default function marketsTableSelector(state: State) {
   const pairsDomain = getTokenPairsDomain(state)
 
   const referenceCurrency = accountDomain.referenceCurrency()
-  const pairs = pairsDomain.getTokenPairsWithDataArray()
+  const favoriteds = pairsDomain.getFavoritePairs()
+  let pairs = pairsDomain.getTokenPairsWithDataArray()
+
+  pairs = pairs.map(tokenPair => {
+    tokenPair.favorited = favoriteds.includes(tokenPair.pair)
+    return tokenPair
+  })
 
   return {
     pairs,

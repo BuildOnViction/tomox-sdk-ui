@@ -1,9 +1,9 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Layout from './Layout'
-import LandingPage from './LandingPage'
+// import LandingPage from './LandingPage'
 import LoginPage from './LoginPage'
 import WalletPage from './WalletPage'
 import FaqPage from './FaqPage'
@@ -42,7 +42,7 @@ class App extends React.PureComponent {
         <SocketController>
           <Layout>
             <Switch>
-              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/" render={() => <Redirect to="/markets" />} />
               <Route path="/login" component={LoginPage} />
               <Route path="/wallet" component={WalletPage} />
               <Route path="/markets" component={MarketsPage} />

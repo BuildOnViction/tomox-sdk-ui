@@ -1,5 +1,7 @@
 // @flow
-import createReducer from './createReducer'
+import storage from 'redux-persist/lib/storage'
+
+import createReducer, { createReducerPersist } from './createReducer'
 import accountBalancesActionTypes from './actions/accountBalances'
 import transferTokensFormActionTypes from './actions/transferTokensForm'
 import ohlcvActionTypes from './actions/ohlcv'
@@ -199,6 +201,7 @@ export const ohlcv = createReducer(action => {
       return ohlcvEvents.savedTimeSpan(payload.data)
     case ohlcvActionTypes.saveNoOfCandles:
       return ohlcvEvents.savedNoOfCandles(payload)
+    case ohlcvActionTypes.resetOHLCVData:
     case tokenSearcherActionTypes.updateCurrentPair:
     case tradingPageActionTypes.updateCurrentPair:
       return ohlcvEvents.ohlcvReset()
@@ -273,7 +276,12 @@ export const tokens = createReducer(action => {
   }
 })
 
-export const tokenPairs = createReducer(action => {
+export const tokenPairs = createReducerPersist({
+  key: 'tokenPairs',
+  keyPrefix: 'tomo:',
+  storage,
+  whitelist: ['favorites'],
+}, action => {
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
@@ -288,6 +296,7 @@ export const tokenPairs = createReducer(action => {
     case tokensActionTypes.removeTokens:
       return tokenPairsEvents.tokenPairRemoved(payload)
     case tokenSearcherActionTypes.updateFavorite:
+    case marketsTableActionTypes.updateFavorite:
       return tokenPairsEvents.tokenPairFavorited(
         payload.code,
         payload.favorite

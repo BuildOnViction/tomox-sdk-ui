@@ -20,6 +20,8 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
     currentBlock: selector.currentBlock,
     accountLoading: selector.accountLoading,
     locale: selector.locale,
+    currentPair: selector.currentPair,
+    pathname: selector.pathname,
   }
 }
 

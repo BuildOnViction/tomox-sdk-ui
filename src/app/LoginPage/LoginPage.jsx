@@ -113,7 +113,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     // go to wallet by default to update balances
     if (authenticated) {
       // check if there is no account balances then go to /wallet page
-      return <Redirect to="/wallet" />;
+      return <Redirect to="/markets" />;
     }
     return (
       <Wrapper>

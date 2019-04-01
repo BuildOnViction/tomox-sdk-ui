@@ -10,6 +10,12 @@ export default function getOHLCVModel(state: State) {
   return OHLCVModel(state.ohlcv)
 }
 
+export const resetOHLCVData = (): ThunkAction => {
+  return (dispatch) => {
+    dispatch(actionCreators.resetOHLCVData())
+  }
+}
+
 export const updateTimeLine = ({
   updateWRT,
 }: SendTimelineParams): ThunkAction => {
@@ -34,6 +40,7 @@ export const updateTimeSpan = (
   config: Object
 ): ThunkAction => {
   return (dispatch, getState, { socket }) => {
+    socket.unsubscribeChart()
     dispatch(actionCreators.saveTimeSpan(currentTimeSpan))
     dispatch(updateTimeLine(config))
 

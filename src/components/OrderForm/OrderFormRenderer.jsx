@@ -4,13 +4,10 @@ import styled from 'styled-components'
 import {
   Tabs,
   Tab,
-  Card,
   Button,
   InputGroup,
   Label,
   Colors,
-  Collapse,
-  Spinner,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
 
@@ -18,10 +15,6 @@ import type { SIDE } from '../../types/orderForm'
 
 import {
   MutedText,
-  RedGlowingButton,
-  GreenGlowingButton,
-  FlexRow,
-  Box,
 } from '../Common'
 
 type Props = {
@@ -29,12 +22,15 @@ type Props = {
   side: 'BUY' | 'SELL',
   fraction: number,
   priceType: string,
-  price: string,
+  buyPrice: string,
+  sellPrice: string,
   stopPrice: string,
   limitPrice: string,
-  amount: string,
+  buyAmount: string,
+  sellAmount: string,
   maxAmount: string,
-  total: string,
+  buyTotal: string,
+  sellTotal: string,
   makeFee: string,
   takeFee: string,
   baseTokenSymbol: string,
@@ -60,13 +56,16 @@ const OrderFormRenderer = (props: Props) => {
     side,
     fraction,
     priceType,
-    price,
+    buyPrice,
+    sellPrice,
     stopPrice,
     limitPrice,
-    isOpen,
-    amount,
-    maxAmount,
-    total,
+    buyAmount,
+    sellAmount,
+    buyMaxAmount,
+    sellMaxAmount,
+    buyTotal,
+    sellTotal,
     makeFee,
     takeFee,
     baseTokenSymbol,
@@ -74,60 +73,23 @@ const OrderFormRenderer = (props: Props) => {
     baseTokenDecimals,
     quoteTokenDecimals,
     loggedIn,
-    insufficientBalance,
+    insufficientBalanceToBuy,
+    insufficientBalanceToSell,
     pairIsAllowed,
     pairAllowanceIsPending,
     onInputChange,
     handleChangeOrderType,
     handleUnlockPair,
-    toggleCollapse,
     handleSendOrder,
-    handleSideChange,
   } = props
 
   return (
-    <Wrapper className="order-form">
-      <OrderFormHeader>
-        {/* <HeaderText text={`${side} ${baseTokenSymbol}`} /> */}
-        <ButtonRow>
-          <Button
-            text="BUY"
-            minimal
-            onClick={() => handleSideChange('BUY')}
-            active={side === 'BUY'}
-            intent="success"
-          />
-          <Button
-            text="SELL"
-            minimal
-            onClick={() => handleSideChange('SELL')}
-            active={side === 'SELL'}
-            intent="danger"
-          />
-        </ButtonRow>
-        <ButtonRow>
-          <Button
-            text="Limit"
-            minimal
-            onClick={() => handleChangeOrderType('limit')}
-            active={selectedTabId === 'limit'}
-            intent={selectedTabId === 'limit' ? 'primary' : ''}
-          />
-          <Button
-            text="Market"
-            disabled
-            minimal
-            onClick={() => handleChangeOrderType('market')}
-            active={selectedTabId === 'market'}
-            intent={selectedTabId === 'market' ? 'primary' : ''}
-          />
-          <Button icon={isOpen ? 'chevron-up' : 'chevron-down'} minimal onClick={toggleCollapse} />
-        </ButtonRow>
-      </OrderFormHeader>
-      <Collapse isOpen={isOpen}>
-        <Tabs selectedTabId={selectedTabId}>
+    <Tabs 
+        selectedTabId={selectedTabId} 
+        onChange={handleChangeOrderType}>
           <Tab
             id="limit"
+            title="Limit"
             panel={
               <LimitOrderPanel
                 loggedIn={loggedIn}
@@ -136,17 +98,22 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                buyPrice={buyPrice}
+                sellPrice={sellPrice}
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                buyAmount={buyAmount}
+                sellAmount={sellAmount}
+                buyMaxAmount={buyMaxAmount}
+                sellMaxAmount={sellMaxAmount}
+                buyTotal={buyTotal}
+                sellTotal={sellTotal}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                insufficientBalanceToBuy={insufficientBalanceToBuy}
+                insufficientBalanceToSell={insufficientBalanceToSell}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -157,6 +124,8 @@ const OrderFormRenderer = (props: Props) => {
           />
           <Tab
             id="market"
+            title="Market"
+            disabled="true"
             panel={
               <MarketOrderPanel
                 loggedIn={loggedIn}
@@ -165,17 +134,17 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                // price={price} //Todo: First step I resolve for only limit order
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                // amount={amount}
+                // maxAmount={maxAmount}
+                // total={total}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                // insufficientBalance={insufficientBalance}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -186,6 +155,8 @@ const OrderFormRenderer = (props: Props) => {
           />
           <Tab
             id="stop"
+            title="Stop-Limit"
+            disabled="true"
             panel={
               <StopLimitOrderPanel
                 loggedIn={loggedIn}
@@ -194,17 +165,17 @@ const OrderFormRenderer = (props: Props) => {
                 quoteTokenSymbol={quoteTokenSymbol}
                 fraction={fraction}
                 priceType={priceType}
-                price={price}
+                // price={price}
                 stopPrice={stopPrice}
                 limitPrice={limitPrice}
-                amount={amount}
-                maxAmount={maxAmount}
-                total={total}
+                // amount={amount}
+                // maxAmount={maxAmount}
+                // total={total}
                 makeFee={makeFee}
                 takeFee={takeFee}
                 baseTokenDecimals={baseTokenDecimals}
                 quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalance={insufficientBalance}
+                // insufficientBalance={insufficientBalance}
                 pairIsAllowed={pairIsAllowed}
                 pairAllowanceIsPending={pairAllowanceIsPending}
                 onInputChange={onInputChange}
@@ -214,154 +185,200 @@ const OrderFormRenderer = (props: Props) => {
             }
           />
         </Tabs>
-      </Collapse>
-    </Wrapper>
   )
 }
 
-const LimitOrderPanel = props => {
-  const {
-    price,
-    side,
-    amount,
-    maxAmount,
-    fraction,
-    total,
-    makeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    quoteTokenDecimals,
-    insufficientBalance,
-    // pairIsAllowed,
-    pairAllowanceIsPending,
-    onInputChange,
-    // handleUnlockPair,
-    handleSendOrder,
-  } = props
-
-  let ButtonElement
-
-  if (side === 'BUY') {
-    if (pairAllowanceIsPending) {
-      ButtonElement = (
-        <GreenGlowingButton
-          intent="success"
-          name="order"
-          disabled
-          fill
-        >
-          <FlexRow alignItems="center">
-            <Box px={2}>
-              <Spinner size={15} intent="success" />
-            </Box>
-            Pending
-          </FlexRow>
-        </GreenGlowingButton>
-      )
-    } else {
-      ButtonElement = (
-        <GreenGlowingButton
-          intent="success"
-          // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
-          text={ side }
-          name="order"
-          // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-          onClick={ handleSendOrder }
-          disabled={insufficientBalance}
-          fill
-        />
-      )
-    }
-  } else if (pairAllowanceIsPending) {
-    ButtonElement = (
-      <RedGlowingButton
-        intent="danger"
-        name="order"
-        disabled
-        fill
-      >
-        <FlexRow alignItems="center">
-          <Box px={2}>
-            <Spinner size={15} intent="danger" />
-          </Box>
-          Pending
-        </FlexRow>
-      </RedGlowingButton>
-    )
-  } else {
-    ButtonElement = (
-      <RedGlowingButton
-        intent="danger"
-        // text={pairIsAllowed ? side : `Unlock ${baseTokenSymbol}/${quoteTokenSymbol}`}
-        text={ side }
-        name="order"
-        // onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-        onClick={ handleSendOrder }
-        disabled={insufficientBalance}
-        fill
-      />
-    )
-  }
+const FractionList = (props) => {
+  const { side, fraction, onInputChange } = props
 
   return (
-    <React.Fragment>
-      <InputBox>
-        <InputLabel>
-          Price <MutedText>({quoteTokenSymbol})</MutedText>
-        </InputLabel>
-        <PriceInputGroup
-          name="price"
-          onChange={onInputChange}
-          value={price}
-          placeholder="Price"
-        />
-      </InputBox>
-      <InputBox>
-        <InputLabel>
-          Amount <MutedText>({baseTokenSymbol})</MutedText>
-        </InputLabel>
-        <PriceInputGroup
-          name="amount"
-          onChange={onInputChange}
-          value={amount}
-          placeholder="Amount"
-          rightElement={
-            <Total>
-              Total: ~{total} {quoteTokenSymbol}
-            </Total>
-          }
-        />
-      </InputBox>
+    <FractionListBox>
       <RadioButtonsWrapper>
         <RadioButton
           value={25}
           fraction={fraction}
-          onInputChange={onInputChange}
+          onInputChange={(e) => onInputChange(side, e)}
         />
         <RadioButton
           value={50}
           fraction={fraction}
-          onInputChange={onInputChange}
+          onInputChange={(e) => onInputChange(side, e)}
         />
         <RadioButton
           value={75}
           fraction={fraction}
-          onInputChange={onInputChange}
+          onInputChange={(e) => onInputChange(side, e)}
         />
         <RadioButton
           value={100}
           fraction={fraction}
-          onInputChange={onInputChange}
+          onInputChange={(e) => onInputChange(side, e)}
         />
       </RadioButtonsWrapper>
+    </FractionListBox>  
+  )
+}
 
-      {total && <MaxAmount>Total: ~{total} {quoteTokenSymbol}</MaxAmount>}
-      {maxAmount && <MaxAmount>Max: ~{maxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
+const BuyLimitOrderPanel = (props) => {
+  const {
+    buyPrice,
+    side,
+    buyAmount,
+    buyMaxAmount,
+    fraction,
+    buyTotal,
+    makeFee,
+    baseTokenSymbol,
+    quoteTokenSymbol,
+    quoteTokenDecimals,
+    insufficientBalanceToBuy,
+    onInputChange,
+    handleSendOrder,
+  } = props
 
-      {ButtonElement}
+  return (
+    <BuyLimitOrderContainer>
+      <HeaderRow>
+        <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
+        <DecreaseToken>{`-${quoteTokenSymbol}`}</DecreaseToken>
+      </HeaderRow>
+      <InputBox>
+        <InputLabel>
+          Price:
+        </InputLabel>
+        <PriceInputGroup
+          name="price"
+          onChange={(e) => onInputChange('BUY', e)}
+          value={buyPrice}
+        />
+      </InputBox>
+      <InputBox>
+        <InputLabel>
+          Amount:
+        </InputLabel>
+        <PriceInputGroup
+          name="amount"
+          onChange={(e) => onInputChange('BUY', e)}
+          value={buyAmount}
+        />
+      </InputBox>
+      <FractionList 
+        side="BUY"
+        fraction={fraction}
+        onInputChange={onInputChange} 
+        />
 
-    </React.Fragment>
+      <InputBox>
+        <InputLabel>
+          Total:
+        </InputLabel>
+        <PriceInputGroup
+          name="buy-total"
+          readOnly
+          // onChange={(e) => onInputChange('BUY', e)}
+          value={buyTotal}
+        />
+      </InputBox>
+
+      {/* {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
+      {buyMaxAmount && <MaxAmount>Max: ~{buyMaxAmount} {baseTokenSymbol}</MaxAmount>}
+      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
+      <BuyButton
+        intent="success"
+        text="Buy"
+        name="order"
+        onClick={() => handleSendOrder('BUY')}
+        disabled={insufficientBalanceToBuy}
+        fill
+      />
+    </BuyLimitOrderContainer>
+  )
+}
+
+const SellLimitOrderPanel = (props) => {
+  const {
+    sellPrice,
+    side,
+    sellAmount,
+    sellMaxAmount,
+    fraction,
+    sellTotal,
+    makeFee,
+    baseTokenSymbol,
+    quoteTokenSymbol,
+    quoteTokenDecimals,
+    insufficientBalanceToSell,
+    onInputChange,
+    handleSendOrder,
+  } = props
+
+  return (
+    <SellLimitOrderContainer>
+      <HeaderRow>
+        <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
+        <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken>
+      </HeaderRow>
+      <InputBox>
+        <InputLabel>
+          Price:
+        </InputLabel>
+        <PriceInputGroup
+          name="price"
+          onChange={(e) => onInputChange('SELL', e)}
+          value={sellPrice}
+        />
+
+      </InputBox>
+      <InputBox>
+        <InputLabel>
+          Amount:
+        </InputLabel>
+        <PriceInputGroup
+          name="amount"
+          onChange={(e) => onInputChange('SELL', e)}
+          value={sellAmount}
+        />
+      </InputBox>
+      <FractionList 
+        side="SELL"
+        fraction={fraction}
+        onInputChange={onInputChange} 
+        />
+
+      {/* {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
+      {sellMaxAmount && <MaxAmount>Max: ~{sellMaxAmount} {baseTokenSymbol}</MaxAmount>}
+      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
+      
+      <InputBox>
+        <InputLabel>
+          Total:
+        </InputLabel>
+        <PriceInputGroup
+          name="sell-total"
+          readOnly
+          // onChange={(e) => onInputChange('SELL', e)}
+          value={sellTotal}
+        />
+      </InputBox>
+      
+      <SellButton
+        intent="danger"
+        text="Sell"
+        name="order"
+        onClick={() => handleSendOrder('SELL')}
+        disabled={insufficientBalanceToSell}
+        fill
+      />
+    </SellLimitOrderContainer>
+  )
+}
+
+const LimitOrderPanel = props => {
+  return (
+    <OrderWrapper>
+      <BuyLimitOrderPanel {...props} />
+      <SellLimitOrderPanel {...props} />
+    </OrderWrapper>
   )
 }
 
@@ -546,50 +563,44 @@ const RadioButton = props => {
   )
 }
 
-const OrderFormHeader = styled.div`
+const FractionListBox = styled.div.attrs({
+  className: 'clearfix',
+})``
+
+const RadioButtonsWrapper = styled.div`
+  width: calc(100% - 60px);
+  float: right;
   display: flex;
   justify-content: space-between;
 `
 
-const Wrapper = styled(Card)`
-  min-width: 240px;
-`
-
-const ButtonRow = styled.span`
-  display: flex;
-  justify-content: flex-end;
-  & .bp3-button {
-    margin-left: 5px;
-  }
-`
-const RadioButtonsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 5px;
-`
-
 const RadioButtonBox = styled(Label)`
-  width: 45px;
-  height: 30px;
-  display: flex;
-  margin-left: 10px;
-  margin-bottom: 16px;
-  background: #27343d;
+  min-width: 35px;
+  width: 15%;
+  padding: 5px 0;
   text-align: center;
-  padding: 8px 0;
-  justify-content: center;
   cursor: pointer;
-  border: 1px solid #2584c1;
-  box-shadow: none;
-  border-radius: 3px;
-  input {
+  input.bp3-input {
     opacity: 0;
     width: 0px;
+    height: 0;
     margin: 0px;
   }
   .bp3-input-group {
     width: 0px;
+    height: 0;
+  }
+  &:first-child {
+    text-align: left;
+  }
+  &:last-child {
+    text-align: right;
+  }
+  span {
+    height: 17px;
+  }
+  &:hover span {
+    color: #fff;
   }
 `
 
@@ -605,8 +616,9 @@ const InputBox = styled.div`
 
 const InputLabel = styled.div`
   height: 100%;
+  width: 60px;
   margin: auto;
-  width: 180px;
+  margin-right: 10px;
 `
 
 const Total = styled.div`
@@ -624,3 +636,37 @@ const MaxAmount = styled.div`
   justify-content: flex-end;
   padding-bottom: 5px;
   `
+
+const OrderWrapper = styled.div.attrs({
+  className: 'order-wrapper'
+})``
+
+const BuyLimitOrderContainer = styled.div.attrs({
+  className: 'buy-side',
+})``
+
+const SellLimitOrderContainer = styled.div.attrs({
+  className: 'sell-side',
+})``
+
+const HeaderRow = styled.div.attrs({
+  className: 'header',
+})`
+  margin-bottom: 10px;
+`
+
+const BaseToken = styled.span.attrs({
+  className: 'base-token',
+})``
+
+const DecreaseToken = styled.span.attrs({
+  className: 'decrease-token',
+})``
+
+const BuyButton = styled(Button).attrs({
+  className: "buy-btn",
+})``
+
+const SellButton = styled(Button).attrs({
+  className: "sell-btn",
+})``
