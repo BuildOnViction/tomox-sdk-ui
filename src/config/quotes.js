@@ -15,7 +15,7 @@ const quoteTokensTable = {
 let quoteTokensBySymbolsTable = {
   [DEFAULT_NETWORK_ID]: {}
 }
-export const quoteSymbolTokens = ['BTC', 'ETH', 'USDT', 'TOMO']
+export const quoteSymbolTokens = ['BTC', 'ETH', 'USDT', 'TOMO', 'TOMOS']
 for (let token of quoteSymbolTokens) {
   const tokenData = {
     symbol: token,
