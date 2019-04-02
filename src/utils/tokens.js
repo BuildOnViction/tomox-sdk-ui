@@ -15,7 +15,7 @@ export const getQuoteToken = pairSymbol => {
 export const generateTokenPairs = (quoteTokens, tokens) => {
   const tokenPairs = {}
   tokens.forEach(token => {
-    if (token.symbol === NATIVE_TOKEN_SYMBOL) return
+    // if (token.symbol === NATIVE_TOKEN_SYMBOL) return
     quoteTokens.forEach(quoteToken => {
       if (token.symbol !== quoteToken.symbol) {
         const pairSymbol = getPairSymbol(token.symbol, quoteToken.symbol)
