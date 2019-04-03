@@ -1,6 +1,6 @@
 // @flow
 import type { State, ThunkAction } from '../../types';
-import { getTokenPairsDomain, getAccountBalancesDomain } from '../domains';
+import { getTokenPairsDomain, getAccountBalancesDomain, getOhlcvDomain } from '../domains';
 import * as actionCreators from '../actions/tokenSearcher';
 // import * as ohlcvActionCreators from '../actions/ohlcv';
 
@@ -50,15 +50,22 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       socket.unsubscribeOrderBook();
       socket.unsubscribeTrades();
 
-      let state = getState();
+      const state = getState();
       dispatch(actionCreators.updateCurrentPair(pair));
 
-      let pairDomain = getTokenPairsDomain(state);
-      let newPair = pairDomain.getPair(pair);
+      const pairDomain = getTokenPairsDomain(state);
+      const ohlcvDomain = getOhlcvDomain(state)
+
+      const newPair = pairDomain.getPair(pair);
+      const { currentTimeSpan, currentDuration  } = ohlcvDomain.getState()
 
       socket.subscribeTrades(newPair);
       socket.subscribeOrderBook(newPair);
-      socket.subscribeChart(newPair);
+      socket.subscribeChart(
+        newPair,
+        currentTimeSpan.label,
+        currentDuration.label
+      );
     } catch (e) {
       console.log(e);
     }

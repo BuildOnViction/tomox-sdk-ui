@@ -4,11 +4,11 @@ import {
   Tabs,
   Tab,
   InputGroup,
+  Classes,
 } from '@blueprintjs/core'
 import {
   Theme,
   Centered,
-  Chevron,
   OverlaySpinner,
   DarkMode,
   UtilityIcon,
@@ -199,15 +199,15 @@ const TokenRow = ({
   return (
     <Row>
       <Cell width="5%" onClick={() => updateFavorite(pair, !favorited)}>
-        <UtilityIcon name={favorited ? "Favorite-Solid" : "Favorite"} size={12} />
+        <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
       </Cell>
-      <Cell width="30%" onClick={() => changeSelectedToken(token)}>
+      <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {pair}
       </Cell>
-      <Cell width="30%" onClick={() => changeSelectedToken(token)}>
+      <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {lastPrice}
       </Cell>
-      <Change24H width="35%" change={change} onClick={() => changeSelectedToken(token)}>
+      <Change24H width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {change}%
       </Change24H>
     </Row>
@@ -230,23 +230,22 @@ const Header = ({
   return (
       <HeaderRow>
         <Cell width="5%">&nbsp;</Cell>
-        <Cell width="30%" onClick={onChangeFilterName}>
-          Pair
-        </Cell>
-        <Cell width="30%" onClick={onChangeFilterName}>
-          Last Price
-          {filterName === 'lastPrice' && (
-            <span className="icon">
-              <Chevron direction={sortOrder} />
-            </span>
+        <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
+          <CellTitle data-filter="pair">Pair</CellTitle>
+          {filterName === 'pair' && (
+            <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell width="35%" onClick={onChangeFilterName}>
-          24h Change
+        <Cell data-filter="lastPrice" width="30%" onClick={onChangeFilterName}>
+          <CellTitle data-filter="lastPrice">Last Price</CellTitle>
+          {filterName === 'lastPrice' && (
+            <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+          )}
+        </Cell>
+        <Cell data-filter="change" width="35%" onClick={onChangeFilterName}>
+          <CellTitle data-filter="change">24h Change</CellTitle>
           {filterName === 'change' && (
-            <span className="icon">
-              <Chevron direction={sortOrder} />
-            </span>
+            <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
       </HeaderRow>
@@ -299,6 +298,10 @@ const Cell = styled.div`
   align-items: center;
   justify-content: ${({align}) => align || 'flex-start'}
   flex-grow: ${({flexGrow}) => flexGrow || 0}
+`
+
+const CellTitle = styled.span`
+  margin-right: 5px;
 `
 
 const TokenSearchTabs = styled(Tabs)`
