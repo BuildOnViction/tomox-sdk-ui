@@ -109,7 +109,7 @@ export const fetchTomoBalance = async (address: string) => {
 
     return {
       symbol: NATIVE_TOKEN_SYMBOL,
-      balance: utils.formatEther(utils.hexlify(balance)),
+      balance: utils.formatEther(utils.bigNumberify(balance)),
     }
   } catch(e) {
     throw new Error(e)
@@ -128,10 +128,8 @@ export const fetchTokenBalances = async (address: string, tokens: Array<Token>) 
     responses.map(async response => {
       const balanceData = await response.json()
       const { data: {symbol, balance} } = balanceData
-      // Workaround issue when balance get from backend server too large, and 
-      // JavaScript auto convert it to scientific numbers example 1e+21
-      // Note: balance from blockchain is hexa not int
-      balances.push({ symbol, balance: utils.formatEther(utils.hexlify(balance)) })
+
+      balances.push({ symbol, balance: utils.formatEther(utils.bigNumberify(balance)) })
     })
     return balances
   } catch(e) {

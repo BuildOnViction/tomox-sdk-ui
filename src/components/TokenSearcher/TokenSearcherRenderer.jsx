@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import {
-  Icon,
   Tabs,
   Tab,
   InputGroup,
@@ -12,9 +11,9 @@ import {
   Chevron,
   OverlaySpinner,
   DarkMode,
+  UtilityIcon,
 } from '../Common'
 import styled from 'styled-components'
-import { ResizableBox } from 'react-resizable'
 
 type Token = {
   pair: string,
@@ -46,7 +45,6 @@ type Props = {
   onChangeSearchFilter: (SyntheticInputEvent<>) => void,
   onChangeFilterName: (SyntheticInputEvent<>) => void,
   changeSelectedToken: Token => void,
-  toggleCollapse: () => void
 }
 
 const TokenSearchRenderer = (props: Props) => {
@@ -82,7 +80,7 @@ const TokenSearchRenderer = (props: Props) => {
           <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
             <Tab
               id="star"
-              title={<Icon icon="star" />}
+              title={<UtilityIcon name="Favorite" size={12} />}
               panel={
                 <Panel
                   tokenPairs={filteredPairs.favorites}
@@ -200,11 +198,8 @@ const TokenRow = ({
 
   return (
     <Row>
-      <Cell width="5%">
-        <Icon
-          icon={favorited ? 'star' : 'star-empty'}
-          onClick={() => updateFavorite(pair, !favorited)}
-        />
+      <Cell width="5%" onClick={() => updateFavorite(pair, !favorited)}>
+        <UtilityIcon name={favorited ? "Favorite-Solid" : "Favorite"} size={12} />
       </Cell>
       <Cell width="30%" onClick={() => changeSelectedToken(token)}>
         {pair}
@@ -291,6 +286,10 @@ const Row = styled.div.attrs({
   height: 35px;
   cursor: pointer;
   padding: 0 10px;
+
+  &:hover {
+    background: ${DarkMode.LIGHT_BLUE};
+  }
 `
 
 const Cell = styled.div`
@@ -329,6 +328,9 @@ const SearchInput = styled(InputGroup)`
 const HeaderRow = styled(Row)`
   font-size: ${Theme.FONT_SIZE_SM};
   border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
+  &:hover {
+    background: initial;
+  }
 `
 
 const Change24H = styled(Cell)`
