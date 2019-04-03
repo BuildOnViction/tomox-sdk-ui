@@ -52,6 +52,10 @@ class Layout extends React.PureComponent<Props, State> {
     this.props.changeLocale && this.props.changeLocale(locale)
   }
 
+  isTradingPage = (pathname: string) => {
+    return pathname.includes('/trade')
+  }
+
   handleThemeChange = () => {
 
   }
@@ -74,7 +78,7 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper className={pathname === "/trade" ? "exchange-page" : ""}>
+      <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
         <Header className="tm-header">
           <Navbar>
@@ -83,7 +87,7 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarHeading>
 
             <NavbarGroup align={Alignment.LEFT}>
-            {(pathname === '/trade') && (
+            {this.isTradingPage(pathname) && (
               <TokenInfo className="token-info">
                 {currentPair && (
                   <Popover
@@ -187,7 +191,7 @@ class Layout extends React.PureComponent<Props, State> {
           <Sidebar className="sidebar"> 
             <NavLink className="sidebar-item markets-link" to="/markets">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Markets" 
                   position={Position.RIGHT}
@@ -197,9 +201,9 @@ class Layout extends React.PureComponent<Props, State> {
                 <SidebarItemTitle>Markets</SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>  
-            <NavLink className="sidebar-item exchange-link" to="/trade">
+            <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Exchange" 
                   position={Position.RIGHT}
@@ -211,7 +215,7 @@ class Layout extends React.PureComponent<Props, State> {
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Portfolio" 
                   position={Position.RIGHT}
@@ -223,7 +227,7 @@ class Layout extends React.PureComponent<Props, State> {
               </NavLink>                      
             <NavLink className="sidebar-item docs-faq-link" to="/settings">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Docs/FAQ" 
                   position={Position.RIGHT}
