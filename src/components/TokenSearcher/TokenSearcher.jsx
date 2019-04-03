@@ -70,21 +70,22 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   };
 
   onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
-    let value = target.className;
-    const { filterName, orderChanged } = this.state;
+    const {dataset: { filter }} = target
+    const { filterName, orderChanged } = this.state
+    console.log(target, '==================')
 
-    if (value === filterName && !orderChanged) {
+    if (filter === filterName && !orderChanged) {
       this.setState({
-        filterName: value,
+        filterName: filter,
         sortOrder: 'desc',
         orderChanged: true,
-      });
+      })
     } else {
       this.setState({
-        filterName: value,
+        filterName: filter,
         sortOrder: 'asc',
         orderChanged: false,
-      });
+      })
     }
   };
 
@@ -103,7 +104,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
 
     for (let quote of Object.keys(tokenPairsByQuoteToken)) {
       result[quote] = tokenPairsByQuoteToken[quote].filter(pairObj => {
-        return pairObj.pair.indexOf(searchFilter.toUpperCase()) > -1;
+        return pairObj.pair.indexOf(searchFilter.toUpperCase()) > -1
       })
 
       result['favorites'] = result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pairObj => { 

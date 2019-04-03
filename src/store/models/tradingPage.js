@@ -87,7 +87,6 @@ export const queryTradingPageData = (): ThunkAction => {
 
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
       dispatch(actionCreators.initOrdersTable(orders))
-
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
       socket.subscribeChart(
