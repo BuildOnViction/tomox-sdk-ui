@@ -6,6 +6,7 @@ import type {
   UpdateAccountBalanceAction,
   UpdateTokenPairsAction,
   UpdateExchangeAddressAction,
+  UpdateCurrentPairAction,
 } from "../../types/accountInit"
 import type { TokenPairs } from "../../types/tokens"
 
@@ -23,6 +24,7 @@ const actionTypes = {
   updateAllowances: "accountInit/UPDATE_ALLOWANCES",
   updateTokenPairs: "accountInit/UPDATE_TOKEN_PAIRS",
   updateExchangeAddress: "accountInit/UPDATE_EXCHANGE_ADDRESS",
+  updateCurrentPair: 'accountInit/UPDATE_CURRENT_PAIR',
 }
 
 export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
@@ -74,6 +76,13 @@ export function updateExchangeAddress(
   return {
     type: actionTypes.updateExchangeAddress,
     payload: { exchangeAddress }
+  }
+}
+
+export function updateCurrentPair(pair: string): UpdateCurrentPairAction {
+  return {
+    type: actionTypes.updateCurrentPair,
+    payload: { pair },
   }
 }
 

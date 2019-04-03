@@ -83,7 +83,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.isConnected || !this.props.isConnected) {
+    if (!this.props.isConnected
+      || this.props.currentPairName === prevProps.currentPairName) {
       return
     }
 
@@ -98,7 +99,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol
+      quoteTokenSymbol,
     } = this.props
 
     if (!authenticated) {

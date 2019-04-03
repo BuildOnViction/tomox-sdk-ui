@@ -285,6 +285,7 @@ export const tokenPairs = createReducerPersist({
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
+    case accountInitActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
@@ -304,11 +305,10 @@ export const tokenPairs = createReducerPersist({
     case tokenSearcherActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tradingPageActionTypes.updateTokenPairData:
+    case marketsPageActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case marketsTableActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case marketsPageActionTypes.updateTokenPairData:
-      return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     default:
       return tokenPairsEvents.initialized()
   }

@@ -46,7 +46,9 @@ export function queryAccountData(): ThunkAction {
       // )
 
       const balances = [tomoBalance].concat(tokenBalances)
+      const tokenPairData = await api.fetchTokenPairData()
 
+      dispatch(actionCreators.updateCurrentPair(tokenPairData[0].pair.pairName))
       dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
       dispatch(actionCreators.updateTokenPairs(pairs))
       dispatch(actionCreators.updateBalances(balances))

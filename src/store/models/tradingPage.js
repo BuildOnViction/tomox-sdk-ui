@@ -27,6 +27,7 @@ export default function tradingPageSelector(state: State) {
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
+    pair,
     makeFee,
     takeFee,
     baseTokenSymbol,
@@ -44,6 +45,7 @@ export default function tradingPageSelector(state: State) {
   )
 
   return {
+    currentPairName: pair,
     makeFee,
     takeFee,
     authenticated,
