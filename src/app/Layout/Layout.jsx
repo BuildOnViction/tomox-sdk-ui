@@ -89,6 +89,7 @@ class Layout extends React.PureComponent<Props, State> {
                   <Popover
                     content={<TokenSearcher />}
                     position={Position.BOTTOM_LEFT}
+                    isOpen={true}
                     minimal>
                     <div className="tokens-dropdown">
                       <span>{currentPair.pair}</span> 
