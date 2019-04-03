@@ -66,7 +66,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   }
 
   onChangeSearchFilter = ({ target }: SyntheticInputEvent<>) => {
-    this.setState({ searchFilter: target.value });
+    this.setState({ searchFilter: target.value })
   };
 
   onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
@@ -92,30 +92,31 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     this.setState({ sortOrder: value });
   };
 
-  toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  };
-
   changeTab = (tabId: string) => {
     this.setState({ selectedTabId: tabId });
   };
 
   filterTokens = () => {
-    let result = { favorites: [] };
-    const { tokenPairsByQuoteToken } = this.props;
-    const { searchFilter, filterName, sortOrder } = this.state;
+    let result = { favorites: [] }
+    const { tokenPairsByQuoteToken } = this.props
+    const { searchFilter, filterName, sortOrder } = this.state
 
     for (let quote of Object.keys(tokenPairsByQuoteToken)) {
-      result[quote] = tokenPairsByQuoteToken[quote].filter(pair => {
-        return pair.base.indexOf(searchFilter.toUpperCase()) > -1;
-      });
+      result[quote] = tokenPairsByQuoteToken[quote].filter(pairObj => {
+        return pairObj.pair.indexOf(searchFilter.toUpperCase()) > -1;
+      })
+
+      result['favorites'] = result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pairObj => { 
+        return pairObj.favorited && pairObj.pair.includes(searchFilter.toUpperCase())
+      }))
 
       result['favorites'] = sortTable(
-        result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pair => pair.favorited)),
+        result['favorites'],
         filterName,
         sortOrder
-      );
-      result[quote] = sortTable(result[quote], filterName, sortOrder);
+      )
+
+      result[quote] = sortTable(result[quote], filterName, sortOrder)
     }
 
     return result;
@@ -134,7 +135,6 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       onChangeFilterName,
       onChangeSortOrder,
       changeTab,
-      toggleCollapse,
       changeSelectedToken,
     } = this;
 
@@ -162,7 +162,6 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         onChangeFilterName={onChangeFilterName}
         onChangeSortOrder={onChangeSortOrder}
         changeTab={changeTab}
-        toggleCollapse={toggleCollapse}
         changeSelectedToken={changeSelectedToken}
       />
     );

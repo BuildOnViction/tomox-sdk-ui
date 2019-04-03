@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import {
-  Icon,
   Tabs,
   Tab,
   InputGroup,
