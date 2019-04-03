@@ -294,7 +294,15 @@ const MainContent = styled.main`
   }
 `
 
-const TokenInfo = styled.div``
+const TokenInfo = styled.div`
+  .arrow {
+    transition: transform .5s ease;
+  }
+
+  .bp3-popover-open .arrow {
+    transform: rotate(180deg);
+  }
+`
 
 const TokenTick = styled.div``
 
