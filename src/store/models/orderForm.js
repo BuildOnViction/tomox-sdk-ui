@@ -36,8 +36,6 @@ export default function getOrderFormSelector(state: State) {
     quoteTokenDecimals,
   } = currentPair
 
-  const askPrice = orderBookDomain.getAskPrice()
-  const bidPrice = orderBookDomain.getBidPrice()
   const selectedOrder = orderBookDomain.getSelectedOrder()
 
   const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
@@ -58,8 +56,6 @@ export default function getOrderFormSelector(state: State) {
     quoteTokenBalance,
     baseTokenDecimals,
     quoteTokenDecimals,
-    askPrice,
-    bidPrice,
     makeFee,
     takeFee,
     pairIsAllowed,

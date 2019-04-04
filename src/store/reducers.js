@@ -25,6 +25,7 @@ import appActionTypes from './actions/app'
 import layoutActionTypes from './actions/layout'
 import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
+import orderBookActionTypes from './actions/orderBook'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -232,6 +233,8 @@ export const trades = createReducer(action => {
 export const orderBook = createReducer(action => {
   const { type, payload } = action
   switch (type) {
+    case orderBookActionTypes.select:
+      return orderBookEvents.selected(payload.order)
     case tradingPageActionTypes.updateOrderBook:
     case tokenSearcherActionTypes.updateOrderBook:
     case socketControllerActionTypes.updateOrderBook:

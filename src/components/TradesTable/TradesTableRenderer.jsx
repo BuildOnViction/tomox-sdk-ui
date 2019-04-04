@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
-import { Loading, CenteredMessage } from '../Common';
+import { Loading, CenteredMessage, DarkMode } from '../Common';
 import { formatDate } from '../../utils/helpers';
 
 import type { Trade } from '../../types/trades';
@@ -100,6 +100,7 @@ const HeadingRow = styled.li.attrs({
   flex-direction: row;
   margin-bottom: 10px;
   justify-content: space-between;
+  padding-right: 10px;
 `
 
 const Row = styled.li.attrs({
@@ -109,7 +110,11 @@ const Row = styled.li.attrs({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5px 0 !important;
+  padding: 3.5px 10px 3.5px 0 !important;
+
+  &:hover {
+    background-color: ${DarkMode.BLACK};
+  }
 `
 
 const Cell = styled.span`

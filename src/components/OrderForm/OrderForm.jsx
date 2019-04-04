@@ -68,12 +68,33 @@ class OrderForm extends React.PureComponent<Props, State> {
     sellTotal: '0.0',
   }
 
-  componentDidMount() {
-    const { side, askPrice, bidPrice } = this.props
+  componentDidUpdate(prevProps) {
+    const prevSelectedOrder = prevProps.selectedOrder
+    const currSelectedOrder = this.props.selectedOrder
 
-    side === 'BUY'
-      ? this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
-      : this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
+    if (!currSelectedOrder) return
+
+    if (prevSelectedOrder 
+      && currSelectedOrder.price !== prevSelectedOrder.price) {
+      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+
+      this.setOrderFormPrice(price)
+    } else if (!prevSelectedOrder) {
+      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+
+      this.setOrderFormPrice(price)
+    }    
+  }
+
+  setOrderFormPrice(price) {
+    this.setState({ 
+      buyPrice: price, 
+      sellPrice: price,
+      buyAmount: '0.0',
+      sellAmount: '0.0',
+      buyTotal: '0.0',
+      sellTotal: '0.0',
+    })
   }
 
   onInputChange = (side: SIDE = 'BUY', { target }: Object) => {
@@ -293,10 +314,6 @@ class OrderForm extends React.PureComponent<Props, State> {
     } else if (tabId === 'market') {
       this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
     }
-  }
-
-  toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }))
   }
 
   render() {

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, Colors } from '../Common'
-import { Popover, Card, Position, AbstractPureComponent } from '@blueprintjs/core'
+import { Loading, Colors, DarkMode } from '../Common'
+import { Popover, Position } from '@blueprintjs/core'
 
 type BidOrAsk = {
   price: number,
@@ -53,7 +53,12 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { bids, asks, latestTrade } = this.props
+    const { 
+      bids, 
+      asks, 
+      onSelect,
+      latestTrade,
+    } = this.props
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
@@ -91,7 +96,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             {asks && (
               <List className="bp3-list-unstyled list list-sell" id="list-sell">
                 {asks.map((order, index) => (
-                  <SellOrder key={index} index={index} order={order} />
+                  <SellOrder key={index} index={index} order={order} onClick={() => onSelect(order)} />
                 ))}
               </List>
             )}
@@ -100,7 +105,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               <LatestTick className="latest-tick">
                 <LatestPrice className="latest-price" width="67%">
                   <CryptoPrice className="crypto">{latestTrade.price}</CryptoPrice>
-                  <CashPrice className="cash">$_.__</CashPrice>
+                  <CashPrice className="cash">$_.__</CashPrice> 
                 </LatestPrice>
                 {
                   (Number(latestTrade.percent) === 0) 
@@ -117,7 +122,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             {bids && (
               <List className="bp3-list-unstyled list list-buy" id="list-buy">
                 {bids.map((order, index) => (
-                  <BuyOrder key={index} index={index} order={order} />
+                  <BuyOrder key={index} index={index} order={order} onClick={() => onSelect(order)}/>
                 ))}
               </List>
             )}
@@ -134,9 +139,9 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order } = props
+  const { order, onClick } = props
   return (
-    <Row>
+    <Row onClick={onClick}>
       <BuyRowBackground amount={order.relativeTotal} />
       <Cell className="up" width="33%">{order.price}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
@@ -146,9 +151,9 @@ const BuyOrder = (props: SingleOrderProps) => {
 }
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, index } = props
+  const { order, onClick } = props
   return (
-    <Row key={index}>
+    <Row onClick={onClick}>
       <SellRowBackGround amount={order.relativeTotal} />
       <Cell className="down" width="33%">{order.price}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
@@ -160,22 +165,28 @@ const SellOrder = (props: SingleOrderProps) => {
 const Wrapper = styled.div`
   height: 100%;
 `
-const OrderBookHeader = styled.div``
+const OrderBookHeader = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 16px;
+  margin-bottom: 4px;
+  padding-left: 10px;
+`
 const Title = styled.div``
 const FilterList = styled.div``
 const FilterSell = styled.div``
 const FilterAll = styled.div``
 const FilterBuy = styled.div``
 
-const OrderBookContent = styled.div.attrs({})`
+const OrderBookContent = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
 `
-const ListContainer = styled.div`
-  width: 100%;
-`
+
 const List = styled.ul`
   overflow-y: auto;
 `
@@ -190,17 +201,10 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 3.5px 0 !important;
+  padding: 3.5px 0 3.5px 10px !important;
 
   &:hover {
-    background-color: ${Colors.BLUE_MUTED};
-    position: relative;
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 0 1px rgb(49, 64, 76),
-      -1px 10px 4px rgba(16, 22, 26, 0.1), 1px 18px 24px rgba(16, 22, 26, 0.2);
-    box-shadow: inset 0 0 0 1px rgb(49, 64, 76),
-      -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
-    z-index: 1;
+    background-color: ${DarkMode.BLACK};
   }
 `
 
@@ -243,6 +247,7 @@ const HeaderRow = styled.li`
   justify-content: space-between;
   margin: 0px !important;
   padding-bottom: 10px;
+  padding-left: 10px;
   width: 100%;
 `
 
@@ -250,7 +255,15 @@ const HeaderCell = styled.span`
   width: ${props => props.width? props.width : "35px"}
 `
 
-const LatestTick = styled.div``
+const LatestTick = styled.div`
+  flex-grow: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 30px;
+  padding-left: 10px;
+  background: ${DarkMode.BLACK};
+`
 const LatestPrice = styled.div`
   width: ${props => props.width? props.width : "70px"}
 `
