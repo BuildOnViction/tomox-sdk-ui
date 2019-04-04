@@ -2,6 +2,7 @@
 import React from 'react'
 import OrderListRenderer from './OrderBookRenderer'
 import type { TokenPair, Trade } from '../../types/tokens'
+import { pricePrecision, pricePrecisionsList } from '../../config/tokens'
 
 type BidOrAsk = {
   price: number,
@@ -17,20 +18,44 @@ type Props = {
   latestTrade: Trade,
 };
 
+type State = {
+  pricePrecision: number
+}
+
 class OrderBook extends React.Component<Props, State> {
+  state = {
+    pricePrecision,
+  }
+
+  handleChangePricePrecision = (precision) => {
+    this.setState({
+      pricePrecision: precision.value,
+    })
+  }
+
   render() {
-    const { 
-      bids, 
-      asks,
-      select,
-      latestTrade,
-    } = this.props
+    const {
+      props: { 
+        bids, 
+        asks,
+        select,
+        latestTrade,
+      },
+      state: { 
+        pricePrecision,
+      },
+      handleChangePricePrecision,
+    }
+    = this
 
     return (
       <OrderListRenderer 
         bids={bids} 
         asks={asks.reverse()} 
-        onSelect={select} 
+        onSelect={select}
+        pricePrecisionsList={pricePrecisionsList}
+        pricePrecision={pricePrecision}
+        onChangePricePrecision={handleChangePricePrecision}
         latestTrade={latestTrade} />
     )
   }

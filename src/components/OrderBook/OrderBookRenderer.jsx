@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, Colors, DarkMode } from '../Common'
-import { Popover, Position } from '@blueprintjs/core'
+import { Loading, Colors, DarkMode, Theme } from '../Common'
+import { formatNumber } from 'accounting-js'
+import { Select } from "@blueprintjs/select"
 
 type BidOrAsk = {
   price: number,
@@ -14,6 +15,12 @@ type Props = {
   bids: Array<BidOrAsk>,
   asks: Array<BidOrAsk>
 };
+
+type PricePrecision = {
+  title: string,
+  value: number,
+  rank: number,
+}
 
 export class OrderBookRenderer extends React.PureComponent<Props> {
   state = {
@@ -58,21 +65,21 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       asks, 
       onSelect,
       latestTrade,
+      pricePrecisionsList,
+      pricePrecision,
+      onChangePricePrecision,
     } = this.props
+
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
           <Title className="title">Orderbook</Title>
 
-          <Popover
-            content={'todo: decimals list'}
-            position={Position.BOTTOM_RIGHT}
-            minimal>
-            <div className="decimals-dropdown">
-              <span>7 decimals</span> 
-              <span className="arrow-down"></span>
-            </div>
-          </Popover>
+          <PricePrecisionsDropdown 
+            pricePrecisionsList={pricePrecisionsList}
+            onChangePricePrecision={onChangePricePrecision}
+            pricePrecision={pricePrecision}
+             />
 
           <FilterList className="filter-list">
             <FilterSell className="filter filter-sell" onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
@@ -96,7 +103,11 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             {asks && (
               <List className="bp3-list-unstyled list list-sell" id="list-sell">
                 {asks.map((order, index) => (
-                  <SellOrder key={index} index={index} order={order} onClick={() => onSelect(order)} />
+                  <SellOrder 
+                    key={index} 
+                    order={order}
+                    pricePrecision={pricePrecision} 
+                    onClick={() => onSelect(order)} />
                 ))}
               </List>
             )}
@@ -122,7 +133,11 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             {bids && (
               <List className="bp3-list-unstyled list list-buy" id="list-buy">
                 {bids.map((order, index) => (
-                  <BuyOrder key={index} index={index} order={order} onClick={() => onSelect(order)}/>
+                  <BuyOrder 
+                    key={index} 
+                    order={order} 
+                    pricePrecision={pricePrecision}
+                    onClick={() => onSelect(order)}/>
                 ))}
               </List>
             )}
@@ -139,11 +154,11 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order, onClick } = props
+  const { order, pricePrecision, onClick } = props
   return (
     <Row onClick={onClick}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width="33%">{order.price}</Cell>
+      <Cell className="up" width="33%">{formatNumber(order.price, { precision: pricePrecision })}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell> 
     </Row>
@@ -151,16 +166,58 @@ const BuyOrder = (props: SingleOrderProps) => {
 }
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, onClick } = props
+  const { order, pricePrecision, onClick } = props
   return (
     <Row onClick={onClick}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width="33%">{order.price}</Cell>
+      <Cell className="down" width="33%">{formatNumber(order.price, { precision: pricePrecision })}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell>
     </Row>
   )
 }
+
+const PricePrecisionsDropdown = (props: Array<number>) => {
+  const { pricePrecision, pricePrecisionsList, onChangePricePrecision } = props
+
+  const items: Array<PricePrecision> = pricePrecisionsList.map((precision, index) => {
+    return {
+      title: `${precision} decimals`,
+      value: precision,
+      rank: index + 1,
+    }
+  })
+
+  const selectedItem = items.find(item => item.value === pricePrecision)
+
+  return (
+    <Select
+      items={items}
+      itemRenderer={renderPricePrecisionItem}
+      onItemSelect={onChangePricePrecision}
+      filterable={false}
+      popoverProps={{ minimal: true, className: 'precision-menu' }}
+    >
+      <PrecisionButton>
+        <span>{selectedItem.title}</span> 
+        <span className="arrow-down"></span>
+      </PrecisionButton>
+    </Select>
+  )
+}
+
+const renderPricePrecisionItem = (item, { handleClick }) => {
+  return(
+    <div key={item.rank} onClick={handleClick}>{item.title}</div>
+  )
+}
+
+const PrecisionButton = styled.div.attrs({
+  className: "decimals-dropdown",
+})`
+  color: ${DarkMode.GRAY};
+  cursor: pointer;
+`
 
 const Wrapper = styled.div`
   height: 100%;
