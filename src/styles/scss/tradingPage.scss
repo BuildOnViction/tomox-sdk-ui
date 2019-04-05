@@ -1,5 +1,13 @@
 @import "vars";
 
+.precision-menu .bp3-menu {
+  font-size: $tm-font-size-sm;
+  width: 100px;
+  min-width: initial;
+  background: $tm-black;
+  border: 1px solid $tm-light-blue;
+}
+
 .tm-theme-dark {
   .trade-history {
     color: $tm-white;

@@ -104,16 +104,17 @@ const HeadingRow = styled.li.attrs({
 `
 
 const Row = styled.li.attrs({
-  className: 'row'
+  className: 'row',
 })`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 3.5px 10px 3.5px 0 !important;
+  cursor: default;
 
   &:hover {
-    background-color: ${DarkMode.BLACK};
+    background-color: ${DarkMode.LIGHT_BLUE};
   }
 `
 

@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode, Theme } from '../Common'
 import { formatNumber } from 'accounting-js'
+import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 
 type BidOrAsk = {
@@ -193,10 +194,11 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
   return (
     <Select
       items={items}
+      activeItem={selectedItem}
       itemRenderer={renderPricePrecisionItem}
       onItemSelect={onChangePricePrecision}
       filterable={false}
-      popoverProps={{ minimal: true, className: 'precision-menu' }}
+      popoverProps={{ minimal: true, popoverClassName: 'precision-menu', position: PopoverPosition.BOTTOM_RIGHT }}
     >
       <PrecisionButton>
         <span>{selectedItem.title}</span> 
@@ -206,9 +208,9 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
   )
 }
 
-const renderPricePrecisionItem = (item, { handleClick }) => {
+const renderPricePrecisionItem = (item, { handleClick, modifiers }) => {
   return(
-    <div key={item.rank} onClick={handleClick}>{item.title}</div>
+    <PrecisionMenuItem key={item.rank} active={modifiers.active} onClick={handleClick}>{item.title}</PrecisionMenuItem>
   )
 }
 
@@ -217,6 +219,17 @@ const PrecisionButton = styled.div.attrs({
 })`
   color: ${DarkMode.GRAY};
   cursor: pointer;
+`
+
+const PrecisionMenuItem = styled.li`
+  padding: 3px 10px;
+  color: ${DarkMode.GRAY};
+  cursor: pointer;
+  background: ${({active}) => active ? DarkMode.LIGHT_BLUE : 'initial'};
+
+  &:hover {
+    background: ${DarkMode.LIGHT_BLUE};
+  }
 `
 
 const Wrapper = styled.div`
@@ -261,7 +274,7 @@ const Row = styled.li.attrs({
   padding: 3.5px 0 3.5px 10px !important;
 
   &:hover {
-    background-color: ${DarkMode.BLACK};
+    background-color: ${DarkMode.LIGHT_BLUE};
   }
 `
 
