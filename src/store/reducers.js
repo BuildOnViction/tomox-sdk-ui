@@ -25,6 +25,7 @@ import appActionTypes from './actions/app'
 import layoutActionTypes from './actions/layout'
 import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
+import orderBookActionTypes from './actions/orderBook'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -232,6 +233,8 @@ export const trades = createReducer(action => {
 export const orderBook = createReducer(action => {
   const { type, payload } = action
   switch (type) {
+    case orderBookActionTypes.select:
+      return orderBookEvents.selected(payload.order)
     case tradingPageActionTypes.updateOrderBook:
     case tokenSearcherActionTypes.updateOrderBook:
     case socketControllerActionTypes.updateOrderBook:
@@ -285,6 +288,7 @@ export const tokenPairs = createReducerPersist({
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
+    case accountInitActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
@@ -304,11 +308,10 @@ export const tokenPairs = createReducerPersist({
     case tokenSearcherActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tradingPageActionTypes.updateTokenPairData:
+    case marketsPageActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case marketsTableActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case marketsPageActionTypes.updateTokenPairData:
-      return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     default:
       return tokenPairsEvents.initialized()
   }

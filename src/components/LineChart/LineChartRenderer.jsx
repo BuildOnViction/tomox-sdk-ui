@@ -2,7 +2,6 @@ import React from 'react'
 import { ResponsiveContainer, LineChart, Line } from 'recharts'
 
 const LineChartRenderer = ({ data, colors }) => {
-  console.log(colors)
   return (
     <ResponsiveContainer width='100%' height='60%'>
       <LineChart data={data} margin={{ top: 0, bottom: 3, right: 0, left: 0 }}>

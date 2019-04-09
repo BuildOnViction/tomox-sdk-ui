@@ -1,11 +1,10 @@
 // @flow
 import React from 'react'
-// import styled from 'styled-components'
+import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
 import { Tabs, Tab } from '@blueprintjs/core'
 
-// import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
 // import { CloseableCallout } from '../../components/Common'
@@ -14,6 +13,7 @@ import TradesTable from '../../components/TradesTable'
 import OrderBook from '../../components/OrderBook'
 import TVChartRenderer from '../../components/TVChartContainer'
 import DepthChart from '../../components/DepthChart'
+import { DarkMode } from '../../components/Common';
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -83,7 +83,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.isConnected || !this.props.isConnected) {
+    if (!this.props.isConnected
+      || this.props.currentPairName === prevProps.currentPairName) {
       return
     }
 
@@ -98,7 +99,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol
+      quoteTokenSymbol,
     } = this.props
 
     if (!authenticated) {
@@ -158,18 +159,25 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               <Tab id="depth" title="Depth" panel={<DepthChart />} />
           </Tabs>
         </Cell>
-        <Cell className="orderbook-trades">
+        <OrderBooxTrades>
           <Grid columns={2} height="100%" gap="20px">
             <Cell width={1}><OrderBook /></Cell>
             <Cell width={1}><TradesTable /></Cell>
           </Grid>
-        </Cell>
+        </OrderBooxTrades>
         <Cell className="orders-table-cell"><OrdersTable /></Cell>
         <Cell className="order-form-cell"><OrderForm /></Cell>
       </Grid>
     )
   }
 }
+
+const OrderBooxTrades = styled(Cell).attrs({
+  className: 'orderbook-trades',
+})`
+  box-shadow: 0 0 0 1px ${DarkMode.LIGHT_BLUE};
+  padding: 10px 0;
+`
 
 
 

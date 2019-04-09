@@ -17,11 +17,13 @@ import type {
 } from '../../types/tokens'
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
+// Todo: at the moment we choose ETH/TOMO is default current pair
+const defaultTokenPair = Object.values(defaultTokenPairs).filter(tokenPair => tokenPair.pair === 'ETH/TOMO')
 const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
   data: {},
   favorites: [],
-  currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
+  currentPair: (defaultTokenPair[0]: any).pair,
   sortedPairs: [],
 }
 

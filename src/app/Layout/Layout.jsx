@@ -19,6 +19,7 @@ import {
 import {
   NavbarDivider,
   Theme,
+  DarkMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -52,6 +53,10 @@ class Layout extends React.PureComponent<Props, State> {
     this.props.changeLocale && this.props.changeLocale(locale)
   }
 
+  isTradingPage = (pathname: string) => {
+    return pathname.includes('/trade')
+  }
+
   handleThemeChange = () => {
 
   }
@@ -74,7 +79,7 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper className={pathname === "/trade" ? "exchange-page" : ""}>
+      <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
         <Header className="tm-header">
           <Navbar>
@@ -83,18 +88,18 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarHeading>
 
             <NavbarGroup align={Alignment.LEFT}>
-            {(pathname === '/trade') && (
+            {this.isTradingPage(pathname) && (
               <TokenInfo className="token-info">
                 {currentPair && (
-                  <Popover
+                  <TokenSearcherPopover
                     content={<TokenSearcher />}
                     position={Position.BOTTOM_LEFT}
                     minimal>
-                    <div className="tokens-dropdown">
+                    <TokenPaisDropDown>
                       <span>{currentPair.pair}</span> 
                       <i className="arrow"></i>
-                    </div>
-                  </Popover>
+                    </TokenPaisDropDown>
+                  </TokenSearcherPopover>
                 )}
 
                 <NavbarDivider />
@@ -187,7 +192,7 @@ class Layout extends React.PureComponent<Props, State> {
           <Sidebar className="sidebar"> 
             <NavLink className="sidebar-item markets-link" to="/markets">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Markets" 
                   position={Position.RIGHT}
@@ -197,9 +202,9 @@ class Layout extends React.PureComponent<Props, State> {
                 <SidebarItemTitle>Markets</SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>  
-            <NavLink className="sidebar-item exchange-link" to="/trade">
+            <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Exchange" 
                   position={Position.RIGHT}
@@ -211,7 +216,7 @@ class Layout extends React.PureComponent<Props, State> {
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Portfolio" 
                   position={Position.RIGHT}
@@ -223,7 +228,7 @@ class Layout extends React.PureComponent<Props, State> {
               </NavLink>                      
             <NavLink className="sidebar-item docs-faq-link" to="/settings">
               <SidebarItemBox>
-                <Tooltip disabled={pathname !== "/trade"} 
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
                   content="Docs/FAQ" 
                   position={Position.RIGHT}
@@ -251,6 +256,17 @@ const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
 `
 
 const Header = styled.header``
+
+const TokenSearcherPopover = styled(Popover)`
+  width: 100px;
+`
+
+const TokenPaisDropDown = styled.div.attrs({
+  className: 'tokens-dropdown',
+})`
+  color: ${DarkMode.LIGHT_GRAY};
+  cursor: pointer;
+`
 
 const MainContainer = styled.div.attrs({
   className: 'main-container',
@@ -290,7 +306,15 @@ const MainContent = styled.main`
   }
 `
 
-const TokenInfo = styled.div``
+const TokenInfo = styled.div`
+  .arrow {
+    transition: transform .5s ease;
+  }
+
+  .bp3-popover-open .arrow {
+    transform: rotate(180deg);
+  }
+`
 
 const TokenTick = styled.div``
 

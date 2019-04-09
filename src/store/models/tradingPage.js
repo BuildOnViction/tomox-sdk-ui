@@ -1,4 +1,6 @@
 // @flow
+import { push } from 'connected-react-router'
+
 import {
   getTokenPairsDomain,
   getAccountDomain,
@@ -27,6 +29,7 @@ export default function tradingPageSelector(state: State) {
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
+    pair,
     makeFee,
     takeFee,
     baseTokenSymbol,
@@ -44,6 +47,7 @@ export default function tradingPageSelector(state: State) {
   )
 
   return {
+    currentPairName: pair,
     makeFee,
     takeFee,
     authenticated,
@@ -70,8 +74,9 @@ export const queryTradingPageData = (): ThunkAction => {
       const signer = getSigner()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
-      const pairs = pairDomain.getPairsByCode()
+      dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
 
+      const pairs = pairDomain.getPairsByCode()
       const userAddress = await signer.getAddress()
 
       let [
