@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, Colors, DarkMode, Theme } from '../Common'
+import { Loading, Colors, DarkMode } from '../Common'
 import { formatNumber } from 'accounting-js'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
