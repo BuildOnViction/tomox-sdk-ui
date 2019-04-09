@@ -19,6 +19,7 @@ import {
 import {
   NavbarDivider,
   Theme,
+  DarkMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -90,15 +91,15 @@ class Layout extends React.PureComponent<Props, State> {
             {this.isTradingPage(pathname) && (
               <TokenInfo className="token-info">
                 {currentPair && (
-                  <Popover
+                  <TokenSearcherPopover
                     content={<TokenSearcher />}
                     position={Position.BOTTOM_LEFT}
                     minimal>
-                    <div className="tokens-dropdown">
+                    <TokenPaisDropDown>
                       <span>{currentPair.pair}</span> 
                       <i className="arrow"></i>
-                    </div>
-                  </Popover>
+                    </TokenPaisDropDown>
+                  </TokenSearcherPopover>
                 )}
 
                 <NavbarDivider />
@@ -255,6 +256,17 @@ const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
 `
 
 const Header = styled.header``
+
+const TokenSearcherPopover = styled(Popover)`
+  width: 100px;
+`
+
+const TokenPaisDropDown = styled.div.attrs({
+  className: 'tokens-dropdown',
+})`
+  color: ${DarkMode.LIGHT_GRAY};
+  cursor: pointer;
+`
 
 const MainContainer = styled.div.attrs({
   className: 'main-container',

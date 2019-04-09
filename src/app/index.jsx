@@ -27,11 +27,11 @@ class App extends React.PureComponent {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    const nextAuthenticated = nextProps.authenticated
+  componentDidUpdate(prevProps) {
+    const prevAuthenticated = prevProps.authenticated
     const { authenticated, queryAccountData } = this.props
     
-    if(nextAuthenticated && nextAuthenticated !== authenticated) {
+    if(authenticated && authenticated !== prevAuthenticated) {
       queryAccountData()
     }
   }
@@ -46,7 +46,7 @@ class App extends React.PureComponent {
               <Route path="/login" component={LoginPage} />
               <Route path="/wallet" component={WalletPage} />
               <Route path="/markets" component={MarketsPage} />
-              <Route path="/trade/:pair" component={TradingPage} />
+              <Route path="/trade/:pair?" component={TradingPage} />
               <Route path="/settings" component={SettingsPage} />
               <Route path="/faq" component={FaqPage} />
               <Route path="/logout" component={LogoutPage} />

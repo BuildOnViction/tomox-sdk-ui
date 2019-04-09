@@ -1,4 +1,6 @@
 // @flow
+import { push } from 'connected-react-router'
+
 import {
   getTokenPairsDomain,
   getAccountDomain,
@@ -72,8 +74,9 @@ export const queryTradingPageData = (): ThunkAction => {
       const signer = getSigner()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
-      const pairs = pairDomain.getPairsByCode()
+      dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
 
+      const pairs = pairDomain.getPairsByCode()
       const userAddress = await signer.getAddress()
 
       let [
