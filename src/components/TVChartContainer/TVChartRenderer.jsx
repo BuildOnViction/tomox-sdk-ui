@@ -83,10 +83,9 @@ export default class TVChartRenderer extends React.PureComponent {
 		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
+		window.tvWidget.latestBar = null
 
 		widget.onChartReady(() => {		
-			console.log('Chart loaded!')
-
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
 				changeTimeSpan(interval)
 			})
@@ -95,6 +94,13 @@ export default class TVChartRenderer extends React.PureComponent {
 
 	componentDidMount() {
 		this.createWidget()
+	}
+
+	componentWillUnmount() {
+		if (window.tvWidget !== null) {
+			window.tvWidget.remove()
+			window.tvWidget = null
+		}		
 	}
 
 	render() {
