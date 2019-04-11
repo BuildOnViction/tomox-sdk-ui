@@ -69,6 +69,7 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
+      socket.unSubscribePrice()
 
       const state = getState()
       const signer = getSigner()
@@ -92,6 +93,7 @@ export const queryTradingPageData = (): ThunkAction => {
 
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
       dispatch(actionCreators.initOrdersTable(orders))
+      socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
       socket.subscribeChart(
@@ -136,6 +138,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
+      socket.unSubscribePrice()
 
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
@@ -143,6 +146,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       dispatch(actionCreators.updateCurrentPair(pair))
       const tokenPair = pairDomain.getPair(pair)
 
+      socket.subscribePrice(tokenPair)
       socket.subscribeTrades(tokenPair)
       socket.subscribeOrderBook(tokenPair)
       socket.subscribeChart(

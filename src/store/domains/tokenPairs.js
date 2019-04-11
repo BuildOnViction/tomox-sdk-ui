@@ -14,6 +14,7 @@ import type {
   TokenPairState,
   TokenPairData,
   TokenPairDataMap,
+  CurrentTokenPairData,
 } from '../../types/tokens'
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
@@ -186,6 +187,17 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
   return event
 }
 
+export const updateCurrentPairData = (currentPairData: CurrentTokenPairData) => {
+  const event = (state: TokenPairState): TokenPairState => {
+    return {
+      ...state,
+      currentPairData,
+    }
+  }
+
+  return event
+}
+
 export default function getTokenPairsDomain(state: TokenPairState) {
   return {
     getPairs: (): any => Object.keys(state.byPair),
@@ -195,6 +207,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
     getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+    getCurrentPairData: () => state.currentPairData,
 
     //Merge token pair properties and data
     getTokenPairsWithDataObject: () => {

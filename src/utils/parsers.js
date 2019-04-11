@@ -249,6 +249,35 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
   return result
 }
 
+export const parsePriceBoardData = (data: APIPairData, pairs: Object): Array<TokenPair> => {
+  let { last_trade_price, ticks, usd } = data
+  if (!last_trade_price
+    || ticks.length === 0
+    || !usd) return null
+
+  const pair = pairs[ticks[0].pair.pairName]
+
+  last_trade_price = last_trade_price ? parsePricepoint(last_trade_price, pair) : null
+  
+  ticks = ticks.map(datum => {
+      return {
+        pair: pair.pair,
+        change: datum.open ? computeChange(datum.open, datum.close) : null,
+        high: datum.high ? parsePricepoint(datum.high, pair) : null,
+        low: datum.low ? parsePricepoint(datum.low, pair) : null,
+        open: datum.open ? parsePricepoint(datum.open, pair) : null,
+        close: datum.close ? parsePricepoint(datum.close, pair) : null,
+        volume: datum.volume ? parseTokenAmount(datum.volume, pair, 0) : null,
+      }
+  })
+
+  return {
+    last_trade_price,
+    ticks,
+    usd,
+  }
+}
+
 export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   const parsed = (data: Candles).map(datum => {
     return {

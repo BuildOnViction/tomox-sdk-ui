@@ -6,6 +6,8 @@ import * as appActionCreators from '../actions/app'
 import * as actionCreators from '../actions/socketController'
 import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
+import * as tokenPairsActionCreators from '../actions/tokenPairs'
+
 import {
   getAccountDomain,
   getTokenPairsDomain,
@@ -22,6 +24,7 @@ import {
   parseAddressAssociation,
   parseOrderBookData,
   parseOHLCV,
+  parsePriceBoardData,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -71,6 +74,8 @@ export function openConnection(): ThunkAction {
         case 'deposit':
           // update tokens balances, tokens changes
           return handleDepositMessage(dispatch, event, getState)
+        case 'price_board':
+          return dispatch(handlePriceMessage(dispatch, event, getState))
         default:
           console.log(channel, event)
           break
@@ -537,5 +542,23 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
+  }
+}
+
+const handlePriceMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const pairDomain = getTokenPairsDomain(state)
+
+    const data = event.payload
+    const pairs = pairDomain.getPairsByCode()
+
+    const currentPairData = parsePriceBoardData(data, pairs)
+
+    dispatch(tokenPairsActionCreators.updateCurrentPairData(currentPairData))
   }
 }
