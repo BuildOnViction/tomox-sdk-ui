@@ -39,7 +39,8 @@ class OrderBook extends React.Component<Props, State> {
         bids, 
         asks,
         select,
-        latestTrade,
+        currentPairData,
+        referenceCurrency,
       },
       state: { 
         pricePrecision,
@@ -56,7 +57,8 @@ class OrderBook extends React.Component<Props, State> {
         pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
         onChangePricePrecision={handleChangePricePrecision}
-        latestTrade={latestTrade} />
+        currentPairData={currentPairData}
+        referenceCurrency={referenceCurrency} />
     )
   }
 }
