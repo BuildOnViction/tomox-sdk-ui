@@ -147,7 +147,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
       this.setState({
         fraction,
-        sellAmount: formatNumber(sellTotal, { precision: amountPrecision }),
+        sellAmount: formatNumber(sellAmount, { precision: amountPrecision }),
         sellTotal: formatNumber(sellTotal, { precision: pricePrecision }),
       })
     } else {
