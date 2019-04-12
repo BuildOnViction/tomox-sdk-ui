@@ -66,6 +66,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     sellAmount: '0.0',
     buyTotal: '0.0',
     sellTotal: '0.0',
+    priceStep: 1/Math.pow(10, pricePrecision),
+    amountStep: 1/Math.pow(10, amountPrecision),
   }
 
   componentDidUpdate(prevProps) {
@@ -161,10 +163,6 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyTotal: formatNumber(buyTotal, { precision: pricePrecision }),
       })
     }
-  }
-
-  handleSideChange = (side: SIDE) => {
-    this.setState({ side })
   }
 
   handlePriceChange = (price: string, side: SIDE) => {
@@ -316,6 +314,84 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
+  handleDecreasePrice = (side: SIDE) => {
+    let {buyPrice, sellPrice, priceStep} = this.state
+
+    if (side === 'BUY') {
+      buyPrice = unformat(buyPrice) - priceStep
+      buyPrice = buyPrice >= 0 ? buyPrice : 0
+
+      this.setState({
+        buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
+      })
+    } else {
+      sellPrice = unformat(sellPrice) - priceStep
+      sellPrice = sellPrice >= 0 ? sellPrice : 0
+
+      this.setState({
+        sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
+      })
+    }
+  }
+
+  handleIncreasePrice = (side: SIDE) => {
+    let {buyPrice, sellPrice, priceStep} = this.state
+
+    if (side === 'BUY') {
+      buyPrice = unformat(buyPrice) + priceStep
+
+      this.setState({
+        buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
+      })
+    } else {
+      sellPrice = unformat(sellPrice) + priceStep
+
+      this.setState({
+        sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
+      })
+    }
+  }
+
+  handleDecreaseAmount = (side: SIDE) => {
+    let {buyAmount, sellAmount, amountStep} = this.state
+
+    if (side === 'BUY') {
+      buyAmount = unformat(buyAmount) - amountStep
+      buyAmount = buyAmount >= 0 ? buyAmount : 0
+
+      this.setState({
+        buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
+      })
+    } else {
+      sellAmount = unformat(sellAmount) - amountStep
+      sellAmount = sellAmount >= 0 ? sellAmount : 0
+
+      this.setState({
+        sellPrice: formatNumber(sellAmount, {precision: amountPrecision}),
+      })
+    }
+  }
+
+  handleIncreaseAmount = (side: SIDE) => {
+    let {buyAmount, sellAmount, amountStep} = this.state
+
+    if (side === 'BUY') {
+      buyAmount = unformat(buyAmount) + amountStep
+      buyAmount = buyAmount >= 0 ? buyAmount : 0
+
+      this.setState({
+        buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
+      })
+    } else {
+      sellAmount = unformat(sellAmount) + amountStep
+      sellAmount = sellAmount >= 0 ? sellAmount : 0
+
+      this.setState({
+        sellPrice: formatNumber(sellAmount, {precision: amountPrecision}),
+      })
+    }
+  }
+
   render() {
     const {
       state: {
@@ -352,6 +428,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       toggleCollapse,
       handleSendOrder,
       handleSideChange,
+      handleDecreasePrice,
+      handleIncreasePrice,
+      handleDecreaseAmount,
+      handleIncreaseAmount,
     } = this
 
     let buyMaxAmount, sellMaxAmount
@@ -418,6 +498,10 @@ class OrderForm extends React.PureComponent<Props, State> {
         handleChangeOrderType={handleChangeOrderType}
         handleSendOrder={handleSendOrder}
         handleSideChange={handleSideChange}
+        handleDecreasePrice={handleDecreasePrice}
+        handleIncreasePrice={handleIncreasePrice}
+        handleDecreaseAmount={handleDecreaseAmount}
+        handleIncreaseAmount={handleIncreaseAmount}
       />
     )
   }

@@ -66,7 +66,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       bids, 
       asks, 
       onSelect,
-      latestTrade,
       pricePrecisionsList,
       pricePrecision,
       onChangePricePrecision,
