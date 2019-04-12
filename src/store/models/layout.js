@@ -32,8 +32,10 @@ export default function createSelector(state: State) {
   const address = accountDomain.address()
   const currentBlock = accountDomain.currentBlock()
   const accountLoading = !(TomoBalance && WETHBalance && WETHAllowance)
+  const referenceCurrency = accountDomain.referenceCurrency
   const locale = settingsDomain.getLocale()
   const currentPair = tokenPairs.getCurrentPair()
+  const currentPairData = tokenPairs.getCurrentPairData()
   const { router: { location: { pathname }}} = state
 
   return {
@@ -46,7 +48,9 @@ export default function createSelector(state: State) {
     currentBlock,
     locale,
     currentPair,
+    currentPairData,
     pathname,
+    referenceCurrency,
   }
 }
 

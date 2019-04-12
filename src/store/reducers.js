@@ -26,6 +26,7 @@ import layoutActionTypes from './actions/layout'
 import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
 import orderBookActionTypes from './actions/orderBook'
+import tokenPairsActionsTypes from './actions/tokenPairs'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -312,6 +313,8 @@ export const tokenPairs = createReducerPersist({
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case marketsTableActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
+    case tokenPairsActionsTypes.updateCurrentPairData:
+      return tokenPairsEvents.updateCurrentPairData(payload)
     default:
       return tokenPairsEvents.initialized()
   }

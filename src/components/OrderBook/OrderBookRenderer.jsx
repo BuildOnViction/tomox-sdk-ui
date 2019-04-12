@@ -2,7 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode } from '../Common'
-import { formatNumber } from 'accounting-js'
+import { formatNumber, formatMoney } from 'accounting-js'
+import { getChangePercentText } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 
@@ -65,10 +66,11 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       bids, 
       asks, 
       onSelect,
-      latestTrade,
       pricePrecisionsList,
       pricePrecision,
       onChangePricePrecision,
+      currentPairData,
+      referenceCurrency,
     } = this.props
 
     return (
@@ -113,21 +115,16 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               </List>
             )}
 
-            {latestTrade && (
+            {currentPairData && (
               <LatestTick className="latest-tick">
                 <LatestPrice className="latest-price" width="67%">
-                  <CryptoPrice className="crypto">{latestTrade.price}</CryptoPrice>
-                  <CashPrice className="cash">$_.__</CashPrice> 
+                  <CryptoPrice className="crypto">{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
+                  <CashPrice className="cash">{formatMoney(currentPairData.usd, referenceCurrency.symbol, 2)}</CashPrice> 
                 </LatestPrice>
-                {
-                  (Number(latestTrade.percent) === 0) 
-                  ? (<PercentChange className="percent-change text-right" width="33%">{latestTrade.percent}%</PercentChange>)
-                  :  (
-                      (latestTrade.change === "positive") 
-                      ? (<PercentChange className="percent-change up text-right" width="33%">+{latestTrade.percent}%</PercentChange>)
-                      : (<PercentChange className="percent-change down text-right" width="33%">-{latestTrade.percent}%</PercentChange>)
-                    )
-                }                
+                
+                <PercentChange positive={(currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0} width="33%">
+                  {getChangePercentText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}
+                </PercentChange>             
               </LatestTick>
             )}
 
@@ -339,7 +336,9 @@ const LatestPrice = styled.div`
 `
 const CryptoPrice = styled.span``
 const CashPrice = styled.span``
-const PercentChange = styled.div`
+const PercentChange = styled.div.attrs({
+  className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
+})`
   width: ${props => props.width? props.width : "35px"}
 `
 

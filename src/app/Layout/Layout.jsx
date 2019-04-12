@@ -24,6 +24,9 @@ import {
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
+import { formatMoney, formatNumber } from 'accounting-js'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
+import { getCompareText, getChangePercentText } from '../../utils/helpers'
 
 export type Props = {
   TomoBalance: string,
@@ -62,7 +65,15 @@ class Layout extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { children, authenticated, address, currentPair, pathname } = this.props
+    const { 
+      children, 
+      authenticated, 
+      address, 
+      currentPair, 
+      currentPairData,
+      pathname, 
+      referenceCurrency,
+    } = this.props
 
     const menu = (
       <Menu>
@@ -88,7 +99,8 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarHeading>
 
             <NavbarGroup align={Alignment.LEFT}>
-            {this.isTradingPage(pathname) && (
+            {this.isTradingPage(pathname) 
+            && (
               <TokenInfo className="token-info">
                 {currentPair && (
                   <TokenSearcherPopover
@@ -104,44 +116,46 @@ class Layout extends React.PureComponent<Props, State> {
 
                 <NavbarDivider />
 
-                <TokenTick className="token-tick">
-                  <div className="tick last-price">
-                    <div className="title">Last Price</div>
-                    <div>
-                      <span>0.00382726</span>
-                      <span className="up">$0.40</span>
+                {currentPairData && 
+                  (<TokenTick className="token-tick">
+                    <div className="tick last-price">
+                      <div className="title">Last Price</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
+                        <span className="up">{formatMoney(currentPairData.usd, referenceCurrency.symbol, 2)}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick change">
-                    <div className="title">24h Change</div>
-                    <div className="down">
-                      <span>-0.00002726</span>
-                      <span>-6.33%</span>
+                    <div className="tick change">
+                      <div className="title">24h Change</div>
+                      <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
+                        <span>{getCompareText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePercentText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick high">
-                    <div className="title">24h High</div>
-                    <div className="up">
-                      <span>0.00382783</span>
+                    <div className="tick high">
+                      <div className="title">24h High</div>
+                      <div className="up">
+                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick low">
-                    <div className="title">24h Low</div>
-                    <div className="down">
-                      <span>0.00382783</span>
+                    <div className="tick low">
+                      <div className="title">24h Low</div>
+                      <div className="down">
+                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick volume">
-                    <div className="title">24h Volume</div>
-                    <div>
-                      <span>247.382783</span>
+                    <div className="tick volume">
+                      <div className="title">24h Volume</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
+                      </div>
                     </div>
-                  </div>
-                </TokenTick>
+                  </TokenTick>)
+                }
               </TokenInfo>
             )}
             </NavbarGroup>

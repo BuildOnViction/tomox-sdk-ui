@@ -1,4 +1,4 @@
-import { NATIVE_TOKEN_SYMBOL } from '../config/tokens'
+// import { NATIVE_TOKEN_SYMBOL } from '../config/tokens'
 
 export const getPairSymbol = (baseTokenSymbol, quoteTokenSymbol) => {
   return `${baseTokenSymbol}/${quoteTokenSymbol}`

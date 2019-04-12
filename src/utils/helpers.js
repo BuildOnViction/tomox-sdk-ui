@@ -3,6 +3,7 @@ import { utils } from 'ethers'
 
 import ethereum_address from 'ethereum-address'
 import { format, formatRelative } from 'date-fns'
+import { formatNumber } from 'accounting-js'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -211,4 +212,23 @@ export const computeChange = (open: string, close: string) => {
   const change = ((bigClose.sub(bigOpen)).mul(percentMultiplier)).div(bigOpen)
   const percentChange = Number(change.toString()) / 100
   return percentChange
+}
+
+// Workaround because BigNumber return wrong result in case change is small
+export const getChangePercentText = (open: String, close: string, precision: number) => {
+  const percentChange = (close - open) * 100 / open
+
+  if (percentChange > 0) return `+${formatNumber(percentChange, {precision})}%`
+  if (percentChange < 0) return `${formatNumber(percentChange, {precision})}%`
+
+  return `${formatNumber(percentChange, {precision})}%`
+}
+
+export const getCompareText: string = (open: string, close: string, precision: number) => {
+  const result = Number(close) - Number(open)
+
+  if (result > 0) return `+${formatNumber(result, {precision})}`
+  if (result < 0) return `${formatNumber(result, {precision})}`
+
+  return `${result}`
 }
