@@ -117,7 +117,7 @@ export const createOrderCancel = async function (
 
   const signature = await this.signMessage(utils.arrayify(orderCancel.hash))
   const { r, s, v } = utils.splitSignature(signature)
-  orderCancel.signature = { r, s, v }
+  orderCancel.signature = { R: r, S: s, V: v }
 
   return orderCancel
 }
