@@ -315,79 +315,103 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleDecreasePrice = (side: SIDE) => {
-    let {buyPrice, sellPrice, priceStep} = this.state
+    let {buyPrice, sellPrice, buyAmount, sellAmount, priceStep} = this.state
 
     if (side === 'BUY') {
       buyPrice = unformat(buyPrice) - priceStep
       buyPrice = buyPrice >= 0 ? buyPrice : 0
 
+      const buyTotal = buyPrice * unformat(buyAmount)
+
       this.setState({
         buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
+        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
       })
     } else {
       sellPrice = unformat(sellPrice) - priceStep
       sellPrice = sellPrice >= 0 ? sellPrice : 0
 
+      const sellTotal = sellPrice * unformat(sellAmount)
+
       this.setState({
         sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
+        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
       })
     }
   }
 
   handleIncreasePrice = (side: SIDE) => {
-    let {buyPrice, sellPrice, priceStep} = this.state
+    let {buyPrice, sellPrice, buyAmount, sellAmount, priceStep} = this.state
 
     if (side === 'BUY') {
       buyPrice = unformat(buyPrice) + priceStep
 
+      const buyTotal = buyPrice * unformat(buyAmount)
+
       this.setState({
         buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
+        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
       })
     } else {
       sellPrice = unformat(sellPrice) + priceStep
 
+      const sellTotal = sellPrice * unformat(sellAmount)
+
       this.setState({
         sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
+        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
       })
     }
   }
 
   handleDecreaseAmount = (side: SIDE) => {
-    let {buyAmount, sellAmount, amountStep} = this.state
+    let {buyAmount, sellAmount, buyPrice, sellPrice, amountStep} = this.state
 
     if (side === 'BUY') {
       buyAmount = unformat(buyAmount) - amountStep
       buyAmount = buyAmount >= 0 ? buyAmount : 0
 
+      const buyTotal = buyAmount * unformat(buyPrice)
+
       this.setState({
         buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
+        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
       })
     } else {
       sellAmount = unformat(sellAmount) - amountStep
       sellAmount = sellAmount >= 0 ? sellAmount : 0
 
+      const sellTotal = sellAmount * unformat(sellPrice)
+      
       this.setState({
-        sellPrice: formatNumber(sellAmount, {precision: amountPrecision}),
+        sellAmount: formatNumber(sellAmount, {precision: amountPrecision}),
+        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
       })
     }
   }
 
   handleIncreaseAmount = (side: SIDE) => {
-    let {buyAmount, sellAmount, amountStep} = this.state
+    let {buyAmount, sellAmount, buyPrice, sellPrice, amountStep} = this.state
 
     if (side === 'BUY') {
       buyAmount = unformat(buyAmount) + amountStep
       buyAmount = buyAmount >= 0 ? buyAmount : 0
 
+      const buyTotal = buyAmount * unformat(buyPrice)
+
       this.setState({
         buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
+        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
       })
     } else {
       sellAmount = unformat(sellAmount) + amountStep
       sellAmount = sellAmount >= 0 ? sellAmount : 0
 
+      const sellTotal = sellAmount * unformat(sellPrice)
+
       this.setState({
-        sellPrice: formatNumber(sellAmount, {precision: amountPrecision}),
+        sellAmount: formatNumber(sellAmount, {precision: amountPrecision}),
+        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
       })
     }
   }

@@ -132,7 +132,7 @@ const OrderFormRenderer = (props: Props) => {
               />
             }
           />
-          <Tab
+          {/* <Tab
             id="market"
             title="Market"
             disabled="true"
@@ -193,7 +193,7 @@ const OrderFormRenderer = (props: Props) => {
                 handleSendOrder={handleSendOrder}
               />
             }
-          />
+          /> */}
         </OrderFormTabs>
   )
 }
@@ -692,8 +692,10 @@ const RadioButtonBox = styled(Label)`
   }
 `
 
-const IncreaseAndDecreaseBox = styled.div`
-  display: flex;
+const IncreaseAndDecreaseBox = styled.div.attrs({
+  className: 'increase-decrease-box',
+})`
+  display: none;
   flex-direction: column;
   justify-content: space-around;
   padding: 5px 0;
@@ -743,6 +745,12 @@ const InputBox = styled.div`
   position: relative;
   padding-top: 5px;
   padding-bottom: 5px;
+
+  &:hover {
+    .increase-decrease-box {
+      display: flex !important;
+    }
+  }
 `
 
 const InputLabel = styled.div`
