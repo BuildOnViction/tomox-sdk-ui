@@ -19,6 +19,9 @@ const colorsCollection = [
   ['#4caf50', '#8bc34a', '#cddc39'],
   ['#673ab7', '#3f51b5', '#2196f3'],
   ['#2196f3', '#00bcd4', '#009688'],
+  ['#3f51b5', '#3f8db5', '#3fb57b'],
+  ['#4caf50', '#2196f3', '#3f51b5'],
+  ['#cddc39', '#4caf50', '#8bc34a'],
 ]
 
 class LineChart extends React.PureComponent<Props, State> {
