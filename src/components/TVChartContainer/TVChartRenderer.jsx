@@ -69,7 +69,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			overrides: {
 				"volumePaneSize": "medium",
 				"paneProperties.background": "#252C40",
-				"paneProperties.vertGridProperties.color": "transparent",
+				"paneProperties.vertGridProperties.color": "#252C40",
 				"paneProperties.horzGridProperties.color": "#394362",
 				"paneProperties.legendProperties.showSeriesTitle": false,
 				"scalesProperties.textColor" : "#6e7793",

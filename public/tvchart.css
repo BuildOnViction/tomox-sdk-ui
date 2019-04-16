@@ -10,6 +10,25 @@ html.theme-dark .chart-controls-bar {
     border: none !important;
 }
 
+.layout__area--top {
+    left: 0 !important;
+}
+
+.layout__area--center {
+    border-top: 1px solid #394362;
+}
+
 .layout__area--left {
     border-right: 1px solid #394362;
+    border-top: 1px solid #394362;
+    top: 38px !important;
+    height: calc(100% - 38px) !important;
+}
+
+.tv-dialog {
+    top: 38px !important;
+}
+
+.fill-2axUON87- {
+    display: none;
 }

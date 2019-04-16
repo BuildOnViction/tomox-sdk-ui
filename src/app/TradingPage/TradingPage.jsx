@@ -150,14 +150,14 @@ export default class TradingPage extends React.PureComponent<Props, State> {
         gap="10px" 
         height="100%">
         <Cell className="charts-cell">
-          <Tabs
+          <ChartTabs
             id="tabs-chart"
             onChange={this.handleTabsChartChange}
             selectedTabId={this.state.chartTadId}
           >
               <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
               <Tab id="depth" title="Depth" panel={<DepthChart />} />
-          </Tabs>
+          </ChartTabs>
         </Cell>
         <OrderBooxTrades>
           <Grid columns={2} height="100%" gap="20px">
@@ -177,6 +177,13 @@ const OrderBooxTrades = styled(Cell).attrs({
 })`
   box-shadow: 0 0 0 1px ${DarkMode.LIGHT_BLUE};
   padding: 10px 0;
+`
+
+const ChartTabs = styled(Tabs)`
+  .bp3-tab-list {
+    position: absolute;
+    right: 0;
+  }
 `
 
 

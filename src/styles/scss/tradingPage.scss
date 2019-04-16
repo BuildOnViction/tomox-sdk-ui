@@ -185,7 +185,11 @@
 
     .bp3-tab-panel {
       margin-top: 0;
-      height: calc(100% - 35px);
+      height: 100%;
+    }
+
+    #bp3-tab-panel_tabs-chart_depth {
+      padding-top: 30px;
     }
 
     .bp3-tab[aria-selected=true], 
