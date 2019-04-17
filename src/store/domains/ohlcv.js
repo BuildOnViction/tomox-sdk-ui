@@ -5,7 +5,7 @@ const initialState: OHLCVState = {
   ohlcvData: [],
   noOfCandles: 150,
   currentTimeSpan: { name: '1 min', label: '1m', value: '1' },
-  currentDuration: { name: '1 Year', label: '1Y', value: '12M' },
+  currentDuration: { name: '1 Day', label: '1d' },
 }
 
 export const initialized = () => {

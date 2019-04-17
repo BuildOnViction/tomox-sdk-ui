@@ -26,10 +26,7 @@ export default class TVChartRenderer extends React.PureComponent {
 	createWidget() {
 		const { 
 			ohlcv: {
-				// currentDuration, 
 				currentTimeSpan,
-				// updateDuration,
-				// updateTimeSpan,				
 			},
 			changeTimeSpan,
 			currentPair: { pair },
