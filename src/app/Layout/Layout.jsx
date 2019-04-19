@@ -24,7 +24,7 @@ import {
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-import { formatMoney, formatNumber } from 'accounting-js'
+import { formatNumber } from 'accounting-js'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 import { getCompareText, getChangePercentText } from '../../utils/helpers'
 
@@ -122,7 +122,7 @@ class Layout extends React.PureComponent<Props, State> {
                       <div className="title">Last Price</div>
                       <div>
                         <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
-                        <span className="up">{formatMoney(currentPairData.usd, referenceCurrency.symbol, 2)}</span>
+                        <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
                       </div>
                     </div>
 
