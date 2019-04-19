@@ -41,7 +41,7 @@ export default class TVChart extends React.PureComponent {
         
         return (
           <React.Fragment>
-            <TVChartRenderer { ...this.props } length={ohlcv.ohlcvData.length} changeTimeSpan={this.changeTimeSpan} />
+            <TVChartRenderer { ...this.props } changeTimeSpan={this.changeTimeSpan} />
           </React.Fragment>
         )
     }        

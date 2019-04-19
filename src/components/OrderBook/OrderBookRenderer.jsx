@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode } from '../Common'
-import { formatNumber, formatMoney } from 'accounting-js'
+import { formatNumber } from 'accounting-js'
 import { getChangePercentText } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
