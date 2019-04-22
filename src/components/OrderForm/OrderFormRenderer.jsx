@@ -297,6 +297,7 @@ const BuyLimitOrderPanel = (props) => {
           title={buyPrice}
           autoComplete="off"
           inputRef={buyPriceInput}
+          hasError={errorBuy && errorBuy.type === 'price'}
         />
 
         <TokenName>{quoteTokenSymbol}</TokenName>
@@ -321,6 +322,7 @@ const BuyLimitOrderPanel = (props) => {
           title={buyAmount}
           autoComplete="off"
           inputRef={buyAmountInput}
+          hasError={errorBuy && errorBuy.type === 'amount'}
         />
 
         <TokenName>{baseTokenSymbol}</TokenName>
@@ -417,6 +419,7 @@ const SellLimitOrderPanel = (props) => {
           title={sellPrice}
           autoComplete="off"
           inputRef={sellPriceInput}
+          hasError={errorSell && errorSell.type === 'price'}
         />
 
         <IncreaseAndDecreaseGroup 
@@ -440,6 +443,7 @@ const SellLimitOrderPanel = (props) => {
           title={sellAmount}
           autoComplete="off"
           inputRef={sellAmountInput}
+          hasError={errorSell && errorSell.type === 'amount'}
         />
         
         <IncreaseAndDecreaseGroup 
@@ -787,15 +791,16 @@ const IncreaseAndDecreaseButton = styled.span`
 `
 
 const InputGroupWrapper = styled(InputGroup).attrs({
-  className: 'bp3-fill',
+  className: ({hasError}) => hasError ? 'bp3-fill has-error' : "bp3-fill",
 })`
-  // &.focused {
-  //   box-shadow: 0 0 0 1px ${DarkMode.ORANGE};
-  // }
+  &.has-error .bp3-input {
+    box-shadow: 0 0 0 1px ${DarkMode.RED};
+  }
 
   .bp3-input {
     font-size: ${Theme.FONT_SIZE_MD};
     padding-right: 50px !important; 
+
     &:focus {
       box-shadow: 0 0 0 1px ${DarkMode.ORANGE};
     }

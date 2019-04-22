@@ -96,15 +96,17 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
 
     if(!prevSelectedOrder && currSelectedOrder) {
-      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+      this.resetErrorObject()
 
+      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
       this.setOrderFormPrice(price)
       return
     }
 
     if (prevSelectedOrder && prevSelectedOrder.price !== currSelectedOrder.price) {
-      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+      this.resetErrorObject()
 
+      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
       this.setOrderFormPrice(price)
       return
     }  
@@ -579,14 +581,24 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   resetErrorObject = (side: SIDE) => {
-    if (side === 'BUY') {
-      this.setState({
-        errorBuy: null,
-      })
-    } else {
-      this.setState({
-        errorSell: null,
-      })
+    switch (side) {
+      case 'BUY':
+        this.setState({
+          errorBuy: null,
+        })
+
+        break
+      case 'SELL':
+        this.setState({
+          errorSell: null,
+        })
+
+        break
+      default:
+        this.setState({
+          errorBuy: null,
+          errorSell: null,
+        })
     }
   }
 
