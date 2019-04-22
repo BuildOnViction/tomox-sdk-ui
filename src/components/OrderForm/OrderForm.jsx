@@ -125,7 +125,9 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   onInputChange = (side: SIDE = 'BUY', { target }: Object) => {
     const { loggedIn } = this.props
-    const value = target.value.replace(/[a-zA-Z]/g, '')
+    let { value } = target
+    value = target.value.replace(/[a-zA-Z]/g, '')
+                        .replace(/^[0]+/g, 0)
     
     switch (target.name) {
       case 'stopPrice':

@@ -297,7 +297,7 @@ const BuyLimitOrderPanel = (props) => {
           title={buyPrice}
           autoComplete="off"
           inputRef={buyPriceInput}
-          hasError={errorBuy && errorBuy.type === 'price'}
+          className={errorBuy && errorBuy.type === 'price' ? 'has-error' : ''}
         />
 
         <TokenName>{quoteTokenSymbol}</TokenName>
@@ -322,7 +322,7 @@ const BuyLimitOrderPanel = (props) => {
           title={buyAmount}
           autoComplete="off"
           inputRef={buyAmountInput}
-          hasError={errorBuy && errorBuy.type === 'amount'}
+          className={errorBuy && errorBuy.type === 'amount' ? 'has-error' : ''}
         />
 
         <TokenName>{baseTokenSymbol}</TokenName>
@@ -419,7 +419,7 @@ const SellLimitOrderPanel = (props) => {
           title={sellPrice}
           autoComplete="off"
           inputRef={sellPriceInput}
-          hasError={errorSell && errorSell.type === 'price'}
+          className={errorSell && errorSell.type === 'price' ? 'has-error' : ''}
         />
 
         <IncreaseAndDecreaseGroup 
@@ -443,7 +443,7 @@ const SellLimitOrderPanel = (props) => {
           title={sellAmount}
           autoComplete="off"
           inputRef={sellAmountInput}
-          hasError={errorSell && errorSell.type === 'amount'}
+          className={errorSell && errorSell.type === 'amount' ? 'has-error' : ''}
         />
         
         <IncreaseAndDecreaseGroup 
@@ -791,7 +791,7 @@ const IncreaseAndDecreaseButton = styled.span`
 `
 
 const InputGroupWrapper = styled(InputGroup).attrs({
-  className: ({hasError}) => hasError ? 'bp3-fill has-error' : "bp3-fill",
+  className: "bp3-fill",
 })`
   &.has-error .bp3-input {
     box-shadow: 0 0 0 1px ${DarkMode.RED};
