@@ -197,6 +197,8 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handlePriceChange = (price: string, side: SIDE) => {
+    this.resetErrorObject(side)
+
     if (side === 'BUY') {
       let { buyAmount } = this.state
 
@@ -249,6 +251,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleAmountChange = (amount: string, side: SIDE) => {
+    this.resetErrorObject(side)
     const { selectedTabId } = this.state
 
     if (side === 'BUY') {
@@ -572,6 +575,18 @@ class OrderForm extends React.PureComponent<Props, State> {
         default:
           return null
       }
+    }
+  }
+
+  resetErrorObject = (side: SIDE) => {
+    if (side === 'BUY') {
+      this.setState({
+        errorBuy: null,
+      })
+    } else {
+      this.setState({
+        errorSell: null,
+      })
     }
   }
 
