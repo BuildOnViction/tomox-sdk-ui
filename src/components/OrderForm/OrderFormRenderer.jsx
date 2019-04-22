@@ -294,6 +294,7 @@ const BuyLimitOrderPanel = (props) => {
           onFocus={(e) => onInputFocus('BUY', e)}
           onBlur={(e) => onInputBlur('BUY', e)}
           value={buyPrice}
+          title={buyPrice}
           autoComplete="off"
           inputRef={buyPriceInput}
         />
@@ -317,6 +318,7 @@ const BuyLimitOrderPanel = (props) => {
           onFocus={(e) => onInputFocus('BUY', e)}
           onBlur={(e) => onInputBlur('BUY', e)}
           value={buyAmount}
+          title={buyAmount}
           autoComplete="off"
           inputRef={buyAmountInput}
         />
@@ -348,7 +350,7 @@ const BuyLimitOrderPanel = (props) => {
           value={buyTotal}
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput />
+        <OverlayInput title={buyTotal} />
       </InputBox>
 
       {/* {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
@@ -412,6 +414,7 @@ const SellLimitOrderPanel = (props) => {
           onMouseDown={(e) => onInputFocus('SELL', e)}
           onBlur={(e) => onInputBlur('SELL', e)}
           value={sellPrice}
+          title={sellPrice}
           autoComplete="off"
           inputRef={sellPriceInput}
         />
@@ -434,6 +437,7 @@ const SellLimitOrderPanel = (props) => {
           onFocus={(e) => onInputFocus('SELL', e)}
           onBlur={(e) => onInputBlur('SELL', e)}
           value={sellAmount}
+          title={sellAmount}
           autoComplete="off"
           inputRef={sellAmountInput}
         />
@@ -468,7 +472,7 @@ const SellLimitOrderPanel = (props) => {
           value={sellTotal}
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput />
+        <OverlayInput title={sellTotal} />
       </InputBox>
 
       <ErrorMessage>{errorSell &&  errorSell.message}</ErrorMessage>
