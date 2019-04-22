@@ -350,6 +350,7 @@ const BuyLimitOrderPanel = (props) => {
           readOnly
           // onChange={(e) => onInputChange('BUY', e)}
           value={buyTotal}
+          tabIndex="-1"
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
         <OverlayInput title={buyTotal} />
@@ -474,6 +475,7 @@ const SellLimitOrderPanel = (props) => {
           readOnly
           // onChange={(e) => onInputChange('SELL', e)}
           value={sellTotal}
+          tabIndex="-1"
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
         <OverlayInput title={sellTotal} />
