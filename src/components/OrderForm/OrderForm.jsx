@@ -173,23 +173,24 @@ class OrderForm extends React.PureComponent<Props, State> {
       let sellAmount, sellTotal
 
       sellAmount = (baseTokenBalance / 100) * fraction
-      sellTotal = unformat(sellPrice) * sellAmount
+      sellTotal = sellPrice ? unformat(sellPrice) * sellAmount : ''
 
       this.setState({
         fraction,
         sellAmount: formatNumber(sellAmount, { precision: amountPrecision }),
-        sellTotal: formatNumber(sellTotal, { precision: pricePrecision }),
+        sellTotal: sellTotal ? formatNumber(sellTotal, { precision: pricePrecision }) : '',
       })
     } else {
       const { buyPrice } = this.state
       let buyAmount, buyTotal
 
       buyTotal = (quoteTokenBalance / 100) * fraction
-      buyAmount = buyTotal / unformat(buyPrice)
+      buyAmount = unformat(buyPrice) ? buyTotal / unformat(buyPrice) : ''
+
 
       this.setState({
         fraction,
-        buyAmount: formatNumber(buyAmount, { precision: amountPrecision }),
+        buyAmount: buyAmount ? formatNumber(buyAmount, { precision: amountPrecision }) : '',
         buyTotal: formatNumber(buyTotal, { precision: pricePrecision }),
       })
     }
