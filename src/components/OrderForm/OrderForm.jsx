@@ -95,11 +95,19 @@ class OrderForm extends React.PureComponent<Props, State> {
       return
     }
 
+    if(!prevSelectedOrder && currSelectedOrder) {
+      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+
+      this.setOrderFormPrice(price)
+      return
+    }
+
     if (prevSelectedOrder && prevSelectedOrder.price !== currSelectedOrder.price) {
       const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
 
       this.setOrderFormPrice(price)
-    }   
+      return
+    }  
   }
 
   setOrderFormPrice(price) {
