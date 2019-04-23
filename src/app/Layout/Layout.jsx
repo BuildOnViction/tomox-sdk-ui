@@ -239,19 +239,20 @@ class Layout extends React.PureComponent<Props, State> {
                 </Tooltip> 
                 <SidebarItemTitle>Portfolio</SidebarItemTitle>
               </SidebarItemBox>
-              </NavLink>                      
-            <NavLink className="sidebar-item docs-faq-link" to="/settings">
-              <SidebarItemBox>
-                <Tooltip disabled={!this.isTradingPage(pathname)} 
-                  portalClassName="sidebar-tooltip"
-                  content="Docs/FAQ" 
-                  position={Position.RIGHT}
-                  transitionDuration={0}>
-                  <i></i> 
-                </Tooltip> 
-                <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
-              </SidebarItemBox>
-              </NavLink>
+              </NavLink>   
+
+              <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+                <SidebarItemBox>
+                  <Tooltip disabled={!this.isTradingPage(pathname)} 
+                    portalClassName="sidebar-tooltip"
+                    content="Docs/FAQ" 
+                    position={Position.RIGHT}
+                    transitionDuration={0}>
+                    <i></i> 
+                  </Tooltip> 
+                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                </SidebarItemBox>
+              </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
@@ -344,6 +345,10 @@ const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
   role: 'button',
+})``
+
+const NavExternalLink = styled.a.attrs({
+  className: 'sidebar-item docs-faq-link',
 })``
 
 const MenuItem = styled.li``
