@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode } from '../Common'
-import { formatNumber, formatMoney } from 'accounting-js'
+import { formatNumber } from 'accounting-js'
 import { getChangePercentText } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
@@ -72,7 +72,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       currentPairData,
       referenceCurrency,
     } = this.props
-
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
@@ -119,7 +118,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               <LatestTick className="latest-tick">
                 <LatestPrice className="latest-price" width="67%">
                   <CryptoPrice className="crypto">{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
-                  <CashPrice className="cash">{formatMoney(currentPairData.usd, referenceCurrency.symbol, 2)}</CashPrice> 
+                  <CashPrice className="cash">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
                 </LatestPrice>
                 
                 <PercentChange positive={(currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0} width="33%">

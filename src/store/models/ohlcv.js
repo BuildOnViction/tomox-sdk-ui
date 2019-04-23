@@ -41,6 +41,8 @@ export const updateTimeSpan = (
 ): ThunkAction => {
   return (dispatch, getState, { socket }) => {
     socket.unsubscribeChart()
+    const durationByTimeSpan = getDurationByTimeSpan(currentTimeSpan)
+    dispatch(actionCreators.saveDuration(durationByTimeSpan))
     dispatch(actionCreators.saveTimeSpan(currentTimeSpan))
     dispatch(updateTimeLine(config))
 
@@ -110,6 +112,30 @@ function byDuration(duration) {
 
     default:
       return { candles: 150, time: '' }
+  }
+}
+
+function getDurationByTimeSpan(timeSpan) {
+  switch (timeSpan.label) {
+    case '1m':
+    case '5m':
+      return { name: '1 Day', label: '1d' }
+    case '15m':
+      return { name: '2 Day', label: '2d' }
+    case '30m':
+      return { name: '3 Day', label: '3d' }
+    case '1h': 
+      return { name: '2 Month', label: '2M' }
+    case '2h':
+      return { name: '4 Month', label: '4M' }
+    case '4h':
+      return { name: '9 Month', label: '9M' }
+    case '1D':
+      return { name: '1 Year', label: '1Y' }
+    case '1W': 
+      return { name: '7 Year', label: '7Y' }
+    default:
+      return { name: 'Full', label: 'Full' }
   }
 }
 

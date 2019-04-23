@@ -13,7 +13,7 @@ export default function orderBookSelector(state: State) {
 
   const currentPair = pairDomain.getCurrentPair()
   const currentPairData = pairDomain.getCurrentPairData()
-  const referenceCurrency = accountDomain.referenceCurrency
+  const referenceCurrency = accountDomain.referenceCurrency()
 
   return {
     bids,

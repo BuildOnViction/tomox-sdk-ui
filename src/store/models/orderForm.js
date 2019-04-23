@@ -20,12 +20,13 @@ import { parseNewOrderError } from '../../config/errors'
 import { max, minOrderAmount } from '../../utils/helpers'
 
 export default function getOrderFormSelector(state: State) {
-  const tokenPairDomain = getTokenPairsDomain(state)
+  const tokenPairsDomain = getTokenPairsDomain(state)
   const orderBookDomain = getOrderBookDomain(state)
   const orderDomain = getOrdersDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const accountDomain = getAccountDomain(state)
-  const currentPair = tokenPairDomain.getCurrentPair()
+  const currentPair = tokenPairsDomain.getCurrentPair()
+  const currentPairData = tokenPairsDomain.getCurrentPairData()
 
   const {
     baseTokenSymbol,
@@ -50,6 +51,7 @@ export default function getOrderFormSelector(state: State) {
   return {
     selectedOrder,
     currentPair,
+    currentPairData,
     baseTokenSymbol,
     quoteTokenSymbol,
     baseTokenBalance,
@@ -67,11 +69,11 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
-      const tokenPairDomain = getTokenPairsDomain(state)
+      const tokenPairsDomain = getTokenPairsDomain(state)
       const accountBalancesDomain = getAccountBalancesDomain(state)
       const accountDomain = getAccountDomain(state)
 
-      const pair = tokenPairDomain.getCurrentPair()
+      const pair = tokenPairsDomain.getCurrentPair()
       const exchangeAddress = accountDomain.exchangeAddress()
 
       const {
