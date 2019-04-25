@@ -125,12 +125,12 @@ export const fetchTokenBalances = async (address: string, tokens: Array<Token>) 
     const responses = await Promise.all(tokenRequests)
     const balances = []
 
-    responses.map(async response => {
+    for (const response of responses) {
       const balanceData = await response.json()
       const { data: {symbol, balance} } = balanceData
 
       balances.push({ symbol, balance: utils.formatEther(utils.bigNumberify(balance)) })
-    })
+    }
     return balances
   } catch(e) {
     throw new Error(e)
