@@ -370,6 +370,13 @@ export const getTrades = async (
   return parsedTrades
 }
 
+export const getTradesByAddress = async (userAddress: string): Promise<Trades> => {
+  const trades = await fetchAddressTrades(userAddress)
+  const parsedTrades = parseTrades(trades)
+
+  return parsedTrades
+}
+
 export const getOrderBookData = async (
   baseToken: string,
   quoteToken: string

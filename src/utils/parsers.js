@@ -185,6 +185,31 @@ export const parseTrades = (trades: Trades, pair: TokenPair, precision: number =
   return parsed
 }
 
+export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, precision: number = 2) => {
+  const parsed = []
+  
+  trades.forEach(trade => {
+    const pair = pairs[trade.pairName]
+
+    parsed.push({
+      time: trade.createdAt,
+      price: parsePricepoint(trade.pricepoint, pair, precision),
+      amount: parseTokenAmount(trade.amount, pair, precision),
+      hash: trade.hash,
+      txHash: trade.txHash,
+      orderHash: trade.orderHash,
+      type: trade.type || 'LIMIT',
+      side: trade.side,
+      pair: trade.pairName,
+      status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
+      maker: utils.getAddress(trade.maker),
+      taker: utils.getAddress(trade.taker),
+    })
+  })
+
+  return parsed
+}
+
 export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precision: number = 2) => {
   let { bids, asks } = data
 

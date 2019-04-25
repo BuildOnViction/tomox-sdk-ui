@@ -16,7 +16,7 @@ import * as notifierActionCreators from '../actions/app'
 import type { State, ThunkAction } from '../../types'
 import { getSigner } from '../services/signer'
 import {
-  // parseTrades,
+  parseTradesByAddress,
   parseOrders,
   parseTokenPairsData,
 } from '../../utils/parsers'
@@ -83,16 +83,20 @@ export const queryTradingPageData = (): ThunkAction => {
       let [
         tokenPairData,
         orders,
+        tradesByAddress, // For trade history in OrderTable
       ] = await Promise.all([
         api.fetchTokenPairData(),
         api.fetchOrders(userAddress),
+        api.fetchAddressTrades(userAddress), 
       ])
 
       tokenPairData = parseTokenPairsData(tokenPairData, pairs)
       orders = parseOrders(orders, pairs)
+      tradesByAddress = parseTradesByAddress(tradesByAddress, pairs)
 
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
       dispatch(actionCreators.initOrdersTable(orders))
+      dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
