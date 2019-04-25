@@ -8,13 +8,8 @@ import type { Trade } from '../../types/trades';
 import type { TokenPair } from '../../types/tokens';
 
 type Props = {
-  selectedTabId: string,
   currentPair: TokenPair,
-  onChange: string => void,
   trades: Array<Trade>,
-  userTrades: Array<Trade>,
-  toggleCollapse: (SyntheticEvent<>) => void,
-  isOpen: boolean
 };
 
 const TradesTableRenderer = (props: Props) => {
