@@ -32,6 +32,7 @@ const actionTypes = {
 
   initTradesTable: 'socketController/INIT_TRADES_TABLE',
   updateTradesTable: 'socketController/UPDATE_TRADES_TABLE',
+  updateTradesByAddress: 'socketController/UPDATE_TRADES_BY_ADDRESS',
   initOrdersTable: 'socketController/INIT_ORDERS_TABLE',
   updateOrdersTable: 'socketController/UPDATE_ORDERS_TABLE',
 
@@ -104,6 +105,15 @@ export function initTradesTable(trades: Trades): InitTradesTableAction {
 export function updateTradesTable(trades: Trades): UpdateTradesTableAction {
   return {
     type: actionTypes.updateTradesTable,
+    payload: {
+      trades,
+    },
+  }
+}
+
+export function updateTradesByAddress(trades: Trades): UpdateTradesTableAction {
+  return {
+    type: actionTypes.updateTradesByAddress,
     payload: {
       trades,
     },

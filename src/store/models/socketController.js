@@ -367,7 +367,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
 
 
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesByAddress(userTrades))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
@@ -418,7 +418,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
       }
 
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesByAddress(userTrades))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))

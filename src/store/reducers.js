@@ -227,6 +227,7 @@ export const trades = createReducer(action => {
     case tokenSearcherActionTypes.updateCurrentPair:
       return tradeEvents.tradesReset()
     case tradingPageActionTypes.updateTradesByAddress:
+    case socketControllerActionTypes.updateTradesByAddress:
       return tradeEvents.tradesByAddressUpdated(payload.trades)
     default:
       return tradeEvents.initialized()
