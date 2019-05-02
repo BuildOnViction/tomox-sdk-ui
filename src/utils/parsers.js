@@ -236,9 +236,7 @@ export const parseTokenPairData = (
     favorited: null,
     pair: datum.pair.pairName,
     lastPrice: datum.close ? parsePricepoint(datum.close) : null,
-    change: datum.open
-      ? round((datum.close - datum.open) / datum.open, 1)
-      : null,
+    change: datum.open ? computeChange(datum.open, datum.close) : null,
     high: datum.high ? parsePricepoint(datum.high) : null,
     low: datum.low ? parsePricepoint(datum.low) : null,
     volume: datum.volume

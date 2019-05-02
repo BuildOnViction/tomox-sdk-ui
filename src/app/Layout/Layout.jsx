@@ -26,7 +26,7 @@ import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
-import { getCompareText, getChangePercentText } from '../../utils/helpers'
+import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 
 export type Props = {
   TomoBalance: string,
@@ -129,8 +129,8 @@ class Layout extends React.PureComponent<Props, State> {
                     <div className="tick change">
                       <div className="title">24h Change</div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
-                        <span>{getCompareText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
-                        <span>{getChangePercentText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
                       </div>
                     </div>
 
