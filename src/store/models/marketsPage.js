@@ -1,10 +1,7 @@
 // @flow
-import { getAccountDomain, getTokenPairsDomain } from '../domains'
-import * as actionCreators from '../actions/marketsPage'
+import { getAccountDomain } from '../domains'
 import * as notifierActionCreators from '../actions/app'
 import { parseQueryMarketDataError } from '../../config/errors'
-
-import { parseTokenPairsData } from '../../utils/parsers'
 
 import type { State, ThunkAction } from '../../types'
 
@@ -17,16 +14,10 @@ export default function marketsPageSelector(state: State) {
 }
 
 export function queryMarketData(): ThunkAction {
-  return async (dispatch, getState, { api, provider }) => {
+  return async (dispatch, getState, { socket }) => {
     try {
-      const state = getState()
-      const pairDomain = getTokenPairsDomain(state)
-      const pairs = pairDomain.getPairsByCode()
-
-      let tokenPairData = await api.fetchTokenPairData()
-      tokenPairData = parseTokenPairsData(tokenPairData, pairs)
-
-      dispatch(actionCreators.updateTokenPairData(tokenPairData))
+      socket.unSubscribeMarkets()
+      socket.subscribeMarkets()
     } catch (e) {
       console.log(e)
       const message = parseQueryMarketDataError(e)
