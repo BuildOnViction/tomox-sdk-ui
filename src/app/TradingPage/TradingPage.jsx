@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
 import { Tabs, Tab } from '@blueprintjs/core'
 
@@ -83,12 +83,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (!this.props.isConnected
-      || this.props.currentPairName === prevProps.currentPairName) {
-      return
+    if ((!prevProps.isConnected && this.props.isConnected)
+      || (this.props.currentPairName !== prevProps.currentPairName)) {
+      this.props.queryTradingPageData()
     }
-
-    this.props.queryTradingPageData()
   }
 
   checkIfCalloutRequired = () => {
@@ -138,9 +136,9 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, isInitiated, quoteTokenSymbol } = this.props
-    if (!authenticated) return <Redirect to="/login" />
-    if (!isInitiated) return null
+    const { quoteTokenSymbol } = this.props
+    // if (!authenticated) return <Redirect to="/login" />
+    // if (!isInitiated) return null
     // const { calloutOptions, calloutVisible } = this.state
 
     return (

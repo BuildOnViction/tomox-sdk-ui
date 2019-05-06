@@ -46,8 +46,11 @@ export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
   componentDidMount() {
-    if (this.props.createProvider) {
-      this.props.createProvider()
+    const { createProvider, queryAppData } = this.props
+
+    queryAppData()
+    if (createProvider) {
+      createProvider()
     }
   }
 

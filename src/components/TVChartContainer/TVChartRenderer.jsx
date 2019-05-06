@@ -94,10 +94,10 @@ export default class TVChartRenderer extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
-		if (window.tvWidget !== null) {
-			window.tvWidget.remove()
-			window.tvWidget = null
-		}		
+		// if (window.tvWidget !== null) {
+		// 	window.tvWidget.remove()
+		// 	window.tvWidget = null
+		// }		
 	}
 
 	render() {

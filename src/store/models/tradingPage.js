@@ -72,31 +72,37 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.unSubscribePrice()
 
       const state = getState()
-      const signer = getSigner()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
       dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()
-      const userAddress = await signer.getAddress()
+      const accountDomain = getAccountDomain(state)
+      const authenticated = accountDomain.authenticated()
 
-      let [
-        tokenPairData,
-        orders,
-        tradesByAddress, // For trade history in OrderTable
-      ] = await Promise.all([
-        api.fetchTokenPairData(),
-        api.fetchOrders(userAddress),
-        api.fetchAddressTrades(userAddress), 
-      ])
+      if (authenticated) {
+        const signer = getSigner()
+        const userAddress = await signer.getAddress()
 
+        let [
+          orders,
+          tradesByAddress, // For trade history in OrderTable
+        ] = await Promise.all([
+          api.fetchOrders(userAddress),
+          api.fetchAddressTrades(userAddress), 
+        ])
+
+        orders = parseOrders(orders, pairs)
+        tradesByAddress = parseTradesByAddress(tradesByAddress, pairs)
+
+        dispatch(actionCreators.initOrdersTable(orders))
+        dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+      }
+
+      let tokenPairData = await api.fetchTokenPairData()
       tokenPairData = parseTokenPairsData(tokenPairData, pairs)
-      orders = parseOrders(orders, pairs)
-      tradesByAddress = parseTradesByAddress(tradesByAddress, pairs)
-
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
-      dispatch(actionCreators.initOrdersTable(orders))
-      dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
