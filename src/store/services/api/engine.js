@@ -125,12 +125,12 @@ export const fetchTokenBalances = async (address: string, tokens: Array<Token>) 
     const responses = await Promise.all(tokenRequests)
     const balances = []
 
-    responses.map(async response => {
+    for (const response of responses) {
       const balanceData = await response.json()
       const { data: {symbol, balance} } = balanceData
 
       balances.push({ symbol, balance: utils.formatEther(utils.bigNumberify(balance)) })
-    })
+    }
     return balances
   } catch(e) {
     throw new Error(e)
@@ -365,6 +365,13 @@ export const getTrades = async (
   quoteToken: string
 ): Promise<Trades> => {
   const trades = await fetchTokenPairTrades(baseToken, quoteToken)
+  const parsedTrades = parseTrades(trades)
+
+  return parsedTrades
+}
+
+export const getTradesByAddress = async (userAddress: string): Promise<Trades> => {
+  const trades = await fetchAddressTrades(userAddress)
   const parsedTrades = parseTrades(trades)
 
   return parsedTrades

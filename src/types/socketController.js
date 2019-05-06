@@ -5,6 +5,9 @@ import type {
 import type {
   Trades
 } from './trades';
+import type {
+  TokenPairs,
+} from './types/tokens'
 
 export type CreateConnectionAction = {
   type: 'socketController/CREATE_CONNECTION'
@@ -119,6 +122,13 @@ export type UnsubscribeOrderBookAction = {
     pair: any
   }
 };
+
+export type UpdateTokenPairDataAction = {
+  type: 'socketController/UPDATE_TOKEN_PAIR_DATA',
+  payload: {
+    tokenPairData: TokenPairs
+  }
+}
 
 export type socketControllerAction = |
   CreateConnectionAction |

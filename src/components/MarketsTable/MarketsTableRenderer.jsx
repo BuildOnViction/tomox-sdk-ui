@@ -26,6 +26,8 @@ import {
   SmallText,
 } from '../Common'
 
+import { getChangePercentText } from '../../utils/helpers'
+
 type Props = {
   searchInput: string,
   pairs: Array<Object>,
@@ -56,7 +58,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       high,
       low,
       change,
-      orderVolume,
+      volume,
       favorited,
     } = pairs[index]
 
@@ -72,30 +74,28 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{formatNumber(lastPrice, { precision: 2 })}</ChangeCell>
+            <ChangeCell change={change}>{(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"}</ChangeCell>
           </PriceNumber>
           <PriceNumber>
             <SmallText muted>
-              {currentReferenceCurrency}
-              {formatNumber(lastPrice, { precision: 2 })} 
+              {(change !== null) && currentReferenceCurrency}
+              {(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"} 
             </SmallText>
           </PriceNumber>
         </Cell>
         <Cell>
-          <ChangeCell change={change}>
-            {change > 0 ? `+${formatNumber(change, { precision: 2 })}` 
-            : change === 0 ? formatNumber(change, { precision: 2 })
-            : formatNumber(change, { precision: 2 })}%
-          </ChangeCell>
+            <ChangeCell change={change}>
+              {change !== null ? getChangePercentText(change) : "N.A"}
+            </ChangeCell>
         </Cell>
         <Cell>
-            {formatNumber(high, { precision: 2 })}
+            {(high !== null) ? formatNumber(high, { precision: 2 }): "N.A"}
         </Cell>
         <Cell>
-          {formatNumber(low, { precision: 2 })}
+          {(low !== null) ? formatNumber(low, { precision: 2 }) : "N.A"}
         </Cell>
         <Cell align="flex-end" flexGrow={2}>
-          {orderVolume ? formatNumber(orderVolume, { precision: 2 }) : 'N.A'}
+          {(volume !== null) ? formatNumber(volume, { precision: 2 }) : 'N.A'}
         </Cell>
       </Row>
     )

@@ -7,7 +7,7 @@ export const mapStateToProps = (state: State) => {
   let selector = tradesTableSelector(state);
   return {
     trades: selector.trades(50),
-    userTrades: selector.userTrades(),
+    // userTrades: selector.userTrades(),
     currentPair: selector.currentPair()
   };
 };

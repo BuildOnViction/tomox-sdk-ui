@@ -209,22 +209,22 @@ export const computeChange = (open: string, close: string) => {
 
   if (bigOpen.eq(bigClose)) return 0
 
-  const change = ((bigClose.sub(bigOpen)).mul(percentMultiplier)).div(bigOpen)
-  const percentChange = Number(change.toString()) / 100
+  // Multiply by 100 to keep 2 decimal places. Because BigNumber only support intergers
+  // Reference: https://github.com/ethers-io/ethers.js/issues/488
+  const change = ((bigClose.sub(bigOpen)).mul(percentMultiplier)).mul('100').div(bigOpen)
+  const percentChange = Number(utils.formatUnits(change, 2))
   return percentChange
 }
 
-// Workaround because BigNumber return wrong result in case change is small
-export const getChangePercentText = (open: String, close: string, precision: number) => {
-  const percentChange = (close - open) * 100 / open
+export const getChangePercentText = (change) => {
 
-  if (percentChange > 0) return `+${formatNumber(percentChange, {precision})}%`
-  if (percentChange < 0) return `${formatNumber(percentChange, {precision})}%`
+  if (change > 0) return `+${change}%`
+  if (change < 0) return `${change}%`
 
-  return `${formatNumber(percentChange, {precision})}%`
+  return `${change}%`
 }
 
-export const getCompareText: string = (open: string, close: string, precision: number) => {
+export const getChangePriceText: string = (open: string, close: string, precision: number) => {
   const result = Number(close) - Number(open)
 
   if (result > 0) return `+${formatNumber(result, {precision})}`

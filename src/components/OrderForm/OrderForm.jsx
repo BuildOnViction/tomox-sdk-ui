@@ -172,7 +172,9 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleUpdateAmountFraction = (fraction: number, side: SIDE) => {
-    const { quoteTokenBalance, baseTokenBalance } = this.props
+    const { quoteTokenBalance, baseTokenBalance, authenticated } = this.props
+
+    if (!authenticated) return
 
     if (side === 'SELL') {
       const { sellPrice } = this.state
@@ -651,6 +653,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         takeFee,
         baseTokenBalance,
         quoteTokenBalance,
+        authenticated,
+        redirectToLoginPage,
       },
       onInputChange,
       onInputFocus,
@@ -744,6 +748,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellPriceInput={sellPriceInput}
         buyAmountInput={buyAmountInput}
         sellAmountInput={sellAmountInput}
+        authenticated={authenticated}
+        redirectToLoginPage={redirectToLoginPage}
       />
     )
   }

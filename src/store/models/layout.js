@@ -5,19 +5,20 @@ import {
   getAccountBalancesDomain,
   getTokenDomain,
   getSettingsDomain,
-  getTokenPairsDomain
+  getTokenPairsDomain,
 } from '../domains'
 
 import { quoteTokens } from '../../config/quotes'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
-// import * as accountBalancesService from '../services/accountBalances'
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
+import * as accountActionTypes from "../actions/account"
 
+import { getCurrentBlock } from "../services/wallet"
 import type { State, ThunkAction } from '../../types'
-import type { Token, TokenBalance, TokenBalances } from '../../types/tokens'
+import type { Token } from '../../types/tokens'
 
 export default function createSelector(state: State) {
   const accountDomain = getAccountDomain(state)
@@ -26,12 +27,10 @@ export default function createSelector(state: State) {
   const tokenPairs = getTokenPairsDomain(state)
 
   const TomoBalance = accountBalancesDomain.tomoBalance()
-  const WETHBalance = accountBalancesDomain.tokenBalance('WETH')
-  const WETHAllowance = accountBalancesDomain.tokenAllowance('WETH')
   const authenticated = accountDomain.authenticated()
   const address = accountDomain.address()
   const currentBlock = accountDomain.currentBlock()
-  const accountLoading = !(TomoBalance && WETHBalance && WETHAllowance)
+  const accountLoading = !TomoBalance
   const referenceCurrency = accountDomain.referenceCurrency()
   const locale = settingsDomain.getLocale()
   const currentPair = tokenPairs.getCurrentPair()
@@ -40,8 +39,6 @@ export default function createSelector(state: State) {
 
   return {
     TomoBalance,
-    WETHBalance,
-    WETHAllowance,
     authenticated,
     address,
     accountLoading,
@@ -51,6 +48,44 @@ export default function createSelector(state: State) {
     currentPairData,
     pathname,
     referenceCurrency,
+  }
+}
+
+export function queryAppData(): ThunkAction {
+  return async (dispatch, getState, { api }) => {
+    const state = getState()
+    const { router: { location: { pathname }}} = state
+    const pairParam = pathname.match(/.*trade\/?(.*)$/)
+    let currentPair = pairParam ? pairParam[1].replace('-', '/') : ''
+
+    try {
+      let tokens = getTokenDomain(state).tokens()
+      const quotes = quoteTokens
+
+      tokens = quotes
+        .concat(tokens)
+        .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
+
+      const currentBlock = await getCurrentBlock()
+      if (!currentBlock) throw new Error("")
+
+      const pairs = await api.fetchPairs()
+      const tokenPairData = await api.fetchTokenPairData()
+      
+      const availablePairs = tokenPairData.map(pairData => pairData.pair.pairName)
+      currentPair = availablePairs.includes(currentPair) ? currentPair : availablePairs[0]
+
+      dispatch(actionCreators.updateCurrentPair(currentPair))
+      dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
+      dispatch(actionCreators.updateTokenPairs(pairs))
+    } catch (e) {
+      dispatch(
+        notifierActionCreators.addErrorNotification({
+          message: "Could not connect to Tomochain network"
+        })
+      )
+      console.log(e)
+    }
   }
 }
 
@@ -92,24 +127,6 @@ export function queryAccountData(): ThunkAction {
       //   balance => dispatch(actionCreators.updateBalance(balance))
       // )
 
-      // await accountBalancesService.subscribeTomoBalance(
-      //   accountAddress,
-      //   balance =>
-      //     dispatch(
-      //       actionCreators.updateBalance({
-      //         symbol: NATIVE_TOKEN_SYMBOL,
-      //         balance,
-      //       })
-      //     )
-      // )
-
-      // await accountBalancesService.subscribeTokenAllowances(
-      //   accountAddress,
-      //   tokens,
-      //   allowance => {
-      //     return dispatch(actionCreators.updateAllowance(allowance))
-      //   }
-      // )
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({

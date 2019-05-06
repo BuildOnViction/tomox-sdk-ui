@@ -98,6 +98,8 @@ const OrderFormRenderer = (props: Props) => {
     sellPriceInput,
     buyAmountInput,
     sellAmountInput,
+    authenticated,
+    redirectToLoginPage,
   } = props
 
   return (
@@ -150,6 +152,8 @@ const OrderFormRenderer = (props: Props) => {
                 sellPriceInput={sellPriceInput}
                 buyAmountInput={buyAmountInput}
                 sellAmountInput={sellAmountInput}
+                authenticated={authenticated}
+                redirectToLoginPage={redirectToLoginPage}
               />
             }
           />
@@ -274,13 +278,15 @@ const BuyLimitOrderPanel = (props) => {
     isShowBuyMaxAmount,
     buyPriceInput,
     buyAmountInput,
+    authenticated,
+    redirectToLoginPage,
   } = props
 
   return (
     <BuyLimitOrderContainer>
       <HeaderRow>
         <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
-        <DecreaseToken>{`-${quoteTokenSymbol}`}</DecreaseToken>
+        {/* <DecreaseToken>{`-${quoteTokenSymbol}`}</DecreaseToken> */}
       </HeaderRow>
 
       <InputBox>
@@ -362,14 +368,21 @@ const BuyLimitOrderPanel = (props) => {
       
       <ErrorMessage>{errorBuy &&  errorBuy.message}</ErrorMessage>
 
-      <BuyButton
+      {authenticated && (<BuyButton
         intent="success"
         text="Buy"
         name="order"
         onClick={() => handleSendOrder('BUY')}
-        // disabled={insufficientBalanceToBuy}
         fill
-      />
+      />)}
+
+      {!authenticated && (<BuyButton
+        intent="success"
+        text="Unlock Your Wallet"
+        name="order"
+        onClick={redirectToLoginPage}
+        fill
+      />)}
     </BuyLimitOrderContainer>
   )
 }
@@ -398,13 +411,15 @@ const SellLimitOrderPanel = (props) => {
     isShowSellMaxAmount,
     sellPriceInput,
     sellAmountInput,
+    authenticated,
+    redirectToLoginPage,
   } = props
 
   return (
     <SellLimitOrderContainer>
       <HeaderRow>
         <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
-        <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken>
+        {/* <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken> */}
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -483,14 +498,21 @@ const SellLimitOrderPanel = (props) => {
 
       <ErrorMessage>{errorSell &&  errorSell.message}</ErrorMessage>
       
-      <SellButton
+      {authenticated && <SellButton
         intent="danger"
         text="Sell"
         name="order"
         onClick={() => handleSendOrder('SELL')}
-        // disabled={insufficientBalanceToSell}
         fill
-      />
+      />}
+
+      {!authenticated && <SellButton
+        intent="danger"
+        text="Unlock Your Wallet"
+        name="order"
+        onClick={redirectToLoginPage}
+        fill
+      />}
     </SellLimitOrderContainer>
   )
 }

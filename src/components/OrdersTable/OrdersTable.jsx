@@ -13,28 +13,29 @@ type Props = {
 
 type State = {
   selectedTabId: string,
-  isOpen: boolean
+  isHideOtherPairs: boolean,
 };
 
 class OrdersTable extends React.PureComponent<Props, State> {
   static defaultProps = { authenticated: true }
   state = {
     selectedTabId: 'open-orders',
-    isOpen: true,
+    isHideOtherPairs: false,
   }
 
   changeTab = (tabId: string) => {
     this.setState({ selectedTabId: tabId })
   }
 
-  toggleCollapse = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen,
-    }))
+  handleChangeHideOtherPairs = () => {
+    this.setState({
+      isHideOtherPairs: !this.state.isHideOtherPairs,
+    })
   }
 
   filterOrders = () => {
-    const { orders } = this.props
+    const { orders, currentPair: { pair }} = this.props
+    const { isHideOtherPairs } = this.state
     const result = { ALL: orders }
     const filters = [
       'OPEN',
@@ -59,18 +60,38 @@ class OrdersTable extends React.PureComponent<Props, State> {
       })
     }
 
+    if (isHideOtherPairs) {
+      result['OPEN'] = result['OPEN'].filter(trade => trade.pair === pair)
+      result['ALL'] = result['ALL'].filter(trade => trade.pair === pair)
+
+      return result
+    }
+
+    return result
+  }
+
+  filterTrades = () => {
+    const { trades, currentPair: { pair }} = this.props
+    const { isHideOtherPairs } = this.state
+    let result = trades
+
+    if (isHideOtherPairs) {
+      result = result.filter(trade => trade.pair === pair)
+      return result
+    }
+
     return result
   }
 
   render() {
     const { authenticated, orders, cancelOrder } = this.props
-    const { selectedTabId, isOpen } = this.state
+    const { selectedTabId, isHideOtherPairs } = this.state
     const filteredOrders = this.filterOrders()
+    const filteredTrades = this.filterTrades()
     const loading = !orders
 
     return (
       <OrdersTableRenderer
-        isOpen={isOpen}
         loading={loading}
         selectedTabId={selectedTabId}
         onChange={this.changeTab}
@@ -79,6 +100,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
         cancelOrder={cancelOrder}
         // silence-error: currently too many flow errors, waiting for rest to be resolved
         orders={filteredOrders}
+        trades={filteredTrades}
+        isHideOtherPairs={isHideOtherPairs}
+        handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
       />
     )
   }

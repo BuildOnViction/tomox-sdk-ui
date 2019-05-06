@@ -121,8 +121,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                   <CashPrice className="cash">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
                 </LatestPrice>
                 
-                <PercentChange positive={(currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0} width="33%">
-                  {getChangePercentText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}
+                <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
+                  {getChangePercentText(currentPairData.ticks[0].change)}
                 </PercentChange>             
               </LatestTick>
             )}

@@ -26,7 +26,7 @@ import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
-import { getCompareText, getChangePercentText } from '../../utils/helpers'
+import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 
 export type Props = {
   TomoBalance: string,
@@ -46,8 +46,11 @@ export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
   componentDidMount() {
-    if (this.props.createProvider) {
-      this.props.createProvider()
+    const { createProvider, queryAppData } = this.props
+
+    queryAppData()
+    if (createProvider) {
+      createProvider()
     }
   }
 
@@ -129,8 +132,8 @@ class Layout extends React.PureComponent<Props, State> {
                     <div className="tick change">
                       <div className="title">24h Change</div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
-                        <span>{getCompareText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
-                        <span>{getChangePercentText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
                       </div>
                     </div>
 
@@ -239,19 +242,20 @@ class Layout extends React.PureComponent<Props, State> {
                 </Tooltip> 
                 <SidebarItemTitle>Portfolio</SidebarItemTitle>
               </SidebarItemBox>
-              </NavLink>                      
-            <NavLink className="sidebar-item docs-faq-link" to="/settings">
-              <SidebarItemBox>
-                <Tooltip disabled={!this.isTradingPage(pathname)} 
-                  portalClassName="sidebar-tooltip"
-                  content="Docs/FAQ" 
-                  position={Position.RIGHT}
-                  transitionDuration={0}>
-                  <i></i> 
-                </Tooltip> 
-                <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
-              </SidebarItemBox>
-              </NavLink>
+              </NavLink>   
+
+              <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+                <SidebarItemBox>
+                  <Tooltip disabled={!this.isTradingPage(pathname)} 
+                    portalClassName="sidebar-tooltip"
+                    content="Docs/FAQ" 
+                    position={Position.RIGHT}
+                    transitionDuration={0}>
+                    <i></i> 
+                  </Tooltip> 
+                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                </SidebarItemBox>
+              </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
@@ -344,6 +348,10 @@ const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
   role: 'button',
+})``
+
+const NavExternalLink = styled.a.attrs({
+  className: 'sidebar-item docs-faq-link',
 })``
 
 const MenuItem = styled.li``

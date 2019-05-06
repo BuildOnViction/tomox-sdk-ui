@@ -12,6 +12,7 @@ export const actionTypes = {
   updateOrderBook: 'tradingPage/UPDATE_ORDERBOOK',
   initTradesTable: 'tradingPage/INIT_TRADES_TABLE',
   updateTradesTable: 'tradingPage/UPDATE_TRADES_TABLE',
+  updateTradesByAddress: 'tradingPage/UPDATE_TRADES_BY_ADDRESS',
 }
 
 export type UpdateTokenPairDataAction = {

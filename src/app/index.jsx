@@ -6,7 +6,6 @@ import Layout from './Layout'
 // import LandingPage from './LandingPage'
 import LoginPage from './LoginPage'
 import WalletPage from './WalletPage'
-import FaqPage from './FaqPage'
 import SettingsPage from './SettingsPage'
 import LogoutPage from './LogoutPage'
 import TradingPage from './TradingPage'
@@ -17,24 +16,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import history from '../store/history'
 import '../styles/css/index.css'
 
-import { queryAccountData } from '../store/models/accountInit'
 import createSelector from '../store/models/app'
 class App extends React.PureComponent {
-  componentDidMount() {
-    const { authenticated, queryAccountData } = this.props
-    if(authenticated) {
-      queryAccountData()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const prevAuthenticated = prevProps.authenticated
-    const { authenticated, queryAccountData } = this.props
-    
-    if(authenticated && authenticated !== prevAuthenticated) {
-      queryAccountData()
-    }
-  }
 
   render() {
     return (
@@ -48,7 +31,6 @@ class App extends React.PureComponent {
               <Route path="/markets" component={MarketsPage} />
               <Route path="/trade/:pair?" component={TradingPage} />
               <Route path="/settings" component={SettingsPage} />
-              <Route path="/faq" component={FaqPage} />
               <Route path="/logout" component={LogoutPage} />
             </Switch>
           </Layout>
@@ -62,14 +44,7 @@ const mapStateToProps = (state) => {
   const selector = createSelector(state)
   return {
     location: selector.location,
-    authenticated: selector.authenticated,
   }
 }
 
-const mapDispatchToProps = {
-  queryAccountData,
-}
-
-// export default App;
-// update when url change
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)

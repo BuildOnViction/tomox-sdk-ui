@@ -18,6 +18,7 @@ import { getSigner } from '../services/signer'
 import { parseNewOrderError } from '../../config/errors'
 // import { joinSignature } from 'ethers/utils'
 import { max, minOrderAmount } from '../../utils/helpers'
+import { push } from 'connected-react-router'
 
 export default function getOrderFormSelector(state: State) {
   const tokenPairsDomain = getTokenPairsDomain(state)
@@ -41,6 +42,7 @@ export default function getOrderFormSelector(state: State) {
 
   const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
   const currentAddress = accountDomain.address()
+  const authenticated = accountDomain.authenticated()
   const baseTokenLockedBalance = orderDomain.lockedBalanceByToken(baseTokenSymbol, currentAddress)
   const quoteTokenLockedBalance = orderDomain.lockedBalanceByToken(quoteTokenSymbol, currentAddress)
   const baseTokenBalance = baseToken.balance - baseTokenLockedBalance
@@ -62,6 +64,7 @@ export default function getOrderFormSelector(state: State) {
     takeFee,
     pairIsAllowed,
     pairAllowanceIsPending,
+    authenticated,
   }
 }
 
@@ -164,6 +167,12 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
       const message = parseNewOrderError(e)
       return dispatch(notifierActionCreators.addErrorNotification({ message }))
     }
+  }
+}
+
+export const redirectToLoginPage = (): ThunkAction => {
+  return async (dispatch, getState) => {
+    dispatch(push('/login'))
   }
 }
 

@@ -1,14 +1,21 @@
 // @flow
 import * as appActionCreators from '../actions/app'
-import { getOrdersDomain } from '../domains'
+import { getOrdersDomain, getTradesDomain, getAccountDomain, getTokenPairsDomain } from '../domains'
 import type { State, ThunkAction } from '../../types'
 
 import { parseCancelOrderError } from '../../config/errors'
 import { getSigner } from '../services/signer'
 
 export default function ordersTableSelector(state: State) {
+  const address = getAccountDomain(state).address()
+  const orders = getOrdersDomain(state).lastOrders(100)
+  const trades = getTradesDomain(state).userTrades(address)
+  const currentPair = getTokenPairsDomain(state).getCurrentPair()
+
   return {
-    orders: () => getOrdersDomain(state).lastOrders(100),
+    orders,
+    trades,
+    currentPair,
   }
 }
 
