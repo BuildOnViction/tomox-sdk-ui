@@ -1,36 +1,34 @@
-import {
-  DEFAULT_NETWORK_ID
-} from './environment.js'
-import addresses from './addresses.json';
-import {
-  defaultTokenDecimals
-} from './tokens'
+import { DEFAULT_NETWORK_ID } from './environment.js'
+import addresses from './addresses.json'
+import { defaultTokenDecimals } from './tokens'
 import images from './images.json'
 
 const quoteTokensTable = {
-  [DEFAULT_NETWORK_ID]: []
-};
-
-
-let quoteTokensBySymbolsTable = {
-  [DEFAULT_NETWORK_ID]: {}
+  [DEFAULT_NETWORK_ID]: [],
 }
-export const quoteSymbolTokens = ['WETH', 'DAI']
-for (let token of quoteSymbolTokens) {
+
+const quoteTokensBySymbolsTable = {
+  [DEFAULT_NETWORK_ID]: {},
+}
+export const quoteSymbolTokens = ['BTC', 'USDT', 'TOMO', 'TOMOS']
+for (const token of quoteSymbolTokens) {
   const tokenData = {
     symbol: token,
     address: addresses[DEFAULT_NETWORK_ID][token],
     decimals: defaultTokenDecimals[token] || 18,
-    image: images[DEFAULT_NETWORK_ID][token]
+    image: images[DEFAULT_NETWORK_ID][token],
   }
   quoteTokensBySymbolsTable[DEFAULT_NETWORK_ID][token] = tokenData
 
   quoteTokensTable[DEFAULT_NETWORK_ID].push(tokenData)
 }
 
-export const quoteTokensBySymbols = quoteTokensBySymbolsTable[DEFAULT_NETWORK_ID];
-export const quoteTokenSymbols = Object.keys(quoteTokensBySymbols);
-export const quoteTokens = quoteTokensTable[DEFAULT_NETWORK_ID].map((m, index) => ({
-  ...m,
-  rank: index + 1
-}));
+export const quoteTokensBySymbols =
+  quoteTokensBySymbolsTable[DEFAULT_NETWORK_ID]
+export const quoteTokenSymbols = Object.keys(quoteTokensBySymbols)
+export const quoteTokens = quoteTokensTable[DEFAULT_NETWORK_ID].map(
+  (m, index) => ({
+    ...m,
+    rank: index + 1,
+  })
+)

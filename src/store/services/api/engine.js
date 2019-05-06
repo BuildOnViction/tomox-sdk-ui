@@ -4,6 +4,8 @@
 // import trades from '../../../jsons/trades.json';
 // import orderBookData from '../../../jsons/orderBookData.json';
 import { ENGINE_HTTP_URL } from '../../../config/environment'
+import type { Token } from '../../types/tokens'
+import { utils } from 'ethers'
 
 import {
   parseTokenPairData,
@@ -16,6 +18,7 @@ import fetch from 'isomorphic-fetch'
 import type { Orders } from '../../../types/orders'
 import type { Trades } from '../../../types/trades'
 import type { PairAddresses } from '../../../types/pairs'
+import { NATIVE_TOKEN_SYMBOL, NATIVE_TOKEN_ADDRESS } from '../../../config/tokens'
 
 const request = (endpoint, options) => {
   return fetch(`${ENGINE_HTTP_URL}${endpoint}`, {
@@ -99,15 +102,39 @@ export const fetchPair = async (baseToken: string, quoteToken: string) => {
   return data
 }
 
-export const fetchBalance = async (address: string) => {
-  const response = await request(`/balances/${address}`)
-  const { data, error } = await response.json()
+export const fetchTomoBalance = async (address: string) => {
+  try {
+    const response = await request(`/account/${address}/${NATIVE_TOKEN_ADDRESS}`)
+    const { data: { balance } } = await response.json()
 
-  if (response.status !== 200) {
-    throw new Error(error)
+    return {
+      symbol: NATIVE_TOKEN_SYMBOL,
+      balance: utils.formatEther(utils.bigNumberify(balance)),
+    }
+  } catch(e) {
+    throw new Error(e)
   }
+}
 
-  return data
+export const fetchTokenBalances = async (address: string, tokens: Array<Token>) => {
+  try {
+    const tokenRequests = tokens.map(token => {
+      return request(`/account/${address}/${token.address}`)
+    })  
+
+    const responses = await Promise.all(tokenRequests)
+    const balances = []
+
+    for (const response of responses) {
+      const balanceData = await response.json()
+      const { data: {symbol, balance} } = balanceData
+
+      balances.push({ symbol, balance: utils.formatEther(utils.bigNumberify(balance)) })
+    }
+    return balances
+  } catch(e) {
+    throw new Error(e)
+  }
 }
 
 export const fetchOrders = async (address: string) => {
@@ -277,6 +304,22 @@ export const fetchTokenPairData = async () => {
   return data
 }
 
+export const fetchAccountInfo = async (address: string) => {
+  const response = await request(`/account/${address}`)
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
 export const createAccount = async (address: string) => {
   const response = await request(`/account/create?address=${address}`, {
     method: 'POST',
@@ -288,7 +331,7 @@ export const createAccount = async (address: string) => {
     throw new Error(error)
   }
 
-  if (response.status !== 200) {
+  if (response.status !== 201) {
     throw new Error('Server error')
   }
 
@@ -322,6 +365,13 @@ export const getTrades = async (
   quoteToken: string
 ): Promise<Trades> => {
   const trades = await fetchTokenPairTrades(baseToken, quoteToken)
+  const parsedTrades = parseTrades(trades)
+
+  return parsedTrades
+}
+
+export const getTradesByAddress = async (userAddress: string): Promise<Trades> => {
+  const trades = await fetchAddressTrades(userAddress)
   const parsedTrades = parseTrades(trades)
 
   return parsedTrades

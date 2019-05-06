@@ -20,6 +20,15 @@ export const initialized = () => {
   return event;
 };
 
+export const selected = (order: Object) => {
+  const event = (state: OrderBookState) => ({
+    ...state,
+    selected: order,
+  })
+
+  return event
+}
+
 export const orderBookInitialized = (
   bids: Array<Object>,
   asks: Array<Object>
@@ -207,6 +216,6 @@ export default function domain(state: OrderBookState) {
         ? state.asks[state.sortedAsks[0]].price
         : 0,
     getQuoteToken: () => state.quoteToken,
-    getBaseToken: () => state.baseToken
+    getBaseToken: () => state.baseToken,
   };
 }

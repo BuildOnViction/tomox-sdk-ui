@@ -52,5 +52,7 @@ export const tokenSymbols = Object.keys(tokensBySymbol)
 export const tokens = Object.values(tokensBySymbol)
 export const tokenImages = images[DEFAULT_NETWORK_ID]
 export const NATIVE_TOKEN_SYMBOL = 'TOMO'
+export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001'
 export const pricePrecision = 7
+export const pricePrecisionsList = [1, 2, 3, 4, 5, 6, 7]
 export const amountPrecision = 3

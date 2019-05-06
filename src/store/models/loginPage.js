@@ -15,7 +15,10 @@ import {
 
 import { LedgerSigner } from '../services/signer/ledger';
 
-import type { State, ThunkAction } from '../../types';
+import type
+ { State, ThunkAction } from '../../types';
+
+import { fetchAccountInfo, createAccount } from '../services/api/engine'
 
 type CreateWalletParams = {
   wallet: Object,
@@ -79,6 +82,11 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
         await savePrivateKeyInSessionStorage({ address, privateKey });
 
       await createLocalWalletSigner(wallet);
+
+      // Check account exist on backend yet?
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) await createAccount(address)
+
       dispatch(actionCreators.createWallet(wallet.address, encryptedWallet));
       dispatch(actionCreators.loginWithWallet(address, privateKey));
       dispatch(

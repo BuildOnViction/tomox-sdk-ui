@@ -3,10 +3,9 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { HTMLSelect, Icon } from '@blueprintjs/core'
+import { Icon, Switch } from '@blueprintjs/core'
 import {
   Alignment,
-  Button,
   Menu,
   MenuDivider,
   Navbar,
@@ -14,22 +13,20 @@ import {
   NavbarHeading,
   Popover,
   Position,
-  Tag,
+  Tooltip,
 } from '@blueprintjs/core'
 
 import {
   NavbarDivider,
+  Theme,
+  DarkMode,
 } from '../../components/Common'
-
-import { Footer, Indent } from '../../components/Common'
-import {
-  Devices,
-} from '../../components/Common/Variables'
 import Notifier from '../../components/Notifier'
-import ConnectionStatus from '../../components/ConnectionStatus'
-import locales from '../../config/locales'
-import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
+import TokenSearcher from '../../components/TokenSearcher'
+import { formatNumber } from 'accounting-js'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
+import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 
 export type Props = {
   TomoBalance: string,
@@ -49,8 +46,11 @@ export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
   componentDidMount() {
-    if (this.props.createProvider) {
-      this.props.createProvider()
+    const { createProvider, queryAppData } = this.props
+
+    queryAppData()
+    if (createProvider) {
+      createProvider()
     }
   }
 
@@ -59,8 +59,25 @@ class Layout extends React.PureComponent<Props, State> {
     this.props.changeLocale && this.props.changeLocale(locale)
   }
 
+  isTradingPage = (pathname: string) => {
+    return pathname.includes('/trade')
+  }
+
+  handleThemeChange = () => {
+
+  }
+
   render() {
-    const { children, authenticated, address, currentBlock } = this.props
+    const { 
+      children, 
+      authenticated, 
+      address, 
+      currentPair, 
+      currentPairData,
+      pathname, 
+      referenceCurrency,
+    } = this.props
+
     const menu = (
       <Menu>
         <MenuItem>
@@ -76,84 +93,173 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper>
+      <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
-        <Header>
+        <Header className="tm-header">
           <Navbar>
+            <NavbarHeading className="logo">
+              <TomoXLogo height={40} width={40} alt="TomoX Logo" />
+            </NavbarHeading>
+
             <NavbarGroup align={Alignment.LEFT}>
-              <NavbarHeading>
-                <NavbarHeaderBox>
-                  <TomoXLogo height={25} width={25} alt="TomoX Logo" />
-                  <Indent />
-                  <Tag minimal intent="success"><DexVersion>{REACT_APP_DEX_VERSION}</DexVersion></Tag>
-                </NavbarHeaderBox>
-              </NavbarHeading>
-              {authenticated && (
-                <React.Fragment>
-                  <NavbarDivider />
-                  <NavbarLink to="/wallet">Wallet</NavbarLink>
-                  <NavbarLink to="/markets">Markets</NavbarLink>
-                  <NavbarLink to="/trade">Exchange</NavbarLink>
-                  <NavbarLink to="/settings">Settings</NavbarLink>
-                  <NavbarDivider />
-                </React.Fragment>
-              )}
+            {this.isTradingPage(pathname) 
+            && (
+              <TokenInfo className="token-info">
+                {currentPair && (
+                  <TokenSearcherPopover
+                    content={<TokenSearcher />}
+                    position={Position.BOTTOM_LEFT}
+                    minimal>
+                    <TokenPaisDropDown>
+                      <span>{currentPair.pair}</span> 
+                      <i className="arrow"></i>
+                    </TokenPaisDropDown>
+                  </TokenSearcherPopover>
+                )}
+
+                <NavbarDivider />
+
+                {currentPairData && 
+                  (<TokenTick className="token-tick">
+                    <div className="tick last-price">
+                      <div className="title">Last Price</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
+                        <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
+                      </div>
+                    </div>
+
+                    <div className="tick change">
+                      <div className="title">24h Change</div>
+                      <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
+                      </div>
+                    </div>
+
+                    <div className="tick high">
+                      <div className="title">24h High</div>
+                      <div className="up">
+                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
+                      </div>
+                    </div>
+
+                    <div className="tick low">
+                      <div className="title">24h Low</div>
+                      <div className="down">
+                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
+                      </div>
+                    </div>
+
+                    <div className="tick volume">
+                      <div className="title">24h Volume</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
+                      </div>
+                    </div>
+                  </TokenTick>)
+                }
+              </TokenInfo>
+            )}
             </NavbarGroup>
 
-            <NavbarGroup align={Alignment.RIGHT}>
-              {currentBlock && (
-                <Block>
-                  <span>Current Block: </span>
-                  <a
-                    href={
-                      'https://scan.testnet.tomochain.com/blocks/' +
-                      currentBlock
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {currentBlock}
-                  </a>
-                </Block>
-              )}
+            <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <SupportItem className="utility-item support">
+                  <i>support</i>
+              </SupportItem>
 
-              {!authenticated ? (
-                <NavbarLink to="/login">Login</NavbarLink>
-              ) : (
-                <React.Fragment>
-                  <ConnectionStatus />
-                  <Popover
-                    content={menu}
-                    position={Position.BOTTOM_RIGHT}
-                    minimal
-                  >
-                    <Button icon="key" text={address} />
-                  </Popover>
-                </React.Fragment>
-              )}
+              <NotificationItem className="utility-item notification">
+                  <i>notification</i>
+              </NotificationItem>
 
-              <Navbar.Divider />
+              <UserItem className="utility-item notification">
+                {!authenticated ? (
+                  <NavbarLink to="/login">
+                    <span>Login</span>/<span>Register</span></NavbarLink>
+                ) : (
+                  <React.Fragment>
+                    <Popover
+                      content={menu}
+                      position={Position.BOTTOM_RIGHT}
+                      minimal
+                    >
+                      <Icon icon="user" iconSize={20} />
+                    </Popover>
+                  </React.Fragment>
+                )}
+              </UserItem>
 
-              <Icon icon="globe" />
-              <HTMLSelect
-                large
-                minimal
-                onChange={this.changeLocale}
-                value={this.props.locale}
-              >
-                {locales.map(locale => {
-                  return (
-                    <option key={locale.value} value={locale.value}>
-                      {locale.label}
-                    </option>
-                  )
-                })}
-              </HTMLSelect>
+              <LanguageItem className="utility-item language">
+                <i>language</i>              
+
+                <Popover
+                  content={'todo: languages list'}
+                  position={Position.BOTTOM_RIGHT}
+                  minimal>
+                  <div className="languages-dropdown">
+                    <span>English</span> 
+                    <span className="arrow"></span>
+                  </div>
+                </Popover>  
+              </LanguageItem>
             </NavbarGroup>
           </Navbar>
         </Header>
-        <MainContent>{children}</MainContent>
-        <Footer />
+        <MainContainer>
+          <Sidebar className="sidebar"> 
+            <NavLink className="sidebar-item markets-link" to="/markets">
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Markets" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Markets</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>  
+            <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Exchange" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Exchange</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>         
+            <NavLink className="sidebar-item portfolio-link" to="/wallet">
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Portfolio" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip> 
+                <SidebarItemTitle>Portfolio</SidebarItemTitle>
+              </SidebarItemBox>
+              </NavLink>   
+
+              <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+                <SidebarItemBox>
+                  <Tooltip disabled={!this.isTradingPage(pathname)} 
+                    portalClassName="sidebar-tooltip"
+                    content="Docs/FAQ" 
+                    position={Position.RIGHT}
+                    transitionDuration={0}>
+                    <i></i> 
+                  </Tooltip> 
+                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                </SidebarItemBox>
+              </NavExternalLink>
+            <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
+          </Sidebar>
+          <MainContent className="main-content">{children}</MainContent>
+        </MainContainer>
       </Wrapper>
     )
   }
@@ -161,7 +267,7 @@ class Layout extends React.PureComponent<Props, State> {
 
 export default Layout
 
-const Wrapper = styled.div.attrs({ className: 'bp3-dark' })`
+const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -169,40 +275,83 @@ const Wrapper = styled.div.attrs({ className: 'bp3-dark' })`
 
 const Header = styled.header``
 
-const DexVersion = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
+const TokenSearcherPopover = styled(Popover)`
+  width: 100px;
+`
+
+const TokenPaisDropDown = styled.div.attrs({
+  className: 'tokens-dropdown',
+})`
+  color: ${DarkMode.LIGHT_GRAY};
+  cursor: pointer;
+`
+
+const MainContainer = styled.div.attrs({
+  className: 'main-container',
+})`
+  display: grid;
+  grid-template-columns: 155px 1fr;
+`
+
+const Sidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const SidebarItemBox = styled.div.attrs({
+  className: 'sidebar-item-box',
+})`
+  .bp3-popover-target {
+    display: flex;
+    align-items: center;
+  }
+`
+
+const SidebarItemTitle = styled.span.attrs({
+  className: 'sidebar-item-title',
+})`
+  height: 40px;
+  padding-top: 1px;
 `
 
 const MainContent = styled.main`
   flex: 1;
-`
+  height: calc(100vh - ${Theme.HEADER_HEIGHT_LG});
 
-const NavbarHeaderBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  @media ${Devices.tablet} {
-    display: none;
+  @media only screen and (max-width: 1280px) {
+    height: calc(100vh - ${Theme.HEADER_HEIGHT_MD});
   }
 `
 
-const Block = styled.div`
-  word-wrap: break-word;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 20px;
-  & span {
-    margin-right: 5px;
+const TokenInfo = styled.div`
+  .arrow {
+    transition: transform .5s ease;
+  }
+
+  .bp3-popover-open .arrow {
+    transform: rotate(180deg);
   }
 `
+
+const TokenTick = styled.div``
+
+const SupportItem = styled.div``
+
+const NotificationItem = styled.div``
+
+const LanguageItem = styled.div``
+
+const UserItem = styled.div``
 
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
   role: 'button',
+})``
+
+const NavExternalLink = styled.a.attrs({
+  className: 'sidebar-item docs-faq-link',
 })``
 
 const MenuItem = styled.li``

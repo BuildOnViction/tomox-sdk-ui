@@ -5,8 +5,12 @@ import ordersTableSelector, { cancelOrder } from '../../store/models/ordersTable
 import type { State } from '../../types'
 
 export const mapStateToProps = (state: State) => {
+  const { orders, trades, currentPair } = ordersTableSelector(state)
+
   return {
-    orders: ordersTableSelector(state).orders(),
+    orders,
+    trades,
+    currentPair,
   }
 }
 

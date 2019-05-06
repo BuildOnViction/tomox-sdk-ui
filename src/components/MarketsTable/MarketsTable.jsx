@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import styled from 'styled-components'
 import MarketsTableRenderer from './MarketsTableRenderer'
 
 import type { TokenPair } from '../../types/tokens'
@@ -25,7 +24,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
 
   state = {
     searchInput: '',
-    selectedTab: this.props.quoteTokens[0],
+    selectedTab: 'All',
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
@@ -39,11 +38,22 @@ class MarketsTable extends React.PureComponent<Props, State> {
   filterTokens = (pairs: Array<TokenPair>) => {
     const { searchInput, selectedTab } = this.state
 
-    if (selectedTab !== 'ALL') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+    if (selectedTab.toLowerCase() !== 'all'
+      && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+
+    if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
+    
     pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
 
     return pairs
-  };
+  }
+
+  handleFavoriteClick = (e, pair, favorited) => {
+    e.stopPropagation()
+
+    const { updateFavorite } = this.props
+    updateFavorite(pair, favorited)
+  }
 
   render() {
     const {
@@ -59,28 +69,25 @@ class MarketsTable extends React.PureComponent<Props, State> {
     } = this.state
 
     const filteredPairs = this.filterTokens(pairs)
-    const tabs = quoteTokens.concat(['ALL'])
+    const tabs = ['Favorites', ...quoteTokens, 'All']
 
     return (
-      <Wrapper>
-        <MarketsTableRenderer
-          pairs={filteredPairs}
-          searchInput={searchInput}
-          handleSearchInputChange={this.handleSearchInputChange}
-          redirectToTradingPage={redirectToTradingPage}
-          quoteTokens={quoteTokens}
-          tabs={tabs}
-          selectedTab={selectedTab}
-          handleChangeTab={this.handleChangeTab}
-          currentReferenceCurrency={currentReferenceCurrency}
-        />
-      </Wrapper>
+      <MarketsTableRenderer
+        pairs={filteredPairs}
+        searchInput={searchInput}
+        handleSearchInputChange={this.handleSearchInputChange}
+        redirectToTradingPage={redirectToTradingPage}
+        quoteTokens={quoteTokens}
+        tabs={tabs}
+        selectedTab={selectedTab}
+        handleChangeTab={this.handleChangeTab}
+        currentReferenceCurrency={currentReferenceCurrency}
+        updateFavorite={this.handleFavoriteClick}
+      />
     )
   }
 }
 
 export default MarketsTable
 
-const Wrapper = styled.div`
-  height: 100%;
-`
+

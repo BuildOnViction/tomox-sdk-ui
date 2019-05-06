@@ -14,14 +14,17 @@ import type {
   TokenPairState,
   TokenPairData,
   TokenPairDataMap,
+  CurrentTokenPairData,
 } from '../../types/tokens'
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
+// Todo: at the moment we choose ETH/TOMO is default current pair
+const defaultTokenPair = Object.values(defaultTokenPairs).filter(tokenPair => tokenPair.pair === 'ETH/TOMO')
 const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
   data: {},
   favorites: [],
-  currentPair: (Object.values(defaultTokenPairs)[0]: any).pair,
+  currentPair: (defaultTokenPair[0]: any).pair,
   sortedPairs: [],
 }
 
@@ -184,6 +187,17 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
   return event
 }
 
+export const updateCurrentPairData = (currentPairData: CurrentTokenPairData) => {
+  const event = (state: TokenPairState): TokenPairState => {
+    return {
+      ...state,
+      currentPairData,
+    }
+  }
+
+  return event
+}
+
 export default function getTokenPairsDomain(state: TokenPairState) {
   return {
     getPairs: (): any => Object.keys(state.byPair),
@@ -193,6 +207,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
     getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+    getCurrentPairData: () => state.currentPairData,
 
     //Merge token pair properties and data
     getTokenPairsWithDataObject: () => {

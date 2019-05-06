@@ -3,6 +3,7 @@ import type { State, ThunkAction } from '../../types';
 import { getTokenPairsDomain, getAccountBalancesDomain } from '../domains';
 import * as actionCreators from '../actions/tokenSearcher';
 // import * as ohlcvActionCreators from '../actions/ohlcv';
+import { push } from 'connected-react-router'
 
 import { getQuoteToken, getBaseToken } from '../../utils/tokens';
 import { quoteTokenSymbols as quotes } from '../../config/quotes';
@@ -44,23 +45,10 @@ export default function tokenSearcherSelector(state: State) {
 }
 
 export const updateCurrentPair = (pair: string): ThunkAction => {
-  return async (dispatch, getState, { api, socket }) => {
-    try {
-      socket.unsubscribeChart();
-      socket.unsubscribeOrderBook();
-      socket.unsubscribeTrades();
+    return async (dispatch, getState) => {
+      const param = pair.replace('/', '-')
 
-      let state = getState();
-      dispatch(actionCreators.updateCurrentPair(pair));
-
-      let pairDomain = getTokenPairsDomain(state);
-      let newPair = pairDomain.getPair(pair);
-
-      socket.subscribeTrades(newPair);
-      socket.subscribeOrderBook(newPair);
-      socket.subscribeChart(newPair);
-    } catch (e) {
-      console.log(e);
+      dispatch(actionCreators.updateCurrentPair(pair))
+      dispatch(push(`/trade/${param}`))
     }
-  };
 };

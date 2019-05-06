@@ -6,7 +6,7 @@ import { sendMessage } from './common'
 export const subscribeChart = (
   pair: TokenPair,
   timespan: string,
-  duration: string
+  duration: string,
 ) => {
   if (!window.socket) throw new Error('Socket connection not established')
 
@@ -44,6 +44,34 @@ export const subscribeChart = (
         to: Math.floor(now / 1000),
         units: nameByTimespanUnit[timespan.slice(-1)],
         duration: Number(timespan.slice(0, -1)),
+      },
+    },
+  }
+
+  return sendMessage(message)
+}
+
+export const subscribeTvChart = (
+  pair: TokenPair,
+  duration: string,
+  units: string,
+  from: string,
+  to: string,
+) => {
+  if (!window.socket) throw new Error('Socket connection not established')
+
+  const message: WebsocketMessage = {
+    channel: 'ohlcv',
+    event: {
+      type: 'SUBSCRIBE',
+      payload: {
+        name: pair.pair,
+        baseToken: pair.baseTokenAddress,
+        quoteToken: pair.quoteTokenAddress,
+        duration,
+        units,
+        from,
+        to,        
       },
     },
   }
