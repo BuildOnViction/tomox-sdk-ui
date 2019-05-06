@@ -14,9 +14,9 @@ import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
-import * as accountActionTypes from "../actions/account"
+// import * as accountActionTypes from "../actions/account"
 
-import { getCurrentBlock } from "../services/wallet"
+// import { getCurrentBlock } from "../services/wallet"
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
 
@@ -66,8 +66,8 @@ export function queryAppData(): ThunkAction {
         .concat(tokens)
         .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
 
-      const currentBlock = await getCurrentBlock()
-      if (!currentBlock) throw new Error("")
+      // const currentBlock = await getCurrentBlock()
+      // if (!currentBlock) throw new Error("")
 
       const pairs = await api.fetchPairs()
       const tokenPairData = await api.fetchTokenPairData()
@@ -76,7 +76,7 @@ export function queryAppData(): ThunkAction {
       currentPair = availablePairs.includes(currentPair) ? currentPair : availablePairs[0]
 
       dispatch(actionCreators.updateCurrentPair(currentPair))
-      dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
+      // dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
       dispatch(actionCreators.updateTokenPairs(pairs))
     } catch (e) {
       dispatch(
