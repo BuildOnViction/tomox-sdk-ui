@@ -81,7 +81,7 @@ type State = {
 
 export default class OHLCV extends React.PureComponent<Props, State> {
   state = {
-    chartHeight: 450,
+    chartHeight: 500,
     indicatorHeight: 0,
     currentChart: chartTypes[0],
     chartTypes,
@@ -174,7 +174,7 @@ export default class OHLCV extends React.PureComponent<Props, State> {
           toggleCollapse={this.toggleCollapse}
         />
         <Collapse isOpen={isOpen} transitionDuration={100}>
-          <ResizableBox height={500} width={Infinity}>
+          <ResizableBox height={600} width={Infinity}>
             <ChartLoadingScreen
               volume={indicators[0]}
               line={indicators[1]}

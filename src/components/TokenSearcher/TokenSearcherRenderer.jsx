@@ -1,19 +1,31 @@
 // @flow
-import React from 'react'
+import React from 'react';
 import {
+  Icon,
+  Card,
   Tabs,
   Tab,
   InputGroup,
-  Classes,
-} from '@blueprintjs/core'
+  Button,
+  Collapse
+} from '@blueprintjs/core';
+import {} from '../Common';
 import {
-  Theme,
+  Box,
+  Colors,
   Centered,
+  Chevron,
   OverlaySpinner,
-  DarkMode,
-  UtilityIcon,
-} from '../Common'
-import styled from 'styled-components'
+  CryptoIcon,
+  ColumnEnd,
+  TokenIcon,
+  RowStart,
+  ColumnStart
+} from '../Common';
+import styled from 'styled-components';
+import { ResizableBox } from 'react-resizable';
+import { tokenImages } from '../../config/tokens';
+import { formatNumber } from 'accounting-js';
 
 type Token = {
   pair: string,
@@ -25,7 +37,7 @@ type Token = {
   base: string,
   quote: string,
   favorited: boolean
-}
+};
 
 type Props = {
   loading: boolean,
@@ -45,7 +57,8 @@ type Props = {
   onChangeSearchFilter: (SyntheticInputEvent<>) => void,
   onChangeFilterName: (SyntheticInputEvent<>) => void,
   changeSelectedToken: Token => void,
-}
+  toggleCollapse: () => void
+};
 
 const TokenSearchRenderer = (props: Props) => {
   const {
@@ -54,6 +67,7 @@ const TokenSearchRenderer = (props: Props) => {
     quoteTokens,
     selectedTabId,
     searchFilter,
+    isOpen,
     selectedPair,
     sortOrder,
     filterName,
@@ -63,54 +77,53 @@ const TokenSearchRenderer = (props: Props) => {
     onChangeSortOrder,
     changeTab,
     changeSelectedToken,
-  } = props
+    toggleCollapse,
+    baseTokenBalance,
+    quoteTokenBalance
+  } = props;
   return (
-    <React.Fragment>
+    <TokenSearchCard>
       {loading ? (
         <OverlaySpinner visible={loading} transparent />
       ) : (
-        <TokenSearchCard>
-          <SearchInput
-            leftIcon="search"
-            onChange={onChangeSearchFilter}
-            value={searchFilter}
-            placeholder="Search"
-          />
-          
-          <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
-            <Tab
-              id="star"
-              title={<UtilityIcon name="Favorite" size={12} />}
-              panel={
-                <Panel
-                  tokenPairs={filteredPairs.favorites}
-                  filterName={filterName}
-                  sortOrder={sortOrder}
-                  searchFilter={searchFilter}
-                  selectedTabId={selectedTabId}
-                  selectedPair={selectedPair}
-                  changeSelectedToken={changeSelectedToken}
-                  updateFavorite={updateFavorite}
-                  onChangeSearchFilter={onChangeSearchFilter}
-                  onChangeFilterName={onChangeFilterName}
-                  onChangeSortOrder={onChangeSortOrder}
-                />
-              }
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              height: '30px'
+            }}
+          >
+            <SearchInput
+              leftIcon="search"
+              onChange={onChangeSearchFilter}
+              value={searchFilter}
+              placeholder="Search Token ..."
             />
-            {quoteTokens.map((quote, index) => (
+            <Button
+              icon={isOpen ? 'chevron-up' : 'chevron-down'}
+              onClick={toggleCollapse}
+              minimal
+            />
+          </div>
+          <Collapse isOpen={isOpen}>
+            <SelectedPair
+              selectedPair={selectedPair}
+              baseTokenBalance={baseTokenBalance}
+              quoteTokenBalance={quoteTokenBalance}
+            />
+            <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
               <Tab
-                id={quote}
-                key={index}
-                title={quote}
+                id="star"
+                title={<Icon icon="star" />}
                 panel={
                   <Panel
-                    tokenPairs={filteredPairs[quote]}
+                    tokenPairs={filteredPairs.favorites}
                     filterName={filterName}
                     sortOrder={sortOrder}
                     searchFilter={searchFilter}
                     selectedTabId={selectedTabId}
                     selectedPair={selectedPair}
-                    filteredPairs={filteredPairs}
                     changeSelectedToken={changeSelectedToken}
                     updateFavorite={updateFavorite}
                     onChangeSearchFilter={onChangeSearchFilter}
@@ -119,15 +132,38 @@ const TokenSearchRenderer = (props: Props) => {
                   />
                 }
               />
-            ))}
-          </TokenSearchTabs>
-        </TokenSearchCard>
+              {quoteTokens.map((quote, index) => (
+                <Tab
+                  id={quote}
+                  key={index}
+                  title={quote}
+                  panel={
+                    <Panel
+                      tokenPairs={filteredPairs[quote]}
+                      filterName={filterName}
+                      sortOrder={sortOrder}
+                      searchFilter={searchFilter}
+                      selectedTabId={selectedTabId}
+                      selectedPair={selectedPair}
+                      filteredPairs={filteredPairs}
+                      changeSelectedToken={changeSelectedToken}
+                      updateFavorite={updateFavorite}
+                      onChangeSearchFilter={onChangeSearchFilter}
+                      onChangeFilterName={onChangeFilterName}
+                      onChangeSortOrder={onChangeSortOrder}
+                    />
+                  }
+                />
+              ))}
+            </TokenSearchTabs>
+          </Collapse>
+        </div>
       )}
-    </React.Fragment>
-  )
-}
+    </TokenSearchCard>
+  );
+};
 
-export default TokenSearchRenderer
+export default TokenSearchRenderer;
 
 type PanelProps = {
   filterName: string,
@@ -151,9 +187,9 @@ const Panel = (props: PanelProps) => {
     selectedTabId,
     updateFavorite,
     onChangeFilterName,
-    changeSelectedToken,
-  } = props
-  const isFavoriteTokensList = selectedTabId === 'star'
+    changeSelectedToken
+  } = props;
+  const isFavoriteTokensList = selectedTabId === 'star';
 
   return (
     <TokenSearchPanelBox>
@@ -163,21 +199,25 @@ const Panel = (props: PanelProps) => {
         filterName={filterName}
         sortOrder={sortOrder}
       />
-      {tokenPairs.map((token, index) => (
-        <TokenRow
-          key={index}
-          index={index}
-          token={token}
-          selectedTabId={selectedTabId}
-          isFavoriteTokensList={isFavoriteTokensList}
-          updateFavorite={updateFavorite}
-          changeSelectedToken={changeSelectedToken}
-        />
-      ))}
-      {tokenPairs.length === 0 && <Centered>No Tokens to show</Centered>}
+      <ResizableBox height={150} width={Infinity}>
+        <ul className="list">
+          {tokenPairs.map((token, index) => (
+            <TokenRow
+              key={index}
+              index={index}
+              token={token}
+              selectedTabId={selectedTabId}
+              isFavoriteTokensList={isFavoriteTokensList}
+              updateFavorite={updateFavorite}
+              changeSelectedToken={changeSelectedToken}
+            />
+          ))}
+          {tokenPairs.length === 0 && <Centered>No Tokens to show</Centered>}
+        </ul>
+      </ResizableBox>
     </TokenSearchPanelBox>
-  )
-}
+  );
+};
 
 type TokenRowProps = {
   index: number,
@@ -192,27 +232,31 @@ const TokenRow = ({
   token,
   updateFavorite,
   isFavoriteTokensList,
-  changeSelectedToken,
+  changeSelectedToken
 }: TokenRowProps) => {
-  const { favorited, lastPrice, change, pair } = token
+  const { favorited, lastPrice, change, base, pair } = token;
 
   return (
-    <Row>
-      <Cell width="5%" onClick={() => updateFavorite(pair, !favorited)}>
-        <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
-      </Cell>
-      <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
-        {pair}
-      </Cell>
-      <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
+    <li key={pair} className="row">
+      <CryptoIcon name={base} />
+      <span className="base" onClick={() => changeSelectedToken(token)}>
+        {isFavoriteTokensList ? pair : base}
+      </span>
+      <span className="lastPrice" onClick={() => changeSelectedToken(token)}>
         {lastPrice}
-      </Cell>
-      <Change24H width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
+      </span>
+      <Change24H change={change} onClick={() => changeSelectedToken(token)}>
         {change}%
       </Change24H>
-    </Row>
-  )
-}
+      <span className="star">
+        <Icon
+          icon={favorited ? 'star' : 'star-empty'}
+          onClick={() => updateFavorite(pair, !favorited)}
+        />
+      </span>
+    </li>
+  );
+};
 
 type HeaderProps = {
   onChangeFilterName: (SyntheticInputEvent<>) => void,
@@ -225,120 +269,154 @@ const Header = ({
   onChangeFilterName,
   filterName,
   sortOrder,
-  isFavoriteTokensList,
+  isFavoriteTokensList
 }: HeaderProps) => {
   return (
-      <HeaderRow>
-        <Cell width="5%">&nbsp;</Cell>
-        <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="pair">Pair</CellTitle>
-          {filterName === 'pair' && (
-            <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+    <ListHeader>
+      <li className="heading">
+        <span className="base" onClick={onChangeFilterName}>
+          {isFavoriteTokensList ? 'Token Pair' : 'Token'}
+          {filterName === 'base' && (
+            <span className="icon">
+              <Chevron direction={sortOrder} />
+            </span>
           )}
-        </Cell>
-        <Cell data-filter="lastPrice" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="lastPrice">Last Price</CellTitle>
+        </span>
+        <span className="lastPrice" onClick={onChangeFilterName}>
+          Last Price
           {filterName === 'lastPrice' && (
-            <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <span className="icon">
+              <Chevron direction={sortOrder} />
+            </span>
           )}
-        </Cell>
-        <Cell data-filter="change" width="35%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="change">24h Change</CellTitle>
+        </span>
+        <span className="change" onClick={onChangeFilterName}>
+          Change 24H
           {filterName === 'change' && (
-            <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <span className="icon">
+              <Chevron direction={sortOrder} />
+            </span>
           )}
-        </Cell>
-      </HeaderRow>
-  )
-}
+        </span>
+        <span className="star">&nbsp;</span>
+      </li>
+    </ListHeader>
+  );
+};
 
-const TokenSearchCard = styled.div`
-  position: relative;
-  background: ${DarkMode.BLACK};
-  color: ${DarkMode.WHITE};
-  width: 550px;
-  height: 300px;
-  overflow: hidden;
-  border: 1px solid ${DarkMode.LIGHT_BLUE};
-  color: ${DarkMode.LIGHT_GRAY};
+const ShowToken = ({ symbol, balance }) => {
+  return (
+    <FlexBetween>
+      <strong>{symbol} Balance: </strong>
+      <div style={{ overflow: 'hidden' }}>
+        <Ellipsis title={balance}>
+          {formatNumber(balance, { precision: 3 })}
+        </Ellipsis>
+      </div>
+    </FlexBetween>
+  );
+};
 
-  .bp3-tab {
-    color: ${DarkMode.LIGHT_GRAY};
-  }
+const SelectedPair = ({
+  selectedPair,
+  baseTokenBalance,
+  quoteTokenBalance
+}) => {
+  const { pair, lastPrice, volume, high, low, quote, base } = selectedPair;
 
-  .bp3-tab:hover,
-  .bp3-tab[aria-selected="true"] {
-    color: ${DarkMode.ORANGE};
-  }
+  return (
+    <SelectedPairCard>
+      <Row>
+        <ColumnStart>
+          <RowStart>
+            <TokenIcon size={60} image={tokenImages[base]} name={base} />
+            <TokenPair>{pair}</TokenPair>
+          </RowStart>
+          <Box mt={3}>
+            <ShowToken symbol={base} balance={baseTokenBalance} />
+            <ShowToken symbol={quote} balance={quoteTokenBalance} />
+          </Box>
+        </ColumnStart>
+        <ColumnEnd>
+          <p className="lastPrice textRight">
+            Last Price: {lastPrice ? `${lastPrice}/${quote}` : 'N.A'}
+          </p>
+          <p>Volume: {volume || 'N.A'}</p>
+          <p>
+            <span className="label">High: </span>
+            {high || 'N.A'}
+          </p>
+          <p>
+            <span className="label">Low: </span>
+            {low || 'N.A'}
+          </p>
+        </ColumnEnd>
+      </Row>
+    </SelectedPairCard>
+  );
+};
 
-  .bp3-tab-list {
-    padding: 10px;
-    border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
-  }
-`
-
-const Row = styled.div.attrs({
-  className: 'row',
+const TokenSearchCard = styled(Card).attrs({
+  className: 'token-searcher'
 })`
-  display: flex;
-  width: 100%;
-  height: 35px;
-  cursor: pointer;
-  padding: 0 10px;
-
-  &:hover {
-    background: ${DarkMode.LIGHT_BLUE};
-  }
-`
-
-const Cell = styled.div`
-  width: ${({width}) => width || '15%'};
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: ${({align}) => align || 'flex-start'}
-  flex-grow: ${({flexGrow}) => flexGrow || 0}
-`
-
-const CellTitle = styled.span`
-  margin-right: 5px;
-`
+  position: relative;
+`;
 
 const TokenSearchTabs = styled(Tabs)`
-  height: 100%;
-`
+  margin-bottom: 20px;
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const TokenSearchPanelBox = styled.div`
   height: 100%;
-`
+  margin-top: 10px;
+`;
+
+const SelectedPairCard = styled(Card)`
+  margin: 15px 0px;
+  padding: 18px 18px 9px 18px !important;
+`;
+
+const TokenPair = styled.h3`
+  color: ${Colors.LINK} !important;
+  font-size: 20px;
+  margin-top: 15px !important;
+  margin-left: 15px !important;
+  margin: 0;
+`;
 
 const SearchInput = styled(InputGroup)`
-  width: 150px;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 5;
+  width: 92%;
+  padding-bottom: 10px;
+`;
 
-  .bp3-input {
-    background: ${DarkMode.DARK_BLUE};
-    color: ${DarkMode.LIGHT_GRAY};
-    &::placeholder {
-      color: ${DarkMode.LIGHT_GRAY};
-    }
-  }
-`
+const ListHeader = styled.ul`
+  margin: 10px 0 7px;
+`;
 
-const HeaderRow = styled(Row)`
-  font-size: ${Theme.FONT_SIZE_SM};
-  border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
-  &:hover {
-    background: initial;
-  }
-`
-
-const Change24H = styled(Cell)`
+const Change24H = styled.span.attrs({ className: 'change' })`
   color: ${props =>
-    props.change > 0 ? DarkMode.GREEN : DarkMode.RED} !important;
-`
+    props.change > 0 ? Colors.GREEN5 : Colors.RED4} !important;
+`;
 
+const FlexBetween = styled.div`
+  display: flex;
+  max-width: 200px;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  margin-top: 5px;
+  flex-direction: row;
+`;
 
+const Ellipsis = styled.p`
+  text-align: center;
+  margin-bottom: 0;
+  margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;

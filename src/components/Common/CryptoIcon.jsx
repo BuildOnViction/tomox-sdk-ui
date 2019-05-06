@@ -1,6 +1,11 @@
 import React from 'react'
-import ColoredCryptoIcon from './ColoredCryptoIcon'
+import styled from 'styled-components'
+import Colors from './Colors'
 
-const CryptoIcon = ({ name, size }) => <ColoredCryptoIcon size={size} name={name} />
+const CryptoIcon = ({ name }) => <Icon className={'cc ' + name} />
+
+const Icon = styled.i`
+  color: ${Colors.LIGHT_GRAY4} !important;
+`
 
 export default CryptoIcon

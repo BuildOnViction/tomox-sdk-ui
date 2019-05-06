@@ -6,8 +6,6 @@ import * as appActionCreators from '../actions/app'
 import * as actionCreators from '../actions/socketController'
 import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
-import * as tokenPairsActionCreators from '../actions/tokenPairs'
-
 import {
   getAccountDomain,
   getTokenPairsDomain,
@@ -24,8 +22,6 @@ import {
   parseAddressAssociation,
   parseOrderBookData,
   parseOHLCV,
-  parsePriceBoardData,
-  parseTokenPairsData,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -75,10 +71,6 @@ export function openConnection(): ThunkAction {
         case 'deposit':
           // update tokens balances, tokens changes
           return handleDepositMessage(dispatch, event, getState)
-        case 'price_board':
-          return dispatch(handlePriceMessage(dispatch, event, getState))
-        case 'markets':
-          return handleMarketsMessage(dispatch, event, getState)
         default:
           console.log(channel, event)
           break
@@ -370,7 +362,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
 
 
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0) dispatch(actionCreators.updateTradesByAddress(userTrades))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
@@ -421,7 +413,7 @@ function handleOrderPending(event: WebsocketEvent): ThunkAction {
       }
 
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
-      if (userTrades.length > 0) dispatch(actionCreators.updateTradesByAddress(userTrades))
+      if (userTrades.length > 0) dispatch(actionCreators.updateTradesTable(userTrades))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
@@ -546,37 +538,4 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
   }
-}
-
-const handlePriceMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState
-): ThunkAction => {
-  return async (dispatch, getState, { socket }) => {
-    const state = getState()
-    const pairDomain = getTokenPairsDomain(state)
-
-    const data = event.payload
-    const pairs = pairDomain.getPairsByCode()
-
-    const currentPairData = parsePriceBoardData(data, pairs)
-
-    dispatch(tokenPairsActionCreators.updateCurrentPairData(currentPairData))
-  }
-}
-
-const handleMarketsMessage = (
-    dispatch: Dispatch, 
-    event: WebsocketEvent,
-    getState: GetState,
-  ) => {
-  let { payload: { pairData }} = event
-  const state = getState()
-  const pairDomain = getTokenPairsDomain(state)
-  const pairs = pairDomain.getPairsByCode()
-
-  pairData = parseTokenPairsData(pairData, pairs)
-
-  dispatch(actionCreators.updateTokenPairData(pairData))
 }

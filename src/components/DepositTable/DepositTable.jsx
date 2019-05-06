@@ -37,7 +37,7 @@ class DepositTable extends React.PureComponent<Props, State> {
     hideZeroBalanceToken: false,
     searchInput: '',
     convertModalFromToken: NATIVE_TOKEN_SYMBOL,
-    // convertModalToToken: 'WETH',
+    convertModalToToken: 'WETH',
   }
 
   openDepositModal = (symbol: Symbol) => {
@@ -128,25 +128,25 @@ class DepositTable extends React.PureComponent<Props, State> {
     const quoteTokenData = tokenData.filter(
       (token: TokenData) =>
         quoteTokens.indexOf(token.symbol) !== -1 &&
-        // token.symbol !== 'WETH' &&
+        token.symbol !== 'WETH' &&
         token.symbol !== NATIVE_TOKEN_SYMBOL
     )
     const baseTokenData = tokenData.filter(
       (token: TokenData) =>
         baseTokens.indexOf(token.symbol) === -1 &&
-        // token.symbol !== 'WETH' &&
+        token.symbol !== 'WETH' &&
         token.symbol !== NATIVE_TOKEN_SYMBOL
     )
-    // const WETHTokenData = tokenData.filter(
-    //   (token: TokenData) => token.symbol === 'WETH'
-    // )
+    const WETHTokenData = tokenData.filter(
+      (token: TokenData) => token.symbol === 'WETH'
+    )
     const TOMOTokenData = tokenData.filter(
       (token: TokenData) => token.symbol === NATIVE_TOKEN_SYMBOL
     )
 
     const filteredBaseTokenData = this.filterTokens(baseTokenData)
     const filteredQuoteTokenData = this.filterTokens(quoteTokenData)
-    // const filteredWETHTokenData = this.filterTokens(WETHTokenData)
+    const filteredWETHTokenData = this.filterTokens(WETHTokenData)
     const filteredETHTokenData = this.filterTokens(TOMOTokenData)
 
     return (
@@ -156,7 +156,7 @@ class DepositTable extends React.PureComponent<Props, State> {
           baseTokensData={filteredBaseTokenData}
           quoteTokensData={filteredQuoteTokenData}
           TOMOTokenData={filteredETHTokenData[0]}
-          // WETHTokenData={filteredWETHTokenData[0]}
+          WETHTokenData={filteredWETHTokenData[0]}
           tokenDataLength={tokenData.length}
           searchInput={searchInput}
           hideZeroBalanceToken={hideZeroBalanceToken}

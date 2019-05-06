@@ -21,13 +21,7 @@ export default function marketsTableSelector(state: State) {
   const pairsDomain = getTokenPairsDomain(state)
 
   const referenceCurrency = accountDomain.referenceCurrency()
-  const favoriteds = pairsDomain.getFavoritePairs()
-  let pairs = pairsDomain.getTokenPairsWithDataArray()
-
-  pairs = pairs.map(tokenPair => {
-    tokenPair.favorited = favoriteds.includes(tokenPair.pair)
-    return tokenPair
-  })
+  const pairs = pairsDomain.getTokenPairsWithDataArray()
 
   return {
     pairs,
@@ -39,11 +33,10 @@ export default function marketsTableSelector(state: State) {
 
 export function redirectToTradingPage(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
   return async (dispatch, getState) => {
-    const param = `${baseTokenSymbol}-${quoteTokenSymbol}`
     const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
 
     dispatch(actionCreators.updateCurrentPair(pair))
-    dispatch(push(`/trade/${param}`))
+    dispatch(push('/trade'))
   }
 }
 

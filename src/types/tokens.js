@@ -117,11 +117,6 @@ export type TokenPairData = {
   orderVolume: string,
 }
 
-export type CurrentTokenPairData = {
-  last_trade_price: string,
-  ticks: Array<TokenPairData>,
-  usd: string,
-}
 export type TokenPairDataArray = Array<TokenPairData>
 export type TokenPairDataMap = { [string]: TokenPairData }
 

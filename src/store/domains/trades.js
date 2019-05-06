@@ -7,7 +7,6 @@ import type { Trade, Trades, TradesState } from '../../types/trades'
 
 const initialState = {
   byHash: {},
-  byAddress: {},
 }
 
 export const initialized = () => {
@@ -29,28 +28,6 @@ export const tradesUpdated = (trades: Trades) => {
       ...state,
       byHash: {
         ...state.byHash,
-        ...newState,
-      },
-    }
-  }
-
-  return event
-}
-
-export const tradesByAddressUpdated = (trades: Trades) => {
-  const event = (state: TradesState) => {
-    const newState = trades.reduce((result, item) => {
-      result[item.hash] = {
-        ...state[item.hash],
-        ...item,
-      }
-      return result
-    }, {})
-
-    return {
-      ...state,
-      byAddress: {
-        ...state.byAddress,
         ...newState,
       },
     }
@@ -83,10 +60,7 @@ export const tradesInitialized = (trades: Trades) => {
       return result
     }, {})
 
-    return { 
-      ...state,
-      byHash: newState,
-    }
+    return { byHash: newState }
   }
 
   return event
@@ -103,11 +77,7 @@ export const tradesReset = () => {
   return event
 }
 
-const getTrades = (state: TradesState, type: string): Trades => {
-  if (type === 'address') {
-    return Object.keys(state.byAddress).map(key => state.byAddress[key])
-  }
-
+const getTrades = (state: TradesState): Trades => {
   return Object.keys(state.byHash).map(key => state.byHash[key])
 }
 
@@ -117,7 +87,7 @@ export default function tradesDomain(state: TradesState) {
     all: () => getTrades(state),
 
     userTrades: (address: string) => {
-      let trades = getTrades(state, 'address')
+      let trades = getTrades(state)
       const isUserTrade = (trade: Trade) =>
         trade.taker === address || trade.maker === address
 
@@ -139,7 +109,6 @@ export default function tradesDomain(state: TradesState) {
       trades = sortTable(trades, 'time', 'desc')
       trades = trades.map((trade, index) => {
         let change
-        let percent
 
         index === trades.length - 1
           ? (change = 'positive')
@@ -147,23 +116,23 @@ export default function tradesDomain(state: TradesState) {
           ? (change = 'positive')
           : (change = 'negative')
 
-        if (trades.length === 1) {
-          percent = 0
-        } else if (index === 0) {
-          percent = Math.abs((trade.price - trades[index + 1].price)/100).toFixed(2)
-        }
-
         return {
           ...trade,
           amount: formatNumber(trade.amount, { precision: amountPrecision }),
           price: formatNumber(trade.price, { precision: pricePrecision }),
           change,
-          percent,
         }
       })
 
       trades = (trades: Trades).slice(0, n)
       return trades
+    },
+
+    lastTrades: (n: number): Trades => {
+      const trades = Object.values(state.byHash)
+      const sortedTrades = sortTable(trades, 'time', 'desc')
+      const lastTrades = (sortedTrades: Trades).slice(0, n)
+      return lastTrades
     },
   }
 }

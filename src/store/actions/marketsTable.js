@@ -14,7 +14,6 @@ const actionTypes = {
   updateTokenPairs: 'marketsTable/UPDATE_TOKEN_PAIRS',
   updateShowHelpModal: 'marketsTable/UPDATE_SHOW_HELP_MODAL',
   updateExchangeAddress: 'marketsTable/UPDATE_EXCHANGE_ADDRESS',
-  updateFavorite: 'marketsTable/UPDATE_FAVORITE',
 }
 
 export function updateAllowancePending(symbol: string): UpdateAllowancePendingAction {
@@ -28,13 +27,6 @@ export function updateCurrentPair(pair: string): UpdateCurrentPairAction {
   return {
     type: actionTypes.updateCurrentPair,
     payload: { pair },
-  }
-}
-
-export function updateFavorite(code: string, favorite: boolean) {
-  return {
-    type: actionTypes.updateFavorite,
-    payload: { code, favorite },
   }
 }
 

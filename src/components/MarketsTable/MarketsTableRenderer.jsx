@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import Help from '../../components/Help'
 
 import {
   formatNumber,
@@ -12,21 +13,22 @@ import {
 } from 'react-virtualized'
 
 import {
+  Button,
   InputGroup,
+  Position,
 } from '@blueprintjs/core'
 
 import {
-  Theme,
-  CryptoIcon,
-  UtilityIcon,
-  DarkMode,
+  RowSpaceBetween,
+  CryptoIconPair,
+  Colors,
   TomoXLogo,
   Centered,
   LargeText,
   SmallText,
+  BlueGlowingButton,
+  FlexRow,
 } from '../Common'
-
-import { getChangePercentText } from '../../utils/helpers'
 
 type Props = {
   searchInput: string,
@@ -47,55 +49,58 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       pairs,
       redirectToTradingPage,
       currentReferenceCurrency,
-      updateFavorite,
     } = this.props
 
     const {
       pair,
       baseTokenSymbol,
       quoteTokenSymbol,
-      lastPrice,
-      high,
-      low,
+      price,
       change,
       volume,
-      favorited,
+      orderVolume,
     } = pairs[index]
 
 
     return (
-      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
-        <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
-          <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
+      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)} style={style}>
+        <Cell>
+          <FlexRow alignItems="center">
+            <CryptoIconPair size={35} baseToken={baseTokenSymbol} quoteToken={quoteTokenSymbol} />
+            <SmallText p={2} muted>{pair}</SmallText>
+          </FlexRow>
         </Cell>
         <Cell>
-          <CryptoIcon name={baseTokenSymbol} size={25} />
-          <PairTitle>{pair}</PairTitle>
-        </Cell>
-        <Cell width="25%">
-          <PriceNumber>
-            <ChangeCell change={change}>{(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"}</ChangeCell>
-          </PriceNumber>
-          <PriceNumber>
-            <SmallText muted>
-              {(change !== null) && currentReferenceCurrency}
-              {(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"} 
-            </SmallText>
-          </PriceNumber>
+          <SmallText muted>
+            {formatNumber(price, { precision: 2 })} {quoteTokenSymbol}
+          </SmallText>
         </Cell>
         <Cell>
-            <ChangeCell change={change}>
-              {change !== null ? getChangePercentText(change) : "N.A"}
-            </ChangeCell>
+          <SmallText muted>
+            {formatNumber(price, { precision: 2 })} {currentReferenceCurrency}
+          </SmallText>
         </Cell>
         <Cell>
-            {(high !== null) ? formatNumber(high, { precision: 2 }): "N.A"}
+          <SmallText muted>
+            {formatNumber(volume, { precision: 2 })}
+          </SmallText>
         </Cell>
         <Cell>
-          {(low !== null) ? formatNumber(low, { precision: 2 }) : "N.A"}
+          <SmallText muted>
+            {orderVolume ? formatNumber(orderVolume, { precision: 2 }) : 'N.A'}
+          </SmallText>
         </Cell>
-        <Cell align="flex-end" flexGrow={2}>
-          {(volume !== null) ? formatNumber(volume, { precision: 2 }) : 'N.A'}
+        <Cell>
+          <ChangeCell change={change}>{change ? `${change}%` : 'N.A'}</ChangeCell>
+        </Cell>
+        <Cell>
+          <FlexRow justifyContent="flex-end" p={1}>
+            <BlueGlowingButton
+              intent="primary"
+              text="Trade"
+              onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}
+            />
+          </FlexRow>
         </Cell>
       </Row>
     )
@@ -104,7 +109,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
   noRowsRenderer = () => {
     return (
       <Centered my={4}>
-        <TomoXLogo height="100em" width="100em" />
+        <TomoXLogo height="150em" width="150em" />
         <LargeText muted>No pairs to display!</LargeText>
       </Centered>
     )
@@ -117,207 +122,140 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       handleSearchInputChange,
       selectedTab,
       handleChangeTab,
+      currentReferenceCurrency,
       tabs,
     } = this.props
 
     return (
       <TableSection>
-        <HeaderWrapper>
-          <TabsWrapper>
-            {
-              tabs.map((tab, i) => {
-                return (
-                  <TabItem
-                    key={i}
-                    icon={tab === 'Favorites' ? 'Favorite' : ''}
-                    text={tab}
-                    onClick={() => handleChangeTab(tab)}
-                    active={selectedTab === tab}
-                  />
-                )
-              })
-            }
-          </TabsWrapper>
-
-          <SearchWrapper
+        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+          <InputGroup
             type="string"
             leftIcon="search"
-            placeholder="Search"
+            placeholder="Search Token ..."
             value={searchInput}
             onChange={handleSearchInputChange}
           />
-        </HeaderWrapper>
+          <ButtonRow>
+            {tabs.map((tab, i) => {
+              return (
+                <Button
+                  key={i}
+                  text={tab}
+                  minimal
+                  onClick={() => handleChangeTab(tab)}
+                  active={selectedTab === tab}
+                  intent={selectedTab === tab ? 'primary' : ''}
+                />
+              )
+            })
+            }
+          </ButtonRow>
+        </RowSpaceBetween>
 
         <TableHeader>
-          <TableHeaderCell width="25px"></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>Pair</SmallText></TableHeaderCell>
-          <TableHeaderCell width="25%"><SmallText muted>Last Price</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h Change</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h High</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h Low</SmallText></TableHeaderCell>
-          <TableHeaderCell align="flex-end" flexGrow={2}><SmallText muted>24h Volume</SmallText></TableHeaderCell>
+          <TableHeaderCell>Market</TableHeaderCell>
+          <TableHeaderCell>Price</TableHeaderCell>
+          <TableHeaderCell>Price ({currentReferenceCurrency})</TableHeaderCell>
+          <TableHeaderCell>Volume</TableHeaderCell>
+          <TableHeaderCell>
+            Order Volume
+            <span> </span>
+            <Help position={Position.RIGHT}>
+              The total amount of bids and asks currently in the orderbook
+            </Help>
+          </TableHeaderCell>
+          <TableHeaderCell>Change 24H</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
         </TableHeader>
-
-        <TableBody>
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                width={width}
-                height={height}
-                rowCount={pairs.length}
-                rowHeight={60}
-                rowRenderer={this.rowRenderer}
-                noRowsRenderer={this.noRowsRenderer}
-                overscanRowCount={0}
-                pairs={pairs}
-              />
-            )}
-          </AutoSizer>
-        </TableBody>
+        <Table>
+          <TableBody>
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  width={width}
+                  height={height}
+                  rowCount={pairs.length}
+                  rowHeight={60}
+                  rowRenderer={this.rowRenderer}
+                  noRowsRenderer={this.noRowsRenderer}
+                  overscanRowCount={0}
+                  pairs={pairs}
+                />
+              )}
+            </AutoSizer>
+          </TableBody>
+        </Table>
       </TableSection>
     )
   }
 }
 
-const TabItem = (props) => {
-  return (
-    <TabContent>
-      {props.icon && (
-        <TabIcon>
-          <UtilityIcon name={props.name} 
-            size={12}
-            color={props.active ? DarkMode.WHITE : ''} />
-        </TabIcon>)}
 
-      <TabTitle
-        active={props.active}
-        onClick={props.onClick}>
-        {props.text}
-      </TabTitle>
-    </TabContent>
-  )
-}
-
-const ChangeCell = styled.span`
-  color: ${({change}) => (change > 0 ? DarkMode.GREEN : (change === 0) ? DarkMode.WHITE : DarkMode.RED)} !important;
+const ChangeCell = styled(SmallText).attrs({ className: 'change' })`
+  color: ${props => (props.change > 0 ? Colors.GREEN5 : Colors.RED4)} !important;
 `
 
-const PriceNumber = styled.span`
-  margin-right: 25px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  box-shadow: 0 1px 0 0 #37405f;
-  padding-bottom: 20px;
-`
-
-const SearchWrapper= styled(InputGroup)`
-  .bp3-input {
-    color: #6e7793;
-    min-width: 300px;
-    background: ${DarkMode.BLACK};
-    border-radius: 0;
-    &:focus, 
-    &.bp3-active {
-      box-shadow: none;
-    }
-  }
+const Table = styled.div.attrs({
+  className: '',
+})`
+  width: 100%;
+  border: none !important;
 `
 
 const TableSection = styled.div`
   display: flex;
   justify-content: start;
   flex-direction: column;
-  height: calc(100% - 145px);
+  height: 100%;
   width: 100%;
-  overflow: hidden;
 `
 
 const TableBody = styled.div`
-  height: calc(100% - 100px);
-  color: ${DarkMode.WHITE}
+  height: 80vh;
 `
 
 const TableHeader = styled.div`
   width: 100%;
-  height: 50px;
   display: flex;
-  align-items: center;  
-  padding: 0 20px;
-  &:last-child {
-    flex-grow: 2;
-  }
+  margin-top: 10px;
+  margin-bottom: 20px;
 `
 
 const TableHeaderCell = styled.div`
-  display: flex;
-  width: ${props => props.width || '15%'};
-  justify-content: ${({align}) => align || 'flex-start'};
-  flex-grow: ${({flexGrow}) => flexGrow || 0}
+  width: 15%;
 `
 
 const Cell = styled.div`
-  width: ${({width}) => width || '15%'};
+  width: 15%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: ${({align}) => align || 'flex-start'}
-  flex-grow: ${({flexGrow}) => flexGrow || 0}
-`
-
-const PairTitle = styled.div`
-  color: ${DarkMode.WHITE};
-  margin-left: 9px;
+  flex-direction: column;
+  justify-content: center;
 `
 
 const Row = styled.div`
-  display: flex;
   width: 100%;
-  height: ${Theme.ROW_HEIGHT_LG};
-  padding: 0 20px;
-  cursor: pointer;
+  display: flex;
+  height: 60px;
+  padding-left: 6px;
 
-  &:nth-child(2n+1) {
-    background: ${DarkMode.BLACK};
-  }
-
-  @media only screen and (max-width: ${Theme.BREAK_POINT_MD}) {
-    height: ${Theme.ROW_HEIGHT_MD};
-    font-size: ${Theme.FONT_SIZE_SM};
+  &:hover {
+    background-color: ${Colors.BLUE_MUTED} !important;
+    cursor: pointer;
+    position: relative;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 0 1px rgb(49, 64, 76), -1px 10px 4px rgba(16, 22, 26, 0.1),
+      1px 18px 24px rgba(16, 22, 26, 0.2);
+    box-shadow: inset 0 0 0 1px rgb(49, 64, 76), -1px 5px 4px rgba(16, 22, 26, 0.1), 1px 7px 24px rgba(16, 22, 26, 0.2);
+    z-index: 1;
   }
 `
 
-const TabsWrapper = styled.div`
+const ButtonRow = styled.span`
   display: flex;
   justify-content: flex-end;
   & .bp3-button {
     margin-left: 5px;
-  }
-`
-
-const TabContent = styled.div`
-  display: flex;
-  align-items: flex-end;
-`
-
-const TabIcon = styled.span`
-  margin-right: 10px;
-`
-
-const TabTitle = styled.span`
-  cursor: pointer;
-  display: flex;
-  margin-right: 60px;
-  color: ${props => props.active ? DarkMode.WHITE : 'inherit' };
-  &:hover {
-    color: ${DarkMode.WHITE};
   }
 `
 

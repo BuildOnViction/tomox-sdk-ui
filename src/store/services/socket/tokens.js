@@ -12,25 +12,3 @@ export const sendGetTokenMessage = async () => {
 
   return sendMessage(message);
 };
-
-export const subscribeMarkets = () => {
-  const message: WebsocketMessage = {
-    channel: 'markets',
-    event: {
-      type: 'SUBSCRIBE',
-    },
-  }
-
-  return sendMessage(message)
-}
-
-export const unSubscribeMarkets = () => {
-  const message: WebsocketMessage = {
-    channel: 'markets',
-    event: {
-      type: 'UNSUBSCRIBE',
-    },
-  }
-
-  return sendMessage(message)
-}

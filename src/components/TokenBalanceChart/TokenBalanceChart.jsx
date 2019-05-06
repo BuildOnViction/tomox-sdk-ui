@@ -2,9 +2,6 @@ import React from 'react';
 import TokenBalanceChartRenderer from './TokenBalanceChartRenderer';
 import { Sector } from 'recharts';
 import { Colors } from '../Common';
-import { formatNumber } from 'accounting-js'
-
-const colors = ['#f28f43', '#5384ba', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#77a1e5', '#c42525', '#a6c96a']
 
 type State = {
   activeIndex: number
@@ -19,7 +16,7 @@ export default class TokenBalanceChart extends React.PureComponent<
   Props,
   State
 > {
-  state = { activeIndex: 0 };
+  state = { activeIndex: 1 };
 
   onPieEnter = (data: Object, index: number) => {
     this.setState({ activeIndex: index });
@@ -49,29 +46,28 @@ export default class TokenBalanceChart extends React.PureComponent<
   };
 
   renderActiveShape = (props: *) => {
-    // const RADIAN = Math.PI / 180;
+    const RADIAN = Math.PI / 180;
     const {
       cx,
       cy,
-      // midAngle,
+      midAngle,
       innerRadius,
       outerRadius,
       startAngle,
       endAngle,
       payload,
       percent,
-      value, 
-      fill,
+      value
     } = props;
-    // const sin = Math.sin(-RADIAN * midAngle);
-    // const cos = Math.cos(-RADIAN * midAngle);
-    // const sx = cx + (outerRadius + 10) * cos;
-    // const sy = cy + (outerRadius + 10) * sin;
-    // const mx = cx + (outerRadius + 30) * cos;
-    // const my = cy + (outerRadius + 30) * sin;
-    // const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-    // const ey = my;
-    // const textAnchor = cos >= 0 ? 'start' : 'end';
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + (outerRadius + 10) * cos;
+    const sy = cy + (outerRadius + 10) * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
 
     return (
       <g>
@@ -79,14 +75,13 @@ export default class TokenBalanceChart extends React.PureComponent<
           cx={cx}
           cy={cy}
           innerRadius={innerRadius}
-          outerRadius={outerRadius + 5}
+          outerRadius={outerRadius}
           startAngle={startAngle}
           endAngle={endAngle}
-          fill={fill}
-          // fill={Colors.PRIMARY}
+          fill={Colors.PRIMARY}
           stroke={Colors.APP_BACKGROUND}
         />
-        {/* <Sector
+        <Sector
           cx={cx}
           cy={cy}
           startAngle={startAngle}
@@ -95,42 +90,31 @@ export default class TokenBalanceChart extends React.PureComponent<
           outerRadius={outerRadius + 10}
           stroke={Colors.APP_BACKGROUND}
           fill={Colors.BLUE5}
-        /> */}
+        />
         {/* <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	style={{"font-size": 20}} fill={Colors.WHITE} dominantBaseline="central">{payload.symbol}</text> */}
         <text
           x={cx}
           y={cy}
-          dy={0}
+          dy={8}
           style={{ fontSize: 30 }}
-          textAnchor='middle'
+          textAnchor="middle"
           fill={Colors.WHITE}
         >
-          {`${(percent * 100).toFixed(2)}%`}
+          {payload.symbol}
         </text>
-        <text
-          x={cx}
-          y={cy}
-          dy={26}
-          style={{ fontSize: 20 }}
-          textAnchor="middle"
-          fill={fill}
-          // fill={Colors.WHITE}
-        >
-          {formatNumber(value, {precision: 2})} {payload.symbol}
-        </text>
-        {/* <path
+        <path
           d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
           stroke={Colors.BLUE5}
           fill="none"
-        /> */}
-        {/* <circle
+        />
+        <circle
           cx={ex}
           cy={ey}
           r={2}
           fill={Colors.PRIMARY}
           stroke={Colors.BLUE5}
-        /> */}
-        {/* <text
+        />
+        <text
           x={ex + (cos >= 0 ? 1 : -1) * 12}
           y={ey}
           textAnchor={textAnchor}
@@ -144,7 +128,7 @@ export default class TokenBalanceChart extends React.PureComponent<
           fill={Colors.WHITE}
         >
           {`(${(percent * 100).toFixed(2)}%)`}
-        </text> */}
+        </text>
       </g>
     );
   };
@@ -163,7 +147,6 @@ export default class TokenBalanceChart extends React.PureComponent<
         renderLabels={this.renderLabels}
         onPieEnter={this.onPieEnter}
         isEmpty={isEmpty}
-        colors={colors}
       />
     );
   }

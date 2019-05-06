@@ -1,5 +1,3 @@
-import { DEFAULT_NETWORK_ID } from '../config/environment'
-
 const fetch = require('node-fetch')
 const { Wallet, providers, utils } = require('ethers')
 const {
@@ -11,7 +9,7 @@ const { encodeBytes } = require('../utils/rlp')
 
 // request template, obtained calling http://localhost:8542/bzz-feed:/?user=<0xUSER>&topic=<0xTOPIC>&meta=1
 const provider = new providers.JsonRpcProvider('http://localhost:8545', {
-  chainId: DEFAULT_NETWORK_ID,
+  chainId: 8888,
   name: undefined,
 })
 

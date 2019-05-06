@@ -1,19 +1,12 @@
 const actionTypes = {
-  saveData: 'orderBook/SAVE_DATA',
-  select: 'orderBook/SELECT',
+  saveData: 'orderBook/SAVE_DATA'
 }
 
 export function saveData(data: any) {
+  console.log(data)
   return {
     type: actionTypes.saveData,
-    payload: { data },
-  }
-}
-
-export function select(order) {
-  return {
-    type: actionTypes.select,
-    payload: { order },
+    payload: { data }
   }
 }
 

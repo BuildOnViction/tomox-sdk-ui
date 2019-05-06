@@ -3,7 +3,7 @@ import { space, width } from 'styled-system';
 
 import React from 'react';
 import styled from 'styled-components';
-import Colors, { DarkMode } from './Colors';
+import Colors from './Colors';
 import { Fonts } from './Variables';
 
 export const Text = styled.span`
@@ -33,7 +33,7 @@ export const SmallText = styled.span`
     props.intent
       ? Colors[props.intent]
       : props.muted
-      ? DarkMode.GRAY
+      ? Colors.TEXT_MUTED
       : Colors.TEXT};
 `;
 
@@ -106,7 +106,7 @@ export const MutedText = styled.span`
       : props.large
       ? Fonts.FONT_SIZE_LARGE
       : Fonts.FONT_SIZE}
-  color: ${DarkMode.GRAY};
+  color: ${Colors.TEXT_MUTED};
 `;
 
 export const LinkText = styled.div`

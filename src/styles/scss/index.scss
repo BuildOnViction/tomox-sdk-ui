@@ -3,7 +3,6 @@
 @import '../../../node_modules/rc-steps/assets/index.css';
 @import '../../../node_modules/rc-steps/assets/iconfont.css';
 @import "../../../node_modules/@blueprintjs/table/lib/css/table.css";
-@import "font-face";
 @import "vars";
 @import "reset";
 @import "global";
@@ -12,6 +11,7 @@
 @import "orderHistory";
 @import "tokenSearcher";
 @import "ohlcvChart";
+@import "depthChart";
 @import "tradingPage";
 @import "selectMenu";
 @import "rangeSlider";

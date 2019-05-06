@@ -5,14 +5,13 @@ import { text, withKnobs } from '@storybook/addon-knobs/react'
 import { withInfo } from '@storybook/addon-info'
 import NetworkSelect from './NetworkSelect'
 import README from './README.md'
-import { DEFAULT_NETWORK_ID } from '../../config/environment';
 
 const networks = [
   { name: 'Mainnet', id: 1 },
   { name: 'Ropsten', id: 3 },
   { name: 'Rinkeby', id: 4 },
   { name: 'Private', id: 1000 },
-  { name: 'Private', id: DEFAULT_NETWORK_ID },
+  { name: 'Private', id: 8888 },
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 storiesOf('NetworkSelect', module)

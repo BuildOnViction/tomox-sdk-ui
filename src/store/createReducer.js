@@ -1,9 +1,5 @@
-import { persistReducer } from 'redux-persist'
+// @flow
 
 export default function createReducer(actionHandler: *) {
   return (state: *, action: *) => actionHandler(action)(state)
-}
-
-export function createReducerPersist(persistConfig, actionHandler: *) {
-  return persistReducer(persistConfig, createReducer(actionHandler))
 }

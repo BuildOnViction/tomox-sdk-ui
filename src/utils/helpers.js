@@ -2,8 +2,7 @@ import { utils } from 'ethers'
 // import type { BN, Numberish } from '../types/common';
 
 import ethereum_address from 'ethereum-address'
-import { format, formatRelative } from 'date-fns'
-import { formatNumber } from 'accounting-js'
+import { formatRelative } from 'date-fns'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -14,17 +13,12 @@ export const randInt = (min, max) => {
 }
 
 export const capitalizeFirstLetter = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase()
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 export const relativeDate = (time: number) => {
   const formattedDate = formatRelative(new Date(time), new Date())
   return capitalizeFirstLetter(formattedDate)
-}
-
-export const formatDate = (time: number, pattern: string) => {
-  const formattedDate = format(new Date(time), pattern)
-  return formattedDate
 }
 
 export const isFloat = n => parseFloat(n.match(/^-?\d*(\.\d+)?$/)) > 0
@@ -209,26 +203,7 @@ export const computeChange = (open: string, close: string) => {
 
   if (bigOpen.eq(bigClose)) return 0
 
-  // Multiply by 100 to keep 2 decimal places. Because BigNumber only support intergers
-  // Reference: https://github.com/ethers-io/ethers.js/issues/488
-  const change = ((bigClose.sub(bigOpen)).mul(percentMultiplier)).mul('100').div(bigOpen)
-  const percentChange = Number(utils.formatUnits(change, 2))
+  const change = ((bigClose.sub(bigOpen)).mul(percentMultiplier)).div(bigOpen)
+  const percentChange = Number(change.toString()) / 100
   return percentChange
-}
-
-export const getChangePercentText = (change) => {
-
-  if (change > 0) return `+${change}%`
-  if (change < 0) return `${change}%`
-
-  return `${change}%`
-}
-
-export const getChangePriceText: string = (open: string, close: string, precision: number) => {
-  const result = Number(close) - Number(open)
-
-  if (result > 0) return `+${formatNumber(result, {precision})}`
-  if (result < 0) return `${formatNumber(result, {precision})}`
-
-  return `${result}`
 }

@@ -78,11 +78,4 @@ export function initOrderBook(
   }
 }
 
-export function updateTradesByAddress(trades: any) {
-  return {
-    type: actionTypes.updateTradesByAddress,
-    payload: { trades },
-  }
-}
-
 export default actionTypes
