@@ -1,5 +1,5 @@
-import { utils } from 'ethers';
-import { randInt } from './helpers';
+import { utils } from 'ethers'
+import { randInt } from './helpers'
 
 export const getOrderHash = order => {
   return utils.solidityKeccak256(
@@ -13,7 +13,7 @@ export const getOrderHash = order => {
       'uint256',
       'uint256',
       'uint256',
-      'uint256'
+      'uint256',
     ],
     [
       order.exchangeAddress,
@@ -25,31 +25,26 @@ export const getOrderHash = order => {
       order.side === 'BUY' ? '0' : '1',
       order.nonce,
       order.makeFee,
-      order.takeFee
-    ]
-  );
-};
+      order.takeFee,
+    ],
+  )
+}
 
 export const getOrderCancelHash = orderCancel => {
-  return utils.solidityKeccak256(['bytes'], [orderCancel.orderHash]);
-};
+  return utils.solidityKeccak256(['bytes'], [orderCancel.orderHash])
+}
 
 export const getTradeHash = trade => {
   return utils.solidityKeccak256(
     ['bytes', 'bytes'],
-    [trade.makerOrderHash, trade.takerOrderHash]
-  );
-};
+    [trade.makerOrderHash, trade.takerOrderHash],
+  )
+}
 
 export const getRandomNonce = () => {
-  return randInt(0, 1e16).toString();
-};
+  return randInt(0, 1e16).toString()
+}
 
 export const isEthereumAddress = address => {
-  if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-    // Check if it has the basic requirements of an address
-    return false;
-  }
-
-  return true;
-};
+  return /^(0x)?[0-9a-f]{40}$/i.test(address)
+}
