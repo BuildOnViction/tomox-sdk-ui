@@ -3,70 +3,12 @@ import { utils } from 'ethers'
 import { getOrderHash, getOrderCancelHash, getTradeHash, getRandomNonce } from '../../../utils/crypto'
 import { computePricepoint, computeAmountPoints } from '../../../utils/helpers'
 
-import { encodeBytes } from '../../../utils/rlp'
-import {
-  feedUpdateDigest,
-  getSwarmSig,
-  padTopic,
-} from '../../../utils/swarmFeed'
-
-import { BZZ_URL } from '../../../config/environment'
-
 // flow
 import type {
   RawOrder,
   OrderCancel,
 } from '../../../types/orders'
-import type { Request } from '../../../types/swarm'
 import type { Trade } from '../../../types/trades'
-
-export const getFeedRequest = async function (topic: string): Promise<Request> {
-  const userAddress = this.address
-  const url = `${BZZ_URL}/bzz-feed:/?user=${userAddress}&topic=${topic}&meta=1`
-  const res = await fetch(url)
-  const feedRequest = res.json()
-
-  return feedRequest
-}
-
-export const updateSwarmFeed = async function (
-  tokenAddress: string,
-  messages: any,
-): Promise<boolean> {
-  // padding topic for token address
-  let topic = padTopic(tokenAddress)
-  const feedRequest: Request = await this.getFeedRequest(topic)
-
-  const data = encodeBytes(messages)
-  if (!data) return false
-  // to upload to server, we need to convert it into Buffer if it is array
-  const digest = feedUpdateDigest(feedRequest, data)
-  const signature = getSwarmSig(this.signingKey.signDigest(digest))
-  // the user from feed is lowercase
-  const { user } = feedRequest.feed
-  topic = feedRequest.feed.topic
-  if (user.toLowerCase() !== this.address.toLowerCase()) {
-    throw new Error('Can not update other account')
-  }
-  const { level, time } = feedRequest.epoch
-  const url = `${BZZ_URL}/bzz-feed:/?user=${user}&topic=${topic}&level=${level}&time=${time}&signature=${signature}`
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      header: {
-        'Content-Type': 'application/octet-stream',
-      },
-      // update swarm feed
-      body: data,
-    })
-
-    const result = res.status === 200
-
-    return result
-  } catch (err) {
-    throw err
-  }
-}
 
 // The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
 // that are used to turn decimal values into rounded integers that can be converted into
