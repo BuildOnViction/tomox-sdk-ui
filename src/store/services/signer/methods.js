@@ -1,6 +1,6 @@
 //@flow
 import { utils } from 'ethers'
-import { getOrderHash, getOrderCancelHash, getTradeHash, getRandomNonce } from '../../../utils/crypto'
+import { getOrderHash, getOrderCancelHash, getTradeHash } from '../../../utils/crypto'
 import { computePricepoint, computeAmountPoints } from '../../../utils/helpers'
 
 // flow
@@ -20,7 +20,7 @@ import type { Trade } from '../../../types/trades'
 // pricePoints ~ price * priceMultiplier ~ price * 1e6
 export const createRawOrder = async function (params: any) {
   const order = {}
-  const { userAddress, exchangeAddress, side, pair, amount, price, makeFee, takeFee } = params
+  const { userAddress, exchangeAddress, side, pair, amount, price, makeFee, takeFee, orderCount } = params
   const { baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = pair
 
 
@@ -40,7 +40,7 @@ export const createRawOrder = async function (params: any) {
   order.side = side
   order.makeFee = makeFee
   order.takeFee = takeFee
-  order.nonce = getRandomNonce()
+  order.nonce = (orderCount + 1).toString()
   order.hash = getOrderHash(order)
 
   const signature = await this.signMessage(utils.arrayify(order.hash))
