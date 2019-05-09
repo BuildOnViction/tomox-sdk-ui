@@ -185,6 +185,31 @@ export const parseTrades = (trades: Trades, pair: TokenPair, precision: number =
   return parsed
 }
 
+export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, precision: number = 2) => {
+  const parsed = []
+  
+  trades.forEach(trade => {
+    const pair = pairs[trade.pairName]
+
+    parsed.push({
+      time: trade.createdAt,
+      price: parsePricepoint(trade.pricepoint, pair, precision),
+      amount: parseTokenAmount(trade.amount, pair, precision),
+      hash: trade.hash,
+      txHash: trade.txHash,
+      orderHash: trade.orderHash,
+      type: trade.type || 'LIMIT',
+      side: trade.side,
+      pair: trade.pairName,
+      status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
+      maker: utils.getAddress(trade.maker),
+      taker: utils.getAddress(trade.taker),
+    })
+  })
+
+  return parsed
+}
+
 export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precision: number = 2) => {
   let { bids, asks } = data
 
@@ -211,9 +236,7 @@ export const parseTokenPairData = (
     favorited: null,
     pair: datum.pair.pairName,
     lastPrice: datum.close ? parsePricepoint(datum.close) : null,
-    change: datum.open
-      ? round((datum.close - datum.open) / datum.open, 1)
-      : null,
+    change: datum.open ? computeChange(datum.open, datum.close) : null,
     high: datum.high ? parsePricepoint(datum.high) : null,
     low: datum.low ? parsePricepoint(datum.low) : null,
     volume: datum.volume
@@ -247,6 +270,34 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
   })
 
   return result
+}
+
+export const parsePriceBoardData = (data: APIPairData, pairs: Object): Array<TokenPair> => {
+  let { last_trade_price, ticks, usd } = data
+  if (!last_trade_price
+    || ticks.length === 0) return null
+
+  const pair = pairs[ticks[0].pair.pairName]
+
+  last_trade_price = last_trade_price ? parsePricepoint(last_trade_price, pair) : null
+  
+  ticks = ticks.map(datum => {
+      return {
+        pair: pair.pair,
+        change: datum.open ? computeChange(datum.open, datum.close) : null,
+        high: datum.high ? parsePricepoint(datum.high, pair) : null,
+        low: datum.low ? parsePricepoint(datum.low, pair) : null,
+        open: datum.open ? parsePricepoint(datum.open, pair) : null,
+        close: datum.close ? parsePricepoint(datum.close, pair) : null,
+        volume: datum.volume ? parseTokenAmount(datum.volume, pair, 0) : null,
+      }
+  })
+
+  return {
+    last_trade_price,
+    ticks,
+    usd,
+  }
 }
 
 export const parseOHLCV = (data: Candles, pair: TokenPair): any => {

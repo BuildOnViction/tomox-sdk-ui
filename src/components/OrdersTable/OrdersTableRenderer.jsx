@@ -3,21 +3,21 @@ import React from 'react'
 import styled from 'styled-components'
 import {
   Tab,
-  Tag,
   Icon,
   Tabs,
-  Popover,
-  Position,
+  Checkbox,
 } from '@blueprintjs/core'
-import { Colors, Loading, CenteredMessage } from '../Common'
+import { Colors, Loading, CenteredMessage, DarkMode } from '../Common'
 import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
+import { formatNumber } from 'accounting-js'
+import { pricePrecision } from '../../config/tokens'
+import checkmarkUrl from '../../assets/images/checked.svg'
 
 type Props = {
   loading: boolean,
   selectedTabId: string,
   onChange: string => void,
-  isOpen: boolean,
   toggleCollapse: void => void,
   cancelOrder: string => void,
   orders: {
@@ -30,6 +30,10 @@ type Props = {
   }
 };
 
+const widthColumns = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%', '5%']
+const widthColumnsOrderHistory = ['12%', '10%', '10%', '12%', '10%', '10%', '15%', '10%', '15%']
+const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
+
 const OrdersTableRenderer = (props: Props) => {
   const {
     loading,
@@ -37,10 +41,14 @@ const OrdersTableRenderer = (props: Props) => {
     onChange,
     cancelOrder,
     orders,
+    trades,
+    isHideOtherPairs,
+    handleChangeHideOtherPairs,
   } = props
+
   return (
-    <Wrapper>
-      <Tabs selectedTabId={selectedTabId} onChange={onChange}>
+    <React.Fragment>
+      <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
           title="Open Orders"
@@ -49,6 +57,9 @@ const OrdersTableRenderer = (props: Props) => {
               loading={loading}
               orders={orders['OPEN']}
               cancelOrder={cancelOrder}
+              selectedTabId={selectedTabId}
+              isHideOtherPairs={isHideOtherPairs}
+              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
             />
           }
         />
@@ -60,6 +71,9 @@ const OrdersTableRenderer = (props: Props) => {
               loading={loading}
               orders={orders['ALL']}
               cancelOrder={cancelOrder}
+              selectedTabId={selectedTabId}
+              isHideOtherPairs={isHideOtherPairs}
+              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
             />
           }
         />
@@ -69,8 +83,11 @@ const OrdersTableRenderer = (props: Props) => {
           panel={
             <OrdersTablePanel
               loading={loading}
-              orders={orders['EXECUTED']}
+              orders={trades}
               cancelOrder={cancelOrder}
+              selectedTabId={selectedTabId}
+              isHideOtherPairs={isHideOtherPairs}
+              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
             />
           }
         />
@@ -78,144 +95,231 @@ const OrdersTableRenderer = (props: Props) => {
           id="funds"
           title="Funds"
         />
-      </Tabs>
-    </Wrapper>
+      </TabsContainer>
+    </React.Fragment>
   )
 }
 
 const OrdersTablePanel = (props: {
   loading: boolean,
   orders: Array<Order>,
-  cancelOrder: string => void
+  cancelOrder: string => void,
+  selectedTabId: String,
+  isHideOtherPairs: String,
+  handleChangeHideOtherPairs: string => void,
 }) => {
-  const { loading, orders, cancelOrder } = props
-
+  const { 
+    loading, 
+    orders, 
+    cancelOrder, 
+    selectedTabId, 
+    isHideOtherPairs, 
+    handleChangeHideOtherPairs, 
+  } = props
+  
   if (loading) return <Loading />
-  if (orders.length === 0) return <CenteredMessage message="No orders" />
 
+  switch(selectedTabId) {
+    case 'open-orders':
+      return (<OpenOrderTable 
+                orders={orders} 
+                cancelOrder={cancelOrder} 
+                isHideOtherPairs={isHideOtherPairs} 
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+    case 'order-history':
+      return (<OrderHistoryTable 
+                orders={orders} 
+                cancelOrder={cancelOrder}
+                isHideOtherPairs={isHideOtherPairs} 
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+    case 'trade-history':
+      return (<TradeHistoryTable 
+                orders={orders} 
+                cancelOrder={cancelOrder}
+                isHideOtherPairs={isHideOtherPairs} 
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+    default:
+      return (<div></div>)
+  }
+}
+
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
   return (
     <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
       <ListHeader className="header">
-        <HeaderCell width="12%" className="date">Date</HeaderCell>
-        <HeaderCell width="10%" className="pair">Pair</HeaderCell>
-        <HeaderCell width="5%" className="type">Type</HeaderCell>
-        <HeaderCell width="5%" className="side">Side</HeaderCell>
-        <HeaderCell width="10%" className="price">Price</HeaderCell>
-        <HeaderCell width="10%" className="amount">Amount</HeaderCell>          
-        <HeaderCell width="10%" className="filled">Filled(%)</HeaderCell>
-        <HeaderCell width="10%" className="total">Total</HeaderCell>
-        <HeaderCell width="15%" className="trigger-conditions">Trigger Conditions</HeaderCell>
-        <HeaderCell width="13%" className="cancel">
-          <Popover
-            content="todo: cancel list"
-            position={Position.BOTTOM_LEFT}
-            minimal>
-            <div>
-              <span>Cancel All</span>
-              <i className="arrow-down">arrow down</i>
-            </div>            
-          </Popover>
-        </HeaderCell>
+        <HeaderCell width={widthColumns[0]}>Date</HeaderCell>
+        <HeaderCell width={widthColumns[1]}>Pair</HeaderCell>
+        <HeaderCell width={widthColumns[2]}>Type</HeaderCell>
+        <HeaderCell width={widthColumns[3]}>Side</HeaderCell>
+        <HeaderCell width={widthColumns[4]}>Price</HeaderCell>
+        <HeaderCell width={widthColumns[5]}>Amount</HeaderCell>
+        <HeaderCell width={widthColumns[6]}>Total</HeaderCell>          
+        <HeaderCell width={widthColumns[7]}>Filled(%)</HeaderCell>
+        <HeaderCell width={widthColumns[8]}>Status</HeaderCell>
+        <HeaderCell width={widthColumns[9]}></HeaderCell>
       </ListHeader>
 
-      <ListBodyWrapper className="list">
-        {orders.map((order, index) => (
-          <OrderRow
-            key={index}
-            order={order}
-            index={index}
-            cancelOrder={cancelOrder}
-          />
-        ))}
-      </ListBodyWrapper>
+      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
+
+      {(orders.length > 0) &&
+        (<ListBodyWrapper className="list">
+          {orders.map((order, index) => (
+            <Row className="order-row" key={index}>
+              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
+                {formatDate(order.time, 'LL-dd H:k:mm')}
+              </Cell>
+              <Cell width={widthColumns[1]} title={order.pair} muted>
+                {order.pair}
+              </Cell>
+              <Cell width={widthColumns[2]} muted>
+                {capitalizeFirstLetter(order.type)}
+              </Cell>
+              <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+                {order.side && capitalizeFirstLetter(order.side)}
+              </Cell>
+              <Cell width={widthColumns[4]} title={order.price} muted>
+                {order.price}
+              </Cell>
+              <Cell width={widthColumns[5]} muted>
+                {order.amount}
+              </Cell>
+              <Cell width={widthColumns[6]} muted>
+                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+              </Cell>
+              <Cell width={widthColumns[7]} muted>
+                {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
+              </Cell>
+              <Cell width={widthColumns[8]} muted>
+                {capitalizeFirstLetter(order.status)}
+              </Cell>
+              <Cell width={widthColumns[9]} muted>
+                {order.status === 'OPEN' && (
+                  <CancelIcon 
+                    icon="cross" 
+                    intent="danger" 
+                    onClick={() => cancelOrder(order.hash)} />
+                )}
+              </Cell>
+            </Row>
+          ))}
+        </ListBodyWrapper>)
+      }
     </ListContainer>
   )
 }
 
-const OrderRow = (props: {
-  order: Order,
-  index: number,
-  cancelOrder: string => void
-}) => {
-  const { order, cancelOrder } = props
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
   return (
-    <Row className="order-row">
-      <Cell width="15%" className="date" muted>
-        {formatDate(order.time, 'LL-dd H:k:mm')}
-      </Cell>
-      <Cell width="10%" className="pair" muted>
-        {order.pair}
-      </Cell>
-      <Cell width="5%" className="type" muted>
-        {capitalizeFirstLetter(order.type)}
-      </Cell>
-      <Cell width="5%" className={`side ${order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-        {capitalizeFirstLetter(order.side)}
-      </Cell>
-      <Cell width="10%" className="price" muted>
-        {order.price}
-      </Cell>
-      <Cell width="10%" className="amount" muted>
-        {order.amount}
-      </Cell>
-      <Cell width="10%" className="filled" muted>
-        -
-      </Cell>
-      <Cell width="10%" className="total" muted>
-        -
-      </Cell>
-      <Cell width="15%" className="trigger-conditions" muted>
-        -
-      </Cell>
-      <Cell width="10%" className="cancel" muted>
-        {order.status === 'OPEN' && (
-          <Icon 
-            icon="cross" 
-            intent="danger" 
-            onClick={() => cancelOrder(order.hash)} />
-        )}
-      </Cell>
-    </Row>
+    <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
+      <ListHeader className="header">
+        <HeaderCell width={widthColumnsOrderHistory[0]}>Date</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[1]}>Pair</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[2]}>Type</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[3]}>Side</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[4]}>Price</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[5]}>Amount</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[6]}>Total</HeaderCell>          
+        <HeaderCell width={widthColumnsOrderHistory[7]}>Filled(%)</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[8]}>Status</HeaderCell>
+      </ListHeader>
+
+      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
+
+      {(orders.length > 0) && 
+        (<ListBodyWrapper className="list">
+          {orders.map((order, index) => (
+            <Row className="order-row" key={index}>
+              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
+                {formatDate(order.time, 'LL-dd H:k:mm')}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
+                {order.pair}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[2]} muted>
+                {capitalizeFirstLetter(order.type)}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+                {order.side && capitalizeFirstLetter(order.side)}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
+                {order.price}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[5]} muted>
+                {order.amount}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[6]} muted>
+                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[7]} muted>
+                {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
+              </Cell>
+              <Cell width={widthColumnsOrderHistory[8]} muted>
+                {capitalizeFirstLetter(order.status)}
+              </Cell>
+            </Row>
+          ))}
+        </ListBodyWrapper>)
+      }
+    </ListContainer>
   )
 }
 
-const StatusTag = ({ status }) => {
-  const statuses = {
-    NEW: 'secondar',
-    INVALIDATED: 'danger',
-    CANCELLED: 'danger',
-    OPEN: 'primary',
-    FILLED: 'success',
-    PARTIALLY_FILLED: 'success',
-  }
-
-  const intent = statuses[status]
+const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
   return (
-    <Tag minimal large interactive intent={intent}>
-      {status}
-    </Tag>
+    <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
+      <ListHeader className="header">
+        <HeaderCell width={widthColumnsTradeHistory[0]}>Date</HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[1]}>Pair</HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[2]}>Type</HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[3]}>Price</HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[4]}>Filled</HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[5]}>Total</HeaderCell>          
+      </ListHeader>
+
+      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
+
+      {(orders.length > 0) &&
+        (<ListBodyWrapper className="list">
+          {orders.map((order, index) => (
+            <Row className="order-row" key={index}>
+              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
+                {formatDate(order.time, 'LL-dd H:k:mm')}
+              </Cell>
+              <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
+                {order.pair}
+              </Cell>
+              <Cell width={widthColumnsTradeHistory[2]} muted>
+                {order.side ? capitalizeFirstLetter(order.side) : '-'}
+              </Cell>
+              <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
+                {order.price}
+              </Cell>
+              <Cell width={widthColumnsTradeHistory[4]} muted>
+                {order.amount}
+              </Cell>
+              <Cell width={widthColumnsTradeHistory[5]} muted>
+                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+              </Cell>
+            </Row>
+          ))}
+        </ListBodyWrapper>)
+      }
+    </ListContainer>
   )
 }
 
-const OrdersTableHeader = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: start;
-  grid-gap: 10px;
-  align-items: center;
-`;
-const Wrapper = styled.div``
+const TabsContainer = styled(Tabs)`
+  position: relative;
+`
 
 const ListContainer = styled.div`
   height: 100%;
-`;
-const ListHeaderWrapper = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 0px;
-  margin-bottom: 10px;
 `;
 const ListBodyWrapper = styled.ul`
   width: 100%;
@@ -245,13 +349,43 @@ const Cell = styled.span.attrs({
       : Colors.WHITE}
 
   min-width: 35px;
-  display: flex;
-  align-items: center;
+  // display: flex;
+  // align-items: center;
   width: ${props => (props.width ? props.width : '10%')};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
 `;
+
+const CancelIcon = styled(Icon)`
+  cursor: pointer;
+`
+
+const CheckboxHidePairs = styled(Checkbox)`
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  user-select: none;
+
+  .bp3-control-indicator {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    background-color: ${DarkMode.WHITE} !important;   
+  }
+
+  input:checked ~ .bp3-control-indicator::before {
+    width: 12px !important;
+    height: 12px !important;
+    background: url(${checkmarkUrl}) no-repeat center center !important;
+    background-size: 8px 8px !important;
+  }
+`
 
 export default OrdersTableRenderer;

@@ -1,4 +1,4 @@
-import TVChartContainer from './TVChartContainer'
 import connect from './connect'
+import TVChart from './TVChart'
 
-export default connect(TVChartContainer)
+export default connect(TVChart)

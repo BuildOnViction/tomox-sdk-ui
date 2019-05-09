@@ -1,21 +1,15 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
-import { Loading, CenteredMessage } from '../Common';
-import { Card } from '@blueprintjs/core';
+import { Loading, CenteredMessage, DarkMode } from '../Common';
 import { formatDate } from '../../utils/helpers';
 
 import type { Trade } from '../../types/trades';
 import type { TokenPair } from '../../types/tokens';
 
 type Props = {
-  selectedTabId: string,
   currentPair: TokenPair,
-  onChange: string => void,
   trades: Array<Trade>,
-  userTrades: Array<Trade>,
-  toggleCollapse: (SyntheticEvent<>) => void,
-  isOpen: boolean
 };
 
 const TradesTableRenderer = (props: Props) => {
@@ -57,7 +51,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             <Cell 
               width="33%"
               textAlign="left">
-              {formatDate(trade.time, 'pp')}
+              {formatDate(trade.time, 'kk: mm: ss')}
             </Cell>
             <Cell
               width="34%"
@@ -101,16 +95,22 @@ const HeadingRow = styled.li.attrs({
   flex-direction: row;
   margin-bottom: 10px;
   justify-content: space-between;
+  padding-right: 10px;
 `
 
 const Row = styled.li.attrs({
-  className: 'row'
+  className: 'row',
 })`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5px 0 !important;
+  padding: 3.5px 10px 3.5px 0 !important;
+  cursor: default;
+
+  &:hover {
+    background-color: ${DarkMode.LIGHT_BLUE};
+  }
 `
 
 const Cell = styled.span`

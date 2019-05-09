@@ -1,4 +1,6 @@
 // @flow
+import { push } from 'connected-react-router'
+
 import {
   getTokenPairsDomain,
   getAccountDomain,
@@ -14,7 +16,7 @@ import * as notifierActionCreators from '../actions/app'
 import type { State, ThunkAction } from '../../types'
 import { getSigner } from '../services/signer'
 import {
-  // parseTrades,
+  parseTradesByAddress,
   parseOrders,
   parseTokenPairsData,
 } from '../../utils/parsers'
@@ -27,6 +29,7 @@ export default function tradingPageSelector(state: State) {
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
+    pair,
     makeFee,
     takeFee,
     baseTokenSymbol,
@@ -44,6 +47,7 @@ export default function tradingPageSelector(state: State) {
   )
 
   return {
+    currentPairName: pair,
     makeFee,
     takeFee,
     authenticated,
@@ -62,39 +66,51 @@ export default function tradingPageSelector(state: State) {
 export const queryTradingPageData = (): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
-      // socket.unsubscribeChart()
+      socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
+      socket.unSubscribePrice()
 
       const state = getState()
-      const signer = getSigner()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
+      dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
+
       const pairs = pairDomain.getPairsByCode()
+      const accountDomain = getAccountDomain(state)
+      const authenticated = accountDomain.authenticated()
 
-      const userAddress = await signer.getAddress()
+      if (authenticated) {
+        const signer = getSigner()
+        const userAddress = await signer.getAddress()
 
-      let [
-        tokenPairData,
-        orders,
-      ] = await Promise.all([
-        api.fetchTokenPairData(),
-        api.fetchOrders(userAddress),
-      ])
+        let [
+          orders,
+          tradesByAddress, // For trade history in OrderTable
+        ] = await Promise.all([
+          api.fetchOrders(userAddress),
+          api.fetchAddressTrades(userAddress), 
+        ])
 
+        orders = parseOrders(orders, pairs)
+        tradesByAddress = parseTradesByAddress(tradesByAddress, pairs)
+
+        dispatch(actionCreators.initOrdersTable(orders))
+        dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+      }
+
+      let tokenPairData = await api.fetchTokenPairData()
       tokenPairData = parseTokenPairsData(tokenPairData, pairs)
-      orders = parseOrders(orders, pairs)
-
       dispatch(actionCreators.updateTokenPairData(tokenPairData))
-      dispatch(actionCreators.initOrdersTable(orders))
 
+      socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
-      // socket.subscribeChart(
-      //   currentPair,
-      //   state.ohlcv.currentTimeSpan.label,
-      //   state.ohlcv.currentDuration.label,
-      // )
+      socket.subscribeChart(
+        currentPair,
+        state.ohlcv.currentTimeSpan.label,
+        state.ohlcv.currentDuration.label,
+      )
     } catch (e) {
       console.log(e)
     }
@@ -132,6 +148,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
+      socket.unSubscribePrice()
 
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
@@ -139,6 +156,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       dispatch(actionCreators.updateCurrentPair(pair))
       const tokenPair = pairDomain.getPair(pair)
 
+      socket.subscribePrice(tokenPair)
       socket.subscribeTrades(tokenPair)
       socket.subscribeOrderBook(tokenPair)
       socket.subscribeChart(

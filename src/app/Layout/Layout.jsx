@@ -3,10 +3,9 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { HTMLSelect, Icon, Switch } from '@blueprintjs/core'
+import { Icon, Switch } from '@blueprintjs/core'
 import {
   Alignment,
-  Button,
   Menu,
   MenuDivider,
   Navbar,
@@ -14,26 +13,20 @@ import {
   NavbarHeading,
   Popover,
   Position,
-  Tag,
+  Tooltip,
 } from '@blueprintjs/core'
 
 import {
   NavbarDivider,
+  Theme,
+  DarkMode,
 } from '../../components/Common'
-
-import { Indent } from '../../components/Common'
-import {
-  Devices,
-} from '../../components/Common/Variables'
 import Notifier from '../../components/Notifier'
-import ConnectionStatus from '../../components/ConnectionStatus'
-import locales from '../../config/locales'
-import { REACT_APP_DEX_VERSION } from '../../config/environment'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-import supportIconUrl from '../../assets/images/support_icon_gray.svg'
-import notificationIconUrl from '../../assets/images/notification_icon_gray.svg'
-import globeIconUrl from '../../assets/images/globe_icon_gray.svg'
+import { formatNumber } from 'accounting-js'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
+import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 
 export type Props = {
   TomoBalance: string,
@@ -53,8 +46,11 @@ export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
   componentDidMount() {
-    if (this.props.createProvider) {
-      this.props.createProvider()
+    const { createProvider, queryAppData } = this.props
+
+    queryAppData()
+    if (createProvider) {
+      createProvider()
     }
   }
 
@@ -63,12 +59,24 @@ class Layout extends React.PureComponent<Props, State> {
     this.props.changeLocale && this.props.changeLocale(locale)
   }
 
+  isTradingPage = (pathname: string) => {
+    return pathname.includes('/trade')
+  }
+
   handleThemeChange = () => {
 
   }
 
   render() {
-    const { children, authenticated, address, currentBlock, currentPair } = this.props
+    const { 
+      children, 
+      authenticated, 
+      address, 
+      currentPair, 
+      currentPairData,
+      pathname, 
+      referenceCurrency,
+    } = this.props
 
     const menu = (
       <Menu>
@@ -85,7 +93,7 @@ class Layout extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper>
+      <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
         <Header className="tm-header">
           <Navbar>
@@ -94,60 +102,65 @@ class Layout extends React.PureComponent<Props, State> {
             </NavbarHeading>
 
             <NavbarGroup align={Alignment.LEFT}>
+            {this.isTradingPage(pathname) 
+            && (
               <TokenInfo className="token-info">
                 {currentPair && (
-                  <Popover
+                  <TokenSearcherPopover
                     content={<TokenSearcher />}
                     position={Position.BOTTOM_LEFT}
                     minimal>
-                    <div className="tokens-dropdown">
+                    <TokenPaisDropDown>
                       <span>{currentPair.pair}</span> 
                       <i className="arrow"></i>
-                    </div>
-                  </Popover>
+                    </TokenPaisDropDown>
+                  </TokenSearcherPopover>
                 )}
 
                 <NavbarDivider />
 
-                <TokenTick className="token-tick">
-                  <div className="tick last-price">
-                    <div className="title">Last Price</div>
-                    <div>
-                      <span>0.00382726</span>
-                      <span className="up">$0.40</span>
+                {currentPairData && 
+                  (<TokenTick className="token-tick">
+                    <div className="tick last-price">
+                      <div className="title">Last Price</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
+                        <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick change">
-                    <div className="title">24h Change</div>
-                    <div className="down">
-                      <span>-0.00002726</span>
-                      <span>-6.33%</span>
+                    <div className="tick change">
+                      <div className="title">24h Change</div>
+                      <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick high">
-                    <div className="title">24h High</div>
-                    <div className="up">
-                      <span>0.00382783</span>
+                    <div className="tick high">
+                      <div className="title">24h High</div>
+                      <div className="up">
+                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick low">
-                    <div className="title">24h Low</div>
-                    <div className="down">
-                      <span>0.00382783</span>
+                    <div className="tick low">
+                      <div className="title">24h Low</div>
+                      <div className="down">
+                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="tick volume">
-                    <div className="title">24h Volume</div>
-                    <div>
-                      <span>247.382783</span>
+                    <div className="tick volume">
+                      <div className="title">24h Volume</div>
+                      <div>
+                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
+                      </div>
                     </div>
-                  </div>
-                </TokenTick>
+                  </TokenTick>)
+                }
               </TokenInfo>
+            )}
             </NavbarGroup>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
@@ -188,33 +201,63 @@ class Layout extends React.PureComponent<Props, State> {
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
-                {/* <HTMLSelect
-                  large
-                  minimal
-                  onChange={this.changeLocale}
-                  value={this.props.locale}
-                >
-                  {locales.map(locale => {
-                    return (
-                      <option key={locale.value} value={locale.value}>
-                        {locale.label}
-                      </option>
-                    )
-                  })}
-                </HTMLSelect> */}
               </LanguageItem>
             </NavbarGroup>
           </Navbar>
         </Header>
         <MainContainer>
-          <MenuBar className="sidebar"> 
-            <NavLink className="sidebar-item markets-link" to="/markets"><span><i></i> Markets</span></NavLink>  
-            <NavLink className="sidebar-item exchange-link" to="/trade"><span><i></i> Exchange</span></NavLink>         
-            <NavLink className="sidebar-item portfolio-link" to="/wallet"><span><i></i> Portfolio</span></NavLink>                      
-            <NavLink className="sidebar-item docs-faq-link" to="/settings"><span><i></i> Docs/FAQ</span></NavLink>
-            {/* <NavLink className="sidebar-item" to="/settings">Settings</NavLink> */}
+          <Sidebar className="sidebar"> 
+            <NavLink className="sidebar-item markets-link" to="/markets">
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Markets" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Markets</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>  
+            <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Exchange" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip>
+                <SidebarItemTitle>Exchange</SidebarItemTitle>
+              </SidebarItemBox>
+            </NavLink>         
+            <NavLink className="sidebar-item portfolio-link" to="/wallet">
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Portfolio" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip> 
+                <SidebarItemTitle>Portfolio</SidebarItemTitle>
+              </SidebarItemBox>
+              </NavLink>   
+
+              <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+                <SidebarItemBox>
+                  <Tooltip disabled={!this.isTradingPage(pathname)} 
+                    portalClassName="sidebar-tooltip"
+                    content="Docs/FAQ" 
+                    position={Position.RIGHT}
+                    transitionDuration={0}>
+                    <i></i> 
+                  </Tooltip> 
+                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                </SidebarItemBox>
+              </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
-          </MenuBar>
+          </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
       </Wrapper>
@@ -224,7 +267,7 @@ class Layout extends React.PureComponent<Props, State> {
 
 export default Layout
 
-const Wrapper = styled.div.attrs({ className: 'tm-theme-dark' })`
+const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -232,28 +275,64 @@ const Wrapper = styled.div.attrs({ className: 'tm-theme-dark' })`
 
 const Header = styled.header``
 
-const DexVersion = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
+const TokenSearcherPopover = styled(Popover)`
+  width: 100px;
 `
 
-const MainContainer = styled.div`
+const TokenPaisDropDown = styled.div.attrs({
+  className: 'tokens-dropdown',
+})`
+  color: ${DarkMode.LIGHT_GRAY};
+  cursor: pointer;
+`
+
+const MainContainer = styled.div.attrs({
+  className: 'main-container',
+})`
   display: grid;
-  grid-template-columns: 11% auto;
+  grid-template-columns: 155px 1fr;
 `
 
-const MenuBar = styled.div`
+const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 `
 
-const MainContent = styled.main`
-  flex: 1;
-  height: calc(100vh - 80px)
+const SidebarItemBox = styled.div.attrs({
+  className: 'sidebar-item-box',
+})`
+  .bp3-popover-target {
+    display: flex;
+    align-items: center;
+  }
 `
 
-const TokenInfo = styled.div``
+const SidebarItemTitle = styled.span.attrs({
+  className: 'sidebar-item-title',
+})`
+  height: 40px;
+  padding-top: 1px;
+`
+
+const MainContent = styled.main`
+  flex: 1;
+  height: calc(100vh - ${Theme.HEADER_HEIGHT_LG});
+
+  @media only screen and (max-width: 1280px) {
+    height: calc(100vh - ${Theme.HEADER_HEIGHT_MD});
+  }
+`
+
+const TokenInfo = styled.div`
+  .arrow {
+    transition: transform .5s ease;
+  }
+
+  .bp3-popover-open .arrow {
+    transform: rotate(180deg);
+  }
+`
 
 const TokenTick = styled.div``
 
@@ -265,21 +344,14 @@ const LanguageItem = styled.div``
 
 const UserItem = styled.div``
 
-const Block = styled.div`
-  word-wrap: break-word;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 20px;
-  & span {
-    margin-right: 5px;
-  }
-`
-
 const NavbarLink = styled(NavLink).attrs({
   activeClassName: 'bp3-active bp3-intent-primary',
   className: 'bp3-button bp3-minimal',
   role: 'button',
+})``
+
+const NavExternalLink = styled.a.attrs({
+  className: 'sidebar-item docs-faq-link',
 })``
 
 const MenuItem = styled.li``

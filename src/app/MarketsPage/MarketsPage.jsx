@@ -17,8 +17,17 @@ export type Props = {
 class MarketsPage extends React.PureComponent<Props, State> {
 
   componentDidMount() {
-    const { authenticated, queryMarketData } = this.props
-    if (authenticated) queryMarketData()
+    const { queryMarketData, webSocketIsOpened } = this.props
+    if (webSocketIsOpened) { queryMarketData() }
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevWebSocketStatus = prevProps.webSocketIsOpened
+    const { queryMarketData, webSocketIsOpened } = this.props
+    
+    if(webSocketIsOpened && !prevWebSocketStatus) {
+      queryMarketData()
+    }
   }
 
   render() {

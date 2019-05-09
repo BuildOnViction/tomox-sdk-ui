@@ -1,14 +1,25 @@
 // @flow
-import { getOrderBookDomain, getTokenPairsDomain } from '../domains'
+import { 
+  getOrderBookDomain, 
+  getTokenPairsDomain,
+  getAccountDomain,
+} from '../domains'
 import type { State } from '../../types'
 
 export default function orderBookSelector(state: State) {
-  let { bids, asks } = getOrderBookDomain(state).getOrderBookData(25)
-  let currentPair = getTokenPairsDomain(state).getCurrentPair()
+  const { bids, asks } = getOrderBookDomain(state).getOrderBookData(25)
+  const pairDomain = getTokenPairsDomain(state)
+  const accountDomain = getAccountDomain(state)
+
+  const currentPair = pairDomain.getCurrentPair()
+  const currentPairData = pairDomain.getCurrentPairData()
+  const referenceCurrency = accountDomain.referenceCurrency()
 
   return {
     bids,
     asks,
-    currentPair
+    currentPair,
+    currentPairData,
+    referenceCurrency,
   }
 }

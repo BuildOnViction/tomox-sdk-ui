@@ -11,45 +11,22 @@ type State = {
 
 type Props = {
   trades: Array<Trade>,
-  userTrades: Array<Trade>,
   currentPair: TokenPair
 };
 
 class TradesTable extends React.PureComponent<Props, State> {
-  state = {
-    selectedTabId: 'Market',
-    isOpen: true
-  };
 
-  changeTab = (tabId: string) => {
-    this.setState({
-      selectedTabId: tabId
-    });
-  };
-
-  toggleCollapse = () => {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  };
 
   render() {
     const {
-      props: { trades, userTrades, currentPair },
-      state: { selectedTabId, isOpen },
-      changeTab,
-      toggleCollapse
-    } = this;
+      props: { trades, currentPair },
+    } = this
     // should order or filter?
-    const sortedMarketTradeHistory = trades;
-    const sortedUserTradeHistory = userTrades;
+    const sortedMarketTradeHistory = trades
     return (
       <TradesTableRenderer
-        selectedTabId={selectedTabId}
         currentPair={currentPair}
-        onChange={changeTab}
         trades={sortedMarketTradeHistory}
-        userTrades={sortedUserTradeHistory}
-        isOpen={isOpen}
-        toggleCollapse={toggleCollapse}
       />
     );
   }

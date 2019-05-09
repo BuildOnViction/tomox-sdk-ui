@@ -14,6 +14,9 @@ import { NATIVE_TOKEN_SYMBOL } from "../../config/tokens"
 export function queryAccountData(): ThunkAction {
   return async (dispatch, getState, { api }) => {
     const state = getState()
+    const { router: { location: { pathname }}} = state
+    const pairParam = pathname.match(/.*trade\/?(.*)$/)
+    let currentPair = pairParam ? pairParam[1].replace('-', '/') : ''
     const accountAddress = getAccountDomain(state).address()
 
     try {
@@ -46,7 +49,11 @@ export function queryAccountData(): ThunkAction {
       // )
 
       const balances = [tomoBalance].concat(tokenBalances)
+      const tokenPairData = await api.fetchTokenPairData()
+      const availablePairs = tokenPairData.map(pairData => pairData.pair.pairName)
+      currentPair = availablePairs.includes(currentPair) ? currentPair : availablePairs[0]
 
+      dispatch(actionCreators.updateCurrentPair(currentPair))
       dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
       dispatch(actionCreators.updateTokenPairs(pairs))
       dispatch(actionCreators.updateBalances(balances))

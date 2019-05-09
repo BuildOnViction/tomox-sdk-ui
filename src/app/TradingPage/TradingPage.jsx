@@ -1,17 +1,19 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
+import { Tabs, Tab } from '@blueprintjs/core'
 
-import OHLCV from '../../components/OHLCV'
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
-import { CloseableCallout } from '../../components/Common'
+// import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
-import TokenSearcher from '../../components/TokenSearcher'
+// import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-import TVChartContainer from '../../components/TVChartContainer'
+import TVChartRenderer from '../../components/TVChartContainer'
+import DepthChart from '../../components/DepthChart'
+import { DarkMode } from '../../components/Common';
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -81,11 +83,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.isConnected || !this.props.isConnected) {
-      return
+    if ((!prevProps.isConnected && this.props.isConnected)
+      || (this.props.currentPairName !== prevProps.currentPairName)) {
+      this.props.queryTradingPageData()
     }
-
-    this.props.queryTradingPageData()
   }
 
   checkIfCalloutRequired = () => {
@@ -96,7 +97,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
       baseTokenAllowance,
       quoteTokenAllowance,
       baseTokenSymbol,
-      quoteTokenSymbol
+      quoteTokenSymbol,
     } = this.props
 
     if (!authenticated) {
@@ -135,24 +136,53 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, isInitiated, quoteTokenSymbol } = this.props
-    if (!authenticated) return <Redirect to="/login" />
-    if (!isInitiated) return null
-    const { calloutOptions, calloutVisible } = this.state
+    const { quoteTokenSymbol } = this.props
+    // if (!authenticated) return <Redirect to="/login" />
+    // if (!isInitiated) return null
+    // const { calloutOptions, calloutVisible } = this.state
 
     return (
-      <Grid flow="row dense" columns={5} rows={8} gap="10px" height="100%">
-        <Cell width={3} height={5} className="tvchart-wrapper">{quoteTokenSymbol && <TVChartContainer />}</Cell>
-        <Cell width={2} height={5} className="orderbook-trades">
+      <Grid flow="row dense" 
+        columns={"7.5fr minmax(520px, 4.5fr)"} 
+        rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+        gap="10px" 
+        height="100%">
+        <Cell className="charts-cell">
+          <ChartTabs
+            id="tabs-chart"
+            onChange={this.handleTabsChartChange}
+            selectedTabId={this.state.chartTadId}
+          >
+              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
+              <Tab id="depth" title="Depth" panel={<DepthChart />} />
+          </ChartTabs>
+        </Cell>
+        <OrderBooxTrades>
           <Grid columns={2} height="100%" gap="20px">
             <Cell width={1}><OrderBook /></Cell>
             <Cell width={1}><TradesTable /></Cell>
           </Grid>
-        </Cell>
-        <Cell width={3} height={3} className="orders-table-cell"><OrdersTable /></Cell>
-        <Cell width={2} height={3}><OrderForm /></Cell>
+        </OrderBooxTrades>
+        <Cell className="orders-table-cell"><OrdersTable /></Cell>
+        <Cell className="order-form-cell"><OrderForm /></Cell>
       </Grid>
     )
   }
 }
+
+const OrderBooxTrades = styled(Cell).attrs({
+  className: 'orderbook-trades',
+})`
+  box-shadow: 0 0 0 1px ${DarkMode.LIGHT_BLUE};
+  padding: 10px 0;
+`
+
+const ChartTabs = styled(Tabs)`
+  .bp3-tab-list {
+    position: absolute;
+    right: 0;
+  }
+`
+
+
 

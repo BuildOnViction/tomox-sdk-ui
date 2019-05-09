@@ -233,3 +233,25 @@ export const Inputs = {
 export const NavBar = {
   PT_NAVBAR_HEIGHT: Grids.PT_GRID_SIZE * 5
 }
+
+export const DarkMode = {
+  BLACK: '#1f2538',
+  DARK_BLUE: '#252C40',
+  LIGHT_BLUE: '#394362',
+  GRAY: '#6e7793',
+  LIGHT_GRAY: '#9ca4ba',
+  WHITE: '#fff',
+  ORANGE: '#ff9a4d',
+  GREEN: '#00c38c',
+  RED: '#f94d5c',
+}
+
+export const Theme = {
+  HEADER_HEIGHT_LG: '80px',
+  HEADER_HEIGHT_MD: '50px',
+  ROW_HEIGHT_LG: '60px',
+  ROW_HEIGHT_MD: '50px',
+  BREAK_POINT_MD: '1280px',
+  FONT_SIZE_MD: '14px',
+  FONT_SIZE_SM: '12px',
+}

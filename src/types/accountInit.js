@@ -47,4 +47,4 @@ export type AccountInitActions =
   | UpdateAccountAllowanceAction
   | UpdateAccountAllowancesAction
   | UpdateTokenPairsAction
-  | UpdateExchangeAddressAction;
+  | UpdateExchangeAddressAction

@@ -1,5 +1,7 @@
 // @flow
-import createReducer from './createReducer'
+import storage from 'redux-persist/lib/storage'
+
+import createReducer, { createReducerPersist } from './createReducer'
 import accountBalancesActionTypes from './actions/accountBalances'
 import transferTokensFormActionTypes from './actions/transferTokensForm'
 import ohlcvActionTypes from './actions/ohlcv'
@@ -23,6 +25,8 @@ import appActionTypes from './actions/app'
 import layoutActionTypes from './actions/layout'
 import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
+import orderBookActionTypes from './actions/orderBook'
+import tokenPairsActionsTypes from './actions/tokenPairs'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -199,6 +203,7 @@ export const ohlcv = createReducer(action => {
       return ohlcvEvents.savedTimeSpan(payload.data)
     case ohlcvActionTypes.saveNoOfCandles:
       return ohlcvEvents.savedNoOfCandles(payload)
+    case ohlcvActionTypes.resetOHLCVData:
     case tokenSearcherActionTypes.updateCurrentPair:
     case tradingPageActionTypes.updateCurrentPair:
       return ohlcvEvents.ohlcvReset()
@@ -221,6 +226,9 @@ export const trades = createReducer(action => {
     case tradingPageActionTypes.updateCurrentPair:
     case tokenSearcherActionTypes.updateCurrentPair:
       return tradeEvents.tradesReset()
+    case tradingPageActionTypes.updateTradesByAddress:
+    case socketControllerActionTypes.updateTradesByAddress:
+      return tradeEvents.tradesByAddressUpdated(payload.trades)
     default:
       return tradeEvents.initialized()
   }
@@ -229,6 +237,8 @@ export const trades = createReducer(action => {
 export const orderBook = createReducer(action => {
   const { type, payload } = action
   switch (type) {
+    case orderBookActionTypes.select:
+      return orderBookEvents.selected(payload.order)
     case tradingPageActionTypes.updateOrderBook:
     case tokenSearcherActionTypes.updateOrderBook:
     case socketControllerActionTypes.updateOrderBook:
@@ -273,10 +283,16 @@ export const tokens = createReducer(action => {
   }
 })
 
-export const tokenPairs = createReducer(action => {
+export const tokenPairs = createReducerPersist({
+  key: 'tokenPairs',
+  keyPrefix: 'tomo:',
+  storage,
+  whitelist: ['favorites'],
+}, action => {
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
+    case accountInitActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
@@ -288,6 +304,7 @@ export const tokenPairs = createReducer(action => {
     case tokensActionTypes.removeTokens:
       return tokenPairsEvents.tokenPairRemoved(payload)
     case tokenSearcherActionTypes.updateFavorite:
+    case marketsTableActionTypes.updateFavorite:
       return tokenPairsEvents.tokenPairFavorited(
         payload.code,
         payload.favorite
@@ -295,11 +312,13 @@ export const tokenPairs = createReducer(action => {
     case tokenSearcherActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tradingPageActionTypes.updateTokenPairData:
+    case marketsPageActionTypes.updateTokenPairData:
+    case socketControllerActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case marketsTableActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case marketsPageActionTypes.updateTokenPairData:
-      return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
+    case tokenPairsActionsTypes.updateCurrentPairData:
+      return tokenPairsEvents.updateCurrentPairData(payload)
     default:
       return tokenPairsEvents.initialized()
   }

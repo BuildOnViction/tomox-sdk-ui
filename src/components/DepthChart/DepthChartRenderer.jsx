@@ -20,56 +20,55 @@ type ChartProps = {
 
 const DepthChartRenderer = (props: ChartProps) => {
   const { asks, bids, toolTip, title } = props
+
   return (
-    <div>
       <AmCharts.React
         className="depth-chart"
         style={{
           width: '100%',
-          height: '490px'
+          height: '100%'
         }}
         options={{
           type: 'serial',
-          theme: 'dark',
-          dataProvider: bids.concat(asks),
+          dataProvider: [...bids.reverse(), ...asks],
           graphs: [
-            {
-              id: 'asks',
-              fillAlphas: 0.1,
-              lineAlpha: 1,
-              lineThickness: 2,
-              lineColor: '#3DCC91',
-              type: 'step',
-              valueField: 'total',
-              balloonFunction: toolTip
-            },
             {
               id: 'bids',
               fillAlphas: 0.1,
               lineAlpha: 1,
               lineThickness: 2,
-              lineColor: '#F55656',
+              lineColor: '#00c38c',
               type: 'step',
-              valueField: 'total',
-              balloonFunction: toolTip
+              valueField: 'bidstotal',
+              balloonFunction: toolTip,
+            },
+            {
+              id: 'asks',
+              fillAlphas: 0.1,
+              lineAlpha: 1,
+              lineThickness: 2,
+              lineColor: '#f94d5c',
+              type: 'step',
+              valueField: 'askstotal',
+              balloonFunction: toolTip,
             },
             {
               lineAlpha: 0,
               fillAlphas: 0.2,
-              lineColor: '#000',
+              lineColor: '#00c38c',
               type: 'column',
               clustered: false,
-              valueField: 'amount',
-              showBalloon: false
+              valueField: 'bidsamount',
+              showBalloon: false,
             },
             {
               lineAlpha: 0,
               fillAlphas: 0.2,
-              lineColor: '#000',
+              lineColor: '#f94d5c',
               type: 'column',
               clustered: false,
-              valueField: 'amount',
-              showBalloon: false
+              valueField: 'asksamount',
+              showBalloon: false,
             }
           ],
           categoryField: 'price',
@@ -82,21 +81,20 @@ const DepthChartRenderer = (props: ChartProps) => {
             minHorizontalGap: 100,
             startOnAxis: true,
             showFirstLabel: false,
-            showLastLabel: false
+            showLastLabel: false,
+            color: '#6e7793',
+            gridThickness: 0,
+            axisColor: '#394362',
           },
-          listeners: [
-            {
-              event: 'zoomed',
-              method: function(e) {}
-            },
-            {
-              event: 'clickGraphItem',
-              method: function(e) {}
-            }
-          ]
+          valueAxes: [{
+            axisColor: '#394362',
+            gridColor: '#394362',
+            gridThickness: 1,
+            gridAlpha: 0.4,
+            color: '#6e7793',
+          }],
         }}
       />
-    </div>
   )
 }
 export default DepthChartRenderer

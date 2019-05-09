@@ -4,6 +4,7 @@ const actionTypes = {
   saveDuration: 'ohlcv/SAVE_DURATION',
   saveTimeSpan: 'ohlcv/SAVE_TIME_SPAN',
   saveNoOfCandles: 'ohlcv/SAVE_NO_OF_CANDLES',
+  resetOHLCVData: 'ohlcv/SAVE_OHLCV_DATA',
 }
 
 export function saveData(data: Array<Object>) {
@@ -31,6 +32,12 @@ export function saveTimeSpan(data: Object) {
   return {
     type: actionTypes.saveTimeSpan,
     payload: { data },
+  }
+}
+
+export function resetOHLCVData() {
+  return {
+    type: actionTypes.resetOHLCVData,
   }
 }
 

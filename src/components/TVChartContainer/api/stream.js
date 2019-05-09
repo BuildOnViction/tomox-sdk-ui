@@ -1,27 +1,27 @@
 /* eslint-disable */
 import configureStore from '../../../store/configureStore'
-import * as socket from '../../../store/services/socket'
-import { getTokenPairsDomain } from '../../../store/domains'
 
-var unsubscribe = null
 const { store } = configureStore
 
 export default {
-  subscribeBars: (symbolInfo, resolution, updateCb, uid, resetCache) => {   
-    // let prevOhlcvData = []
-    // unsubscribe = store.subscribe(() => {
-    //   const { ohlcv: { ohlcvData } } = store.getState()
-    //   if ((ohlcvData.length - prevOhlcvData.length) === 1) {
-    //     console.log('update chart')
-    //     const latestBar = ohlcvData[ohlcvData.length - 1]
-    //     updateCb(latestBar)
-    //   }
+  subscribeBars: (symbolInfo, resolution, updateCb, uid, resetCache) => { 
 
-    //   prevOhlcvData = JSON.parse(JSON.stringify(ohlcvData))
-    // })    
+    window.unsubscribe = store.subscribe(() => {
+      const { ohlcv: { ohlcvData } } = store.getState()
+
+      if (ohlcvData && ohlcvData.length > 0 && window.tvWidget.latestBar) {
+        const currLatestBar = ohlcvData.slice(-1)[0]
+
+        if (currLatestBar.time !== window.tvWidget.latestBar.time) {
+          window.tvWidget.latestBar = JSON.parse(JSON.stringify(currLatestBar))
+          updateCb(currLatestBar)
+        }
+      }      
+    }) 
   },
   unsubscribeBars: function(uid) {
-    // unsubscribe()
+    window.unsubscribe()
+    window.tvWidget.latestBar = null
   }
 }
 

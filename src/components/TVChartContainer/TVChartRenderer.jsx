@@ -9,11 +9,9 @@ function getLanguageFromURL() {
 	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-export default class TVChartContainer extends React.PureComponent {
+export default class TVChartRenderer extends React.PureComponent {
 
 	static defaultProps = {
-		symbol: 'TomoX:ETH/TOMO',
-		interval: '1',
 		containerId: 'tv_chart_container',
 		libraryPath: '/charting_library/',
 		chartsStorageUrl: 'https://saveload.tradingview.com',
@@ -25,12 +23,13 @@ export default class TVChartContainer extends React.PureComponent {
 		studiesOverrides: {},
 	};
 
-	componentDidMount() {
+	createWidget() {
 		const { 
-			currentDuration, 
-			currentTimeSpan,
-			updateDuration,
-  			updateTimeSpan,
+			ohlcv: {
+				currentTimeSpan,
+			},
+			changeTimeSpan,
+			currentPair: { pair },
 		} = this.props
 
 		const { location: { origin } } = window
@@ -38,14 +37,23 @@ export default class TVChartContainer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: this.props.symbol,
+			symbol: pair,
 			datafeed: Datafeed,
-			interval: this.props.interval,
+			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
 			library_path: this.props.libraryPath,
 			locale: getLanguageFromURL() || 'en',
-			disabled_features: ['use_localstorage_for_settings', 'volume_force_overlay'],
-			enabled_features: ['study_templates'],
+			disabled_features: [
+				'use_localstorage_for_settings', 
+				'volume_force_overlay', 
+				'symbol_search_hot_key',
+				'header_symbol_search', 
+				'header_screenshot',
+				'header_compare',
+				'header_saveload',
+				'header_undo_redo',
+			],
+			enabled_features: [],
 			charts_storage_url: this.props.chartsStorageUrl,
 			charts_storage_api_version: this.props.chartsStorageApiVersion,
 			client_id: this.props.clientId,
@@ -57,23 +65,39 @@ export default class TVChartContainer extends React.PureComponent {
 			custom_css_url,
 			overrides: {
 				"volumePaneSize": "medium",
-				"mainSeriesProperties.showCountdown": true,
 				"paneProperties.background": "#252C40",
-				"paneProperties.vertGridProperties.color": "#363c4e",
-				"paneProperties.horzGridProperties.color": "#363c4e",
-				"symbolWatermarkProperties.transparency": 90,
-				"scalesProperties.textColor" : "#AAA",
+				"paneProperties.vertGridProperties.color": "#252C40",
+				"paneProperties.horzGridProperties.color": "#394362",
+				"paneProperties.legendProperties.showSeriesTitle": false,
+				"scalesProperties.textColor" : "#6e7793",
+				"scalesProperties.fontSize": 12,
+				"scalesProperties.lineColor": "#394362",
 				"mainSeriesProperties.candleStyle.wickUpColor": '#336854',
 				"mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
-				"timeScale.rightOffset": 1,
-			}
-		};
+				"timeScale.rightOffset": 5,
+			},
+			time_frames: [],
+		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
+		window.tvWidget.latestBar = null
 
 		widget.onChartReady(() => {		
-			console.log('Chart loaded!')
+			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
+				changeTimeSpan(interval)
+			})
 		})
+	}
+
+	componentDidMount() {
+		this.createWidget()
+	}
+
+	componentWillUnmount() {
+		// if (window.tvWidget !== null) {
+		// 	window.tvWidget.remove()
+		// 	window.tvWidget = null
+		// }		
 	}
 
 	render() {
@@ -81,8 +105,8 @@ export default class TVChartContainer extends React.PureComponent {
 		return (
 			<div
 				id={ this.props.containerId }
-				className={ 'TVChartContainer' }
+				className={ 'TVChartRenderer' }
 			/>
-		);
+		)
 	}
 }
