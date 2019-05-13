@@ -3,8 +3,6 @@ import { Wallet, utils } from 'ethers'
 import {
   signOrder,
   signTrade,
-  getFeedRequest,
-  updateSwarmFeed,
   createRawOrder,
   createOrderCancel,
 } from './methods'
@@ -87,12 +85,6 @@ export const addMethodsToSigner = (signer: Signer) => {
   // the first param by default is this signer
   signer.createRawOrder = createRawOrder
   signer.createOrderCancel = createOrderCancel
-
-  // if local wallet then support swarm feed extensions
-  if (signer.signingKey) {
-    signer.getFeedRequest = getFeedRequest
-    signer.updateSwarmFeed = updateSwarmFeed
-  }
 }
 
 export const createMetamaskSigner = async () => {

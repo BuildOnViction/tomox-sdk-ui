@@ -1,5 +1,5 @@
 //@flow
-type Trade = {
+export type Trade = {
   time: number,
   price: number,
   amount: number,
