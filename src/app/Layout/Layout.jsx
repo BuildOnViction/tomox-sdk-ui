@@ -27,6 +27,9 @@ import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
+import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
+import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
+import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -45,6 +48,23 @@ export type Props = {
 export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
+
+  isCreateWalletPage = (pathname: string) => {
+    return pathname.includes('/create')
+  }
+
+  render() {
+    const { pathname } = this.props
+
+    if (this.isCreateWalletPage(pathname)) {
+      return (<CreateImportWallet {...this.props} />)
+    }
+
+    return (<Default {...this.props} />)
+  }
+}
+
+class Default extends React.PureComponent<Props, State> {
   componentDidMount() {
     const { createProvider, queryAppData } = this.props
 
@@ -265,6 +285,53 @@ class Layout extends React.PureComponent<Props, State> {
   }
 }
 
+class CreateImportWallet extends React.PureComponent<Props, State> {
+  componentDidMount() {
+    const { createProvider } = this.props
+
+    if (createProvider) {
+      createProvider()
+    }
+  }
+
+  render() {
+    const { 
+      children, 
+    } = this.props
+
+    return (
+      <CreateImportWrapper>
+        <Notifier />
+        <CreateImportHeader>
+          <Navbar>
+            <LogoWrapper>
+              <TomoXLogo height={40} width={40} alt="TomoX Logo" />
+            </LogoWrapper>
+
+            <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <LanguageItem className="utility-item language">
+                <i>language</i>              
+
+                <Popover
+                  content={'todo: languages list'}
+                  position={Position.BOTTOM_RIGHT}
+                  minimal>
+                  <div className="languages-dropdown">
+                    <span>English</span> 
+                    <span className="arrow"></span>
+                  </div>
+                </Popover>  
+              </LanguageItem>
+            </NavbarGroup>
+          </Navbar>
+        </CreateImportHeader>
+
+        <CreateImportMain>{children}</CreateImportMain>
+      </CreateImportWrapper>
+    )
+  }
+}
+
 export default Layout
 
 const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
@@ -273,7 +340,65 @@ const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
   flex-direction: column;
 `
 
+const CreateImportWrapper = styled(Wrapper)``
+
 const Header = styled.header``
+
+const CreateImportHeader = styled.header`
+  position: relative;
+  .utilities-menu {
+    padding-right: 20px;
+    .utility-item {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-right: 40px;
+      &:last-child {
+        margin-right: 0;
+      }
+      i {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        font-size: 0;
+      }
+    }
+
+    .language {
+      i {
+        margin-right: 7px;
+        background: url(${globeGrayUrl}) no-repeat center center;
+      }
+      &:hover {
+        color: $tm_white;
+        i {
+          background: url(${globeWhiteUrl}) no-repeat center center;
+        }
+      }
+      .arrow {
+        display: inline-block;
+        width: 10px;
+        height: 5px;
+        margin-left: 10px;
+        background: url(${arrowGrayUrl}) no-repeat center center;
+      }
+    }
+  }
+`
+
+const CreateImportMain = styled.div``
+
+const LogoWrapper = styled(NavbarHeading)`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: ${Theme.HEADER_HEIGHT_LG};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+`
 
 const TokenSearcherPopover = styled(Popover)`
   width: 100px;

@@ -72,8 +72,8 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         ),
         icon: 'tick',
         intent: 'success',
-        timeout: 30000
-      };
+        timeout: 30000,
+      }
     case 'orderSuccess':
       return {
         action: {
@@ -95,38 +95,45 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         ),
         icon: 'tick',
         intent: 'success',
-        timeout: 30000
-      };
+        timeout: 30000,
+      }
     case 'orderAdded':
       return {
         message: 'Order Added',
         icon: 'tick',
         intent: 'success',
-        timeout: 3000
-      };
+        timeout: 3000,
+      }
     case 'orderCancelled':
       return {
         message: 'Order Cancelled',
         icon: 'tick',
-        intent: 'success'
-      };
+        intent: 'success',
+      }
     case 'orderMatched':
       return {
         message: 'Order Matched',
         icon: 'tick',
         intent: 'success',
-        timeout: 3000
-      };
+        timeout: 3000,
+      }
+    case 'copied': 
+      return {
+        message: 'The data is copied',
+        icon: 'tick',
+        intent: 'success',
+        timeout: 3000,
+      }
     default:
       return {
         message: options.message,
-        intent: options.intent
-      };
+        intent: options.intent,
+      }
   }
-};
+}
 
 const ToastInstance = Toaster.create({
-  position: Position.TOP_RIGHT
-});
+  position: Position.TOP_RIGHT,
+})
 
-export default Notifier;
+export default Notifier

@@ -242,6 +242,7 @@ export const DarkMode = {
   LIGHT_GRAY: '#9ca4ba',
   WHITE: '#fff',
   ORANGE: '#ff9a4d',
+  DARK_ORANGE: '#ec8536',
   GREEN: '#00c38c',
   RED: '#f94d5c',
 }

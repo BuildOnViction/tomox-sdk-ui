@@ -378,7 +378,7 @@ const BuyLimitOrderPanel = (props) => {
 
       {!authenticated && (<BuyButton
         intent="success"
-        text="Unlock Your Wallet"
+        text="Unlock wallet"
         name="order"
         onClick={redirectToLoginPage}
         fill
@@ -508,7 +508,7 @@ const SellLimitOrderPanel = (props) => {
 
       {!authenticated && <SellButton
         intent="danger"
-        text="Unlock Your Wallet"
+        text="Unlock wallet"
         name="order"
         onClick={redirectToLoginPage}
         fill
