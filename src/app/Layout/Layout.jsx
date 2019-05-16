@@ -49,14 +49,14 @@ export type State = {}
 
 class Layout extends React.PureComponent<Props, State> {
 
-  isCreateWalletPage = (pathname: string) => {
-    return pathname.includes('/create')
+  isCreateImportWalletPage = (pathname: string) => {
+    return pathname.includes('/create') || pathname.includes('/login')
   }
 
   render() {
     const { pathname } = this.props
 
-    if (this.isCreateWalletPage(pathname)) {
+    if (this.isCreateImportWalletPage(pathname)) {
       return (<CreateImportWallet {...this.props} />)
     }
 

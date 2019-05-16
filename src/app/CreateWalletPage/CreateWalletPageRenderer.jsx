@@ -288,7 +288,7 @@ const LabelTitle = styled.span`
 
 const InputGroupWrapper = styled(InputGroup)`
   .bp3-input {
-    height: 40px;
+    height: 50px;
     color: ${DarkMode.WHITE};
     font-size: 16px;
     padding: 15px;
@@ -308,7 +308,7 @@ const ButtonWrapper = styled(Button)`
   margin: 0 auto;
   min-width: 180px;
   text-align: center;
-  color: #1F2538 !important;
+  color: ${DarkMode.BLACK} !important;
   border-radius: 0;
   background-color: ${DarkMode.ORANGE} !important;
   box-shadow: none !important;
