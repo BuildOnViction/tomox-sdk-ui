@@ -34,21 +34,22 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     inputMnemonic: [],
     mnemonicErrorMessage: '',
     wallet: null,
+    isShowPrivateKeyDialog: false,
   }
 
-  cancel = () => {
-    this.props.hideModal()
-    setTimeout(() => {
-      this.setState({
-        currentStep: 0,
-        password: '',
-        encryptionPercentage: 0,
-        address: '',
-        encryptedWallet: '',
-        showEncryptionProgress: false,
-      })
-    }, 500)
-  }
+  // cancel = () => {
+  //   this.props.hideModal()
+  //   setTimeout(() => {
+  //     this.setState({
+  //       currentStep: 0,
+  //       password: '',
+  //       encryptionPercentage: 0,
+  //       address: '',
+  //       encryptedWallet: '',
+  //       showEncryptionProgress: false,
+  //     })
+  //   }, 500)
+  // }
 
   componentDidMount = async () => {
     const wallet = await createRandomWallet()
@@ -172,6 +173,10 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     this.props.copyDataSuccess()
   }
 
+  showPrivateKeyDialog = _ => this.setState({ isShowPrivateKeyDialog: true })
+
+  hidePrivateKeyDialog = _ => this.setState({ isShowPrivateKeyDialog: false })
+
   render() {
     const { visible, hideModal, authenticated } = this.props
 
@@ -194,10 +199,12 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
       mnemonicErrorMessage,
       inputMnemonic,
       wallet,
+      isShowPrivateKeyDialog,
     } = this.state
 
     const mnemonic = wallet ? wallet.mnemonic.split(' ') : []
     const address = wallet ? wallet.address : ''
+    const privateKey = wallet ? wallet.privateKey : ''
 
     return (
       <CreateWalletPageRenderer
@@ -235,6 +242,10 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         handleRemoveMnemonic={this.handleRemoveMnemonic}
         mnemonicErrorMessage={mnemonicErrorMessage}
         handleCopy={this.handleCopy}
+        showPrivateKeyDialog={this.showPrivateKeyDialog}
+        hidePrivateKeyDialog={this.hidePrivateKeyDialog}
+        isShowPrivateKeyDialog={isShowPrivateKeyDialog}
+        privateKey={privateKey}
       />
     )
   }

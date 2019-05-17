@@ -92,5 +92,25 @@
   fill: $tm-light-blue;
 }
 
+.bp3-dialog {
+  border-radius: 0;
+  box-shadow: none;
+  background: $tm-white;
+  padding: 10px;
+
+  .bp3-dialog-header {
+    box-shadow: none;
+  }
+
+  .bp3-heading {
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .bp3-dialog-body {
+    margin-top: 0;
+  }
+}
+
 
 

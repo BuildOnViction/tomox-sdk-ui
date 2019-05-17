@@ -7,9 +7,11 @@ import {
   Icon,
   InputGroup,
   Label,
+  Dialog,
+  Classes,
 } from '@blueprintjs/core'
 import styled from 'styled-components'
-import { DarkMode } from '../../components/Common'
+import { DarkMode, Theme } from '../../components/Common'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import { Link } from "react-router-dom"
 import tickUrl from '../../assets/images/tick.svg'
@@ -48,14 +50,27 @@ const CreateWalletPageRenderer = (props: Props) => {
     handleRemoveMnemonic,
     mnemonicErrorMessage,
     handleCopy,
+    showPrivateKeyDialog,
+    hidePrivateKeyDialog,
+    isShowPrivateKeyDialog,
+    privateKey,
   } = props
 
   const content = {
-    '0': (<WalletCreateStep address={address} goToPasswordStep={goToPasswordStep} />),
+    '0': (<WalletCreateStep 
+            address={address}             
+            goToPasswordStep={goToPasswordStep} />),
     '1': (<WalletPasswordStep goToBackupStep={goToBackupStep} />),
     '2': (<WalletBackupStep goToWarningStep={goToWarningStep} />),
     '3': (<WalletWarningStep goToMnemonicStep={goToMnemonicStep} />),
-    '4': (<WalletMnemonicStep mnemonic={mnemonic} handleCopy={handleCopy} goToConfirmMnemonicStep={goToConfirmMnemonicStep} />),
+    '4': (<WalletMnemonicStep 
+            mnemonic={mnemonic} 
+            handleCopy={handleCopy} 
+            goToConfirmMnemonicStep={goToConfirmMnemonicStep}
+            privateKey={privateKey}
+            showPrivateKeyDialog={showPrivateKeyDialog}
+            hidePrivateKeyDialog={hidePrivateKeyDialog}
+            isShowPrivateKeyDialog={isShowPrivateKeyDialog} />),
     '5': (<WalletConfirmMnemonicStep
             inputMnemonic={inputMnemonic}
             shuffedMnemonic={shuffedMnemonic} 
@@ -169,7 +184,15 @@ const WalletWarningStep = props => {
 }
 
 const WalletMnemonicStep = props => {
-  const { mnemonic, handleCopy, goToConfirmMnemonicStep } = props
+  const { 
+    mnemonic, 
+    handleCopy, 
+    goToConfirmMnemonicStep,
+    showPrivateKeyDialog,
+    hidePrivateKeyDialog,
+    isShowPrivateKeyDialog,
+    privateKey,
+  } = props
 
   return (
     <Wrapper>
@@ -186,17 +209,26 @@ const WalletMnemonicStep = props => {
 
       <Content padding="sm">
         <MnemonicWrapper>
-          {
-            (mnemonic.length > 0) && mnemonic.map((word, index) => {
-              return (<MnemonicTag key={index}>{word}</MnemonicTag>)
-            })
-          }
+          <MnemonicList>
+            {
+              (mnemonic.length > 0) && mnemonic.map((word, index) => {
+                return (<MnemonicTag key={index}>{word}</MnemonicTag>)
+              })
+            }
+          </MnemonicList>
+
+          <ShowPrivateKeyText onClick={showPrivateKeyDialog}>Show my private key >></ShowPrivateKeyText>
         </MnemonicWrapper>
 
-        <Paragraph>You will confirm this phrase on the next screen.</Paragraph>
+        <Paragraph textAlign="center">You will confirm this phrase on the next screen.</Paragraph>
 
         <ButtonWrapper fill={true} onClick={goToConfirmMnemonicStep}>I written it down</ButtonWrapper>
       </Content>
+
+      <DialogPrivateKey 
+        isShowPrivateKeyDialog={isShowPrivateKeyDialog}
+        hidePrivateKeyDialog={hidePrivateKeyDialog}
+        privateKey={privateKey} />
     </Wrapper>
   )
 }
@@ -227,7 +259,7 @@ const WalletConfirmMnemonicStep = props => {
         </ConfirmMnemonicWrapper>
         <ErrorMessage>{mnemonicErrorMessage}</ErrorMessage>
         
-        <Paragraph>Please, tap each word in the corect order or <Highlight onClick={goBackToPreviousStep}>back to previous step</Highlight></Paragraph>
+        <Paragraph textAlign="center">Please, tap each word in the corect order or <Highlight onClick={goBackToPreviousStep}>back to previous step</Highlight></Paragraph>
 
         <MnemonicWrapper bottom="20px">
           {
@@ -240,6 +272,23 @@ const WalletConfirmMnemonicStep = props => {
         <ButtonWrapper fill={true} onClick={complete} disabled={mnemonicErrorMessage || (shuffedMnemonic.length !== 0)}>Confirm</ButtonWrapper>
       </Content>
     </Wrapper>
+  )
+}
+
+const DialogPrivateKey = (props) => {
+  const { privateKey, isShowPrivateKeyDialog, hidePrivateKeyDialog } = props
+
+  return (
+    <Dialog
+      onClose={hidePrivateKeyDialog}
+      title="Your Private Key"
+      isOpen={isShowPrivateKeyDialog}
+      >
+      <DialogBody>
+        <Paragraph>Back up your private key on paper and keep it somewhere secret and safe.</Paragraph>
+        <PrivateKeyBox>{privateKey}</PrivateKeyBox>
+      </DialogBody>
+    </Dialog>
   )
 }
 
@@ -351,7 +400,7 @@ const LinkWrapper = styled(Link)`
 `
 
 const Paragraph = styled.p`
-  text-align: center;
+  text-align: ${props => props.textAlign? props.textAlign : 'left'};
   margin-bottom: 35px;
 `
 
@@ -369,6 +418,8 @@ const MnemonicWrapper = styled.div`
   margin-bottom: ${props => props.bottom ? props.bottom: '70px'};
 `
 
+const MnemonicList = styled.div``
+
 const MnemonicTag = styled.span`
   display: inline-block;
   height: 40px;
@@ -380,6 +431,19 @@ const MnemonicTag = styled.span`
   &:hover {
     background-color: ${DarkMode.ORANGE} !important;
   }
+`
+
+const DialogBody = styled.div.attrs({
+  className: Classes.DIALOG_BODY,
+})``
+
+const PrivateKeyBox = styled.div`
+  word-break: break-all;
+  font-size: ${Theme.FONT_SIZE_LG};
+  font-weight: 600;
+  color: ${DarkMode.BLACK};
+  border: 1px dashed ${DarkMode.LIGHT_GRAY};
+  padding: 25px;
 `
 
 const ErrorMessage = styled.div`
@@ -396,6 +460,11 @@ const Highlight = styled.span`
   &:hover {
     color: ${DarkMode.DARK_ORANGE};
   }
+`
+
+const ShowPrivateKeyText = styled(Highlight)`
+  margin-left: auto;
+  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 export default CreateWalletPageRenderer

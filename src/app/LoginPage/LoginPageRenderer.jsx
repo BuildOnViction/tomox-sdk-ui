@@ -23,6 +23,12 @@ type Props = {
 
 class LoginPageRenderer extends React.PureComponent {
 
+  state = {
+    selectedTabId: 'private-key',
+  }
+
+  handleTabChange = (selectedTabId: string) => this.setState({ selectedTabId})
+
   render() {
     // const {
     //   view,
@@ -38,6 +44,7 @@ class LoginPageRenderer extends React.PureComponent {
     //   showLoginMethods,
     //   walletCreated,
     // } = this.props
+    const { selectedTabId } = this.state
 
     return (
       <Wrapper>
@@ -45,8 +52,8 @@ class LoginPageRenderer extends React.PureComponent {
           <HeaderTitle>Import your Wallet</HeaderTitle>
           <SubTitle>If you don't have a wallet go <LinkWrapper to="/create">Create new wallet</LinkWrapper></SubTitle>
 
-          <TabsWrapper id="import-list" onChange={this.handleTabChange} selectedTabId="seed-phrase">
-            <Tab id="private" title="Private Key" panel={<PrivateKey />} />
+          <TabsWrapper id="import-list" onChange={this.handleTabChange} selectedTabId={selectedTabId}>
+            <Tab id="private-key" title="Private Key" panel={<PrivateKey />} />
             <Tab id="seed-phrase" title="Seed Phrase" panel={<SeedPhrase />} />
             <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
