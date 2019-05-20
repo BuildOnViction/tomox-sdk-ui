@@ -44,7 +44,10 @@ class LoginPageRenderer extends React.PureComponent {
     //   showLoginMethods,
     //   walletCreated,
     // } = this.props
-    const { selectedTabId } = this.state
+    const {
+      props: { handlePrivateKeyChange, unlockWalletWithPrivateKey },
+      state: { selectedTabId },
+    } = this
 
     return (
       <Wrapper>
@@ -53,7 +56,7 @@ class LoginPageRenderer extends React.PureComponent {
           <SubTitle>If you don't have a wallet go <LinkWrapper to="/create">Create new wallet</LinkWrapper></SubTitle>
 
           <TabsWrapper id="import-list" onChange={this.handleTabChange} selectedTabId={selectedTabId}>
-            <Tab id="private-key" title="Private Key" panel={<PrivateKey />} />
+            <Tab id="private-key" title="Private Key" panel={<PrivateKey handlePrivateKeyChange={handlePrivateKeyChange} unlockWalletWithPrivateKey={unlockWalletWithPrivateKey} />} />
             <Tab id="seed-phrase" title="Seed Phrase" panel={<SeedPhrase />} />
             <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
@@ -95,11 +98,13 @@ class LoginPageRenderer extends React.PureComponent {
 }
 
 const PrivateKey = (props) => {
+  const { privateKeyStatus, handlePrivateKeyChange, unlockWalletWithPrivateKey } = props
+
   return (
     <React.Fragment>
       <LabelWrapper>
         <LabelTitle>Enter your private key</LabelTitle> 
-        <InputGroupWrapper />
+        <InputGroupWrapper isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
       </LabelWrapper>
 
       <LabelWrapper>
@@ -108,7 +113,7 @@ const PrivateKey = (props) => {
       </LabelWrapper>          
       <SmallText>Password need 8 or more characters, an upper case, symbol and a number</SmallText>
 
-      <ButtonWrapper>Unlock Wallet</ButtonWrapper>
+      <ButtonWrapper onClick={unlockWalletWithPrivateKey}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
   )
 }
@@ -326,11 +331,11 @@ const InputGroupWrapper = styled.input`
   margin-top: 0 !important;
   margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
   background: ${DarkMode.BLACK};
-  border: none;
+  border: ${props => props.isInvalid ? '1px solid red' : 'none'};
   width: 100%;
 
   &:focus {
-    border: 1px solid ${DarkMode.ORANGE};
+    border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED}` : `1px solid ${DarkMode.ORANGE}`};
   }
 `
 
