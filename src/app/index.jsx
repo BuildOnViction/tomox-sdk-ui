@@ -27,7 +27,7 @@ class App extends React.PureComponent {
           <Layout>
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/markets" />} />
-              <Route path="/login" component={LoginPage} />
+              <Route path="/unlock" component={LoginPage} />
               <Route path="/wallet" component={WalletPage} />
               <Route path="/markets" component={MarketsPage} />
               <Route path="/trade/:pair?" component={TradingPage} />

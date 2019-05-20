@@ -71,7 +71,7 @@ class WalletPage extends React.PureComponent<Props> {
       balancesLoading
     } = this.props;
 
-    if (!authenticated) return <Redirect to="/login" />;
+    if (!authenticated) return <Redirect to="/unlock" />;
 
     const isHelpModalOpen = this.checkOpenHelpModal();
 

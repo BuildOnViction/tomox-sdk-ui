@@ -50,7 +50,7 @@ export type State = {}
 class Layout extends React.PureComponent<Props, State> {
 
   isCreateImportWalletPage = (pathname: string) => {
-    return pathname.includes('/create') || pathname.includes('/login')
+    return pathname.includes('/create') || pathname.includes('/unlock')
   }
 
   render() {
@@ -194,8 +194,7 @@ class Default extends React.PureComponent<Props, State> {
 
               <UserItem className="utility-item notification">
                 {!authenticated ? (
-                  <NavbarLink to="/login">
-                    <span>Login</span>/<span>Register</span></NavbarLink>
+                  <NavbarLink to="/unlock">Unlock wallet</NavbarLink>
                 ) : (
                   <React.Fragment>
                     <Popover
@@ -469,11 +468,13 @@ const LanguageItem = styled.div``
 
 const UserItem = styled.div``
 
-const NavbarLink = styled(NavLink).attrs({
-  activeClassName: 'bp3-active bp3-intent-primary',
-  className: 'bp3-button bp3-minimal',
-  role: 'button',
-})``
+const NavbarLink = styled(NavLink)`
+  color: ${DarkMode.GRAY};
+
+  &:hover {
+    color: ${DarkMode.WHITE};
+  }
+`
 
 const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',

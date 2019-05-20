@@ -95,7 +95,7 @@ const WalletCreateStep = props => {
     <Wrapper>
       <Header>
         <HeaderTitle>Create New Wallet</HeaderTitle>
-        <HeaderSubTitle><LinkWrapper to="/login">Sign in</LinkWrapper> to your wallet or <LinkWrapper to="/login">Import accounts</LinkWrapper></HeaderSubTitle>
+        <HeaderSubTitle><LinkWrapper to="/unlock">Sign in</LinkWrapper> to your wallet or <LinkWrapper to="/unlock">Import accounts</LinkWrapper></HeaderSubTitle>
       </Header>
 
       <Divider />
@@ -126,7 +126,7 @@ const WalletPasswordStep = props => {
     <Wrapper>
       <Header>
         <HeaderTitle>Protect Your Account</HeaderTitle>
-        <HeaderSubTitle>Protect your account or <LinkWrapper to="/login">Sign in</LinkWrapper> to a saved account</HeaderSubTitle>
+        <HeaderSubTitle>Protect your account or <LinkWrapper to="/unlock">Sign in</LinkWrapper> to a saved account</HeaderSubTitle>
       </Header>
 
       <Divider />
