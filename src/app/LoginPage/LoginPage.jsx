@@ -3,23 +3,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import LoginPageRenderer from './LoginPageRenderer'
-import SelectAddressModal from '../../components/SelectAddressModal'
-// import { createWalletFromJSON } from '../../store/services/wallet'
 import type { LoginWithWallet } from '../../types/loginPage'
-import { TrezorSigner } from '../../store/services/signer/trezor'
+// import { TrezorSigner } from '../../store/services/signer/trezor'
 import {
-  createWalletFromJSON,
   createWalletFromMnemonic,
   createWalletFromPrivateKey,
-  getEncryptedWalletAddress,
+  // getEncryptedWalletAddress,
 } from '../../store/services/wallet'
 
 type Props = {
   authenticated: boolean,
-  loading: boolean,
-  isSelectAddressModalOpen: boolean,
-  loginWithMetamask: () => void,
-  closeSelectAddressModal: () => void,
   loginWithWallet: LoginWithWallet => void,
   loginWithTrezorWallet: Object => void,
   loginWithLedgerWallet: () => void,
@@ -27,158 +20,142 @@ type Props = {
   getTrezorPublicKey: (Object, ?string) => void
 }
 
-//TODO: Remove Notification handling
-
 type State = {
-  view: string,
-  metamaskStatus: 'unlocked' | 'locked' | 'undefined'
+  selectedTabId: string,
+  privateKeyStatus: string,
+  privateKey: string,
+  mnemonicStatus: string,
+  mnemonic: string,
 };
 
 class LoginPage extends React.PureComponent<Props, State> {
-  deviceService: ?Object = null;
 
   state = {
-    // view: 'loginMethods',
-    // metamaskStatus: 'undefined'
+    selectedTabId: 'private-key',
+    privateKeyStatus: 'initial',
+    privateKey: '',
+    mnemonicStatus: 'initial',
+    mnemonic: '',
   }
 
-  // openSelectAddressModal = async () => {
-  //   this.deviceService = new TrezorSigner();
-  //   await this.props.getTrezorPublicKey(this.deviceService);
-  // }
-
-  // closeSelectAddressModal = () => {
-  //   this.props.closeSelectAddressModal();
-  // }
-
-  // componentDidMount = () => {
-  //   typeof window.web3 === 'undefined'
-  //     ? this.setState({ metamaskStatus: 'undefined' })
-  //     : typeof window.web3.eth.defaultAccount === 'undefined'
-  //     ? this.setState({ metamaskStatus: 'locked' })
-  //     : this.setState({ metamaskStatus: 'unlocked' })
-  // };
-
-  // showWalletLoginForm = () => {
-  //   this.setState({ view: 'wallet' });
-  // }
-
-  // showLoginMethods = () => {
-  //   this.setState({ view: 'loginMethods' });
-  // }
-
-  // showCreateWallet = () => {
-  //   this.setState({ view: 'createWallet' });
-  // }
-
-  // loginWithMetamask = () => {
-  //   this.props.loginWithMetamask();
-  // }
-
-  // hideModal = () => {
-  //   this.setState({ view: 'loginMethods' });
-  // }
-
-  // componentWillMount = () => {
-  //   // this.props.removeNotification({ id: 1 });
-  // }
-
-  // walletCreated = async (props: Object) => {
-  //   const { password, encryptedWallet, storeWallet, storePrivateKey } = props;
-  //   var { wallet } = await createWalletFromJSON(encryptedWallet, password);
-  //   if (wallet) {
-  //     this.props.loginWithWallet({
-  //       wallet,
-  //       encryptedWallet,
-  //       storeWallet,
-  //       storePrivateKey
-  //     })
-  //   }
-  // }
+  handleTabChange = (selectedTabId: string) => {
+    this.setState({ 
+      selectedTabId,
+      privateKeyStatus: 'initial',
+      mnemonicStatus: 'initial',
+      privateKey: '',
+      mnemonic: '',
+    })
+  }
 
   checkPrivateValid = (privateKey) => {
     (privateKey.length === 66) ? this.setState({isPrivateKeyValid: true}) : this.setState({isPrivateKeyValid: false})
   }
 
-  handlePrivateKeyChange = (e) => this.setState({privateKey: e.target.value})
+  handlePrivateKeyChange = (e) => {
+    if (e.target.value.length !== 66) {
+      this.setState({ 
+        privateKey: e.target.value,
+        privateKeyStatus: 'invalid',
+      })
+      return
+    }
+
+    this.setState({
+      privateKey: e.target.value,
+      privateKeyStatus: 'valid',
+    })
+  }
+
+  handleMnemonicChange = (e) => {
+    if (e.target.value.trim().split(' ').length !== 12) {
+      this.setState({ 
+        mnemonicStatus: 'invalid',
+        mnemonic: e.target.value,
+      })
+      return
+    }
+
+    this.setState({
+      mnemonicStatus: 'valid',
+      mnemonic: e.target.value,
+    })
+  }
 
   unlockWalletWithPrivateKey = async () => {
     const { 
       props: { loginWithWallet },
-      state: { privateKey },
+      state: { privateKey, privateKeyStatus },
     } = this
+
+    if (privateKeyStatus !== 'valid') return
 
     const wallet = await createWalletFromPrivateKey(privateKey)
 
     if (!wallet) {
       this.setState({ privateKeyStatus: 'invalid' })
+      return
+    }
+
+    loginWithWallet(wallet)
+  }
+
+  unlockWalletWithMnemonic = async () => {
+    const {
+      props: { loginWithWallet },
+      state: { mnemonicStatus, mnemonic },
+    } = this
+
+    if (mnemonicStatus !== 'valid') return
+
+    const wallet = await createWalletFromMnemonic(mnemonic)
+
+    if (!wallet) {
+      this.setState({ mnemonicStatus: 'invalid' })
+      return
     }
 
     loginWithWallet(wallet)
   }
 
   render() {
-    // const {
-    //   props: {
-    //     loginWithMetamask,
-    //     loginWithWallet,
-    //     loginWithTrezorWallet,
-    //     loginWithLedgerWallet,
-    //     authenticated,
-    //     loading,
-    //     isSelectAddressModalOpen
-    //   },
-    //   state: { view, metamaskStatus },
-    //   showWalletLoginForm,
-    //   showLoginMethods,
-    //   showCreateWallet,
-    //   hideModal,
-    //   walletCreated,
-    //   openSelectAddressModal
-    // } = this
 
     const {
       props: {
-        loginWithWallet,
         authenticated,
       },
-      state: { privateKeyStatus },
+      state: { 
+        selectedTabId, 
+        privateKeyStatus, 
+        privateKey,
+        mnemonicStatus,
+        mnemonic,
+      },
+      handleTabChange,
       handlePrivateKeyChange,
       unlockWalletWithPrivateKey,
+      handleMnemonicChange,
+      unlockWalletWithMnemonic,
     } = this
 
-    // go to wallet by default to update balances
+    // go to markets by default
     if (authenticated) {
-      // check if there is no account balances then go to /wallet page
       return <Redirect to="/markets" />
     }
+
     return (
       <Wrapper>
         <LoginPageRenderer
+          selectedTabId={selectedTabId}
+          handleTabChange={handleTabChange}
           privateKeyStatus={privateKeyStatus}
+          privateKey={privateKey}
           handlePrivateKeyChange={handlePrivateKeyChange}
-          unlockWalletWithPrivateKey={unlockWalletWithPrivateKey} />
-        {/* <LoginPageRenderer
-          view={view}
-          metamaskStatus={metamaskStatus}
-          loginWithWallet={loginWithWallet}
-          showCreateWallet={showCreateWallet}
-          hideModal={hideModal}
-          walletCreated={walletCreated}
-          loginWithMetamask={loginWithMetamask}
-          openSelectAddressModal={openSelectAddressModal}
-          loginWithTrezorWallet={loginWithTrezorWallet}
-          loginWithLedgerWallet={loginWithLedgerWallet}
-          showWalletLoginForm={showWalletLoginForm}
-          showLoginMethods={showLoginMethods}
-          loading={loading}
-        />
-        <SelectAddressModal
-          title="Select Trezor Address"
-          isOpen={isSelectAddressModalOpen}
-          handleClose={this.closeSelectAddressModal}
-          deviceService={this.deviceService}
-        /> */}
+          unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
+          mnemonicStatus={mnemonicStatus}
+          mnemonic={mnemonic}
+          handleMnemonicChange={handleMnemonicChange}
+          unlockWalletWithMnemonic={unlockWalletWithMnemonic} />
       </Wrapper>
     )
   }
