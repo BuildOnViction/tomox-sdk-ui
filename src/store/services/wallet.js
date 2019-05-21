@@ -145,3 +145,7 @@ export const getEncryptedWalletFromLocalStorage = address => {
   let encryptedWallet = localStorage.getItem(address);
   return encryptedWallet;
 };
+
+export const saveEncryptedWalletInSessionStorage = async ({ encryptedWallet }) => {
+  sessionStorage.setItem('encryptedWallet', encryptedWallet)
+}

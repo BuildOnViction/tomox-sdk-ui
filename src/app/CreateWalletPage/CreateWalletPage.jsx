@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+import { save } from 'save-file'
 import { createRandomWallet } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
 
@@ -34,22 +35,8 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     inputMnemonic: [],
     mnemonicErrorMessage: '',
     wallet: null,
-    isShowPrivateKeyDialog: false,
+    isOpenPrivateKeyDialog: false,
   }
-
-  // cancel = () => {
-  //   this.props.hideModal()
-  //   setTimeout(() => {
-  //     this.setState({
-  //       currentStep: 0,
-  //       password: '',
-  //       encryptionPercentage: 0,
-  //       address: '',
-  //       encryptedWallet: '',
-  //       showEncryptionProgress: false,
-  //     })
-  //   }, 500)
-  // }
 
   componentDidMount = async () => {
     const wallet = await createRandomWallet()
@@ -66,7 +53,13 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     this.changeCurrentStep(1)
   }
 
-  goToBackupStep = () => {
+  goToBackupStep = async () => {
+    const { wallet, password } = this.state
+    const encryptedWallet = await wallet.encrypt(password)
+    const prefixKeystoreFile = new Date().getTime()
+
+    save(encryptedWallet, `${prefixKeystoreFile}_keystore.json`)
+    this.setState({ encryptedWallet })
     this.changeCurrentStep(2)
   }
 
@@ -92,9 +85,15 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   complete = () => {
     const { loginWithWallet } = this.props
-    const { wallet } = this.state
+    const { wallet, encryptedWallet } = this.state
 
-    loginWithWallet({ wallet })
+    loginWithWallet({ wallet, encryptedWallet })
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      password: e.target.value,
+    })
   }
 
   handleChooseMnemonic = (word) => {
@@ -169,14 +168,14 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     return shuffeArray
   }
 
-  handleCopy = () => {
+  notifyCopiedSuccess = () => {
     this.props.copyDataSuccess()
   }
 
-  showPrivateKeyDialog = _ => this.setState({ isShowPrivateKeyDialog: true })
-
-  hidePrivateKeyDialog = _ => this.setState({ isShowPrivateKeyDialog: false })
-
+  togglePrivateKeyDialog = (status) => {
+    (status === 'open') ? this.setState({ isOpenPrivateKeyDialog: true }) : this.setState({ isOpenPrivateKeyDialog: false })
+  }
+  
   render() {
     const { visible, hideModal, authenticated } = this.props
 
@@ -185,21 +184,14 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     }
 
     const {
-      title,
       currentStep,
       password,
       showPassword,
-      showEncryptionProgress,
-      encryptionPercentage,
-      encryptedWallet,
-      passwordStatus,
-      storeWallet,
-      storePrivateKey,
       shuffedMnemonic,
       mnemonicErrorMessage,
       inputMnemonic,
       wallet,
-      isShowPrivateKeyDialog,
+      isOpenPrivateKeyDialog,
     } = this.state
 
     const mnemonic = wallet ? wallet.mnemonic.split(' ') : []
@@ -210,25 +202,11 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
       <CreateWalletPageRenderer
         visible={visible}
         hideModal={hideModal}
-        title={title}
         currentStep={currentStep}
-        showEncryptionProgress={showEncryptionProgress}
         showPassword={showPassword}
-        encryptionPercentage={encryptionPercentage}
         address={address}
-        encryptedWallet={encryptedWallet}
         password={password}
-        storeWallet={storeWallet}
-        passwordStatus={passwordStatus}
-        storePrivateKey={storePrivateKey}
-        goToDownloadWallet={this.goToDownloadWallet}
-        goBackToCreateWallet={this.goBackToCreateWallet}
-        togglePasswordView={this.togglePasswordView}
-        goToComplete={this.goToComplete}
-        goBackToDownloadWallet={this.goBackToDownloadWallet}
         complete={this.complete}
-        cancel={this.cancel}
-        handleChange={this.handleChange}
         mnemonic={mnemonic}
         shuffedMnemonic={shuffedMnemonic}
         inputMnemonic={inputMnemonic}
@@ -241,11 +219,11 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         handleChooseMnemonic={this.handleChooseMnemonic}
         handleRemoveMnemonic={this.handleRemoveMnemonic}
         mnemonicErrorMessage={mnemonicErrorMessage}
-        handleCopy={this.handleCopy}
-        showPrivateKeyDialog={this.showPrivateKeyDialog}
-        hidePrivateKeyDialog={this.hidePrivateKeyDialog}
-        isShowPrivateKeyDialog={isShowPrivateKeyDialog}
+        notifyCopiedSuccess={this.notifyCopiedSuccess}
+        togglePrivateKeyDialog={this.togglePrivateKeyDialog}
+        isOpenPrivateKeyDialog={isOpenPrivateKeyDialog}
         privateKey={privateKey}
+        handlePasswordChange={this.handlePasswordChange}
       />
     )
   }

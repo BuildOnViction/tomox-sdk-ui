@@ -4,14 +4,15 @@ import * as actionCreators from '../actions/loginPage';
 import * as notifierActionCreators from '../actions/app';
 import { getAccountDomain, getLoginPageDomain } from '../domains';
 import {
-  saveEncryptedWalletInLocalStorage,
-  savePrivateKeyInSessionStorage
-} from '../services/wallet';
+  // saveEncryptedWalletInLocalStorage,
+  // savePrivateKeyInSessionStorage,
+  saveEncryptedWalletInSessionStorage,
+} from '../services/wallet'
 import {
   getSigner,
   createLocalWalletSigner,
-  createMetamaskSigner
-} from '../services/signer';
+  createMetamaskSigner,
+} from '../services/signer'
 
 import { LedgerSigner } from '../services/signer/ledger';
 
@@ -72,37 +73,41 @@ export function loginWithMetamask(): ThunkAction {
 export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   return async dispatch => {
     try {
-      dispatch(actionCreators.requestLogin());
-      let { wallet, encryptedWallet, storeWallet, storePrivateKey } = params;
-      let { address, privateKey } = wallet;
+      dispatch(actionCreators.requestLogin())
+      const { wallet, encryptedWallet } = params
+      const { address, privateKey } = wallet
 
-      if (storeWallet)
-        saveEncryptedWalletInLocalStorage(address, encryptedWallet);
-      if (storePrivateKey)
-        await savePrivateKeyInSessionStorage({ address, privateKey });
+      // if (storeWallet)
+      //   saveEncryptedWalletInLocalStorage(address, encryptedWallet)
+      // if (storePrivateKey)
+      //   await savePrivateKeyInSessionStorage({ address, privateKey })
+      
+      // Todo: from encryptedWallet we can allow user export keystore file after confirm password
+      saveEncryptedWalletInSessionStorage({ encryptedWallet })
+      await createLocalWalletSigner(wallet)
 
-      await createLocalWalletSigner(wallet);
-
-      // Check account exist on backend yet?
+      // Check account exist on backend yet? 
+      // Create account if not yet for get balance of account from backend
+      // Remove when connect direct to TomoX
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) await createAccount(address)
 
-      dispatch(actionCreators.createWallet(wallet.address, encryptedWallet));
-      dispatch(actionCreators.loginWithWallet(address, privateKey));
+      dispatch(actionCreators.createWallet(wallet.address, encryptedWallet))
+      dispatch(actionCreators.loginWithWallet(address, privateKey))
       dispatch(
         notifierActionCreators.addSuccessNotification({
-          message: `Signed in with ${address}`
+          message: `Signed in with ${address}`,
         })
-      );
+      )
     } catch (e) {
-      console.log(e);
+      console.log(e)
       // dispatch(actionCreators.loginError('Could not authenticate wallet'));
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login Error' })
-      );
-      dispatch(actionCreators.loginError(e.message));
+      )
+      dispatch(actionCreators.loginError(e.message))
     }
-  };
+  }
 }
 
 export function getTrezorPublicKey(deviceService: any, path: string): ThunkAction {

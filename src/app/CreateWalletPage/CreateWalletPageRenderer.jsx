@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-// import Download from '@axetroy/react-download';
 import {
   Button,
   Checkbox,
@@ -25,7 +24,6 @@ type Props = {
   password: string,
   passwordStatus: string,
   showPassword: boolean,
-  togglePasswordView: () => void,
   handleChange: (SyntheticInputEvent<>) => void,
   storeWallet: boolean,
   storePrivateKey: boolean,
@@ -49,28 +47,31 @@ const CreateWalletPageRenderer = (props: Props) => {
     handleChooseMnemonic,
     handleRemoveMnemonic,
     mnemonicErrorMessage,
-    handleCopy,
-    showPrivateKeyDialog,
-    hidePrivateKeyDialog,
-    isShowPrivateKeyDialog,
+    notifyCopiedSuccess,
+    togglePrivateKeyDialog,
+    isOpenPrivateKeyDialog,
     privateKey,
+    password,
+    handlePasswordChange,
   } = props
 
   const content = {
     '0': (<WalletCreateStep 
             address={address}             
             goToPasswordStep={goToPasswordStep} />),
-    '1': (<WalletPasswordStep goToBackupStep={goToBackupStep} />),
+    '1': (<WalletPasswordStep 
+            password={password}
+            handlePasswordChange={handlePasswordChange}
+            goToBackupStep={goToBackupStep} />),
     '2': (<WalletBackupStep goToWarningStep={goToWarningStep} />),
     '3': (<WalletWarningStep goToMnemonicStep={goToMnemonicStep} />),
     '4': (<WalletMnemonicStep 
             mnemonic={mnemonic} 
-            handleCopy={handleCopy} 
+            notifyCopiedSuccess={notifyCopiedSuccess} 
             goToConfirmMnemonicStep={goToConfirmMnemonicStep}
             privateKey={privateKey}
-            showPrivateKeyDialog={showPrivateKeyDialog}
-            hidePrivateKeyDialog={hidePrivateKeyDialog}
-            isShowPrivateKeyDialog={isShowPrivateKeyDialog} />),
+            togglePrivateKeyDialog={togglePrivateKeyDialog}
+            isOpenPrivateKeyDialog={isOpenPrivateKeyDialog} />),
     '5': (<WalletConfirmMnemonicStep
             inputMnemonic={inputMnemonic}
             shuffedMnemonic={shuffedMnemonic} 
@@ -120,7 +121,7 @@ const WalletCreateStep = props => {
 }
 
 const WalletPasswordStep = props => {
-  const { goToBackupStep } = props
+  const { password, handlePasswordChange, goToBackupStep } = props
 
   return (
     <Wrapper>
@@ -134,7 +135,7 @@ const WalletPasswordStep = props => {
       <Content>
         <Label>
           <LabelTitle>New password:</LabelTitle>
-          <InputGroupWrapper />
+          <InputGroupWrapper value={password} onChange={handlePasswordChange} />
         </Label>
 
         <Label>
@@ -142,7 +143,7 @@ const WalletPasswordStep = props => {
           <InputGroupWrapper />
         </Label>
 
-        <ButtonWrapper fill={true} onClick={goToBackupStep}>Continue</ButtonWrapper>
+        <ButtonWrapper fill={true} onClick={goToBackupStep}>Download Keystore File</ButtonWrapper>
       </Content>
     </Wrapper>
   )
@@ -186,11 +187,10 @@ const WalletWarningStep = props => {
 const WalletMnemonicStep = props => {
   const { 
     mnemonic, 
-    handleCopy, 
+    notifyCopiedSuccess, 
     goToConfirmMnemonicStep,
-    showPrivateKeyDialog,
-    hidePrivateKeyDialog,
-    isShowPrivateKeyDialog,
+    togglePrivateKeyDialog,
+    isOpenPrivateKeyDialog,
     privateKey,
   } = props
 
@@ -201,7 +201,7 @@ const WalletMnemonicStep = props => {
         <HeaderSubTitle>
           Please carefully write down these 12 words or
 
-          <CopyToClipboard text={mnemonic.join(' ')} onCopy={handleCopy}>
+          <CopyToClipboard text={mnemonic.join(' ')} onCopy={notifyCopiedSuccess}>
             <Highlight> copy them</Highlight>
           </CopyToClipboard>
         </HeaderSubTitle>
@@ -217,7 +217,7 @@ const WalletMnemonicStep = props => {
             }
           </MnemonicList>
 
-          <ShowPrivateKeyText onClick={showPrivateKeyDialog}>Show my private key >></ShowPrivateKeyText>
+          <ShowPrivateKeyText onClick={() => togglePrivateKeyDialog('open')}>Show my private key >></ShowPrivateKeyText>
         </MnemonicWrapper>
 
         <Paragraph textAlign="center">You will confirm this phrase on the next screen.</Paragraph>
@@ -226,8 +226,8 @@ const WalletMnemonicStep = props => {
       </Content>
 
       <DialogPrivateKey 
-        isShowPrivateKeyDialog={isShowPrivateKeyDialog}
-        hidePrivateKeyDialog={hidePrivateKeyDialog}
+        isOpenPrivateKeyDialog={isOpenPrivateKeyDialog}
+        onClose={togglePrivateKeyDialog}
         privateKey={privateKey} />
     </Wrapper>
   )
@@ -276,13 +276,13 @@ const WalletConfirmMnemonicStep = props => {
 }
 
 const DialogPrivateKey = (props) => {
-  const { privateKey, isShowPrivateKeyDialog, hidePrivateKeyDialog } = props
+  const { privateKey, isOpenPrivateKeyDialog, onClose } = props
 
   return (
     <Dialog
-      onClose={hidePrivateKeyDialog}
+      onClose={onClose}
       title="Your Private Key"
-      isOpen={isShowPrivateKeyDialog}
+      isOpen={isOpenPrivateKeyDialog}
       >
       <DialogBody>
         <Paragraph>Back up your private key on paper and keep it somewhere secret and safe.</Paragraph>
@@ -344,6 +344,10 @@ const InputGroupWrapper = styled(InputGroup)`
     margin-top: 0 !important;
     margin-bottom: 30px;
     background: ${DarkMode.BLACK};
+
+    &:focus {
+      border: 1px solid ${DarkMode.ORANGE};
+    }
   }
 `
 
