@@ -3,6 +3,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { save } from 'save-file'
 import zxcvbn from 'zxcvbn'
+import { shuffleArray } from '../../utils/helpers'
 import { createRandomWallet } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
 
@@ -40,7 +41,7 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   componentDidMount = async () => {
     const wallet = await createRandomWallet()
-    const shuffedMnemonic = this.shuffle(wallet.mnemonic.split(' '))
+    const shuffedMnemonic = shuffleArray(wallet.mnemonic.split(' '))
     
     this.setState({ wallet, shuffedMnemonic  })
   }
@@ -151,25 +152,25 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     }
   }
 
-  shuffle = (array) => {
-    const shuffeArray = JSON.parse(JSON.stringify(array))
-    let currentIndex = shuffeArray.length, temporaryValue, randomIndex
+  // shuffle = (array) => {
+  //   const shuffeArray = JSON.parse(JSON.stringify(array))
+  //   let currentIndex = shuffeArray.length, temporaryValue, randomIndex
   
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
+  //   // While there remain elements to shuffle...
+  //   while (0 !== currentIndex) {
   
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
-      currentIndex -= 1
+  //     // Pick a remaining element...
+  //     randomIndex = Math.floor(Math.random() * currentIndex)
+  //     currentIndex -= 1
   
-      // And swap it with the current element.
-      temporaryValue = shuffeArray[currentIndex]
-      shuffeArray[currentIndex] = shuffeArray[randomIndex]
-      shuffeArray[randomIndex] = temporaryValue
-    }
+  //     // And swap it with the current element.
+  //     temporaryValue = shuffeArray[currentIndex]
+  //     shuffeArray[currentIndex] = shuffeArray[randomIndex]
+  //     shuffeArray[randomIndex] = temporaryValue
+  //   }
   
-    return shuffeArray
-  }
+  //   return shuffeArray
+  // }
 
   notifyCopiedSuccess = () => {
     this.props.copyDataSuccess()
