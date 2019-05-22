@@ -8,6 +8,7 @@ import {
   Dialog,
   Classes,
 } from '@blueprintjs/core'
+import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
 import styled from 'styled-components'
 import { DarkMode, Theme } from '../../components/Common'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
@@ -179,6 +180,7 @@ const WalletPasswordStep = props => {
             {showPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
           </InputBox>
         </LabelWrapper>
+        {(passwordStatus === 'valid') && (<PasswordStrengMeter password={password} />)}
         {(passwordStatus === 'invalid') && (<ErrorMessage>Password need 8 or more characters, at least an upper case, a symbol and a number</ErrorMessage>)}
 
         <LabelWrapper>
@@ -441,6 +443,7 @@ const CheckboxWrapper = styled(Checkbox)`
   font-size: 12px;
   text-align: center;
   margin-bottom: 45px;
+  margin-top: 10px;
 
   .bp3-control-indicator {
     box-shadow: none !important;
@@ -494,7 +497,8 @@ const MnemonicTag = styled.span`
   cursor: ${props => props.cursor ? props.cursor : 'initial'};
   &:hover {
     background-color: ${DarkMode.ORANGE} !important;
-  }
+  }import PasswordStrengMeter from '../../components/PasswordStrengthMeter/index';
+
 `
 
 const DialogBody = styled.div.attrs({
