@@ -72,7 +72,8 @@
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
     "trezor-connect": "^6.0.2",
-    "ws": "^5.2.2"
+    "ws": "^5.2.2",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.11",

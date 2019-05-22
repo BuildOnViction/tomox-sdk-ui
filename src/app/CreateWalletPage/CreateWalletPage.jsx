@@ -2,6 +2,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { save } from 'save-file'
+import zxcvbn from 'zxcvbn'
 import { createRandomWallet } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
 
@@ -13,24 +14,23 @@ type Props = {
 
 type State = {
   currentStep: number,
-  title: string,
   password: string,
   passwordStatus: string,
-  showEncryptionProgress: boolean,
-  encryptionPercentage: number,
-  address: string,
+  wallet: Object,
   encryptedWallet: string,
   storeWallet: boolean,
   showPassword: boolean,
-  storePrivateKey: boolean
+  showConfirmPassword: boolean
 }
 
 class CreateWalletPage extends React.PureComponent<Props, State> {
   state = {
     currentStep: 0,
     password: '',
+    passwordStatus: 'initial',
     encryptedWallet: '',
     showPassword: false,
+    showConfirmPassword: false,
     shuffedMnemonic: [],
     inputMnemonic: [],
     mnemonicErrorMessage: '',
@@ -54,9 +54,12 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   goToBackupStep = async () => {
-    const { wallet, password } = this.state
+    const { wallet, password, passwordStatus, confirmPasswordStatus } = this.state
+    if (passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid') return
+
     const encryptedWallet = await wallet.encrypt(password)
     const prefixKeystoreFile = new Date().getTime()
+    // console.log(zxcvbn(password))
 
     save(encryptedWallet, `${prefixKeystoreFile}_keystore.json`)
     this.setState({ encryptedWallet })
@@ -175,6 +178,54 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   togglePrivateKeyDialog = (status) => {
     (status === 'open') ? this.setState({ isOpenPrivateKeyDialog: true }) : this.setState({ isOpenPrivateKeyDialog: false })
   }
+
+  togglePassword = (type) =>  {
+    if (type === 'confirm') {
+      this.setState({ showConfirmPassword: !this.state.showConfirmPassword })
+      return
+    }
+
+    this.setState({ showPassword: !this.state.showPassword })
+  }
+
+  handlePasswordChange = (e) => {
+    const password = e.target.value.trim()
+    // Reference: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g
+
+    if (!validationPasswordRegex.test(password)) {
+      this.setState({ 
+        passwordStatus: 'invalid',
+        password,
+      })
+
+      return
+    }
+
+    this.setState({ 
+      passwordStatus: 'valid',
+      password,
+    })
+  }
+
+  handleConfirmPasswordChange = (e) => {
+    const { password } = this.state
+    const confirmPassword = e.target.value
+
+    if (confirmPassword !== password) {
+      this.setState({ 
+        confirmPasswordStatus: 'invalid',
+        confirmPassword,
+      })
+
+      return
+    }
+
+    this.setState({ 
+      confirmPasswordStatus: 'valid',
+      confirmPassword,
+    })
+  }
   
   render() {
     const { visible, hideModal, authenticated } = this.props
@@ -186,12 +237,16 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     const {
       currentStep,
       password,
+      passwordStatus,
       showPassword,
+      showConfirmPassword,
       shuffedMnemonic,
       mnemonicErrorMessage,
       inputMnemonic,
       wallet,
       isOpenPrivateKeyDialog,
+      confirmPassword,
+      confirmPasswordStatus,
     } = this.state
 
     const mnemonic = wallet ? wallet.mnemonic.split(' ') : []
@@ -203,7 +258,6 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         visible={visible}
         hideModal={hideModal}
         currentStep={currentStep}
-        showPassword={showPassword}
         address={address}
         password={password}
         complete={this.complete}
@@ -223,7 +277,14 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         togglePrivateKeyDialog={this.togglePrivateKeyDialog}
         isOpenPrivateKeyDialog={isOpenPrivateKeyDialog}
         privateKey={privateKey}
+        passwordStatus={passwordStatus}
+        showPassword={showPassword}
+        togglePassword={this.togglePassword}
         handlePasswordChange={this.handlePasswordChange}
+        showConfirmPassword={showConfirmPassword}
+        confirmPassword={confirmPassword}
+        confirmPasswordStatus={confirmPasswordStatus}
+        handleConfirmPasswordChange={this.handleConfirmPasswordChange}
       />
     )
   }

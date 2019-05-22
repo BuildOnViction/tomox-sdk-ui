@@ -4,7 +4,6 @@ import {
   Button,
   Checkbox,
   Icon,
-  InputGroup,
   Label,
   Dialog,
   Classes,
@@ -18,16 +17,29 @@ import backupWalletUrl from '../../assets/images/backup_wallet.svg'
 
 type Props = {
   address: string,
-  visible: boolean,
-  currentStep: number,
-  complete: (SyntheticEvent<>) => void,
+  currentStep: string,
+  complete: () => void,
+  mnemonic: string,
+  shuffedMnemonic: string[],
+  inputMnemonic: string,
+  goToPasswordStep: () => void,
+  goToBackupStep: () => void,
+  goToWarningStep: () => void,
+  goToMnemonicStep: () => void,
+  goToConfirmMnemonicStep: () => void,
+  goBackToPreviousStep: () => void,
+  handleChooseMnemonic: () => void,
+  handleRemoveMnemonic: () => void,
+  mnemonicErrorMessage: string, // convert to mnemonicStatus: 'initial | valid | invalid'
+  notifyCopiedSuccess: () => void,
+  togglePrivateKeyDialog: (status: string) => void,
+  isOpenPrivateKeyDialog: boolean,
+  privateKey: string,
   password: string,
   passwordStatus: string,
   showPassword: boolean,
-  handleChange: (SyntheticInputEvent<>) => void,
-  storeWallet: boolean,
-  storePrivateKey: boolean,
-  encryptedWallet: string
+  togglePassword: () => void,
+  handlePasswordChange: () => void,
 }
 
 const CreateWalletPageRenderer = (props: Props) => {
@@ -52,7 +64,14 @@ const CreateWalletPageRenderer = (props: Props) => {
     isOpenPrivateKeyDialog,
     privateKey,
     password,
+    passwordStatus,
+    showPassword,
+    showConfirmPassword,
+    togglePassword,
     handlePasswordChange,
+    confirmPassword,
+    confirmPasswordStatus,
+    handleConfirmPasswordChange,
   } = props
 
   const content = {
@@ -61,7 +80,14 @@ const CreateWalletPageRenderer = (props: Props) => {
             goToPasswordStep={goToPasswordStep} />),
     '1': (<WalletPasswordStep 
             password={password}
+            passwordStatus={passwordStatus}
+            showPassword={showPassword}
+            showConfirmPassword={showConfirmPassword}
+            togglePassword={togglePassword}
             handlePasswordChange={handlePasswordChange}
+            confirmPassword={confirmPassword}
+            confirmPasswordStatus={confirmPasswordStatus}
+            handleConfirmPasswordChange={handleConfirmPasswordChange}
             goToBackupStep={goToBackupStep} />),
     '2': (<WalletBackupStep goToWarningStep={goToWarningStep} />),
     '3': (<WalletWarningStep goToMnemonicStep={goToMnemonicStep} />),
@@ -102,15 +128,15 @@ const WalletCreateStep = props => {
       <Divider />
 
       <Content>
-        <Label>
+        <LabelWrapper>
           <LabelTitle>Account name:</LabelTitle>
           <InputGroupWrapper />
-        </Label>
+        </LabelWrapper>
 
-        <Label>
+        <LabelWrapper>
           <LabelTitle>Account address:</LabelTitle>
           <InputGroupWrapper value={address} readOnly />
-        </Label>
+        </LabelWrapper>
 
         <CheckboxWrapper checked={true} label="Keep the account on  this computer" onChange={goToPasswordStep} />   
 
@@ -121,7 +147,18 @@ const WalletCreateStep = props => {
 }
 
 const WalletPasswordStep = props => {
-  const { password, handlePasswordChange, goToBackupStep } = props
+  const { 
+    password, 
+    passwordStatus, 
+    showPassword, 
+    showConfirmPassword,
+    handlePasswordChange, 
+    goToBackupStep,
+    togglePassword,
+    confirmPassword,
+    confirmPasswordStatus,
+    handleConfirmPasswordChange,
+  } = props
 
   return (
     <Wrapper>
@@ -133,17 +170,29 @@ const WalletPasswordStep = props => {
       <Divider />
 
       <Content>
-        <Label>
+        <LabelWrapper>
           <LabelTitle>New password:</LabelTitle>
-          <InputGroupWrapper value={password} onChange={handlePasswordChange} />
-        </Label>
 
-        <Label>
+          <InputBox>
+            <InputGroupWrapper hasError={ passwordStatus === 'invalid' } value={password} type={ showPassword ? 'text' : 'password' } onChange={handlePasswordChange} />
+            {!showPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
+            {showPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
+          </InputBox>
+        </LabelWrapper>
+        {(passwordStatus === 'invalid') && (<ErrorMessage>Password need 8 or more characters, at least an upper case, a symbol and a number</ErrorMessage>)}
+
+        <LabelWrapper>
           <LabelTitle>Confirm password:</LabelTitle>
-          <InputGroupWrapper />
-        </Label>
 
-        <ButtonWrapper fill={true} onClick={goToBackupStep}>Download Keystore File</ButtonWrapper>
+          <InputBox>
+            <InputGroupWrapper hasError={ confirmPasswordStatus === 'invalid' } value={confirmPassword}  type={ showConfirmPassword ? 'text' : 'password' } onChange={handleConfirmPasswordChange} />
+            {!showConfirmPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={() => togglePassword('confirm')} />)}
+            {showConfirmPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={() => togglePassword('confirm')} />)}
+          </InputBox>
+        </LabelWrapper>
+        {(confirmPasswordStatus === 'invalid') && (<ErrorMessage>The password entered does not match</ErrorMessage>)}
+
+        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}>Download Keystore File</ButtonWrapper>
       </Content>
     </Wrapper>
   )
@@ -330,24 +379,35 @@ const HeaderSubTitle = styled.div`
   }
 `
 
+const LabelWrapper = styled(Label)`
+  margin-bottom: 0 !important;
+
+  &:not(:first-child) {
+    margin-top: 35px !important;
+  }
+`
+
 const LabelTitle = styled.span`
   display: block;
   margin-bottom: 25px;
 `
 
-const InputGroupWrapper = styled(InputGroup)`
-  .bp3-input {
-    height: 50px;
-    color: ${DarkMode.WHITE};
-    font-size: 16px;
-    padding: 15px;
-    margin-top: 0 !important;
-    margin-bottom: 30px;
-    background: ${DarkMode.BLACK};
+const InputBox = styled.div`
+  position: relative;
+`
 
-    &:focus {
-      border: 1px solid ${DarkMode.ORANGE};
-    }
+const InputGroupWrapper = styled.input`
+  height: 50px;
+  color: ${DarkMode.WHITE};
+  font-size: ${Theme.FONT_SIZE_LG};
+  padding: 15px;
+  margin: 0 !important;
+  background: ${DarkMode.BLACK};
+  border: ${props => props.hasError ? `1px solid ${DarkMode.RED} !important` : 'none'};
+  width: 100%;
+
+  &:focus {
+    border: 1px solid ${DarkMode.ORANGE};
   }
 `
 
@@ -358,7 +418,7 @@ const ImageWrapper = styled.div`
 
 const ButtonWrapper = styled(Button)`
   display: block;
-  margin: 0 auto;
+  margin: 35px auto 0;
   min-width: 180px;
   text-align: center;
   color: ${DarkMode.BLACK} !important;
@@ -469,6 +529,14 @@ const Highlight = styled.span`
 const ShowPrivateKeyText = styled(Highlight)`
   margin-left: auto;
   font-size: ${Theme.FONT_SIZE_SM};
+`
+
+const ShowPasswordIcon = styled(Icon)`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 `
 
 export default CreateWalletPageRenderer
