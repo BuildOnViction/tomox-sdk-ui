@@ -26,7 +26,9 @@ type State = {
   privateKey: string,
   mnemonicStatus: string,
   mnemonic: string,
-};
+  password: string,
+  passwordStatus: string,
+}
 
 class LoginPage extends React.PureComponent<Props, State> {
 
@@ -36,6 +38,8 @@ class LoginPage extends React.PureComponent<Props, State> {
     privateKey: '',
     mnemonicStatus: 'initial',
     mnemonic: '',
+    password: '',
+    passwordStatus: 'initial',
   }
 
   handleTabChange = (selectedTabId: string) => {
@@ -45,6 +49,8 @@ class LoginPage extends React.PureComponent<Props, State> {
       mnemonicStatus: 'initial',
       privateKey: '',
       mnemonic: '',
+      password: '',
+      passwordStatus: 'initial',
     })
   }
 
@@ -79,6 +85,25 @@ class LoginPage extends React.PureComponent<Props, State> {
     this.setState({
       mnemonicStatus: 'valid',
       mnemonic: e.target.value,
+    })
+  }
+
+  handlePasswordChange = (e) => {
+    const password = e.target.value
+    const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g
+
+    if (!validationPasswordRegex.test(password)) {
+      this.setState({ 
+        passwordStatus: 'invalid',
+        password,
+      })
+
+      return
+    }
+
+    this.setState({ 
+      passwordStatus: 'valid',
+      password,
     })
   }
 
@@ -130,12 +155,15 @@ class LoginPage extends React.PureComponent<Props, State> {
         privateKey,
         mnemonicStatus,
         mnemonic,
+        password,
+        passwordStatus,
       },
       handleTabChange,
       handlePrivateKeyChange,
       unlockWalletWithPrivateKey,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
+      handlePasswordChange,
     } = this
 
     // go to markets by default
@@ -155,7 +183,10 @@ class LoginPage extends React.PureComponent<Props, State> {
           mnemonicStatus={mnemonicStatus}
           mnemonic={mnemonic}
           handleMnemonicChange={handleMnemonicChange}
-          unlockWalletWithMnemonic={unlockWalletWithMnemonic} />
+          unlockWalletWithMnemonic={unlockWalletWithMnemonic}
+          password={password}
+          passwordStatus={passwordStatus}
+          handlePasswordChange={handlePasswordChange} />
       </Wrapper>
     )
   }

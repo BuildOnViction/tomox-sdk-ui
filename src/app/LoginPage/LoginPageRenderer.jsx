@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Label, Tab, Tabs, Button } from '@blueprintjs/core'
 import { DarkMode, Theme, SmallText } from '../../components/Common'
-import type { CreateWalletParams } from '../../types/createWallet'
+// import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
 
 type Props = {
@@ -16,6 +16,8 @@ type Props = {
   unlockWalletWithPrivateKey: void => void,
   handleMnemonicChange: void => void,
   unlockWalletWithMnemonic: void => void,
+  password: string,
+  handlePasswordChange: void => void,
 }
 
 class LoginPageRenderer extends React.PureComponent<Props> {
@@ -32,6 +34,9 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       unlockWalletWithPrivateKey,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
+      password,
+      passwordStatus,
+      handlePasswordChange,
     } = this.props
 
     return (
@@ -49,7 +54,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   privateKey={privateKey} 
                   privateKeyStatus={privateKeyStatus} 
                   handlePrivateKeyChange={handlePrivateKeyChange} 
-                  unlockWalletWithPrivateKey={unlockWalletWithPrivateKey} />
+                  unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
+                  password={password}
+                  passwordStatus={passwordStatus}
+                  handlePasswordChange={handlePasswordChange} />
               } />
 
             <Tab 
@@ -60,7 +68,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   mnemonic={mnemonic} 
                   mnemonicStatus={mnemonicStatus} 
                   handleMnemonicChange={handleMnemonicChange} 
-                  unlockWalletWithMnemonic={unlockWalletWithMnemonic} />
+                  unlockWalletWithMnemonic={unlockWalletWithMnemonic}
+                  password={password}
+                  passwordStatus={passwordStatus}
+                  handlePasswordChange={handlePasswordChange} />
               } />
 
             <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
@@ -78,23 +89,26 @@ const PrivateKey = (props) => {
     privateKeyStatus, 
     handlePrivateKeyChange, 
     unlockWalletWithPrivateKey,
+    password,
+    passwordStatus,
+    handlePasswordChange,
   } = props
 
   return (
     <React.Fragment>
       <LabelWrapper>
         <LabelTitle>Enter your private key</LabelTitle> 
-        <InputGroupWrapper marginBottom="5px" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
+        <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
       </LabelWrapper>
       {(privateKeyStatus === 'invalid') && (<ErrorMessage>Private key invalid</ErrorMessage>)}
 
       <LabelWrapper>
         <LabelTitle>Temporary session password</LabelTitle> 
-        <InputGroupWrapper marginBottom="5px" />
+        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, an upper case, symbol and a number</SmallText>
+      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
 
-      <ButtonWrapper onClick={unlockWalletWithPrivateKey}>Unlock Wallet</ButtonWrapper>
+      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
   )
 }
@@ -105,6 +119,9 @@ const MnemonicPhrase = (props) => {
     mnemonicStatus, 
     handleMnemonicChange, 
     unlockWalletWithMnemonic,
+    password, 
+    passwordStatus,
+    handlePasswordChange,
   } = props
 
   return (
@@ -117,11 +134,11 @@ const MnemonicPhrase = (props) => {
 
       <LabelWrapper>
         <LabelTitle>Temporary session password</LabelTitle> 
-        <InputGroupWrapper marginBottom="5px" />
+        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, an upper case, symbol and a number</SmallText>
+      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
 
-      <ButtonWrapper onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
+      <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
   )
 }
@@ -161,7 +178,8 @@ const TabsWrapper = styled(Tabs)`
 
 const TextAreaWrapper = styled.textarea`
   width: 100%;
-  height: 128px !important;
+  min-height: 128px !important;
+  padding: 15px;
   background-color: ${DarkMode.BLACK};
   margin-bottom: 5px;
   resize: none;
