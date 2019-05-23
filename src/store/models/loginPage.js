@@ -6,7 +6,7 @@ import { getAccountDomain, getLoginPageDomain } from '../domains';
 import {
   // saveEncryptedWalletInLocalStorage,
   // savePrivateKeyInSessionStorage,
-  saveEncryptedWalletInSessionStorage,
+  saveEncryptedPrivateKeyInSessionStorage,
 } from '../services/wallet'
 import {
   getSigner,
@@ -74,25 +74,24 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
   return async dispatch => {
     try {
       dispatch(actionCreators.requestLogin())
-      const { wallet, encryptedWallet } = params
+      const { wallet, encryptedPrivateKey, storeAccount } = params
       const { address, privateKey } = wallet
 
       // if (storeWallet)
       //   saveEncryptedWalletInLocalStorage(address, encryptedWallet)
-      // if (storePrivateKey)
-      //   await savePrivateKeyInSessionStorage({ address, privateKey })
+      if (storeAccount) {
+        saveEncryptedPrivateKeyInSessionStorage({ address, encryptedPrivateKey })
+      }
       
-      // Todo: from encryptedWallet we can allow user export keystore file after confirm password
-      saveEncryptedWalletInSessionStorage({ encryptedWallet })
       await createLocalWalletSigner(wallet)
 
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX
       const accountInfo = await fetchAccountInfo(address)
-      if (!accountInfo) await createAccount(address)
+      if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.createWallet(wallet.address, encryptedWallet))
+      dispatch(actionCreators.createWallet(wallet.address))
       dispatch(actionCreators.loginWithWallet(address, privateKey))
       dispatch(
         notifierActionCreators.addSuccessNotification({

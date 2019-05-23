@@ -73,12 +73,16 @@ const CreateWalletPageRenderer = (props: Props) => {
     confirmPassword,
     confirmPasswordStatus,
     handleConfirmPasswordChange,
+    storeAccount,
+    handleChangeStoreAccount,
   } = props
 
   const content = {
     '0': (<WalletCreateStep 
             address={address}             
-            goToPasswordStep={goToPasswordStep} />),
+            goToPasswordStep={goToPasswordStep}
+            handleChangeStoreAccount={handleChangeStoreAccount}
+            storeAccount={storeAccount} />),
     '1': (<WalletPasswordStep 
             password={password}
             passwordStatus={passwordStatus}
@@ -117,7 +121,7 @@ const CreateWalletPageRenderer = (props: Props) => {
 }
 
 const WalletCreateStep = props => {
-  const { address, goToPasswordStep } = props
+  const { address, goToPasswordStep, handleChangeStoreAccount, storeAccount } = props
 
   return (
     <Wrapper>
@@ -139,7 +143,7 @@ const WalletCreateStep = props => {
           <InputGroupWrapper value={address} readOnly />
         </LabelWrapper>
 
-        <CheckboxWrapper checked={true} label="Keep the account on  this computer" onChange={goToPasswordStep} />   
+        <CheckboxWrapper checked={storeAccount} label="Keep the account on  this computer" onChange={handleChangeStoreAccount} />   
 
         <ButtonWrapper fill={true} onClick={goToPasswordStep}>Continue</ButtonWrapper>
       </Content>
@@ -194,7 +198,7 @@ const WalletPasswordStep = props => {
         </LabelWrapper>
         {(confirmPasswordStatus === 'invalid') && (<ErrorMessage>The password entered does not match</ErrorMessage>)}
 
-        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}>Download Keystore File</ButtonWrapper>
+        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}>Continue</ButtonWrapper>
       </Content>
     </Wrapper>
   )

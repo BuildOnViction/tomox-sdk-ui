@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { save } from 'save-file'
+import aes from 'crypto-js/aes'
 import { shuffleArray } from '../../utils/helpers'
 import { createRandomWallet } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
@@ -16,11 +16,14 @@ type State = {
   currentStep: number,
   password: string,
   passwordStatus: string,
+  confirmPassword: string,
+  confirmPasswordStatus: string,
   wallet: Object,
-  encryptedWallet: string,
+  encryptedPrivateKey: string,
   storeWallet: boolean,
   showPassword: boolean,
-  showConfirmPassword: boolean
+  showConfirmPassword: boolean,
+  storeAccount: boolean,
 }
 
 class CreateWalletPage extends React.PureComponent<Props, State> {
@@ -28,7 +31,9 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     currentStep: 0,
     password: '',
     passwordStatus: 'initial',
-    encryptedWallet: '',
+    confirmPassword: '',
+    confirmPasswordStatus: 'initial',
+    encryptedPrivateKey: '',
     showPassword: false,
     showConfirmPassword: false,
     shuffedMnemonic: [],
@@ -36,6 +41,7 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
     mnemonicErrorMessage: '',
     wallet: null,
     isOpenPrivateKeyDialog: false,
+    storeAccount: false,
   }
 
   componentDidMount = async () => {
@@ -54,14 +60,13 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   goToBackupStep = async () => {
-    const { wallet, password, passwordStatus, confirmPasswordStatus } = this.state
+    const { wallet : { privateKey }, password, passwordStatus, confirmPasswordStatus } = this.state
+
     if (passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid') return
 
-    const encryptedWallet = await wallet.encrypt(password)
-    const prefixKeystoreFile = new Date().getTime()
-
-    save(encryptedWallet, `${prefixKeystoreFile}_keystore.json`)
-    this.setState({ encryptedWallet })
+    // Todo: need decrypt privateKey where use it from sessionStorage
+    const encryptedPrivateKey = aes.encrypt(privateKey, password).toString()
+    this.setState({ encryptedPrivateKey })
     this.changeCurrentStep(2)
   }
 
@@ -87,9 +92,9 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   complete = () => {
     const { loginWithWallet } = this.props
-    const { wallet, encryptedWallet } = this.state
+    const { wallet, encryptedPrivateKey, storeAccount } = this.state
 
-    loginWithWallet({ wallet, encryptedWallet })
+    loginWithWallet({ wallet, encryptedPrivateKey, storeAccount })
   }
 
   handlePasswordChange = (e) => {
@@ -205,6 +210,10 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
       confirmPassword,
     })
   }
+
+  handleChangeStoreAccount = (e) => {
+    e.target.checked ? this.setState({ storeAccount: true }) : this.setState({ storeAccount: false })
+  }
   
   render() {
     const { visible, hideModal, authenticated } = this.props
@@ -226,6 +235,7 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
       isOpenPrivateKeyDialog,
       confirmPassword,
       confirmPasswordStatus,
+      storeAccount,
     } = this.state
 
     const mnemonic = wallet ? wallet.mnemonic.split(' ') : []
@@ -264,6 +274,8 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         confirmPassword={confirmPassword}
         confirmPasswordStatus={confirmPasswordStatus}
         handleConfirmPasswordChange={this.handleConfirmPasswordChange}
+        storeAccount={storeAccount}
+        handleChangeStoreAccount={this.handleChangeStoreAccount}
       />
     )
   }
