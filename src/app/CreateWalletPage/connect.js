@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
-import { copyDataSuccess } from '../../store/models/createWalletPage'
+import { copyDataSuccess } from '../../store/models/app'
 import loginPageSelector, { loginWithWallet } from '../../store/models/loginPage'
 
 export function mapStateToProps(state, props) {

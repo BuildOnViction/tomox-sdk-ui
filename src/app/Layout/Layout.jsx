@@ -3,19 +3,19 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Icon, Switch } from '@blueprintjs/core'
 import {
   Alignment,
   Menu,
-  MenuDivider,
   Navbar,
   NavbarGroup,
   NavbarHeading,
   Popover,
   Position,
   Tooltip,
+  Icon,
+  Switch,
 } from '@blueprintjs/core'
-
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {
   NavbarDivider,
   Theme,
@@ -96,20 +96,34 @@ class Default extends React.PureComponent<Props, State> {
       currentPairData,
       pathname, 
       referenceCurrency,
+      copyDataSuccess,
     } = this.props
 
     const menu = (
-      <Menu>
+      <MenuWallet>
         <MenuItem>
-          <MenuItemLink to="/">Current Account: {address}</MenuItemLink>
+          <MenuItemTitle>Wallet</MenuItemTitle>
+          <AddressWalletBox>
+            <AddressText>{address}</AddressText>
+
+            <CopyToClipboard text={address} onCopy={copyDataSuccess}>
+              <IconBox title="Coppy Address">              
+                <Icon icon="applications" />              
+              </IconBox>
+            </CopyToClipboard>
+
+            <IconBox title="Go to Tomoscan">
+              <a target="_blank" rel="noreferrer noopener" href={`https://scan.tomochain.com/address/${address}`}><Icon icon="document-share" /></a>
+            </IconBox>
+          </AddressWalletBox>
         </MenuItem>
-        <MenuDivider />
+
         <MenuItem>
-          <MenuItemLink to="/logout" icon="log-out">
-            Logout
+          <MenuItemLink to="/logout">
+            Close Wallet
           </MenuItemLink>
         </MenuItem>
-      </Menu>
+      </MenuWallet>
     )
 
     return (
@@ -480,11 +494,65 @@ const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',
 })``
 
-const MenuItem = styled.li``
+const MenuWallet = styled(Menu)`
+  width: 320px;
+  color: ${DarkMode.LIGHT_GRAY};
+  background-color: ${DarkMode.LIGHT_BLUE};
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
+  overflow: hidden;
+  margin-top: 10px;
+`
 
-const MenuItemLink = styled(NavLink).attrs({
-  activeClassName: 'bp3-active bp3-intent-primary',
-  className: props =>
-    `bp3-menu-item bp3-popover-dismiss bp3-icon-${props.icon}`,
-  role: 'button',
-})``
+const MenuItemTitle = styled.div`
+  margin-bottom: 3px;
+`
+
+const AddressWalletBox = styled.div`
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const AddressText = styled.span`
+  display: inline-block;
+  width: 78%;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const IconBox = styled.span`
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${DarkMode.LIGHT_BLUE};
+  }
+
+  a {
+    color: ${DarkMode.LIGHT_GRAY}; 
+    &:hover {
+      color: ${DarkMode.LIGHT_GRAY};
+    }
+  }
+`
+
+const MenuItem = styled.li`
+  padding: 10px 15px;
+
+  &:first-child {
+    background-color: ${DarkMode.BLUE};
+  }
+
+  &:not(:first-child):hover {
+    background-color: ${DarkMode.DARK_BLUE};
+  }
+`
+
+const MenuItemLink = styled(NavLink)`
+  color: ${DarkMode.LIGHT_GRAY}; 
+  &:hover {
+    color: ${DarkMode.LIGHT_GRAY};
+  }
+`
