@@ -82,7 +82,8 @@ const CreateWalletPageRenderer = (props: Props) => {
             address={address}             
             goToPasswordStep={goToPasswordStep}
             handleChangeStoreAccount={handleChangeStoreAccount}
-            storeAccount={storeAccount} />),
+            storeAccount={storeAccount}
+            notifyCopiedSuccess={notifyCopiedSuccess} />),
     '1': (<WalletPasswordStep 
             password={password}
             passwordStatus={passwordStatus}
@@ -121,7 +122,7 @@ const CreateWalletPageRenderer = (props: Props) => {
 }
 
 const WalletCreateStep = props => {
-  const { address, goToPasswordStep, handleChangeStoreAccount, storeAccount } = props
+  const { address, goToPasswordStep, handleChangeStoreAccount, storeAccount, notifyCopiedSuccess } = props
 
   return (
     <Wrapper>
@@ -138,10 +139,15 @@ const WalletCreateStep = props => {
           <InputGroupWrapper />
         </LabelWrapper>
 
-        <LabelWrapper>
+        <AddressWrapper>
           <LabelTitle>Account address:</LabelTitle>
-          <InputGroupWrapper value={address} readOnly />
-        </LabelWrapper>
+          <AddressBox>
+            <Address title={address}>{address}</Address>
+            <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
+              <CopyIconBox title="Copy Address"><Icon icon="applications" /></CopyIconBox> 
+            </CopyToClipboard>
+          </AddressBox>
+        </AddressWrapper>
 
         <CheckboxWrapper checked={storeAccount} label="Keep the account on  this computer" onChange={handleChangeStoreAccount} />   
 
@@ -385,12 +391,38 @@ const HeaderSubTitle = styled.div`
   }
 `
 
+const AddressWrapper = styled.div`
+  margin-top: 35px !important;
+`
+
+const AddressBox = styled.div`
+  position: relative;
+`
+
+const Address = styled.div`
+  height: 50px;
+  padding: 15px 35px 15px 15px;
+  background: ${DarkMode.BLACK};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
+const CopyIconBox = styled.span`
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 5px;
+
+  &:hover {
+    background-color: ${DarkMode.LIGHT_BLUE};
+  }
+`
+
 const LabelWrapper = styled(Label)`
   margin-bottom: 0 !important;
-
-  &:not(:first-child) {
-    margin-top: 35px !important;
-  }
 `
 
 const LabelTitle = styled.span`
