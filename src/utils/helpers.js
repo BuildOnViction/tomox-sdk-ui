@@ -232,3 +232,24 @@ export const getChangePriceText: string = (open: string, close: string, precisio
 
   return `${result}`
 }
+
+// Reference: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+export const shuffleArray = (array) => {
+  const shuffeArray = JSON.parse(JSON.stringify(array))
+  let currentIndex = shuffeArray.length, temporaryValue, randomIndex
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex -= 1
+
+    // And swap it with the current element.
+    temporaryValue = shuffeArray[currentIndex]
+    shuffeArray[currentIndex] = shuffeArray[randomIndex]
+    shuffeArray[randomIndex] = temporaryValue
+  }
+
+  return shuffeArray
+}

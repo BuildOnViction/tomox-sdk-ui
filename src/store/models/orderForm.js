@@ -174,7 +174,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
 
 export const redirectToLoginPage = (): ThunkAction => {
   return async (dispatch, getState) => {
-    dispatch(push('/login'))
+    dispatch(push('/unlock'))
   }
 }
 

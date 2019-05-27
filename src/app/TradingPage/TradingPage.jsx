@@ -137,7 +137,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
   render() {
     const { quoteTokenSymbol } = this.props
-    // if (!authenticated) return <Redirect to="/login" />
+    // if (!authenticated) return <Redirect to="/unlock" />
     // if (!isInitiated) return null
     // const { calloutOptions, calloutVisible } = this.state
 

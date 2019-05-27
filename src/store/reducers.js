@@ -520,6 +520,11 @@ export const notifications = createReducer(action => {
       )
     case appActionTypes.removeNotification:
       return notificationEvents.notificationRemoved(payload.id)
+
+    case appActionTypes.copyDataSuccessNotification:
+      return notificationEvents.notificationAdded(
+        payload.notificationType,
+      )
     default:
       return notificationEvents.initialized()
   }

@@ -4,6 +4,7 @@ const actionTypes = {
   addSuccessNotification: 'app/ADD_SUCCESS_NOTIFICATION',
   removeNotification: 'app/REMOVE_NOTIFICATION',
   updateCurrentBlock: 'app/UPDATE_CURRENT_BLOCK',
+  copyDataSuccessNotification: 'app/COPY_DATA_SUCCESS_NOTIFICATION',
 }
 
 export function addNotification(options) {
@@ -124,6 +125,15 @@ export function updateCurrentBlock(currentBlock: string) {
     type: actionTypes.updateCurrentBlock,
     payload: {
       currentBlock,
+    },
+  }
+}
+
+export function copyDataSuccessNotification() {
+  return {
+    type: actionTypes.copyDataSuccessNotification,
+    payload: {
+      notificationType: 'copied',
     },
   }
 }

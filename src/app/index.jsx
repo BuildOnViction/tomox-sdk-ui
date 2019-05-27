@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Layout from './Layout'
 // import LandingPage from './LandingPage'
 import LoginPage from './LoginPage'
+import CreateWalletPage from './CreateWalletPage'
 import WalletPage from './WalletPage'
 import SettingsPage from './SettingsPage'
 import LogoutPage from './LogoutPage'
@@ -26,12 +27,13 @@ class App extends React.PureComponent {
           <Layout>
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/markets" />} />
-              <Route path="/login" component={LoginPage} />
+              <Route path="/unlock" component={LoginPage} />
               <Route path="/wallet" component={WalletPage} />
               <Route path="/markets" component={MarketsPage} />
               <Route path="/trade/:pair?" component={TradingPage} />
               <Route path="/settings" component={SettingsPage} />
               <Route path="/logout" component={LogoutPage} />
+              <Route path="/create" component={CreateWalletPage} />
             </Switch>
           </Layout>
         </SocketController>

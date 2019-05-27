@@ -30,10 +30,10 @@ class SettingsPage extends React.PureComponent<Props, State> {
 
   render() {
     // const { pvtKeyLocked, togglePvtKeyLock } = this.props
-    const { wallets } = this.state;
+    const { wallets } = this.state
 
     if (!this.props.authenticated) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/unlock" />
     }
 
     return (
