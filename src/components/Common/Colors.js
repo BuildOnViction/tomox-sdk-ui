@@ -237,11 +237,13 @@ export const NavBar = {
 export const DarkMode = {
   BLACK: '#1f2538',
   DARK_BLUE: '#252C40',
+  BLUE: '#2d3650',
   LIGHT_BLUE: '#394362',
   GRAY: '#6e7793',
   LIGHT_GRAY: '#9ca4ba',
   WHITE: '#fff',
   ORANGE: '#ff9a4d',
+  DARK_ORANGE: '#ec8536',
   GREEN: '#00c38c',
   RED: '#f94d5c',
 }
@@ -252,6 +254,7 @@ export const Theme = {
   ROW_HEIGHT_LG: '60px',
   ROW_HEIGHT_MD: '50px',
   BREAK_POINT_MD: '1280px',
+  FONT_SIZE_LG: '16px',
   FONT_SIZE_MD: '14px',
   FONT_SIZE_SM: '12px',
 }

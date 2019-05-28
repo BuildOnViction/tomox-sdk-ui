@@ -1,276 +1,271 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Callout, Card, Intent, Spinner, Tag } from '@blueprintjs/core'
-import WalletLoginForm from '../../components/WalletLoginForm'
-import CreateWalletModal from '../../components/CreateWalletModal'
-import MetamaskIcon from '../../components/Icons/Metamask'
-import { KeyIcon, WalletIcon, Trezor } from '../../components/Icons'
-import { Centered, Divider, LargeText, Colors } from '../../components/Common'
-import type { CreateWalletParams } from '../../types/createWallet'
+import { Label, Tab, Tabs, Button } from '@blueprintjs/core'
+import { DarkMode, Theme, SmallText } from '../../components/Common'
+// import type { CreateWalletParams } from '../../types/createWallet'
+import { Link } from "react-router-dom"
 
 type Props = {
-  view: string,
-  showWalletLoginForm: CreateWalletParams => void,
-  showLoginMethods: () => void,
-  loginWithMetamask: void => void,
-  loginWithWallet: void => void,
-  openSelectAddressModal: void => void,
-  loginWithTrezorWallet: Object => void,
-  loginWithLedgerWallet: void => void,
+  selectedTabId: string,
+  handleTabChange: void => void,
+  privateKeyStatus: string,
+  privateKey: string,
+  mnemonicStatus: string,
+  mnemonic: string,
+  handlePrivateKeyChange: void => void, 
+  unlockWalletWithPrivateKey: void => void,
+  handleMnemonicChange: void => void,
+  unlockWalletWithMnemonic: void => void,
+  password: string,
+  handlePasswordChange: void => void,
 }
 
-const LoginPageRenderer = (props: Props) => {
-  const {
-    view,
-    loginWithMetamask,
-    loginWithWallet,
-    openSelectAddressModal,
-    loginWithTrezorWallet,
-    loginWithLedgerWallet,
-    showCreateWallet,
-    hideModal,
-    showWalletLoginForm,
-    metamaskStatus,
-    showLoginMethods,
-    walletCreated,
-  } = props
+class LoginPageRenderer extends React.PureComponent<Props> {
 
-  const views = {
-    loginMethods: (
-      <LoginMethodsView
-        showWalletLoginForm={showWalletLoginForm}
-        loginWithMetamask={loginWithMetamask}
-        openSelectAddressModal={openSelectAddressModal}
-        loginWithTrezorWallet={loginWithTrezorWallet}
-        loginWithLedgerWallet={loginWithLedgerWallet}
-        showCreateWallet={showCreateWallet}
-        metamaskStatus={metamaskStatus}
-      />
-    ),
-    wallet: (
-      <WalletLoginFormView
-        loginWithWallet={loginWithWallet}
-        showLoginMethods={showLoginMethods}
-      />
-    ),
-    createWallet: (
-      <CreateWalletModal
-        walletCreated={walletCreated}
-        hideModal={hideModal}
-        visible={view === 'createWallet'}
-      />
-    ),
-    loading: <LoginLoadingView />,
+  render() {
+    const {
+      selectedTabId,
+      handleTabChange,
+      privateKeyStatus,
+      privateKey,
+      mnemonicStatus,
+      mnemonic,
+      handlePrivateKeyChange, 
+      unlockWalletWithPrivateKey,
+      handleMnemonicChange,
+      unlockWalletWithMnemonic,
+      password,
+      passwordStatus,
+      handlePasswordChange,
+    } = this.props
+
+    return (
+      <Wrapper>
+        <ImportWalletWrapper>
+          <HeaderTitle>Import your Wallet</HeaderTitle>
+          <SubTitle>If you don't have a wallet go <LinkWrapper to="/create">Create new wallet</LinkWrapper></SubTitle>
+
+          <TabsWrapper id="import-list" onChange={handleTabChange} selectedTabId={selectedTabId}>
+            <Tab 
+              id="private-key" 
+              title="Private Key" 
+              panel={
+                <PrivateKey 
+                  privateKey={privateKey} 
+                  privateKeyStatus={privateKeyStatus} 
+                  handlePrivateKeyChange={handlePrivateKeyChange} 
+                  unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
+                  password={password}
+                  passwordStatus={passwordStatus}
+                  handlePasswordChange={handlePasswordChange} />
+              } />
+
+            <Tab 
+              id="seed-phrase" 
+              title="Mnemonic Phrase" 
+              panel={
+                <MnemonicPhrase 
+                  mnemonic={mnemonic} 
+                  mnemonicStatus={mnemonicStatus} 
+                  handleMnemonicChange={handleMnemonicChange} 
+                  unlockWalletWithMnemonic={unlockWalletWithMnemonic}
+                  password={password}
+                  passwordStatus={passwordStatus}
+                  handlePasswordChange={handlePasswordChange} />
+              } />
+
+            <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
+            <Tab id="trezor" title="Trezor" panel={<div></div>} />
+          </TabsWrapper>
+        </ImportWalletWrapper>
+      </Wrapper>
+    )
   }
-
-  return views[view]
 }
 
-const LoginMethodsView = (props: Props) => {
-  const {
-    showWalletLoginForm,
-    loginWithMetamask,
-    openSelectAddressModal,
-    metamaskStatus,
-    showCreateWallet,
+const PrivateKey = (props) => {
+  const { 
+    privateKey, 
+    privateKeyStatus, 
+    handlePrivateKeyChange, 
+    unlockWalletWithPrivateKey,
+    password,
+    passwordStatus,
+    handlePasswordChange,
   } = props
+
   return (
-    <Wrapper>
-      <Announcement>
-        <Callout intent="success" title="Important notice">
-          <AnnouncementMessages>
-            <FormattedMessage
-              id="loginPage.announcement"
-              defaultMessage="Make sure you are visiting {link} to prevent any phishing attacks"
-              values={{
-                link: (
-                  <a href="https://tomochain.com/">https://tomochain.com/</a>
-                ),
-              }}
-            />
-            <Reminder>
-              <FormattedMessage
-                id="loginPage.noPlugins"
-                defaultMessage="Never install any browser plug-ins that claim to be associated with Tomochain"
-              />
-            </Reminder>
-            <Reminder>
-              <FormattedMessage
-                id="loginPage.noPhoneCalls"
-                defaultMessage="Never make any phone calls to anyone that claims to be a Tomochain representative"
-              />
-            </Reminder>
-            <Reminder>
-              <FormattedMessage
-                id="loginPage.noOfficialStaffs"
-                defaultMessage="Never make transactions or send funds to anyone who claims to be a member of Tomochain support"
-              />
-            </Reminder>
-            <Reminder>
-              <FormattedMessage
-                id="loginPage.noDisclosure"
-                defaultMessage="Never disclose your password, private keys or other authentication elements to anyone, including Tomochain support"
-              />
-            </Reminder>
-          </AnnouncementMessages>
-        </Callout>
-      </Announcement>
-      <LoginMethods>
-        <LoginMethodsHeading>
-          <FormattedMessage
-            id="loginPage.loginMethods"
-            defaultMessage="Please choose login methods"
-          />
-        </LoginMethodsHeading>
-        <LoginCards>
-          <LoginCard onClick={loginWithMetamask}>
-            <MetamaskIcon size={100} />
-            <Heading>
-              <FormattedMessage
-                id="loginPage.metamask"
-                defaultMessage="Metamask"
-              />
-            </Heading>
-            <MetamaskStatusTag>
-              {metamaskStatuses[metamaskStatus]}
-            </MetamaskStatusTag>
-          </LoginCard>
-          <LoginCard onClick={openSelectAddressModal}>
-            <Trezor size={100} />
-            <Heading>
-              <FormattedMessage
-                id="loginPage.trezorWallet"
-                defaultMessage="Trezor Wallet"
-              />
-            </Heading>
-            <HardwareWalletStatusTag>
-              {recommendedStatus}
-            </HardwareWalletStatusTag>
-          </LoginCard>
-          <LoginCard onClick={showWalletLoginForm}>
-            <KeyIcon size={100} />
-            <Heading>
-              <FormattedMessage id="loginPage.wallet" defaultMessage="Wallet" />
-            </Heading>
-          </LoginCard>
-          <LoginCard onClick={showCreateWallet}>
-            <WalletIcon size={100} color={Colors.WHITE} />
-            <Heading>
-              <FormattedMessage
-                id="loginPage.createWallet"
-                defaultMessage="Create Wallet"
-              />
-            </Heading>
-          </LoginCard>
-        </LoginCards>
-      </LoginMethods>
-    </Wrapper>
+    <React.Fragment>
+      <LabelWrapper>
+        <LabelTitle>Enter your private key</LabelTitle> 
+        <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
+      </LabelWrapper>
+      {(privateKeyStatus === 'invalid') && (<ErrorMessage>Private key invalid</ErrorMessage>)}
+
+      <LabelWrapper>
+        <LabelTitle>Temporary session password</LabelTitle> 
+        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
+      </LabelWrapper>          
+      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+
+      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>Unlock Wallet</ButtonWrapper>
+    </React.Fragment>
   )
 }
 
-const WalletLoginFormView = (props: Props) => {
-  const { loginWithWallet, showLoginMethods } = props
-  return (
-    <WalletLoginViewWrapper>
-      <WalletLoginForm
-        loginWithWallet={loginWithWallet}
-        showLoginMethods={showLoginMethods}
-      />
-    </WalletLoginViewWrapper>
-  )
-}
+const MnemonicPhrase = (props) => {
+  const { 
+    mnemonic,
+    mnemonicStatus, 
+    handleMnemonicChange, 
+    unlockWalletWithMnemonic,
+    password, 
+    passwordStatus,
+    handlePasswordChange,
+  } = props
 
-const LoginLoadingView = (props: Props) => {
   return (
-    <Centered>
-      <Spinner large intent="primary" />
-      <Divider />
-      <LargeText intent="primary">Logging In ...</LargeText>
-    </Centered>
+    <React.Fragment>
+      <LabelWrapper>
+        <LabelTitle>Please enter your 12 word phrase</LabelTitle> 
+        <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
+      </LabelWrapper>
+      {(mnemonicStatus === 'invalid') && (<ErrorMessage>Invalid Mnemonic. Mnemonic must be 12 words long</ErrorMessage>)}
+
+      <LabelWrapper>
+        <LabelTitle>Temporary session password</LabelTitle> 
+        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
+      </LabelWrapper>          
+      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+
+      <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
+    </React.Fragment>
   )
 }
 
 export default LoginPageRenderer
 
-const Wrapper = styled.div`
-  display: grid;
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 2em;
+const Wrapper = styled.div``
+
+const TabsWrapper = styled(Tabs)`
+  margin-top: 35px;
+
+  .bp3-tab-list {
+    justify-content: space-between;
+
+    .bp3-tab {
+      margin: 0;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    .bp3-tab-indicator-wrapper {
+      display: block;
+
+      .bp3-tab-indicator {
+        height: 2px;
+        background-color: ${DarkMode.ORANGE};
+      }
+    }
+  }
+
+  .bp3-tab-panel {
+    padding: 45px 25px 30px;
+  }
 `
 
-const WalletLoginViewWrapper = styled.div`
-  margin-top: 5em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+const TextAreaWrapper = styled.textarea`
+  width: 100%;
+  min-height: 128px !important;
+  padding: 15px;
+  background-color: ${DarkMode.BLACK};
+  margin-bottom: 5px;
+  resize: none;
+  font-size: ${Theme.FONT_SIZE_LG};
+  color: ${DarkMode.WHITE};
+  border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
+
+  &:focus {
+    border: 1px solid ${DarkMode.ORANGE};
+  }
 `
 
-const Announcement = styled.section``
-
-const Heading = styled.h4`
-  margin-top: 10px;
-  margin-bottom: 10px;
+const ImportWalletWrapper = styled.div`
+  width: 395px;
+  margin: 50px auto 0;
 `
 
-const Reminder = styled.div``
-
-const LoginMethods = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const HeaderTitle = styled.h1`
+  color: ${DarkMode.WHITE};
+  font-size: 24px;
+  font-weight: 300;
+  text-align: center;
+  line-height: 24px;
 `
 
-const LoginMethodsHeading = styled.h3`
-  display: flex;
-  justify-content: center;
-  padding-top: 60px;
+const LinkWrapper = styled(Link)`
+  color: ${DarkMode.ORANGE};
+
+  &:hover {
+    color: ${DarkMode.DARK_ORANGE};
+  }
 `
 
-const LoginCards = styled.div`
-  padding-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+const SubTitle = styled.div`
+  text-align: center;
 `
 
-const AnnouncementMessages = styled.div`
-  padding-top: 10px;
-  padding-bottom: 10px;
+const LabelWrapper = styled(Label)`
+  margin-bottom: 0 !important;
+  &:not(:first-child) {
+    margin-top: 35px;
+  }
 `
 
-const LoginCard = styled(Card).attrs({
-  interactive: true,
-})`
-  margin: 10px;
-  height: 13em;
-  width: 13em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const LabelTitle = styled.div`
+  margin-bottom: 25px;
 `
 
-const MetamaskStatusTag = styled(Tag).attrs({
-  intent: Intent.SUCCESS,
-  interactive: true,
-  minimal: true,
-  textalign: 'center',
-})``
+const ButtonWrapper = styled(Button)`
+  display: block;
+  margin-top: 45px;
+  width: 100%;
+  text-align: center;
+  color: ${DarkMode.BLACK} !important;
+  border-radius: 0;
+  background-color: ${DarkMode.ORANGE} !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  height: 40px;
+  &:hover {
+    background-color: ${DarkMode.DARK_ORANGE} !important;
+  }
 
-const HardwareWalletStatusTag = styled(Tag).attrs({
-  intent: Intent.SUCCESS,
-  interactive: true,
-  minimal: true,
-  textalign: 'center',
-})``
+  &.bp3-disabled {
+    cursor: default !important;
+    background-color: ${DarkMode.GRAY} !important;
+  }
+`
 
-const metamaskStatuses = {
-  undefined: 'Not found',
-  locked: 'Locked',
-  unlocked: 'Connected',
-}
+const InputGroupWrapper = styled.input`
+  height: 50px;
+  color: ${DarkMode.WHITE};
+  font-size: ${Theme.FONT_SIZE_LG};
+  padding: 15px;
+  margin-top: 0 !important;
+  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
+  background: ${DarkMode.BLACK};
+  border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
+  width: 100%;
 
-const recommendedStatus = 'Recommended'
+  &:focus {
+    border: 1px solid ${DarkMode.ORANGE};
+  }
+`
+
+const ErrorMessage = styled.div`
+  color: ${DarkMode.RED};
+  font-size: 12px;
+`

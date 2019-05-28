@@ -132,6 +132,13 @@ export const savePrivateKeyInSessionStorage = async ({
   sessionStorage.setItem(address, privateKey);
 };
 
+export const saveEncryptedPrivateKeyInSessionStorage = async ({
+  address,
+  encryptedPrivateKey,
+}) => {
+  sessionStorage.setItem(address, encryptedPrivateKey)
+}
+
 export const getPrivateKeyFromSessionStorage = address => {
   let key = sessionStorage.getItem(address);
   return key;
@@ -145,3 +152,4 @@ export const getEncryptedWalletFromLocalStorage = address => {
   let encryptedWallet = localStorage.getItem(address);
   return encryptedWallet;
 };
+
