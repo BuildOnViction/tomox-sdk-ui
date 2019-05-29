@@ -551,6 +551,7 @@ const MenuItem = styled.li`
 `
 
 const MenuItemLink = styled(NavLink)`
+  display: block;
   color: ${DarkMode.LIGHT_GRAY}; 
   &:hover {
     color: ${DarkMode.LIGHT_GRAY};
