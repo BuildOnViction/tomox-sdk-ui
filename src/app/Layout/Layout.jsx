@@ -327,6 +327,10 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <PageLink to="/markets">Markets</PageLink>
+
+              <PageLink to="/trade">Exchange</PageLink>
+
               <LanguageItem className="utility-item language">
                 <i>language</i>              
 
@@ -493,6 +497,10 @@ const NavbarLink = styled(NavLink)`
   &:hover {
     color: ${DarkMode.WHITE};
   }
+`
+
+const PageLink = styled(NavbarLink)`
+  margin-right: 35px;
 `
 
 const NavExternalLink = styled.a.attrs({
