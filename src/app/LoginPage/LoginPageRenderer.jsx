@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button } from '@blueprintjs/core'
+import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
+import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
 
 type Props = {
   selectedTabId: string,
@@ -37,6 +38,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       password,
       passwordStatus,
       handlePasswordChange,
+      addresses,
+      isOpenAddressesDialog,
+      toggleAddressesDialog,
+      loginWithLedgerWallet,
     } = this.props
 
     return (
@@ -74,7 +79,13 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   handlePasswordChange={handlePasswordChange} />
               } />
 
-            <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
+            <Tab id="ledger" title="Ledger Nano S" panel={
+              <LedgerDevice 
+                addresses={addresses}
+                isOpenAddressesDialog={isOpenAddressesDialog}
+                toggleAddressesDialog={toggleAddressesDialog}
+                loginWithLedgerWallet={loginWithLedgerWallet} />
+            } />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
           </TabsWrapper>
         </ImportWalletWrapper>
@@ -140,6 +151,91 @@ const MnemonicPhrase = (props) => {
 
       <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
+  )
+}
+
+const LedgerDevice = (props) => {
+  const { 
+    addresses, 
+    isOpenAddressesDialog,
+    toggleAddressesDialog,
+    loginWithLedgerWallet,
+  } = props
+
+  return (
+    <LedgerWrapper>
+      <Title>1. Enter PIN Code</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <PasswordSymbol>******</PasswordSymbol>            
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <Title>2. Open TomoChain</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <img src={appTomoLogoUrl} alt="app Tomo logo"/>          
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <InstructionBox>
+        <Title color={DarkMode.ORANGE} cursor="pointer">Having Connection Issues?</Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
+      </InstructionBox>
+
+      <ButtonWrapper onClick={() => toggleAddressesDialog('open')}>Connect to Ledger</ButtonWrapper>
+      <AddressesDialog 
+        addresses={addresses}
+        isOpenAddressesDialog={isOpenAddressesDialog}
+        onClose={toggleAddressesDialog}
+        loginWithLedgerWallet={loginWithLedgerWallet} />
+    </LedgerWrapper>
+  )
+}
+
+const AddressesDialog = (props) => {
+  const { 
+    addresses, 
+    loginWithLedgerWallet, 
+    isOpenAddressesDialog, 
+    onClose } 
+  = props
+
+  return (
+    <Dialog
+      onClose={onClose}
+      title="Your Private Key"
+      isOpen={isOpenAddressesDialog}
+      >
+
+      { 
+        addresses && <ul>
+          {
+            addresses.map((address, index) => {
+              return (
+                <li key={ index } 
+                  style={{ marginBottom: "7px", cursor: "pointer" }} 
+                  onClick={() => loginWithLedgerWallet(address)}>
+                  {address}
+                </li>
+              )
+            })
+          }
+        </ul>
+      }
+    </Dialog>
   )
 }
 
@@ -268,4 +364,92 @@ const InputGroupWrapper = styled.input`
 const ErrorMessage = styled.div`
   color: ${DarkMode.RED};
   font-size: 12px;
+`
+
+const LedgerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Title = styled.div`
+  text-align: ${props => props.textAlign ? props.textAlign : 'left'};
+  color: ${props => props.color ? props.color : 'inherit'}
+  cursor: ${props => props.cursor ? props.cursor : 'initial'};
+`
+
+const LedgerImageBox = styled.div`
+  position: relative;
+  padding-left: 16px;
+  width: 162px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+`
+
+const LedgerImageBody = styled.div`
+  width: 146px;
+  height: 41px;
+  border-radius: 6px;
+  background-color: ${DarkMode.BLACK};
+`
+
+const LedgerImageHead = styled.div`
+  width: 16px;
+  height: 18px;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before,
+  &::after {
+    content: " ";
+    width: 9px;
+    height: 3px;
+    display: inline-block;
+    background-color: ${DarkMode.BLACK};
+    position: absolute;
+    left: 4px;
+    top: 4px;
+  }
+
+  &::after {
+    top: 11px;
+  }
+`
+
+const LedgerScreen = styled.div`
+  width: 85px;
+  height: 18px;
+  text-align: center;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+`
+
+const LedgerCircle = styled.div`
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+`
+
+const PasswordSymbol = styled.span`
+  display: inline-block;
+  padding-top: 3px;
+  color: ${DarkMode.ORANGE};
+`
+
+const InstructionBox = styled.div`
+  width: 100%;  
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
 `

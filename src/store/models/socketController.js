@@ -34,6 +34,7 @@ import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket'
 export default function socketControllerSelector(state: State) {
   return {
     authenticated: getAccountDomain(state).authenticated(),
+    signerAddress: getAccountDomain(state).address(),
     pairs: getTokenPairsDomain(state).getPairsByCode(),
     isOpened: getWebsocketDomain(state).isOpened(),
   }
@@ -330,9 +331,9 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
-      const { pairs } = socketControllerSelector(state)
-      const signer = getSigner()
-      const signerAddress = await signer.getAddress()
+      const { pairs, signerAddress } = socketControllerSelector(state)
+      // const signer = getSigner()
+      // const signerAddress = await signer.getAddress()
       const matches = event.payload.matches
       const trades = matches.trades
       const txHash = trades[0].txHash
@@ -362,7 +363,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         matches.trades.forEach(trade => {
-          if (utils.getAddress(trade.maker) === signerAddress || utils.getAddress(trade.maker) === signerAddress) {
+          if (utils.getAddress(trade.maker) === signerAddress) {
             userTrades.push(parseTrade(trade, pairInfo))
           }
         })

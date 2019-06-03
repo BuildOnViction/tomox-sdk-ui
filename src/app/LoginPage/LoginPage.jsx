@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
 // import { TrezorSigner } from '../../store/services/signer/trezor'
+import { LedgerWallet } from '../../store/services/signer/ledger'
 import {
   createWalletFromMnemonic,
   createWalletFromPrivateKey,
@@ -28,21 +29,32 @@ type State = {
   mnemonic: string,
   password: string,
   passwordStatus: string,
+  isOpenAddressesDialog: boolean,
 }
 
 class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
-    selectedTabId: 'private-key',
+    // selectedTabId: 'private-key',
+    selectedTabId: 'ledger',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',
     mnemonic: '',
     password: '',
     passwordStatus: 'initial',
+    isOpenAddressesDialog: false,
   }
 
-  handleTabChange = (selectedTabId: string) => {
+  getMultipleAddresses = async () => {
+    const ledgerWallet = new LedgerWallet()
+    const eth = await ledgerWallet.create()
+    ledgerWallet.eth = eth
+    const addresses = await ledgerWallet.getMultipleAddresses(0, 4)
+    this.setState({ addresses })
+  }
+
+  handleTabChange = async (selectedTabId: string) => {
     this.setState({ 
       selectedTabId,
       privateKeyStatus: 'initial',
@@ -52,6 +64,10 @@ class LoginPage extends React.PureComponent<Props, State> {
       password: '',
       passwordStatus: 'initial',
     })
+
+    if (selectedTabId === 'ledger') {
+      await this.getMultipleAddresses()
+    }
   }
 
   checkPrivateValid = (privateKey) => {
@@ -143,11 +159,16 @@ class LoginPage extends React.PureComponent<Props, State> {
     loginWithWallet(wallet)
   }
 
+  toggleAddressesDialog = (status) => {
+    (status === 'open') ? this.setState({ isOpenAddressesDialog: true }) : this.setState({ isOpenAddressesDialog: false })
+  }
+
   render() {
 
     const {
       props: {
         authenticated,
+        loginWithLedgerWallet,
       },
       state: { 
         selectedTabId, 
@@ -157,6 +178,8 @@ class LoginPage extends React.PureComponent<Props, State> {
         mnemonic,
         password,
         passwordStatus,
+        addresses,
+        isOpenAddressesDialog,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -164,6 +187,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       handlePasswordChange,
+      toggleAddressesDialog,
     } = this
 
     // go to markets by default
@@ -186,7 +210,11 @@ class LoginPage extends React.PureComponent<Props, State> {
           unlockWalletWithMnemonic={unlockWalletWithMnemonic}
           password={password}
           passwordStatus={passwordStatus}
-          handlePasswordChange={handlePasswordChange} />
+          handlePasswordChange={handlePasswordChange}
+          addresses={addresses}
+          isOpenAddressesDialog={isOpenAddressesDialog}
+          toggleAddressesDialog={toggleAddressesDialog}
+          loginWithLedgerWallet={loginWithLedgerWallet} />
       </Wrapper>
     )
   }

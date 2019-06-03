@@ -14,7 +14,7 @@ import {
   createMetamaskSigner,
 } from '../services/signer'
 
-import { LedgerSigner } from '../services/signer/ledger';
+// import { LedgerSigner } from '../services/signer/ledger';
 
 import type
  { State, ThunkAction } from '../../types';
@@ -169,24 +169,53 @@ export function loginWithTrezorWallet(data: Object): ThunkAction {
   };
 }
 
-export function loginWithLedgerWallet(): ThunkAction {
+// export function loginWithLedgerWallet(): ThunkAction {
+//   return async (dispatch, getState) => {
+//     try {
+//       dispatch(actionCreators.requestLogin());
+
+//       let deviceService = new LedgerSigner();
+//       let result = await deviceService.getAddress();
+//       dispatch(actionCreators.loginWithLedgerWallet(result));
+//       dispatch(
+//         notifierActionCreators.addSuccessNotification({
+//           message: 'Signed in with Ledger wallet'
+//         })
+//       );
+//     } catch (e) {
+//       dispatch(
+//         notifierActionCreators.addNotification({ message: 'Login error' })
+//       );
+//       dispatch(actionCreators.loginError(e.message));
+//     }
+//   };
+// }
+
+export function loginWithLedgerWallet(address): ThunkAction {
   return async (dispatch, getState) => {
     try {
-      dispatch(actionCreators.requestLogin());
+      // dispatch(actionCreators.requestLogin());
 
-      let deviceService = new LedgerSigner();
-      let result = await deviceService.getAddress();
-      dispatch(actionCreators.loginWithLedgerWallet(result));
+      // let deviceService = new LedgerSigner();
+      // let result = await deviceService.getAddress();
+
+      // Check account exist on backend yet? 
+      // Create account if not yet for get balance of account from backend
+      // Remove when connect direct to TomoX
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) { await createAccount(address) }
+
+      dispatch(actionCreators.loginWithLedgerWallet(address))
       dispatch(
         notifierActionCreators.addSuccessNotification({
-          message: 'Signed in with Ledger wallet'
+          message: 'Signed in with Ledger wallet',
         })
-      );
+      )
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
-      );
-      dispatch(actionCreators.loginError(e.message));
+      )
+      dispatch(actionCreators.loginError(e.message))
     }
-  };
+  }
 }
