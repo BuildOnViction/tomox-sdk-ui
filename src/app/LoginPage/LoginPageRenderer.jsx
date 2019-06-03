@@ -42,6 +42,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       isOpenAddressesDialog,
       toggleAddressesDialog,
       loginWithLedgerWallet,
+      getMultipleAddresses,
     } = this.props
 
     return (
@@ -84,7 +85,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 addresses={addresses}
                 isOpenAddressesDialog={isOpenAddressesDialog}
                 toggleAddressesDialog={toggleAddressesDialog}
-                loginWithLedgerWallet={loginWithLedgerWallet} />
+                loginWithLedgerWallet={loginWithLedgerWallet}
+                getMultipleAddresses={getMultipleAddresses} />
             } />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
           </TabsWrapper>
@@ -160,6 +162,7 @@ const LedgerDevice = (props) => {
     isOpenAddressesDialog,
     toggleAddressesDialog,
     loginWithLedgerWallet,
+    getMultipleAddresses,
   } = props
 
   return (
@@ -200,42 +203,65 @@ const LedgerDevice = (props) => {
         addresses={addresses}
         isOpenAddressesDialog={isOpenAddressesDialog}
         onClose={toggleAddressesDialog}
-        loginWithLedgerWallet={loginWithLedgerWallet} />
+        loginWithLedgerWallet={loginWithLedgerWallet}
+        getMultipleAddresses={getMultipleAddresses} />
     </LedgerWrapper>
   )
 }
 
-const AddressesDialog = (props) => {
-  const { 
-    addresses, 
-    loginWithLedgerWallet, 
-    isOpenAddressesDialog, 
-    onClose } 
-  = props
+class AddressesDialog extends React.PureComponent {
+
+  componentDidMount = async () => {
+    const { getMultipleAddresses } = this.props
+
+    await getMultipleAddresses()
+  }
+
+  render() {
+    const { 
+      addresses, 
+      loginWithLedgerWallet, 
+      isOpenAddressesDialog, 
+      onClose,
+      getMultipleAddresses,
+    } = this.props
+
+    return (
+      <Dialog
+        className="dark-dialog"
+        onClose={onClose}
+        title="Address"
+        isOpen={isOpenAddressesDialog}>
+
+        <div>Select an address to use:</div>
+
+        <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
+
+        <ButtonWrapper marginTop="0px" onClick={ async () => await getMultipleAddresses() }>Load more</ButtonWrapper>
+      </Dialog>
+    )
+  }
+}
+
+const AddressListBox = (props) => {
+  const { addresses, loginWithLedgerWallet } = props
+
+  if (!addresses || addresses.length === 0) return <AddressList />
+
+  const addressItems = addresses.map((address, index) => {
+    return (
+      <AddressItem key={ index }
+        onClick={() => loginWithLedgerWallet(address)}>
+        {index}. {address}
+      </AddressItem>
+    )
+  })
 
   return (
-    <Dialog
-      onClose={onClose}
-      title="Your Private Key"
-      isOpen={isOpenAddressesDialog}
-      >
 
-      { 
-        addresses && <ul>
-          {
-            addresses.map((address, index) => {
-              return (
-                <li key={ index } 
-                  style={{ marginBottom: "7px", cursor: "pointer" }} 
-                  onClick={() => loginWithLedgerWallet(address)}>
-                  {address}
-                </li>
-              )
-            })
-          }
-        </ul>
-      }
-    </Dialog>
+    <AddressList>
+      { addressItems }
+    </AddressList>
   )
 }
 
@@ -326,7 +352,7 @@ const LabelTitle = styled.div`
 
 const ButtonWrapper = styled(Button)`
   display: block;
-  margin-top: 45px;
+  margin-top: ${props => props.marginTop ? props.marginTop : '45px'};
   width: 100%;
   text-align: center;
   color: ${DarkMode.BLACK} !important;
@@ -452,4 +478,24 @@ const InstructionBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 13px;
+`
+
+const AddressList = styled.ul`
+  height: 140px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 10px;
+`
+
+const AddressItem = styled.li`
+  padding: 8px;
+  cursor: pointer;
+
+  &:nth-child(2n+1) {
+    background-color: ${DarkMode.BLACK};
+  }
+
+  &:hover {
+    background-color: ${DarkMode.BLUE};
+  }
 `

@@ -112,5 +112,29 @@
   }
 }
 
+.dark-dialog,
+.bp3-dialog-header {
+  background-color: $tm-dark-blue !important;
+}
+
+.dark-dialog {
+  padding: 10px 25px 25px;
+
+  .bp3-dialog-header {
+    padding: 0;
+    min-height: unset;
+    margin-bottom: 15px;
+  }
+
+  .bp3-heading {
+    color: $tm-gray;
+    font-size: $tm-font-size-h3;
+  }
+
+  .bp3-button.bp3-minimal:hover{
+    background: $tm-black;
+  }
+}
+
 
 

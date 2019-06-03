@@ -30,6 +30,8 @@ type State = {
   password: string,
   passwordStatus: string,
   isOpenAddressesDialog: boolean,
+  addresses: Array<string>,
+  indexAddress: number,
 }
 
 class LoginPage extends React.PureComponent<Props, State> {
@@ -44,14 +46,20 @@ class LoginPage extends React.PureComponent<Props, State> {
     password: '',
     passwordStatus: 'initial',
     isOpenAddressesDialog: false,
+    addresses: [],
+    indexAddress: 0,
   }
 
   getMultipleAddresses = async () => {
+    const { indexAddress } = this.state
     const ledgerWallet = new LedgerWallet()
     const eth = await ledgerWallet.create()
     ledgerWallet.eth = eth
-    const addresses = await ledgerWallet.getMultipleAddresses(0, 4)
-    this.setState({ addresses })
+    const nextAddresses = await ledgerWallet.getMultipleAddresses(indexAddress, 4)
+    this.setState({
+      indexAddress: this.state.indexAddress + nextAddresses.length,
+      addresses: [...this.state.addresses, ...nextAddresses],
+    })
   }
 
   handleTabChange = async (selectedTabId: string) => {
@@ -188,6 +196,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       unlockWalletWithMnemonic,
       handlePasswordChange,
       toggleAddressesDialog,
+      getMultipleAddresses,
     } = this
 
     // go to markets by default
@@ -214,7 +223,8 @@ class LoginPage extends React.PureComponent<Props, State> {
           addresses={addresses}
           isOpenAddressesDialog={isOpenAddressesDialog}
           toggleAddressesDialog={toggleAddressesDialog}
-          loginWithLedgerWallet={loginWithLedgerWallet} />
+          loginWithLedgerWallet={loginWithLedgerWallet}
+          getMultipleAddresses={getMultipleAddresses} />
       </Wrapper>
     )
   }
