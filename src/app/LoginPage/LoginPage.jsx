@@ -74,7 +74,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     })
 
     if (selectedTabId === 'ledger') {
-      await this.getMultipleAddresses()
+      // await this.getMultipleAddresses()
     }
   }
 

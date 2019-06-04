@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
+import { Label, Tab, Tabs, Button, Dialog, MenuItem } from '@blueprintjs/core'
+import { Select } from '@blueprintjs/select'
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
@@ -199,6 +200,7 @@ const LedgerDevice = (props) => {
       </InstructionBox>
 
       <ButtonWrapper onClick={() => toggleAddressesDialog('open')}>Connect to Ledger</ButtonWrapper>
+      <SelectHdpathDialog />
       <AddressesDialog 
         addresses={addresses}
         isOpenAddressesDialog={isOpenAddressesDialog}
@@ -237,7 +239,7 @@ class AddressesDialog extends React.PureComponent {
 
         <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
 
-        <ButtonWrapper marginTop="0px" onClick={ async () => await getMultipleAddresses() }>Load more</ButtonWrapper>
+        <ButtonWrapper margintop="0px" onClick={ async () => await getMultipleAddresses() }>Load more</ButtonWrapper>
       </Dialog>
     )
   }
@@ -262,6 +264,54 @@ const AddressListBox = (props) => {
     <AddressList>
       { addressItems }
     </AddressList>
+  )
+}
+
+const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
+  const text = `${hdPath.rank}. ${hdPath.title}`
+
+  return (
+      <MenuItem
+          active={modifiers.active}
+          disabled={modifiers.disabled}
+          key={hdPath.rank}
+          onClick={handleClick}
+          text={text}
+          className="hd-path-item"
+      />
+  )
+}
+
+const SelectHdpathDialog = (props) => {
+  const items = [
+    {title: "m/44'/889'/0'/0 - TomoChain App"},
+    {title: "m/44'/60'/0' - Ledger Live"},
+    {title: "m/44'/60'/0'/0 - Ethereum App"},
+  ].map((m, index) => ({ ...m, rank: index + 1 }))
+
+  return (
+    <Dialog
+      className="dark-dialog"
+      // onClose={onClose}
+      title="HD path"
+      // isOpen={isOpenAddressesDialog}
+      isOpen={true}
+      >
+
+      <div>Select HD derivation path:</div>
+
+      <SelectHdPath
+        items={items}
+        itemRenderer={renderHdPath}
+        popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
+        noResults={<MenuItem disabled text="No results." />}
+        onItemSelect={() => {}}
+        filterable={false}>
+          <Button text={items[0].title} rightIcon="caret-down" />
+        </SelectHdPath>
+
+      <ButtonWrapper width="50%" margintop="0px" onClick={ () => {} }>Next</ButtonWrapper>
+    </Dialog>
   )
 }
 
@@ -352,8 +402,10 @@ const LabelTitle = styled.div`
 
 const ButtonWrapper = styled(Button)`
   display: block;
-  margin-top: ${props => props.marginTop ? props.marginTop : '45px'};
-  width: 100%;
+  margin-top: ${props => props.margintop ? props.margintop : '45px'};
+  margin-left: auto;
+  margin-right: auto;
+  width: ${props => props.width ? props.width : '100%'};
   text-align: center;
   color: ${DarkMode.BLACK} !important;
   border-radius: 0;
@@ -497,5 +549,19 @@ const AddressItem = styled.li`
 
   &:hover {
     background-color: ${DarkMode.BLUE};
+  }
+`
+
+const SelectHdPath = styled(Select)`
+  margin: 12px 0 30px;
+
+  .bp3-popover-target {
+    width: 100%;
+  }
+
+  .bp3-button {
+    height: 40px;
+    width: 100%;
+    border-radius: 0;
   }
 `

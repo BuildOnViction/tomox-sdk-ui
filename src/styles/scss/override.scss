@@ -136,5 +136,27 @@
   }
 }
 
+.hd-path-tooltip-wrapper,
+.hd-path-tooltip-wrapper > div,
+.hd-path-tooltip {
+  min-width: 450px;
+}
+
+.hd-path-tooltip-wrapper {
+  .bp3-menu-item {
+    border-radius: 0;
+    padding: 10px;
+
+    &:hover {
+      color: $tm-white;
+      background-color: $tm-light-gray;
+    }
+  }
+
+  .bp3-menu-item.bp3-intent-primary.bp3-active {
+    background-color: $tm-gray;
+  }
+}
+
 
 
