@@ -202,10 +202,10 @@ export function loginWithLedgerWallet(address): ThunkAction {
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX
-      const accountInfo = await fetchAccountInfo(address)
-      if (!accountInfo) { await createAccount(address) }
+      const accountInfo = await fetchAccountInfo(address.addressString)
+      if (!accountInfo) { await createAccount(address.addressString) }
 
-      dispatch(actionCreators.loginWithLedgerWallet(address))
+      dispatch(actionCreators.loginWithLedgerWallet(address.addressString))
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: 'Signed in with Ledger wallet',

@@ -48,22 +48,11 @@ export class LedgerWallet extends Signer {
         return new Eth(transport)
     }
 
-    getAddress = async (index) => {
-        const hdPath = index ? `${defaultDPath}/${index}` : defaultDPath
-        const { address } = await this.eth.getAddress(hdPath)
+    getAddress = async (hdPath) => {
+        const path = hdPath ? hdPath : defaultDPath
+        const address = await this.eth.getAddress(path, false, true)
 
         return address
-    }
-
-    getMultipleAddresses = async (offset, limit) => {
-        const addresses = []
-
-        for (let i = offset; i < (offset + limit); i++) {
-            const address = await this.getAddress(i)
-            addresses.push(address)
-        }
-
-        return addresses
     }
 
     signMessage = async (message) => {

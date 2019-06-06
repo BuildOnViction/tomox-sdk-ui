@@ -11,6 +11,7 @@ import {
   createWalletFromPrivateKey,
   // getEncryptedWalletAddress,
 } from '../../store/services/wallet'
+import AddressGenerator from '../../store/services/device/addressGenerator'
 
 type Props = {
   authenticated: boolean,
@@ -30,9 +31,16 @@ type State = {
   password: string,
   passwordStatus: string,
   isOpenAddressesDialog: boolean,
-  addresses: Array<string>,
+  addresses: Array<Object>,
   indexAddress: number,
+  isOpenHdPathDialog: boolean,
 }
+
+const hdPaths = [
+  {path: "m/44'/889'/0'/0", type: "TomoChain App"},
+  {path: "m/44'/60'/0'", type: "Ledger Live"},
+  {path: "m/44'/60'/0'/0", type: "Ethereum App"},
+].map((m, index) => ({ ...m, rank: index + 1 }))
 
 class LoginPage extends React.PureComponent<Props, State> {
 
@@ -46,20 +54,54 @@ class LoginPage extends React.PureComponent<Props, State> {
     password: '',
     passwordStatus: 'initial',
     isOpenAddressesDialog: false,
+    isOpenHdPathDialog: false,
     addresses: [],
     indexAddress: 0,
+    indexHdPathActive: 0,
   }
 
-  getMultipleAddresses = async () => {
-    const { indexAddress } = this.state
-    const ledgerWallet = new LedgerWallet()
-    const eth = await ledgerWallet.create()
-    ledgerWallet.eth = eth
-    const nextAddresses = await ledgerWallet.getMultipleAddresses(indexAddress, 4)
+  createLedgerSigner = async () => {
+    new LedgerWallet()
+    const eth = await window.signer.instance.create()
+    window.signer.instance.eth = eth
+  }
+  
+  getMultipleAddresses = async (offset, limit, init) => {
+    // limit fix is 5
+    if (init) {
+      const { indexHdPathActive } = this.state
+      const address = await window.signer.instance.getAddress(hdPaths[indexHdPathActive].path)
+      this.generator = new AddressGenerator(address)
+    }
+    
+    const nextAddresses = []
+
+    for (let index = offset; index < offset + limit; index++) {
+        const addressString = this.generator.getAddressString(index)
+
+        const address = {
+            addressString,
+            index,
+            balance: -1,
+        }
+
+        nextAddresses.push(address)
+    }
+
     this.setState({
-      indexAddress: this.state.indexAddress + nextAddresses.length,
-      addresses: [...this.state.addresses, ...nextAddresses],
+      indexAddress: offset + limit,
+      addresses: nextAddresses,
     })
+  }
+
+  prevAddresses = () => {
+    let offset = this.state.indexAddress - 10
+    offset = (offset > 0) ? offset : 0
+    this.getMultipleAddresses(offset, 5, false)
+  }
+
+  nextAddresses = () => {
+    this.getMultipleAddresses(this.state.indexAddress, 5, false)
   }
 
   handleTabChange = async (selectedTabId: string) => {
@@ -72,10 +114,6 @@ class LoginPage extends React.PureComponent<Props, State> {
       password: '',
       passwordStatus: 'initial',
     })
-
-    if (selectedTabId === 'ledger') {
-      // await this.getMultipleAddresses()
-    }
   }
 
   checkPrivateValid = (privateKey) => {
@@ -171,6 +209,21 @@ class LoginPage extends React.PureComponent<Props, State> {
     (status === 'open') ? this.setState({ isOpenAddressesDialog: true }) : this.setState({ isOpenAddressesDialog: false })
   }
 
+  toggleHdPathDialog = (status) => {
+    (status === 'open') ? this.setState({ isOpenHdPathDialog: true, indexHdPathActive: 0 }) : this.setState({ isOpenHdPathDialog: false, indexHdPathActive: 0 })
+  }
+
+  handleHdPathChange = (path) => {
+    this.setState({ indexHdPathActive: path.rank - 1 })
+  }
+
+  handleSelectedHdPath = async () => {
+    await this.createLedgerSigner()
+    await this.getMultipleAddresses(0, 5, true) // Init get addresses
+    this.toggleHdPathDialog('close')
+    this.toggleAddressesDialog('open')
+  }
+
   render() {
 
     const {
@@ -188,6 +241,8 @@ class LoginPage extends React.PureComponent<Props, State> {
         passwordStatus,
         addresses,
         isOpenAddressesDialog,
+        isOpenHdPathDialog,
+        indexHdPathActive,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -196,7 +251,11 @@ class LoginPage extends React.PureComponent<Props, State> {
       unlockWalletWithMnemonic,
       handlePasswordChange,
       toggleAddressesDialog,
-      getMultipleAddresses,
+      toggleHdPathDialog,
+      handleHdPathChange,
+      handleSelectedHdPath,
+      prevAddresses,
+      nextAddresses,
     } = this
 
     // go to markets by default
@@ -224,7 +283,14 @@ class LoginPage extends React.PureComponent<Props, State> {
           isOpenAddressesDialog={isOpenAddressesDialog}
           toggleAddressesDialog={toggleAddressesDialog}
           loginWithLedgerWallet={loginWithLedgerWallet}
-          getMultipleAddresses={getMultipleAddresses} />
+          isOpenHdPathDialog={isOpenHdPathDialog}
+          toggleHdPathDialog={toggleHdPathDialog}
+          handleHdPathChange={handleHdPathChange}
+          indexHdPathActive={indexHdPathActive}
+          hdPaths={hdPaths}
+          handleSelectedHdPath={handleSelectedHdPath}
+          prevAddresses={prevAddresses}
+          nextAddresses={nextAddresses} />
       </Wrapper>
     )
   }

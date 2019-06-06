@@ -43,7 +43,14 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       isOpenAddressesDialog,
       toggleAddressesDialog,
       loginWithLedgerWallet,
-      getMultipleAddresses,
+      isOpenHdPathDialog,
+      toggleHdPathDialog,
+      handleHdPathChange,
+      indexHdPathActive,
+      hdPaths,
+      handleSelectedHdPath,
+      nextAddresses,
+      prevAddresses,
     } = this.props
 
     return (
@@ -87,7 +94,14 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 isOpenAddressesDialog={isOpenAddressesDialog}
                 toggleAddressesDialog={toggleAddressesDialog}
                 loginWithLedgerWallet={loginWithLedgerWallet}
-                getMultipleAddresses={getMultipleAddresses} />
+                isOpenHdPathDialog={isOpenHdPathDialog}
+                toggleHdPathDialog={toggleHdPathDialog}
+                handleHdPathChange={handleHdPathChange}
+                indexHdPathActive={indexHdPathActive}
+                hdPaths={hdPaths}
+                handleSelectedHdPath={handleSelectedHdPath}
+                nextAddresses={nextAddresses}
+                prevAddresses={prevAddresses} />
             } />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
           </TabsWrapper>
@@ -163,7 +177,14 @@ const LedgerDevice = (props) => {
     isOpenAddressesDialog,
     toggleAddressesDialog,
     loginWithLedgerWallet,
-    getMultipleAddresses,
+    isOpenHdPathDialog,
+    toggleHdPathDialog,
+    handleHdPathChange,
+    indexHdPathActive,
+    hdPaths,
+    handleSelectedHdPath,
+    prevAddresses,
+    nextAddresses,
   } = props
 
   return (
@@ -199,25 +220,28 @@ const LedgerDevice = (props) => {
         <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
       </InstructionBox>
 
-      <ButtonWrapper onClick={() => toggleAddressesDialog('open')}>Connect to Ledger</ButtonWrapper>
-      <SelectHdpathDialog />
+      <ButtonWrapper onClick={() => toggleHdPathDialog('open')}>Connect to Ledger</ButtonWrapper>
+
+      <SelectHdpathDialog 
+        isOpenHdPathDialog={isOpenHdPathDialog}
+        onClose={toggleHdPathDialog}
+        handleHdPathChange={handleHdPathChange}
+        indexHdPathActive={indexHdPathActive}
+        hdPaths={hdPaths}
+        handleSelectedHdPath={handleSelectedHdPath} />
+
       <AddressesDialog 
         addresses={addresses}
         isOpenAddressesDialog={isOpenAddressesDialog}
         onClose={toggleAddressesDialog}
         loginWithLedgerWallet={loginWithLedgerWallet}
-        getMultipleAddresses={getMultipleAddresses} />
+        prevAddresses={prevAddresses}
+        nextAddresses={nextAddresses} />
     </LedgerWrapper>
   )
 }
 
 class AddressesDialog extends React.PureComponent {
-
-  componentDidMount = async () => {
-    const { getMultipleAddresses } = this.props
-
-    await getMultipleAddresses()
-  }
 
   render() {
     const { 
@@ -225,7 +249,8 @@ class AddressesDialog extends React.PureComponent {
       loginWithLedgerWallet, 
       isOpenAddressesDialog, 
       onClose,
-      getMultipleAddresses,
+      nextAddresses,
+      prevAddresses,
     } = this.props
 
     return (
@@ -239,7 +264,10 @@ class AddressesDialog extends React.PureComponent {
 
         <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
 
-        <ButtonWrapper margintop="0px" onClick={ async () => await getMultipleAddresses() }>Load more</ButtonWrapper>
+        <NavigatorBox>
+          <NavigatorItem onClick={prevAddresses}>&laquo;Prev</NavigatorItem> 
+          <NavigatorItem onClick={nextAddresses}>Next&raquo;</NavigatorItem>
+        </NavigatorBox>        
       </Dialog>
     )
   }
@@ -250,17 +278,16 @@ const AddressListBox = (props) => {
 
   if (!addresses || addresses.length === 0) return <AddressList />
 
-  const addressItems = addresses.map((address, index) => {
+  const addressItems = addresses.map((address) => {
     return (
-      <AddressItem key={ index }
+      <AddressItem key={ address.index }
         onClick={() => loginWithLedgerWallet(address)}>
-        {index}. {address}
+        {address.index + 1}. {address.addressString}
       </AddressItem>
     )
   })
 
   return (
-
     <AddressList>
       { addressItems }
     </AddressList>
@@ -268,7 +295,7 @@ const AddressListBox = (props) => {
 }
 
 const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
-  const text = `${hdPath.rank}. ${hdPath.title}`
+  const text = `${hdPath.rank}. ${hdPath.path} - ${hdPath.type}`
 
   return (
       <MenuItem
@@ -283,34 +310,36 @@ const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
 }
 
 const SelectHdpathDialog = (props) => {
-  const items = [
-    {title: "m/44'/889'/0'/0 - TomoChain App"},
-    {title: "m/44'/60'/0' - Ledger Live"},
-    {title: "m/44'/60'/0'/0 - Ethereum App"},
-  ].map((m, index) => ({ ...m, rank: index + 1 }))
+  const { 
+    onClose, 
+    isOpenHdPathDialog, 
+    handleHdPathChange,
+    hdPaths,
+    indexHdPathActive,
+    handleSelectedHdPath,
+  } = props
 
   return (
     <Dialog
       className="dark-dialog"
-      // onClose={onClose}
+      onClose={onClose}
       title="HD path"
-      // isOpen={isOpenAddressesDialog}
-      isOpen={true}
+      isOpen={isOpenHdPathDialog}
       >
 
       <div>Select HD derivation path:</div>
 
       <SelectHdPath
-        items={items}
+        items={hdPaths}
         itemRenderer={renderHdPath}
         popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
         noResults={<MenuItem disabled text="No results." />}
-        onItemSelect={() => {}}
-        filterable={false}>
-          <Button text={items[0].title} rightIcon="caret-down" />
-        </SelectHdPath>
+        filterable={false}
+        onActiveItemChange={handleHdPathChange}>
+          <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
+      </SelectHdPath>
 
-      <ButtonWrapper width="50%" margintop="0px" onClick={ () => {} }>Next</ButtonWrapper>
+      <ButtonWrapper width="50%" margintop="0px" onClick={ handleSelectedHdPath }>Next</ButtonWrapper>
     </Dialog>
   )
 }
@@ -533,7 +562,7 @@ const InstructionBox = styled.div`
 `
 
 const AddressList = styled.ul`
-  height: 140px;
+  height: 175px;
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 10px;
@@ -565,3 +594,19 @@ const SelectHdPath = styled(Select)`
     border-radius: 0;
   }
 `
+
+const NavigatorBox = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const NavigatorItem = styled.span`
+  margin: 0 10px;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    color: ${DarkMode.ORANGE};
+  }
+`
+
