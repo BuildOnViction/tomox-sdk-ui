@@ -12,6 +12,7 @@ import {
   // getEncryptedWalletAddress,
 } from '../../store/services/wallet'
 import AddressGenerator from '../../store/services/device/addressGenerator'
+import { validatePassword } from '../../utils/helpers'
 
 type Props = {
   authenticated: boolean,
@@ -152,9 +153,8 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   handlePasswordChange = (e) => {
     const password = e.target.value
-    const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g
 
-    if (!validationPasswordRegex.test(password)) {
+    if (!validatePassword(password)) {
       this.setState({ 
         passwordStatus: 'invalid',
         password,
