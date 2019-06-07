@@ -51,6 +51,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       handleSelectedHdPath,
       nextAddresses,
       prevAddresses,
+      ledgerError,
+      errorList,
     } = this.props
 
     return (
@@ -101,7 +103,9 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 hdPaths={hdPaths}
                 handleSelectedHdPath={handleSelectedHdPath}
                 nextAddresses={nextAddresses}
-                prevAddresses={prevAddresses} />
+                prevAddresses={prevAddresses}
+                ledgerError={ledgerError}
+                errorList={errorList} />
             } />
             <Tab id="trezor" title="Trezor" panel={<div></div>} />
           </TabsWrapper>
@@ -185,6 +189,8 @@ const LedgerDevice = (props) => {
     handleSelectedHdPath,
     prevAddresses,
     nextAddresses,
+    ledgerError,
+    errorList,
   } = props
 
   return (
@@ -228,7 +234,9 @@ const LedgerDevice = (props) => {
         handleHdPathChange={handleHdPathChange}
         indexHdPathActive={indexHdPathActive}
         hdPaths={hdPaths}
-        handleSelectedHdPath={handleSelectedHdPath} />
+        handleSelectedHdPath={handleSelectedHdPath}
+        ledgerError={ledgerError}
+        errorList={errorList} />
 
       <AddressesDialog 
         addresses={addresses}
@@ -317,6 +325,8 @@ const SelectHdpathDialog = (props) => {
     hdPaths,
     indexHdPathActive,
     handleSelectedHdPath,
+    ledgerError,
+    errorList,
   } = props
 
   return (
@@ -329,15 +339,18 @@ const SelectHdpathDialog = (props) => {
 
       <div>Select HD derivation path:</div>
 
-      <SelectHdPath
-        items={hdPaths}
-        itemRenderer={renderHdPath}
-        popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
-        noResults={<MenuItem disabled text="No results." />}
-        filterable={false}
-        onActiveItemChange={handleHdPathChange}>
-          <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
-      </SelectHdPath>
+      <SelectHdPathBox>
+        <SelectHdPath
+          items={hdPaths}
+          itemRenderer={renderHdPath}
+          popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
+          noResults={<MenuItem disabled text="No results." />}
+          filterable={false}
+          onActiveItemChange={handleHdPathChange}>
+            <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
+        </SelectHdPath>
+        {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
+      </SelectHdPathBox>
 
       <ButtonWrapper width="50%" margintop="0px" onClick={ handleSelectedHdPath }>Next</ButtonWrapper>
     </Dialog>
@@ -581,9 +594,11 @@ const AddressItem = styled.li`
   }
 `
 
-const SelectHdPath = styled(Select)`
+const SelectHdPathBox = styled.div`
   margin: 12px 0 30px;
+`
 
+const SelectHdPath = styled(Select)`
   .bp3-popover-target {
     width: 100%;
   }
@@ -592,6 +607,7 @@ const SelectHdPath = styled(Select)`
     height: 40px;
     width: 100%;
     border-radius: 0;
+    margin-bottom: 7px;
   }
 `
 

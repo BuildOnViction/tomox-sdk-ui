@@ -44,15 +44,31 @@ export class LedgerWallet extends Signer {
     }
 
     create = async () => {
-        const transport = await this.getLedgerTransport()
-        return new Eth(transport)
+        try {
+            const transport = await this.getLedgerTransport()
+            this.eth = new Eth(transport)
+        } catch(e) {
+            throw e
+        }
     }
 
-    getAddress = async (hdPath) => {
-        const path = hdPath ? hdPath : defaultDPath
-        const address = await this.eth.getAddress(path, false, true)
+    getPublicKey = async (hdPath = defaultDPath) => {
+        if (this.eth) {
+            // Result of getAddress function includes address, publickKey, chainCode
+            const result = await this.eth.getAddress(hdPath, false, true)
 
-        return address
+            return result
+        }
+
+        return null
+    }
+
+    setAddress = (address) => {
+        this.address = address
+    }
+
+    getAddress = () => {
+        return this.address
     }
 
     signMessage = async (message) => {

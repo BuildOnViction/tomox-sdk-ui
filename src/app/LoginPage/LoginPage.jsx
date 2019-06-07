@@ -35,6 +35,13 @@ type State = {
   addresses: Array<Object>,
   indexAddress: number,
   isOpenHdPathDialog: boolean,
+  ledgerError: object,
+}
+
+const errorList = {
+  "TransportOpenUserCancelled": "No device selected.",
+  "26368": "Invalid status 0x6700. Check to make sure the right application is selected?",
+  "26628": "Invalid status 0x6804. Check to make sure the right application is selected?",
 }
 
 const hdPaths = [
@@ -59,40 +66,48 @@ class LoginPage extends React.PureComponent<Props, State> {
     addresses: [],
     indexAddress: 0,
     indexHdPathActive: 0,
+    ledgerError: null,
   }
 
   createLedgerSigner = async () => {
-    new LedgerWallet()
-    const eth = await window.signer.instance.create()
-    window.signer.instance.eth = eth
+    try {
+      new LedgerWallet()
+      await window.signer.instance.create()
+    } catch(e) {
+      throw e
+    }
   }
   
-  getMultipleAddresses = async (offset, limit, init) => {
-    // limit fix is 5
-    if (init) {
-      const { indexHdPathActive } = this.state
-      const address = await window.signer.instance.getAddress(hdPaths[indexHdPathActive].path)
-      this.generator = new AddressGenerator(address)
+  getMultipleAddresses = async (offset, limit = 5, init) => {
+    try {
+      if (init) {
+        const { indexHdPathActive } = this.state
+        const publicKey = await window.signer.instance.getPublicKey(hdPaths[indexHdPathActive].path)
+        if (!publicKey) return
+        this.generator = new AddressGenerator(publicKey)
+      }
+      
+      const nextAddresses = []
+
+      for (let index = offset; index < offset + limit; index++) {
+          const addressString = this.generator.getAddressString(index)
+
+          const address = {
+              addressString,
+              index,
+              balance: -1,
+          }
+
+          nextAddresses.push(address)
+      }
+
+      this.setState({
+        indexAddress: offset + limit,
+        addresses: nextAddresses,
+      })
+    } catch(e) {
+      throw e
     }
-    
-    const nextAddresses = []
-
-    for (let index = offset; index < offset + limit; index++) {
-        const addressString = this.generator.getAddressString(index)
-
-        const address = {
-            addressString,
-            index,
-            balance: -1,
-        }
-
-        nextAddresses.push(address)
-    }
-
-    this.setState({
-      indexAddress: offset + limit,
-      addresses: nextAddresses,
-    })
   }
 
   prevAddresses = () => {
@@ -218,10 +233,15 @@ class LoginPage extends React.PureComponent<Props, State> {
   }
 
   handleSelectedHdPath = async () => {
-    await this.createLedgerSigner()
-    await this.getMultipleAddresses(0, 5, true) // Init get addresses
-    this.toggleHdPathDialog('close')
-    this.toggleAddressesDialog('open')
+    try {
+      await this.createLedgerSigner()
+      await this.getMultipleAddresses(0, 5, true) // Init get addresses
+      this.toggleHdPathDialog('close')
+      this.toggleAddressesDialog('open')
+      this.setState({ ledgerError: null })
+    } catch(e) {
+      this.setState({ ledgerError: e })
+    }
   }
 
   render() {
@@ -243,6 +263,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         isOpenAddressesDialog,
         isOpenHdPathDialog,
         indexHdPathActive,
+        ledgerError,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -290,7 +311,9 @@ class LoginPage extends React.PureComponent<Props, State> {
           hdPaths={hdPaths}
           handleSelectedHdPath={handleSelectedHdPath}
           prevAddresses={prevAddresses}
-          nextAddresses={nextAddresses} />
+          nextAddresses={nextAddresses}
+          ledgerError={ledgerError}
+          errorList={errorList} />
       </Wrapper>
     )
   }
