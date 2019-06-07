@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
-// import { TrezorSigner } from '../../store/services/signer/trezor'
+import { TrezorSigner } from '../../store/services/signer/trezor'
 import { LedgerWallet } from '../../store/services/signer/ledger'
 import {
   createWalletFromMnemonic,
@@ -54,7 +54,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     // selectedTabId: 'private-key',
-    selectedTabId: 'ledger',
+    selectedTabId: 'trezor',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',
@@ -244,12 +244,23 @@ class LoginPage extends React.PureComponent<Props, State> {
     }
   }
 
+  openAddressesTrezorDialog = async () => {
+    this.deviceService = new TrezorSigner()
+    await this.props.getTrezorPublicKey(this.deviceService)
+  }
+
+  closeAddressesTrezorDialog = () => {
+    this.props.closeSelectAddressModal()
+  }
+
   render() {
 
     const {
       props: {
         authenticated,
+        isSelectAddressModalOpen,
         loginWithLedgerWallet,
+        loginWithTrezorWallet,
       },
       state: { 
         selectedTabId, 
@@ -277,6 +288,9 @@ class LoginPage extends React.PureComponent<Props, State> {
       handleSelectedHdPath,
       prevAddresses,
       nextAddresses,
+      openAddressesTrezorDialog,
+      closeAddressesTrezorDialog,
+      deviceService,
     } = this
 
     // go to markets by default
@@ -313,7 +327,12 @@ class LoginPage extends React.PureComponent<Props, State> {
           prevAddresses={prevAddresses}
           nextAddresses={nextAddresses}
           ledgerError={ledgerError}
-          errorList={errorList} />
+          errorList={errorList}
+          isSelectAddressModalOpen={isSelectAddressModalOpen}
+          openAddressesTrezorDialog={openAddressesTrezorDialog}
+          closeAddressesTrezorDialog={closeAddressesTrezorDialog}
+          deviceService={deviceService}
+          loginWithTrezorWallet={loginWithTrezorWallet} />
       </Wrapper>
     )
   }

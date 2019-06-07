@@ -5,6 +5,7 @@ import { Select } from '@blueprintjs/select'
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
+import SelectAddressModal from '../../components/SelectAddressModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
 
 type Props = {
@@ -53,6 +54,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       prevAddresses,
       ledgerError,
       errorList,
+      openAddressesTrezorDialog,
+      isSelectAddressModalOpen,
+      closeAddressesTrezorDialog,
+      deviceService,
     } = this.props
 
     return (
@@ -107,7 +112,14 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 ledgerError={ledgerError}
                 errorList={errorList} />
             } />
-            <Tab id="trezor" title="Trezor" panel={<div></div>} />
+
+            <Tab id="trezor" title="Trezor" panel={
+              <TrezorDevice 
+                openAddressesTrezorDialog={openAddressesTrezorDialog}
+                closeAddressesTrezorDialog={closeAddressesTrezorDialog}
+                isSelectAddressModalOpen={isSelectAddressModalOpen}
+                deviceService={deviceService} />
+            } />
           </TabsWrapper>
         </ImportWalletWrapper>
       </Wrapper>
@@ -245,6 +257,59 @@ const LedgerDevice = (props) => {
         loginWithLedgerWallet={loginWithLedgerWallet}
         prevAddresses={prevAddresses}
         nextAddresses={nextAddresses} />
+    </LedgerWrapper>
+  )
+}
+
+const TrezorDevice = (props) => {
+  const { 
+    isSelectAddressModalOpen, 
+    openAddressesTrezorDialog, 
+    closeAddressesTrezorDialog,
+    deviceService,
+  } = props
+
+  return (
+    <LedgerWrapper>
+      <Title>1. Enter PIN Code</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <PasswordSymbol>******</PasswordSymbol>            
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <Title>2. Open TomoChain</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <img src={appTomoLogoUrl} alt="app Tomo logo"/>          
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <InstructionBox>
+        <Title color={DarkMode.ORANGE} cursor="pointer">Having Connection Issues?</Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
+      </InstructionBox>
+
+      <ButtonWrapper onClick={ openAddressesTrezorDialog }>Connect to Trezor</ButtonWrapper>
+
+      <SelectAddressModal
+        title="Select Trezor Address"
+        isOpen={isSelectAddressModalOpen}
+        handleClose={closeAddressesTrezorDialog}
+        deviceService={deviceService}
+      />
     </LedgerWrapper>
   )
 }
@@ -474,7 +539,8 @@ const InputGroupWrapper = styled.input`
   margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
   background: ${DarkMode.BLACK};
   border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
-  width: 100%;
+  width: 100%;import { loginWithTrezorWallet } from '../../store/models/loginPage';
+
 
   &:focus {
     border: 1px solid ${DarkMode.ORANGE};
