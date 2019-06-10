@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button, Dialog, MenuItem } from '@blueprintjs/core'
+import { Label, Tab, Tabs, Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
@@ -44,12 +44,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       isOpenAddressesDialog,
       toggleAddressesDialog,
       loginWithLedgerWallet,
-      isOpenHdPathDialog,
-      toggleHdPathDialog,
       handleHdPathChange,
       indexHdPathActive,
       hdPaths,
-      handleSelectedHdPath,
+      connectToLedger,
       nextAddresses,
       prevAddresses,
       ledgerError,
@@ -58,6 +56,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       isSelectAddressModalOpen,
       closeAddressesTrezorDialog,
       deviceService,
+      loading,
     } = this.props
 
     return (
@@ -101,16 +100,15 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 isOpenAddressesDialog={isOpenAddressesDialog}
                 toggleAddressesDialog={toggleAddressesDialog}
                 loginWithLedgerWallet={loginWithLedgerWallet}
-                isOpenHdPathDialog={isOpenHdPathDialog}
-                toggleHdPathDialog={toggleHdPathDialog}
                 handleHdPathChange={handleHdPathChange}
                 indexHdPathActive={indexHdPathActive}
                 hdPaths={hdPaths}
-                handleSelectedHdPath={handleSelectedHdPath}
+                connectToLedger={connectToLedger}
                 nextAddresses={nextAddresses}
                 prevAddresses={prevAddresses}
                 ledgerError={ledgerError}
-                errorList={errorList} />
+                errorList={errorList}
+                loading={loading} />
             } />
 
             <Tab id="trezor" title="Trezor" panel={
@@ -193,16 +191,15 @@ const LedgerDevice = (props) => {
     isOpenAddressesDialog,
     toggleAddressesDialog,
     loginWithLedgerWallet,
-    isOpenHdPathDialog,
-    toggleHdPathDialog,
     handleHdPathChange,
     indexHdPathActive,
     hdPaths,
-    handleSelectedHdPath,
+    connectToLedger,
     prevAddresses,
     nextAddresses,
     ledgerError,
     errorList,
+    loading,
   } = props
 
   return (
@@ -233,22 +230,13 @@ const LedgerDevice = (props) => {
         <LedgerImageHead />
       </LedgerImageBox>
 
+      {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
       <InstructionBox>
         <Title color={DarkMode.ORANGE} cursor="pointer">Having Connection Issues?</Title>
         <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
       </InstructionBox>
 
-      <ButtonWrapper onClick={() => toggleHdPathDialog('open')}>Connect to Ledger</ButtonWrapper>
-
-      <SelectHdpathDialog 
-        isOpenHdPathDialog={isOpenHdPathDialog}
-        onClose={toggleHdPathDialog}
-        handleHdPathChange={handleHdPathChange}
-        indexHdPathActive={indexHdPathActive}
-        hdPaths={hdPaths}
-        handleSelectedHdPath={handleSelectedHdPath}
-        ledgerError={ledgerError}
-        errorList={errorList} />
+      <ButtonWrapper onClick={connectToLedger}>Connect to Ledger {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonWrapper>
 
       <AddressesDialog 
         addresses={addresses}
@@ -256,7 +244,12 @@ const LedgerDevice = (props) => {
         onClose={toggleAddressesDialog}
         loginWithLedgerWallet={loginWithLedgerWallet}
         prevAddresses={prevAddresses}
-        nextAddresses={nextAddresses} />
+        nextAddresses={nextAddresses}
+        handleHdPathChange={handleHdPathChange}
+        hdPaths={hdPaths}
+        indexHdPathActive={indexHdPathActive}
+        ledgerError={ledgerError}
+        errorList={errorList} />
     </LedgerWrapper>
   )
 }
@@ -324,6 +317,11 @@ class AddressesDialog extends React.PureComponent {
       onClose,
       nextAddresses,
       prevAddresses,
+      handleHdPathChange,
+      hdPaths,
+      indexHdPathActive,
+      ledgerError,
+      errorList,
     } = this.props
 
     return (
@@ -331,11 +329,30 @@ class AddressesDialog extends React.PureComponent {
         className="dark-dialog"
         onClose={onClose}
         title="Address"
+        canOutsideClickClose={false}
         isOpen={isOpenAddressesDialog}>
 
-        <div>Select an address to use:</div>
+        <div>Select HD derivation path:</div>
 
-        <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
+        <SelectHdPathBox>
+          <SelectHdPath
+            items={hdPaths}
+            itemRenderer={renderHdPath}
+            popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
+            noResults={<MenuItem disabled text="No results." />}
+            filterable={false}
+            onActiveItemChange={handleHdPathChange}>
+              <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
+          </SelectHdPath>
+          {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
+        </SelectHdPathBox>
+
+        { (addresses.length > 0) && (
+          <AddressWrapper>
+            <div>Select an address to use:</div>
+            <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
+          </AddressWrapper>
+        )}
 
         <NavigatorBox>
           <NavigatorItem onClick={prevAddresses}>&laquo;Prev</NavigatorItem> 
@@ -348,8 +365,6 @@ class AddressesDialog extends React.PureComponent {
 
 const AddressListBox = (props) => {
   const { addresses, loginWithLedgerWallet } = props
-
-  if (!addresses || addresses.length === 0) return <AddressList />
 
   const addressItems = addresses.map((address) => {
     return (
@@ -379,46 +394,6 @@ const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
           text={text}
           className="hd-path-item"
       />
-  )
-}
-
-const SelectHdpathDialog = (props) => {
-  const { 
-    onClose, 
-    isOpenHdPathDialog, 
-    handleHdPathChange,
-    hdPaths,
-    indexHdPathActive,
-    handleSelectedHdPath,
-    ledgerError,
-    errorList,
-  } = props
-
-  return (
-    <Dialog
-      className="dark-dialog"
-      onClose={onClose}
-      title="HD path"
-      isOpen={isOpenHdPathDialog}
-      >
-
-      <div>Select HD derivation path:</div>
-
-      <SelectHdPathBox>
-        <SelectHdPath
-          items={hdPaths}
-          itemRenderer={renderHdPath}
-          popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
-          noResults={<MenuItem disabled text="No results." />}
-          filterable={false}
-          onActiveItemChange={handleHdPathChange}>
-            <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
-        </SelectHdPath>
-        {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
-      </SelectHdPathBox>
-
-      <ButtonWrapper width="50%" margintop="0px" onClick={ handleSelectedHdPath }>Next</ButtonWrapper>
-    </Dialog>
   )
 }
 
@@ -527,6 +502,11 @@ const ButtonWrapper = styled(Button)`
   &.bp3-disabled {
     cursor: default !important;
     background-color: ${DarkMode.GRAY} !important;
+  }
+
+  .bp3-spinner {
+    display: inline-block;
+    margin-left: 5px;
   }
 `
 
@@ -639,6 +619,8 @@ const InstructionBox = styled.div`
   justify-content: space-between;
   margin-top: 13px;
 `
+
+const AddressWrapper = styled.div``
 
 const AddressList = styled.ul`
   height: 175px;

@@ -34,7 +34,6 @@ type State = {
   isOpenAddressesDialog: boolean,
   addresses: Array<Object>,
   indexAddress: number,
-  isOpenHdPathDialog: boolean,
   ledgerError: object,
 }
 
@@ -54,7 +53,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     // selectedTabId: 'private-key',
-    selectedTabId: 'trezor',
+    selectedTabId: 'ledger',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',
@@ -62,11 +61,11 @@ class LoginPage extends React.PureComponent<Props, State> {
     password: '',
     passwordStatus: 'initial',
     isOpenAddressesDialog: false,
-    isOpenHdPathDialog: false,
     addresses: [],
     indexAddress: 0,
     indexHdPathActive: 0,
     ledgerError: null,
+    loading: false,
   }
 
   createLedgerSigner = async () => {
@@ -221,26 +220,42 @@ class LoginPage extends React.PureComponent<Props, State> {
   }
 
   toggleAddressesDialog = (status) => {
-    (status === 'open') ? this.setState({ isOpenAddressesDialog: true }) : this.setState({ isOpenAddressesDialog: false })
+    if (status === 'open') {
+      this.setState({ isOpenAddressesDialog: true })
+      return
+    } 
+    
+    this.setState({ 
+      indexHdPathActive: 0,
+      isOpenAddressesDialog: false,
+      loading: false,
+    })
   }
 
-  toggleHdPathDialog = (status) => {
-    (status === 'open') ? this.setState({ isOpenHdPathDialog: true, indexHdPathActive: 0 }) : this.setState({ isOpenHdPathDialog: false, indexHdPathActive: 0 })
-  }
-
-  handleHdPathChange = (path) => {
+  handleHdPathChange = async (path) => {
     this.setState({ indexHdPathActive: path.rank - 1 })
+    await this.connectToLedger()
   }
 
-  handleSelectedHdPath = async () => {
+  connectToLedger = async () => {    
     try {
+      this.setState({ loading: true })
       await this.createLedgerSigner()
       await this.getMultipleAddresses(0, 5, true) // Init get addresses
-      this.toggleHdPathDialog('close')
-      this.toggleAddressesDialog('open')
-      this.setState({ ledgerError: null })
+      
+      if (this.state.addresses.length > 0) {
+        this.setState({ 
+          ledgerError: null,
+          loading: false,
+        })
+
+        this.toggleAddressesDialog('open')
+      }
     } catch(e) {
-      this.setState({ ledgerError: e })
+      this.setState({ 
+        ledgerError: e,
+        addresses: [],
+      })
     }
   }
 
@@ -272,9 +287,9 @@ class LoginPage extends React.PureComponent<Props, State> {
         passwordStatus,
         addresses,
         isOpenAddressesDialog,
-        isOpenHdPathDialog,
         indexHdPathActive,
         ledgerError,
+        loading,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -283,9 +298,8 @@ class LoginPage extends React.PureComponent<Props, State> {
       unlockWalletWithMnemonic,
       handlePasswordChange,
       toggleAddressesDialog,
-      toggleHdPathDialog,
       handleHdPathChange,
-      handleSelectedHdPath,
+      connectToLedger,
       prevAddresses,
       nextAddresses,
       openAddressesTrezorDialog,
@@ -318,12 +332,10 @@ class LoginPage extends React.PureComponent<Props, State> {
           isOpenAddressesDialog={isOpenAddressesDialog}
           toggleAddressesDialog={toggleAddressesDialog}
           loginWithLedgerWallet={loginWithLedgerWallet}
-          isOpenHdPathDialog={isOpenHdPathDialog}
-          toggleHdPathDialog={toggleHdPathDialog}
           handleHdPathChange={handleHdPathChange}
           indexHdPathActive={indexHdPathActive}
           hdPaths={hdPaths}
-          handleSelectedHdPath={handleSelectedHdPath}
+          connectToLedger={connectToLedger}
           prevAddresses={prevAddresses}
           nextAddresses={nextAddresses}
           ledgerError={ledgerError}
@@ -332,7 +344,8 @@ class LoginPage extends React.PureComponent<Props, State> {
           openAddressesTrezorDialog={openAddressesTrezorDialog}
           closeAddressesTrezorDialog={closeAddressesTrezorDialog}
           deviceService={deviceService}
-          loginWithTrezorWallet={loginWithTrezorWallet} />
+          loginWithTrezorWallet={loginWithTrezorWallet}
+          loading={loading} />
       </Wrapper>
     )
   }
