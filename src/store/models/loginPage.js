@@ -153,20 +153,21 @@ export function getBalance(address: string): ThunkAction {
 export function loginWithTrezorWallet(data: Object): ThunkAction {
   return async (dispatch, getState) => {
     try {
-      dispatch(actionCreators.requestLogin());
-      dispatch(actionCreators.loginWithTrezorWallet(data.address));
+      dispatch(actionCreators.toggleSelectAddressModal(false))
+      dispatch(actionCreators.requestLogin())
+      dispatch(actionCreators.loginWithTrezorWallet(data.address))
       dispatch(
         notifierActionCreators.addSuccessNotification({
-          message: 'Signed in with Trezor wallet'
+          message: 'Signed in with Trezor wallet',
         })
-      );
+      )
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
-      );
-      dispatch(actionCreators.loginError(e.message));
+      )
+      dispatch(actionCreators.loginError(e.message))
     }
-  };
+  }
 }
 
 // export function loginWithLedgerWallet(): ThunkAction {

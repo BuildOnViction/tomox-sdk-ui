@@ -1,24 +1,26 @@
 // @flow
-import React from 'react';
-import Modal from '../Modal';
-import SelectAddressFormContainer from '../SelectAddressForm';
+import React from 'react'
+// import Modal from '../Modal'
+import { Dialog } from '@blueprintjs/core'
+import SelectAddressFormContainer from '../SelectAddressForm'
 
 type Props = {
     title: string,
     isOpen: boolean,
     handleClose: (SyntheticEvent<>) => void,
     deviceService: any
-};
+}
 
 const SelectAddressModal = (props: Props) => (
-    <Modal
+    <Dialog
         title={props.title}
-        icon="info-sign"
         isOpen={props.isOpen}
+        canOutsideClickClose={false}
         onClose={props.handleClose}
+        className="dark-dialog"
     >
         <SelectAddressFormContainer deviceService={props.deviceService} />
-    </Modal>
-);
+    </Dialog>
+)
 
-export default SelectAddressModal;
+export default SelectAddressModal

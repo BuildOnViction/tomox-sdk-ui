@@ -53,7 +53,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     // selectedTabId: 'private-key',
-    selectedTabId: 'ledger',
+    selectedTabId: 'trezor',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',

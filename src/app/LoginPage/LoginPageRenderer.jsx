@@ -298,7 +298,7 @@ const TrezorDevice = (props) => {
       <ButtonWrapper onClick={ openAddressesTrezorDialog }>Connect to Trezor</ButtonWrapper>
 
       <SelectAddressModal
-        title="Select Trezor Address"
+        title="Trezor Address"
         isOpen={isSelectAddressModalOpen}
         handleClose={closeAddressesTrezorDialog}
         deviceService={deviceService}
@@ -328,7 +328,7 @@ class AddressesDialog extends React.PureComponent {
       <Dialog
         className="dark-dialog"
         onClose={onClose}
-        title="Address"
+        title="Ledger Address"
         canOutsideClickClose={false}
         isOpen={isOpenAddressesDialog}>
 
@@ -355,8 +355,8 @@ class AddressesDialog extends React.PureComponent {
         )}
 
         <NavigatorBox>
-          <NavigatorItem onClick={prevAddresses}>&laquo;Prev</NavigatorItem> 
-          <NavigatorItem onClick={nextAddresses}>Next&raquo;</NavigatorItem>
+          <NavigatorItem onClick={prevAddresses}>&lt; Previous</NavigatorItem> 
+          <NavigatorItem onClick={nextAddresses}>Next &gt;</NavigatorItem>
         </NavigatorBox>        
       </Dialog>
     )

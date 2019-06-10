@@ -1,3 +1,3 @@
-import SelectAddressModal from './SelectAddressModal';
+import SelectAddressModal from './SelectAddressModal'
 
-export default SelectAddressModal;
+export default SelectAddressModal
