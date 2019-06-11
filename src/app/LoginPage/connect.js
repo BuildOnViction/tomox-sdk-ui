@@ -1,22 +1,23 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import loginPageSelector, {
     loginWithMetamask,
     loginWithWallet,
     loginWithTrezorWallet,
     loginWithLedgerWallet,
     getTrezorPublicKey,
-    closeSelectAddressModal
-} from '../../store/models/loginPage';
-import { removeNotification } from '../../store/actions/app';
+    closeSelectAddressModal,
+    getBalance,
+} from '../../store/models/loginPage'
+import { removeNotification } from '../../store/actions/app'
 
 export function mapStateToProps(state, props) {
-    const selector = loginPageSelector(state);
+    const selector = loginPageSelector(state)
 
     return {
         authenticated: selector.authenticated,
         loading: selector.loading,
-        isSelectAddressModalOpen: selector.isSelectAddressModalOpen
-    };
+        isSelectAddressModalOpen: selector.isSelectAddressModalOpen,
+    }
 }
 
 const mapDispatchToProps = {
@@ -26,10 +27,11 @@ const mapDispatchToProps = {
     loginWithLedgerWallet,
     removeNotification,
     getTrezorPublicKey,
-    closeSelectAddressModal
-};
+    closeSelectAddressModal,
+    getBalance,
+}
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-);
+)

@@ -30,6 +30,8 @@ import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
+import walletGrayUrl from '../../assets/images/wallet_gray.svg'
+import walletWhiteUrl from '../../assets/images/wallet_white.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -208,7 +210,10 @@ class Default extends React.PureComponent<Props, State> {
 
               <UserItem className="utility-item notification">
                 {!authenticated ? (
-                  <NavbarLink to="/unlock">Unlock wallet</NavbarLink>
+                  <NavbarLink to="/unlock">
+                    <WalletIconBox title="Unlock your wallet"></WalletIconBox>
+                    {/* Unlock wallet */}
+                  </NavbarLink>
                 ) : (
                   <React.Fragment>
                     <Popover
@@ -322,6 +327,10 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <PageLink to="/markets">Markets</PageLink>
+
+              <PageLink to="/trade">Exchange</PageLink>
+
               <LanguageItem className="utility-item language">
                 <i>language</i>              
 
@@ -490,6 +499,10 @@ const NavbarLink = styled(NavLink)`
   }
 `
 
+const PageLink = styled(NavbarLink)`
+  margin-right: 35px;
+`
+
 const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',
 })``
@@ -551,8 +564,23 @@ const MenuItem = styled.li`
 `
 
 const MenuItemLink = styled(NavLink)`
+  display: block;
   color: ${DarkMode.LIGHT_GRAY}; 
   &:hover {
     color: ${DarkMode.LIGHT_GRAY};
+  }
+`
+
+const WalletIconBox = styled.span`
+  display: inline-flex;
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  background: url(${walletGrayUrl}) no-repeat center center;
+  background-size: 20px 20px;
+
+  &:hover {
+    background: url(${walletWhiteUrl}) no-repeat center center;
+    background-size: 20px 20px;
   }
 `

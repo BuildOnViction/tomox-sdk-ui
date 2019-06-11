@@ -362,7 +362,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         matches.trades.forEach(trade => {
-          if (utils.getAddress(trade.maker) === signerAddress || utils.getAddress(trade.maker) === signerAddress) {
+          if (utils.getAddress(trade.maker) === signerAddress) {
             userTrades.push(parseTrade(trade, pairInfo))
           }
         })

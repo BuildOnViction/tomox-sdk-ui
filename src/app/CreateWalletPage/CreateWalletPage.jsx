@@ -2,7 +2,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import aes from 'crypto-js/aes'
-import { shuffleArray } from '../../utils/helpers'
+import { shuffleArray, validatePassword } from '../../utils/helpers'
 import { createRandomWallet } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
 
@@ -173,11 +173,9 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   handlePasswordChange = (e) => {
-    const password = e.target.value.trim()
-    // Reference: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-    const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g
+    const password = e.target.value
 
-    if (!validationPasswordRegex.test(password)) {
+    if (!validatePassword(password)) {
       this.setState({ 
         passwordStatus: 'invalid',
         password,
