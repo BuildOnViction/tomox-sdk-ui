@@ -6,6 +6,7 @@ import loginPageSelector, {
     loginWithLedgerWallet,
     getTrezorPublicKey,
     closeSelectAddressModal,
+    getBalance,
 } from '../../store/models/loginPage'
 import { removeNotification } from '../../store/actions/app'
 
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
     removeNotification,
     getTrezorPublicKey,
     closeSelectAddressModal,
+    getBalance,
 }
 
 export default connect(

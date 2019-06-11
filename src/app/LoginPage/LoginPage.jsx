@@ -2,6 +2,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
+import { utils } from 'ethers'
+import { formatNumber } from 'accounting-js'
+
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
 import { TrezorSigner } from '../../store/services/signer/trezor'
@@ -52,8 +55,7 @@ const hdPaths = [
 class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
-    // selectedTabId: 'private-key',
-    selectedTabId: 'trezor',
+    selectedTabId: 'private-key',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',
@@ -86,7 +88,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         this.generator = new AddressGenerator(publicKey)
       }
       
-      const nextAddresses = []
+      const getBalancePromises = []
 
       for (let index = offset; index < offset + limit; index++) {
           const addressString = this.generator.getAddressString(index)
@@ -97,16 +99,25 @@ class LoginPage extends React.PureComponent<Props, State> {
               balance: -1,
           }
 
-          nextAddresses.push(address)
+          getBalancePromises.push(this.getBalance(address))
       }
+
+      const addressesWithBalance = await Promise.all(getBalancePromises)
 
       this.setState({
         indexAddress: offset + limit,
-        addresses: nextAddresses,
+        addresses: addressesWithBalance,
       })
     } catch(e) {
       throw e
     }
+  }
+
+  getBalance = async (address: Object, index: number) => {
+    const result = await this.props.getBalance(address.addressString)
+    address.balance = formatNumber(utils.formatEther(result), { precision: 2 })
+
+    return address
   }
 
   prevAddresses = () => {

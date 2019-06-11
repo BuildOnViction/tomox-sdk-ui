@@ -347,17 +347,19 @@ class AddressesDialog extends React.PureComponent {
           {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
         </SelectHdPathBox>
 
-        { (addresses.length > 0) && (
+        {(addresses.length > 0) && (
           <AddressWrapper>
             <div>Select an address to use:</div>
             <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
           </AddressWrapper>
         )}
 
-        <NavigatorBox>
-          <NavigatorItem onClick={prevAddresses}>&lt; Previous</NavigatorItem> 
-          <NavigatorItem onClick={nextAddresses}>Next &gt;</NavigatorItem>
-        </NavigatorBox>        
+        {(addresses.length > 0) && (
+          <NavigatorBox>
+            <NavigatorItem onClick={prevAddresses}>&lt; Previous</NavigatorItem> 
+            <NavigatorItem onClick={nextAddresses}>Next &gt;</NavigatorItem>
+          </NavigatorBox> 
+        )}      
       </Dialog>
     )
   }
@@ -370,7 +372,8 @@ const AddressListBox = (props) => {
     return (
       <AddressItem key={ address.index }
         onClick={() => loginWithLedgerWallet(address)}>
-        {address.index + 1}. {address.addressString}
+        <div>{address.index + 1}. {address.addressString}</div>
+        <div>{address.balance}</div>
       </AddressItem>
     )
   })
@@ -530,6 +533,7 @@ const InputGroupWrapper = styled.input`
 const ErrorMessage = styled.div`
   color: ${DarkMode.RED};
   font-size: 12px;
+  margin-top: 7px;
 `
 
 const LedgerWrapper = styled.div`
@@ -630,6 +634,8 @@ const AddressList = styled.ul`
 `
 
 const AddressItem = styled.li`
+  display: flex;
+  justify-content: space-between;
   padding: 8px;
   cursor: pointer;
 
@@ -655,7 +661,6 @@ const SelectHdPath = styled(Select)`
     height: 40px;
     width: 100%;
     border-radius: 0;
-    margin-bottom: 7px;
   }
 `
 
