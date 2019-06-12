@@ -1,34 +1,48 @@
-import { DEFAULT_NETWORK_ID } from './environment.js'
 import addresses from './addresses.json'
-import { defaultTokenDecimals } from './tokens'
 import images from './images.json'
 
-const quoteTokensTable = {
-  [DEFAULT_NETWORK_ID]: [],
-}
-
-const quoteTokensBySymbolsTable = {
-  [DEFAULT_NETWORK_ID]: {},
-}
-export const quoteSymbolTokens = ['BTC', 'USDT', 'TOMO', 'TOMOS']
-for (const token of quoteSymbolTokens) {
-  const tokenData = {
-    symbol: token,
-    address: addresses[DEFAULT_NETWORK_ID][token],
-    decimals: defaultTokenDecimals[token] || 18,
-    image: images[DEFAULT_NETWORK_ID][token],
+const getAddress = (symbol) => {
+  for (const address in addresses.tokens) {
+    if (addresses.tokens[address].symbol === symbol) {
+      return address
+    }
   }
-  quoteTokensBySymbolsTable[DEFAULT_NETWORK_ID][token] = tokenData
-
-  quoteTokensTable[DEFAULT_NETWORK_ID].push(tokenData)
 }
 
-export const quoteTokensBySymbols =
-  quoteTokensBySymbolsTable[DEFAULT_NETWORK_ID]
+const quoteSymbolTokens = []
+const pairs = addresses.pairs
+
+pairs.forEach(p => {
+  const x = p.split('/')
+  if (x[1]) {
+    const quoteToken = x[1]
+    quoteSymbolTokens.push(quoteToken)
+  }
+})
+
+const quoteTokensTable = []
+
+const quoteTokensBySymbolsTable = {}
+
+for (const token of quoteSymbolTokens) {
+  const address = getAddress(token)
+
+  const tokenData = {
+    symbol: addresses.tokens[address].symbol,
+    address,
+    decimals: addresses.tokens[address].decimals,
+    image: images[token],
+  }
+  quoteTokensBySymbolsTable[token] = tokenData
+
+  quoteTokensTable.push(tokenData)
+}
+
+export const quoteTokensBySymbols = quoteTokensBySymbolsTable
 export const quoteTokenSymbols = Object.keys(quoteTokensBySymbols)
-export const quoteTokens = quoteTokensTable[DEFAULT_NETWORK_ID].map(
+export const quoteTokens = quoteTokensTable.map(
   (m, index) => ({
     ...m,
     rank: index + 1,
-  })
+  }),
 )

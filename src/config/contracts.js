@@ -1,12 +1,7 @@
-import {
-  DEFAULT_NETWORK_ID,
-} from './environment'
-import addresses from './addresses.json'
-
 export const EXCHANGE_ADDRESS = {
-  [DEFAULT_NETWORK_ID]: addresses[DEFAULT_NETWORK_ID]['Exchange'],
+  89: '0x7AB708550dE3B0DCF711cb2bd92b624d769F9D02',
 }
 
 export const WETH_ADDRESS = {
-  [DEFAULT_NETWORK_ID]: addresses[DEFAULT_NETWORK_ID]['WETH'],
+  89: '0x80B2425833435b9Bf77d543Ef42E1060C29CB12E',
 }
