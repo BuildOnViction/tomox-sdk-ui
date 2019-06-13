@@ -24,7 +24,7 @@ type State = {
   convertModalFromToken: string,
   convertModalToToken: string,
   selectedToken: ?TokenData,
-  hideZeroBalanceToken: boolean,
+  isHideZeroBalanceToken: boolean,
   searchInput: string,
 }
 
@@ -34,7 +34,7 @@ class DepositTable extends React.PureComponent<Props, State> {
     isSendModalOpen: false,
     isConvertModalOpen: false,
     selectedToken: null,
-    hideZeroBalanceToken: false,
+    isHideZeroBalanceToken: false,
     searchInput: '',
     convertModalFromToken: NATIVE_TOKEN_SYMBOL,
     isOpenReceiveDialog: false,
@@ -90,17 +90,17 @@ class DepositTable extends React.PureComponent<Props, State> {
   }
 
   toggleZeroBalanceToken = () => {
-    this.setState({ hideZeroBalanceToken: !this.state.hideZeroBalanceToken })
+    this.setState({ isHideZeroBalanceToken: !this.state.isHideZeroBalanceToken })
   }
 
   filterTokens = (data: Array<TokenData>) => {
-    const { searchInput, hideZeroBalanceToken } = this.state
+    const { searchInput, isHideZeroBalanceToken } = this.state
 
     if (searchInput)
       data = data.filter(
         token => token.symbol.indexOf(searchInput.toUpperCase()) > -1
       )
-    if (hideZeroBalanceToken) data = data.filter(token => +token.balance !== 0)
+    if (isHideZeroBalanceToken) data = data.filter(token => +token.balance !== 0)
 
     return data
   }
@@ -132,7 +132,7 @@ class DepositTable extends React.PureComponent<Props, State> {
       isSendModalOpen,
       selectedToken,
       searchInput,
-      hideZeroBalanceToken,
+      isHideZeroBalanceToken,
       isConvertModalOpen,
       convertModalFromToken,
       convertModalToToken,
@@ -167,7 +167,7 @@ class DepositTable extends React.PureComponent<Props, State> {
           TOMOTokenData={filteredETHTokenData[0]}
           tokenDataLength={tokenData.length}
           searchInput={searchInput}
-          hideZeroBalanceToken={hideZeroBalanceToken}
+          isHideZeroBalanceToken={isHideZeroBalanceToken}
           openDepositModal={this.openDepositModal}
           openConvertModal={this.openConvertModal}
           openSendModal={this.openSendModal}

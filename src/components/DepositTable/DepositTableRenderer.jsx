@@ -17,19 +17,19 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import type { TokenData, Symbol } from '../../types/tokens'
 // import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import tickUrl from '../../assets/images/tick.svg'
 
 type Props = {
   connected: boolean,
   baseTokensData: Array<TokenData>,
   quoteTokensData: Array<TokenData>,
   TOMOTokenData: TokenData,
-  WETHTokenData: TokenData,
   tokenDataLength: number,
   // provider: string,
   // depositTableData: Array<Object>,
   searchInput: string,
   handleSearchInputChange: (SyntheticEvent<>) => void,
-  hideZeroBalanceToken: void => void,
+  isHideZeroBalanceToken: boolean,
   openDepositModal: string => void,
   openConvertModal: (string, string) => void,
   openSendModal: string => void,
@@ -40,8 +40,8 @@ type Props = {
 
 const DepositTableRenderer = (props: Props) => {
   const {
-    // hideZeroBalanceToken,
-    // toggleZeroBalanceToken,
+    isHideZeroBalanceToken,
+    toggleZeroBalanceToken,
     // depositTableData,
     searchInput,
     handleSearchInputChange,
@@ -56,15 +56,14 @@ const DepositTableRenderer = (props: Props) => {
     <React.Fragment>
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
-          {/* <HideTokenCheck
-            checked={hideZeroBalanceToken}
-            onChange={toggleZeroBalanceToken}
-          >
-            Hide zero amounts
-          </HideTokenCheck> */}
           <OperationButtonWrapper>
             <MarginButton>Send</MarginButton>
             <MarginButton onClick={openReceiveDialog}>Receive</MarginButton>
+
+            <CheckboxWrapper
+              label="Hide zero amounts"
+              checked={isHideZeroBalanceToken}  
+              onChange={toggleZeroBalanceToken} />
           </OperationButtonWrapper>
           
           <SearchWrapper
@@ -394,7 +393,10 @@ const MarginButton = styled(OperationButton)`
   margin-right: 25px;
 `
 
-const OperationButtonWrapper = styled.div``
+const OperationButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 const TokenNameWrapper = styled.div`
   display: flex;
@@ -405,22 +407,24 @@ const TokenNameWrapper = styled.div`
   }
 `
 
-// const HideTokenCheck = styled(Checkbox)`
-//   margin: 0 !important;
+const CheckboxWrapper = styled(Checkbox)`
+  font-size: ${Theme.FONT_SIZE_SM};
+  text-align: center;
+  margin-bottom: 0 !important;
 
-//   .bp3-control-indicator {
-//     border-radius: 0 !important;
-//   }
+  .bp3-control-indicator {
+    box-shadow: none !important;
+    background-image: none !important;
+  }
 
-//   input:checked ~ .bp3-control-indicator {
-//     background-color: ${DarkMode.WHITE};
-//     box-shadow: none;
-//   }
+  input:checked ~ .bp3-control-indicator {
+    background-color: ${DarkMode.ORANGE} !important;
+  }
 
-//   &:hover {
-//     // background-color: ${DarkMode.WHITE};
-//   }
-// `
+  input:checked ~ .bp3-control-indicator::before {
+    background: url(${tickUrl}) no-repeat center center !important;
+  }
+`
 
 const NoToken = styled.p`
   height: 100%;
