@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
-import { Checkbox, InputGroup } from '@blueprintjs/core'
+import QRCode from 'qrcode.react'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
+import { Checkbox, InputGroup, Dialog, Icon } from '@blueprintjs/core'
 import {
   RowSpaceBetween,
   ColoredCryptoIcon,
@@ -38,55 +40,70 @@ type Props = {
 
 const DepositTableRenderer = (props: Props) => {
   const {
-    hideZeroBalanceToken,
-    toggleZeroBalanceToken,
+    // hideZeroBalanceToken,
+    // toggleZeroBalanceToken,
     // depositTableData,
     searchInput,
     handleSearchInputChange,
     tokenDataLength,
+    accountAddress,
+    isOpenReceiveDialog,
+    openReceiveDialog,
+    closeReceiveDialog,
+    notifyCopiedSuccess,
   } = props
   return (
-    <TableSection>
-      <RowSpaceBetween style={{ marginBottom: '10px' }}>
-        <HideTokenCheck
-          checked={hideZeroBalanceToken}
-          onChange={toggleZeroBalanceToken}
-        >
-          Hide zero amounts
-        </HideTokenCheck>
-        
-        <SearchWrapper
-            type="string"
-            leftIcon="search"
-            placeholder="Search"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-          />
-      </RowSpaceBetween>
-      <Table>
-        <TableHeader>
-          <TableHeaderCell width="24%"><MutedText>Coin</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>Total</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>Available amount</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>In orders</MutedText></TableHeaderCell>
-          {/* <TableHeaderCell>Unlocked</TableHeaderCell> */}
-          <TableHeaderCell width="25%">
-            <MutedText>Operation</MutedText>
-          </TableHeaderCell>
-        </TableHeader>
-      </Table>
-      <TableBodyContainer>
+    <React.Fragment>
+      <TableSection>
+        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+          {/* <HideTokenCheck
+            checked={hideZeroBalanceToken}
+            onChange={toggleZeroBalanceToken}
+          >
+            Hide zero amounts
+          </HideTokenCheck> */}
+          <OperationButtonWrapper>
+            <MarginButton>Send</MarginButton>
+            <MarginButton onClick={openReceiveDialog}>Receive</MarginButton>
+          </OperationButtonWrapper>
+          
+          <SearchWrapper
+              type="string"
+              leftIcon="search"
+              placeholder="Search"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+            />
+        </RowSpaceBetween>
         <Table>
-          <TableBody>
-            <TOMORow {...props} />
-            {/* <WETHRow {...props} /> */}
-            <QuoteTokenRows {...props} />
-            <BaseTokenRows {...props} />
-          </TableBody>
+          <TableHeader>
+            <TableHeaderCell width="24%"><MutedText>Coin</MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText>Total</MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText>Available amount</MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText>In orders</MutedText></TableHeaderCell>
+            <TableHeaderCell width="25%">
+              <MutedText>Operation</MutedText>
+            </TableHeaderCell>
+          </TableHeader>
         </Table>
-        {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
-      </TableBodyContainer>
-    </TableSection>
+        <TableBodyContainer>
+          <Table>
+            <TableBody>
+              <TOMORow {...props} />
+              <QuoteTokenRows {...props} />
+              <BaseTokenRows {...props} />
+            </TableBody>
+          </Table>
+          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
+        </TableBodyContainer>
+      </TableSection>
+
+      <ReceiveDialog
+        notifyCopiedSuccess={notifyCopiedSuccess}
+        accountAddress={accountAddress}
+        isOpen={isOpenReceiveDialog} 
+        onClose={closeReceiveDialog} />
+    </React.Fragment>
   )
 }
 
@@ -126,98 +143,17 @@ const TOMORow = (props: Props) => {
           <OperationButton onClick={() => redirectToTradingPage(symbol)}>
             Trade
           </OperationButton>
-          <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-            Send
-          </OperationButton>
           <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-            Receive
+            Deposit
           </OperationButton>
+          <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+            Withdrawal
+          </OperationButton>          
         </ButtonWrapper>
-        {/* <ButtonWrapper>
-          <Button
-            disabled={!connected}
-            intent="success"
-            text="Convert to WETH"
-            onClick={() => openConvertModal(NATIVE_TOKEN_SYMBOL, 'WETH')}
-            rightIcon="random"
-          />
-        </ButtonWrapper> */}
       </Cell>
     </Row>
   )
 }
-
-// const WETHRow = (props: Props) => {
-//   const {
-//     connected,
-//     WETHTokenData,
-//     toggleAllowance,
-//     openDepositModal,
-//     openSendModal,
-//     openConvertModal,
-//   } = props
-
-//   if (!WETHTokenData) return null
-
-//   const { symbol, balance, allowed, allowancePending } = WETHTokenData
-
-//   return (
-//     <Row key="WETH">
-//       <Cell>
-//         <TokenNameWrapper>
-//           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
-//           <span>{symbol}</span>
-//         </TokenNameWrapper>
-//       </Cell>
-//       <Cell>
-//         <div title={balance} style={{ maxWidth: 200 }}>
-//           <Ellipsis>{balance}</Ellipsis>
-//         </div>
-//       </Cell>
-//       <Cell>
-//         <Switch
-//           inline
-//           checked={allowed}
-//           onChange={() => toggleAllowance(symbol)}
-//         />
-//         {allowancePending && (
-//           <Tag intent="success" large minimal interactive icon="time">
-//             Pending
-//           </Tag>
-//         )}
-//       </Cell>
-//       <Cell style={{ width: '40%' }}>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="primary"
-//             rightIcon="import"
-//             text="Deposit"
-//             onClick={() => openDepositModal(symbol)}
-//           />
-//         </ButtonWrapper>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="primary"
-//             rightIcon="export"
-//             text="Send"
-//             onClick={() => openSendModal(symbol)}
-//           />
-//         </ButtonWrapper>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="success"
-//             text="Convert to TOMO"
-//             rightIcon="random"
-//             onClick={() => openConvertModal('WETH', NATIVE_TOKEN_SYMBOL)}
-//           />
-//         </ButtonWrapper>
-//       </Cell>
-//     </Row>
-//   )
-// }
 
 const QuoteTokenRows = (props: Props) => {
   const {
@@ -250,29 +186,17 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width="17%">
             <Ellipsis>-</Ellipsis>
           </Cell>
-          {/* <Cell>
-            <Switch
-              inline
-              checked={allowed}
-              onChange={() => toggleAllowance(symbol)}
-            />
-            {allowancePending && (
-              <Tag intent="success" large minimal interactive icon="time">
-                Pending
-              </Tag>
-            )}
-          </Cell> */}
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
                 Trade
               </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Send
-              </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Receive
+                Deposit
               </OperationButton>  
+              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+                Withdrawal
+              </OperationButton>
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -285,7 +209,6 @@ const BaseTokenRows = (props: Props) => {
   const {
     baseTokensData,
     connected,
-    // toggleAllowance,
     openDepositModal,
     openSendModal,
     redirectToTradingPage,
@@ -312,34 +235,53 @@ const BaseTokenRows = (props: Props) => {
           <Cell width="17%">
             <Ellipsis>-</Ellipsis>
           </Cell>
-          {/* <Cell>
-            <Switch
-              inline
-              checked={allowed}
-              onChange={() => toggleAllowance(symbol)}
-            />
-            {allowancePending && (
-              <Tag intent="success" large minimal interactive icon="time">
-                Pending
-              </Tag>
-            )}
-          </Cell> */}
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
                 Trade
               </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Send
-              </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Receive
+                Deposit
+              </OperationButton>
+              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+                Withdrawal
               </OperationButton>
             </ButtonWrapper>
           </Cell>
         </Row>
       )
     }
+  )
+}
+
+const ReceiveDialog = (props) => {
+  const {
+    notifyCopiedSuccess,
+    accountAddress,
+    onClose,
+    isOpen,
+  } = props
+
+  return (
+    <Dialog
+      className="dark-dialog sm"
+      onClose={onClose}
+      title="Receive tokens"
+      canOutsideClickClose={false}
+      isOpen={isOpen}
+      >
+        <Title>Copy address:</Title>
+
+        <AddressWrapper>
+          <AddressText>{accountAddress}</AddressText>
+          <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
+            <CopyIconBox title="Copy Address"><Icon icon="applications" /></CopyIconBox> 
+          </CopyToClipboard>
+        </AddressWrapper>
+
+        <ScanQRTitle>or Scan QR Code</ScanQRTitle>
+        <QRImage><QRCode value={accountAddress} size={180} includeMargin={true} /></QRImage>  
+    </Dialog>
   )
 }
 
@@ -448,6 +390,12 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   }
 `
 
+const MarginButton = styled(OperationButton)`
+  margin-right: 25px;
+`
+
+const OperationButtonWrapper = styled.div``
+
 const TokenNameWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -457,22 +405,22 @@ const TokenNameWrapper = styled.div`
   }
 `
 
-const HideTokenCheck = styled(Checkbox)`
-  margin: 0 !important;
+// const HideTokenCheck = styled(Checkbox)`
+//   margin: 0 !important;
 
-  .bp3-control-indicator {
-    border-radius: 0 !important;
-  }
+//   .bp3-control-indicator {
+//     border-radius: 0 !important;
+//   }
 
-  input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.WHITE};
-    box-shadow: none;
-  }
+//   input:checked ~ .bp3-control-indicator {
+//     background-color: ${DarkMode.WHITE};
+//     box-shadow: none;
+//   }
 
-  &:hover {
-    // background-color: ${DarkMode.WHITE};
-  }
-`
+//   &:hover {
+//     // background-color: ${DarkMode.WHITE};
+//   }
+// `
 
 const NoToken = styled.p`
   height: 100%;
@@ -487,6 +435,60 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const Title = styled.div`
+  margin-bottom: 7px;
+  font-size: ${Theme.FONT_SIZE_LG};
+`
+
+const AddressWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover div {
+    color: ${DarkMode.ORANGE};
+  }
+`
+
+const AddressText = styled.div``
+
+const CopyIconBox = styled.span`
+  cursor: pointer;
+  padding: 5px;
+
+  &:hover {
+    background-color: ${DarkMode.LIGHT_BLUE};
+  }
+`
+
+const ScanQRTitle = styled(Title)`
+  margin: 30px auto 35px;
+  position: relative;
+
+  :before,
+  :after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    width: 140px;
+    border-top: 1px solid ${DarkMode.GRAY};
+  }
+
+  :before {
+    right: 110%;
+  }
+
+  :after {
+    left: 110%;
+  }
+`
+
+const QRImage = styled.div`
+  text-align: center;
+  margin-bottom: 30px;
 `
 
 export default withRouter(DepositTableRenderer)
