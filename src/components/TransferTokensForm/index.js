@@ -1,5 +1,5 @@
 // @flow
-import TransferTokensForm from './TransferTokensForm';
-import connect from './connect';
+import TransferTokensForm from './TransferTokensForm'
+import connect from './connect'
 
-export default connect(TransferTokensForm);
+export default connect(TransferTokensForm)

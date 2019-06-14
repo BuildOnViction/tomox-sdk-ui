@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Collapse, InputGroup } from '@blueprintjs/core'
+import { Collapse, InputGroup } from '@blueprintjs/core'
 
 import styled from 'styled-components'
+import { DarkMode } from '../Common'
 
 type Props = {
   visible: boolean,
@@ -15,29 +16,37 @@ const GasSettingsRenderer = (props: Props) => {
   const { visible, gas, gasPrice, handleChange, toggleVisible } = props
   return (
     <div>
-      <Button minimal text="Show Gas Settings" onClick={toggleVisible} />
+      <ButtonMinimal onClick={toggleVisible}>Show Gas settings</ButtonMinimal>
+
       <Collapse isOpen={visible}>
-        <InputGroupBox>
-          <InputGroup type="number" placeholder="Gas" name="customGas" value={gas || ''} onChange={handleChange} />
-        </InputGroupBox>
-        <InputGroupBox>
-          <InputGroup
-            type="number"
-            placeholder="Gas Price"
-            name="customGasPrice"
-            value={gasPrice || ''}
-            onChange={handleChange}
-          />
-        </InputGroupBox>
+        <InputGroupWrapper type="number" placeholder="Gas" name="customGas" value={gas || ''} onChange={handleChange} />
+        <InputGroupWrapper
+          type="number"
+          placeholder="Gas Price"
+          name="customGasPrice"
+          value={gasPrice || ''}
+          onChange={handleChange}
+        />
       </Collapse>
     </div>
   )
 }
 
-const InputGroupBox = styled.div`
-  width: 200px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+const InputGroupWrapper = styled(InputGroup)`
+  margin: 5px 0 7px;
+  .bp3-input {
+    color: ${DarkMode.LIGHT_GRAY};
+    height: 40px;
+    background-color: ${DarkMode.BLACK};
+  }
+`
+
+const ButtonMinimal = styled.span`
+  display: inline-block;
+  cursor: pointer
+  &:hover {
+    color: ${DarkMode.ORANGE};
+  }
 `
 
 export default GasSettingsRenderer

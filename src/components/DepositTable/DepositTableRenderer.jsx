@@ -51,13 +51,14 @@ const DepositTableRenderer = (props: Props) => {
     openReceiveDialog,
     closeReceiveDialog,
     notifyCopiedSuccess,
+    openSendModal,
   } = props
   return (
     <React.Fragment>
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
-            <MarginButton>Send</MarginButton>
+            <MarginButton onClick={openSendModal}>Send</MarginButton>
             <MarginButton onClick={openReceiveDialog}>Receive</MarginButton>
 
             <CheckboxWrapper
