@@ -1,8 +1,30 @@
 {
-  "89": {
-    "BTC": "0x7FaCB8CBE39D06a1831D362eE48a4fAE4c427D66",
-    "ETH": "0x442B992b42f050aD76336A76c4d02a74d2EbA24B",
-    "USDT": "0x5c3C15FE028569e2Ac3ff9F98f889aEE4e508E8D",
-    "TOMOS": "0x6C2cc338Cf9140b97559878fAC68AA4D56fC7390"
-  }
+  "tokens": {
+    "0xb24feCDd8Ddc8254500a8Bb0B44b71E371D8A6F2": {
+      "name": "TOKEND",
+      "symbol": "TOKD",
+      "decimals": 18,
+      "makeFee": "30",
+      "takeFee": "1"
+    },
+    "0x182165Bfb6baD00870cf5772d0E02eb87159dec3": {
+      "name": "TOKENC",
+      "symbol": "TOKC",
+      "decimals": 18,
+      "makeFee": "30",
+      "takeFee": "1"
+    },
+    "0x8cE9ac46b3B67d53E16D868B9828d0B9ecc1387e": {
+      "name": "TOKENB",
+      "symbol": "TOB",
+      "decimals": 18,
+      "makeFee": "30",
+      "takeFee": "1"
+    }
+  },
+  "pairs": [
+    "TOKD/TOB",
+    "TOKD/TOKC",
+    "TOKC/TOKD"
+  ]
 }
