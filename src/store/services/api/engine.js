@@ -86,7 +86,7 @@ export const fetchPairs = async () => {
 
 export const fetchPair = async (baseToken: string, quoteToken: string) => {
   const response = await request(
-    `/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`
+    `/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`,
   )
   const { data, error } = await response.json()
 
@@ -111,7 +111,7 @@ export const fetchTomoBalance = async (address: string) => {
       symbol: NATIVE_TOKEN_SYMBOL,
       balance: utils.formatEther(utils.bigNumberify(balance)),
     }
-  } catch(e) {
+  } catch (e) {
     throw new Error(e)
   }
 }
@@ -120,19 +120,19 @@ export const fetchTokenBalances = async (address: string, tokens: Array<Token>) 
   try {
     const tokenRequests = tokens.map(token => {
       return request(`/account/${address}/${token.address}`)
-    })  
+    })
 
     const responses = await Promise.all(tokenRequests)
     const balances = []
 
     for (const response of responses) {
       const balanceData = await response.json()
-      const { data: {symbol, balance} } = balanceData
+      const { data: { symbol, balance } } = balanceData
 
       balances.push({ symbol, balance: utils.formatEther(utils.bigNumberify(balance)) })
     }
     return balances
-  } catch(e) {
+  } catch (e) {
     throw new Error(e)
   }
 }
@@ -189,10 +189,10 @@ export const fetchOrderPositions = async (address: string) => {
 
 export const fetchTokenPairTrades = async (
   baseToken: string,
-  quoteToken: string
+  quoteToken: string,
 ) => {
   const response = await request(
-    `/trades/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`
+    `/trades/pair?baseToken=${baseToken}&quoteToken=${quoteToken}`,
   )
   const { data, error } = await response.json()
 
@@ -226,7 +226,7 @@ export const fetchAddressTrades = async (address: string) => {
 
 export const fetchOrderBook = async (baseToken: string, quoteToken: string) => {
   const response = await request(
-    `/orderbook?baseToken=${baseToken}&quoteToken=${quoteToken}`
+    `/orderbook?baseToken=${baseToken}&quoteToken=${quoteToken}`,
   )
   const { data, error } = await response.json()
 
@@ -243,10 +243,10 @@ export const fetchOrderBook = async (baseToken: string, quoteToken: string) => {
 
 export const fetchRawOrderBook = async (
   baseToken: string,
-  quoteToken: string
+  quoteToken: string,
 ) => {
   const response = await request(
-    `/orderbook/raw?baseToken=${baseToken}&quoteToken=${quoteToken}`
+    `/orderbook/raw?baseToken=${baseToken}&quoteToken=${quoteToken}`,
   )
 
   const { data, error } = await response.json()
@@ -265,14 +265,14 @@ export const fetchRawOrderBook = async (
 export const generateDepositAddress = async (
   chain: string,
   userAddress: string,
-  pairAddresses: PairAddresses
+  pairAddresses: PairAddresses,
 ) => {
   const response = await request(
     `/deposit/generate-address?chain=${chain}&userAddress=${userAddress}`,
     {
       body: JSON.stringify(pairAddresses),
       method: 'POST',
-    }
+    },
   )
 
   const { data, error } = await response.json()
@@ -354,6 +354,22 @@ export const createAccount = async (address: string) => {
 //   return data
 // }
 
+export const getOrderCountByAddress = async (address: string): Promise<number> => {
+  const response = await request(`/orders/count?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
 export const getOrders = async (userAddress: string): Promise<Orders> => {
   const orders = await fetchOrders(userAddress)
   const parsedOrders = orders ? parseOrders(orders) : []
@@ -362,7 +378,7 @@ export const getOrders = async (userAddress: string): Promise<Orders> => {
 
 export const getTrades = async (
   baseToken: string,
-  quoteToken: string
+  quoteToken: string,
 ): Promise<Trades> => {
   const trades = await fetchTokenPairTrades(baseToken, quoteToken)
   const parsedTrades = parseTrades(trades)
@@ -379,7 +395,7 @@ export const getTradesByAddress = async (userAddress: string): Promise<Trades> =
 
 export const getOrderBookData = async (
   baseToken: string,
-  quoteToken: string
+  quoteToken: string,
 ) => {
   const orderbook = await fetchOrderBook(baseToken, quoteToken)
   const { asks, bids } = parseOrderBookData(orderbook)

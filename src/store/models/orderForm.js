@@ -69,7 +69,7 @@ export default function getOrderFormSelector(state: State) {
 }
 
 export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAction => {
-  return async (dispatch, getState, { socket }) => {
+  return async (dispatch, getState, { socket, api }) => {
     try {
       const state = getState()
       const tokenPairsDomain = getTokenPairsDomain(state)
@@ -90,6 +90,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
 
       const signer = getSigner()
       const userAddress = await signer.getAddress()
+      const orderCount = await api.getOrderCountByAddress(userAddress)
 
       const params = {
         side,
@@ -100,6 +101,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
         price,
         makeFee,
         takeFee,
+        orderCount,
       }
 
       const pairMultiplier = utils.bigNumberify(10).pow(18 + baseTokenDecimals)

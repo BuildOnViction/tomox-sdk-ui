@@ -1,296 +1,98 @@
 {
-  "8888": {
-    "ZRX": {
-      "url": "",
-      "meta": null
-    },
-    "MKR": {
-      "url": "",
-      "meta": null
-    },
-    "BAT": {
-      "url": "",
-      "meta": null
-    },
-    "REP": {
-      "url": "",
-      "meta": null
-    },
-    "BTM": {
-      "url": "",
-      "meta": null
-    },
-    "NPXS": {
-      "url": "",
-      "meta": null
-    },
-    "OMG": {
-      "url": "",
-      "meta": null
-    },
-    "WTC": {
-      "url": "",
-      "meta": null
-    },
-    "KCS": {
-      "url": "",
-      "meta": null
-    },
-    "GNT": {
-      "url": "",
-      "meta": null
-    },
-    "TRX": {
-      "url": "",
-      "meta": null
-    },
-    "TOMO": {
-      "url": "https://tomochain.com/file/2018/08/logo.png",
-      "meta": null
-    },
-    "PPT": {
-      "url": "",
-      "meta": null
-    },
-    "SNT": {
-      "url": "",
-      "meta": null
-    },
-    "FUN": {
-      "url": "",
-      "meta": null
-    },
-    "MITH": {
-      "url": "",
-      "meta": null
-    },
-    "AE": {
-      "url": "",
-      "meta": null
-    },
-    "LRC": {
-      "url": "",
-      "meta": null
-    },
-    "KNC": {
-      "url": "",
-      "meta": null
-    },
-    "LOOM": {
-      "url": "",
-      "meta": null
-    },
-    "WETH": {
-      "url": "",
-      "meta": null
-    },
-    "DAI": {
-      "url": "",
-      "meta": null
-    },
-    "DGX": {
-      "url": "",
-      "meta": null
-    },
-    "AION": {
-      "url": "",
-      "meta": null
-    }
+  "ZRX": {
+    "url": "",
+    "meta": null
   },
-  "88": {
-    "ZRX": {
-      "url": "",
-      "meta": null
-    },
-    "MKR": {
-      "url": "",
-      "meta": null
-    },
-    "BAT": {
-      "url": "",
-      "meta": null
-    },
-    "REP": {
-      "url": "",
-      "meta": null
-    },
-    "BTM": {
-      "url": "",
-      "meta": null
-    },
-    "NPXS": {
-      "url": "",
-      "meta": null
-    },
-    "OMG": {
-      "url": "",
-      "meta": null
-    },
-    "WTC": {
-      "url": "",
-      "meta": null
-    },
-    "KCS": {
-      "url": "",
-      "meta": null
-    },
-    "GNT": {
-      "url": "",
-      "meta": null
-    },
-    "TRX": {
-      "url": "",
-      "meta": null
-    },
-    "TOMO": {
-      "url": "https://tomochain.com/file/2018/08/logo.png",
-      "meta": null
-    },
-    "PPT": {
-      "url": "",
-      "meta": null
-    },
-    "SNT": {
-      "url": "",
-      "meta": null
-    },
-    "FUN": {
-      "url": "",
-      "meta": null
-    },
-    "MITH": {
-      "url": "",
-      "meta": null
-    },
-    "AE": {
-      "url": "",
-      "meta": null
-    },
-    "LRC": {
-      "url": "",
-      "meta": null
-    },
-    "KNC": {
-      "url": "",
-      "meta": null
-    },
-    "LOOM": {
-      "url": "",
-      "meta": null
-    },
-    "WETH": {
-      "url": "",
-      "meta": null
-    },
-    "DAI": {
-      "url": "",
-      "meta": null
-    },
-    "DGX": {
-      "url": "",
-      "meta": null
-    },
-    "AION": {
-      "url": "",
-      "meta": null
-    }
+  "MKR": {
+    "url": "",
+    "meta": null
   },
-  "89": {
-    "ZRX": {
-      "url": "",
-      "meta": null
-    },
-    "MKR": {
-      "url": "",
-      "meta": null
-    },
-    "BAT": {
-      "url": "",
-      "meta": null
-    },
-    "REP": {
-      "url": "",
-      "meta": null
-    },
-    "BTM": {
-      "url": "",
-      "meta": null
-    },
-    "NPXS": {
-      "url": "",
-      "meta": null
-    },
-    "OMG": {
-      "url": "",
-      "meta": null
-    },
-    "WTC": {
-      "url": "",
-      "meta": null
-    },
-    "KCS": {
-      "url": "",
-      "meta": null
-    },
-    "GNT": {
-      "url": "",
-      "meta": null
-    },
-    "TRX": {
-      "url": "",
-      "meta": null
-    },
-    "TOMO": {
-      "url": "https://tomochain.com/file/2018/08/logo.png",
-      "meta": null
-    },
-    "PPT": {
-      "url": "",
-      "meta": null
-    },
-    "SNT": {
-      "url": "",
-      "meta": null
-    },
-    "FUN": {
-      "url": "",
-      "meta": null
-    },
-    "MITH": {
-      "url": "",
-      "meta": null
-    },
-    "AE": {
-      "url": "",
-      "meta": null
-    },
-    "LRC": {
-      "url": "",
-      "meta": null
-    },
-    "KNC": {
-      "url": "",
-      "meta": null
-    },
-    "LOOM": {
-      "url": "",
-      "meta": null
-    },
-    "WETH": {
-      "url": "",
-      "meta": null
-    },
-    "DAI": {
-      "url": "",
-      "meta": null
-    },
-    "DGX": {
-      "url": "",
-      "meta": null
-    },
-    "AION": {
-      "url": "",
-      "meta": null
-    }
+  "BAT": {
+    "url": "",
+    "meta": null
+  },
+  "REP": {
+    "url": "",
+    "meta": null
+  },
+  "BTM": {
+    "url": "",
+    "meta": null
+  },
+  "NPXS": {
+    "url": "",
+    "meta": null
+  },
+  "OMG": {
+    "url": "",
+    "meta": null
+  },
+  "WTC": {
+    "url": "",
+    "meta": null
+  },
+  "KCS": {
+    "url": "",
+    "meta": null
+  },
+  "GNT": {
+    "url": "",
+    "meta": null
+  },
+  "TRX": {
+    "url": "",
+    "meta": null
+  },
+  "TOMO": {
+    "url": "https://tomochain.com/file/2018/08/logo.png",
+    "meta": null
+  },
+  "PPT": {
+    "url": "",
+    "meta": null
+  },
+  "SNT": {
+    "url": "",
+    "meta": null
+  },
+  "FUN": {
+    "url": "",
+    "meta": null
+  },
+  "MITH": {
+    "url": "",
+    "meta": null
+  },
+  "AE": {
+    "url": "",
+    "meta": null
+  },
+  "LRC": {
+    "url": "",
+    "meta": null
+  },
+  "KNC": {
+    "url": "",
+    "meta": null
+  },
+  "LOOM": {
+    "url": "",
+    "meta": null
+  },
+  "WETH": {
+    "url": "",
+    "meta": null
+  },
+  "DAI": {
+    "url": "",
+    "meta": null
+  },
+  "DGX": {
+    "url": "",
+    "meta": null
+  },
+  "AION": {
+    "url": "",
+    "meta": null
   }
 }
