@@ -2,7 +2,6 @@
 import { connect } from 'react-redux'
 import getWalletPageSelector, {
   queryAccountData,
-  toggleAllowance,
   redirectToTradingPage,
 } from '../../store/models/walletPage'
 import { copyDataSuccess } from '../../store/models/app'
@@ -22,7 +21,6 @@ export function mapStateToProps(state: State) {
 export const mapDispatchToProps = {
   queryAccountData,
   removeNotification,
-  toggleAllowance,
   redirectToTradingPage,
   closeHelpModal,
   copyDataSuccess,
