@@ -18,6 +18,7 @@ import { withRouter } from 'react-router-dom'
 import type { TokenData, Symbol } from '../../types/tokens'
 // import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import tickUrl from '../../assets/images/tick.svg'
+import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
 
 type Props = {
   connected: boolean,
@@ -58,8 +59,14 @@ const DepositTableRenderer = (props: Props) => {
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
-            <MarginButton onClick={openSendModal}>Send</MarginButton>
-            <MarginButton onClick={openReceiveDialog}>Receive</MarginButton>
+            <MarginButton onClick={openSendModal}>
+              <DoubleArrowsUpIcon src={doubleArrowsUpUrl} alt="Send icon"></DoubleArrowsUpIcon>
+              Send
+            </MarginButton>
+            <MarginButton onClick={openReceiveDialog}>
+              <DoubleArrowsDownIcon src={doubleArrowsUpUrl} alt="Receive icon"></DoubleArrowsDownIcon>
+              Receive
+            </MarginButton>
 
             <CheckboxWrapper
               label="Hide zero amounts"
@@ -391,6 +398,8 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
 `
 
 const MarginButton = styled(OperationButton)`
+  display: flex;
+  justify-content: center;
   margin-right: 25px;
 `
 
@@ -494,6 +503,14 @@ const ScanQRTitle = styled(Title)`
 const QRImage = styled.div`
   text-align: center;
   margin-bottom: 30px;
+`
+
+const DoubleArrowsUpIcon = styled.img`
+  margin-right: 10px;
+`
+
+const DoubleArrowsDownIcon = styled(DoubleArrowsUpIcon)`
+  transform: rotate(180deg);
 `
 
 export default withRouter(DepositTableRenderer)
