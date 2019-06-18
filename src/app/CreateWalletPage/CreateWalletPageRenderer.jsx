@@ -341,6 +341,7 @@ const DialogPrivateKey = (props) => {
 
   return (
     <Dialog
+      className="dark-dialog sm"
       onClose={onClose}
       title="Your Private Key"
       isOpen={isOpenPrivateKeyDialog}
@@ -504,7 +505,7 @@ const LinkWrapper = styled(Link)`
 
 const Paragraph = styled.p`
   text-align: ${props => props.textAlign? props.textAlign : 'left'};
-  margin-bottom: 35px;
+  margin-bottom: 15px;
 `
 
 const ConfirmMnemonicWrapper = styled.div`
@@ -539,13 +540,15 @@ const MnemonicTag = styled.span`
 
 const DialogBody = styled.div.attrs({
   className: Classes.DIALOG_BODY,
-})``
+})`
+  margin: 0;
+`
 
 const PrivateKeyBox = styled.div`
   word-break: break-all;
   font-size: ${Theme.FONT_SIZE_LG};
   font-weight: 600;
-  color: ${DarkMode.BLACK};
+  color: ${DarkMode.LIGHT_GRAY};
   border: 1px dashed ${DarkMode.LIGHT_GRAY};
   padding: 25px;
 `

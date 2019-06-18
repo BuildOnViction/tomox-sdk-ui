@@ -1,14 +1,16 @@
 //@flow
-import React from 'react';
-import { Button, MenuItem } from '@blueprintjs/core';
-import { Select } from '@blueprintjs/select';
-import HighlightText from '../Common/HighlightText';
+import React from 'react'
+import styled from 'styled-components'
+import { Button, MenuItem } from '@blueprintjs/core'
+import { Select } from '@blueprintjs/select'
+import HighlightText from '../Common/HighlightText'
+import { DarkMode } from '../Common'
 
 type Props = {
   items: Array<Object>,
   item: Object,
   onChange: (SyntheticEvent<>) => void
-};
+}
 
 const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
   return (
@@ -21,25 +23,24 @@ const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
       onItemSelect={onChange}
       popoverProps={{ minimal: true }}
     >
-      <Button
+      <ButtonWrapper
         text={item ? `${item.symbol}` : '(No selection)'}
-        righticonname="double-caret-vertical"
+        rightIcon="caret-down"
         fill={true}
-        intent="primary"
       />
     </Select>
-  );
-};
+  )
+}
 
 const filterItem = (query, item) => {
-  return `${item.symbol}`.indexOf(query.toUpperCase()) > -1;
-};
+  return `${item.symbol}`.indexOf(query.toUpperCase()) > -1
+}
 
 const renderItem = (item, { handleClick, modifiers, query }) => {
   if (!modifiers.matchesPredicate) {
-    return null;
+    return null
   }
-  const text = `${item.rank}. ${item.symbol}`;
+  const text = `${item.rank}. ${item.symbol}`
   return (
     <MenuItem
       active={modifiers.active}
@@ -49,7 +50,13 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
       onClick={handleClick}
       text={<HighlightText text={text} query={query} />}
     />
-  );
-};
+  )
+}
 
-export default TokenSelectRenderer;
+export default TokenSelectRenderer
+
+const ButtonWrapper = styled(Button)`
+  height: 40px;
+  border-radius: 0;
+  background: ${DarkMode.BLACK} !important;
+`

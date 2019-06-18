@@ -13,41 +13,6 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-describe('updateAllowance', () => {
-  let allowance
-  let address
-  let approve = jest.fn()
-  let contractMock = jest.fn(() => ({ approve }))
-
-  beforeEach(() => {
-    Contract.mockImplementation(contractMock)
-    let signerMock = 'test Signer'
-    signerService.getSigner.mockImplementation(() => signerMock)
-    utils.formatEther.mockReturnValue(1000)
-    address = '0x4dc5790733b997f3db7fc49118ab013182d6ba9b'
-  })
-
-  // it('loads the current provider', async () => {
-  //   await accountBalancesService.queryTomoBalance(address);
-  //   expect(signerService.getProvider).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('the provider returns the current ether balance', async () => {
-  //   await accountBalancesService.queryTomoBalance(address);
-  //
-  //   expect(getBalance).toHaveBeenCalledTimes(1);
-  //   expect(getBalance).toHaveBeenCalledWith('0x4dc5790733b997f3db7fc49118ab013182d6ba9b');
-  // });
-  //
-  // it('returns the formatted ether balance', async () => {
-  //   let result = await accountBalancesService.queryTomoBalance(address);
-  //
-  //   expect(utils.formatEther).toHaveBeenCalledTimes(1);
-  //   expect(utils.formatEther).toHaveBeenCalledWith('test getBalance');
-  //   expect(result).toEqual({ symbol: 'TOMO', balance: 1000 });
-  // });
-})
-
 describe('queryTomoBalance', () => {
   let getBalance
   let providerMock
@@ -138,67 +103,6 @@ describe('queryBalances', () => {
     expect(contractMock.mock.calls[0][2]).toEqual(providerMock)
 
     expect(result).toEqual([{ symbol: 'REQ', balance: 1000 }, { symbol: 'WETH', balance: 2000 }])
-  })
-})
-
-describe('queryTokenAllowances', () => {
-  let allowance
-  let providerMock,
-    contractMock,
-    exchangeAddress = '0xfb7b0fec4c692e1b9b53dab95083d1ee63751ccd'
-  let tokens, address
-
-  beforeEach(() => {
-    allowance = jest.fn()
-    contractMock = jest.fn(() => ({ allowance }))
-    providerMock = 'test provider'
-    signerService.getProvider.mockImplementation(() => providerMock)
-    Contract.mockImplementation(contractMock)
-
-    address = '0x4dc5790733b997f3db7fc49118ab013182d6ba9b'
-    tokens = [
-      { symbol: 'REQ', address: '0x6e9a406696617ec5105f9382d33ba3360fcfabcc' },
-      { symbol: 'WETH', address: '0x44809695706c252435531029b1e9d7d0355d475f' }
-    ]
-  })
-
-  it('loads the current provider', async () => {
-    await accountBalancesService.queryTokenAllowances(address, exchangeAddress, tokens)
-    expect(signerService.getProvider).toHaveBeenCalledTimes(1)
-  })
-
-  it('the provider returns the current ether balance', async () => {
-    await accountBalancesService.queryTokenAllowances(address, exchangeAddress, tokens)
-
-    expect(contractMock).toHaveBeenCalledTimes(2)
-    expect(contractMock.mock.calls[0][0]).toEqual('0x6e9a406696617ec5105f9382d33ba3360fcfabcc')
-    expect(contractMock.mock.calls[0][1]).toEqual('test ERC20Token abi')
-    expect(contractMock.mock.calls[0][2]).toEqual(providerMock)
-
-    expect(allowance).toHaveBeenCalledTimes(2)
-    expect(contractMock.mock.calls[1][0]).toEqual('0x44809695706c252435531029b1e9d7d0355d475f')
-    expect(contractMock.mock.calls[1][1]).toEqual('test ERC20Token abi')
-    expect(contractMock.mock.calls[1][2]).toEqual(providerMock)
-  })
-
-  it('returns the formatted token balances', async () => {
-    allowance.mockReturnValueOnce(Promise.resolve('test REQ balance'))
-    allowance.mockReturnValueOnce(Promise.resolve('test WETH balance'))
-    utils.formatEther.mockReturnValueOnce(1000)
-    utils.formatEther.mockReturnValueOnce(2000)
-
-    let result = await accountBalancesService.queryTokenAllowances(address, exchangeAddress, tokens)
-
-    expect(utils.formatEther).toHaveBeenCalledTimes(2)
-    expect(utils.formatEther.mock.calls[0][0]).toEqual('test REQ balance')
-    expect(utils.formatEther.mock.calls[1][0]).toEqual('test WETH balance')
-
-    expect(contractMock).toHaveBeenCalledTimes(2)
-    expect(contractMock.mock.calls[0][0]).toEqual('0x6e9a406696617ec5105f9382d33ba3360fcfabcc')
-    expect(contractMock.mock.calls[0][1]).toEqual('test ERC20Token abi')
-    expect(contractMock.mock.calls[0][2]).toEqual(providerMock)
-
-    expect(result).toEqual([{ symbol: 'REQ', allowance: 1000 }, { symbol: 'WETH', allowance: 2000 }])
   })
 })
 

@@ -13,6 +13,7 @@ import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision } from '../../config/tokens'
 import checkmarkUrl from '../../assets/images/checked.svg'
+import FundsTable from '../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -28,7 +29,7 @@ type Props = {
     CANCELLED: Array<Order>,
     FILLED: Array<Order>
   }
-};
+}
 
 const widthColumns = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '12%', '10%', '10%', '15%', '10%', '15%']
@@ -94,6 +95,9 @@ const OrdersTableRenderer = (props: Props) => {
         <Tab
           id="funds"
           title="Funds"
+          panel={
+            <FundsTable />
+          }
         />
       </TabsContainer>
     </React.Fragment>
@@ -320,24 +324,24 @@ const TabsContainer = styled(Tabs)`
 
 const ListContainer = styled.div`
   height: 100%;
-`;
+`
 const ListBodyWrapper = styled.ul`
   width: 100%;
   margin: 0;
   overflow-y: auto;
-`;
+`
 const ListHeader = styled.li`
   width: 100%;
   display: flex;
   margin: 0px !important;
   padding: 10px;
   text-align: left;
-`;
+`
 
 const Row = styled.li``
 
 const Cell = styled.span.attrs({
-  className: props => props.className
+  className: props => props.className,
 })`
   color: ${props =>
     props.side === 'BUY'
@@ -359,7 +363,7 @@ const Cell = styled.span.attrs({
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
-`;
+`
 
 const CancelIcon = styled(Icon)`
   cursor: pointer;
@@ -388,4 +392,4 @@ const CheckboxHidePairs = styled(Checkbox)`
   }
 `
 
-export default OrdersTableRenderer;
+export default OrdersTableRenderer

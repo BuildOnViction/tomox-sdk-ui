@@ -135,6 +135,10 @@
   .bp3-button.bp3-minimal:hover{
     background: $tm-black;
   }
+
+  &.sm {
+    min-width: 450px;
+  }
 }
 
 .hd-path-tooltip-wrapper,

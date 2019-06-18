@@ -33,6 +33,8 @@ const WalletPageRenderer = (props: Props) => {
     isHelpModalOpen,
     closeHelpModal,
     balancesLoading,
+    accountAddress,
+    copyDataSuccess,
   } = props
 
   return (
@@ -48,6 +50,8 @@ const WalletPageRenderer = (props: Props) => {
             quoteTokens={quoteTokens}
             toggleAllowance={toggleAllowance}
             redirectToTradingPage={redirectToTradingPage}
+            accountAddress={accountAddress}
+            copyDataSuccess={copyDataSuccess}
           />
         )}
       </WalletPageContentBox>

@@ -2,6 +2,7 @@
 import { 
   getAccountDomain,
   getWebsocketDomain,
+  getTokenPairsDomain,
 } from '../domains'
 import * as notifierActionCreators from '../actions/app'
 import { parseQueryMarketDataError } from '../../config/errors'
@@ -11,10 +12,12 @@ import type { State, ThunkAction } from '../../types'
 export default function marketsPageSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const webSocketDomain = getWebsocketDomain(state)
+  const smallChartsData = getTokenPairsDomain(state).getSmallChartsData()
 
   return {
     authenticated: accountDomain.authenticated(),
     webSocketIsOpened: webSocketDomain.isOpened(),
+    smallChartsData,
   }
 }
 
