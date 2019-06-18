@@ -32,18 +32,14 @@ class MarketsPage extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      connected,
-      pairs,
-      quoteTokens,
       loading,
+      smallChartsData,
     } = this.props
 
     return (
       <MarketsPageRenderer
-        pairs={pairs}
-        quoteTokens={quoteTokens}
-        connected={connected}
         loading={loading}
+        smallChartsData={smallChartsData}
       />
     )
   }

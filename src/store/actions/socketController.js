@@ -50,6 +50,7 @@ const actionTypes = {
   updateOrderBook: 'socketController/UPDATE_ORDERBOOK',
 
   updateTokenPairData: 'socketController/UPDATE_TOKEN_PAIR_DATA',
+  updateSmallChartsData: 'socketController/UPDATE_SMALL_CHARTS_DATA',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -199,6 +200,13 @@ export function updateTokenPairData(tokenPairData: TokenPairs): UpdateTokenPairD
   return {
     type: actionTypes.updateTokenPairData,
     payload: { tokenPairData },
+  }
+}
+
+export function updateSmallChartsData(smallChartsData: Object) {
+  return {
+    type: actionTypes.updateSmallChartsData,
+    payload: { smallChartsData },
   }
 }
 

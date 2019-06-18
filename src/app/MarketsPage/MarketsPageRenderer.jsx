@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import { formatNumber } from 'accounting-js'
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import MarketsTable from '../../components/MarketsTable'
 import LineChart from '../../components/LineChart/LineChart'
@@ -8,39 +9,13 @@ import { SmallText } from '../../components/Common'
 
 type Props = {
   loading: boolean,
+  smallChartsData: Object,
 }
-
-// Todo: remove when have real data
-const fakeTokens = [
-  {
-    token: 'BTC',
-    change: 2.09,
-    price: '3,973',
-    volume: '9,427',
-  },
-  {
-    token: 'ETH',
-    change: -2.58,
-    price: '138.69',
-    volume: '4,697',
-  },
-  {
-    token: 'XRP',
-    change: 1.82,
-    price: '0.31',
-    volume: '2,697',
-  },
-  {
-    token: 'TOMO',
-    change: 2.01,
-    price: '2,65',
-    volume: '5,697',
-  },
-]
 
 const MarketsPageRenderer = (props: Props) => {
   const {
     loading,
+    smallChartsData,
   } = props
 
   return (
@@ -51,8 +26,9 @@ const MarketsPageRenderer = (props: Props) => {
         <React.Fragment>
           <StatsWrapper>
             {
-              fakeTokens.map((token, index) => {
-                return (<StatsBox key={index} {...token} />)
+              smallChartsData &&
+              smallChartsData.map((coin, index) => {
+                return (<StatsBox key={index} {...coin} />)
               })
             }
           </StatsWrapper>
@@ -64,18 +40,18 @@ const MarketsPageRenderer = (props: Props) => {
   )
 }
 
-const StatsBox = ({token, change, price, volume}) => {
+const StatsBox = ({code, change, price, volume, data}) => {
   return (
     <StatsContent>
       <StatsInfo>
-        <StatsTitle>{token} Index</StatsTitle>
+        <StatsTitle>{code} Index</StatsTitle>
         <StatsChange color={change >=0 ? '#00C38C' : '#f94d5c'}>
-          <SmallText>{change > 0 ? `+${change}` : change}%</SmallText>
+          <SmallText>{change > 0 ? `+${formatNumber(change, { precision: 2 })}` : formatNumber(change, { precision: 2 })}%</SmallText>
         </StatsChange>
-        <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{price} USD</StatsPrice>
-        <StatsVolume><SmallText muted>Volume:</SmallText> <SmallText>{volume}</SmallText></StatsVolume>
+        <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{formatNumber(price, { precision: 2 })} USD</StatsPrice>
+        {/* <StatsVolume><SmallText muted>Volume:</SmallText> <SmallText>{volume}</SmallText></StatsVolume> */}
       </StatsInfo>
-      <LineChart />
+      <LineChart data={data} code={code} />
     </StatsContent>
   )
 }
@@ -125,7 +101,7 @@ const StatsChange = styled(StatsCell)`
 
 const StatsPrice = styled(StatsCell)``
 
-const StatsVolume = styled(StatsCell)``
+// const StatsVolume = styled(StatsCell)``
 
 const WalletPageBox = styled.div`
   display: flex;

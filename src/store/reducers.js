@@ -315,6 +315,8 @@ export const tokenPairs = createReducerPersist({
     case marketsPageActionTypes.updateTokenPairData:
     case socketControllerActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
+    case socketControllerActionTypes.updateSmallChartsData:
+      return tokenPairsEvents.updateSmallChartsData(payload.smallChartsData)
     case marketsTableActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tokenPairsActionsTypes.updateCurrentPairData:

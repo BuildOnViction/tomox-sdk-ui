@@ -1,8 +1,10 @@
 import React from 'react'
-import { ResponsiveContainer, LineChart, Line } from 'recharts'
+import { ResponsiveContainer, LineChart, Line, YAxis } from 'recharts'
 
 const LineChartRenderer = ({ data, colors }) => {
-  const timestamp = new Date().getUTCMilliseconds();
+  const dataMin = +data[0].price
+  const dataMax = +data[data.length - 1].price
+  const timestamp = new Date().getUTCMilliseconds()
 
   return (
     <ResponsiveContainer width='100%' height='60%'>
@@ -15,7 +17,8 @@ const LineChartRenderer = ({ data, colors }) => {
           </linearGradient>
         </defs>
 
-        <Line id={new Date().getTime().toString()} type="basis" dataKey="price" stroke={`url(#${timestamp}`} dot={false} />
+        <YAxis hide={true} type="number" domain={[dataMin, dataMax]} />
+        <Line type="basis" id={new Date().getTime().toString()} dataKey="price" stroke={`url(#${timestamp}`} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   )
