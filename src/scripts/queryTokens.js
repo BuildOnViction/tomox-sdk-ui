@@ -5,6 +5,8 @@ const utils = require('ethers').utils
 const {providers, Contract} = require('ethers')
 
 const {Token, RelayerRegistration} = require('../utils/abis')
+const NATIVE_TOKEN_SYMBOL = 'TOMO'
+const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001'
 
 const coinbaseAddress = process.env.COINBASE_ADDRESS
 const relayerRegistrationContractAddress = process.env.RELAYER_REGISTRATION_CONTRACT_ADDRESS
@@ -78,6 +80,14 @@ const queryRelayerRegistrationContract = async () => {
 
     // Pair will have the format "ETH/TOMO" for example
     result.pairs.push(`${result.tokens[normalizedFromToken].symbol}/${result.tokens[normalizedToToken].symbol}`)
+  }
+
+  for (const address in result.tokens) {
+    if (result.tokens[address].symbol === NATIVE_TOKEN_SYMBOL) {
+      result.tokens[NATIVE_TOKEN_ADDRESS] = result.tokens[address]
+      delete result.tokens[address]
+      break
+    }
   }
 
   console.log(result)
