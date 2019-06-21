@@ -117,6 +117,19 @@ export const queryTradingPageData = (): ThunkAction => {
   }
 }
 
+export const releaseResources = (): ThunkAction => {
+  return async (dispatch, getState, { api, socket }) => {
+    try {
+      socket.unsubscribeChart()
+      socket.unsubscribeOrderBook()
+      socket.unsubscribeTrades()
+      socket.unSubscribePrice()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 export function toggleAllowances(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
   return async (dispatch, getState, { txProvider }) => {
     try {
