@@ -33,3 +33,15 @@ export function queryMarketData(): ThunkAction {
     }
   }
 }
+
+export function releaseResources(): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      socket.unSubscribeMarkets()
+    } catch (e) {
+      console.log(e)
+      const message = parseQueryMarketDataError(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message }))
+    }
+  }
+}

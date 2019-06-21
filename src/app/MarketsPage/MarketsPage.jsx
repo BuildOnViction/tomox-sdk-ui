@@ -30,6 +30,10 @@ class MarketsPage extends React.PureComponent<Props, State> {
     }
   }
 
+  componentWillUnmount() {
+    this.props.releaseResources()
+  }
+
   render() {
     const {
       loading,
