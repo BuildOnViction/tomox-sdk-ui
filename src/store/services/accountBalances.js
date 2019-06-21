@@ -82,7 +82,8 @@ export async function subscribeTokenBalance(
     }
   }
 
-  contract.ontransfer = handler
+  // contract.ontransfer = handler
+  contract.on("Transfer", handler)
 
   return () => {
     provider.removeListener(address, handler)
@@ -113,7 +114,8 @@ export async function subscribeTokenBalances(
 
     window.abi = ERC20
 
-    contract.ontransfer = handler
+    // contract.ontransfer = handler
+    contract.on("Transfer", handler)
     handlers.push(handler)
   })
 

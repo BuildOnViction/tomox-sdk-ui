@@ -1,20 +1,5 @@
 // @flow
-import type { AccountAllowance, AccountAllowances, AccountBalance, AccountBalances } from './accountBalances'
-
-export type UpdateAccountBalanceAction = {
-  type: 'walletPage/UPDATE_BALANCE',
-  payload: AccountBalance
-};
-
-export type UnsubscribeAccountBalanceAction = {
-  type: 'walletPage/UNSUBSCRIBE_BALANCE',
-  payload: { symbol: string }
-};
-
-export type UpdateAccountBalancesAction = {
-  type: 'walletPage/UPDATE_BALANCES',
-  payload: { balances: AccountBalances }
-};
+import type { AccountAllowance, AccountAllowances } from './accountBalances'
 
 export type UpdateAccountAllowanceAction = {
   type: 'walletPage/UPDATE_ALLOWANCE',
@@ -47,10 +32,7 @@ export type UpdateExchangeAddressAction = {
 
 export type WalletPageActions =
   | UpdateCurrentPairAction
-  | UpdateAccountBalanceAction
-  | UpdateAccountBalancesAction
   | UpdateAccountAllowanceAction
   | UpdateAccountAllowancesAction
-  | UnsubscribeAccountBalanceAction
   | UpdateTokenPairsAction
   | UpdateExchangeAddressAction;

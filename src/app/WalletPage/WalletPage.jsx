@@ -14,7 +14,6 @@ type Props = {
   gasPrice: number,
   gas: number,
   authenticated: boolean,
-  queryAccountData: void => void,
   redirectToTradingPage: string => void,
   openConnection: void => void,
   toggleAllowance: string => void,
@@ -24,16 +23,9 @@ type Props = {
   showHelpModal: boolean,
   closeHelpModal: void => void,
   balancesLoading: boolean,
-  WETHBalance: string,
-  WETHAllowance: string
 }
 
 class WalletPage extends React.PureComponent<Props> {
-  componentDidMount() {
-    const { authenticated, queryAccountData } = this.props
-
-    if (authenticated) queryAccountData()
-  }
 
   checkOpenHelpModal = () => {
     const showHelpModalSetting = loadShowHelpModalSetting()

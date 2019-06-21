@@ -7,34 +7,20 @@ import type { Symbol, TokenData } from '../../types/tokens'
 
 type Props = {
   connected: boolean,
-  toggleAllowance: Symbol => void,
   tokenData: Array<TokenData>,
   baseTokens: Array<Symbol>,
   quoteTokens: Array<Symbol>,
-  redirectToTradingPage: string => void,
 }
 
 type State = {
-  isDepositModalOpen: boolean,
-  isSendModalOpen: boolean,
-  isConvertModalOpen: boolean,
-  convertModalFromToken: string,
-  convertModalToToken: string,
-  selectedToken: ?TokenData,
   isHideZeroBalanceToken: boolean,
   searchInput: string,
 }
 
 class FundsTable extends React.PureComponent<Props, State> {
   state = {
-    isDepositModalOpen: false,
-    isSendModalOpen: false,
-    isConvertModalOpen: false,
-    selectedToken: null,
     isHideZeroBalanceToken: false,
     searchInput: '',
-    convertModalFromToken: NATIVE_TOKEN_SYMBOL,
-    isOpenReceiveDialog: false,
   }
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
