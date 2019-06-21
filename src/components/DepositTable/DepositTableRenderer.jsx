@@ -294,7 +294,7 @@ const ReceiveDialog = (props) => {
 
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
-    color: ${DarkMode.BLACK};
+    color: ${DarkMode.LIGHT_GRAY};
     min-width: 300px;
     background: ${DarkMode.BLACK};
     border-radius: 0;
