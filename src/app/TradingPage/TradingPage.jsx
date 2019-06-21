@@ -89,6 +89,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     }
   }
 
+  componentWillUnmount() {
+    this.props.releaseResources()
+  }
+
   checkIfCalloutRequired = () => {
     const {
       authenticated,
