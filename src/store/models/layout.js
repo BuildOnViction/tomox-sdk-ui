@@ -14,9 +14,11 @@ import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
-// import * as accountActionTypes from "../actions/account"
+import * as accountActionTypes from "../actions/account"
+import * as accountBalancesCreators from '../actions/accountBalances'
+import * as accountBalancesService from '../services/accountBalances'
 
-// import { getCurrentBlock } from "../services/wallet"
+import { getCurrentBlock } from "../services/wallet"
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
 
@@ -66,22 +68,24 @@ export function queryAppData(): ThunkAction {
         .concat(tokens)
         .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
 
-      // const currentBlock = await getCurrentBlock()
-      // if (!currentBlock) throw new Error("")
+      const currentBlock = await getCurrentBlock()
+      if (!currentBlock) throw new Error("")
 
       const pairs = await api.fetchPairs()
       const tokenPairData = await api.fetchTokenPairData()
+      const exchangeAddress = await api.getExchangeAddress()
       
       const availablePairs = tokenPairData.map(pairData => pairData.pair.pairName)
       currentPair = availablePairs.includes(currentPair) ? currentPair : availablePairs[0]
 
       dispatch(actionCreators.updateCurrentPair(currentPair))
-      // dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
+      dispatch(accountActionTypes.updateCurrentBlock(currentBlock))
       dispatch(actionCreators.updateTokenPairs(pairs))
+      dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
-          message: "Could not connect to Tomochain network"
+          message: "Could not connect to Tomochain network",
         })
       )
       console.log(e)
@@ -103,30 +107,34 @@ export function queryAccountData(): ThunkAction {
         .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
       if (!accountAddress) throw new Error('Account address is not set')
 
-      // const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
-      //   accountAddress
-      // )
-      const tomoBalance: TokenBalance = await api.fetchTomoBalance(accountAddress)
-      // const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
-      //   accountAddress,
-      //   tokens
-      // )
-      const tokenBalances: TokenBalances = await api.fetchTokenBalances(accountAddress, tokens)
-      // const allowances = await accountBalancesService.queryExchangeTokenAllowances(
-      //   accountAddress,
-      //   tokens
-      // )
+      const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
+        accountAddress
+      )
+      
+      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
+        accountAddress,
+        tokens
+      )
+
       const balances = [tomoBalance].concat(tokenBalances)
+      dispatch(accountBalancesCreators.updateBalances(balances))
 
-      dispatch(actionCreators.updateBalances(balances))
-      // dispatch(actionCreators.updateAllowances(allowances))
+      await accountBalancesService.subscribeTokenBalances(
+        accountAddress,
+        tokens,
+        balance => dispatch(accountBalancesCreators.updateBalance(balance))
+      )
 
-      // await accountBalancesService.subscribeTokenBalances(
-      //   accountAddress,
-      //   tokens,
-      //   balance => dispatch(actionCreators.updateBalance(balance))
-      // )
-
+      await accountBalancesService.subscribeTomoBalance(
+        accountAddress,
+        balance =>
+          dispatch(
+            accountBalancesCreators.updateBalance({
+              symbol: NATIVE_TOKEN_SYMBOL,
+              balance,
+            })
+          )
+      )
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({

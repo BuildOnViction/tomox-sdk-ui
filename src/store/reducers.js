@@ -80,21 +80,6 @@ export const accountBalances = createReducer(action => {
     case accountBalancesActionTypes.unsubscribeBalance:
       return accountBalancesEvents.unsubscribed(payload.symbol)
     case accountBalancesActionTypes.updateBalance:
-      return accountBalancesEvents.updated([
-        {
-          symbol: payload.symbol,
-          balance: payload.balance,
-          allowance: payload.allowance,
-        },
-      ])
-    case accountBalancesActionTypes.updateBalances:
-      return accountBalancesEvents.updated(payload.balances)
-    case accountBalancesActionTypes.clearBalances:
-      return accountBalancesEvents.cleared()
-    case depositFormActionTypes.subscribeBalance:
-      return accountBalancesEvents.subscribed(payload.symbol)
-    case depositFormActionTypes.unsubscribeBalance:
-      return accountBalancesEvents.unsubscribed(payload.symbol)
     case depositFormActionTypes.updateBalance:
       return accountBalancesEvents.updated([
         {
@@ -103,18 +88,15 @@ export const accountBalances = createReducer(action => {
           allowance: payload.allowance,
         },
       ])
+    case accountBalancesActionTypes.updateBalances:
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
-    case walletPageActionTypes.updateBalances:
-      return accountBalancesEvents.updated(payload.balances)
-    case walletPageActionTypes.updateBalance:
-      return accountBalancesEvents.updated([
-        {
-          symbol: payload.symbol,
-          balance: payload.balance,
-          allowance: payload.allowance,
-        },
-      ])
+    case accountBalancesActionTypes.clearBalances:
+      return accountBalancesEvents.cleared()
+    case depositFormActionTypes.subscribeBalance:
+      return accountBalancesEvents.subscribed(payload.symbol)
+    case depositFormActionTypes.unsubscribeBalance:
+      return accountBalancesEvents.unsubscribed(payload.symbol)
     case walletPageActionTypes.updateAllowances:
       return accountBalancesEvents.allowancesUpdated(payload.allowances)
     case walletPageActionTypes.updateAllowance:

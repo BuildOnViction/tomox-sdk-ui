@@ -8,8 +8,8 @@ import type {
   UpdateAccountAllowanceAction,
   UpdateAccountAllowancesAction,
   UpdateAccountBalanceAction,
-  UpdateAccountBalancesAction
-} from '../../types/accountBalances';
+  UpdateAccountBalancesAction,
+} from '../../types/accountBalances'
 
 
 
@@ -20,8 +20,8 @@ const actionTypes = {
   updateBalances: 'accountBalances/UPDATE_BALANCES',
   updateAllowances: 'accountBalances/UPDATE_ALLOWANCES',
   unsubscribeBalance: 'accountBalances/UNSUBSCRIBE_BALANCE',
-  clearBalances: 'accountBalances/CLEAR_BALANCES'
-};
+  clearBalances: 'accountBalances/CLEAR_BALANCES',
+}
 
 export function subscribeBalance(
   symbol: string
@@ -29,9 +29,9 @@ export function subscribeBalance(
   return {
     type: actionTypes.subscribeBalance,
     payload: {
-      symbol
-    }
-  };
+      symbol,
+    },
+  }
 }
 
 export function updateBalance(
@@ -44,9 +44,9 @@ export function updateBalance(
     payload: {
       symbol,
       balance,
-      allowance
-    }
-  };
+      allowance,
+    },
+  }
 }
 
 export function updateBalances(
@@ -55,9 +55,9 @@ export function updateBalances(
   return {
     type: actionTypes.updateBalances,
     payload: {
-      balances
-    }
-  };
+      balances,
+    },
+  }
 }
 
 export function updateAllowance(
@@ -90,15 +90,15 @@ export function unsubscribeBalance(
   return {
     type: actionTypes.unsubscribeBalance,
     payload: {
-      symbol
-    }
-  };
+      symbol,
+    },
+  }
 }
 
 export function clearBalances(): ClearAccountBalancesAction {
   return {
-    type: actionTypes.clearBalances
-  };
+    type: actionTypes.clearBalances,
+  }
 }
 
-export default actionTypes;
+export default actionTypes

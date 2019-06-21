@@ -21,10 +21,6 @@ type Props = {
   searchInput: string,
   handleSearchInputChange: (SyntheticEvent<>) => void,
   isHideZeroBalanceToken: boolean,
-  openDepositModal: string => void,
-  openConvertModal: (string, string) => void,
-  openSendModal: string => void,
-  toggleAllowance: Symbol => void,
   toggleZeroBalanceToken: void => void,
   redirectToTradingPage: string => void,
 }

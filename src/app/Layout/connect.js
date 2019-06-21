@@ -4,6 +4,7 @@ import layoutSelector, {
   createProvider,
   changeLocale,
   queryAppData,
+  queryAccountData,
 } from '../../store/models/layout'
 import type { State } from '../../types'
 import type { Props as LayoutProps } from './Layout'
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   createProvider,
   changeLocale,
   queryAppData,
+  queryAccountData,
   copyDataSuccess,
 }
 

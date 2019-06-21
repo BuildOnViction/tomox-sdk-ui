@@ -68,11 +68,23 @@ class Layout extends React.PureComponent<Props, State> {
 
 class Default extends React.PureComponent<Props, State> {
   componentDidMount() {
-    const { createProvider, queryAppData } = this.props
+    const { createProvider, authenticated, queryAppData, queryAccountData } = this.props
 
     queryAppData()
+
     if (createProvider) {
       createProvider()
+    }
+
+    if (authenticated) {
+      queryAccountData()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.authenticated !== this.props.authenticated
+      && this.props.authenticated) {
+        this.props.queryAccountData()
     }
   }
 
