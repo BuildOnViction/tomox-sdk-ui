@@ -7,12 +7,12 @@ import {
   Tabs,
   Checkbox,
 } from '@blueprintjs/core'
-import { Colors, Loading, CenteredMessage, DarkMode } from '../Common'
+import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
 import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision } from '../../config/tokens'
-import checkmarkUrl from '../../assets/images/checked.svg'
+import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
 
 type Props = {
@@ -171,8 +171,8 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumns[1]} title={order.pair} muted>
                 {order.pair}
@@ -237,8 +237,8 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
                 {order.pair}
@@ -292,8 +292,8 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
                 {order.pair}
@@ -370,25 +370,25 @@ const CancelIcon = styled(Icon)`
 `
 
 const CheckboxHidePairs = styled(Checkbox)`
+  font-size: ${Theme.FONT_SIZE_SM};
+  text-align: center;
+  margin-bottom: 0 !important;
   position: absolute;
   top: 2px;
   right: 10px;
   user-select: none;
 
   .bp3-control-indicator {
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 0 !important;
     box-shadow: none !important;
     background-image: none !important;
-    background-color: ${DarkMode.WHITE} !important;   
+  }
+
+  input:checked ~ .bp3-control-indicator {
+    background-color: ${DarkMode.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {
-    width: 12px !important;
-    height: 12px !important;
-    background: url(${checkmarkUrl}) no-repeat center center !important;
-    background-size: 8px 8px !important;
+    background: url(${tickUrl}) no-repeat center center !important;
   }
 `
 
