@@ -38,6 +38,9 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
   }
 
   scrollToBottom(id: String) {
+    const { bids, asks, currentPairData } = this.props
+
+    if (bids.length === 0 && asks.length === 0 && !currentPairData) return
     if (this.state.filter !== 'all') return
     const $listSell = document.getElementById(id)
     $listSell.scrollTop = $listSell.scrollHeight
@@ -72,6 +75,9 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       currentPairData,
       referenceCurrency,
     } = this.props
+
+    const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
+
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
@@ -90,56 +96,61 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           </FilterList>
         </OrderBookHeader>
 
-        <OrderBookContent className="order-book-content all">
-          {!bids && <Loading />}
+        {isNoItems && (<NoItems>No Orderbook for this token pair</NoItems>)}
 
-          <ListHeading className="list-header">
-            <HeaderRow>
-              <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
-              <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
-              <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
-            </HeaderRow>
-          </ListHeading>
+        {!isNoItems && 
+        (
+          <OrderBookContent className="order-book-content all">
+            {!bids && <Loading />}
 
-          <ListContent className="list-container">
-            {asks && (
-              <List className="bp3-list-unstyled list list-sell" id="list-sell">
-                {asks.map((order, index) => (
-                  <SellOrder 
-                    key={index} 
-                    order={order}
-                    pricePrecision={pricePrecision} 
-                    onClick={() => onSelect(order)} />
-                ))}
-              </List>
-            )}
+            <ListHeading className="list-header">
+              <HeaderRow>
+                <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
+                <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
+                <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
+              </HeaderRow>
+            </ListHeading>
 
-            {currentPairData && (
-              <LatestTick className="latest-tick">
-                <LatestPrice className="latest-price" width="67%">
-                  <CryptoPrice className="crypto">{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
-                  <CashPrice className="cash">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
-                </LatestPrice>
-                
-                <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
-                  {getChangePercentText(currentPairData.ticks[0].change)}
-                </PercentChange>             
-              </LatestTick>
-            )}
+            <ListContent className="list-container">
+              {asks && (
+                <List className="bp3-list-unstyled list list-sell" id="list-sell">
+                  {asks.map((order, index) => (
+                    <SellOrder 
+                      key={index} 
+                      order={order}
+                      pricePrecision={pricePrecision} 
+                      onClick={() => onSelect(order)} />
+                  ))}
+                </List>
+              )}
 
-            {bids && (
-              <List className="bp3-list-unstyled list list-buy" id="list-buy">
-                {bids.map((order, index) => (
-                  <BuyOrder 
-                    key={index} 
-                    order={order} 
-                    pricePrecision={pricePrecision}
-                    onClick={() => onSelect(order)}/>
-                ))}
-              </List>
-            )}
-          </ListContent>
-        </OrderBookContent>
+              {currentPairData && (
+                <LatestTick className="latest-tick">
+                  <LatestPrice className="latest-price" width="67%">
+                    <CryptoPrice className="crypto">{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
+                    <CashPrice className="cash">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
+                  </LatestPrice>
+                  
+                  <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
+                    {getChangePercentText(currentPairData.ticks[0].change)}
+                  </PercentChange>             
+                </LatestTick>
+              )}
+
+              {bids && (
+                <List className="bp3-list-unstyled list list-buy" id="list-buy">
+                  {bids.map((order, index) => (
+                    <BuyOrder 
+                      key={index} 
+                      order={order} 
+                      pricePrecision={pricePrecision}
+                      onClick={() => onSelect(order)}/>
+                  ))}
+                </List>
+              )}
+            </ListContent>
+          </OrderBookContent>
+        )}
       </Wrapper>
     )
   }
@@ -339,6 +350,14 @@ const PercentChange = styled.div.attrs({
   className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
 })`
   width: ${props => props.width? props.width : "35px"}
+`
+
+const NoItems = styled.div`
+  height: calc(100% - 50px);
+  display: flex;
+  padding-left: 10px;
+  justify-content: center;
+  align-items: center;
 `
 
 export default OrderBookRenderer
