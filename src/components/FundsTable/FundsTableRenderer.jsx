@@ -9,7 +9,7 @@ import {
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import type { TokenData, Symbol } from '../../types/tokens'
+import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 
 type Props = {
@@ -35,42 +35,38 @@ const FundsTableRenderer = (props: Props) => {
   } = props
   return (
     <Wrapper>
-      <TableSection>
-        <RowSpaceBetween style={{ marginBottom: '10px' }}>
-          <OperationButtonWrapper>
-            <CheckboxWrapper
-              label="Hide zero amounts"
-              checked={isHideZeroBalanceToken}  
-              onChange={toggleZeroBalanceToken} />
-          </OperationButtonWrapper>
-          
-          <SearchWrapper
-              type="string"
-              leftIcon="search"
-              placeholder="Search"
-              value={searchInput}
-              onChange={handleSearchInputChange}
-            />
-        </RowSpaceBetween>
-        <Table>
-          <TableHeader>
-            <TableHeaderCell width="25%"><MutedText>Coin</MutedText></TableHeaderCell>
-            <TableHeaderCell width="25%"><MutedText>Total</MutedText></TableHeaderCell>
-            <TableHeaderCell width="25%"><MutedText>Available amount</MutedText></TableHeaderCell>
-            <TableHeaderCell width="25%"><MutedText>In orders</MutedText></TableHeaderCell>
-          </TableHeader>
-        </Table>
-        <TableBodyContainer>
-          <Table>
-            <TableBody>
-              <TOMORow {...props} />
-              <QuoteTokenRows {...props} />
-              <BaseTokenRows {...props} />
-            </TableBody>
-          </Table>
-          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
-        </TableBodyContainer>
-      </TableSection>
+      <RowSpaceBetween style={{ marginBottom: '10px' }}>
+        <OperationButtonWrapper>
+          <CheckboxWrapper
+            label="Hide zero amounts"
+            checked={isHideZeroBalanceToken}  
+            onChange={toggleZeroBalanceToken} />
+        </OperationButtonWrapper>
+        
+        <SearchWrapper
+          type="string"
+          leftIcon="search"
+          placeholder="Search"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        />
+      </RowSpaceBetween>
+
+      <TableHeader>
+        <TableHeaderCell width="25%"><MutedText>Coin</MutedText></TableHeaderCell>
+        <TableHeaderCell width="25%"><MutedText>Total</MutedText></TableHeaderCell>
+        <TableHeaderCell width="25%"><MutedText>Available amount</MutedText></TableHeaderCell>
+        <TableHeaderCell width="25%"><MutedText>In orders</MutedText></TableHeaderCell>
+      </TableHeader>
+
+      <TableBodyContainer>
+        <TableBody>
+          <TOMORow {...props} />
+          <QuoteTokenRows {...props} />
+          <BaseTokenRows {...props} />
+        </TableBody>
+        {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
+      </TableBodyContainer>
     </Wrapper>
   )
 }
@@ -152,12 +148,13 @@ const BaseTokenRows = (props: Props) => {
 
 const Wrapper = styled.div`
   padding: 0 15px;
+  height: 100%;
 `
 
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
-    color: ${DarkMode.BLACK};
-    min-width: 300px;
+    color: ${DarkMode.LIGHT_GRAY};
+    max-width: 220px;
     background: ${DarkMode.BLACK};
     border-radius: 0;
     &:focus, 
@@ -165,12 +162,6 @@ const SearchWrapper= styled(InputGroup)`
       box-shadow: none;
     }
   }
-`
-
-const Table = styled.div.attrs({
-  className: 'bp3-html-table bp3-interactive bp3-html-table-striped',
-})`
-  width: 100%;
 `
 
 const TableHeader = styled.div`
@@ -193,19 +184,12 @@ const TableHeaderCell = styled.div`
 
 const TableBodyContainer = styled.div`
   width: 100%;
-  height: 80%;
+  height: calc(100% - 75px);
   overflow-y: auto;
 `
 
-const TableSection = styled.div`
-  display: flex;
-  justify-content: start;
-  flex-direction: column;
-  height: 100%;
-`
-
 const TableBody = styled.div`
-  height: calc(100% - 100px);
+  height: 100%;
   color: ${DarkMode.WHITE}
 `
 
@@ -221,7 +205,7 @@ const Cell = styled.div`
 const Row = styled.div`
   display: flex;
   width: 100%;
-  height: 35px;
+  height: 45px;
   padding: 0 20px;
 
   &:nth-child(2n+1) {
