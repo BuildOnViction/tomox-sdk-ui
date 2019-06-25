@@ -1,46 +1,29 @@
 import React from 'react'
 
 const SvgTomo = props => (
-  <svg width={props.width || 64} height={props.height || 64} {...props}>
+  <svg width={props.width || 64} height={props.height || 64}
+viewBox='0 0 436.39 436.39'>
     <defs>
-      <linearGradient id="ae_svg__c" x1="50%" x2="50%" y1="0%" y2="100%">
-        <stop offset="0%" stopColor="#FFF" stopOpacity={0.5} />
-        <stop offset="100%" stopOpacity={0.5} />
-      </linearGradient>
-      <circle id="ae_svg__b" cx={16} cy={15} r={15} />
-      <filter id="ae_svg__a" width="111.7%" height="111.7%" x="-5.8%" y="-4.2%" filterUnits="objectBoundingBox">
-        <feOffset dy={0.5} in="SourceAlpha" result="shadowOffsetOuter1" />
-        <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation={0.5} />
-        <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1" />
-        <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.199473505 0" />
-      </filter>
-      <path
-        id="ae_svg__e"
-        d="M9.752 10h.904c1.413.134 2.72.821 3.687 1.81 2.009 2.039 3.113 4.916 5.67 6.433 1.848 1.097 4.433.2 5.341-1.654.462-.008.927-.008 1.389-.006-.636 1.883-2.489 3.236-4.515 3.417h-.746c-1.247-.1-2.46-.564-3.403-1.366-1.37-1.123-2.25-2.664-3.315-4.036-.916-1.213-1.85-2.577-3.366-3.128-1.873-.679-4.16.383-4.843 2.187-.6 1.486-.112 3.328 1.23 4.28 1.006.752 2.407 1.033 3.615.595 1.342-.468 2.338-1.532 3.102-2.66.301.417.594.84.884 1.266-1.188 1.447-2.836 2.69-4.796 2.862h-.803C7.317 19.834 5.17 17.804 5 15.406v-.785c.16-2.393 2.28-4.447 4.752-4.621zm11.68 0h.75c2.493.157 4.613 2.228 4.818 4.626v1.23c-2.057.018-4.116.006-6.173.008.002-.36.002-.717 0-1.077 1.626-.004 3.25.007 4.873-.004-.115-.636-.264-1.287-.654-1.826-.95-1.404-2.959-1.978-4.565-1.37-1.28.46-2.244 1.466-2.987 2.54-.286-.397-.57-.8-.845-1.206 1.173-1.468 2.81-2.738 4.783-2.921z"
-      />
-      <filter id="ae_svg__d" width="115.9%" height="135%" x="-8%" y="-12.5%" filterUnits="objectBoundingBox">
-        <feOffset dy={0.5} in="SourceAlpha" result="shadowOffsetOuter1" />
-        <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation={0.5} />
-        <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.204257246 0" />
-      </filter>
+        <linearGradient id='linear-gradient' x1='28.34' y1='110.13' x2='393.32' y2='328.33' gradientUnits='userSpaceOnUse'>
+            <stop offset='0' stopColor='#ff694d' />
+            <stop offset='1' stopColor='#ffcc4d' />
+        </linearGradient>
+        <linearGradient id='linear-gradient-2' x1='30.73' y1='106.13' x2='395.71'
+        y2='324.32' xlinkHref='#linear-gradient' />
+        <linearGradient id='linear-gradient-3' x1='33.78' y1='101.69' x2='398.76'
+        y2='319.89' xlinkHref='#linear-gradient' />
     </defs>
-    <g fill="none" fillRule="evenodd">
-      <use fill="#000" filter="url(#ae_svg__a)" xlinkHref="#ae_svg__b" />
-      <use fill="#DE3F6B" xlinkHref="#ae_svg__b" />
-      <use
-        fill="url(#ae_svg__c)"
-        style={{
-          mixBlendMode: 'soft-light',
-        }}
-        xlinkHref="#ae_svg__b"
-      />
-      <circle cx={16} cy={15} r={14.5} stroke="#000" strokeOpacity={0.097} />
-      <g fillRule="nonzero">
-        <use fill="#000" filter="url(#ae_svg__d)" xlinkHref="#ae_svg__e" />
-        <use fill="#FFF" fillRule="evenodd" xlinkHref="#ae_svg__e" />
-      </g>
+    <g id='Layer_2' data-name='Layer 2'>
+        <g id='Layer_4' data-name='Layer 4'>
+            <path className='cls-1' fill="url(#linear-gradient)" d='M197.92,300.07a60.26,60.26,0,0,0,26,5.93,59.31,59.31,0,0,0,37.44-13.37c1.44-1.17,2.89-2.42,4.32-3.72a12,12,0,1,0-16.16-17.63c-1.07,1-2.15,1.91-3.21,2.77a35.19,35.19,0,0,1-38.07,4.44,35.83,35.83,0,0,1-20.88-33V181.75h71.59a10.46,10.46,0,0,0,0-20.92H187.33V142.32a12,12,0,0,0-23.91,0v18.51H143.84a10.46,10.46,0,1,0,0,20.92h19.58V245.5A60,60,0,0,0,197.92,300.07Z'
+            />
+            <path className='cls-2' fill="url(#linear-gradient-2)" d='M378,252.59a9.16,9.16,0,0,0-9-11.06h-2.76a9,9,0,0,0-8.84,7C343.85,310.61,289.52,358,224.11,360.62c-100.73,4.1-179.81-97-136.2-202.18a130.69,130.69,0,0,1,70.65-70.58c72.18-29.85,142.39-2,178,51A9.1,9.1,0,0,0,349,141.48l1.62-1a9.84,9.84,0,0,0,2.94-13.85c-39.17-57.71-114.23-89.17-192.86-62a154.55,154.55,0,0,0-95.27,93.86c-41.33,115,43.34,223.2,152.8,223.2C296.54,381.67,362.17,326.27,378,252.59Z'
+            />
+            <path className='cls-3' fill="url(#linear-gradient-3)" d='M208.18.23C96,5.27,5.17,96.2.22,208.4a217.87,217.87,0,0,0,8.54,71,10.35,10.35,0,0,0,14.38,6.32l.2-.09a10.38,10.38,0,0,0,5.48-12.33,196.44,196.44,0,0,1-7.74-63.14C25.19,108.38,107.55,25.58,209.36,21.12c112.78-4.95,206.11,85.37,206.11,197.08,0,108.77-88.5,197.27-197.28,197.27a196.66,196.66,0,0,1-42.58-4.65,9.94,9.94,0,0,0-9.9,3.57,10.64,10.64,0,0,0,6,17,218.35,218.35,0,0,0,54.43,4.86c113.11-4.05,205.21-95.42,210.06-208.5C441.68,99.76,336.23-5.53,208.18.23Z'
+            />
+        </g>
     </g>
-  </svg>
+</svg>
 )
 
 export default SvgTomo
