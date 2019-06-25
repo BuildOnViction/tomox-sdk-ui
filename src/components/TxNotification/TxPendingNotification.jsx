@@ -8,10 +8,10 @@ type Props = {
 }
 
 const TxPendingNotification = ({ hash, title }: Props) => (
-  <Callout intent={Intent.SUCCESS} icon="info-sign" title={title}>
+  <Callout intent={Intent.SUCCESS} title={title}>
     <NotificationBox>
       <h6>Transaction Hash:</h6>
-      <Ellipsis>{hash}</Ellipsis>
+      <WordBreak>{hash}</WordBreak>
       <SpinnerBox>
         <Spinner intent={Intent.SUCCESS} />
       </SpinnerBox>
@@ -20,7 +20,7 @@ const TxPendingNotification = ({ hash, title }: Props) => (
 )
 
 TxPendingNotification.defaultProps = {
-  title: 'Transaction in progress'
+  title: 'Transaction in progress',
 }
 
 const SpinnerBox = styled.div`
@@ -38,12 +38,8 @@ const NotificationBox = styled.div`
   margin: auto;
 `
 
-const Ellipsis = styled.p`
-  text-align: center;
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+const WordBreak = styled.p`
+  word-break: break-all;
 `
 
 export default TxPendingNotification

@@ -29,7 +29,7 @@ const renderInvalidTx = (gas: number, statusMessage: string) => {
 
 const renderValidTx = (gas: number, statusMessage: string) => {
   return (
-    <Callout intent="success" icon="info-sign" title={statusMessage}>
+    <Callout intent="success" title={statusMessage}>
       Required Gas: {gas}
     </Callout>
   )

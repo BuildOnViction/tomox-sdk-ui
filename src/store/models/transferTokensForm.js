@@ -24,21 +24,23 @@ import {
   parseTransferEtherError,
   parseTransferTokensError,
 } from '../../config/errors'
-import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+// import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 export default function sendEtherSelector(state: State) {
   const tokenDomain = getTokenDomain(state)
   const transferTokensFormDomain = getTransferTokensFormDomain(state)
   const accountDomain = getAccountDomain(state)
 
-  const eth = {
-    symbol: NATIVE_TOKEN_SYMBOL,
-    address: '0x0',
-    rank: 0,
-    decimals: 18,
-  }
-  const otherTokens = tokenDomain.rankedTokens()
-  const tokens: Array<RankedToken> = [eth].concat(otherTokens)
+  // const eth = {
+  //   symbol: NATIVE_TOKEN_SYMBOL,
+  //   address: '0x0',
+  //   rank: 0,
+  //   decimals: 18,
+  // }
+  // const otherTokens = tokenDomain.rankedTokens()
+  // const tokens: Array<RankedToken> = [eth].concat(otherTokens)
+
+  const tokens: Array<RankedToken> = tokenDomain.rankedTokens()
 
   return {
     getState: () => transferTokensFormDomain.getState(),

@@ -6,6 +6,7 @@ import TransferTokensFormRenderer from './TransferTokensFormRenderer'
 //   convertToWei
 // } from '../../utils/bignumber'
 
+import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens'
 import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm'
 import type { Token } from '../../types/tokens'
 
@@ -66,7 +67,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       gas = customGas || gas
       gasPrice = customGasPrice || gasPrice
 
-      if (token.address === '0x0' && amount && receiver) {
+      if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice })
       } else if (amount && receiver && token) {
         validateTransferTokensTx({ 
@@ -82,11 +83,13 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   handleTokenChange = (token: Object) => {
-    this.setState({ token: token }, () => {
-      let { amount, receiver, token } = this.state
-      let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+    this.setState({ token }, () => {
+      const { amount, receiver, token } = this.state
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx, resetForm } = this.props
 
-      if (token.address === '0x0' && amount && receiver) {
+      resetForm()
+
+      if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice })
       } else if (token && amount && receiver) {
         validateTransferTokensTx({ 
@@ -102,14 +105,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   handleSubmit = () => {
-    let { amount, receiver, token, customGas, customGasPrice } = this.state
+    const { amount, receiver, token, customGas, customGasPrice } = this.state
     let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props
     gas = customGas || gas
     gasPrice = customGasPrice || gasPrice
           
-    console.log(amount, receiver, gas, gasPrice, token)
+    // console.log(amount, receiver, gas, gasPrice, token)
     
-    if (this.state.token.address === '0x0') {
+    if (this.state.token.address === NATIVE_TOKEN_ADDRESS) {
       sendEtherTx({ amount, receiver, gas, gasPrice, address })
     } else {
       sendTransferTokensTx({ 
