@@ -5,6 +5,7 @@ import DepositTableRenderer from './DepositTableRenderer'
 import DepositModal from '../../components/DepositModal'
 import TransferTokensModal from '../../components/TransferTokensModal'
 import ConvertTokensModal from '../../components/ConvertTokensModal'
+import ReceiveTokensModal from '../../components/ReceiveTokensModal'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import type { Symbol, TokenData } from '../../types/tokens'
 
@@ -119,25 +120,29 @@ class DepositTable extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      connected,
-      tokenData,
-      quoteTokens,
-      baseTokens,
-      toggleAllowance,
-      redirectToTradingPage,
-      accountAddress,
-    } = this.props
-    const {
-      isDepositModalOpen,
-      isSendModalOpen,
-      selectedToken,
-      searchInput,
-      isHideZeroBalanceToken,
-      isConvertModalOpen,
-      convertModalFromToken,
-      convertModalToToken,
-      isOpenReceiveDialog,
-    } = this.state
+      props: {
+        connected,
+        tokenData,
+        quoteTokens,
+        baseTokens,
+        toggleAllowance,
+        redirectToTradingPage,
+        accountAddress,
+      },
+      state: {
+        isDepositModalOpen,
+        isSendModalOpen,
+        selectedToken,
+        searchInput,
+        isHideZeroBalanceToken,
+        isConvertModalOpen,
+        convertModalFromToken,
+        convertModalToToken,
+        isOpenReceiveDialog,
+      },
+      notifyCopiedSuccess,
+      closeReceiveDialog,
+    } = this
 
     const quoteTokenData = tokenData.filter(
       (token: TokenData) =>
@@ -198,6 +203,11 @@ class DepositTable extends React.PureComponent<Props, State> {
           fromToken={convertModalFromToken}
           toToken={convertModalToToken}
         />
+        <ReceiveTokensModal
+          notifyCopiedSuccess={notifyCopiedSuccess}
+          accountAddress={accountAddress}
+          isOpen={isOpenReceiveDialog} 
+          onClose={closeReceiveDialog} />
       </Wrapper>
     )
   }
