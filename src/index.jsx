@@ -5,22 +5,22 @@ import { IntlProvider } from 'react-intl'
 import configureStore from './store/configureStore'
 // import registerServiceWorker from './registerServiceWorker'
 import { AppContainer } from 'react-hot-loader'
+import SocketController from './components/SocketController'
 import App from './app'
 import { Loading } from './components/Common'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react'
 
-import * as messagesData from './locales'
+import { messsages } from './locales'
 
 const { store, persistor } = configureStore
 
 // registerServiceWorker()
 
 const ConnectedIntlProvider = connect(state => {
-  const { locale } = state.settings
-  // const locale = 'vi';
-  if (locale === 'en') return { locale }
-  return { locale, key: locale, messages: messagesData[locale] }
+  const { settings: {locale} } = state
+
+  return { locale, key: locale, messages: messsages[locale] }
 })(IntlProvider)
 
 const render = AppComponent => {
@@ -28,9 +28,11 @@ const render = AppComponent => {
     <AppContainer>
       <Provider store={store}>
         <PersistGate loading={<Loading />} persistor={persistor}>
-          <ConnectedIntlProvider>
-            <AppComponent />
-          </ConnectedIntlProvider>
+          <SocketController>
+            <ConnectedIntlProvider>              
+              <AppComponent />              
+            </ConnectedIntlProvider>
+          </SocketController>
         </PersistGate>
       </Provider>
     </AppContainer>,

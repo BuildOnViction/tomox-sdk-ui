@@ -15,7 +15,10 @@ import {
   Icon,
   Switch,
 } from '@blueprintjs/core'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { FormattedMessage } from 'react-intl'
+
+import { locales } from '../../locales'
 import {
   NavbarDivider,
   Theme,
@@ -111,6 +114,8 @@ class Default extends React.PureComponent<Props, State> {
       pathname, 
       referenceCurrency,
       copyDataSuccess,
+      locale,
+      changeLocale,
     } = this.props
 
     const menu = (
@@ -138,6 +143,13 @@ class Default extends React.PureComponent<Props, State> {
           </MenuItemLink>
         </MenuItem>
       </MenuWallet>
+    )
+
+    const menuLocale = (
+      <LocaleList>
+        <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]}</LocaleItem>
+        <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]}</LocaleItem>
+      </LocaleList>
     )
 
     return (
@@ -224,7 +236,6 @@ class Default extends React.PureComponent<Props, State> {
                 {!authenticated ? (
                   <NavbarLink to="/unlock">
                     <WalletIconBox title="Unlock your wallet"></WalletIconBox>
-                    {/* Unlock wallet */}
                   </NavbarLink>
                 ) : (
                   <React.Fragment>
@@ -243,11 +254,11 @@ class Default extends React.PureComponent<Props, State> {
                 <i>language</i>              
 
                 <Popover
-                  content={'todo: languages list'}
+                  content={menuLocale}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">
-                    <span>English</span> 
+                    <span>{locales[locale]}</span> 
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
@@ -266,7 +277,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle>Markets</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenu.markets" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>  
             <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
@@ -278,7 +289,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle>Exchange</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenu.exchange" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
@@ -290,7 +301,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip> 
-                <SidebarItemTitle>Portfolio</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenu.portfolio" /></SidebarItemTitle>
               </SidebarItemBox>
               </NavLink>   
 
@@ -303,7 +314,7 @@ class Default extends React.PureComponent<Props, State> {
                     transitionDuration={0}>
                     <i></i> 
                   </Tooltip> 
-                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                  <SidebarItemTitle><FormattedMessage id="mainMenu.docsFaq" /></SidebarItemTitle>
                 </SidebarItemBox>
               </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
@@ -580,6 +591,21 @@ const MenuItemLink = styled(NavLink)`
   color: ${DarkMode.LIGHT_GRAY}; 
   &:hover {
     color: ${DarkMode.LIGHT_GRAY};
+  }
+`
+
+const LocaleList = styled(MenuWallet)`
+  width: 100px;
+`
+const LocaleItem = styled.li`
+  padding: 10px 15px;
+  cursor: pointer;
+  color: ${props => props.active ? DarkMode.WHITE : 'inherit'};
+  background-color: ${props => props.active ? DarkMode.BLUE : 'inherit'};
+
+  &:hover {
+    color: ${DarkMode.WHITE};
+    background-color: ${DarkMode.BLUE};
   }
 `
 
