@@ -436,7 +436,12 @@ export const convertTokensForm = createReducer(action => {
   }
 })
 
-export const settings = createReducer(action => {
+export const settings = createReducerPersist({
+  key: 'settings',
+  keyPrefix: 'tomo:',
+  storage,
+  whitelist: ['locale'],
+}, action => {
   const { type, payload } = action
   switch (type) {
     case settingsActionTypes.togglePvtKeyLock:
