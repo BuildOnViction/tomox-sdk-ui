@@ -142,23 +142,19 @@ class LoginPage extends React.PureComponent<Props, State> {
     })
   }
 
-  checkPrivateValid = (privateKey) => {
-    (privateKey.length === 66) ? this.setState({isPrivateKeyValid: true}) : this.setState({isPrivateKeyValid: false})
-  }
-
   handlePrivateKeyChange = (e) => {
-    if (e.target.value.length !== 66) {
-      this.setState({ 
+    if (e.target.value.length === 66 || e.target.value.length === 64) {
+      this.setState({
         privateKey: e.target.value,
-        privateKeyStatus: 'invalid',
+        privateKeyStatus: 'valid',
       })
-      return
+      return 
     }
 
-    this.setState({
+    this.setState({ 
       privateKey: e.target.value,
-      privateKeyStatus: 'valid',
-    })
+      privateKeyStatus: 'invalid',
+    })    
   }
 
   handleMnemonicChange = (e) => {
@@ -202,7 +198,8 @@ class LoginPage extends React.PureComponent<Props, State> {
 
     if (privateKeyStatus !== 'valid') return
 
-    const wallet = await createWalletFromPrivateKey(privateKey)
+    const privateKeyString = (privateKey.length === 64) ? `0x${privateKey}` : privateKey
+    const wallet = await createWalletFromPrivateKey(privateKeyString)
 
     if (!wallet) {
       this.setState({ privateKeyStatus: 'invalid' })
