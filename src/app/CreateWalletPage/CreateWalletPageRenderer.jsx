@@ -194,17 +194,19 @@ const WalletPasswordStep = props => {
       <Divider />
 
       <Content>
-        <LabelWrapper>
-          <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputPasswordTitle" /></LabelTitle>
+        <MarginWrapper>
+          <LabelWrapper>
+            <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputPasswordTitle" /></LabelTitle>
 
-          <InputBox>
-            <InputGroupWrapper hasError={ passwordStatus === 'invalid' } value={password} type={ showPassword ? 'text' : 'password' } onChange={handlePasswordChange} />
-            {!showPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
-            {showPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
-          </InputBox>
-        </LabelWrapper>
-        {(passwordStatus === 'valid') && (<PasswordStrengMeter password={password} />)}
-        {(passwordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.describePassword" /></ErrorMessage>)}
+            <InputBox>
+              <InputGroupWrapper hasError={ passwordStatus === 'invalid' } value={password} type={ showPassword ? 'text' : 'password' } onChange={handlePasswordChange} />
+              {!showPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
+              {showPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
+            </InputBox>
+          </LabelWrapper>
+          {(passwordStatus === 'valid') && (<PasswordStrengMeter password={password} />)}
+          {(passwordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.describePassword" /></ErrorMessage>)}
+        </MarginWrapper>
 
         <LabelWrapper>
           <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputConfirmPasswordTitle" /></LabelTitle>
@@ -325,14 +327,16 @@ const WalletConfirmMnemonicStep = props => {
         <HeaderTitle><FormattedMessage id="createWalletPage.confirmMnemonic.title" /></HeaderTitle>
         <HeaderSubTitle><FormattedMessage id="createWalletPage.confirmMnemonic.subTitle" /></HeaderSubTitle>
 
-        <ConfirmMnemonicWrapper hasError={mnemonicErrorMessage}>
-          {
-            (inputMnemonic.length > 0) && inputMnemonic.map((word, index) => {
-              return (<MnemonicTag bgColor={ DarkMode.GRAY } cursor="pointer" key={index} onClick={() => handleRemoveMnemonic(word)}>{word} <Icon icon="cross" iconSize={Icon.SIZE_STANDARD} /></MnemonicTag>)
-            })
-          }
-        </ConfirmMnemonicWrapper>
-        <ErrorMessage>{mnemonicErrorMessage}</ErrorMessage>
+        <MarginWrapper>
+          <ConfirmMnemonicWrapper hasError={mnemonicErrorMessage}>
+            {
+              (inputMnemonic.length > 0) && inputMnemonic.map((word, index) => {
+                return (<MnemonicTag bgColor={ DarkMode.GRAY } cursor="pointer" key={index} onClick={() => handleRemoveMnemonic(word)}>{word} <Icon icon="cross" iconSize={Icon.SIZE_STANDARD} /></MnemonicTag>)
+              })
+            }
+          </ConfirmMnemonicWrapper>
+          <ErrorMessage>{mnemonicErrorMessage}</ErrorMessage>
+        </MarginWrapper>
         
         <Paragraph textAlign="center">
           <FormattedMessage id="createWalletPage.confirmMnemonic.notePart1" />  
@@ -574,7 +578,6 @@ const ErrorMessage = styled.div`
   color: ${DarkMode.RED};
   font-size: 12px;
   margin-top: 5px;
-  margin-bottom: 27px;
 `
 
 const Highlight = styled.span`
@@ -597,6 +600,10 @@ const ShowPasswordIcon = styled(Icon)`
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+`
+
+const MarginWrapper = styled.div`
+  margin-bottom: 27px;
 `
 
 export default CreateWalletPageRenderer
