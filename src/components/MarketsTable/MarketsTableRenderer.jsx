@@ -15,6 +15,8 @@ import {
   InputGroup,
 } from '@blueprintjs/core'
 
+import { FormattedMessage } from 'react-intl'
+
 import {
   Theme,
   CryptoIcon,
@@ -142,7 +144,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <SearchWrapper
             type="string"
             leftIcon="search"
-            placeholder="Search"
+            placeholder={<FormattedMessage id="markets.search" />} 
             value={searchInput}
             onChange={handleSearchInputChange}
           />
@@ -150,12 +152,12 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
         <TableHeader>
           <TableHeaderCell width="25px"></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>Pair</SmallText></TableHeaderCell>
-          <TableHeaderCell width="25%"><SmallText muted>Last Price</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h Change</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h High</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>24h Low</SmallText></TableHeaderCell>
-          <TableHeaderCell align="flex-end" flexGrow={2}><SmallText muted>24h Volume</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.pair" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell width="25%"><SmallText muted>{<FormattedMessage id="marketsPage.lastPrice" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hChange" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hHigh" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hLow" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell align="flex-end" flexGrow={2}><SmallText muted>{<FormattedMessage id="marketsPage.24hVolume" />}</SmallText></TableHeaderCell>
         </TableHeader>
 
         <TableBody>

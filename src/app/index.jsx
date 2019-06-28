@@ -12,7 +12,7 @@ import LogoutPage from './LogoutPage'
 import TradingPage from './TradingPage'
 import MarketsPage from './MarketsPage'
 
-import SocketController from '../components/SocketController'
+// import SocketController from '../components/SocketController'
 import { ConnectedRouter } from 'connected-react-router'
 import history from '../store/history'
 import '../styles/css/index.css'
@@ -23,7 +23,7 @@ class App extends React.PureComponent {
   render() {
     return (
       <ConnectedRouter history={history}>
-        <SocketController>
+        {/* <SocketController> */}
           <Layout>
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/markets" />} />
@@ -36,7 +36,7 @@ class App extends React.PureComponent {
               <Route path="/create" component={CreateWalletPage} />
             </Switch>
           </Layout>
-        </SocketController>
+        {/* </SocketController> */}
       </ConnectedRouter>
     )
   }

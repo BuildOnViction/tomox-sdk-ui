@@ -10,6 +10,7 @@ import {
   Colors,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
+import { FormattedMessage } from 'react-intl'
 
 import type { SIDE } from '../../types/orderForm'
 
@@ -291,7 +292,7 @@ const BuyLimitOrderPanel = (props) => {
 
       <InputBox>
         <InputLabel>
-          Price:
+          <FormattedMessage id="exchangePage.price" />:
         </InputLabel>
 
         <InputGroupWrapper
@@ -316,7 +317,7 @@ const BuyLimitOrderPanel = (props) => {
 
       <InputBox>
         <InputLabel>
-          Amount:
+          <FormattedMessage id="exchangePage.amount" />:
         </InputLabel>
 
         <InputGroupWrapper
@@ -349,7 +350,7 @@ const BuyLimitOrderPanel = (props) => {
 
       <InputBox>
         <InputLabel>
-          Total:
+          <FormattedMessage id="exchangePage.total" />:
         </InputLabel>
         <InputGroupWrapper
           name="buy-total"
@@ -370,7 +371,7 @@ const BuyLimitOrderPanel = (props) => {
 
       {authenticated && (<BuyButton
         intent="success"
-        text="Buy"
+        text={<FormattedMessage id='exchangePage.buy' />}
         name="order"
         onClick={() => handleSendOrder('BUY')}
         fill
@@ -378,7 +379,7 @@ const BuyLimitOrderPanel = (props) => {
 
       {!authenticated && (<BuyButton
         intent="success"
-        text="Unlock wallet"
+        text={<FormattedMessage id='exchangePage.unlockWallet' />}
         name="order"
         onClick={redirectToLoginPage}
         fill
@@ -423,7 +424,7 @@ const SellLimitOrderPanel = (props) => {
       </HeaderRow>
       <InputBox>
         <InputLabel>
-          Price:
+          <FormattedMessage id="exchangePage.price" />:
         </InputLabel>
         
         <InputGroupWrapper
@@ -448,7 +449,7 @@ const SellLimitOrderPanel = (props) => {
 
       <InputBox>
         <InputLabel>
-          Amount:
+          <FormattedMessage id="exchangePage.amount" />:
         </InputLabel>
         <InputGroupWrapper
           name="amount"
@@ -483,7 +484,7 @@ const SellLimitOrderPanel = (props) => {
       
       <InputBox>
         <InputLabel>
-          Total:
+          <FormattedMessage id="exchangePage.total" />:
         </InputLabel>
         <InputGroupWrapper
           name="sell-total"
@@ -500,7 +501,7 @@ const SellLimitOrderPanel = (props) => {
       
       {authenticated && <SellButton
         intent="danger"
-        text="Sell"
+        text={<FormattedMessage id='exchangePage.sell' />}
         name="order"
         onClick={() => handleSendOrder('SELL')}
         fill
@@ -508,7 +509,7 @@ const SellLimitOrderPanel = (props) => {
 
       {!authenticated && <SellButton
         intent="danger"
-        text="Unlock wallet"
+        text={<FormattedMessage id='exchangePage.unlockWallet' />}
         name="order"
         onClick={redirectToLoginPage}
         fill

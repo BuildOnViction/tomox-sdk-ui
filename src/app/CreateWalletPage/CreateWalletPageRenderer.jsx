@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import styled from 'styled-components'
 import {
   Button,
   Checkbox,
@@ -8,8 +9,9 @@ import {
   Dialog,
   Classes,
 } from '@blueprintjs/core'
+import { FormattedMessage } from 'react-intl'
+
 import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
-import styled from 'styled-components'
 import { DarkMode, Theme } from '../../components/Common'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import { Link } from "react-router-dom"
@@ -127,31 +129,38 @@ const WalletCreateStep = props => {
   return (
     <Wrapper>
       <Header>
-        <HeaderTitle>Create New Wallet</HeaderTitle>
-        <HeaderSubTitle><LinkWrapper to="/unlock">Sign in</LinkWrapper> to your wallet or <LinkWrapper to="/unlock">Import accounts</LinkWrapper></HeaderSubTitle>
+        <HeaderTitle>
+          <FormattedMessage id="createWalletPage.title" />
+        </HeaderTitle>
+
+        <HeaderSubTitle>
+          <LinkWrapper to="/unlock"><FormattedMessage id="createWalletPage.subTitlePart1" /> </LinkWrapper>        
+          <FormattedMessage id="createWalletPage.subTitlePart2" /> 
+          <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.subTitlePart3" /></LinkWrapper>
+        </HeaderSubTitle>
       </Header>
 
       <Divider />
 
       <Content>
         <LabelWrapper>
-          <LabelTitle>Account name:</LabelTitle>
+          <LabelTitle><FormattedMessage id="createWalletPage.inputTitleName" /></LabelTitle>
           <InputGroupWrapper />
         </LabelWrapper>
 
         <AddressWrapper>
-          <LabelTitle>Account address:</LabelTitle>
+          <LabelTitle><FormattedMessage id="createWalletPage.inputTileAddress" /></LabelTitle>
           <AddressBox>
             <Address title={address}>{address}</Address>
             <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
-              <CopyIconBox title="Copy Address"><Icon icon="applications" /></CopyIconBox> 
+              <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}><Icon icon="applications" /></CopyIconBox> 
             </CopyToClipboard>
           </AddressBox>
         </AddressWrapper>
 
-        <CheckboxWrapper checked={storeAccount} label="Keep the account on  this computer" onChange={handleChangeStoreAccount} />   
+        <CheckboxWrapper checked={storeAccount} label={<FormattedMessage id="createWalletPage.checkboxTitleKeepAccount" />} onChange={handleChangeStoreAccount} />   
 
-        <ButtonWrapper fill={true} onClick={goToPasswordStep}>Continue</ButtonWrapper>
+        <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
       </Content>
     </Wrapper>
   )
@@ -174,15 +183,19 @@ const WalletPasswordStep = props => {
   return (
     <Wrapper>
       <Header>
-        <HeaderTitle>Protect Your Account</HeaderTitle>
-        <HeaderSubTitle>Protect your account or <LinkWrapper to="/unlock">Sign in</LinkWrapper> to a saved account</HeaderSubTitle>
+        <HeaderTitle><FormattedMessage id="createWalletPage.passwordStep.title" /></HeaderTitle>
+        <HeaderSubTitle>
+          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart1" />  
+          <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.passwordStep.subTitlePart2" /> </LinkWrapper> 
+          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart3" />
+        </HeaderSubTitle>
       </Header>
 
       <Divider />
 
       <Content>
         <LabelWrapper>
-          <LabelTitle>New password:</LabelTitle>
+          <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputPasswordTitle" /></LabelTitle>
 
           <InputBox>
             <InputGroupWrapper hasError={ passwordStatus === 'invalid' } value={password} type={ showPassword ? 'text' : 'password' } onChange={handlePasswordChange} />
@@ -191,10 +204,10 @@ const WalletPasswordStep = props => {
           </InputBox>
         </LabelWrapper>
         {(passwordStatus === 'valid') && (<PasswordStrengMeter password={password} />)}
-        {(passwordStatus === 'invalid') && (<ErrorMessage>Password need 8 or more characters, at least an upper case, a symbol and a number</ErrorMessage>)}
+        {(passwordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.describePassword" /></ErrorMessage>)}
 
         <LabelWrapper>
-          <LabelTitle>Confirm password:</LabelTitle>
+          <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputConfirmPasswordTitle" /></LabelTitle>
 
           <InputBox>
             <InputGroupWrapper hasError={ confirmPasswordStatus === 'invalid' } value={confirmPassword}  type={ showConfirmPassword ? 'text' : 'password' } onChange={handleConfirmPasswordChange} />
@@ -202,9 +215,9 @@ const WalletPasswordStep = props => {
             {showConfirmPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={() => togglePassword('confirm')} />)}
           </InputBox>
         </LabelWrapper>
-        {(confirmPasswordStatus === 'invalid') && (<ErrorMessage>The password entered does not match</ErrorMessage>)}
+        {(confirmPasswordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.warningNotMatch" /></ErrorMessage>)}
 
-        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}>Continue</ButtonWrapper>
+        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
       </Content>
     </Wrapper>
   )
@@ -220,10 +233,10 @@ const WalletBackupStep = props => {
       </ImageWrapper>
 
       <Content>
-        <HeaderTitle>No Backup, No Money</HeaderTitle>
-        <HeaderSubTitle>You must save the secret phrase. It is crucial for accessing your account or Do it later.</HeaderSubTitle>
+        <HeaderTitle><FormattedMessage id="createWalletPage.backupStep.title" /></HeaderTitle>
+        <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.description" /></HeaderSubTitle>
 
-        <ButtonWrapper onClick={goToWarningStep}>Back Up Now</ButtonWrapper>
+        <ButtonWrapper onClick={goToWarningStep}><FormattedMessage id="createWalletPage.backupStep.backUpNow" /></ButtonWrapper>
       </Content>
     </WrapperWithoutBorder>
   )
@@ -235,11 +248,11 @@ const WalletWarningStep = props => {
   return (
     <WrapperWithoutBorder>
       <Content>
-        <HeaderTitle>Treat your backup phrase with care!</HeaderTitle>
-        <HeaderSubTitle>You are solely responsible for keeping your funds. No one else, not even Tomodex, can help you recover your wallet if you lose it.</HeaderSubTitle>
-        <HeaderSubTitle>12 words that are both the “User ID” and password. Anyone who knows your mnemonic phrase can access your wallet, so keep it safe.</HeaderSubTitle>
+        <HeaderTitle><FormattedMessage id="createWalletPage.backupStep.warningTitle" /></HeaderTitle>
+        <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.warningNote1" /></HeaderSubTitle>
+        <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.warningNote2" /></HeaderSubTitle>
 
-        <ButtonWrapper onClick={goToMnemonicStep}>I understand</ButtonWrapper>
+        <ButtonWrapper onClick={goToMnemonicStep}><FormattedMessage id="createWalletPage.backupStep.IUnderstand" /></ButtonWrapper>
       </Content>
     </WrapperWithoutBorder>
   )
@@ -258,12 +271,13 @@ const WalletMnemonicStep = props => {
   return (
     <Wrapper>
       <Header padding="sm">
-        <HeaderTitle>Save backup phrase</HeaderTitle>
+        <HeaderTitle><FormattedMessage id="createWalletPage.backupStep.mnemonicTitle" /></HeaderTitle>
+
         <HeaderSubTitle>
-          Please carefully write down these 12 words or
+          <FormattedMessage id="createWalletPage.backupStep.mnemonicSubTitlePart1" />
 
           <CopyToClipboard text={mnemonic.join(' ')} onCopy={notifyCopiedSuccess}>
-            <Highlight> copy them</Highlight>
+            <Highlight> <FormattedMessage id="createWalletPage.backupStep.mnemonicSubTitlePart2" /></Highlight>
           </CopyToClipboard>
         </HeaderSubTitle>
       </Header>
@@ -278,12 +292,12 @@ const WalletMnemonicStep = props => {
             }
           </MnemonicList>
 
-          <ShowPrivateKeyText onClick={() => togglePrivateKeyDialog('open')}>Show my private key >></ShowPrivateKeyText>
+          <ShowPrivateKeyText onClick={() => togglePrivateKeyDialog('open')}><FormattedMessage id="createWalletPage.backupStep.mnemonicShowPrivatekey" /></ShowPrivateKeyText>
         </MnemonicWrapper>
 
-        <Paragraph textAlign="center">You will confirm this phrase on the next screen.</Paragraph>
+        <Paragraph textAlign="center"><FormattedMessage id="createWalletPage.backupStep.mnemonicNote" /></Paragraph>
 
-        <ButtonWrapper fill={true} onClick={goToConfirmMnemonicStep}>I written it down</ButtonWrapper>
+        <ButtonWrapper fill={true} onClick={goToConfirmMnemonicStep}><FormattedMessage id="createWalletPage.backupStep.mnemonicButtonTitle" /></ButtonWrapper>
       </Content>
 
       <DialogPrivateKey 
@@ -308,8 +322,8 @@ const WalletConfirmMnemonicStep = props => {
   return (
     <Wrapper>
       <Content padding="sm">
-        <HeaderTitle>Confirm backup</HeaderTitle>
-        <HeaderSubTitle>Verify your back up phrase or clear and tap again</HeaderSubTitle>
+        <HeaderTitle><FormattedMessage id="createWalletPage.confirmMnemonic.title" /></HeaderTitle>
+        <HeaderSubTitle><FormattedMessage id="createWalletPage.confirmMnemonic.subTitle" /></HeaderSubTitle>
 
         <ConfirmMnemonicWrapper hasError={mnemonicErrorMessage}>
           {
@@ -320,7 +334,10 @@ const WalletConfirmMnemonicStep = props => {
         </ConfirmMnemonicWrapper>
         <ErrorMessage>{mnemonicErrorMessage}</ErrorMessage>
         
-        <Paragraph textAlign="center">Please, tap each word in the corect order or <Highlight onClick={goBackToPreviousStep}>back to previous step</Highlight></Paragraph>
+        <Paragraph textAlign="center">
+          <FormattedMessage id="createWalletPage.confirmMnemonic.notePart1" />  
+          <Highlight onClick={goBackToPreviousStep}> <FormattedMessage id="createWalletPage.confirmMnemonic.notePart2" /></Highlight>
+        </Paragraph>
 
         <MnemonicWrapper bottom="20px">
           {
@@ -330,7 +347,7 @@ const WalletConfirmMnemonicStep = props => {
           }
         </MnemonicWrapper>
 
-        <ButtonWrapper fill={true} onClick={complete} disabled={mnemonicErrorMessage || (shuffedMnemonic.length !== 0)}>Confirm</ButtonWrapper>
+        <ButtonWrapper fill={true} onClick={complete} disabled={mnemonicErrorMessage || (shuffedMnemonic.length !== 0)}><FormattedMessage id="createWalletPage.confirmMnemonic.confirm" /></ButtonWrapper>
       </Content>
     </Wrapper>
   )
@@ -347,7 +364,7 @@ const DialogPrivateKey = (props) => {
       isOpen={isOpenPrivateKeyDialog}
       >
       <DialogBody>
-        <Paragraph>Back up your private key on paper and keep it somewhere secret and safe.</Paragraph>
+        <Paragraph><FormattedMessage id="createWalletPage.privateKeyBackupInstruction" /></Paragraph>
         <PrivateKeyBox>{privateKey}</PrivateKeyBox>
       </DialogBody>
     </Dialog>

@@ -12,6 +12,8 @@ import {
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+
 import type { TokenData, Symbol } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
@@ -50,15 +52,15 @@ const DepositTableRenderer = (props: Props) => {
           <OperationButtonWrapper>
             <MarginButton onClick={openSendModal}>
               <DoubleArrowsUpIcon src={doubleArrowsUpUrl} alt="Send icon"></DoubleArrowsUpIcon>
-              Send
+              <FormattedMessage id="portfolioPage.send" />
             </MarginButton>
             <MarginButton onClick={openReceiveDialog}>
               <DoubleArrowsDownIcon src={doubleArrowsUpUrl} alt="Receive icon"></DoubleArrowsDownIcon>
-              Receive
+              <FormattedMessage id="portfolioPage.receive" />
             </MarginButton>
 
             <CheckboxWrapper
-              label="Hide zero amounts"
+              label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
               checked={isHideZeroBalanceToken}  
               onChange={toggleZeroBalanceToken} />
           </OperationButtonWrapper>
@@ -73,12 +75,12 @@ const DepositTableRenderer = (props: Props) => {
         </RowSpaceBetween>
         <Table>
           <TableHeader>
-            <TableHeaderCell width="24%"><MutedText>Coin</MutedText></TableHeaderCell>
-            <TableHeaderCell width="17%"><MutedText>Total</MutedText></TableHeaderCell>
-            <TableHeaderCell width="17%"><MutedText>Available amount</MutedText></TableHeaderCell>
-            <TableHeaderCell width="17%"><MutedText>In orders</MutedText></TableHeaderCell>
+            <TableHeaderCell width="24%"><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
             <TableHeaderCell width="25%">
-              <MutedText>Operation</MutedText>
+              <MutedText><FormattedMessage id="portfolioPage.operation" /></MutedText>
             </TableHeaderCell>
           </TableHeader>
         </Table>
@@ -131,13 +133,13 @@ const TOMORow = (props: Props) => {
       <Cell width="25%">
         <ButtonWrapper>
           <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-            Trade
+            <FormattedMessage id="portfolioPage.trade" />
           </OperationButton>
           <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-            Deposit
+            <FormattedMessage id="portfolioPage.deposit" />
           </OperationButton>
           <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-            Withdrawal
+            <FormattedMessage id="portfolioPage.withdrawal" />
           </OperationButton>          
         </ButtonWrapper>
       </Cell>
@@ -178,13 +180,13 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                Trade
+                <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Deposit
+                <FormattedMessage id="portfolioPage.deposit" />
               </OperationButton>  
               <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Withdrawal
+                <FormattedMessage id="portfolioPage.withdrawal" />
               </OperationButton>
             </ButtonWrapper>
           </Cell>
@@ -227,13 +229,13 @@ const BaseTokenRows = (props: Props) => {
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                Trade
+                <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Deposit
+                <FormattedMessage id="portfolioPage.deposit" />
               </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Withdrawal
+                <FormattedMessage id="portfolioPage.withdrawal" />
               </OperationButton>
             </ButtonWrapper>
           </Cell>
