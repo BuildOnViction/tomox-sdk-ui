@@ -144,7 +144,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <SearchWrapper
             type="string"
             leftIcon="search"
-            placeholder={<FormattedMessage id="markets.search" />} 
+            placeholder="Search" 
             value={searchInput}
             onChange={handleSearchInputChange}
           />

@@ -112,13 +112,13 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
   return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
 }
 
-export const parseOrder = (order: Order, pair: TokenPair, precision: number = 2) => {
+export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
 
   return {
     time: order.createdAt,
-    amount: parseTokenAmount(order.amount, pair, precision),
-    filled: parseTokenAmount(order.filledAmount, pair, precision),
-    price: parsePricepoint(order.pricepoint, pair, precision),
+    amount: parseTokenAmount(order.amount, pair, currAmountPrecision),
+    filled: parseTokenAmount(order.filledAmount, pair, currAmountPrecision),
+    price: parsePricepoint(order.pricepoint, pair, currPricePrecision),
     hash: order.hash,
     side: order.side,
     pair: order.pairName,
@@ -127,7 +127,7 @@ export const parseOrder = (order: Order, pair: TokenPair, precision: number = 2)
   }
 }
 
-export const parseOrders = (orders: Orders, pairs: Object, precision: number = 2) => {
+export const parseOrders = (orders: Orders, pairs: Object, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsedOrders = []
 
   orders.forEach(order => {
@@ -135,9 +135,9 @@ export const parseOrders = (orders: Orders, pairs: Object, precision: number = 2
     if (pair) {
       parsedOrders.push({
         time: order.createdAt,
-        amount: parseTokenAmount(order.amount, pair, precision),
-        filled: parseTokenAmount(order.filledAmount, pair, precision),
-        price: parsePricepoint(order.pricepoint, pair, precision),
+        amount: parseTokenAmount(order.amount, pair, currAmountPrecision),
+        filled: parseTokenAmount(order.filledAmount, pair, currAmountPrecision),
+        price: parsePricepoint(order.pricepoint, pair, currPricePrecision),
         hash: order.hash,
         side: order.side,
         pair: order.pairName,
@@ -150,11 +150,11 @@ export const parseOrders = (orders: Orders, pairs: Object, precision: number = 2
   return parsedOrders
 }
 
-export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = 2) => {
+export const parseTrade = (trade: Trade, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   return {
     time: trade.createdAt,
-    price: parsePricepoint(trade.pricepoint, pair, precision),
-    amount: parseTokenAmount(trade.amount, pair, precision),
+    price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
     hash: trade.hash,
     orderHash: trade.orderHash,
     type: trade.type || 'LIMIT',
@@ -166,11 +166,11 @@ export const parseTrade = (trade: Trade, pair: TokenPair, precision: number = 2)
   }
 }
 
-export const parseTrades = (trades: Trades, pair: TokenPair, precision: number = 2) => {
+export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = (trades: any).map(trade => ({
     time: trade.createdAt,
-    price: parsePricepoint(trade.pricepoint, pair, precision),
-    amount: parseTokenAmount(trade.amount, pair, precision),
+    price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
     hash: trade.hash,
     txHash: trade.txHash,
     orderHash: trade.orderHash,
