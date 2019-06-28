@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Label, Tab, Tabs, Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
+import { FormattedMessage } from 'react-intl'
+
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
@@ -62,8 +64,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
     return (
       <Wrapper>
         <ImportWalletWrapper>
-          <HeaderTitle>Import your Wallet</HeaderTitle>
-          <SubTitle>If you don't have a wallet go <LinkWrapper to="/create">Create new wallet</LinkWrapper></SubTitle>
+          <HeaderTitle><FormattedMessage id="unlockWalletPage.title" /></HeaderTitle>
+          <SubTitle><FormattedMessage id="unlockWalletPage.subTitlePart1" /> <LinkWrapper to="/create"><FormattedMessage id="unlockWalletPage.subTitlePart2" /></LinkWrapper></SubTitle>
 
           <TabsWrapper id="import-list" onChange={handleTabChange} selectedTabId={selectedTabId}>
             <Tab 
@@ -139,18 +141,18 @@ const PrivateKey = (props) => {
   return (
     <React.Fragment>
       <LabelWrapper>
-        <LabelTitle>Enter your private key</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.privateKey.labelPrivateKey" /></LabelTitle> 
         <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
       </LabelWrapper>
-      {(privateKeyStatus === 'invalid') && (<ErrorMessage>Private key invalid</ErrorMessage>)}
+      {(privateKeyStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.privateKey.invalid" /></ErrorMessage>)}
 
       <LabelWrapper>
-        <LabelTitle>Temporary session password</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
         <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
-      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>Unlock Wallet</ButtonWrapper>
+      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonWrapper>
     </React.Fragment>
   )
 }
@@ -169,16 +171,16 @@ const MnemonicPhrase = (props) => {
   return (
     <React.Fragment>
       <LabelWrapper>
-        <LabelTitle>Please enter your 12 word phrase</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.mnemonic.labelMnemonic" /></LabelTitle> 
         <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
       </LabelWrapper>
-      {(mnemonicStatus === 'invalid') && (<ErrorMessage>Invalid Mnemonic. Mnemonic must be 12 words long</ErrorMessage>)}
+      {(mnemonicStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.mnemonic.invalid" /></ErrorMessage>)}
 
       <LabelWrapper>
-        <LabelTitle>Temporary session password</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
         <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
       <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
@@ -204,7 +206,7 @@ const LedgerDevice = (props) => {
 
   return (
     <LedgerWrapper>
-      <Title>1. Enter PIN Code</Title>
+      <Title><FormattedMessage id="unlockWalletPage.ledger.instruction1" /></Title>
 
       <LedgerImageBox>       
         <LedgerImageBody>
@@ -217,7 +219,7 @@ const LedgerDevice = (props) => {
         <LedgerImageHead />
       </LedgerImageBox>
 
-      <Title>2. Open TomoChain</Title>
+      <Title><FormattedMessage id="unlockWalletPage.ledger.instruction2" /></Title>
 
       <LedgerImageBox>       
         <LedgerImageBody>
@@ -232,11 +234,11 @@ const LedgerDevice = (props) => {
 
       {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
       <InstructionBox>
-        <Title color={DarkMode.ORANGE} cursor="pointer">Having Connection Issues?</Title>
-        <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
       </InstructionBox>
 
-      <ButtonWrapper onClick={connectToLedger}>Connect to Ledger {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonWrapper>
+      <ButtonWrapper onClick={connectToLedger}><FormattedMessage id="unlockWalletPage.ledger.buttonTitle" /> {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonWrapper>
 
       <AddressesDialog 
         addresses={addresses}
@@ -291,11 +293,11 @@ const TrezorDevice = (props) => {
       </LedgerImageBox>
 
       <InstructionBox>
-        <Title color={DarkMode.ORANGE} cursor="pointer">Having Connection Issues?</Title>
-        <Title color={DarkMode.ORANGE} cursor="pointer">Usage Instructions</Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
       </InstructionBox>
 
-      <ButtonWrapper onClick={ openAddressesTrezorDialog }>Connect to Trezor</ButtonWrapper>
+      <ButtonWrapper onClick={ openAddressesTrezorDialog }><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonWrapper>
 
       <SelectAddressModal
         title="Trezor Address"

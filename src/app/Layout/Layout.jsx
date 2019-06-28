@@ -145,13 +145,6 @@ class Default extends React.PureComponent<Props, State> {
       </MenuWallet>
     )
 
-    const menuLocale = (
-      <LocaleList>
-        <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]}</LocaleItem>
-        <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]}</LocaleItem>
-      </LocaleList>
-    )
-
     return (
       <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
@@ -182,7 +175,7 @@ class Default extends React.PureComponent<Props, State> {
                 {currentPairData && 
                   (<TokenTick className="token-tick">
                     <div className="tick last-price">
-                      <div className="title">Last Price</div>
+                      <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div>
                         <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
                         <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
@@ -190,7 +183,7 @@ class Default extends React.PureComponent<Props, State> {
                     </div>
 
                     <div className="tick change">
-                      <div className="title">24h Change</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
                         <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
                         <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
@@ -198,21 +191,21 @@ class Default extends React.PureComponent<Props, State> {
                     </div>
 
                     <div className="tick high">
-                      <div className="title">24h High</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div className="up">
                         <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
                       </div>
                     </div>
 
                     <div className="tick low">
-                      <div className="title">24h Low</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div className="down">
                         <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
                       </div>
                     </div>
 
                     <div className="tick volume">
-                      <div className="title">24h Volume</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
                         <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
                       </div>
@@ -254,7 +247,7 @@ class Default extends React.PureComponent<Props, State> {
                 <i>language</i>              
 
                 <Popover
-                  content={menuLocale}
+                  content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">
@@ -277,7 +270,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenu.markets" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>  
             <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
@@ -289,7 +282,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenu.exchange" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.exchange" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
@@ -301,7 +294,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip> 
-                <SidebarItemTitle><FormattedMessage id="mainMenu.portfolio" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.portfolio" /></SidebarItemTitle>
               </SidebarItemBox>
               </NavLink>   
 
@@ -314,7 +307,7 @@ class Default extends React.PureComponent<Props, State> {
                     transitionDuration={0}>
                     <i></i> 
                   </Tooltip> 
-                  <SidebarItemTitle><FormattedMessage id="mainMenu.docsFaq" /></SidebarItemTitle>
+                  <SidebarItemTitle><FormattedMessage id="mainMenuPage.docsFaq" /></SidebarItemTitle>
                 </SidebarItemBox>
               </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
@@ -338,6 +331,8 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
   render() {
     const { 
       children, 
+      locale,
+      changeLocale,
     } = this.props
 
     return (
@@ -358,11 +353,11 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
                 <i>language</i>              
 
                 <Popover
-                  content={'todo: languages list'}
+                  content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">
-                    <span>English</span> 
+                    <span>{locales[locale]}</span> 
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
@@ -375,6 +370,17 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
       </CreateImportWrapper>
     )
   }
+}
+
+const MenuLocales = (props) => {
+  const { changeLocale, locale } = props
+
+  return (
+    <LocaleList>
+      <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]} {(locale === "en") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
+      <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]} {(locale === "vi") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
+    </LocaleList>
+  )
 }
 
 export default Layout
@@ -598,9 +604,11 @@ const LocaleList = styled(MenuWallet)`
   width: 100px;
 `
 const LocaleItem = styled.li`
+  display: flex;
+  justify-content: space-between;
   padding: 10px 15px;
   cursor: pointer;
-  color: ${props => props.active ? DarkMode.WHITE : 'inherit'};
+  color: ${props => props.active ? DarkMode.ORANGE : 'inherit'};
   background-color: ${props => props.active ? DarkMode.BLUE : 'inherit'};
 
   &:hover {
