@@ -1,9 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button } from '@blueprintjs/core'
+import { Label, Tab, Tabs, Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
+import { Select } from '@blueprintjs/select'
+import { FormattedMessage } from 'react-intl'
+
 import { DarkMode, Theme, SmallText } from '../../components/Common'
 // import type { CreateWalletParams } from '../../types/createWallet'
 import { Link } from "react-router-dom"
+import SelectAddressModal from '../../components/SelectAddressModal'
+import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
 
 type Props = {
   selectedTabId: string,
@@ -37,13 +42,30 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       password,
       passwordStatus,
       handlePasswordChange,
+      addresses,
+      isOpenAddressesDialog,
+      toggleAddressesDialog,
+      loginWithLedgerWallet,
+      handleHdPathChange,
+      indexHdPathActive,
+      hdPaths,
+      connectToLedger,
+      nextAddresses,
+      prevAddresses,
+      ledgerError,
+      errorList,
+      openAddressesTrezorDialog,
+      isSelectAddressModalOpen,
+      closeAddressesTrezorDialog,
+      deviceService,
+      loading,
     } = this.props
 
     return (
       <Wrapper>
         <ImportWalletWrapper>
-          <HeaderTitle>Import your Wallet</HeaderTitle>
-          <SubTitle>If you don't have a wallet go <LinkWrapper to="/create">Create new wallet</LinkWrapper></SubTitle>
+          <HeaderTitle><FormattedMessage id="unlockWalletPage.title" /></HeaderTitle>
+          <SubTitle><FormattedMessage id="unlockWalletPage.subTitlePart1" /> <LinkWrapper to="/create"><FormattedMessage id="unlockWalletPage.subTitlePart2" /></LinkWrapper></SubTitle>
 
           <TabsWrapper id="import-list" onChange={handleTabChange} selectedTabId={selectedTabId}>
             <Tab 
@@ -74,8 +96,30 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   handlePasswordChange={handlePasswordChange} />
               } />
 
-            <Tab id="ledger" title="Ledger Nano S" panel={<div></div>} />
-            <Tab id="trezor" title="Trezor" panel={<div></div>} />
+            <Tab id="ledger" title="Ledger Nano S" panel={
+              <LedgerDevice 
+                addresses={addresses}
+                isOpenAddressesDialog={isOpenAddressesDialog}
+                toggleAddressesDialog={toggleAddressesDialog}
+                loginWithLedgerWallet={loginWithLedgerWallet}
+                handleHdPathChange={handleHdPathChange}
+                indexHdPathActive={indexHdPathActive}
+                hdPaths={hdPaths}
+                connectToLedger={connectToLedger}
+                nextAddresses={nextAddresses}
+                prevAddresses={prevAddresses}
+                ledgerError={ledgerError}
+                errorList={errorList}
+                loading={loading} />
+            } />
+
+            <Tab id="trezor" title="Trezor" panel={
+              <TrezorDevice 
+                openAddressesTrezorDialog={openAddressesTrezorDialog}
+                closeAddressesTrezorDialog={closeAddressesTrezorDialog}
+                isSelectAddressModalOpen={isSelectAddressModalOpen}
+                deviceService={deviceService} />
+            } />
           </TabsWrapper>
         </ImportWalletWrapper>
       </Wrapper>
@@ -97,18 +141,18 @@ const PrivateKey = (props) => {
   return (
     <React.Fragment>
       <LabelWrapper>
-        <LabelTitle>Enter your private key</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.privateKey.labelPrivateKey" /></LabelTitle> 
         <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
       </LabelWrapper>
-      {(privateKeyStatus === 'invalid') && (<ErrorMessage>Private key invalid</ErrorMessage>)}
+      {(privateKeyStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.privateKey.invalid" /></ErrorMessage>)}
 
       <LabelWrapper>
-        <LabelTitle>Temporary session password</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
         <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
-      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>Unlock Wallet</ButtonWrapper>
+      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonWrapper>
     </React.Fragment>
   )
 }
@@ -127,19 +171,234 @@ const MnemonicPhrase = (props) => {
   return (
     <React.Fragment>
       <LabelWrapper>
-        <LabelTitle>Please enter your 12 word phrase</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.mnemonic.labelMnemonic" /></LabelTitle> 
         <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
       </LabelWrapper>
-      {(mnemonicStatus === 'invalid') && (<ErrorMessage>Invalid Mnemonic. Mnemonic must be 12 words long</ErrorMessage>)}
+      {(mnemonicStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.mnemonic.invalid" /></ErrorMessage>)}
 
       <LabelWrapper>
-        <LabelTitle>Temporary session password</LabelTitle> 
+        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
         <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
-      <SmallText>Password need 8 or more characters, at least an upper case, symbol and a number</SmallText>
+      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
       <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
     </React.Fragment>
+  )
+}
+
+const LedgerDevice = (props) => {
+  const { 
+    addresses, 
+    isOpenAddressesDialog,
+    toggleAddressesDialog,
+    loginWithLedgerWallet,
+    handleHdPathChange,
+    indexHdPathActive,
+    hdPaths,
+    connectToLedger,
+    prevAddresses,
+    nextAddresses,
+    ledgerError,
+    errorList,
+    loading,
+  } = props
+
+  return (
+    <LedgerWrapper>
+      <Title><FormattedMessage id="unlockWalletPage.ledger.instruction1" /></Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <PasswordSymbol>******</PasswordSymbol>            
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <Title><FormattedMessage id="unlockWalletPage.ledger.instruction2" /></Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <img src={appTomoLogoUrl} alt="app Tomo logo"/>          
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
+      <InstructionBox>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
+      </InstructionBox>
+
+      <ButtonWrapper onClick={connectToLedger}><FormattedMessage id="unlockWalletPage.ledger.buttonTitle" /> {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonWrapper>
+
+      <AddressesDialog 
+        addresses={addresses}
+        isOpenAddressesDialog={isOpenAddressesDialog}
+        onClose={toggleAddressesDialog}
+        loginWithLedgerWallet={loginWithLedgerWallet}
+        prevAddresses={prevAddresses}
+        nextAddresses={nextAddresses}
+        handleHdPathChange={handleHdPathChange}
+        hdPaths={hdPaths}
+        indexHdPathActive={indexHdPathActive}
+        ledgerError={ledgerError}
+        errorList={errorList} />
+    </LedgerWrapper>
+  )
+}
+
+const TrezorDevice = (props) => {
+  const { 
+    isSelectAddressModalOpen, 
+    openAddressesTrezorDialog, 
+    closeAddressesTrezorDialog,
+    deviceService,
+  } = props
+
+  return (
+    <LedgerWrapper>
+      <Title>1. Enter PIN Code</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <PasswordSymbol>******</PasswordSymbol>            
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <Title>2. Open TomoChain</Title>
+
+      <LedgerImageBox>       
+        <LedgerImageBody>
+          <LedgerScreen>
+            <img src={appTomoLogoUrl} alt="app Tomo logo"/>          
+          </LedgerScreen>
+          <LedgerCircle />
+        </LedgerImageBody>
+
+        <LedgerImageHead />
+      </LedgerImageBox>
+
+      <InstructionBox>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
+        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
+      </InstructionBox>
+
+      <ButtonWrapper onClick={ openAddressesTrezorDialog }><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonWrapper>
+
+      <SelectAddressModal
+        title="Trezor Address"
+        isOpen={isSelectAddressModalOpen}
+        handleClose={closeAddressesTrezorDialog}
+        deviceService={deviceService}
+      />
+    </LedgerWrapper>
+  )
+}
+
+class AddressesDialog extends React.PureComponent {
+
+  render() {
+    const { 
+      addresses, 
+      loginWithLedgerWallet, 
+      isOpenAddressesDialog, 
+      onClose,
+      nextAddresses,
+      prevAddresses,
+      handleHdPathChange,
+      hdPaths,
+      indexHdPathActive,
+      ledgerError,
+      errorList,
+    } = this.props
+
+    return (
+      <Dialog
+        className="dark-dialog"
+        onClose={onClose}
+        title="Ledger Address"
+        canOutsideClickClose={false}
+        isOpen={isOpenAddressesDialog}>
+
+        <div>Select HD derivation path:</div>
+
+        <SelectHdPathBox>
+          <SelectHdPath
+            items={hdPaths}
+            itemRenderer={renderHdPath}
+            popoverProps={{ minimal: true, popoverClassName: 'hd-path-tooltip', portalClassName: 'hd-path-tooltip-wrapper' }}
+            noResults={<MenuItem disabled text="No results." />}
+            filterable={false}
+            onActiveItemChange={handleHdPathChange}>
+              <Button text={`${hdPaths[indexHdPathActive].rank}. ${hdPaths[indexHdPathActive].path} - ${hdPaths[indexHdPathActive].type}`} rightIcon="caret-down" />
+          </SelectHdPath>
+          {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
+        </SelectHdPathBox>
+
+        {(addresses.length > 0) && (
+          <AddressWrapper>
+            <div>Select an address to use:</div>
+            <AddressListBox addresses={addresses} loginWithLedgerWallet={loginWithLedgerWallet} />
+          </AddressWrapper>
+        )}
+
+        {(addresses.length > 0) && (
+          <NavigatorBox>
+            <NavigatorItem onClick={prevAddresses}>&lt; Previous</NavigatorItem> 
+            <NavigatorItem onClick={nextAddresses}>Next &gt;</NavigatorItem>
+          </NavigatorBox> 
+        )}      
+      </Dialog>
+    )
+  }
+}
+
+const AddressListBox = (props) => {
+  const { addresses, loginWithLedgerWallet } = props
+
+  const addressItems = addresses.map((address) => {
+    return (
+      <AddressItem key={ address.index }
+        onClick={() => loginWithLedgerWallet(address)}>
+        <div>{address.index + 1}. {address.addressString}</div>
+        <div>{address.balance}</div>
+      </AddressItem>
+    )
+  })
+
+  return (
+    <AddressList>
+      { addressItems }
+    </AddressList>
+  )
+}
+
+const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
+  const text = `${hdPath.rank}. ${hdPath.path} - ${hdPath.type}`
+
+  return (
+      <MenuItem
+          active={modifiers.active}
+          disabled={modifiers.disabled}
+          key={hdPath.rank}
+          onClick={handleClick}
+          text={text}
+          className="hd-path-item"
+      />
   )
 }
 
@@ -230,8 +489,10 @@ const LabelTitle = styled.div`
 
 const ButtonWrapper = styled(Button)`
   display: block;
-  margin-top: 45px;
-  width: 100%;
+  margin-top: ${props => props.margintop ? props.margintop : '45px'};
+  margin-left: auto;
+  margin-right: auto;
+  width: ${props => props.width ? props.width : '100%'};
   text-align: center;
   color: ${DarkMode.BLACK} !important;
   border-radius: 0;
@@ -247,6 +508,11 @@ const ButtonWrapper = styled(Button)`
     cursor: default !important;
     background-color: ${DarkMode.GRAY} !important;
   }
+
+  .bp3-spinner {
+    display: inline-block;
+    margin-left: 5px;
+  }
 `
 
 const InputGroupWrapper = styled.input`
@@ -258,7 +524,8 @@ const InputGroupWrapper = styled.input`
   margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
   background: ${DarkMode.BLACK};
   border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
-  width: 100%;
+  width: 100%;import { loginWithTrezorWallet } from '../../store/models/loginPage';
+
 
   &:focus {
     border: 1px solid ${DarkMode.ORANGE};
@@ -268,4 +535,149 @@ const InputGroupWrapper = styled.input`
 const ErrorMessage = styled.div`
   color: ${DarkMode.RED};
   font-size: 12px;
+  margin-top: 7px;
 `
+
+const LedgerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Title = styled.div`
+  text-align: ${props => props.textAlign ? props.textAlign : 'left'};
+  color: ${props => props.color ? props.color : 'inherit'}
+  cursor: ${props => props.cursor ? props.cursor : 'initial'};
+`
+
+const LedgerImageBox = styled.div`
+  position: relative;
+  padding-left: 16px;
+  width: 162px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+`
+
+const LedgerImageBody = styled.div`
+  width: 146px;
+  height: 41px;
+  border-radius: 6px;
+  background-color: ${DarkMode.BLACK};
+`
+
+const LedgerImageHead = styled.div`
+  width: 16px;
+  height: 18px;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before,
+  &::after {
+    content: " ";
+    width: 9px;
+    height: 3px;
+    display: inline-block;
+    background-color: ${DarkMode.BLACK};
+    position: absolute;
+    left: 4px;
+    top: 4px;
+  }
+
+  &::after {
+    top: 11px;
+  }
+`
+
+const LedgerScreen = styled.div`
+  width: 85px;
+  height: 18px;
+  text-align: center;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+`
+
+const LedgerCircle = styled.div`
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: ${DarkMode.LIGHT_BLUE};
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+`
+
+const PasswordSymbol = styled.span`
+  display: inline-block;
+  padding-top: 3px;
+  color: ${DarkMode.ORANGE};
+`
+
+const InstructionBox = styled.div`
+  width: 100%;  
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+`
+
+const AddressWrapper = styled.div``
+
+const AddressList = styled.ul`
+  height: 175px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 10px;
+`
+
+const AddressItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  cursor: pointer;
+
+  &:nth-child(2n+1) {
+    background-color: ${DarkMode.BLACK};
+  }
+
+  &:hover {
+    background-color: ${DarkMode.BLUE};
+  }
+`
+
+const SelectHdPathBox = styled.div`
+  margin: 12px 0 30px;
+`
+
+const SelectHdPath = styled(Select)`
+  .bp3-popover-target {
+    width: 100%;
+  }
+
+  .bp3-button {
+    height: 40px;
+    width: 100%;
+    border-radius: 0;
+  }
+`
+
+const NavigatorBox = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const NavigatorItem = styled.span`
+  margin: 0 10px;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    color: ${DarkMode.ORANGE};
+  }
+`
+

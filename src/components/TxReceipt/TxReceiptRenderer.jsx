@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import styled from 'styled-components'
 import { Button, Collapse } from '@blueprintjs/core'
 
 type Props = {
@@ -18,7 +19,7 @@ const TxReceiptRenderer = (props: Props) => {
       <Button minimal text={visible ? `Hide Receipt` : `Show Receipt`} onClick={toggleVisible} />
       <Collapse isOpen={visible}>
         <ul>
-          <li key="1">Block Hash: {blockHash}</li>
+          <li key="1">Block Hash: <WordBreak>{blockHash}</WordBreak></li>
           <li key="2">Block Number: {blockNumber}</li>
           <li key="3">Gas Used: {gasLimit}</li>
           <li key="4">Transaction Hash: {hash}</li>
@@ -29,3 +30,7 @@ const TxReceiptRenderer = (props: Props) => {
 }
 
 export default TxReceiptRenderer
+
+const WordBreak = styled.p`
+  word-break: break-all;
+`

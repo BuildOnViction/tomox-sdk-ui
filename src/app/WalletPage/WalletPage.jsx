@@ -1,11 +1,11 @@
 // @flow
-import React from 'react';
-import WalletPageRenderer from './WalletPageRenderer';
-import { Redirect } from 'react-router-dom';
+import React from 'react'
+import WalletPageRenderer from './WalletPageRenderer'
+import { Redirect } from 'react-router-dom'
 
-import type { TokenData } from '../../types/tokens';
+import type { TokenData } from '../../types/tokens'
 
-import { loadShowHelpModalSetting } from '../../store/services/storage';
+import { loadShowHelpModalSetting } from '../../store/services/storage'
 
 type Props = {
   connected: boolean,
@@ -14,7 +14,6 @@ type Props = {
   gasPrice: number,
   gas: number,
   authenticated: boolean,
-  queryAccountData: void => void,
   redirectToTradingPage: string => void,
   openConnection: void => void,
   toggleAllowance: string => void,
@@ -24,34 +23,24 @@ type Props = {
   showHelpModal: boolean,
   closeHelpModal: void => void,
   balancesLoading: boolean,
-  WETHBalance: string,
-  WETHAllowance: string
-};
+}
 
 class WalletPage extends React.PureComponent<Props> {
-  componentDidMount() {
-    const { authenticated, queryAccountData } = this.props;
-
-    if (authenticated) queryAccountData();
-  }
 
   checkOpenHelpModal = () => {
-    const showHelpModalSetting = loadShowHelpModalSetting();
+    const showHelpModalSetting = loadShowHelpModalSetting()
     const {
       authenticated,
       showHelpModal,
       balancesLoading,
-      WETHBalance,
-      WETHAllowance
-    } = this.props;
+    } = this.props
 
-    if (!showHelpModalSetting) return false;
-    if (!authenticated) return false;
-    if (!showHelpModal) return false;
-    if (balancesLoading) return false;
-    if (WETHBalance !== '0.0' && WETHAllowance !== '0.0') return false;
+    if (!showHelpModalSetting) return false
+    if (!authenticated) return false
+    if (!showHelpModal) return false
+    if (balancesLoading) return false
 
-    return true;
+    return true
   };
 
   render() {
@@ -68,12 +57,13 @@ class WalletPage extends React.PureComponent<Props> {
       quoteTokens,
       baseTokens,
       closeHelpModal,
-      balancesLoading
-    } = this.props;
+      balancesLoading,
+      copyDataSuccess,
+    } = this.props
 
-    if (!authenticated) return <Redirect to="/unlock" />;
+    if (!authenticated) return <Redirect to="/unlock" />
 
-    const isHelpModalOpen = this.checkOpenHelpModal();
+    const isHelpModalOpen = this.checkOpenHelpModal()
 
     return (
       <WalletPageRenderer
@@ -90,9 +80,10 @@ class WalletPage extends React.PureComponent<Props> {
         redirectToTradingPage={redirectToTradingPage}
         isHelpModalOpen={isHelpModalOpen}
         closeHelpModal={closeHelpModal}
+        copyDataSuccess={copyDataSuccess}
       />
-    );
+    )
   }
 }
 
-export default WalletPage;
+export default WalletPage

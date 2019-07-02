@@ -1,10 +1,11 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import { Button, ControlGroup, InputGroup, Label } from '@blueprintjs/core';
-import TokenSelect from '../TokenSelect';
-import GasSettings from '../GasSettings';
-import TxNotification from '../TxNotification';
+import React from 'react'
+import styled from 'styled-components'
+import { Button, InputGroup, Label } from '@blueprintjs/core'
+import TokenSelect from '../TokenSelect'
+import GasSettings from '../GasSettings'
+import TxNotification from '../TxNotification'
+import { DarkMode, Theme } from '../Common'
 
 type Props = {
   loading: boolean,
@@ -21,7 +22,7 @@ type Props = {
   handleChange: (SyntheticInputEvent<>) => void,
   handleTokenChange: (SyntheticEvent<>) => void,
   handleSubmit: (SyntheticEvent<>) => void
-};
+}
 
 const TransferTokensFormRenderer = (props: Props) => {
   const {
@@ -38,38 +39,44 @@ const TransferTokensFormRenderer = (props: Props) => {
     receiver,
     handleChange,
     handleTokenChange,
-    handleSubmit
-  } = props;
+    handleSubmit,
+  } = props
 
   return (
     <div>
       <Label helpertext="(in ether or in token decimals)" text="Amount to Send">
-        <ControlGroup fill vertical={false}>
-          <InputGroup
-            icon="filter"
-            placeholder="Ex: 1.0 for 1 ether"
-            name="amount"
-            value={amount}
-            onChange={handleChange}
-          />
-          <TokenSelect
-            token={token}
-            tokens={tokens}
-            onChange={handleTokenChange}
-          />
-        </ControlGroup>
+        Select a token
+        <TokenSelect
+          token={token}
+          tokens={tokens}
+          onChange={handleTokenChange}
+        />
       </Label>
-      <br />
+
+      <Label helpertext="(in ether or in token decimals)" text="Amount to Send"> 
+        Amount         
+        <InputGroupWrapper
+          icon="filter"
+          placeholder=""
+          name="amount"
+          value={amount}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+      </Label>
+
       <Label text="Receiver Address" helpertext="(should start with 0x)">
-        <InputGroup
-          placeholder="Receiver"
+        Receiver
+        <InputGroupWrapper
+          placeholder="Receiver's wallet address"
           name="receiver"
           value={receiver}
           onChange={handleChange}
         />
       </Label>
-      <br />
+
       <GasSettings gas={gas} gasPrice={gasPrice} handleChange={handleChange} />
+
       <TxNotificationBox>
         <TxNotification
           loading={loading}
@@ -80,7 +87,8 @@ const TransferTokensFormRenderer = (props: Props) => {
           gas={gas}
         />
       </TxNotificationBox>
-      <Button
+
+      <ButtonWrapper
         text="Send Transaction"
         intent="primary"
         large
@@ -90,12 +98,46 @@ const TransferTokensFormRenderer = (props: Props) => {
         disabled={loading || (receipt !== null)}
       />
     </div>
-  );
-};
+  )
+}
+
+export default TransferTokensFormRenderer
 
 const TxNotificationBox = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
-`;
+`
 
-export default TransferTokensFormRenderer;
+const InputGroupWrapper = styled(InputGroup)`
+  .bp3-input {
+    height: 40px;
+    color: ${DarkMode.LIGHT_GRAY};
+    background: ${DarkMode.BLACK};
+  }
+`
+
+const ButtonWrapper = styled(Button)`
+  display: block;
+  margin: 35px auto 0;
+  min-width: 180px;
+  text-align: center;
+  color: ${DarkMode.BLACK} !important;
+  border-radius: 0;
+  background-color: ${DarkMode.ORANGE} !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  height: 40px;
+  &:hover {
+    background-color: ${DarkMode.DARK_ORANGE} !important;
+  }
+
+  &.bp3-disabled {
+    cursor: default !important;
+    background-color: ${DarkMode.GRAY} !important;
+  }
+
+  .bp3-button-text {
+    font-size: ${Theme.FONT_SIZE_MD};
+  }
+`
+

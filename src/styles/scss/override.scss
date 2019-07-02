@@ -112,5 +112,56 @@
   }
 }
 
+.dark-dialog,
+.bp3-dialog-header {
+  background-color: $tm-dark-blue !important;
+}
+
+.dark-dialog {
+  padding: 10px 25px 25px;
+  min-width: 650px;
+
+  .bp3-dialog-header {
+    padding: 0;
+    min-height: unset;
+    margin-bottom: 15px;
+  }
+
+  .bp3-heading {
+    color: $tm-gray;
+    font-size: $tm-font-size-h3;
+  }
+
+  .bp3-button.bp3-minimal:hover{
+    background: $tm-black;
+  }
+
+  &.sm {
+    min-width: 450px;
+  }
+}
+
+.hd-path-tooltip-wrapper,
+.hd-path-tooltip-wrapper > div,
+.hd-path-tooltip {
+  min-width: 600px;
+}
+
+.hd-path-tooltip-wrapper {
+  .bp3-menu-item {
+    border-radius: 0;
+    padding: 10px;
+
+    &:hover {
+      color: $tm-white;
+      background-color: $tm-light-gray;
+    }
+  }
+
+  .bp3-menu-item.bp3-intent-primary.bp3-active {
+    background-color: $tm-gray;
+  }
+}
+
 
 

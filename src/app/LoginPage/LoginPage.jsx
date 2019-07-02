@@ -2,14 +2,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
+import { utils } from 'ethers'
+import { formatNumber } from 'accounting-js'
+
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
-// import { TrezorSigner } from '../../store/services/signer/trezor'
+import { TrezorSigner } from '../../store/services/signer/trezor'
+import { LedgerWallet } from '../../store/services/signer/ledger'
 import {
   createWalletFromMnemonic,
   createWalletFromPrivateKey,
   // getEncryptedWalletAddress,
 } from '../../store/services/wallet'
+import AddressGenerator from '../../store/services/device/addressGenerator'
+import { validatePassword } from '../../utils/helpers'
 
 type Props = {
   authenticated: boolean,
@@ -28,7 +34,23 @@ type State = {
   mnemonic: string,
   password: string,
   passwordStatus: string,
+  isOpenAddressesDialog: boolean,
+  addresses: Array<Object>,
+  indexAddress: number,
+  ledgerError: object,
 }
+
+const errorList = {
+  "TransportOpenUserCancelled": "No device selected.",
+  "26368": "Invalid status 0x6700. Check to make sure the right application is selected?",
+  "26628": "Invalid status 0x6804. Check to make sure the right application is selected?",
+}
+
+const hdPaths = [
+  {path: "m/44'/889'/0'/0", type: "TomoChain App"},
+  {path: "m/44'/60'/0'", type: "Ledger Live"},
+  {path: "m/44'/60'/0'/0", type: "Ethereum App"},
+].map((m, index) => ({ ...m, rank: index + 1 }))
 
 class LoginPage extends React.PureComponent<Props, State> {
 
@@ -40,9 +62,75 @@ class LoginPage extends React.PureComponent<Props, State> {
     mnemonic: '',
     password: '',
     passwordStatus: 'initial',
+    isOpenAddressesDialog: false,
+    addresses: [],
+    indexAddress: 0,
+    indexHdPathActive: 0,
+    ledgerError: null,
+    loading: false,
   }
 
-  handleTabChange = (selectedTabId: string) => {
+  createLedgerSigner = async () => {
+    try {
+      new LedgerWallet()
+      await window.signer.instance.create()
+    } catch(e) {
+      throw e
+    }
+  }
+  
+  getMultipleAddresses = async (offset, limit = 5, init) => {
+    try {
+      if (init) {
+        const { indexHdPathActive } = this.state
+        const publicKey = await window.signer.instance.getPublicKey(hdPaths[indexHdPathActive].path)
+        if (!publicKey) return
+        this.generator = new AddressGenerator(publicKey)
+      }
+      
+      const getBalancePromises = []
+
+      for (let index = offset; index < offset + limit; index++) {
+          const addressString = this.generator.getAddressString(index)
+
+          const address = {
+              addressString,
+              index,
+              balance: -1,
+          }
+
+          getBalancePromises.push(this.getBalance(address))
+      }
+
+      const addressesWithBalance = await Promise.all(getBalancePromises)
+
+      this.setState({
+        indexAddress: offset + limit,
+        addresses: addressesWithBalance,
+      })
+    } catch(e) {
+      throw e
+    }
+  }
+
+  getBalance = async (address: Object, index: number) => {
+    const result = await this.props.getBalance(address.addressString)
+    address.balance = formatNumber(utils.formatEther(result), { precision: 2 })
+
+    return address
+  }
+
+  prevAddresses = () => {
+    let offset = this.state.indexAddress - 10
+    offset = (offset > 0) ? offset : 0
+    this.getMultipleAddresses(offset, 5, false)
+  }
+
+  nextAddresses = () => {
+    this.getMultipleAddresses(this.state.indexAddress, 5, false)
+  }
+
+  handleTabChange = async (selectedTabId: string) => {
     this.setState({ 
       selectedTabId,
       privateKeyStatus: 'initial',
@@ -54,23 +142,19 @@ class LoginPage extends React.PureComponent<Props, State> {
     })
   }
 
-  checkPrivateValid = (privateKey) => {
-    (privateKey.length === 66) ? this.setState({isPrivateKeyValid: true}) : this.setState({isPrivateKeyValid: false})
-  }
-
   handlePrivateKeyChange = (e) => {
-    if (e.target.value.length !== 66) {
-      this.setState({ 
+    if (e.target.value.length === 66 || e.target.value.length === 64) {
+      this.setState({
         privateKey: e.target.value,
-        privateKeyStatus: 'invalid',
+        privateKeyStatus: 'valid',
       })
-      return
+      return 
     }
 
-    this.setState({
+    this.setState({ 
       privateKey: e.target.value,
-      privateKeyStatus: 'valid',
-    })
+      privateKeyStatus: 'invalid',
+    })    
   }
 
   handleMnemonicChange = (e) => {
@@ -90,9 +174,8 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   handlePasswordChange = (e) => {
     const password = e.target.value
-    const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g
 
-    if (!validationPasswordRegex.test(password)) {
+    if (!validatePassword(password)) {
       this.setState({ 
         passwordStatus: 'invalid',
         password,
@@ -115,7 +198,8 @@ class LoginPage extends React.PureComponent<Props, State> {
 
     if (privateKeyStatus !== 'valid') return
 
-    const wallet = await createWalletFromPrivateKey(privateKey)
+    const privateKeyString = (privateKey.length === 64) ? `0x${privateKey}` : privateKey
+    const wallet = await createWalletFromPrivateKey(privateKeyString)
 
     if (!wallet) {
       this.setState({ privateKeyStatus: 'invalid' })
@@ -143,11 +227,63 @@ class LoginPage extends React.PureComponent<Props, State> {
     loginWithWallet(wallet)
   }
 
+  toggleAddressesDialog = (status) => {
+    if (status === 'open') {
+      this.setState({ isOpenAddressesDialog: true })
+      return
+    } 
+    
+    this.setState({ 
+      indexHdPathActive: 0,
+      isOpenAddressesDialog: false,
+      loading: false,
+    })
+  }
+
+  handleHdPathChange = async (path) => {
+    this.setState({ indexHdPathActive: path.rank - 1 })
+    await this.connectToLedger()
+  }
+
+  connectToLedger = async () => {    
+    try {
+      this.setState({ loading: true })
+      await this.createLedgerSigner()
+      await this.getMultipleAddresses(0, 5, true) // Init get addresses
+      
+      if (this.state.addresses.length > 0) {
+        this.setState({ 
+          ledgerError: null,
+          loading: false,
+        })
+
+        this.toggleAddressesDialog('open')
+      }
+    } catch(e) {
+      this.setState({ 
+        ledgerError: e,
+        addresses: [],
+      })
+    }
+  }
+
+  openAddressesTrezorDialog = async () => {
+    this.deviceService = new TrezorSigner()
+    await this.props.getTrezorPublicKey(this.deviceService)
+  }
+
+  closeAddressesTrezorDialog = () => {
+    this.props.closeSelectAddressModal()
+  }
+
   render() {
 
     const {
       props: {
         authenticated,
+        isSelectAddressModalOpen,
+        loginWithLedgerWallet,
+        loginWithTrezorWallet,
       },
       state: { 
         selectedTabId, 
@@ -157,6 +293,11 @@ class LoginPage extends React.PureComponent<Props, State> {
         mnemonic,
         password,
         passwordStatus,
+        addresses,
+        isOpenAddressesDialog,
+        indexHdPathActive,
+        ledgerError,
+        loading,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -164,6 +305,14 @@ class LoginPage extends React.PureComponent<Props, State> {
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       handlePasswordChange,
+      toggleAddressesDialog,
+      handleHdPathChange,
+      connectToLedger,
+      prevAddresses,
+      nextAddresses,
+      openAddressesTrezorDialog,
+      closeAddressesTrezorDialog,
+      deviceService,
     } = this
 
     // go to markets by default
@@ -186,7 +335,25 @@ class LoginPage extends React.PureComponent<Props, State> {
           unlockWalletWithMnemonic={unlockWalletWithMnemonic}
           password={password}
           passwordStatus={passwordStatus}
-          handlePasswordChange={handlePasswordChange} />
+          handlePasswordChange={handlePasswordChange}
+          addresses={addresses}
+          isOpenAddressesDialog={isOpenAddressesDialog}
+          toggleAddressesDialog={toggleAddressesDialog}
+          loginWithLedgerWallet={loginWithLedgerWallet}
+          handleHdPathChange={handleHdPathChange}
+          indexHdPathActive={indexHdPathActive}
+          hdPaths={hdPaths}
+          connectToLedger={connectToLedger}
+          prevAddresses={prevAddresses}
+          nextAddresses={nextAddresses}
+          ledgerError={ledgerError}
+          errorList={errorList}
+          isSelectAddressModalOpen={isSelectAddressModalOpen}
+          openAddressesTrezorDialog={openAddressesTrezorDialog}
+          closeAddressesTrezorDialog={closeAddressesTrezorDialog}
+          deviceService={deviceService}
+          loginWithTrezorWallet={loginWithTrezorWallet}
+          loading={loading} />
       </Wrapper>
     )
   }

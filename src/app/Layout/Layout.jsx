@@ -15,7 +15,10 @@ import {
   Icon,
   Switch,
 } from '@blueprintjs/core'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { FormattedMessage } from 'react-intl'
+
+import { locales } from '../../locales'
 import {
   NavbarDivider,
   Theme,
@@ -30,6 +33,8 @@ import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
+import walletGrayUrl from '../../assets/images/wallet_gray.svg'
+import walletWhiteUrl from '../../assets/images/wallet_white.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -66,11 +71,23 @@ class Layout extends React.PureComponent<Props, State> {
 
 class Default extends React.PureComponent<Props, State> {
   componentDidMount() {
-    const { createProvider, queryAppData } = this.props
+    const { createProvider, authenticated, queryAppData, queryAccountData } = this.props
 
     queryAppData()
+
     if (createProvider) {
       createProvider()
+    }
+
+    if (authenticated) {
+      queryAccountData()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.authenticated !== this.props.authenticated
+      && this.props.authenticated) {
+        this.props.queryAccountData()
     }
   }
 
@@ -97,6 +114,8 @@ class Default extends React.PureComponent<Props, State> {
       pathname, 
       referenceCurrency,
       copyDataSuccess,
+      locale,
+      changeLocale,
     } = this.props
 
     const menu = (
@@ -156,7 +175,7 @@ class Default extends React.PureComponent<Props, State> {
                 {currentPairData && 
                   (<TokenTick className="token-tick">
                     <div className="tick last-price">
-                      <div className="title">Last Price</div>
+                      <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div>
                         <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
                         <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
@@ -164,7 +183,7 @@ class Default extends React.PureComponent<Props, State> {
                     </div>
 
                     <div className="tick change">
-                      <div className="title">24h Change</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
                         <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
                         <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
@@ -172,21 +191,21 @@ class Default extends React.PureComponent<Props, State> {
                     </div>
 
                     <div className="tick high">
-                      <div className="title">24h High</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div className="up">
                         <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
                       </div>
                     </div>
 
                     <div className="tick low">
-                      <div className="title">24h Low</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div className="down">
                         <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
                       </div>
                     </div>
 
                     <div className="tick volume">
-                      <div className="title">24h Volume</div>
+                      <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
                         <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
                       </div>
@@ -208,7 +227,9 @@ class Default extends React.PureComponent<Props, State> {
 
               <UserItem className="utility-item notification">
                 {!authenticated ? (
-                  <NavbarLink to="/unlock">Unlock wallet</NavbarLink>
+                  <NavbarLink to="/unlock">
+                    <WalletIconBox title="Unlock your wallet"></WalletIconBox>
+                  </NavbarLink>
                 ) : (
                   <React.Fragment>
                     <Popover
@@ -226,11 +247,11 @@ class Default extends React.PureComponent<Props, State> {
                 <i>language</i>              
 
                 <Popover
-                  content={'todo: languages list'}
+                  content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">
-                    <span>English</span> 
+                    <span>{locales[locale]}</span> 
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
@@ -249,7 +270,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle>Markets</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>  
             <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
@@ -261,7 +282,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle>Exchange</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.exchange" /></SidebarItemTitle>
               </SidebarItemBox>
             </NavLink>         
             <NavLink className="sidebar-item portfolio-link" to="/wallet">
@@ -273,7 +294,7 @@ class Default extends React.PureComponent<Props, State> {
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip> 
-                <SidebarItemTitle>Portfolio</SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.portfolio" /></SidebarItemTitle>
               </SidebarItemBox>
               </NavLink>   
 
@@ -286,7 +307,7 @@ class Default extends React.PureComponent<Props, State> {
                     transitionDuration={0}>
                     <i></i> 
                   </Tooltip> 
-                  <SidebarItemTitle>Docs/FAQ</SidebarItemTitle>
+                  <SidebarItemTitle><FormattedMessage id="mainMenuPage.docsFaq" /></SidebarItemTitle>
                 </SidebarItemBox>
               </NavExternalLink>
             <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
@@ -310,6 +331,8 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
   render() {
     const { 
       children, 
+      locale,
+      changeLocale,
     } = this.props
 
     return (
@@ -322,15 +345,19 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+              <PageLink to="/markets">Markets</PageLink>
+
+              <PageLink to="/trade">Exchange</PageLink>
+
               <LanguageItem className="utility-item language">
                 <i>language</i>              
 
                 <Popover
-                  content={'todo: languages list'}
+                  content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
                   position={Position.BOTTOM_RIGHT}
                   minimal>
                   <div className="languages-dropdown">
-                    <span>English</span> 
+                    <span>{locales[locale]}</span> 
                     <span className="arrow"></span>
                   </div>
                 </Popover>  
@@ -343,6 +370,17 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
       </CreateImportWrapper>
     )
   }
+}
+
+const MenuLocales = (props) => {
+  const { changeLocale, locale } = props
+
+  return (
+    <LocaleList>
+      <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]} {(locale === "en") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
+      <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]} {(locale === "vi") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
+    </LocaleList>
+  )
 }
 
 export default Layout
@@ -490,6 +528,10 @@ const NavbarLink = styled(NavLink)`
   }
 `
 
+const PageLink = styled(NavbarLink)`
+  margin-right: 35px;
+`
+
 const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',
 })``
@@ -551,8 +593,40 @@ const MenuItem = styled.li`
 `
 
 const MenuItemLink = styled(NavLink)`
+  display: block;
   color: ${DarkMode.LIGHT_GRAY}; 
   &:hover {
     color: ${DarkMode.LIGHT_GRAY};
+  }
+`
+
+const LocaleList = styled(MenuWallet)`
+  width: 100px;
+`
+const LocaleItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: ${props => props.active ? DarkMode.ORANGE : 'inherit'};
+  background-color: ${props => props.active ? DarkMode.BLUE : 'inherit'};
+
+  &:hover {
+    color: ${DarkMode.WHITE};
+    background-color: ${DarkMode.BLUE};
+  }
+`
+
+const WalletIconBox = styled.span`
+  display: inline-flex;
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  background: url(${walletGrayUrl}) no-repeat center center;
+  background-size: 20px 20px;
+
+  &:hover {
+    background: url(${walletWhiteUrl}) no-repeat center center;
+    background-size: 20px 20px;
   }
 `

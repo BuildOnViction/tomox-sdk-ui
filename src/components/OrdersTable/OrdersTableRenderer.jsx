@@ -7,12 +7,15 @@ import {
   Tabs,
   Checkbox,
 } from '@blueprintjs/core'
-import { Colors, Loading, CenteredMessage, DarkMode } from '../Common'
+import { FormattedMessage } from 'react-intl'
+
+import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
 import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
 import { pricePrecision } from '../../config/tokens'
-import checkmarkUrl from '../../assets/images/checked.svg'
+import tickUrl from '../../assets/images/tick.svg'
+import FundsTable from '../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -28,7 +31,7 @@ type Props = {
     CANCELLED: Array<Order>,
     FILLED: Array<Order>
   }
-};
+}
 
 const widthColumns = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '12%', '10%', '10%', '15%', '10%', '15%']
@@ -51,7 +54,7 @@ const OrdersTableRenderer = (props: Props) => {
       <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
-          title="Open Orders"
+          title={<FormattedMessage id="exchangePage.openOrders" />}
           panel={
             <OrdersTablePanel
               loading={loading}
@@ -65,7 +68,7 @@ const OrdersTableRenderer = (props: Props) => {
         />
         <Tab
           id="order-history"
-          title="Order History"
+          title={<FormattedMessage id="exchangePage.orderHistory" />}
           panel={
             <OrdersTablePanel
               loading={loading}
@@ -79,7 +82,7 @@ const OrdersTableRenderer = (props: Props) => {
         />
         <Tab
           id="trade-history"
-          title="Trade History"
+          title={<FormattedMessage id="exchangePage.tradeHistory" />}
           panel={
             <OrdersTablePanel
               loading={loading}
@@ -93,7 +96,10 @@ const OrdersTableRenderer = (props: Props) => {
         />
         <Tab
           id="funds"
-          title="Funds"
+          title={<FormattedMessage id="exchangePage.funds" />}
+          panel={
+            <FundsTable />
+          }
         />
       </TabsContainer>
     </React.Fragment>
@@ -149,15 +155,15 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader className="header">
-        <HeaderCell width={widthColumns[0]}>Date</HeaderCell>
-        <HeaderCell width={widthColumns[1]}>Pair</HeaderCell>
-        <HeaderCell width={widthColumns[2]}>Type</HeaderCell>
-        <HeaderCell width={widthColumns[3]}>Side</HeaderCell>
-        <HeaderCell width={widthColumns[4]}>Price</HeaderCell>
-        <HeaderCell width={widthColumns[5]}>Amount</HeaderCell>
-        <HeaderCell width={widthColumns[6]}>Total</HeaderCell>          
-        <HeaderCell width={widthColumns[7]}>Filled(%)</HeaderCell>
-        <HeaderCell width={widthColumns[8]}>Status</HeaderCell>
+        <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={widthColumns[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={widthColumns[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
+        <HeaderCell width={widthColumns[4]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
+        <HeaderCell width={widthColumns[7]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={widthColumns[8]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
         <HeaderCell width={widthColumns[9]}></HeaderCell>
       </ListHeader>
 
@@ -167,8 +173,8 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumns[1]} title={order.pair} muted>
                 {order.pair}
@@ -216,15 +222,15 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader className="header">
-        <HeaderCell width={widthColumnsOrderHistory[0]}>Date</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[1]}>Pair</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[2]}>Type</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[3]}>Side</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[4]}>Price</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[5]}>Amount</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[6]}>Total</HeaderCell>          
-        <HeaderCell width={widthColumnsOrderHistory[7]}>Filled(%)</HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[8]}>Status</HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[4]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
+        <HeaderCell width={widthColumnsOrderHistory[7]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[8]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
@@ -233,8 +239,8 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
                 {order.pair}
@@ -274,12 +280,12 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader className="header">
-        <HeaderCell width={widthColumnsTradeHistory[0]}>Date</HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[1]}>Pair</HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[2]}>Type</HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[3]}>Price</HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[4]}>Filled</HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[5]}>Total</HeaderCell>          
+        <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
       </ListHeader>
 
       {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
@@ -288,8 +294,8 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row className="order-row" key={index}>
-              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd H:k:mm')} muted>
-                {formatDate(order.time, 'LL-dd H:k:mm')}
+              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
                 {order.pair}
@@ -320,24 +326,24 @@ const TabsContainer = styled(Tabs)`
 
 const ListContainer = styled.div`
   height: 100%;
-`;
+`
 const ListBodyWrapper = styled.ul`
   width: 100%;
   margin: 0;
   overflow-y: auto;
-`;
+`
 const ListHeader = styled.li`
   width: 100%;
   display: flex;
   margin: 0px !important;
   padding: 10px;
   text-align: left;
-`;
+`
 
 const Row = styled.li``
 
 const Cell = styled.span.attrs({
-  className: props => props.className
+  className: props => props.className,
 })`
   color: ${props =>
     props.side === 'BUY'
@@ -359,33 +365,33 @@ const Cell = styled.span.attrs({
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
-`;
+`
 
 const CancelIcon = styled(Icon)`
   cursor: pointer;
 `
 
 const CheckboxHidePairs = styled(Checkbox)`
+  font-size: ${Theme.FONT_SIZE_SM};
+  text-align: center;
+  margin-bottom: 0 !important;
   position: absolute;
   top: 2px;
   right: 10px;
   user-select: none;
 
   .bp3-control-indicator {
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 0 !important;
     box-shadow: none !important;
     background-image: none !important;
-    background-color: ${DarkMode.WHITE} !important;   
+  }
+
+  input:checked ~ .bp3-control-indicator {
+    background-color: ${DarkMode.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {
-    width: 12px !important;
-    height: 12px !important;
-    background: url(${checkmarkUrl}) no-repeat center center !important;
-    background-size: 8px 8px !important;
+    background: url(${tickUrl}) no-repeat center center !important;
   }
 `
 
-export default OrdersTableRenderer;
+export default OrdersTableRenderer

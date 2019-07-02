@@ -1,13 +1,14 @@
 // @flow
-import React from 'react';
-import TransferTokensFormRenderer from './TransferTokensFormRenderer';
+import React from 'react'
+import TransferTokensFormRenderer from './TransferTokensFormRenderer'
 
 // import {
 //   convertToWei
 // } from '../../utils/bignumber'
 
-import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm';
-import type { Token } from '../../types/tokens';
+import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens'
+import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm'
+import type { Token } from '../../types/tokens'
 
 type State = {
   token: Token,
@@ -15,7 +16,7 @@ type State = {
   receiver: string,
   customGas: ?number,
   customGasPrice: ?number,
-};
+}
 
 type Props = {
   address: string,
@@ -34,7 +35,7 @@ type Props = {
   sendEtherTx: TOMOTxParams => void,
   sendTransferTokensTx: TransferTokensTxParams => void,
   resetForm: void => void
-};
+}
 
 class TransferTokensForm extends React.PureComponent<Props, State> {
   state = {
@@ -44,7 +45,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     sender: '',
     customGas: null,
     customGasPrice: null,
-  };
+  }
 
   componentWillUnmount() {
     this.setState({
@@ -53,21 +54,21 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       receiver: '',
       customGas: null,
       customGasPrice: null,
-    }, this.props.resetForm());
+    }, this.props.resetForm())
   }
 
   handleChange = (e: SyntheticInputEvent<>) => {
-    const { value, name } = e.target;
+    const { value, name } = e.target
 
     this.setState({ [name]: value }, () => {
-      let { amount, receiver, token, customGasPrice, customGas } = this.state;
-      let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props;
+      let { amount, receiver, token, customGasPrice, customGas } = this.state
+      let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
 
-      gas = customGas || gas;
-      gasPrice = customGasPrice || gasPrice;
+      gas = customGas || gas
+      gasPrice = customGasPrice || gasPrice
 
-      if (token.address === '0x0' && amount && receiver) {
-        validateEtherTx({ amount, receiver, gas, gasPrice });
+      if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
+        validateEtherTx({ amount, receiver, gas, gasPrice })
       } else if (amount && receiver && token) {
         validateTransferTokensTx({ 
           amount, 
@@ -76,18 +77,20 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
           gasPrice, 
           tokenAddress: token.address, 
           tokenDecimals: token.decimals,
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   handleTokenChange = (token: Object) => {
-    this.setState({ token: token }, () => {
-      let { amount, receiver, token } = this.state;
-      let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props;
+    this.setState({ token }, () => {
+      const { amount, receiver, token } = this.state
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx, resetForm } = this.props
 
-      if (token.address === '0x0' && amount && receiver) {
-        validateEtherTx({ amount, receiver, gas, gasPrice });
+      resetForm()
+
+      if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
+        validateEtherTx({ amount, receiver, gas, gasPrice })
       } else if (token && amount && receiver) {
         validateTransferTokensTx({ 
           amount, 
@@ -96,21 +99,21 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
           gasPrice, 
           tokenAddress: token.address, 
           tokenDecimals: token.decimals,
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   handleSubmit = () => {
-    let { amount, receiver, token, customGas, customGasPrice } = this.state;
-    let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props;
-    gas = customGas || gas;
-    gasPrice = customGasPrice || gasPrice;    
+    const { amount, receiver, token, customGas, customGasPrice } = this.state
+    let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props
+    gas = customGas || gas
+    gasPrice = customGasPrice || gasPrice
           
-    console.log(amount, receiver, gas, gasPrice, token);
+    // console.log(amount, receiver, gas, gasPrice, token)
     
-    if (this.state.token.address === '0x0') {
-      sendEtherTx({ amount, receiver, gas, gasPrice, address });
+    if (this.state.token.address === NATIVE_TOKEN_ADDRESS) {
+      sendEtherTx({ amount, receiver, gas, gasPrice, address })
     } else {
       sendTransferTokensTx({ 
         amount, 
@@ -119,15 +122,15 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
         gasPrice, 
         tokenAddress: token.address, 
         tokenDecimals: token.decimals,
-      });
+      })
     }
-  };
+  }
 
   render() {
-    let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt } = this.props;
-    let { token, amount, receiver, customGas, customGasPrice } = this.state;
-    gas = customGas || gas;
-    gasPrice = customGasPrice || gasPrice;
+    let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt } = this.props
+    let { token, amount, receiver, customGas, customGasPrice } = this.state
+    gas = customGas || gas
+    gasPrice = customGasPrice || gasPrice
 
     return (
       <TransferTokensFormRenderer
@@ -147,8 +150,8 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
         amount={amount}
         receiver={receiver}
       />
-    );
+    )
   }
 }
 
-export default TransferTokensForm;
+export default TransferTokensForm

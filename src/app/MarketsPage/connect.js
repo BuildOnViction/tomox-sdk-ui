@@ -2,6 +2,7 @@
 import { connect } from 'react-redux'
 import getMarketsPageSelector, {
   queryMarketData,
+  releaseResources,
 } from '../../store/models/marketsPage'
 
 import type { State } from '../../types'
@@ -17,6 +18,7 @@ export function mapStateToProps(state: State) {
 
 export const mapDispatchToProps = {
   queryMarketData,
+  releaseResources,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)

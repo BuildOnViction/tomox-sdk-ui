@@ -19,13 +19,14 @@ import type {
 
 const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
 // Todo: at the moment we choose ETH/TOMO is default current pair
-const defaultTokenPair = Object.values(defaultTokenPairs).filter(tokenPair => tokenPair.pair === 'ETH/TOMO')
+const defaultTokenPair = Object.values(defaultTokenPairs)[0]
 const defaultInitialState: TokenPairState = {
   byPair: defaultTokenPairs,
   data: {},
   favorites: [],
-  currentPair: (defaultTokenPair[0]: any).pair,
+  currentPair: (defaultTokenPair: any).pair,
   sortedPairs: [],
+  smallChartsData: null,
 }
 
 //By default the application is started with a default create from tokens in a configuration file. To
@@ -172,6 +173,19 @@ export const tokenPairDataUpdated = (tokenPairData: Array<TokenPairData>) => {
   return event
 }
 
+export const updateSmallChartsData = (smallChartsData: Object) => {
+  const event = (state) => {
+
+    const newState = {
+      ...state,
+      smallChartsData,
+    }
+
+    return newState
+  }
+  return event
+}
+
 export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
   const event = (state: TokenPairState): TokenPairState => {
     const newState = favorited
@@ -240,6 +254,47 @@ export default function getTokenPairsDomain(state: TokenPairState) {
       })
 
       return tokenPairData
+    },
+
+    getSmallChartsData: () => {
+      const { smallChartsData } = state
+
+      if (!smallChartsData) return null
+
+      const coins = Object.keys(smallChartsData)
+      const newSmallChartsData = []
+
+      for (let i = 0; i < coins.length; i++) {
+        const lengthPriceArray = smallChartsData[coins[i]].length
+        const closePrice = +smallChartsData[coins[i]][0].price
+        const openPrice = +smallChartsData[coins[i]][lengthPriceArray - 1].price
+        let code = ''
+
+        switch(coins[i]) {
+          case 'bitcoin':
+            code = 'BTC'
+            break
+          case 'ethereum':
+            code = 'ETH'
+            break
+          case 'ripple':
+            code = 'XRP'
+            break
+          default:
+            code = 'TOMO'
+        }
+
+        coins[i] = {
+          data: JSON.parse(JSON.stringify(smallChartsData[coins[i]])).reverse(),
+          price: smallChartsData[coins[i]][0].price,
+          change: (closePrice - openPrice)*100/openPrice,
+          code,
+        }
+
+        newSmallChartsData.push(coins[i])
+      }
+
+      return newSmallChartsData
     },
   }
 }

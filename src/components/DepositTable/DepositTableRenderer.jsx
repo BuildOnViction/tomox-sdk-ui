@@ -7,27 +7,26 @@ import {
   TokenIcon,
   Colors,
   MutedText,
-  // SmallText,
   Theme,
   DarkMode,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+
 import type { TokenData, Symbol } from '../../types/tokens'
-// import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import tickUrl from '../../assets/images/tick.svg'
+import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
 
 type Props = {
   connected: boolean,
   baseTokensData: Array<TokenData>,
   quoteTokensData: Array<TokenData>,
   TOMOTokenData: TokenData,
-  WETHTokenData: TokenData,
   tokenDataLength: number,
-  // provider: string,
-  // depositTableData: Array<Object>,
   searchInput: string,
   handleSearchInputChange: (SyntheticEvent<>) => void,
-  hideZeroBalanceToken: void => void,
+  isHideZeroBalanceToken: boolean,
   openDepositModal: string => void,
   openConvertModal: (string, string) => void,
   openSendModal: string => void,
@@ -38,55 +37,65 @@ type Props = {
 
 const DepositTableRenderer = (props: Props) => {
   const {
-    hideZeroBalanceToken,
+    isHideZeroBalanceToken,
     toggleZeroBalanceToken,
-    // depositTableData,
     searchInput,
     handleSearchInputChange,
     tokenDataLength,
+    openReceiveDialog,
+    openSendModal,
   } = props
   return (
-    <TableSection>
-      <RowSpaceBetween style={{ marginBottom: '10px' }}>
-        <HideTokenCheck
-          checked={hideZeroBalanceToken}
-          onChange={toggleZeroBalanceToken}
-        >
-          Hide zero amounts
-        </HideTokenCheck>
-        
-        <SearchWrapper
-            type="string"
-            leftIcon="search"
-            placeholder="Search"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-          />
-      </RowSpaceBetween>
-      <Table>
-        <TableHeader>
-          <TableHeaderCell width="24%"><MutedText>Coin</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>Total</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>Available amount</MutedText></TableHeaderCell>
-          <TableHeaderCell width="17%"><MutedText>In orders</MutedText></TableHeaderCell>
-          {/* <TableHeaderCell>Unlocked</TableHeaderCell> */}
-          <TableHeaderCell width="25%">
-            <MutedText>Operation</MutedText>
-          </TableHeaderCell>
-        </TableHeader>
-      </Table>
-      <TableBodyContainer>
+    <React.Fragment>
+      <TableSection>
+        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+          <OperationButtonWrapper>
+            <MarginButton onClick={openSendModal}>
+              <DoubleArrowsUpIcon src={doubleArrowsUpUrl} alt="Send icon"></DoubleArrowsUpIcon>
+              <FormattedMessage id="portfolioPage.send" />
+            </MarginButton>
+            <MarginButton onClick={openReceiveDialog}>
+              <DoubleArrowsDownIcon src={doubleArrowsUpUrl} alt="Receive icon"></DoubleArrowsDownIcon>
+              <FormattedMessage id="portfolioPage.receive" />
+            </MarginButton>
+
+            <CheckboxWrapper
+              label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
+              checked={isHideZeroBalanceToken}  
+              onChange={toggleZeroBalanceToken} />
+          </OperationButtonWrapper>
+          
+          <SearchWrapper
+              type="string"
+              leftIcon="search"
+              placeholder="Search"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+            />
+        </RowSpaceBetween>
         <Table>
-          <TableBody>
-            <TOMORow {...props} />
-            {/* <WETHRow {...props} /> */}
-            <QuoteTokenRows {...props} />
-            <BaseTokenRows {...props} />
-          </TableBody>
+          <TableHeader>
+            <TableHeaderCell width="24%"><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="25%">
+              <MutedText><FormattedMessage id="portfolioPage.operation" /></MutedText>
+            </TableHeaderCell>
+          </TableHeader>
         </Table>
-        {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
-      </TableBodyContainer>
-    </TableSection>
+        <TableBodyContainer>
+          <Table>
+            <TableBody>
+              <TOMORow {...props} />
+              <QuoteTokenRows {...props} />
+              <BaseTokenRows {...props} />
+            </TableBody>
+          </Table>
+          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
+        </TableBodyContainer>
+      </TableSection>
+    </React.Fragment>
   )
 }
 
@@ -124,106 +133,24 @@ const TOMORow = (props: Props) => {
       <Cell width="25%">
         <ButtonWrapper>
           <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-            Trade
-          </OperationButton>
-          <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-            Send
+            <FormattedMessage id="portfolioPage.trade" />
           </OperationButton>
           <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-            Receive
+            <FormattedMessage id="portfolioPage.deposit" />
           </OperationButton>
+          <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+            <FormattedMessage id="portfolioPage.withdrawal" />
+          </OperationButton>          
         </ButtonWrapper>
-        {/* <ButtonWrapper>
-          <Button
-            disabled={!connected}
-            intent="success"
-            text="Convert to WETH"
-            onClick={() => openConvertModal(NATIVE_TOKEN_SYMBOL, 'WETH')}
-            rightIcon="random"
-          />
-        </ButtonWrapper> */}
       </Cell>
     </Row>
   )
 }
 
-// const WETHRow = (props: Props) => {
-//   const {
-//     connected,
-//     WETHTokenData,
-//     toggleAllowance,
-//     openDepositModal,
-//     openSendModal,
-//     openConvertModal,
-//   } = props
-
-//   if (!WETHTokenData) return null
-
-//   const { symbol, balance, allowed, allowancePending } = WETHTokenData
-
-//   return (
-//     <Row key="WETH">
-//       <Cell>
-//         <TokenNameWrapper>
-//           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
-//           <span>{symbol}</span>
-//         </TokenNameWrapper>
-//       </Cell>
-//       <Cell>
-//         <div title={balance} style={{ maxWidth: 200 }}>
-//           <Ellipsis>{balance}</Ellipsis>
-//         </div>
-//       </Cell>
-//       <Cell>
-//         <Switch
-//           inline
-//           checked={allowed}
-//           onChange={() => toggleAllowance(symbol)}
-//         />
-//         {allowancePending && (
-//           <Tag intent="success" large minimal interactive icon="time">
-//             Pending
-//           </Tag>
-//         )}
-//       </Cell>
-//       <Cell style={{ width: '40%' }}>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="primary"
-//             rightIcon="import"
-//             text="Deposit"
-//             onClick={() => openDepositModal(symbol)}
-//           />
-//         </ButtonWrapper>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="primary"
-//             rightIcon="export"
-//             text="Send"
-//             onClick={() => openSendModal(symbol)}
-//           />
-//         </ButtonWrapper>
-//         <ButtonWrapper>
-//           <Button
-//             disabled={!connected}
-//             intent="success"
-//             text="Convert to TOMO"
-//             rightIcon="random"
-//             onClick={() => openConvertModal('WETH', NATIVE_TOKEN_SYMBOL)}
-//           />
-//         </ButtonWrapper>
-//       </Cell>
-//     </Row>
-//   )
-// }
-
 const QuoteTokenRows = (props: Props) => {
   const {
     connected,
     quoteTokensData,
-    // toggleAllowance,
     openDepositModal,
     openSendModal,
     redirectToTradingPage,
@@ -250,29 +177,17 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width="17%">
             <Ellipsis>-</Ellipsis>
           </Cell>
-          {/* <Cell>
-            <Switch
-              inline
-              checked={allowed}
-              onChange={() => toggleAllowance(symbol)}
-            />
-            {allowancePending && (
-              <Tag intent="success" large minimal interactive icon="time">
-                Pending
-              </Tag>
-            )}
-          </Cell> */}
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                Trade
-              </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Send
+                <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Receive
+                <FormattedMessage id="portfolioPage.deposit" />
               </OperationButton>  
+              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+                <FormattedMessage id="portfolioPage.withdrawal" />
+              </OperationButton>
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -285,7 +200,6 @@ const BaseTokenRows = (props: Props) => {
   const {
     baseTokensData,
     connected,
-    // toggleAllowance,
     openDepositModal,
     openSendModal,
     redirectToTradingPage,
@@ -312,28 +226,16 @@ const BaseTokenRows = (props: Props) => {
           <Cell width="17%">
             <Ellipsis>-</Ellipsis>
           </Cell>
-          {/* <Cell>
-            <Switch
-              inline
-              checked={allowed}
-              onChange={() => toggleAllowance(symbol)}
-            />
-            {allowancePending && (
-              <Tag intent="success" large minimal interactive icon="time">
-                Pending
-              </Tag>
-            )}
-          </Cell> */}
           <Cell width="25%">
             <ButtonWrapper>
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                Trade
-              </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
-                Send
+                <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
               <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
-                Receive
+                <FormattedMessage id="portfolioPage.deposit" />
+              </OperationButton>
+              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+                <FormattedMessage id="portfolioPage.withdrawal" />
               </OperationButton>
             </ButtonWrapper>
           </Cell>
@@ -345,7 +247,7 @@ const BaseTokenRows = (props: Props) => {
 
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
-    color: ${DarkMode.BLACK};
+    color: ${DarkMode.LIGHT_GRAY};
     min-width: 300px;
     background: ${DarkMode.BLACK};
     border-radius: 0;
@@ -448,6 +350,17 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   }
 `
 
+const MarginButton = styled(OperationButton)`
+  display: flex;
+  justify-content: center;
+  margin-right: 25px;
+`
+
+const OperationButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const TokenNameWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -457,20 +370,22 @@ const TokenNameWrapper = styled.div`
   }
 `
 
-const HideTokenCheck = styled(Checkbox)`
-  margin: 0 !important;
+const CheckboxWrapper = styled(Checkbox)`
+  font-size: ${Theme.FONT_SIZE_SM};
+  text-align: center;
+  margin-bottom: 0 !important;
 
   .bp3-control-indicator {
-    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
   }
 
   input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.WHITE};
-    box-shadow: none;
+    background-color: ${DarkMode.ORANGE} !important;
   }
 
-  &:hover {
-    // background-color: ${DarkMode.WHITE};
+  input:checked ~ .bp3-control-indicator::before {
+    background: url(${tickUrl}) no-repeat center center !important;
   }
 `
 
@@ -487,6 +402,14 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const DoubleArrowsUpIcon = styled.img`
+  margin-right: 10px;
+`
+
+const DoubleArrowsDownIcon = styled(DoubleArrowsUpIcon)`
+  transform: rotate(180deg);
 `
 
 export default withRouter(DepositTableRenderer)

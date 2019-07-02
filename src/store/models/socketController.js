@@ -362,7 +362,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         matches.trades.forEach(trade => {
-          if (utils.getAddress(trade.maker) === signerAddress || utils.getAddress(trade.maker) === signerAddress) {
+          if (utils.getAddress(trade.maker) === signerAddress) {
             userTrades.push(parseTrade(trade, pairInfo))
           }
         })
@@ -571,7 +571,7 @@ const handleMarketsMessage = (
     event: WebsocketEvent,
     getState: GetState,
   ) => {
-  let { payload: { pairData }} = event
+  let { payload: { pairData, smallChartsData }} = event
   const state = getState()
   const pairDomain = getTokenPairsDomain(state)
   const pairs = pairDomain.getPairsByCode()
@@ -579,4 +579,5 @@ const handleMarketsMessage = (
   pairData = parseTokenPairsData(pairData, pairs)
 
   dispatch(actionCreators.updateTokenPairData(pairData))
+  dispatch(actionCreators.updateSmallChartsData(smallChartsData))
 }

@@ -209,7 +209,7 @@ export const fetchTokenPairTrades = async (
 }
 
 export const fetchAddressTrades = async (address: string) => {
-  const response = await request(`/trades?address=${address}`)
+  const response = await request(`/trades/history?address=${address}`)
   const { data, error } = await response.json()
 
   if (response.status === 400) {

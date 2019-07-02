@@ -133,7 +133,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
 }
 
 const ToastInstance = Toaster.create({
-  position: Position.TOP_RIGHT,
+  position: Position.TOP_CENTER,
 })
 
 export default Notifier
