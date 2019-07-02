@@ -14,6 +14,7 @@ COPY . /app
 FROM node:10.13.0-alpine as build
 COPY --from=builder /app /app
 WORKDIR /app
+RUN yarn query-tokens
 RUN npm install -g sass && yarn build
 
 # production environment
