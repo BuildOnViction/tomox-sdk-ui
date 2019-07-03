@@ -38,8 +38,6 @@ import walletWhiteUrl from '../../assets/images/wallet_white.svg'
 
 export type Props = {
   TomoBalance: string,
-  WETHBalance: string,
-  WETHAllowance: string,
   children?: Node,
   authenticated: boolean,
   accountLoading: boolean,
@@ -100,8 +98,8 @@ class Default extends React.PureComponent<Props, State> {
     return pathname.includes('/trade')
   }
 
-  handleThemeChange = () => {
-
+  handleThemeChange = (e: Object) => {
+    e.target.checked ? this.props.changeMode('light') : this.props.changeMode('dark')
   }
 
   render() {
@@ -115,6 +113,7 @@ class Default extends React.PureComponent<Props, State> {
       referenceCurrency,
       copyDataSuccess,
       locale,
+      mode,
       changeLocale,
     } = this.props
 
@@ -310,7 +309,7 @@ class Default extends React.PureComponent<Props, State> {
                   <SidebarItemTitle><FormattedMessage id="mainMenuPage.docsFaq" /></SidebarItemTitle>
                 </SidebarItemBox>
               </NavExternalLink>
-            <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
+            <Switch className="switch-theme" checked={(mode === 'light')} label={(mode === "dark") ? "Dark mode" : "Light mode"} alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>

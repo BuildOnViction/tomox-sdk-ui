@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import layoutSelector, {
   createProvider,
   changeLocale,
+  changeMode,
   queryAppData,
   queryAccountData,
 } from '../../store/models/layout'
@@ -14,22 +15,14 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
   const selector = layoutSelector(state)
 
   return {
-    TomoBalance: selector.TomoBalance,
-    authenticated: selector.authenticated,
-    address: selector.address,
-    currentBlock: selector.currentBlock,
-    accountLoading: selector.accountLoading,
-    locale: selector.locale,
-    currentPair: selector.currentPair,
-    currentPairData: selector.currentPairData,
-    pathname: selector.pathname,
-    referenceCurrency: selector.referenceCurrency,
+    ...selector
   }
 }
 
 const mapDispatchToProps = {
   createProvider,
   changeLocale,
+  changeMode,
   queryAppData,
   queryAccountData,
   copyDataSuccess,
