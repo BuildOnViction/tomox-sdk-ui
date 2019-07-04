@@ -255,6 +255,8 @@ export const DarkMode = {
   activeLink: '#fff',
   textSmallChart: '#fff',
   textTable: '#fff',
+  icon: '#6e7892',
+  iconHover: '#fff',
 }
 
 export const LightMode = {
@@ -266,6 +268,8 @@ export const LightMode = {
   activeLink: '#040404',
   textSmallChart: '#3e3e3e',
   textTable: '#303030',
+  icon: '#4c4c4c',
+  iconHover: '#6e7892',
 }
 
 export const Theme = {

@@ -281,27 +281,27 @@ body {
 
     .utilities-menu {
       .support i {
-        background: url(../../assets/images/support_icon_gray.svg) no-repeat center center;
+        background: url(../../assets/images/support_icon_dark.svg) no-repeat center center;
         &:hover {
-          background: url(../../assets/images/support_icon_white.svg) no-repeat center center;
+          background: url(../../assets/images/support_icon_gray.svg) no-repeat center center;
         }
       }
 
       .notification i {
-        background: url(../../assets/images/notification_icon_gray.svg) no-repeat center center;
+        background: url(../../assets/images/notification_icon_dark.svg) no-repeat center center;
         &:hover {
-          background: url(../../assets/images/notification_icon_white.svg) no-repeat center center;
+          background: url(../../assets/images/notification_icon_gray.svg) no-repeat center center;
         }
       }
 
       .language {
         i {
-          background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
+          background: url(../../assets/images/globe_icon_dark.svg) no-repeat center center;
         }
         &:hover {
-          color: $tm_white;
+          color: $tm-gray;
           i {
-            background: url(../../assets/images/globe_icon_white.svg) no-repeat center center;
+            background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
           }
         }
         .arrow {

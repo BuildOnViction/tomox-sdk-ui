@@ -246,7 +246,7 @@ class Default extends React.PureComponent<Props, State> {
                       position={Position.BOTTOM_RIGHT}
                       minimal
                     >
-                      <Icon icon="user" iconSize={20} />
+                      <UserIcon icon="user" iconSize={20} />
                     </Popover>
                   </React.Fragment>
                 )}
@@ -723,5 +723,13 @@ const SwitchTheme = styled(Switch)`
 
   input:checked ~ .bp3-control-indicator::before {
     left: calc(100% - 13px)
+  }
+`
+
+const UserIcon = styled(Icon)`
+  color: ${props => props.theme.icon};
+
+  &:hover {
+    color: ${props => props.theme.iconHover};
   }
 `
