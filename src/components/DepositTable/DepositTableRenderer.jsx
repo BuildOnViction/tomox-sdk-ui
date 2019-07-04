@@ -317,7 +317,7 @@ const Row = styled.div`
   padding: 0 20px;
 
   &:nth-child(2n+1) {
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
   }
 
   @media only screen and (max-width: ${Theme.BREAK_POINT_MD}) {

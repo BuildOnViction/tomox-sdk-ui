@@ -246,6 +246,26 @@ export const DarkMode = {
   DARK_ORANGE: '#ec8536',
   GREEN: '#00c38c',
   RED: '#f94d5c',
+
+  mainBg: '#252C40',
+  subBg: '#1f2538',
+  border: '#394362',
+  active: '#ff9a4d',
+  link: '#9ca4ba',
+  activeLink: '#fff',
+  textSmallChart: '#fff',
+  textTable: '#fff',
+}
+
+export const LightMode = {
+  mainBg: '#fff',
+  subBg: '#f4f6f8',
+  border: '#ccc',
+  active: '#ff9a4d',
+  link: '#999',
+  activeLink: '#040404',
+  textSmallChart: '#3e3e3e',
+  textTable: '#303030',
 }
 
 export const Theme = {

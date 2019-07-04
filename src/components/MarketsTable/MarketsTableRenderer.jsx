@@ -201,7 +201,7 @@ const TabItem = (props) => {
 }
 
 const ChangeCell = styled.span`
-  color: ${({change}) => (change > 0 ? DarkMode.GREEN : (change === 0) ? DarkMode.WHITE : DarkMode.RED)} !important;
+  color: ${({change, theme}) => (change > 0 ? DarkMode.GREEN : (change === 0) ? theme.textTable : DarkMode.RED)} !important;
 `
 
 const PriceNumber = styled.span`
@@ -216,7 +216,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  box-shadow: 0 1px 0 0 #37405f;
+  box-shadow: 0 1px 0 0 ${props => props.theme.border};
   padding-bottom: 20px;
 `
 
@@ -224,7 +224,7 @@ const SearchWrapper= styled(InputGroup)`
   .bp3-input {
     color: #6e7793;
     min-width: 300px;
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
     border-radius: 0;
     &:focus, 
     &.bp3-active {
@@ -244,7 +244,7 @@ const TableSection = styled.div`
 
 const TableBody = styled.div`
   height: calc(100% - 100px);
-  color: ${DarkMode.WHITE}
+  color: ${props => props.theme.textTable};
 `
 
 const TableHeader = styled.div`
@@ -262,7 +262,7 @@ const TableHeaderCell = styled.div`
   display: flex;
   width: ${props => props.width || '15%'};
   justify-content: ${({align}) => align || 'flex-start'};
-  flex-grow: ${({flexGrow}) => flexGrow || 0}
+  flex-grow: ${({flexGrow}) => flexGrow || 0};
 `
 
 const Cell = styled.div`
@@ -275,7 +275,7 @@ const Cell = styled.div`
 `
 
 const PairTitle = styled.div`
-  color: ${DarkMode.WHITE};
+  color: ${props => props.theme.textTable};
   margin-left: 9px;
 `
 
@@ -287,7 +287,7 @@ const Row = styled.div`
   cursor: pointer;
 
   &:nth-child(2n+1) {
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
   }
 
   @media only screen and (max-width: ${Theme.BREAK_POINT_MD}) {

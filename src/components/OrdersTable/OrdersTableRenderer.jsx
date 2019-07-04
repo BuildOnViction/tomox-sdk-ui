@@ -172,7 +172,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
       {(orders.length > 0) &&
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
-            <Row className="order-row" key={index}>
+            <Row key={index}>
               <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
@@ -238,7 +238,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       {(orders.length > 0) && 
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
-            <Row className="order-row" key={index}>
+            <Row key={index}>
               <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
@@ -293,7 +293,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       {(orders.length > 0) &&
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
-            <Row className="order-row" key={index}>
+            <Row key={index}>
               <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
@@ -327,7 +327,10 @@ const TabsContainer = styled(Tabs)`
 const ListContainer = styled.div`
   height: 100%;
 `
-const ListBodyWrapper = styled.ul`
+const ListBodyWrapper = styled.ul.attrs({
+  className: 'list'
+})`
+  height: calc(100% - 25px);
   width: 100%;
   margin: 0;
   overflow-y: auto;
@@ -340,7 +343,20 @@ const ListHeader = styled.li`
   text-align: left;
 `
 
-const Row = styled.li``
+const Row = styled.li.attrs({
+  className: 'order-row'
+})`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 10px;
+  &:nth-child(2n + 1) {
+    background: ${props => props.theme.subBg};
+  }
+`
 
 const Cell = styled.span.attrs({
   className: props => props.className,

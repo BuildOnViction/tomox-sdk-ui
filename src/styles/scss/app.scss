@@ -45,17 +45,7 @@ body {
   display: none;
 }
 
-.tm-theme-dark {
-  background: $tm-dark-blue;
-
-  .down {
-    color: $tm-red !important;
-  }
-
-  .up {
-    color: $tm-green !important;
-  }
-
+.tm-theme {
   .text-center {
     text-align: center;
   }
@@ -73,7 +63,6 @@ body {
     width: 10px;
     height: 5px;
     margin-left: 6px;
-    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
     font-size: 0;
   }
 
@@ -81,68 +70,6 @@ body {
     content: "";
     clear: both;
     display: table;
-  }
-
-  .sidebar-item {    
-    padding: 30px 0 30px 2px;
-    .sidebar-item-box {
-      color: $tm-light-gray;
-      display: flex;
-      height: 40px;
-      line-height: 40px;
-      padding-left: 18px;
-      align-items: center;
-      i {
-        display: inline-block;
-        height: 23px;
-        width: 20px;
-        margin-right: 10px;
-      }
-    }
-    &.active .sidebar-item-box,
-    &:hover .sidebar-item-box {
-      color: $tm_white;
-      box-shadow: -2px 0 0 0 $tm_orange;
-    }
-  }
-
-  .sidebar .markets-link {
-    @include sidebar-link("../../assets/images/markets_icon_gray.svg", "../../assets/images/markets_icon_white.svg");
-  }
-
-  .sidebar .exchange-link {
-    @include sidebar-link("../../assets/images/exchange_icon_gray.svg", "../../assets/images/exchange_icon_white.svg");
-  }
-
-  .sidebar .portfolio-link {
-    @include sidebar-link("../../assets/images/portfolio_icon_gray.svg", "../../assets/images/portfolio_icon_white.svg");
-  }
-
-  .sidebar .docs-faq-link {
-    @include sidebar-link("../../assets/images/docs-faq_icon_gray.svg", "../../assets/images/docs-faq_icon_white.svg");
-  }
-
-  .sidebar .switch-theme {
-    color: $tm-light-gray;
-    padding-left: 20px;
-    margin-top: auto;
-    margin-bottom: 30px;
-    .bp3-control-indicator {
-      width: 24px;
-      height: 14px;
-      background-color: transparent !important;
-      border: 1px solid $tm-light-gray;
-      margin-top: 3px;
-      &::before {
-        top: -1px;
-        width: 10px;
-        height: 10px;
-        background-color: $tm-orange;
-      }
-    }
-    input:checked ~ .bp3-control-indicator::before {
-      left: calc(100% - 13px)
-    }
   }
 
   .tm-header {
@@ -153,17 +80,12 @@ body {
         height: 5px;
         margin-left: 6px;
         margin-bottom: 4px;
-        background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
-      }
-      &:hover {
-        color: $tm-white;
       }
     }
 
     .bp3-navbar-divider {
       height: 30px;
       margin: 0 26.5px;
-      border-left: 1px solid $tm-light-blue;
     }
 
     .token-info {
@@ -176,7 +98,6 @@ body {
       display: flex;
       flex-flow: row nowrap;
       font-size: $tm-font-size-sm;
-      color: $tm-white;
       .tick {
         margin-right: 50px;
         &:last-child {
@@ -187,7 +108,6 @@ body {
         }
       }
       .title {
-        color: $tm-gray;
         margin-bottom: 5px;
       }
     }
@@ -210,6 +130,73 @@ body {
         }
       }
 
+      .language {
+        i {
+          margin-right: 7px;
+        }
+
+        .arrow {
+          display: inline-block;
+          width: 10px;
+          height: 5px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
+
+.tm-theme-dark {
+  .down {
+    color: $tm-red !important;
+  }
+
+  .up {
+    color: $tm-green !important;
+  }
+
+  .arrow-down {
+    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+  }
+
+  .sidebar .markets-link {
+    @include sidebar-link("../../assets/images/markets_icon_gray.svg", "../../assets/images/markets_icon_white.svg");
+  }
+
+  .sidebar .exchange-link {
+    @include sidebar-link("../../assets/images/exchange_icon_gray.svg", "../../assets/images/exchange_icon_white.svg");
+  }
+
+  .sidebar .portfolio-link {
+    @include sidebar-link("../../assets/images/portfolio_icon_gray.svg", "../../assets/images/portfolio_icon_white.svg");
+  }
+
+  .sidebar .docs-faq-link {
+    @include sidebar-link("../../assets/images/docs-faq_icon_gray.svg", "../../assets/images/docs-faq_icon_white.svg");
+  }
+
+  .tm-header {
+    .tokens-dropdown {
+      .arrow {
+        background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+      }
+      &:hover {
+        color: $tm-white;
+      }
+    }
+
+    .bp3-navbar-divider {
+      border-left: 1px solid $tm-light-blue;
+    }
+
+    .token-tick {
+      color: $tm-white;
+      .title {
+        color: $tm-gray;
+      }
+    }
+
+    .utilities-menu {
       .support i {
         background: url(../../assets/images/support_icon_gray.svg) no-repeat center center;
         &:hover {
@@ -226,7 +213,6 @@ body {
 
       .language {
         i {
-          margin-right: 7px;
           background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
         }
         &:hover {
@@ -236,10 +222,89 @@ body {
           }
         }
         .arrow {
-          display: inline-block;
-          width: 10px;
-          height: 5px;
-          margin-left: 10px;
+          background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+        }
+      }
+    }
+  }
+}
+
+.tm-theme-light {
+  .down {
+    color: $tm-red !important;
+  }
+
+  .up {
+    color: $tm-green !important;
+  }
+
+  .arrow-down {
+    background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+  }
+
+  .sidebar .markets-link {
+    @include sidebar-link("../../assets/images/markets_light_gray.svg", "../../assets/images/markets_icon_gray.svg");
+  }
+
+  .sidebar .exchange-link {
+    @include sidebar-link("../../assets/images/exchange_light_gray.svg", "../../assets/images/exchange_icon_gray.svg");
+  }
+
+  .sidebar .portfolio-link {
+    @include sidebar-link("../../assets/images/portfolio_light_gray.svg", "../../assets/images/portfolio_icon_gray.svg");
+  }
+
+  .sidebar .docs-faq-link {
+    @include sidebar-link("../../assets/images/docs-faq_light_gray.svg", "../../assets/images/docs-faq_icon_gray.svg");
+  }
+
+  .tm-header {
+    .tokens-dropdown {
+      .arrow {
+        background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
+      }
+      &:hover {
+        color: $tm-white;
+      }
+    }
+
+    .bp3-navbar-divider {
+      border-left: 1px solid $tm-light-blue;
+    }
+
+    .token-tick {
+      color: $tm-white;
+      .title {
+        color: $tm-gray;
+      }
+    }
+
+    .utilities-menu {
+      .support i {
+        background: url(../../assets/images/support_icon_gray.svg) no-repeat center center;
+        &:hover {
+          background: url(../../assets/images/support_icon_white.svg) no-repeat center center;
+        }
+      }
+
+      .notification i {
+        background: url(../../assets/images/notification_icon_gray.svg) no-repeat center center;
+        &:hover {
+          background: url(../../assets/images/notification_icon_white.svg) no-repeat center center;
+        }
+      }
+
+      .language {
+        i {
+          background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
+        }
+        &:hover {
+          color: $tm_white;
+          i {
+            background: url(../../assets/images/globe_icon_white.svg) no-repeat center center;
+          }
+        }
+        .arrow {
           background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
         }
       }

@@ -49,7 +49,7 @@ const StatsBox = ({code, change, price, volume, data}) => {
           <SmallText>{change > 0 ? `+${formatNumber(change, { precision: 2 })}` : formatNumber(change, { precision: 2 })}%</SmallText>
         </StatsChange>
         <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{formatNumber(price, { precision: 2 })} USD</StatsPrice>
-        {/* <StatsVolume><SmallText muted>Volume:</SmallText> <SmallText>{volume}</SmallText></StatsVolume> */}
+        {/* <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{volume}</StatsVolumeText></StatsVolume> */}
       </StatsInfo>
       <LineChart data={data} code={code} />
     </StatsContent>
@@ -68,7 +68,7 @@ const StatsContent = styled.div`
   width: calc((100% - 60px)/4);
   height: 120px;
   position: relative;
-  border: 1px solid #394362;
+  border: 1px solid ${props => props.theme.border};
   margin-bottom: 25px;
 `
 
@@ -91,6 +91,7 @@ const StatsCell = styled.div`
 `
 
 const StatsTitle = styled(StatsCell)`
+  color: ${props => props.theme.textSmallChart};
 `
 
 const StatsChange = styled(StatsCell)`
@@ -102,6 +103,10 @@ const StatsChange = styled(StatsCell)`
 const StatsPrice = styled(StatsCell)``
 
 // const StatsVolume = styled(StatsCell)``
+
+// const StatsVolumeText = styled(SmallText)`
+//   color: ${props => props.theme.textSmallChart};
+// `
 
 const WalletPageBox = styled.div`
   display: flex;
