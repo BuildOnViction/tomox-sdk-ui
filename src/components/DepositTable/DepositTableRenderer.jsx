@@ -249,7 +249,7 @@ const SearchWrapper= styled(InputGroup)`
   .bp3-input {
     color: ${DarkMode.LIGHT_GRAY};
     min-width: 300px;
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
     border-radius: 0;
     &:focus, 
     &.bp3-active {
@@ -298,7 +298,7 @@ const TableSection = styled.div`
 
 const TableBody = styled.div`
   height: calc(100% - 100px);
-  color: ${DarkMode.WHITE}
+  color: ${props => props.theme.textTable};
 `
 
 const Cell = styled.div`
@@ -339,7 +339,7 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   background: transparent;
   padding: 5px 0;
   cursor: pointer;
-  color: ${DarkMode.GRAY};
+  color: ${props => props.theme.textTable};
   font-size: ${Theme.FONT_SIZE_MD};
 
   &[disabled] {
