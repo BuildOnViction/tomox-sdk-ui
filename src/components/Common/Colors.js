@@ -259,6 +259,9 @@ export const DarkMode = {
   iconHover: '#fff',
   labelTokensDropdown: '#9ca4ba',
   labelTokensDropdownHover: '#fff',
+  orderbookHover: '#394362',
+  orderbookLatestPrice: '#1f2538',
+  orderTableTabActive: '#fff',
 }
 
 export const LightMode = {
@@ -274,6 +277,9 @@ export const LightMode = {
   iconHover: '#6e7892',
   labelTokensDropdown: '#3e3e3e',
   labelTokensDropdownHover: '#6e7892',
+  orderbookHover: '#f4f6f8',
+  orderbookLatestPrice: '#f4f6f8',
+  orderTableTabActive: '#ff9a4d',
 }
 
 export const Theme = {

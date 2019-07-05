@@ -151,10 +151,10 @@ const OrdersTablePanel = (props: {
 
 const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
   return (
-    <ListContainer className="list-container">
+    <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader className="header">
+      <ListHeader>
         <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumns[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
@@ -324,27 +324,32 @@ const TabsContainer = styled(Tabs)`
   position: relative;
 `
 
-const ListContainer = styled.div`
+const ListContainer = styled.div.attrs({
+  className: 'list-container',
+})`
   height: 100%;
 `
 const ListBodyWrapper = styled.ul.attrs({
-  className: 'list'
+  className: 'list',
 })`
   height: calc(100% - 25px);
   width: 100%;
   margin: 0;
   overflow-y: auto;
 `
-const ListHeader = styled.li`
+const ListHeader = styled.li.attrs({
+  className: 'header',
+})`
   width: 100%;
   display: flex;
   margin: 0px !important;
-  padding: 10px;
   text-align: left;
+  box-shadow: 0 1px 0 0 ${props => props.theme.border};
+  padding: 0 10px 10px 10px;
 `
 
 const Row = styled.li.attrs({
-  className: 'order-row'
+  className: 'order-row',
 })`
   width: 100%;
   display: flex;
@@ -367,12 +372,10 @@ const Cell = styled.span.attrs({
       : props.side === 'SELL'
       ? Colors.SELL
       : props.muted
-      ? Colors.TEXT_MUTED
+      ? props.theme.textTable
       : Colors.WHITE}
 
   min-width: 35px;
-  // display: flex;
-  // align-items: center;
   width: ${props => (props.width ? props.width : '10%')};
   white-space: nowrap;
   overflow: hidden;
