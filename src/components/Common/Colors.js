@@ -257,6 +257,8 @@ export const DarkMode = {
   textTable: '#fff',
   icon: '#6e7892',
   iconHover: '#fff',
+  labelTokensDropdown: '#9ca4ba',
+  labelTokensDropdownHover: '#fff',
 }
 
 export const LightMode = {
@@ -270,6 +272,8 @@ export const LightMode = {
   textTable: '#303030',
   icon: '#4c4c4c',
   iconHover: '#6e7892',
+  labelTokensDropdown: '#3e3e3e',
+  labelTokensDropdownHover: '#6e7892',
 }
 
 export const Theme = {

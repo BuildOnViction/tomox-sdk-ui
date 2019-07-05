@@ -263,20 +263,10 @@ body {
       .arrow {
         background: url(../../assets/images/arrow_down_gray.svg) no-repeat center center;
       }
-      &:hover {
-        color: $tm-white;
-      }
     }
 
     .bp3-navbar-divider {
       border-left: 1px solid $tm-light-blue;
-    }
-
-    .token-tick {
-      color: $tm-white;
-      .title {
-        color: $tm-gray;
-      }
     }
 
     .utilities-menu {
@@ -337,15 +327,6 @@ body {
         &.active .sidebar-item-box,
         &:hover .sidebar-item-box {
           box-shadow: none !important;
-        }
-      }
-      .switch-theme {
-        width: 100%;
-        font-size: 0;
-        .bp3-control-indicator {
-          float: none !important;
-          margin-right: 0 !important;
-          margin-left: -4px !important;
         }
       }
     }

@@ -483,8 +483,12 @@ const TokenSearcherPopover = styled(Popover)`
 const TokenPaisDropDown = styled.div.attrs({
   className: 'tokens-dropdown',
 })`
-  color: ${DarkMode.LIGHT_GRAY};
+  color: ${props => props.theme.labelTokensDropdown};
   cursor: pointer;
+
+  &:hover {
+    color: ${props => props.theme.labelTokensDropdownHover}
+  }
 `
 
 const MainContainer = styled.div.attrs({
@@ -573,7 +577,13 @@ const TokenInfo = styled.div`
   }
 `
 
-const TokenTick = styled.div.attrs({ className: 'token-tick' })``
+const TokenTick = styled.div.attrs({ className: 'token-tick' })`
+  color: ${props => props.theme.textSmallChart};
+
+  .title {
+    color: $tm-gray;
+  }
+`
 
 const SupportItem = styled.div``
 
@@ -723,6 +733,17 @@ const SwitchTheme = styled(Switch)`
 
   input:checked ~ .bp3-control-indicator::before {
     left: calc(100% - 13px)
+  }
+
+  @media (max-width: 1400px) {
+    width: 100%;
+    font-size: 0;
+
+    .bp3-control-indicator {
+      float: none !important;
+      margin-right: 0 !important;
+      margin-left: -4px !important;
+    }
   }
 `
 
