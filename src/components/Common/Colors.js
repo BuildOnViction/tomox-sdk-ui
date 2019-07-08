@@ -266,13 +266,16 @@ export const DarkMode = {
   orderbookHover: '#394362',
   orderbookLatestPrice: '#1f2538',
   orderTableTabActive: '#fff',
+  tokenSearcherBg: '#1f2538',
+  tokenSearcherSearchBg: '#394362',
+  tokenSearcherSearchColor: '#9ca4ba',
 }
 
 export const LightMode = {
   mainBg: '#fff',
   subBg: '#f4f6f8',
   menuBg: '#f4f6f8',
-  menuBgHover: '#efefef',
+  menuBgHover: '#dedede',
   menuColor: '#040404',
   menuColorHover: '#ff9a4d',
   border: '#ccc',
@@ -288,6 +291,9 @@ export const LightMode = {
   orderbookHover: '#f4f6f8',
   orderbookLatestPrice: '#f4f6f8',
   orderTableTabActive: '#ff9a4d',
+  tokenSearcherBg: '#f4f6f8',
+  tokenSearcherSearchBg: '#fff',
+  tokenSearcherSearchColor: '#303030',
 }
 
 export const Theme = {

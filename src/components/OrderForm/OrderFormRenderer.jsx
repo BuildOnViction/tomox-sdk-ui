@@ -737,8 +737,18 @@ export default OrderFormRenderer
 
 const OrderFormTabs = styled(Tabs)`
   user-select: none;
+
   .bp3-tab-list {
     margin-bottom: 15px;
+  }
+
+  .bp3-tab {
+    color: ${props => props.theme.menuColor};
+  }
+
+  .bp3-tab:hover,
+  .bp3-tab[aria-selected="true"] {
+    color: ${props => props.theme.menuColorHover};
   }
 `
 
