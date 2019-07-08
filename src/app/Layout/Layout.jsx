@@ -225,7 +225,9 @@ class Default extends React.PureComponent<Props, State> {
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
               <SupportItem className="utility-item support">
+                <a href="https://docs.tomochain.com/" target="_blank" rel="noopener noreferrer">
                   <i>support</i>
+                </a>
               </SupportItem>
 
               <NotificationItem className="utility-item notification">
@@ -583,7 +585,12 @@ const TokenTick = styled.div.attrs({ className: 'token-tick' })`
   }
 `
 
-const SupportItem = styled.div``
+const SupportItem = styled.div`
+  a {
+    display: inline-block;
+    font-size: 0;
+  }
+`
 
 const NotificationItem = styled.div``
 
