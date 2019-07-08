@@ -14,12 +14,11 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
-import type { TokenData, Symbol } from '../../types/tokens'
+import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
 
 type Props = {
-  connected: boolean,
   baseTokensData: Array<TokenData>,
   quoteTokensData: Array<TokenData>,
   TOMOTokenData: TokenData,
@@ -27,10 +26,7 @@ type Props = {
   searchInput: string,
   handleSearchInputChange: (SyntheticEvent<>) => void,
   isHideZeroBalanceToken: boolean,
-  openDepositModal: string => void,
-  openConvertModal: (string, string) => void,
   openSendModal: string => void,
-  toggleAllowance: Symbol => void,
   toggleZeroBalanceToken: void => void,
   redirectToTradingPage: string => void,
 }
@@ -101,11 +97,7 @@ const DepositTableRenderer = (props: Props) => {
 
 const TOMORow = (props: Props) => {
   const {
-    connected,
     TOMOTokenData,
-    openDepositModal,
-    openSendModal,
-    // openConvertModal,
     redirectToTradingPage,
   } = props
 
@@ -135,12 +127,14 @@ const TOMORow = (props: Props) => {
           <OperationButton onClick={() => redirectToTradingPage(symbol)}>
             <FormattedMessage id="portfolioPage.trade" />
           </OperationButton>
-          <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
+
+          <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
             <FormattedMessage id="portfolioPage.deposit" />
-          </OperationButton>
-          <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+          </ExternalLink>
+
+          <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
             <FormattedMessage id="portfolioPage.withdrawal" />
-          </OperationButton>          
+          </ExternalLink>
         </ButtonWrapper>
       </Cell>
     </Row>
@@ -149,10 +143,7 @@ const TOMORow = (props: Props) => {
 
 const QuoteTokenRows = (props: Props) => {
   const {
-    connected,
     quoteTokensData,
-    openDepositModal,
-    openSendModal,
     redirectToTradingPage,
   } = props
 
@@ -182,12 +173,14 @@ const QuoteTokenRows = (props: Props) => {
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
                 <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
                 <FormattedMessage id="portfolioPage.deposit" />
-              </OperationButton>  
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+              </ExternalLink>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
                 <FormattedMessage id="portfolioPage.withdrawal" />
-              </OperationButton>
+              </ExternalLink>
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -199,9 +192,6 @@ const QuoteTokenRows = (props: Props) => {
 const BaseTokenRows = (props: Props) => {
   const {
     baseTokensData,
-    connected,
-    openDepositModal,
-    openSendModal,
     redirectToTradingPage,
   } = props
 
@@ -231,12 +221,14 @@ const BaseTokenRows = (props: Props) => {
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
                 <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openDepositModal(symbol)}>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
                 <FormattedMessage id="portfolioPage.deposit" />
-              </OperationButton>
-              <OperationButton disabled={!connected} onClick={() => openSendModal(symbol)}>
+              </ExternalLink>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
                 <FormattedMessage id="portfolioPage.withdrawal" />
-              </OperationButton>
+              </ExternalLink>
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -345,6 +337,18 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   &[disabled] {
     cursor: default;
   }
+  &:hover {
+    color: ${DarkMode.ORANGE};
+  }
+`
+
+const ExternalLink = styled.a`
+  display: inline-block;
+  padding: 5px 0;
+  cursor: pointer;
+  color: ${props => props.theme.textTable};
+  font-size: ${Theme.FONT_SIZE_MD};
+
   &:hover {
     color: ${DarkMode.ORANGE};
   }

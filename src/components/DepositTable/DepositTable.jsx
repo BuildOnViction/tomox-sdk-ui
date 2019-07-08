@@ -2,9 +2,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import DepositTableRenderer from './DepositTableRenderer'
-import DepositModal from '../../components/DepositModal'
+// import DepositModal from '../../components/DepositModal'
 import TransferTokensModal from '../../components/TransferTokensModal'
-import ConvertTokensModal from '../../components/ConvertTokensModal'
+// import ConvertTokensModal from '../../components/ConvertTokensModal'
 import ReceiveTokensModal from '../../components/ReceiveTokensModal'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import type { Symbol, TokenData } from '../../types/tokens'
@@ -31,25 +31,11 @@ type State = {
 
 class DepositTable extends React.PureComponent<Props, State> {
   state = {
-    isDepositModalOpen: false,
     isSendModalOpen: false,
-    isConvertModalOpen: false,
     selectedToken: null,
     isHideZeroBalanceToken: false,
     searchInput: '',
-    convertModalFromToken: NATIVE_TOKEN_SYMBOL,
     isOpenReceiveDialog: false,
-  }
-
-  openDepositModal = (symbol: Symbol) => {
-    const selectedToken = this.props.tokenData.filter(
-      elem => elem.symbol === symbol
-    )[0]
-
-    this.setState({
-      isDepositModalOpen: true,
-      selectedToken,
-    })
   }
 
   openSendModal = (symbol: Symbol) => {
@@ -63,27 +49,8 @@ class DepositTable extends React.PureComponent<Props, State> {
     })
   }
 
-  openConvertModal = (fromTokenSymbol: Symbol, toTokenSymbol: Symbol) => {
-    this.setState((previousState, currentProps) => {
-      return {
-        ...previousState,
-        convertModalFromToken: fromTokenSymbol,
-        convertModalToToken: toTokenSymbol,
-        isConvertModalOpen: true,
-      }
-    })
-  }
-
-  closeDepositModal = () => {
-    this.setState({ isDepositModalOpen: false })
-  }
-
   closeSendModal = () => {
     this.setState({ isSendModalOpen: false })
-  }
-
-  closeConvertModal = () => {
-    this.setState({ isConvertModalOpen: false })
   }
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
@@ -125,19 +92,14 @@ class DepositTable extends React.PureComponent<Props, State> {
         tokenData,
         quoteTokens,
         baseTokens,
-        toggleAllowance,
         redirectToTradingPage,
         accountAddress,
       },
       state: {
-        isDepositModalOpen,
         isSendModalOpen,
         selectedToken,
         searchInput,
         isHideZeroBalanceToken,
-        isConvertModalOpen,
-        convertModalFromToken,
-        convertModalToToken,
         isOpenReceiveDialog,
       },
       notifyCopiedSuccess,
@@ -173,12 +135,9 @@ class DepositTable extends React.PureComponent<Props, State> {
           tokenDataLength={tokenData.length}
           searchInput={searchInput}
           isHideZeroBalanceToken={isHideZeroBalanceToken}
-          openDepositModal={this.openDepositModal}
-          openConvertModal={this.openConvertModal}
           openSendModal={this.openSendModal}
           toggleZeroBalanceToken={this.toggleZeroBalanceToken}
           handleSearchInputChange={this.handleSearchInputChange}
-          toggleAllowance={toggleAllowance}
           redirectToTradingPage={redirectToTradingPage}
           accountAddress={accountAddress}
           isOpenReceiveDialog={isOpenReceiveDialog}
@@ -186,22 +145,10 @@ class DepositTable extends React.PureComponent<Props, State> {
           closeReceiveDialog={this.closeReceiveDialog}
           notifyCopiedSuccess={this.notifyCopiedSuccess}
         />
-        <DepositModal
-          isOpen={isDepositModalOpen}
-          handleClose={this.closeDepositModal}
-          token={selectedToken}
-          tokenData={tokenData}
-        />
         <TransferTokensModal
           isOpen={isSendModalOpen}
           handleClose={this.closeSendModal}
           token={selectedToken}
-        />
-        <ConvertTokensModal
-          isOpen={isConvertModalOpen}
-          handleClose={this.closeConvertModal}
-          fromToken={convertModalFromToken}
-          toToken={convertModalToToken}
         />
         <ReceiveTokensModal
           notifyCopiedSuccess={notifyCopiedSuccess}
