@@ -254,26 +254,26 @@ const Header = ({
 
 const TokenSearchCard = styled.div`
   position: relative;
-  background: ${DarkMode.BLACK};
-  color: ${DarkMode.WHITE};
+  background: ${props => props.theme.tokenSearcherBg};
   width: 550px;
   height: 300px;
   overflow: hidden;
-  border: 1px solid ${DarkMode.LIGHT_BLUE};
-  color: ${DarkMode.LIGHT_GRAY};
+  border: 1px solid ${props => props.theme.border};
+  color: ${props => props.theme.menuColor}};
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
 
   .bp3-tab {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${props => props.theme.menuColor};
   }
 
   .bp3-tab:hover,
   .bp3-tab[aria-selected="true"] {
-    color: ${DarkMode.ORANGE};
+    color: ${props => props.theme.menuColorHover};
   }
 
   .bp3-tab-list {
     padding: 10px;
-    border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
+    border-bottom: 1px solid ${props => props.theme.border};
   }
 `
 
@@ -287,7 +287,7 @@ const Row = styled.div.attrs({
   padding: 0 10px;
 
   &:hover {
-    background: ${DarkMode.LIGHT_BLUE};
+    background: ${props => props.theme.menuBgHover};
   }
 `
 
@@ -320,17 +320,17 @@ const SearchInput = styled(InputGroup)`
   z-index: 5;
 
   .bp3-input {
-    background: ${DarkMode.DARK_BLUE};
-    color: ${DarkMode.LIGHT_GRAY};
+    background: ${props => props.theme.tokenSearcherSearchBg};
+    color: ${props => props.theme.tokenSearcherSearchColor};
     &::placeholder {
-      color: ${DarkMode.LIGHT_GRAY};
+      color: ${props => props.theme.tokenSearcherSearchColor};
     }
   }
 `
 
 const HeaderRow = styled(Row)`
   font-size: ${Theme.FONT_SIZE_SM};
-  border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
+  border-bottom: 1px solid ${props => props.theme.border};
   &:hover {
     background: initial;
   }

@@ -1,7 +1,7 @@
 // @flow
 import type { Node } from 'react'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import {
   Alignment,
@@ -23,6 +23,7 @@ import {
   NavbarDivider,
   Theme,
   DarkMode,
+  LightMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -33,13 +34,9 @@ import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
-import walletGrayUrl from '../../assets/images/wallet_gray.svg'
-import walletWhiteUrl from '../../assets/images/wallet_white.svg'
 
 export type Props = {
   TomoBalance: string,
-  WETHBalance: string,
-  WETHAllowance: string,
   children?: Node,
   authenticated: boolean,
   accountLoading: boolean,
@@ -52,6 +49,11 @@ export type Props = {
 
 export type State = {}
 
+const theme = {
+  dark: DarkMode,
+  light: LightMode,
+}
+
 class Layout extends React.PureComponent<Props, State> {
 
   isCreateImportWalletPage = (pathname: string) => {
@@ -59,13 +61,17 @@ class Layout extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { pathname } = this.props
+    const { pathname, mode } = this.props
 
     if (this.isCreateImportWalletPage(pathname)) {
       return (<CreateImportWallet {...this.props} />)
     }
 
-    return (<Default {...this.props} />)
+    return (
+      <ThemeProvider theme={theme[mode]}>
+        <Default {...this.props} />
+      </ThemeProvider>
+    )
   }
 }
 
@@ -100,8 +106,8 @@ class Default extends React.PureComponent<Props, State> {
     return pathname.includes('/trade')
   }
 
-  handleThemeChange = () => {
-
+  handleThemeChange = (e: Object) => {
+    e.target.checked ? this.props.changeMode('dark') : this.props.changeMode('light')
   }
 
   render() {
@@ -115,6 +121,7 @@ class Default extends React.PureComponent<Props, State> {
       referenceCurrency,
       copyDataSuccess,
       locale,
+      mode,
       changeLocale,
     } = this.props
 
@@ -146,13 +153,13 @@ class Default extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
+      <Wrapper mode={mode} className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
         <Notifier />
-        <Header className="tm-header">
+        <Header>
           <Navbar>
-            <NavbarHeading className="logo">
+            <MainLogoWrapper>
               <TomoXLogo height={40} width={40} alt="TomoX Logo" />
-            </NavbarHeading>
+            </MainLogoWrapper>
 
             <NavbarGroup align={Alignment.LEFT}>
             {this.isTradingPage(pathname) 
@@ -173,7 +180,7 @@ class Default extends React.PureComponent<Props, State> {
                 <NavbarDivider />
 
                 {currentPairData && 
-                  (<TokenTick className="token-tick">
+                  (<TokenTick>
                     <div className="tick last-price">
                       <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div>
@@ -237,7 +244,7 @@ class Default extends React.PureComponent<Props, State> {
                       position={Position.BOTTOM_RIGHT}
                       minimal
                     >
-                      <Icon icon="user" iconSize={20} />
+                      <UserIcon icon="user" iconSize={20} />
                     </Popover>
                   </React.Fragment>
                 )}
@@ -261,7 +268,7 @@ class Default extends React.PureComponent<Props, State> {
         </Header>
         <MainContainer>
           <Sidebar className="sidebar"> 
-            <NavLink className="sidebar-item markets-link" to="/markets">
+            <MarketsLink to="/markets">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
@@ -272,8 +279,9 @@ class Default extends React.PureComponent<Props, State> {
                 </Tooltip>
                 <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
               </SidebarItemBox>
-            </NavLink>  
-            <NavLink className="sidebar-item exchange-link" to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
+            </MarketsLink>
+
+            <ExchangeLink to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
@@ -284,8 +292,9 @@ class Default extends React.PureComponent<Props, State> {
                 </Tooltip>
                 <SidebarItemTitle><FormattedMessage id="mainMenuPage.exchange" /></SidebarItemTitle>
               </SidebarItemBox>
-            </NavLink>         
-            <NavLink className="sidebar-item portfolio-link" to="/wallet">
+            </ExchangeLink> 
+
+            <PortfolioLink to="/wallet">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
@@ -296,21 +305,26 @@ class Default extends React.PureComponent<Props, State> {
                 </Tooltip> 
                 <SidebarItemTitle><FormattedMessage id="mainMenuPage.portfolio" /></SidebarItemTitle>
               </SidebarItemBox>
-              </NavLink>   
+            </PortfolioLink>   
 
-              <NavExternalLink target="_blank" href="https://docs.tomochain.com">
-                <SidebarItemBox>
-                  <Tooltip disabled={!this.isTradingPage(pathname)} 
-                    portalClassName="sidebar-tooltip"
-                    content="Docs/FAQ" 
-                    position={Position.RIGHT}
-                    transitionDuration={0}>
-                    <i></i> 
-                  </Tooltip> 
-                  <SidebarItemTitle><FormattedMessage id="mainMenuPage.docsFaq" /></SidebarItemTitle>
-                </SidebarItemBox>
-              </NavExternalLink>
-            <Switch className="switch-theme" checked={true} label="Dark mode" alignIndicator={Alignment.RIGHT} onChange={this.handleThemeChange} />
+            <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+              <SidebarItemBox>
+                <Tooltip disabled={!this.isTradingPage(pathname)} 
+                  portalClassName="sidebar-tooltip"
+                  content="Docs/FAQ" 
+                  position={Position.RIGHT}
+                  transitionDuration={0}>
+                  <i></i> 
+                </Tooltip> 
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.docsFaq" /></SidebarItemTitle>
+              </SidebarItemBox>
+            </NavExternalLink>
+            
+            <SwitchTheme 
+              checked={(mode === 'dark')} 
+              label={(mode === "dark") ? "Dark mode" : "Light mode"} 
+              alignIndicator={Alignment.RIGHT} 
+              onChange={this.handleThemeChange} />
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
@@ -345,9 +359,9 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
-              <PageLink to="/markets">Markets</PageLink>
+              <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink>
 
-              <PageLink to="/trade">Exchange</PageLink>
+              <PageLink to="/trade"><FormattedMessage id="mainMenuPage.exchange" /></PageLink>
 
               <LanguageItem className="utility-item language">
                 <i>language</i>              
@@ -385,15 +399,20 @@ const MenuLocales = (props) => {
 
 export default Layout
 
-const Wrapper = styled.div.attrs({ className: 'tm-theme tm-theme-dark' })`
+const Wrapper = styled.div.attrs({ 
+  className: props => `tm-theme tm-theme-${props.mode}`,
+})`
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: ${props => props.theme.mainBg};
 `
 
 const CreateImportWrapper = styled(Wrapper)``
 
-const Header = styled.header``
+const Header = styled.header.attrs({
+  className: 'tm-header',
+})``
 
 const CreateImportHeader = styled.header`
   position: relative;
@@ -439,6 +458,10 @@ const CreateImportHeader = styled.header`
 
 const CreateImportMain = styled.div``
 
+const MainLogoWrapper = styled(NavbarHeading).attrs({
+  className: 'logo',
+})``
+
 const LogoWrapper = styled(NavbarHeading)`
   position: absolute;
   top: 0;
@@ -458,8 +481,12 @@ const TokenSearcherPopover = styled(Popover)`
 const TokenPaisDropDown = styled.div.attrs({
   className: 'tokens-dropdown',
 })`
-  color: ${DarkMode.LIGHT_GRAY};
+  color: ${props => props.theme.labelTokensDropdown};
   cursor: pointer;
+
+  &:hover {
+    color: ${props => props.theme.labelTokensDropdownHover}
+  }
 `
 
 const MainContainer = styled.div.attrs({
@@ -475,12 +502,50 @@ const Sidebar = styled.div`
   align-items: flex-start;
 `
 
+const SidebarItem = styled(NavLink).attrs({
+  className: 'sidebar-item',
+})`
+  padding: 30px 0 30px 2px;
+
+  &.active .sidebar-item-box,
+  &:hover .sidebar-item-box {
+    color: ${props => props.theme.activeLink};
+    box-shadow: -2px 0 0 0 ${props => props.theme.active};
+  }
+`
+
+const MarketsLink = styled(SidebarItem).attrs({
+  className: 'markets-link',
+})``
+
+const ExchangeLink = styled(SidebarItem).attrs({
+  className: 'exchange-link',
+})``
+
+const PortfolioLink = styled(SidebarItem).attrs({
+  className: 'portfolio-link',
+})``
+
 const SidebarItemBox = styled.div.attrs({
   className: 'sidebar-item-box',
 })`
   .bp3-popover-target {
     display: flex;
     align-items: center;
+  }
+
+  color: ${props => props.theme.link};
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 18px;
+  align-items: center;
+
+  i {
+    display: inline-block;
+    height: 23px;
+    width: 20px;
+    margin-right: 10px;
   }
 `
 
@@ -510,7 +575,13 @@ const TokenInfo = styled.div`
   }
 `
 
-const TokenTick = styled.div``
+const TokenTick = styled.div.attrs({ className: 'token-tick' })`
+  color: ${props => props.theme.textSmallChart};
+
+  .title {
+    color: $tm-gray;
+  }
+`
 
 const SupportItem = styled.div``
 
@@ -534,12 +605,18 @@ const PageLink = styled(NavbarLink)`
 
 const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',
-})``
+})`
+  padding: 30px 0 30px 2px;
+
+  &:hover .sidebar-item-box {
+    color: ${props => props.theme.activeLink};
+  }
+`
 
 const MenuWallet = styled(Menu)`
   width: 320px;
-  color: ${DarkMode.LIGHT_GRAY};
-  background-color: ${DarkMode.LIGHT_BLUE};
+  color: ${props => props.theme.menuColor};
+  background-color: ${props => props.theme.menuBg};
   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
   overflow: hidden;
   margin-top: 10px;
@@ -547,6 +624,7 @@ const MenuWallet = styled(Menu)`
 
 const MenuItemTitle = styled.div`
   margin-bottom: 3px;
+  color: ${props => props.theme.menuColor};
 `
 
 const AddressWalletBox = styled.div`
@@ -569,14 +647,11 @@ const IconBox = styled.span`
   padding: 5px;
   cursor: pointer;
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${props => props.theme.menuBg};
   }
 
   a {
-    color: ${DarkMode.LIGHT_GRAY}; 
-    &:hover {
-      color: ${DarkMode.LIGHT_GRAY};
-    }
+    color: ${props => props.theme.menuColor}; 
   }
 `
 
@@ -584,19 +659,19 @@ const MenuItem = styled.li`
   padding: 10px 15px;
 
   &:first-child {
-    background-color: ${DarkMode.BLUE};
+    background-color: ${props => props.theme.menuBgHover};
   }
 
   &:not(:first-child):hover {
-    background-color: ${DarkMode.DARK_BLUE};
+    background-color: ${props => props.theme.menuBgHover};
   }
 `
 
 const MenuItemLink = styled(NavLink)`
   display: block;
-  color: ${DarkMode.LIGHT_GRAY}; 
+  color: ${props => props.theme.menuColor}; 
   &:hover {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${props => props.theme.menuColorHover};
   }
 `
 
@@ -608,25 +683,64 @@ const LocaleItem = styled.li`
   justify-content: space-between;
   padding: 10px 15px;
   cursor: pointer;
-  color: ${props => props.active ? DarkMode.ORANGE : 'inherit'};
-  background-color: ${props => props.active ? DarkMode.BLUE : 'inherit'};
+  color: ${props => props.active ? props.theme.active : props.theme.menuColor};
+  background-color: ${props => props.active ? props.theme.menuBgHover : props.theme.menuBg};
 
   &:hover {
-    color: ${DarkMode.WHITE};
-    background-color: ${DarkMode.BLUE};
+    color: ${props => props.theme.menuColorHover};
+    background-color: ${props => props.theme.menuBgHover};
   }
 `
 
-const WalletIconBox = styled.span`
+const WalletIconBox = styled.span.attrs({
+  className: 'unlock-wallet',
+})`
   display: inline-flex;
   margin-top: 2px;
   width: 20px;
   height: 20px;
-  background: url(${walletGrayUrl}) no-repeat center center;
-  background-size: 20px 20px;
+`
+
+const SwitchTheme = styled(Switch)`
+  color: #9ca4ba;
+  padding-left: 20px;
+  margin-top: auto;
+  margin-bottom: 30px;
+
+  .bp3-control-indicator {
+    width: 24px;
+    height: 16px;
+    background: transparent !important;
+    border: 1px solid #9ca4ba !important;
+    margin-top: 3px;
+    &::before {
+      top: -1px;
+      width: 10px;
+      height: 10px;
+      background-color: #ff9a4d !important;
+    }
+  }
+
+  input:checked ~ .bp3-control-indicator::before {
+    left: calc(100% - 13px)
+  }
+
+  @media (max-width: 1400px) {
+    width: 100%;
+    font-size: 0;
+
+    .bp3-control-indicator {
+      float: none !important;
+      margin-right: 0 !important;
+      margin-left: -4px !important;
+    }
+  }
+`
+
+const UserIcon = styled(Icon)`
+  color: ${props => props.theme.icon};
 
   &:hover {
-    background: url(${walletWhiteUrl}) no-repeat center center;
-    background-size: 20px 20px;
+    color: ${props => props.theme.iconHover};
   }
 `

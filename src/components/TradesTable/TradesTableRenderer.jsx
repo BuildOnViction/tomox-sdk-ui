@@ -1,11 +1,11 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 import { Loading, CenteredMessage, DarkMode } from '../Common';
-import { formatDate } from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers'
 
-import type { Trade } from '../../types/trades';
-import type { TokenPair } from '../../types/tokens';
+import type { Trade } from '../../types/trades'
+import type { TokenPair } from '../../types/tokens'
 
 type Props = {
   currentPair: TokenPair,
@@ -72,7 +72,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
 const Wrapper = styled.div`
   margin: auto;
   height: 100% !important;
-`;
+`
 
 const ListHeader = styled.ul`
   width: 100%;
@@ -80,7 +80,7 @@ const ListHeader = styled.ul`
   flex-direction: row;
   justify-content: space-around;
   margin: 0px;
-`;
+`
 
 const ListBody = styled.ul`
   overflow-y: auto;
@@ -109,7 +109,7 @@ const Row = styled.li.attrs({
   cursor: default;
 
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${props => props.theme.orderbookHover};
   }
 `
 

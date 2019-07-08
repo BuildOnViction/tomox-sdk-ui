@@ -1,7 +1,7 @@
 //@flow
-import React from 'react';
-import TokenSearcherRenderer from './TokenSearcherRenderer';
-import { sortTable } from '../../utils/helpers';
+import React from 'react'
+import TokenSearcherRenderer from './TokenSearcherRenderer'
+import { sortTable } from '../../utils/helpers'
 
 //TODO not sure exactly where to define this type.
 type Token = {
@@ -14,7 +14,7 @@ type Token = {
   base: string,
   quote: string,
   favorited: boolean,
-};
+}
 
 type Props = {
   tokenPairsByQuoteToken: { [string]: Array<Token> },
@@ -23,7 +23,7 @@ type Props = {
   quoteTokenBalance: number,
   updateFavorite: (string, boolean) => void,
   updateCurrentPair: string => void,
-};
+}
 
 type State = {
   quoteTokens: Array<string>,
@@ -34,7 +34,7 @@ type State = {
   selectedTabId: string,
   orderChanged: boolean,
   isOpen: boolean,
-};
+}
 
 class TokenSearcher extends React.PureComponent<Props, State> {
   state = {
@@ -46,23 +46,23 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     selectedTabId: '',
     orderChanged: false,
     isOpen: true,
-  };
+  }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    let { tokenPairsByQuoteToken, currentPair } = nextProps;
-    const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken);
+    let { tokenPairsByQuoteToken, currentPair } = nextProps
+    const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken)
     const currentQuoteToken = currentPair.quoteTokenSymbol
     
-    const defaultPairs = tokenPairsByQuoteToken[currentQuoteToken];
-    const selectedPair = defaultPairs.filter(pair => pair.pair === currentPair.pair)[0];
+    const defaultPairs = tokenPairsByQuoteToken[currentQuoteToken]
+    const selectedPair = defaultPairs.filter(pair => pair.pair === currentPair.pair)[0]
 
     if (!prevState.selectedPair) {
       return {
         quoteTokens: quoteTokens,
         selectedTabId: currentQuoteToken,
         selectedPair: selectedPair, // selectedPair: defaultPairs[0],
-      };
-    } else return null;
+      }
+    } else return null
   }
 
   onChangeSearchFilter = ({ target }: SyntheticInputEvent<>) => {
@@ -89,11 +89,11 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   };
 
   onChangeSortOrder = (value: string) => {
-    this.setState({ sortOrder: value });
+    this.setState({ sortOrder: value })
   };
 
   changeTab = (tabId: string) => {
-    this.setState({ selectedTabId: tabId });
+    this.setState({ selectedTabId: tabId })
   };
 
   filterTokens = () => {
@@ -119,12 +119,12 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       result[quote] = sortTable(result[quote], filterName, sortOrder)
     }
 
-    return result;
-  };
+    return result
+  }
 
   changeSelectedToken = (token: Token) => {
-    this.setState({ selectedPair: token });
-    this.props.updateCurrentPair(token.pair);
+    this.setState({ selectedPair: token })
+    this.props.updateCurrentPair(token.pair)
   };
 
   render() {
@@ -136,12 +136,12 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       onChangeSortOrder,
       changeTab,
       changeSelectedToken,
-    } = this;
+    } = this
 
-    const filteredPairs = this.filterTokens();
+    const filteredPairs = this.filterTokens()
 
     //Temporary loading condition
-    let loading = typeof selectedPair === 'undefined';
+    let loading = typeof selectedPair === 'undefined'
 
     return (
       <TokenSearcherRenderer
@@ -164,8 +164,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         changeTab={changeTab}
         changeSelectedToken={changeSelectedToken}
       />
-    );
+    )
   }
 }
 
-export default TokenSearcher;
+export default TokenSearcher
