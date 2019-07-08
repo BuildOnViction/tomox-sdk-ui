@@ -51,8 +51,18 @@ export default function walletPageSelector(state: State) {
 
 export function redirectToTradingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
-    const defaultQuoteToken = quoteTokens[0]
-    const pair = `${symbol}/${defaultQuoteToken.symbol}`
+    const quoteTokenIndex = quoteTokenSymbols.indexOf(symbol)
+    let baseTokenSymbol, quoteTokenSymbol
+
+    if (quoteTokenIndex === 0) {
+      baseTokenSymbol = quoteTokenSymbols[1]
+      quoteTokenSymbol = quoteTokenSymbols[0]
+    } else {
+      baseTokenSymbol = symbol
+      quoteTokenSymbol = quoteTokenSymbols[0]
+    }
+
+    const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
 
     dispatch(actionCreators.updateCurrentPair(pair))
     dispatch(push('/trade'))
