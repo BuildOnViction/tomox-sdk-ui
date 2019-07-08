@@ -123,20 +123,22 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                   ))}
                 </List>
               )}
-
-              {currentPairData && (
-                <LatestTick className="latest-tick">
-                  <LatestPrice className="latest-price" width="67%">
-                    <CryptoPrice className="crypto">{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
-                    <CashPrice className="cash">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
-                  </LatestPrice>
-                  
-                  <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
-                    {getChangePercentText(currentPairData.ticks[0].change)}
-                  </PercentChange>             
-                </LatestTick>
-              )}
-
+              
+              <LatestTick>
+                {currentPairData && (
+                  <React.Fragment>
+                    <LatestPrice width="67%">
+                      <CryptoPrice>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
+                      <CashPrice>{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
+                    </LatestPrice>
+                    
+                    <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
+                      {getChangePercentText(currentPairData.ticks[0].change)}
+                    </PercentChange>  
+                  </React.Fragment>
+                )}           
+              </LatestTick>
+              
               {bids && (
                 <List className="bp3-list-unstyled list list-buy" id="list-buy">
                   {bids.map((order, index) => (
@@ -332,7 +334,9 @@ const HeaderCell = styled.span`
   width: ${props => props.width? props.width : "35px"}
 `
 
-const LatestTick = styled.div`
+const LatestTick = styled.div.attrs({
+  className: 'latest-tick',
+})`
   flex-grow: 0;
   display: flex;
   flex-flow: row nowrap;
@@ -341,11 +345,19 @@ const LatestTick = styled.div`
   padding-left: 10px;
   background: ${props => props.theme.orderbookLatestPrice};
 `
-const LatestPrice = styled.div`
+const LatestPrice = styled.div.attrs({
+  className: 'latest-price',
+})`
   width: ${props => props.width? props.width : "70px"}
 `
-const CryptoPrice = styled.span``
-const CashPrice = styled.span``
+const CryptoPrice = styled.span.attrs({
+  className: 'crypto',
+})``
+
+const CashPrice = styled.span.attrs({
+  className: 'cash',
+})``
+
 const PercentChange = styled.div.attrs({
   className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
 })`
