@@ -947,41 +947,61 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@ledgerhq/devices@^4.63.2":
-  version "4.63.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.63.2.tgz#8dc650b7ff9f074d4d83858618aa4bdc0a43bc87"
-  integrity sha512-91kWtrAcGoAV5zNWBDTMF3gqwMBvyZBvDnSiOJ2Top3hZvHUrwLqb6HuA87bOwPDIWBnW4BVGWswy2VnYb/ueQ==
+"@ledgerhq/devices@^4.64.0":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.64.0.tgz#4412f81338f5495f179017e5101273c3f0edaddf"
+  integrity sha512-OQ9zGINnljVT/VsI2GYvNDQwCEZjkdG8QECQ0VtqHQqzcjadiJxg5KwMddTX4FmEOtqSzs1MO0jafMaVSOahpg==
   dependencies:
-    "@ledgerhq/errors" "^4.63.2"
-    "@ledgerhq/logs" "^4.62.0"
+    "@ledgerhq/errors" "^4.64.0"
+    "@ledgerhq/logs" "^4.64.0"
     rxjs "^6.5.2"
 
-"@ledgerhq/errors@^4.63.2":
-  version "4.63.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-4.63.2.tgz#c8882d5202045c801569b7816cea2b48f25b8a31"
-  integrity sha512-NF4KkRQ2X1ZEmaxcCXUv0VNHaMqy/t/PXvii5IoZeNochQn56DlXcbgMzZ8HBpGQYTLdZuliT7RjKSZmUMjhrg==
+"@ledgerhq/errors@^4.64.0":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-4.64.0.tgz#fb9c74edb0ea434e659711d88ffcef315a44aeee"
+  integrity sha512-Wwu6mFvPsFJ4Dhix3G1SPjt2LzSe5iGWhSt8KftzWD9t05UNdJB9BimQnMcTn6/Cgpj/y1RdIgo/nd7hIsjvJg==
 
-"@ledgerhq/hw-app-eth@^4.24.0":
-  version "4.63.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.63.2.tgz#a5ab2d7994dedb9c981ea595af8f0f8f5d2c3d99"
-  integrity sha512-JOH6qro8QuNgwkx9cGMQSzze/nfwtOo8Q04iOEAU87WFCINav4axR9bkGsAJe3ymwe27KcV274nIaHkExo38ZQ==
+"@ledgerhq/hw-app-eth@^4.60.3":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.64.0.tgz#7d41ea7e72ce0033ad50f9adb98a3e3a78e7123a"
+  integrity sha512-yPNbSE2Lwxo6GQYSXQeGvpdz19cQV4HXpTU1VsAWj7sQgim6Ghz9NZGom3Q4G1KqfH31XjIUDiE6KjwGM8vnaQ==
   dependencies:
-    "@ledgerhq/errors" "^4.63.2"
-    "@ledgerhq/hw-transport" "^4.63.2"
+    "@ledgerhq/errors" "^4.64.0"
+    "@ledgerhq/hw-transport" "^4.64.0"
 
-"@ledgerhq/hw-transport@^4.63.2":
-  version "4.63.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.63.2.tgz#1ac9d04040f42d033bf1cc398348ced1ad4c3a31"
-  integrity sha512-WtejtJXyeDQe+ppiOvES2bxWaXkmHLxrwCt2cQzq2wvrH32AABE652isIxkJfUst0Q6p2QwCKO6YZN2PZiSRuQ==
+"@ledgerhq/hw-transport-u2f@^4.60.3":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.64.0.tgz#672fdc3d7bb5abdc2e565b42e867e41a9eeeaccb"
+  integrity sha512-FXNNT+j3EST7VQ+D9C6XnCxgY/JFhoAwWJCcr8ee68UrMFdHvh0gMZoJe0PzsSXP4+TS9t/wrqc5my3tz2IPnw==
   dependencies:
-    "@ledgerhq/devices" "^4.63.2"
-    "@ledgerhq/errors" "^4.63.2"
+    "@ledgerhq/errors" "^4.64.0"
+    "@ledgerhq/hw-transport" "^4.64.0"
+    "@ledgerhq/logs" "^4.64.0"
+    u2f-api "0.2.7"
+
+"@ledgerhq/hw-transport-webusb@^4.60.3":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-webusb/-/hw-transport-webusb-4.64.0.tgz#1c24aa884b472b91acc0b6ec628e773d2bd9e587"
+  integrity sha512-3lJaVuhb65nY8yqJ/2xPWBYcvtYGKG8Io3cjXbEvzoV1QqeYLhN4MVTkVf2Ra96H3uIRE8vzAjh6ledne2t0xw==
+  dependencies:
+    "@ledgerhq/devices" "^4.64.0"
+    "@ledgerhq/errors" "^4.64.0"
+    "@ledgerhq/hw-transport" "^4.64.0"
+    "@ledgerhq/logs" "^4.64.0"
+
+"@ledgerhq/hw-transport@^4.64.0":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.64.0.tgz#dc3e2ff6a35638bdd7e51064312aac6b1e0e92e2"
+  integrity sha512-6qCuScKczrohDXHDnQRuYPV9v0cQstqbWAa/jRZlDuSLMEEJ2xl1Kj9XIkTpKfMQc6KYwqjwarEON9x8CfaXBQ==
+  dependencies:
+    "@ledgerhq/devices" "^4.64.0"
+    "@ledgerhq/errors" "^4.64.0"
     events "^3.0.0"
 
-"@ledgerhq/logs@^4.62.0":
-  version "4.62.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.62.0.tgz#6696e6d74576e09d72bc1d7a8fcff76cd190461e"
-  integrity sha512-f/XtWHzHxE4AJlB53vZllH/4gY3t7n1vNoGkjHFfu3keLmbyHWC1sGdG+lW9FRlToSLQuVotGIbm04SBn0vSIQ==
+"@ledgerhq/logs@^4.64.0":
+  version "4.64.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.64.0.tgz#19a335e3f2d9188188437f8dabb06e0fd45b0052"
+  integrity sha512-NwgA7q1CXWMkqxoHVaSTk0gJUGbiBbWTM7Uod/Zz8EWNa1Ns0yHthCcSS279htP6oQplEaSppzsie5bcbwNApg==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -10461,6 +10481,11 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+platform@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/platform/-/platform-1.3.5.tgz#fb6958c696e07e2918d2eeda0f0bc9448d733444"
+  integrity sha512-TuvHS8AOIZNAlE77WUDiR4rySV/VMptyMfcfeoMgs4P8apaZM3JrnbzBiixKUv+XR6i+BXrQh8WAnjaSPFO65Q==
+
 pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
@@ -11591,6 +11616,19 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+
+qrcode.react@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-0.9.3.tgz#91de1287912bdc5ccfb3b091737b828d6ced60c5"
+  integrity sha512-gGd30Ez7cmrKxyN2M3nueaNLk/f9J7NDRgaD5fVgxGpPLsYGWMn9UQ+XnDpv95cfszTQTdaf4QGLNMf3xU0hmw==
+  dependencies:
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
 
 qs@6.7.0, qs@^6.5.1:
   version "6.7.0"
@@ -14224,6 +14262,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+u2f-api@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/u2f-api/-/u2f-api-0.2.7.tgz#17bf196b242f6bf72353d9858e6a7566cc192720"
+  integrity sha512-fqLNg8vpvLOD5J/z4B6wpPg4Lvowz1nJ9xdHcCzdUPKcFE/qNCceV2gNZxSJd5vhAZemHr/K/hbzVA0zxB5mkg==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
