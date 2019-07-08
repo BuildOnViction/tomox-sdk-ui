@@ -428,6 +428,15 @@ const TabsWrapper = styled(Tabs)`
         background-color: ${DarkMode.ORANGE};
       }
     }
+
+    .bp3-tab {
+      color: ${DarkMode.LIGHT_GRAY};
+    }
+
+    .bp3-tab[aria-selected="true"],
+    .bp3-tab:hover {
+      color: ${DarkMode.WHITE};
+    }
   }
 
   .bp3-tab-panel {

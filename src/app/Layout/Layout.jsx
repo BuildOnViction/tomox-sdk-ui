@@ -34,8 +34,6 @@ import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
-import walletGrayUrl from '../../assets/images/wallet_gray.svg'
-import walletWhiteUrl from '../../assets/images/wallet_white.svg'
 
 export type Props = {
   TomoBalance: string,
@@ -617,8 +615,8 @@ const NavExternalLink = styled.a.attrs({
 
 const MenuWallet = styled(Menu)`
   width: 320px;
-  color: ${DarkMode.LIGHT_GRAY};
-  background-color: ${DarkMode.LIGHT_BLUE};
+  color: ${props => props.theme.menuColor};
+  background-color: ${props => props.theme.menuBg};
   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
   overflow: hidden;
   margin-top: 10px;
@@ -626,7 +624,7 @@ const MenuWallet = styled(Menu)`
 
 const MenuItemTitle = styled.div`
   margin-bottom: 3px;
-  color: ${props => props.theme.link};
+  color: ${props => props.theme.menuColor};
 `
 
 const AddressWalletBox = styled.div`
@@ -649,14 +647,11 @@ const IconBox = styled.span`
   padding: 5px;
   cursor: pointer;
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${props => props.theme.menuBg};
   }
 
   a {
-    color: ${DarkMode.LIGHT_GRAY}; 
-    &:hover {
-      color: ${DarkMode.LIGHT_GRAY};
-    }
+    color: ${props => props.theme.menuColor}; 
   }
 `
 
@@ -664,19 +659,19 @@ const MenuItem = styled.li`
   padding: 10px 15px;
 
   &:first-child {
-    background-color: ${DarkMode.BLUE};
+    background-color: ${props => props.theme.menuBgHover};
   }
 
   &:not(:first-child):hover {
-    background-color: ${DarkMode.DARK_BLUE};
+    background-color: ${props => props.theme.menuBgHover};
   }
 `
 
 const MenuItemLink = styled(NavLink)`
   display: block;
-  color: ${DarkMode.LIGHT_GRAY}; 
+  color: ${props => props.theme.menuColor}; 
   &:hover {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${props => props.theme.menuColorHover};
   }
 `
 
@@ -688,27 +683,22 @@ const LocaleItem = styled.li`
   justify-content: space-between;
   padding: 10px 15px;
   cursor: pointer;
-  color: ${props => props.active ? DarkMode.ORANGE : 'inherit'};
-  background-color: ${props => props.active ? DarkMode.BLUE : 'inherit'};
+  color: ${props => props.active ? props.theme.active : props.theme.menuColor};
+  background-color: ${props => props.active ? props.theme.menuBgHover : props.theme.menuBg};
 
   &:hover {
-    color: ${DarkMode.WHITE};
-    background-color: ${DarkMode.BLUE};
+    color: ${props => props.theme.menuColorHover};
+    background-color: ${props => props.theme.menuBgHover};
   }
 `
 
-const WalletIconBox = styled.span`
+const WalletIconBox = styled.span.attrs({
+  className: 'unlock-wallet',
+})`
   display: inline-flex;
   margin-top: 2px;
   width: 20px;
   height: 20px;
-  background: url(${walletGrayUrl}) no-repeat center center;
-  background-size: 20px 20px;
-
-  &:hover {
-    background: url(${walletWhiteUrl}) no-repeat center center;
-    background-size: 20px 20px;
-  }
 `
 
 const SwitchTheme = styled(Switch)`

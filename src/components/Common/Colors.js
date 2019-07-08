@@ -249,6 +249,10 @@ export const DarkMode = {
 
   mainBg: '#252C40',
   subBg: '#1f2538',
+  menuBg: '#394362',
+  menuBgHover: '#2d3650',
+  menuColor: '#9ca4ba',
+  menuColorHover: '#ff9a4d',
   border: '#394362',
   active: '#ff9a4d',
   link: '#9ca4ba',
@@ -267,6 +271,10 @@ export const DarkMode = {
 export const LightMode = {
   mainBg: '#fff',
   subBg: '#f4f6f8',
+  menuBg: '#f4f6f8',
+  menuBgHover: '#efefef',
+  menuColor: '#040404',
+  menuColorHover: '#ff9a4d',
   border: '#ccc',
   active: '#ff9a4d',
   link: '#999',

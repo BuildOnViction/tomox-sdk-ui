@@ -211,6 +211,16 @@ body {
         }
       }
 
+      .unlock-wallet {
+        background: url(../../assets/images/wallet_gray.svg) no-repeat center center;
+        background-size: 20px 20px;
+
+        &:hover {
+          background: url(../../assets/images/wallet_white.svg) no-repeat center center;
+          background-size: 20px 20px;
+        }
+      }
+
       .language {
         i {
           background: url(../../assets/images/globe_icon_gray.svg) no-repeat center center;
@@ -281,6 +291,16 @@ body {
         background: url(../../assets/images/notification_icon_dark.svg) no-repeat center center;
         &:hover {
           background: url(../../assets/images/notification_icon_gray.svg) no-repeat center center;
+        }
+      }
+
+      .unlock-wallet {
+        background: url(../../assets/images/wallet_gray.svg) no-repeat center center;
+        background-size: 20px 20px;
+
+        &:hover {
+          background: url(../../assets/images/wallet_light_gray.svg) no-repeat center center;
+          background-size: 20px 20px;
         }
       }
 
