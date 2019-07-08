@@ -9,28 +9,28 @@ jobs:
         - docker
       install: skip
       before_script:
-        - docker build -t tomochain/dex-client .
+        - docker build -t tomochain/tomox-ui .
       script:
         - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-        - docker tag tomochain/dex-client tomochain/dex-client:latest
-        - docker push tomochain/dex-client:latest
-        - docker tag tomochain/dex-client tomochain/dex-client:$TRAVIS_BUILD_ID
-        - docker push tomochain/dex-client:$TRAVIS_BUILD_ID
+        - docker tag tomochain/tomox-ui tomochain/tomox-ui:latest
+        - docker push tomochain/tomox-ui:latest
+        - docker tag tomochain/tomox-ui tomochain/tomox-ui:$TRAVIS_BUILD_ID
+        - docker push tomochain/tomox-ui:$TRAVIS_BUILD_ID
 
     - stage: Build and push image (tagged)
       services:
         - docker
       install: skip
       before_script:
-        - docker build -t tomochain/dex-client .
+        - docker build -t tomochain/tomox-ui .
       script:
         - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-        - docker tag tomochain/dex-client tomochain/dex-client:latest
-        - docker push tomochain/dex-client:latest
-        - docker tag tomochain/dex-client tomochain/dex-client:testnet
-        - docker push tomochain/dex-client:testnet
-        - docker tag tomochain/dex-client tomochain/dex-client:$TRAVIS_TAG
-        - docker push tomochain/dex-client:$TRAVIS_TAG
+        - docker tag tomochain/tomox-ui tomochain/tomox-ui:latest
+        - docker push tomochain/tomox-ui:latest
+        - docker tag tomochain/tomox-ui tomochain/tomox-ui:testnet
+        - docker push tomochain/tomox-ui:testnet
+        - docker tag tomochain/tomox-ui tomochain/tomox-ui:$TRAVIS_TAG
+        - docker push tomochain/tomox-ui:$TRAVIS_TAG
 
     - stage: Deploy in devnet
       install: skip
@@ -41,12 +41,12 @@ jobs:
         - echo -e "Host $DEVNET_SSH_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./travis.pem
       script:
-        - ssh -i ./travis.pem -l $DEVNET_SSH_USER $DEVNET_SSH_IP docker service update --image tomochain/dex-client:latest devnet-main_dex-client 1> /dev/null
-        - ssh -i ./travis.pem -l $DEVNET_SSH_USER $DEVNET_SSH_IP docker service update --image tomochain/dex-client:latest devnet-main_dex-client_crawler 1> /dev/null
+        - ssh -i ./travis.pem -l $DEVNET_SSH_USER $DEVNET_SSH_IP docker service update --image tomochain/tomox-ui:latest devnet-main_tomox-ui 1> /dev/null
+        - ssh -i ./travis.pem -l $DEVNET_SSH_USER $DEVNET_SSH_IP docker service update --image tomochain/tomox-ui:latest devnet-main_tomox-ui_crawler 1> /dev/null
       after_success:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"[devnet] dex-client\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"[devnet] tomox-ui\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
       after_failure:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[devnet] Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"[devnet] dex-client\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[devnet] Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"[devnet] tomox-ui\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
 
     - stage: Deploy in testnet
       install: skip
@@ -57,21 +57,21 @@ jobs:
         - echo -e "Host $TESTNET_SSH_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./travis.pem
       script:
-        - ssh -i ./travis.pem -l $TESTNET_SSH_USER $TESTNET_SSH_IP docker service update --image tomochain/dex-client:testnet testnet_dex-client 1> /dev/null
-        - ssh -i ./travis.pem -l $TESTNET_SSH_USER $TESTNET_SSH_IP docker service update --image tomochain/dex-client:testnet testnet_dex-client_crawler 1> /dev/null
+        - ssh -i ./travis.pem -l $TESTNET_SSH_USER $TESTNET_SSH_IP docker service update --image tomochain/tomox-ui:testnet testnet_tomox-ui 1> /dev/null
+        - ssh -i ./travis.pem -l $TESTNET_SSH_USER $TESTNET_SSH_IP docker service update --image tomochain/tomox-ui:testnet testnet_tomox-ui_crawler 1> /dev/null
       after_success:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"[testnet] dex-client\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"[testnet] tomox-ui\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
       after_failure:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"[testnet] dex-client\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#deployments\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"[testnet] Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"[testnet] tomox-ui\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
 
 stages:
   - name: Build and push image
-    if: type != pull_request AND branch = master AND tag IS blank AND repo = tomochain/dex-client
+    if: type != pull_request AND branch = master AND tag IS blank AND repo = tomochain/tomox-ui
   - name: Build and push image (tagged)
-    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/dex-client
+    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/tomox-ui
   - name: Release desktop application
-    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/dex-client
+    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/tomox-ui
   - name: Deploy in devnet
-    if: type != pull_request AND branch = master AND repo = tomochain/dex-client
+    if: type != pull_request AND branch = master AND repo = tomochain/tomox-ui
   - name: Deploy in testnet
-    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/dex-client
+    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/tomox-ui
