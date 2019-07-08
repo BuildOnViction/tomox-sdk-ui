@@ -440,7 +440,7 @@ export const settings = createReducerPersist({
   key: 'settings',
   keyPrefix: 'tomo:',
   storage,
-  whitelist: ['locale'],
+  whitelist: ['locale', 'mode'],
 }, action => {
   const { type, payload } = action
   switch (type) {
@@ -452,6 +452,8 @@ export const settings = createReducerPersist({
       return settingsEvents.defaultGasPriceSet()
     case settingsActionTypes.changeLocale:
       return settingsEvents.changeLocale(payload)
+    case settingsActionTypes.changeMode:
+      return settingsEvents.changeMode(payload)
     default:
       return settingsEvents.initialized()
   }

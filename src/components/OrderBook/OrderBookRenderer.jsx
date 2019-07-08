@@ -281,7 +281,7 @@ const Row = styled.li.attrs({
   padding: 3.5px 0 3.5px 10px !important;
 
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${props => props.theme.orderbookHover};
   }
 `
 
@@ -339,7 +339,7 @@ const LatestTick = styled.div`
   align-items: center;
   height: 30px;
   padding-left: 10px;
-  background: ${DarkMode.BLACK};
+  background: ${props => props.theme.orderbookLatestPrice};
 `
 const LatestPrice = styled.div`
   width: ${props => props.width? props.width : "70px"}

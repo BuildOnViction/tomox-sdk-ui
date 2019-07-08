@@ -155,7 +155,7 @@ const SearchWrapper= styled(InputGroup)`
   .bp3-input {
     color: ${DarkMode.LIGHT_GRAY};
     max-width: 220px;
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
     border-radius: 0;
     &:focus, 
     &.bp3-active {
@@ -190,7 +190,7 @@ const TableBodyContainer = styled.div`
 
 const TableBody = styled.div`
   height: 100%;
-  color: ${DarkMode.WHITE}
+  color: ${props => props.theme.textTable};
 `
 
 const Cell = styled.div`
@@ -209,7 +209,7 @@ const Row = styled.div`
   padding: 0 20px;
 
   &:nth-child(2n+1) {
-    background: ${DarkMode.BLACK};
+    background: ${props => props.theme.subBg};
   }
 `
 

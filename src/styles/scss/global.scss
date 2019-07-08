@@ -1,14 +1,19 @@
 @import "vars";
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px $tm-black;
-  background-color: $tm-black;
+  -webkit-box-shadow: inset 0 0 6px $tm-gray;
+  background-color: $tm-gray;
 }
 
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;
-  background-color: $tm-light-blue;
+  background-color: $tm-light-gray;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px $tm-light-gray;
+  background-color: $tm-light-gray;
 }
 
 .bp3-tab:focus {
@@ -21,11 +26,6 @@ input[type=number]::-webkit-outer-spin-button {
   -moz-appearance: none;
   appearance: none;
   margin: 0;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px $tm-light-blue;
-  background-color: $tm-light-blue;
 }
 
 .loading-overlay {

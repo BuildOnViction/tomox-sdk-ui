@@ -35,6 +35,7 @@ export default function createSelector(state: State) {
   const accountLoading = !TomoBalance
   const referenceCurrency = accountDomain.referenceCurrency()
   const locale = settingsDomain.getLocale()
+  const mode = settingsDomain.getMode()
   const currentPair = tokenPairs.getCurrentPair()
   const currentPairData = tokenPairs.getCurrentPairData()
   const { router: { location: { pathname }}} = state
@@ -46,6 +47,7 @@ export default function createSelector(state: State) {
     accountLoading,
     currentBlock,
     locale,
+    mode,
     currentPair,
     currentPairData,
     pathname,
@@ -155,5 +157,11 @@ export function createProvider(): ThunkAction {
 export function changeLocale(locale: string): ThunkAction {
   return async (dispatch, getstate) => {
     dispatch(settingsActionCreators.changeLocale(locale))
+  }
+}
+
+export function changeMode(mode: string): ThunkAction {
+  return async (dispatch, getstate) => {
+    dispatch(settingsActionCreators.changeMode(mode))
   }
 }

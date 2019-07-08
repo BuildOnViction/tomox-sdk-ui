@@ -5,6 +5,7 @@ const initialState = {
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true,
   locale: 'en',
+  mode: 'dark',
 }
 
 export const initialized = () => {
@@ -48,6 +49,15 @@ export const changeLocale = (locale: string) => {
   return event
 }
 
+export const changeMode = (mode: string) => {
+  const event = (state: SettingsState) => ({
+    ...state,
+    mode,
+  })
+
+  return event
+}
+
 export default function model(state: SettingsState) {
   return {
     defaultGasPrice: () => state.defaultGasPrice,
@@ -58,5 +68,6 @@ export default function model(state: SettingsState) {
       defaultGasLimit: state.defaultGasLimit,
     }),
     getLocale: () => state.locale,
+    getMode: () => state.mode,
   }
 }

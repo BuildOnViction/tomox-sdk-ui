@@ -1,12 +1,12 @@
-import * as React from 'react';
-import './index.css';
+import * as React from 'react'
+import './index.css'
 import Datafeed from './api/'
 
 
 function getLanguageFromURL() {
-	const regex = new RegExp('[\\?&]lang=([^&#]*)');
-	const results = regex.exec(window.location.search);
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	const regex = new RegExp('[\\?&]lang=([^&#]*)')
+	const results = regex.exec(window.location.search)
+	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
 export default class TVChartRenderer extends React.PureComponent {
@@ -30,6 +30,8 @@ export default class TVChartRenderer extends React.PureComponent {
 			},
 			changeTimeSpan,
 			currentPair: { pair },
+			mode,
+			modes,
 		} = this.props
 
 		const { location: { origin } } = window
@@ -61,20 +63,10 @@ export default class TVChartRenderer extends React.PureComponent {
 			fullscreen: this.props.fullscreen,
 			autosize: this.props.autosize,
 			studies_overrides: this.props.studiesOverrides,
-			theme: 'Dark',
+			theme: mode,
 			custom_css_url,
 			overrides: {
-				"volumePaneSize": "medium",
-				"paneProperties.background": "#252C40",
-				"paneProperties.vertGridProperties.color": "#252C40",
-				"paneProperties.horzGridProperties.color": "#394362",
-				"paneProperties.legendProperties.showSeriesTitle": false,
-				"scalesProperties.textColor" : "#6e7793",
-				"scalesProperties.fontSize": 12,
-				"scalesProperties.lineColor": "#394362",
-				"mainSeriesProperties.candleStyle.wickUpColor": '#336854',
-				"mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
-				"timeScale.rightOffset": 5,
+				...modes[mode],
 			},
 			time_frames: [],
 		}
