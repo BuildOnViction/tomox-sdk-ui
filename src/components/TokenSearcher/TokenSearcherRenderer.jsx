@@ -8,7 +8,6 @@ import {
 } from '@blueprintjs/core'
 import {
   Theme,
-  Centered,
   OverlaySpinner,
   DarkMode,
   UtilityIcon,
@@ -174,7 +173,7 @@ const Panel = (props: PanelProps) => {
           changeSelectedToken={changeSelectedToken}
         />
       ))}
-      {tokenPairs.length === 0 && <Centered>No Tokens to show</Centered>}
+      {tokenPairs.length === 0 && <NoTokens>No Tokens to show</NoTokens>}
     </TokenSearchPanelBox>
   )
 }
@@ -339,6 +338,11 @@ const HeaderRow = styled(Row)`
 const Change24H = styled(Cell)`
   color: ${props =>
     props.change > 0 ? DarkMode.GREEN : DarkMode.RED} !important;
+`
+
+const NoTokens = styled.div`
+  margin-top: 30px;
+  text-align: center;
 `
 
 
