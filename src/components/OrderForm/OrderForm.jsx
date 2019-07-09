@@ -129,6 +129,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
     value = value.match(/^0[1-9]/g) ? value.replace(/^0/, '') : value
+    value = value.match(/^\.[1-9]/g) ? value.replace(/^./, '0.') : value
     value = value.match(/^[0-9]*\.[0-9]*\.$/g) ? value.replace(/.$/, '') : value
     
     switch (target.name) {
@@ -260,9 +261,16 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleAmountChange = (amount: string, side: SIDE) => {
     this.resetErrorObject(side)
-    const { selectedTabId } = this.state
+    const { selectedTabId, amountStep } = this.state
+    const amountStepString = formatNumber(amountStep, { precision: amountPrecision })
 
     if (side === 'BUY') {
+      if (amount.length >= amountStepString.length 
+      && Number(amount) < Number(amountStep)) {
+        this.setState({ buyAmount: formatNumber(0, { precision: amountPrecision }) })
+        return
+      }
+
       let { buyPrice, stopPrice } = this.state
       let buyTotal
 
@@ -280,6 +288,12 @@ class OrderForm extends React.PureComponent<Props, State> {
         isShowBuyMaxAmount: true,
       })
     } else {
+      if (amount.length >= amountStepString.length 
+      && Number(amount) < Number(amountStep)) {
+        this.setState({ sellAmount: formatNumber(0, { precision: amountPrecision }) })
+        return
+      }
+
       let { sellPrice, stopPrice } = this.state
       let sellTotal
 
