@@ -230,8 +230,14 @@ class Default extends React.PureComponent<Props, State> {
                 </a>
               </SupportItem>
 
-              <NotificationItem className="utility-item notification">
+              <NotificationItem>
+                <Popover
+                  content={<NotificationMenu />}
+                  position={Position.BOTTOM_RIGHT}
+                  minimal
+                >
                   <i>notification</i>
+                </Popover>
               </NotificationItem>
 
               <UserItem className="utility-item notification">
@@ -396,6 +402,13 @@ const MenuLocales = (props) => {
       <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]} {(locale === "en") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
       <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]} {(locale === "vi") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
     </LocaleList>
+  )
+}
+
+const NotificationMenu = (props) => {
+
+  return (
+    <NotificationList>No items to show</NotificationList>
   )
 }
 
@@ -592,7 +605,14 @@ const SupportItem = styled.div`
   }
 `
 
-const NotificationItem = styled.div``
+const NotificationItem = styled.div.attrs({
+  className: 'utility-item notification',
+})`
+  .bp3-popover-wrapper,
+  .bp3-popover-target {
+    font-size: 0;
+  }
+`
 
 const LanguageItem = styled.div``
 
@@ -632,6 +652,16 @@ const MenuWallet = styled(Menu)`
 const MenuItemTitle = styled.div`
   margin-bottom: 3px;
   color: ${props => props.theme.menuColor};
+`
+
+const NotificationList = styled.div`
+  min-height: 60px;
+  min-width: 250px;
+  text-align: center;
+  color: ${props => props.theme.menuColor};
+  padding: 15px;
+  background-color: ${props => props.theme.menuBg};
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
 `
 
 const AddressWalletBox = styled.div`
