@@ -266,6 +266,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
 
       for (let i = 0; i < coins.length; i++) {
         const lengthPriceArray = smallChartsData[coins[i]].length
+        const volume = +smallChartsData[coins[i]][0].totalVolume
         const closePrice = +smallChartsData[coins[i]][0].price
         const openPrice = +smallChartsData[coins[i]][lengthPriceArray - 1].price
         let code = ''
@@ -288,6 +289,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
           data: JSON.parse(JSON.stringify(smallChartsData[coins[i]])).reverse(),
           price: smallChartsData[coins[i]][0].price,
           change: (closePrice - openPrice)*100/openPrice,
+          volume,
           code,
         }
 

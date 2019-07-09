@@ -44,12 +44,17 @@ const StatsBox = ({code, change, price, volume, data}) => {
   return (
     <StatsContent>
       <StatsInfo>
-        <StatsTitle>{code} Index</StatsTitle>
-        <StatsChange color={change >=0 ? '#00C38C' : '#f94d5c'}>
-          <SmallText>{change > 0 ? `+${formatNumber(change, { precision: 2 })}` : formatNumber(change, { precision: 2 })}%</SmallText>
-        </StatsChange>
-        <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{formatNumber(price, { precision: 2 })} USD</StatsPrice>
-        {/* <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{volume}</StatsVolumeText></StatsVolume> */}
+        <StatsRow>
+          <StatsTitle>{code} Index</StatsTitle>
+          <StatsChange color={change >=0 ? '#00C38C' : '#f94d5c'}>
+            <SmallText>{change > 0 ? `+${formatNumber(change, { precision: 2 })}` : formatNumber(change, { precision: 2 })}%</SmallText>
+          </StatsChange>
+        </StatsRow>
+
+        <StatsRow>
+          <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{formatNumber(price, { precision: 2 })} USD</StatsPrice>
+          <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{formatNumber(volume, { precision: 2 })}</StatsVolumeText></StatsVolume>
+        </StatsRow>
       </StatsInfo>
       <LineChart data={data} code={code} />
     </StatsContent>
@@ -74,14 +79,18 @@ const StatsContent = styled.div`
 
 const StatsInfo = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 15px 15px 0 15px;
 `
 
+const StatsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const StatsCell = styled.div`
-  width: 50%;
   margin-bottom: 5px;
   &:nth-child(2n) {
     text-align: right;
@@ -102,11 +111,11 @@ const StatsChange = styled(StatsCell)`
 
 const StatsPrice = styled(StatsCell)``
 
-// const StatsVolume = styled(StatsCell)``
+const StatsVolume = styled(StatsCell)``
 
-// const StatsVolumeText = styled(SmallText)`
-//   color: ${props => props.theme.textSmallChart};
-// `
+const StatsVolumeText = styled(SmallText)`
+  color: ${props => props.theme.textSmallChart};
+`
 
 const WalletPageBox = styled.div`
   display: flex;
