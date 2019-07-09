@@ -14,7 +14,7 @@ COPY . /app
 FROM node:10.13.0-alpine as build
 COPY --from=builder /app /app
 WORKDIR /app
-RUN npm install -g sass && yarn bu ild
+RUN npm install -g sass && yarn build
 
 # production environment
 FROM nginx:1.15.5-alpine
