@@ -743,12 +743,12 @@ const OrderFormTabs = styled(Tabs)`
   }
 
   .bp3-tab {
-    color: ${props => props.theme.menuColor};
+    color: ${props => props.theme.orderTableTabActive};
   }
 
   .bp3-tab:hover,
   .bp3-tab[aria-selected="true"] {
-    color: ${props => props.theme.menuColorHover};
+    color: ${props => props.theme.orderTableTabActive};
   }
 `
 
