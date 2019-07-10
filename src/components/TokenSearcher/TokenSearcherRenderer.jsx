@@ -63,53 +63,32 @@ const TokenSearchRenderer = (props: Props) => {
     changeTab,
     changeSelectedToken,
   } = props
+
   return (
-    <React.Fragment>
-      {loading ? (
-        <OverlaySpinner visible={loading} transparent />
-      ) : (
-        <TokenSearchCard>
-          <SearchInput
-            leftIcon="search"
-            onChange={onChangeSearchFilter}
-            value={searchFilter}
-            placeholder="Search"
-          />
-          
-          <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
-            <Tab
-              id="star"
-              title={<UtilityIcon name="Favorite" size={12} />}
-              panel={
-                <Panel
-                  tokenPairs={filteredPairs.favorites}
-                  filterName={filterName}
-                  sortOrder={sortOrder}
-                  searchFilter={searchFilter}
-                  selectedTabId={selectedTabId}
-                  selectedPair={selectedPair}
-                  changeSelectedToken={changeSelectedToken}
-                  updateFavorite={updateFavorite}
-                  onChangeSearchFilter={onChangeSearchFilter}
-                  onChangeFilterName={onChangeFilterName}
-                  onChangeSortOrder={onChangeSortOrder}
-                />
-              }
+    <TokenSearchCard>
+      {loading ? 
+        (<OverlaySpinner visible={true} transparent={true} />) 
+        : (
+          <React.Fragment>
+            <SearchInput
+              leftIcon="search"
+              onChange={onChangeSearchFilter}
+              value={searchFilter}
+              placeholder="Search"
             />
-            {quoteTokens.map((quote, index) => (
+            
+            <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
               <Tab
-                id={quote}
-                key={index}
-                title={quote}
+                id="star"
+                title={<UtilityIcon name="Favorite" size={12} />}
                 panel={
                   <Panel
-                    tokenPairs={filteredPairs[quote]}
+                    tokenPairs={filteredPairs.favorites}
                     filterName={filterName}
                     sortOrder={sortOrder}
                     searchFilter={searchFilter}
                     selectedTabId={selectedTabId}
                     selectedPair={selectedPair}
-                    filteredPairs={filteredPairs}
                     changeSelectedToken={changeSelectedToken}
                     updateFavorite={updateFavorite}
                     onChangeSearchFilter={onChangeSearchFilter}
@@ -118,11 +97,33 @@ const TokenSearchRenderer = (props: Props) => {
                   />
                 }
               />
-            ))}
-          </TokenSearchTabs>
-        </TokenSearchCard>
-      )}
-    </React.Fragment>
+              {quoteTokens.map((quote, index) => (
+                <Tab
+                  id={quote}
+                  key={index}
+                  title={quote}
+                  panel={
+                    <Panel
+                      tokenPairs={filteredPairs[quote]}
+                      filterName={filterName}
+                      sortOrder={sortOrder}
+                      searchFilter={searchFilter}
+                      selectedTabId={selectedTabId}
+                      selectedPair={selectedPair}
+                      filteredPairs={filteredPairs}
+                      changeSelectedToken={changeSelectedToken}
+                      updateFavorite={updateFavorite}
+                      onChangeSearchFilter={onChangeSearchFilter}
+                      onChangeFilterName={onChangeFilterName}
+                      onChangeSortOrder={onChangeSortOrder}
+                    />
+                  }
+                />
+              ))}
+            </TokenSearchTabs>
+          </React.Fragment>
+        )}      
+    </TokenSearchCard>
   )
 }
 

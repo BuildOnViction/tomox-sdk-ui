@@ -141,7 +141,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     const filteredPairs = this.filterTokens()
 
     //Temporary loading condition
-    let loading = typeof selectedPair === 'undefined'
+    const loading = typeof selectedPair === 'undefined'
 
     return (
       <TokenSearcherRenderer
