@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 import * as reducers from './reducers'
 import * as services from './services'
 import '../styles/css/index.css'
-import storage from 'redux-persist/lib/storage'
+import storageSession from 'redux-persist/lib/storage/session'
 import { DEFAULT_NETWORK_ID } from '../config/environment'
 import { createLocalWalletSigner } from './services/signer'
 
@@ -46,7 +46,7 @@ const accountTransform = createTransform(
 const persistConfig = {
   key: 'root',
   keyPrefix: 'tomo:',
-  storage,
+  storage: storageSession,
   transforms: [accountTransform],
   whitelist: ['account', 'accountBalances'], // only information related to account will be persisted
 }
