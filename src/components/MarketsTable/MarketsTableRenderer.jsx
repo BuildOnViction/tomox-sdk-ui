@@ -188,7 +188,7 @@ const TabItem = (props) => {
         <TabIcon>
           <UtilityIcon name={props.name} 
             size={12}
-            color={props.active ? DarkMode.WHITE : ''} />
+            color={props.active ? DarkMode.ORANGE : ''} />
         </TabIcon>)}
 
       <TabTitle
@@ -317,9 +317,9 @@ const TabTitle = styled.span`
   cursor: pointer;
   display: flex;
   margin-right: 60px;
-  color: ${props => props.active ? DarkMode.WHITE : 'inherit' };
+  color: ${props => props.active ? props.theme.orderTableTabActive : 'inherit' };
   &:hover {
-    color: ${DarkMode.WHITE};
+    color: ${props => props.theme.orderTableTabActive};
   }
 `
 
