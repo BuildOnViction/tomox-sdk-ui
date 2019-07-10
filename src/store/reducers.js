@@ -183,6 +183,7 @@ export const ohlcv = createReducer(action => {
     case ohlcvActionTypes.resetOHLCVData:
     case tokenSearcherActionTypes.updateCurrentPair:
     case tradingPageActionTypes.updateCurrentPair:
+    case marketsTableActionTypes.updateCurrentPair:
       return ohlcvEvents.ohlcvReset()
     default:
       return ohlcvEvents.initialized()
@@ -227,6 +228,7 @@ export const orderBook = createReducer(action => {
       return orderBookEvents.orderBookInitialized(payload.bids, payload.asks)
     case tradingPageActionTypes.updateCurrentPair:
     case tokenSearcherActionTypes.updateCurrentPair:
+    case marketsTableActionTypes.updateCurrentPair:
       return orderBookEvents.orderBookReset()
     default:
       return orderBookEvents.initialized()
