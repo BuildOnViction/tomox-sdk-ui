@@ -36,7 +36,10 @@ class OrdersTable extends React.PureComponent<Props, State> {
   filterOrders = () => {
     const { orders, currentPair: { pair }} = this.props
     const { isHideOtherPairs } = this.state
-    const result = { ALL: orders }
+    const ordersWithoutOpen = orders.filter(order => {
+      return order.status !== 'OPEN'
+    })
+    const result = { ALL: ordersWithoutOpen }
     const filters = [
       'OPEN',
       'CANCELLED',
