@@ -63,7 +63,7 @@ class WalletPage extends React.PureComponent<Props> {
 
     if (!authenticated) return <Redirect to="/unlock" />
 
-    const isHelpModalOpen = this.checkOpenHelpModal()
+    const isHelpModalOpen = false
 
     return (
       <WalletPageRenderer
