@@ -80,16 +80,20 @@ export default function ordersDomain(state: OrdersState) {
       let orders: Orders = getOrders(state)
       orders = orders.slice(Math.max(orders.length - n, 0))
       orders = orders.map(order => {
-        order.filled = formatNumber(order.filled, {
+        const filledPercent = order.filled ? formatNumber(order.filled*100/order.amount, {
+          precision: amountPrecision,
+        }) : 0
+        const total = formatNumber(order.price * order.amount, { precision: pricePrecision })
+        const filled = formatNumber(order.filled, {
           precision: amountPrecision,
         })
-        order.amount = formatNumber(order.amount, {
+        const amount = formatNumber(order.amount, {
           precision: amountPrecision,
         })
-        order.price = formatNumber(order.price, { precision: pricePrecision })
-        order.cancellable =
+        const price = formatNumber(order.price, { precision: pricePrecision })
+        const cancellable =
           order.status === 'OPEN' || order.status === 'PARTIAL_FILLED'
-        return order
+        return { ...order, filledPercent, total, filled, amount, price, cancellable }
       })
 
       return orders

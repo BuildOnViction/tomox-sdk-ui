@@ -86,6 +86,7 @@
   "exchangePage.amount": "Amount",
   "exchangePage.total": "Total",
   "exchangePage.filled": "Filled(%)",
+  "exchangePage.filledAmount": "Filled",
   "exchangePage.status": "Status",
   "exchangePage.noOrders": "No orders",
   "exchangePage.noOrderbook": "No Orderbook for this token pair",

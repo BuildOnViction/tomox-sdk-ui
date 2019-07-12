@@ -128,6 +128,7 @@ export default function tradesDomain(state: TradesState) {
           ...trade,
           amount: formatNumber(trade.amount, { precision: amountPrecision }),
           price: formatNumber(trade.price, { precision: pricePrecision }),
+          total: formatNumber(trade.price * trade.amount, { precision: pricePrecision }),
         }
       })
 

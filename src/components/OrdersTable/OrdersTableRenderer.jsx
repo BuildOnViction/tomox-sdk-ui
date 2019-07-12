@@ -192,10 +192,10 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                 {order.amount}
               </Cell>
               <Cell width={widthColumns[6]} muted>
-                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+                {order.total}
               </Cell>
               <Cell width={widthColumns[7]} muted>
-                {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
+                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
               </Cell>
               <Cell width={widthColumns[8]} muted>
                 {capitalizeFirstLetter(order.status)}
@@ -258,7 +258,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {order.amount}
               </Cell>
               <Cell width={widthColumnsOrderHistory[6]} muted>
-                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+                {order.total}
               </Cell>
               <Cell width={widthColumnsOrderHistory[7]} muted>
                 {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
@@ -284,7 +284,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
       </ListHeader>
 
@@ -310,7 +310,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {order.amount}
               </Cell>
               <Cell width={widthColumnsTradeHistory[5]} muted>
-                {formatNumber(order.price * order.amount, { precision: pricePrecision })}
+                {order.total}
               </Cell>
             </Row>
           ))}
