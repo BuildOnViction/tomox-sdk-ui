@@ -67,7 +67,7 @@ src/styles/css/app.css
 .sass-cache
 
 # dotenv environment variables file
-#.env
+.env
 #.env.development
 #.env.test
 #.env.local
