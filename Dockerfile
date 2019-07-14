@@ -1,5 +1,5 @@
 # builder environment
-FROM node:10.13.0-alpine as builder
+FROM node:8.16-alpine as builder
 RUN apk update
 RUN apk add --no-cache autoconf make gcc g++ git python libgudev-dev linux-headers eudev-dev libusb-compat-dev hwdata-usb
 RUN mkdir /app
@@ -11,7 +11,7 @@ RUN  yarn install --pure-lockfile
 COPY . /app
 
 # build environment
-FROM node:10.13.0-alpine as build
+FROM node:8.16-alpine as build
 COPY --from=builder /app /app
 WORKDIR /app
 RUN npm install -g sass && yarn build
