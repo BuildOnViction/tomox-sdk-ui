@@ -92,4 +92,4 @@ wallaby.js
 chain/
 
 # Ignore dynamic addresses.json file
-src/config/addresses.json
+# src/config/addresses.json
