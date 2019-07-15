@@ -17,9 +17,9 @@ WORKDIR /app
 RUN npm install -g sass && yarn build
 
 # production environment
-# FROM nginx:1.15.5-alpine
-# COPY nginx.conf /etc/nginx
-# COPY mime.types /etc/nginx/mime.types
-# COPY --from=build /app/build /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:1.15.5-alpine
+COPY nginx.conf /etc/nginx
+COPY mime.types /etc/nginx/mime.types
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
