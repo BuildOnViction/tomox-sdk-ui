@@ -10,10 +10,9 @@ import {
 import { FormattedMessage } from 'react-intl'
 
 import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
-import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
+import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
-import { pricePrecision } from '../../config/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
 
@@ -186,13 +185,13 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                 {order.side && capitalizeFirstLetter(order.side)}
               </Cell>
               <Cell width={widthColumns[4]} title={order.price} muted>
-                {order.price}
+                {truncateZeroDecimal(order.price)}
               </Cell>
               <Cell width={widthColumns[5]} muted>
-                {order.amount}
+                {truncateZeroDecimal(order.amount)}
               </Cell>
               <Cell width={widthColumns[6]} muted>
-                {order.total}
+                {truncateZeroDecimal(order.total)}
               </Cell>
               <Cell width={widthColumns[7]} muted>
                 {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
@@ -252,13 +251,13 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {order.side && capitalizeFirstLetter(order.side)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
-                {order.price}
+                {truncateZeroDecimal(order.price)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[5]} muted>
-                {order.amount}
+                {truncateZeroDecimal(order.amount)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[6]} muted>
-                {order.total}
+                {truncateZeroDecimal(order.total)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[7]} muted>
                 {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
@@ -304,13 +303,13 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {order.side ? capitalizeFirstLetter(order.side) : '-'}
               </Cell>
               <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
-                {order.price}
+                {truncateZeroDecimal(order.price)}
               </Cell>
               <Cell width={widthColumnsTradeHistory[4]} muted>
-                {order.amount}
+                {truncateZeroDecimal(order.amount)}
               </Cell>
               <Cell width={widthColumnsTradeHistory[5]} muted>
-                {order.total}
+                {truncateZeroDecimal(order.total)}
               </Cell>
             </Row>
           ))}
