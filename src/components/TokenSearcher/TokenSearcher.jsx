@@ -46,6 +46,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     selectedTabId: '',
     orderChanged: false,
     isOpen: true,
+    isShowSearchResult: false,
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -65,9 +66,25 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     } else return null
   }
 
-  onChangeSearchFilter = ({ target }: SyntheticInputEvent<>) => {
-    this.setState({ searchFilter: target.value })
+  onChangeSearchFilter = (event) => {
+    this.setState({ searchFilter: event.target.value })
   };
+
+  showSearchResult = () => {
+    this.setState({ isShowSearchResult: true })
+  }
+
+  hideSearchResult = () => {
+    // Because onBlur event on search input to fast
+    // so we can't catch event onClick on the search result item
+    // to resolve we delay onBlur event
+    setTimeout(() => {
+      this.setState({ 
+        searchFilter: '',
+        isShowSearchResult: false,
+      })
+    }, 300) 
+  }
 
   onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
     const {dataset: { filter }} = target
@@ -97,17 +114,25 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   };
 
   filterTokens = () => {
-    let result = { favorites: [] }
+    const result = { favorites: [], searchResult: [] }
     const { tokenPairsByQuoteToken } = this.props
     const { searchFilter, filterName, sortOrder } = this.state
 
-    for (let quote of Object.keys(tokenPairsByQuoteToken)) {
-      result[quote] = tokenPairsByQuoteToken[quote].filter(pairObj => {
-        return pairObj.pair.indexOf(searchFilter.toUpperCase()) > -1
-      })
+    for (const quote of Object.keys(tokenPairsByQuoteToken)) {
+      if (searchFilter) {
+        const tokenPairs = tokenPairsByQuoteToken[quote].filter(tokenPair => {
+          return tokenPair.pair.includes(searchFilter.toLocaleUpperCase())
+        })
+
+        result['searchResult'] = result['searchResult'].concat(tokenPairs)
+      } else {
+        result['searchResult'] = result['searchResult'].concat(tokenPairsByQuoteToken[quote])
+      }
+
+      result[quote] = tokenPairsByQuoteToken[quote]
 
       result['favorites'] = result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pairObj => { 
-        return pairObj.favorited && pairObj.pair.includes(searchFilter.toUpperCase())
+        return pairObj.favorited
       }))
 
       result['favorites'] = sortTable(
@@ -117,6 +142,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       )
 
       result[quote] = sortTable(result[quote], filterName, sortOrder)
+
+      result['searchResult'] = sortTable(result['searchResult'], 'pair', 'asc')
     }
 
     return result
@@ -129,13 +156,27 @@ class TokenSearcher extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      state: { selectedTabId, searchFilter, selectedPair, sortOrder, filterName, quoteTokens, isOpen },
-      props: { updateFavorite, baseTokenBalance, quoteTokenBalance },
+      state: { 
+        selectedTabId, 
+        searchFilter, 
+        selectedPair, 
+        sortOrder, 
+        filterName, 
+        quoteTokens, 
+        isShowSearchResult,
+      },
+      props: { 
+        updateFavorite, 
+        baseTokenBalance, 
+        quoteTokenBalance,
+      },
       onChangeSearchFilter,
       onChangeFilterName,
       onChangeSortOrder,
       changeTab,
       changeSelectedToken,
+      showSearchResult,
+      hideSearchResult,
     } = this
 
     const filteredPairs = this.filterTokens()
@@ -154,11 +195,13 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         // silence-error: couldn't resolve selectedPair === undefined case
         selectedPair={selectedPair}
         sortOrder={sortOrder}
-        isOpen={isOpen}
         filterName={filterName}
         filteredPairs={filteredPairs}
         updateFavorite={updateFavorite}
         onChangeSearchFilter={onChangeSearchFilter}
+        showSearchResult={showSearchResult}
+        hideSearchResult={hideSearchResult}
+        isShowSearchResult={isShowSearchResult}
         onChangeFilterName={onChangeFilterName}
         onChangeSortOrder={onChangeSortOrder}
         changeTab={changeTab}
