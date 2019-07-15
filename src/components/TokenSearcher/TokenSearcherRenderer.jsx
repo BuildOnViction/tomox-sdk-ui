@@ -13,6 +13,7 @@ import {
   UtilityIcon,
 } from '../Common'
 import styled from 'styled-components'
+import { AutoSizer, List } from 'react-virtualized'
 
 type Token = {
   pair: string,
@@ -36,7 +37,6 @@ type Props = {
   selectedPair: Token,
   filterName: string,
   sortOrder: string,
-  isOpen: boolean,
   quoteTokens: Array<string>,
   onChangeSortOrder: string => void,
   changeTab: string => void,
@@ -59,6 +59,9 @@ const TokenSearchRenderer = (props: Props) => {
     updateFavorite,
     onChangeFilterName,
     onChangeSearchFilter,
+    showSearchResult,
+    hideSearchResult,
+    isShowSearchResult,
     onChangeSortOrder,
     changeTab,
     changeSelectedToken,
@@ -70,12 +73,21 @@ const TokenSearchRenderer = (props: Props) => {
         (<OverlaySpinner visible={true} transparent={true} />) 
         : (
           <React.Fragment>
+
             <SearchInput
               leftIcon="search"
               onChange={onChangeSearchFilter}
+              onFocus={showSearchResult}
+              onBlur={hideSearchResult}
               value={searchFilter}
               placeholder="Search"
             />
+
+            {isShowSearchResult 
+            && (
+              <SearchResult 
+                items={filteredPairs.searchResult}
+                changeSelectedToken={changeSelectedToken} />)}
             
             <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
               <Tab
@@ -124,6 +136,39 @@ const TokenSearchRenderer = (props: Props) => {
           </React.Fragment>
         )}      
     </TokenSearchCard>
+  )
+}
+
+const SearchResult = ({ items, changeSelectedToken }) => {
+  function rowRenderer ({ key, index, style }) {
+    return (
+      <SearchResultItem
+        key={key}
+        style={style}
+        className={Classes.POPOVER_DISMISS}
+        onClick={() => changeSelectedToken(items[index])}
+      >
+        {items[index].pair}
+      </SearchResultItem>
+    )
+  }
+
+  if (items.length === 0) { return (<SearchResultBox><NotFound>Not found</NotFound></SearchResultBox>) }
+  
+  return (
+    <SearchResultBox>
+      <AutoSizer>
+        {({height, width}) => (
+          <List
+            height={200}
+            rowCount={items.length}
+            rowHeight={30}
+            rowRenderer={rowRenderer}
+            width={150}
+          />
+        )}
+      </AutoSizer>
+    </SearchResultBox>
   )
 }
 
@@ -344,6 +389,35 @@ const Change24H = styled(Cell)`
 const NoTokens = styled.div`
   margin-top: 30px;
   text-align: center;
+`
+
+const NotFound = styled.div`
+    padding: 10px;
+`
+
+const SearchResultBox = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  z-index: 1000;
+  min-height: 200px;
+  width: 150px;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
+  background-color: ${props => props.theme.tokenSearcherSearchResultBg};
+
+  .ReactVirtualized__List {    
+    background-color: ${props => props.theme.tokenSearcherSearchResultBg};
+  }
+`
+
+const SearchResultItem = styled.div`
+  padding: 0 10px;
+  cursor: pointer;
+  line-height: 30px;
+
+  &:hover {
+    background-color: ${props => props.theme.tokenSearcherSearchResultItemHover};
+  }
 `
 
 
