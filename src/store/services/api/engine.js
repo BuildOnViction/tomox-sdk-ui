@@ -431,3 +431,19 @@ export const getExchangeAddress = async () => {
 // }
 
 // main()
+
+export const fetchNotifications = async ({address, offset, limit}) => {
+  const response = await request(`/notifications?userAddress=${address}&page=${offset}&perPage=${limit}`)
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}

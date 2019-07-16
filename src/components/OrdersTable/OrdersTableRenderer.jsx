@@ -13,7 +13,6 @@ import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
 import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
-import { pricePrecision } from '../../config/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
 
