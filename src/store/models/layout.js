@@ -28,7 +28,6 @@ export default function createSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const settingsDomain = getSettingsDomain(state)
   const tokenPairs = getTokenPairsDomain(state)
-  const notificationsDomain = getNotificationsDomain(state)
 
   const TomoBalance = accountBalancesDomain.tomoBalance()
   const authenticated = accountDomain.authenticated()
@@ -41,7 +40,6 @@ export default function createSelector(state: State) {
   const currentPair = tokenPairs.getCurrentPair()
   const currentPairData = tokenPairs.getCurrentPairData()
   const { router: { location: { pathname }}} = state
-  const notifications = notificationsDomain.getNotifications()
 
   return {
     TomoBalance,
@@ -55,7 +53,6 @@ export default function createSelector(state: State) {
     currentPairData,
     pathname,
     referenceCurrency,
-    notifications,
   }
 }
 

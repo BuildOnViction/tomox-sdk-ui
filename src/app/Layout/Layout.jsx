@@ -17,7 +17,7 @@ import {
 } from '@blueprintjs/core'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
-import { formatDistanceStrict } from 'date-fns'
+// import { formatDistanceStrict } from 'date-fns'
 
 import { locales } from '../../locales'
 import {
@@ -27,6 +27,7 @@ import {
   LightMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
+import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
@@ -234,7 +235,7 @@ class Default extends React.PureComponent<Props, State> {
 
               <NotificationItem>
                 <Popover
-                  content={<NotificationMenu notifications={notifications} />}
+                  content={<Notifications />}
                   position={Position.BOTTOM_RIGHT}
                   minimal
                 >
@@ -407,29 +408,29 @@ const MenuLocales = (props) => {
   )
 }
 
-const NotificationMenu = ({ notifications }) => {
+// const NotificationMenu = ({ notifications }) => {
 
-  return (
-    <React.Fragment>
-      <NotificationTitle>Notification</NotificationTitle>
-      <NotificationList>
-        {
-          notifications.map((notification, index) => {
-            return (
-              <Notification key={index}>
-                <div>{notification.message}</div>
-                <NotificationDate>
-                  <Icon icon="time" iconSize="12" />
-                  <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
-                </NotificationDate>
-              </Notification>
-            )            
-          })
-        }
-      </NotificationList>
-    </React.Fragment>
-  )
-}
+//   return (
+//     <React.Fragment>
+//       <NotificationTitle>Notification</NotificationTitle>
+//       <NotificationList>
+//         {
+//           notifications.map((notification, index) => {
+//             return (
+//               <Notification key={index}>
+//                 <div>{notification.message}</div>
+//                 <NotificationDate>
+//                   <Icon icon="time" iconSize="12" />
+//                   <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
+//                 </NotificationDate>
+//               </Notification>
+//             )            
+//           })
+//         }
+//       </NotificationList>
+//     </React.Fragment>
+//   )
+// }
 
 export default Layout
 
@@ -673,44 +674,44 @@ const MenuItemTitle = styled.div`
   color: ${props => props.theme.menuColor};
 `
 
-const NotificationList = styled.div`
-  height: 430px;
-  width: 300px;
-  overflow-x: hidden;
-  color: ${props => props.theme.menuColor};
-  background-color: ${props => props.theme.menuBg};
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
-`
+// const NotificationList = styled.div`
+//   height: 430px;
+//   width: 300px;
+//   overflow-x: hidden;
+//   color: ${props => props.theme.menuColor};
+//   background-color: ${props => props.theme.menuBg};
+//   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
+// `
 
-const NotificationTitle = styled.div`
-  text-align: center;
-  height: 35px;
-  line-height: 35px;
-  color: ${props => props.theme.menuColor};
-  border-bottom: 1px solid ${props => props.theme.menuBorder};
-  background-color: ${props => props.theme.menuBg};
-`
+// const NotificationTitle = styled.div`
+//   text-align: center;
+//   height: 35px;
+//   line-height: 35px;
+//   color: ${props => props.theme.menuColor};
+//   border-bottom: 1px solid ${props => props.theme.menuBorder};
+//   background-color: ${props => props.theme.menuBg};
+// `
 
-const Notification = styled.div`
-  font-size: ${Theme.FONT_SIZE_SM};
-  word-break: break-all;
-  padding: 5px 15px;
-  border-bottom: 1px solid ${props => props.theme.menuBorder};
-  &:hover {
-    background-color: ${props => props.theme.menuBgHover};
-  }
-`
+// const Notification = styled.div`
+//   font-size: ${Theme.FONT_SIZE_SM};
+//   word-break: break-all;
+//   padding: 5px 15px;
+//   border-bottom: 1px solid ${props => props.theme.menuBorder};
+//   &:hover {
+//     background-color: ${props => props.theme.menuBgHover};
+//   }
+// `
 
-const NotificationDate = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${DarkMode.GRAY};
-  margin-top: 5px;
-`
+// const NotificationDate = styled.div`
+//   display: flex;
+//   align-items: center;
+//   color: ${DarkMode.GRAY};
+//   margin-top: 5px;
+// `
 
-const DistanceDate = styled.span`
-  margin-left: 5px;
-`
+// const DistanceDate = styled.span`
+//   margin-left: 5px;
+// `
 
 const AddressWalletBox = styled.div`
   overflow: hidden;
@@ -818,7 +819,8 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }
+    }import Notifications from '../../components/Notifications/Notifications';
+
   }
 `
 
