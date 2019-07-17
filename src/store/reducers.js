@@ -20,7 +20,7 @@ import loginPageActionTypes from './actions/loginPage'
 import logoutPageActionTypes from './actions/logoutPage'
 import signerSettingsActionTypes from './actions/signerSettings'
 import convertTokensFormActionTypes from './actions/convertTokensForm'
-// import appActionTypes from './actions/app'
+import appActionTypes from './actions/app'
 import notificationsTypes from './actions/notifications'
 import layoutActionTypes from './actions/layout'
 import marketsPageActionTypes from './actions/marketsPage'
@@ -489,29 +489,14 @@ export const wallets = createReducer(action => {
 
 export const notifications = createReducer(action => {
   const { type, payload } = action
-  switch (type) {
-    // case appActionTypes.addNotification:
-    //   return notificationEvents.notificationAdded(
-    //     payload.notificationType,
-    //     payload.options
-    //   )
-    // case appActionTypes.addSuccessNotification:
-    //   return notificationEvents.notificationAdded(
-    //     payload.notificationType,
-    //     payload.options
-    //   )
-    // case appActionTypes.addErrorNotification:
-    //   return notificationEvents.notificationAdded(
-    //     payload.notificationType,
-    //     payload.options
-    //   )
-    // case appActionTypes.removeNotification:
-    //   return notificationEvents.notificationRemoved(payload.id)
-
-    // case appActionTypes.copyDataSuccessNotification:
-    //   return notificationEvents.notificationAdded(
-    //     payload.notificationType,
-    //   )
+  switch (type) {    
+    case appActionTypes.addNotification:
+    case appActionTypes.addSuccessNotification:
+    case appActionTypes.addErrorNotification:
+    case appActionTypes.copyDataSuccessNotification:    
+      return notificationEvents.updateToaster(payload)
+    case appActionTypes.removeNotification:
+      return notificationEvents.removeToaster()
     case notificationsTypes.updateNotificationsLoading: 
       return notificationEvents.updateNotificationsLoading(payload.status)
     case notificationsTypes.updateNotifications: 

@@ -11,7 +11,7 @@ export function updateNotificationsLoading(status: Boolean) {
   }
 }
 
-export function updateNotifications(data) {
+export function updateNotifications(data: Array<Object>) {
   return {
     type: actionTypes.updateNotifications,
     payload: { data },

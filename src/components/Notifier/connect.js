@@ -9,7 +9,7 @@ export const mapStateToProps = (state: State) => {
 }
 
 export const mapDispatchToProps = {
-  removeNotification
+  removeNotification,
 }
 
 export default connect(

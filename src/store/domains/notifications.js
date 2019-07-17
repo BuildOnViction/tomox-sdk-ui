@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   data: [],
   newData: [],
+  toaster: null,
 }
 
 export const initialized = () => {
@@ -12,7 +13,7 @@ export const initialized = () => {
   return event
 }
 
-export const updateNotificationsLoading = (loading) => { 
+export const updateNotificationsLoading = (loading: Boolean) => { 
   const event = (state: NotificationState = initialState) => {
     return {
       ...state,
@@ -33,6 +34,26 @@ export const updateNotifications = (notifications) => {
   return event
 }
 
+export const updateToaster = (notification: Object) => { 
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      toaster: notification,
+    }
+  }
+  return event
+}
+
+export const removeToaster = () => { 
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      toaster: null,
+    }
+  }
+  return event
+}
+
 export default function model(state) {
   return {
     getOffset: () => state.offset,
@@ -40,56 +61,7 @@ export default function model(state) {
     getNotifications: () => state.data,
     getLoading: () => state.loading,
     getNewNotifications: () => state.newData,
+    getToaster: () => state.toaster,
   }
 }
 
-// import type {
-//   NotificationState,
-//   Notification
-// } from '../../types/notifications';
-
-// const initialState = [];
-
-// // eslint-disable-next-line
-// let id = 0;
-
-// export const initialized = () => {
-//   const event = (state: NotificationState = initialState) => state;
-//   return event;
-// };
-
-// export const notificationAdded = (
-//   notificationType: string,
-//   options: Object
-// ) => {
-//   const event = (state: NotificationState) => {
-//     return [
-//       ...state,
-//       {
-//         id: ++id,
-//         notificationType,
-//         options
-//       }
-//     ];
-//   };
-
-//   return event;
-// };
-
-// export const notificationRemoved = (
-//   id: number
-// ): (NotificationState => NotificationState) => {
-//   const event = (state: NotificationState) => {
-//     return state.filter(notification => notification.id !== id);
-//   };
-
-//   return event;
-// };
-
-// export default function model(state: NotificationState) {
-//   return {
-//     byId: (id: number): ?Notification =>
-//       state.find(notification => notification.id === id),
-//     last: (): ?Notification => state[state.length - 1]
-//   };
-// }
