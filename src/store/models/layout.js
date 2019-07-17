@@ -15,7 +15,6 @@ import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
-// import * as accountActionTypes from "../actions/account"
 import * as accountBalancesCreators from '../actions/accountBalances'
 import * as notificationsCreators from '../actions/notifications'
 import * as accountBalancesService from '../services/accountBalances'

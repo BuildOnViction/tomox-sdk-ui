@@ -1,6 +1,6 @@
 //@flow
 import { connect } from 'react-redux'
-import notificationsSelector from '../../store/models/notifications'
+import notificationsSelector, { getNotifications } from '../../store/models/notifications'
 
 export function mapStateToProps(state: State, props: Object): LayoutProps {
   const selector = notificationsSelector(state)
@@ -11,7 +11,7 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
 }
 
 const mapDispatchToProps = {
-
+  getNotifications,
 }
 
 export default connect(

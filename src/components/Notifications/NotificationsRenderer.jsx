@@ -5,28 +5,41 @@ import { Icon } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
 import { Theme, DarkMode } from '../../components/Common'
 
-const NotificationsRenderer = ({ notifications }) => {
+export class NotificationsRenderer extends React.PureComponent {
+
+  onScroll = (event) => {
+    const { scrollHeight, scrollTop, clientHeight } = event.target
+    const { loading, getNotifications } = this.props
+
+    if ((scrollHeight - scrollTop) === clientHeight && !loading) {
+      getNotifications()
+    }
+  }
+  
+  render() {
+    const { notifications } = this.props
 
     return (
-        <React.Fragment>
-            <NotificationTitle>Notification</NotificationTitle>
-            <NotificationList>
-                {
-                    notifications.map((notification, index) => {
-                        return (
-                            <Notification key={index}>
-                                <div>{notification.message}</div>
-                                <NotificationDate>
-                                    <Icon icon="time" iconSize="12" />
-                                    <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
-                                </NotificationDate>
-                            </Notification>
-                        )            
-                    })
-                }
-            </NotificationList>
-        </React.Fragment>
+      <React.Fragment>
+        <NotificationTitle>Notification</NotificationTitle>
+        <NotificationList onScroll={this.onScroll}>
+          {
+            notifications.map((notification, index) => {
+              return (
+                <Notification key={index}>
+                  <div>{notification.message}</div>
+                  <NotificationDate>
+                      <Icon icon="time" iconSize="12" />
+                      <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
+                  </NotificationDate>
+                </Notification>
+              )            
+            })
+          }
+        </NotificationList>
+      </React.Fragment>
     )
+  }
 }
 
 export default NotificationsRenderer

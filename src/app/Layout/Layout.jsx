@@ -17,7 +17,6 @@ import {
 } from '@blueprintjs/core'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
-// import { formatDistanceStrict } from 'date-fns'
 
 import { locales } from '../../locales'
 import {
@@ -125,7 +124,6 @@ class Default extends React.PureComponent<Props, State> {
       locale,
       mode,
       changeLocale,
-      notifications,
     } = this.props
 
     const menu = (
@@ -408,30 +406,6 @@ const MenuLocales = (props) => {
   )
 }
 
-// const NotificationMenu = ({ notifications }) => {
-
-//   return (
-//     <React.Fragment>
-//       <NotificationTitle>Notification</NotificationTitle>
-//       <NotificationList>
-//         {
-//           notifications.map((notification, index) => {
-//             return (
-//               <Notification key={index}>
-//                 <div>{notification.message}</div>
-//                 <NotificationDate>
-//                   <Icon icon="time" iconSize="12" />
-//                   <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
-//                 </NotificationDate>
-//               </Notification>
-//             )            
-//           })
-//         }
-//       </NotificationList>
-//     </React.Fragment>
-//   )
-// }
-
 export default Layout
 
 const Wrapper = styled.div.attrs({ 
@@ -673,45 +647,6 @@ const MenuItemTitle = styled.div`
   margin-bottom: 3px;
   color: ${props => props.theme.menuColor};
 `
-
-// const NotificationList = styled.div`
-//   height: 430px;
-//   width: 300px;
-//   overflow-x: hidden;
-//   color: ${props => props.theme.menuColor};
-//   background-color: ${props => props.theme.menuBg};
-//   box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
-// `
-
-// const NotificationTitle = styled.div`
-//   text-align: center;
-//   height: 35px;
-//   line-height: 35px;
-//   color: ${props => props.theme.menuColor};
-//   border-bottom: 1px solid ${props => props.theme.menuBorder};
-//   background-color: ${props => props.theme.menuBg};
-// `
-
-// const Notification = styled.div`
-//   font-size: ${Theme.FONT_SIZE_SM};
-//   word-break: break-all;
-//   padding: 5px 15px;
-//   border-bottom: 1px solid ${props => props.theme.menuBorder};
-//   &:hover {
-//     background-color: ${props => props.theme.menuBgHover};
-//   }
-// `
-
-// const NotificationDate = styled.div`
-//   display: flex;
-//   align-items: center;
-//   color: ${DarkMode.GRAY};
-//   margin-top: 5px;
-// `
-
-// const DistanceDate = styled.span`
-//   margin-left: 5px;
-// `
 
 const AddressWalletBox = styled.div`
   overflow: hidden;

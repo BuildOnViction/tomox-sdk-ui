@@ -512,6 +512,8 @@ export const notifications = createReducer(action => {
     //   return notificationEvents.notificationAdded(
     //     payload.notificationType,
     //   )
+    case notificationsTypes.updateNotificationsLoading: 
+      return notificationEvents.updateNotificationsLoading(payload.status)
     case notificationsTypes.updateNotifications: 
       return notificationEvents.updateNotifications(payload.data)
     default:

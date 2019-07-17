@@ -2,12 +2,23 @@
 const initialState = {
   offset: 0,
   limit: 10,
+  loading: false,
   data: [],
   newData: [],
 }
 
 export const initialized = () => {
   const event = (state: NotificationState = initialState) => state
+  return event
+}
+
+export const updateNotificationsLoading = (loading) => { 
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      loading,
+    }
+  }
   return event
 }
 
@@ -27,6 +38,7 @@ export default function model(state) {
     getOffset: () => state.offset,
     getLimit: () => state.limit,
     getNotifications: () => state.data,
+    getLoading: () => state.loading,
     getNewNotifications: () => state.newData,
   }
 }

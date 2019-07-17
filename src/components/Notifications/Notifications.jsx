@@ -5,9 +5,14 @@ import NotificationsRenderer from './NotificationsRenderer'
 class Notifications extends React.PureComponent {
 
     render() {
-        const { notifications } = this.props
+        const { notifications, loading, getNotifications } = this.props
 
-        return (<NotificationsRenderer notifications={notifications} />)
+        return (
+            <NotificationsRenderer 
+                notifications={notifications}
+                loading={loading}
+                getNotifications={getNotifications} />
+        )
     }    
 }
 
