@@ -23,12 +23,34 @@ export const updateNotificationsLoading = (loading: Boolean) => {
   return event
 }
 
+// Notifications from api when use open Notification menu
 export const updateNotifications = (notifications) => { 
   const event = (state: NotificationState = initialState) => {
     return {
       ...state,
       data: [...state.data, ...notifications.reverse()],
       offset: ++state.offset,
+    }
+  }
+  return event
+}
+
+// Notifications from websocket for realtime alert
+export const updateNewNotifications = (notifications) => { 
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      newData: [...state.newData, ...notifications.reverse()],
+    }
+  }
+  return event
+}
+
+export const resetNewNotifications = (notifications) => { 
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      newData: [],
     }
   }
   return event

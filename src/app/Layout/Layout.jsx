@@ -61,6 +61,10 @@ class Layout extends React.PureComponent<Props, State> {
     return pathname.includes('/create') || pathname.includes('/unlock')
   }
 
+  componentWillUnmount = () => {
+    this.props.releaseResource()
+  }
+
   render() {
     const { pathname, mode } = this.props
 
@@ -124,6 +128,7 @@ class Default extends React.PureComponent<Props, State> {
       locale,
       mode,
       changeLocale,
+      newNotifications,
     } = this.props
 
     const menu = (
@@ -232,12 +237,15 @@ class Default extends React.PureComponent<Props, State> {
               </SupportItem>
 
               <NotificationItem>
+                {
+                  (newNotifications.length > 0) && (<NumberNewNotifications />)
+                } 
                 <Popover
                   content={<Notifications />}
                   position={Position.BOTTOM_RIGHT}
                   minimal
                 >
-                  <i>notification</i>
+                  <i>notification</i>                 
                 </Popover>
               </NotificationItem>
 
@@ -602,10 +610,23 @@ const SupportItem = styled.div`
 const NotificationItem = styled.div.attrs({
   className: 'utility-item notification',
 })`
+  position: relative;
   .bp3-popover-wrapper,
   .bp3-popover-target {
     font-size: 0;
   }
+`
+
+const NumberNewNotifications = styled.span`
+  position: absolute;
+  height: 7px;
+  width: 7px;
+  top: 0px;
+  left: 0px;
+  color: ${DarkMode.WHITE};
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: ${DarkMode.RED};
 `
 
 const LanguageItem = styled.div``

@@ -27,6 +27,7 @@ export default function createSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const settingsDomain = getSettingsDomain(state)
   const tokenPairs = getTokenPairsDomain(state)
+  const newNotifications = getNotificationsDomain(state).getNewNotifications()
 
   const TomoBalance = accountBalancesDomain.tomoBalance()
   const authenticated = accountDomain.authenticated()
@@ -52,6 +53,7 @@ export default function createSelector(state: State) {
     currentPairData,
     pathname,
     referenceCurrency,
+    newNotifications,
   }
 }
 
@@ -93,7 +95,7 @@ export function queryAppData(): ThunkAction {
 }
 
 export function queryAccountData(): ThunkAction {
-  return async (dispatch, getState, { api }) => {
+  return async (dispatch, getState, { api, socket }) => {
     const state = getState()
     const accountAddress = getAccountDomain(state).address()
     const notificationsDomain = getNotificationsDomain(state)
@@ -101,6 +103,8 @@ export function queryAccountData(): ThunkAction {
     const limit = notificationsDomain.getLimit()
 
     try {
+      socket.subscribeNotification(accountAddress)
+
       let tokens = getTokenDomain(state).tokens()
       const quotes = quoteTokens
 
@@ -166,5 +170,11 @@ export function changeLocale(locale: string): ThunkAction {
 export function changeMode(mode: string): ThunkAction {
   return async (dispatch, getstate) => {
     dispatch(settingsActionCreators.changeMode(mode))
+  }
+}
+
+export function releaseResource(): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    socket.unSubscribeNotification()
   }
 }
