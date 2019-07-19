@@ -263,11 +263,11 @@ export const validatePassword = (password) => {
 }
 
 export const truncateZeroDecimal = (num: String) => {
-  if (num.match(/^\d+(,\d+)?\.[0]+$/g)) {
-    num = num.replace(/.[0]+$/g, '')
+  if (num.match(/\.[0]+$/g)) {
+    num = num.replace(/\.[0]+$/g, '')
   }
 
-  if (num.match(/^\d+(,\d+)?\.\d+[0]+$/g)) {
+  if (num.match(/\.\d+[0]+$/g)) {
     num = num.replace(/[0]+$/g, '')
   }
 
