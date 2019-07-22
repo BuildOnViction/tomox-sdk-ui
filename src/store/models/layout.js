@@ -123,7 +123,7 @@ export function queryAccountData(): ThunkAction {
       )
 
       const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
-      dispatch(notificationsCreators.updateNotifications(notifications))
+      dispatch(notificationsCreators.addNotifications(notifications))
 
       const balances = [tomoBalance].concat(tokenBalances)
       dispatch(accountBalancesCreators.updateBalances(balances))

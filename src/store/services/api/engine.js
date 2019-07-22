@@ -447,3 +447,21 @@ export const fetchNotifications = async ({address, offset, limit}) => {
 
   return data
 }
+
+export const markNotificationRead = async ({id}) => {
+  const response = await request(`/notifications/${id}`, {
+    method: 'POST',
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}

@@ -499,12 +499,14 @@ export const notifications = createReducer(action => {
       return notificationEvents.removeToaster()
     case notificationsTypes.updateNotificationsLoading: 
       return notificationEvents.updateNotificationsLoading(payload.status)
-    case notificationsTypes.updateNotifications: 
-      return notificationEvents.updateNotifications(payload.data)
+    case notificationsTypes.addNotifications: 
+      return notificationEvents.addNotifications(payload.data)
     case notificationsTypes.updateNewNotifications:
       return notificationEvents.updateNewNotifications(payload.data)
     case notificationsTypes.resetNewNotifications:
         return notificationEvents.resetNewNotifications()
+    case notificationsTypes.markNotificationRead:
+        return notificationEvents.updateNotifications(payload.data)
     default:
       return notificationEvents.initialized()
   }

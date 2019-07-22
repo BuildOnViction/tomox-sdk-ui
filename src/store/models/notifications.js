@@ -19,7 +19,7 @@ export function getNotifications(): ThunkAction {
             dispatch(notificationsCreators.updateNotificationsLoading(true))
             const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
             if (notifications.length > 0) {
-                dispatch(notificationsCreators.updateNotifications(notifications))
+                dispatch(notificationsCreators.addNotifications(notifications))
             }
             dispatch(notificationsCreators.updateNotificationsLoading(false))            
         } catch(error) {
@@ -36,6 +36,24 @@ export function getNotifications(): ThunkAction {
 export function resetNewNotifications(): ThunkAction {
     return async (dispatch) => {
         dispatch(notificationsCreators.resetNewNotifications())
+    }
+}
+
+export function markNotificationRead(id): ThunkAction {
+    return async (dispatch, getState, { api }) => {
+        try {
+            await api.markNotificationRead(id)
+            const state = getState()
+            let { notifications } = getNotificationsDomain(state).getNotifications
+            notifications = notifications.map(notification => {
+                if (notification.id === id) notification.status = 'READ'
+                return notification
+            })
+
+            dispatch(notificationsCreators.markNotificationRead(notifications))
+        } catch(error) {
+            console.log(error)
+        }        
     }
 }
 

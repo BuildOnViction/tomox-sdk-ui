@@ -8,13 +8,14 @@ class Notifications extends React.PureComponent {
     }
 
     render() {
-        const { notifications, loading, getNotifications } = this.props
+        const { notifications, loading, getNotifications, markNotificationRead } = this.props
 
         return (
             <NotificationsRenderer 
                 notifications={notifications}
                 loading={loading}
-                getNotifications={getNotifications} />
+                getNotifications={getNotifications}
+                markNotificationRead={markNotificationRead} />
         )
     }    
 }

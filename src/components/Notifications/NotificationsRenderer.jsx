@@ -17,7 +17,7 @@ export class NotificationsRenderer extends React.PureComponent {
   }
   
   render() {
-    const { notifications } = this.props
+    const { notifications, markNotificationRead } = this.props
 
     return (
       <React.Fragment>
@@ -26,12 +26,14 @@ export class NotificationsRenderer extends React.PureComponent {
           {
             notifications.map((notification, index) => {
               return (
-                <Notification key={index}>
+                <Notification unread={notification.status === 'UNREAD'} key={index}>
                   <div>{notification.message}</div>
                   <NotificationDate>
                       <Icon icon="time" iconSize="12" />
                       <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
                   </NotificationDate>
+                  {(notification.status === 'UNREAD') && (<MarkRead onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
+                  {(notification.status !== 'UNREAD') && (<MarkRead icon="eye-on" iconSize="15" />)}
                 </Notification>
               )            
             })
@@ -63,13 +65,29 @@ const NotificationTitle = styled.div`
 `
 
 const Notification = styled.div`
+  position: relative;
   font-size: ${Theme.FONT_SIZE_SM};
   word-break: break-all;
   padding: 5px 15px;
   border-bottom: 1px solid ${props => props.theme.menuBorder};
+  background-color: ${props => props.unread ? props.theme.subBg : 'inherit'};
   &:hover {
     background-color: ${props => props.theme.menuBgHover};
+    .notification-status {
+      display: block;
+    }
   }
+`
+
+const MarkRead = styled(Icon).attrs({
+  className: 'notification-status',
+})`
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
 `
 
 const NotificationDate = styled.div`
