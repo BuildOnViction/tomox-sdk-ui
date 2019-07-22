@@ -38,6 +38,8 @@ export function updated(accountBalances: AccountBalances) {
         ...state[item.symbol],
         symbol: item.symbol,
         balance: item.balance,
+        inOrders: item.inOrders,
+        availableBalance: item.balance - item.inOrders,
         subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
       }
       return result
@@ -186,6 +188,12 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
           balance: state[token.symbol]
             ? formatNumber(state[token.symbol].balance, { precision: 2 })
             : null,
+          inOrders: state[token.symbol]
+            ? formatNumber(state[token.symbol].inOrders, { precision: 2 })
+            : null,
+          availableBalance: state[token.symbol]
+            ? formatNumber(state[token.symbol].availableBalance, { precision: 2 })
+            : null,
           allowed:
             state[token.symbol] &&
             state[token.symbol].allowance > ALLOWANCE_MINIMUM,
@@ -199,17 +207,23 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         if (!state[symbol]) {
           return {
             balance: null,
+            inOrders: null,
+            availableBalance: null,
             allowed: null,
             allowancePending: null,
           }
         }
 
         const balance = state[symbol].balance
+        const inOrders = state[symbol].inOrders
+        const availableBalance = state[symbol].availableBalance
         const allowance = state[symbol].allowance
         const allowed = Number(allowance) >= Math.max(Number(balance), 100000)
 
         return {
           balance,
+          inOrders,
+          availableBalance,
           allowed,
           allowancePending: state[symbol].allowancePending,
         }

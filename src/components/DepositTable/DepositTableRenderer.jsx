@@ -103,7 +103,7 @@ const TOMORow = (props: Props) => {
 
   if (!TOMOTokenData) return null
 
-  const { symbol, balance } = TOMOTokenData
+  const { symbol, balance, inOrders, availableBalance } = TOMOTokenData
 
   return (
     <Row key="TOMO">
@@ -117,10 +117,10 @@ const TOMORow = (props: Props) => {
         <Ellipsis title={balance}>{balance}</Ellipsis>
       </Cell>
       <Cell width="17%">
-        <Ellipsis>-</Ellipsis>
+        <Ellipsis>{availableBalance}</Ellipsis>
       </Cell>
       <Cell width="17%">
-        <Ellipsis>-</Ellipsis>
+        <Ellipsis>{inOrders}</Ellipsis>
       </Cell>
       <Cell width="25%">
         <ButtonWrapper>
@@ -150,7 +150,7 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, allowed, image, allowancePending }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, allowancePending }, index) => {
       return (
         <Row key={index}>
           <Cell width="24%">
@@ -163,10 +163,10 @@ const QuoteTokenRows = (props: Props) => {
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{inOrders}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
@@ -198,7 +198,7 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, allowed, image, allowancePending }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, allowancePending }, index) => {
       return (
         <Row key={index}>
           <Cell width="24%">
@@ -211,10 +211,10 @@ const BaseTokenRows = (props: Props) => {
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{inOrders}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>

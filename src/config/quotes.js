@@ -14,7 +14,7 @@ const pairs = addresses.pairs
 
 pairs.forEach(p => {
   const x = p.split('/')
-  if (x[1]) {
+  if (x[1] && !quoteSymbolTokens.includes(x[1])) {
     const quoteToken = x[1]
     quoteSymbolTokens.push(quoteToken)
   }

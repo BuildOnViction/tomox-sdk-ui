@@ -43,7 +43,7 @@ export async function queryTokenBalances(
     .filter(balance => balance !== null)
     .map((balance, i) => ({
       symbol: tokens[i].symbol,
-      balance: utils.formatEther(balance),
+      balance: parseFloat(utils.formatEther(balance)),
     }))
   return tokenBalances
 }
