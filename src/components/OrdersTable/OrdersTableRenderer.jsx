@@ -53,7 +53,9 @@ const OrdersTableRenderer = (props: Props) => {
       <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
-          title={<FormattedMessage id="exchangePage.openOrders" />}
+          title={<FormattedMessage 
+            id="exchangePage.openOrders"
+            values={{numberOfOrders: orders['OPEN'].length}} />}
           panel={
             <OrdersTablePanel
               loading={loading}

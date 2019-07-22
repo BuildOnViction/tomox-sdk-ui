@@ -131,8 +131,6 @@ export function queryAccountData(): ThunkAction {
         balances[i]['inOrders'] = balancesInOders[balances[i].symbol]
       }
 
-      console.log(balances, '========================================')
-
       dispatch(accountBalancesCreators.updateBalances(balances))
 
       await accountBalancesService.subscribeTokenBalances(
