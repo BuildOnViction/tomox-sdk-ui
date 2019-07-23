@@ -34,12 +34,14 @@ export function subscribed(symbol: string) {
 export function updated(accountBalances: AccountBalances) {
   const event = (state: AccountBalancesState) => {
     const newState = accountBalances.reduce((result, item) => {
+      let inOrders = item.inOrders ? item.inOrders : (state[item.symbol] ? state[item.symbol].inOrders : 0)
+
       result[item.symbol] = {
         ...state[item.symbol],
         symbol: item.symbol,
         balance: item.balance,
-        inOrders: item.inOrders,
-        availableBalance: item.balance - item.inOrders,
+        inOrders,
+        availableBalance: item.balance - inOrders,
         subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
       }
       return result

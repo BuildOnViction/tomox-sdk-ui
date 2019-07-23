@@ -141,12 +141,9 @@ export function queryAccountData(): ThunkAction {
 
       await accountBalancesService.subscribeTomoBalance(
         accountAddress,
-        balance =>
+        balance => 
           dispatch(
-            accountBalancesCreators.updateBalance({
-              symbol: NATIVE_TOKEN_SYMBOL,
-              balance,
-            })
+            accountBalancesCreators.updateBalance(NATIVE_TOKEN_SYMBOL, balance)
           )
       )
     } catch (e) {
