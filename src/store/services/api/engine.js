@@ -431,3 +431,25 @@ export const getExchangeAddress = async () => {
 // }
 
 // main()
+
+export const getBalancesInOrders = async (address: string): Promise<number> => {
+  const response = await request(`/orders/balance/lock?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+
+  for (const key in data) {
+    const wei = utils.bigNumberify(data[key].toString())
+    data[key] = parseFloat(utils.formatEther(wei))
+  }
+
+  return data
+}

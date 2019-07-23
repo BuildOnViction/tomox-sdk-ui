@@ -7,12 +7,15 @@ import * as actionCreators from '../actions/socketController'
 import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
+import * as accountBalancesCreators from '../actions/accountBalances'
 
 import {
   getAccountDomain,
+  getAccountBalancesDomain,
   getTokenPairsDomain,
   getWebsocketDomain,
 } from '../domains'
+import { getBalancesInOrders } from '../services/api'
 
 import { queryBalances } from './depositForm'
 import { getSigner } from '../services/signer'
@@ -63,7 +66,7 @@ export function openConnection(): ThunkAction {
       // we can pass dispatch, or call dispatch to update redux
       switch (channel) {
         case 'orders':
-          return handleOrderMessage(dispatch, event)
+          return handleOrderMessage(dispatch, event, getState)
         case 'orderbook':
           return dispatch(handleOrderBookMessage(event))
         case 'trades':
@@ -245,7 +248,20 @@ function handleTokenListUpdated(
   }
 }
 
-const handleOrderMessage = (dispatch, event: WebsocketEvent) => {
+const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
+  // Update balances in orders when "orders" event occurs
+  const state = getState()
+  const userAddress = getAccountDomain(state).address()
+  const balances = getAccountBalancesDomain(state).balances() // balanse is an Object
+  const balancesValues = Object.values(balances)
+  const balancesInOders = await getBalancesInOrders(userAddress)
+
+  for (let i = 0; i < balancesValues.length; i++) {
+    balancesValues[i]['inOrders'] = balancesInOders[balancesValues[i].symbol]
+  }
+
+  dispatch(accountBalancesCreators.updateBalances(balancesValues))
+
   const { type } = event
 
   switch (type) {
