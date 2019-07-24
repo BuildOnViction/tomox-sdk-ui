@@ -6,6 +6,7 @@ import {
   getTokenDomain,
   getSettingsDomain,
   getTokenPairsDomain,
+  getNotificationsDomain,
 } from '../domains'
 
 import { quoteTokens } from '../../config/quotes'
@@ -14,8 +15,8 @@ import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
-import * as accountActionTypes from "../actions/account"
 import * as accountBalancesCreators from '../actions/accountBalances'
+import * as notificationsCreators from '../actions/notifications'
 import * as accountBalancesService from '../services/accountBalances'
 
 import type { State, ThunkAction } from '../../types'
@@ -26,6 +27,7 @@ export default function createSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const settingsDomain = getSettingsDomain(state)
   const tokenPairs = getTokenPairsDomain(state)
+  const newNotifications = getNotificationsDomain(state).getNewNotifications()
 
   const TomoBalance = accountBalancesDomain.tomoBalance()
   const authenticated = accountDomain.authenticated()
@@ -51,6 +53,7 @@ export default function createSelector(state: State) {
     currentPairData,
     pathname,
     referenceCurrency,
+    newNotifications,
   }
 }
 
@@ -92,11 +95,16 @@ export function queryAppData(): ThunkAction {
 }
 
 export function queryAccountData(): ThunkAction {
-  return async (dispatch, getState, { api }) => {
+  return async (dispatch, getState, { api, socket }) => {
     const state = getState()
     const accountAddress = getAccountDomain(state).address()
+    const notificationsDomain = getNotificationsDomain(state)
+    const offset = notificationsDomain.getOffset()
+    const limit = notificationsDomain.getLimit()
 
     try {
+      socket.subscribeNotification(accountAddress)
+
       let tokens = getTokenDomain(state).tokens()
       const quotes = quoteTokens
 
@@ -123,6 +131,9 @@ export function queryAccountData(): ThunkAction {
         accountAddress,
         tokens
       )
+
+      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
+      dispatch(notificationsCreators.addNotifications(notifications))
 
       const balancesInOders = await api.getBalancesInOrders(accountAddress)
       const balances = [tomoBalance].concat(tokenBalances)
@@ -172,5 +183,11 @@ export function changeLocale(locale: string): ThunkAction {
 export function changeMode(mode: string): ThunkAction {
   return async (dispatch, getstate) => {
     dispatch(settingsActionCreators.changeMode(mode))
+  }
+}
+
+export function releaseResource(): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    socket.unSubscribeNotification()
   }
 }

@@ -432,11 +432,12 @@ export const getExchangeAddress = async () => {
 
 // main()
 
-export const getBalancesInOrders = async (address: string): Promise<number> => {
-  const response = await request(`/orders/balance/lock?address=${address}`)
+export const fetchNotifications = async ({address, offset, limit}) => {
+  const response = await request(`/notifications?userAddress=${address}&page=${offset}&perPage=${limit}`)
+
+  const { data, error } = await response.json()
 
   if (response.status === 400) {
-    const { error } = await response.json()
     throw new Error(error)
   }
 
@@ -444,7 +445,78 @@ export const getBalancesInOrders = async (address: string): Promise<number> => {
     throw new Error('Server error')
   }
 
-  const { data } = await response.json()
+  return data
+}
+
+export const markAllNotificationsRead = async (recipient) => {
+  const response = await request(`/notification/mark/readall`, {
+    method: 'PUT',
+    body: JSON.stringify({ recipient }),
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
+export const markNotificationRead = async (id) => {
+  const response = await request(`/notification/mark/read`, {
+    method: 'PUT',
+    body: JSON.stringify({ id }),
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
+export const markNotificationUnRead = async (id) => {
+  const response = await request(`/notification/mark/unread`, {
+    method: 'PUT',
+    body: JSON.stringify({ id }),
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
+export const getBalancesInOrders = async (address: string): Promise<number> => {
+  const response = await request(`/orders/balance/lock?address=${address}`)
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
 
   for (const key in data) {
     const wei = utils.bigNumberify(data[key].toString())
@@ -453,3 +525,4 @@ export const getBalancesInOrders = async (address: string): Promise<number> => {
 
   return data
 }
+

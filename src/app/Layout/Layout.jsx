@@ -26,6 +26,7 @@ import {
   LightMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
+import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
@@ -58,6 +59,10 @@ class Layout extends React.PureComponent<Props, State> {
 
   isCreateImportWalletPage = (pathname: string) => {
     return pathname.includes('/create') || pathname.includes('/unlock')
+  }
+
+  componentWillUnmount = () => {
+    this.props.releaseResource()
   }
 
   render() {
@@ -123,6 +128,7 @@ class Default extends React.PureComponent<Props, State> {
       locale,
       mode,
       changeLocale,
+      newNotifications,
     } = this.props
 
     const menu = (
@@ -231,12 +237,15 @@ class Default extends React.PureComponent<Props, State> {
               </SupportItem>
 
               <NotificationItem>
+                {
+                  (newNotifications.length > 0) && (<NumberNewNotifications />)
+                } 
                 <Popover
-                  content={<NotificationMenu />}
+                  content={<Notifications />}
                   position={Position.BOTTOM_RIGHT}
                   minimal
                 >
-                  <i>notification</i>
+                  <i>notification</i>                 
                 </Popover>
               </NotificationItem>
 
@@ -402,13 +411,6 @@ const MenuLocales = (props) => {
       <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]} {(locale === "en") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
       <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]} {(locale === "vi") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
     </LocaleList>
-  )
-}
-
-const NotificationMenu = (props) => {
-
-  return (
-    <NotificationList>No items to show</NotificationList>
   )
 }
 
@@ -608,10 +610,23 @@ const SupportItem = styled.div`
 const NotificationItem = styled.div.attrs({
   className: 'utility-item notification',
 })`
+  position: relative;
   .bp3-popover-wrapper,
   .bp3-popover-target {
     font-size: 0;
   }
+`
+
+const NumberNewNotifications = styled.span`
+  position: absolute;
+  height: 7px;
+  width: 7px;
+  top: 0px;
+  left: 0px;
+  color: ${DarkMode.WHITE};
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: ${DarkMode.RED};
 `
 
 const LanguageItem = styled.div``
@@ -652,16 +667,6 @@ const MenuWallet = styled(Menu)`
 const MenuItemTitle = styled.div`
   margin-bottom: 3px;
   color: ${props => props.theme.menuColor};
-`
-
-const NotificationList = styled.div`
-  min-height: 60px;
-  min-width: 250px;
-  text-align: center;
-  color: ${props => props.theme.menuColor};
-  padding: 15px;
-  background-color: ${props => props.theme.menuBg};
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
 `
 
 const AddressWalletBox = styled.div`
@@ -770,7 +775,8 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }
+    }import Notifications from '../../components/Notifications/Notifications';
+
   }
 `
 

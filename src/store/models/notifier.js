@@ -4,6 +4,6 @@ import type { State } from '../../types'
 
 export default function notificationsSelector(state: State) {
   return {
-    lastNotification: getNotificationsDomain(state).last()
+    lastNotification: getNotificationsDomain(state).getToaster(),
   }
 }

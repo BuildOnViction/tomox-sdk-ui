@@ -7,6 +7,7 @@ import * as actionCreators from '../actions/socketController'
 import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
+import * as notificationsActionCreators from '../actions/notifications'
 import * as accountBalancesCreators from '../actions/accountBalances'
 
 import {
@@ -82,6 +83,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
           return handleMarketsMessage(dispatch, event, getState)
+        case 'notification':
+          return handleNotificationMessage(dispatch, event, getState)
         default:
           console.log(channel, event)
           break
@@ -596,4 +599,14 @@ const handleMarketsMessage = (
 
   dispatch(actionCreators.updateTokenPairData(pairData))
   dispatch(actionCreators.updateSmallChartsData(smallChartsData))
+}
+
+const handleNotificationMessage = (
+    dispatch,
+    event: WebsocketEvent,
+    getState: GetState,
+  ) => {
+  const { type, payload } = event
+  if (type === 'INIT') return
+  dispatch(notificationsActionCreators.updateNewNotifications(payload))
 }
