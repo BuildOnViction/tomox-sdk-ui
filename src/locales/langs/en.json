@@ -77,7 +77,7 @@
   "marketsPage.24hHigh": "24h High",
   "marketsPage.24hLow": "24h Low",
   "marketsPage.24hVolume": "24h Volume",
-  "exchangePage.openOrders": "Open Orders",
+  "exchangePage.openOrders": "Open Orders({numberOfOrders})",
   "exchangePage.orderHistory": "Order History",
   "exchangePage.tradeHistory": "Trade History",
   "exchangePage.funds": "Funds",

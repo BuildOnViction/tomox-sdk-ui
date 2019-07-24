@@ -504,3 +504,25 @@ export const markNotificationUnRead = async (id) => {
 
   return data
 }
+
+export const getBalancesInOrders = async (address: string): Promise<number> => {
+  const response = await request(`/orders/balance/lock?address=${address}`)
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  for (const key in data) {
+    const wei = utils.bigNumberify(data[key].toString())
+    data[key] = parseFloat(utils.formatEther(wei))
+  }
+
+  return data
+}
+

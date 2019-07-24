@@ -111,6 +111,16 @@ export function queryAccountData(): ThunkAction {
       tokens = quotes
         .concat(tokens)
         .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
+        .reduce((newTokens, currentToken) => { // remove duplicate tokens
+          const x = newTokens.find(item => item.symbol === currentToken.symbol)
+
+          if (!x) {
+            return [...newTokens, currentToken]
+          }
+
+          return newTokens
+        }, [])
+
       if (!accountAddress) throw new Error('Account address is not set')
 
       const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
@@ -125,7 +135,13 @@ export function queryAccountData(): ThunkAction {
       const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
       dispatch(notificationsCreators.addNotifications(notifications))
 
+      const balancesInOders = await api.getBalancesInOrders(accountAddress)
       const balances = [tomoBalance].concat(tokenBalances)
+
+      for (let i = 0; i < balances.length; i++) {
+        balances[i]['inOrders'] = balancesInOders[balances[i].symbol]
+      }
+
       dispatch(accountBalancesCreators.updateBalances(balances))
 
       await accountBalancesService.subscribeTokenBalances(
@@ -136,12 +152,9 @@ export function queryAccountData(): ThunkAction {
 
       await accountBalancesService.subscribeTomoBalance(
         accountAddress,
-        balance =>
+        balance => 
           dispatch(
-            accountBalancesCreators.updateBalance({
-              symbol: NATIVE_TOKEN_SYMBOL,
-              balance,
-            })
+            accountBalancesCreators.updateBalance(NATIVE_TOKEN_SYMBOL, balance)
           )
       )
     } catch (e) {

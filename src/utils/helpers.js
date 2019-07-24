@@ -261,3 +261,15 @@ export const validatePassword = (password) => {
 
   return validationPasswordRegex.test(password.trim())
 }
+
+export const truncateZeroDecimal = (num: String) => {
+  if (num.match(/\.[0]+$/g)) {
+    num = num.replace(/\.[0]+$/g, '')
+  }
+
+  if (num.match(/\.\d+[0]+$/g)) {
+    num = num.replace(/[0]+$/g, '')
+  }
+
+  return num
+}

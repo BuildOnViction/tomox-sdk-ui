@@ -76,7 +76,7 @@ const TOMORow = (props: Props) => {
 
   if (!TOMOTokenData) return null
 
-  const { symbol, balance } = TOMOTokenData
+  const { symbol, balance, availableBalance, inOrders } = TOMOTokenData
 
   return (
     <Row key="TOMO">
@@ -87,10 +87,10 @@ const TOMORow = (props: Props) => {
         <Ellipsis title={balance}>{balance}</Ellipsis>
       </Cell>
       <Cell width="25%">
-        <Ellipsis>-</Ellipsis>
+        <Ellipsis>{availableBalance}</Ellipsis>
       </Cell>
       <Cell width="25%">
-        <Ellipsis>-</Ellipsis>
+        <Ellipsis>{inOrders}</Ellipsis>
       </Cell>
     </Row>
   )
@@ -102,7 +102,7 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, allowed, image, allowancePending }, index) => {
+    ({ symbol, balance, availableBalance, inOrders }, index) => {
       return (
         <Row key={index}>
           <Cell width="25%">{symbol}</Cell>
@@ -110,10 +110,10 @@ const QuoteTokenRows = (props: Props) => {
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{inOrders}</Ellipsis>
           </Cell>
         </Row>
       )
@@ -127,7 +127,7 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, image, allowancePending }, index) => {
+    ({ symbol, balance, availableBalance, inOrders }, index) => {
       return (
         <Row key={index}>
           <Cell width="25%">{symbol}</Cell>
@@ -135,10 +135,10 @@ const BaseTokenRows = (props: Props) => {
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>-</Ellipsis>
+            <Ellipsis>{inOrders}</Ellipsis>
           </Cell>
         </Row>
       )
