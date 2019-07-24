@@ -45,6 +45,19 @@ export const updateNotifications = (notifications) => {
   return event
 }
 
+export const resetNotifications = () => {
+  const event = (state: NotificationState = initialState) => {
+    return {
+      ...state,
+      data: [],
+      offset: 1,
+      limit: 10,
+    }
+  }
+
+  return event
+}
+
 // Notifications from websocket for realtime alert
 export const updateNewNotifications = (notifications) => { 
   const event = (state: NotificationState = initialState) => {

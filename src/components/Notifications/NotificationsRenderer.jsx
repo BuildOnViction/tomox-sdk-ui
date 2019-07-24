@@ -1,13 +1,12 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from '@blueprintjs/core'
+import { Icon, Spinner, Intent } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { Theme, DarkMode } from '../../components/Common'
 
 class NotificationsRenderer extends React.PureComponent {
-
   onScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target
     const { loading, getNotifications } = this.props
@@ -21,6 +20,7 @@ class NotificationsRenderer extends React.PureComponent {
     const { 
       intl,
       address,
+      loading,
       notifications, 
       markAllNotificationsRead,
       markNotificationRead,
@@ -34,8 +34,9 @@ class NotificationsRenderer extends React.PureComponent {
           <MarkReadAll onClick={() => markAllNotificationsRead(address)}><FormattedMessage id="notifications.markAllAsRead" /></MarkReadAll>
         </NotificationTitle>
         <NotificationList onScroll={this.onScroll}>
+          { !notifications.length && !loading && <NoItems>No notifications to show</NoItems> }
           {
-            notifications.map((notification, index) => {
+            (notifications.length > 0) && notifications.map((notification, index) => {
               return (
                 <Notification unread={notification.status === 'UNREAD'} key={index}>
                   <div>{notification.message}</div>
@@ -50,6 +51,7 @@ class NotificationsRenderer extends React.PureComponent {
             })
           }
         </NotificationList>
+        { loading  && <Loading><Spinner size={30} intent={Intent.PRIMARY} /></Loading> }
       </React.Fragment>
     )
   }
@@ -58,6 +60,7 @@ class NotificationsRenderer extends React.PureComponent {
 export default injectIntl(NotificationsRenderer)
 
 const NotificationList = styled.div`
+  position: relative;
   height: 430px;
   width: 300px;
   overflow-x: hidden;
@@ -119,4 +122,19 @@ const NotificationDate = styled.div`
 
 const DistanceDate = styled.span`
   margin-left: 5px;
+`
+
+const NoItems = styled.div`
+  text-align: center;
+  margin-top: 50px;
+`
+
+const Loading = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  padding: 15px 0;
+  text-align: center;
+  background-color: ${props => props.theme.menuBg};
 `

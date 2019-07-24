@@ -503,6 +503,8 @@ export const notifications = createReducer(action => {
       return notificationEvents.addNotifications(payload.data)
     case notificationsTypes.updateNewNotifications:
       return notificationEvents.updateNewNotifications(payload.data)
+    case notificationsTypes.resetNotifications:
+      return notificationEvents.resetNotifications()
     case notificationsTypes.resetNewNotifications:
         return notificationEvents.resetNewNotifications()
     case notificationsTypes.markNotificationRead:

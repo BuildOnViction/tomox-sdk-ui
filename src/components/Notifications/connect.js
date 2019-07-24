@@ -2,6 +2,7 @@
 import { connect } from 'react-redux'
 import notificationsSelector, { 
   getNotifications, 
+  resetNotifications,
   resetNewNotifications,
   markAllNotificationsRead,
   markNotificationRead,
@@ -18,6 +19,7 @@ export function mapStateToProps(state: State, props: Object): LayoutProps {
 
 const mapDispatchToProps = {
   getNotifications,
+  resetNotifications,
   resetNewNotifications,
   markAllNotificationsRead,
   markNotificationRead,

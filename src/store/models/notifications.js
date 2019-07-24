@@ -33,6 +33,12 @@ export function getNotifications(): ThunkAction {
     }
 }
 
+export function resetNotifications(): ThunkAction {
+    return async (dispatch) => {
+        dispatch(notificationsCreators.resetNotifications())
+    }
+}
+
 export function resetNewNotifications(): ThunkAction {
     return async (dispatch) => {
         dispatch(notificationsCreators.resetNewNotifications())
@@ -104,5 +110,6 @@ export default function notificationsSelector(state: State) {
         loading: notificationsDomain.getLoading(),
         toaster: notificationsDomain.getToaster(),
         address: accountDomain.address(),
+        authenticated: accountDomain.authenticated(),
     }
 }

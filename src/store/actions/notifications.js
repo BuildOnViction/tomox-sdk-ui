@@ -3,6 +3,7 @@ const actionTypes = {
   addNotifications: 'notifications/ADD_NOTIFICATIONS',
   updateNotificationsLoading: 'notifications/UPDATE_NOTIFICATIONS_LOADING',
   updateNewNotifications: 'notifications/UPDATE_NEW_NOTIFICATIONS',
+  resetNotifications: 'notifications/RESET_NOTIFICATIONS',
   resetNewNotifications: 'notifications/RESET_NEW_NOTIFICATIONS',
   markNotificationRead: 'notifications/MARK_NOTIFICATION_READ',
 }
@@ -25,6 +26,12 @@ export function updateNewNotifications(data: Array<Object>) {
   return {
     type: actionTypes.updateNewNotifications,
     payload: { data },
+  }
+}
+
+export function resetNotifications() {
+  return {
+    type: actionTypes.resetNotifications,
   }
 }
 
