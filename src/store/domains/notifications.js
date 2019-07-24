@@ -1,6 +1,6 @@
 //@flow
 const initialState = {
-  offset: 0,
+  offset: 1,
   limit: 10,
   loading: false,
   data: [],
@@ -28,7 +28,7 @@ export const addNotifications = (notifications) => {
   const event = (state: NotificationState = initialState) => {
     return {
       ...state,
-      data: [...state.data, ...notifications.reverse()],
+      data: [...state.data, ...notifications],
       offset: ++state.offset,
     }
   }
@@ -59,8 +59,7 @@ export const updateNewNotifications = (notifications) => {
 export const resetNewNotifications = (notifications) => { 
   const event = (state: NotificationState = initialState) => {
     return {
-      ...state,
-      newData: [],
+      ...initialState,
     }
   }
   return event

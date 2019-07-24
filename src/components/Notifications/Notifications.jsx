@@ -3,19 +3,30 @@ import React from 'react'
 import NotificationsRenderer from './NotificationsRenderer'
 
 class Notifications extends React.PureComponent {
-    componentDidMount() {
+    componentUnMount() {
         this.props.resetNewNotifications()
     }
 
     render() {
-        const { notifications, loading, getNotifications, markNotificationRead } = this.props
+        const { 
+            address,
+            notifications, 
+            loading, 
+            getNotifications, 
+            markAllNotificationsRead,
+            markNotificationRead,
+            markNotificationUnRead,
+        } = this.props
 
         return (
             <NotificationsRenderer 
+                address={address}
                 notifications={notifications}
                 loading={loading}
                 getNotifications={getNotifications}
-                markNotificationRead={markNotificationRead} />
+                markAllNotificationsRead={markAllNotificationsRead}
+                markNotificationRead={markNotificationRead}
+                markNotificationUnRead={markNotificationUnRead} />
         )
     }    
 }

@@ -3,9 +3,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { Theme, DarkMode } from '../../components/Common'
 
-export class NotificationsRenderer extends React.PureComponent {
+class NotificationsRenderer extends React.PureComponent {
 
   onScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target
@@ -17,11 +18,21 @@ export class NotificationsRenderer extends React.PureComponent {
   }
   
   render() {
-    const { notifications, markNotificationRead } = this.props
+    const { 
+      intl,
+      address,
+      notifications, 
+      markAllNotificationsRead,
+      markNotificationRead,
+      markNotificationUnRead,
+    } = this.props
 
     return (
       <React.Fragment>
-        <NotificationTitle>Notification</NotificationTitle>
+        <NotificationTitle>
+          <FormattedMessage id="notifications.title" />
+          <MarkReadAll onClick={() => markAllNotificationsRead(address)}><FormattedMessage id="notifications.markAllAsRead" /></MarkReadAll>
+        </NotificationTitle>
         <NotificationList onScroll={this.onScroll}>
           {
             notifications.map((notification, index) => {
@@ -30,10 +41,10 @@ export class NotificationsRenderer extends React.PureComponent {
                   <div>{notification.message}</div>
                   <NotificationDate>
                       <Icon icon="time" iconSize="12" />
-                      <DistanceDate>{formatDistanceStrict(new Date(notification.updatedAt), new Date())}</DistanceDate>
+                      <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date())}</DistanceDate>
                   </NotificationDate>
-                  {(notification.status === 'UNREAD') && (<MarkRead onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
-                  {(notification.status !== 'UNREAD') && (<MarkRead icon="eye-on" iconSize="15" />)}
+                  {(notification.status === 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsRead"})} onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
+                  {(notification.status !== 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsUnread"})} onClick={() => markNotificationUnRead(notification.id)} icon="eye-on" iconSize="15" />)}
                 </Notification>
               )            
             })
@@ -44,7 +55,7 @@ export class NotificationsRenderer extends React.PureComponent {
   }
 }
 
-export default NotificationsRenderer
+export default injectIntl(NotificationsRenderer)
 
 const NotificationList = styled.div`
   height: 430px;
@@ -56,7 +67,9 @@ const NotificationList = styled.div`
 `
 
 const NotificationTitle = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
   height: 35px;
   line-height: 35px;
   color: ${props => props.theme.menuColor};
@@ -76,6 +89,13 @@ const Notification = styled.div`
     .notification-status {
       display: block;
     }
+  }
+`
+
+const MarkReadAll = styled.span`
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 `
 

@@ -39,12 +39,30 @@ export function resetNewNotifications(): ThunkAction {
     }
 }
 
+export function markAllNotificationsRead(userAddress): ThunkAction {
+    return async (dispatch, getState, { api }) => {
+        try {
+            await api.markAllNotificationsRead(userAddress)
+            const state = getState()
+            let notifications = getNotificationsDomain(state).getNotifications()
+            notifications = notifications.map(notification => {
+                notification.status = 'READ'
+                return notification
+            })
+
+            dispatch(notificationsCreators.markNotificationRead(notifications))
+        } catch(error) {
+            console.log(error)
+        }        
+    }
+}
+
 export function markNotificationRead(id): ThunkAction {
     return async (dispatch, getState, { api }) => {
         try {
             await api.markNotificationRead(id)
             const state = getState()
-            let { notifications } = getNotificationsDomain(state).getNotifications
+            let notifications = getNotificationsDomain(state).getNotifications()
             notifications = notifications.map(notification => {
                 if (notification.id === id) notification.status = 'READ'
                 return notification
@@ -57,8 +75,27 @@ export function markNotificationRead(id): ThunkAction {
     }
 }
 
+export function markNotificationUnRead(id): ThunkAction {
+    return async (dispatch, getState, { api }) => {
+        try {
+            await api.markNotificationUnRead(id)
+            const state = getState()
+            let notifications = getNotificationsDomain(state).getNotifications()
+            notifications = notifications.map(notification => {
+                if (notification.id === id) notification.status = 'UNREAD'
+                return notification
+            })
+
+            dispatch(notificationsCreators.markNotificationRead(notifications))
+        } catch(error) {
+            console.log(error)
+        }        
+    }
+}
+
 export default function notificationsSelector(state: State) {
     const notificationsDomain = getNotificationsDomain(state)
+    const accountDomain = getAccountDomain(state)
     return {
         offset: notificationsDomain.getOffset(),
         limit: notificationsDomain.getLimit(),
@@ -66,5 +103,6 @@ export default function notificationsSelector(state: State) {
         newNotifications: notificationsDomain.getNewNotifications(),
         loading: notificationsDomain.getLoading(),
         toaster: notificationsDomain.getToaster(),
+        address: accountDomain.address(),
     }
 }

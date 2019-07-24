@@ -448,9 +448,48 @@ export const fetchNotifications = async ({address, offset, limit}) => {
   return data
 }
 
-export const markNotificationRead = async ({id}) => {
-  const response = await request(`/notifications/${id}`, {
-    method: 'POST',
+export const markAllNotificationsRead = async (recipient) => {
+  const response = await request(`/notification/mark/readall`, {
+    method: 'PUT',
+    body: JSON.stringify({ recipient }),
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
+export const markNotificationRead = async (id) => {
+  const response = await request(`/notification/mark/read`, {
+    method: 'PUT',
+    body: JSON.stringify({ id }),
+  })
+
+  const { data, error } = await response.json()
+
+  if (response.status === 400) {
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  return data
+}
+
+export const markNotificationUnRead = async (id) => {
+  const response = await request(`/notification/mark/unread`, {
+    method: 'PUT',
+    body: JSON.stringify({ id }),
   })
 
   const { data, error } = await response.json()
