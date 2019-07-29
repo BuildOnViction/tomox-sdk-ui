@@ -190,7 +190,7 @@ class Default extends React.PureComponent<Props, State> {
                     <div className="tick last-price">
                       <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div>
-                        <span>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</span>
+                        <span>{formatNumber(currentPairData.last_trade_price, {precision: 2})}</span>
                         <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
                       </div>
                     </div>
@@ -198,7 +198,7 @@ class Default extends React.PureComponent<Props, State> {
                     <div className="tick change">
                       <div className="title"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
-                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, pricePrecision)}</span>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
                         <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
                       </div>
                     </div>
@@ -206,21 +206,21 @@ class Default extends React.PureComponent<Props, State> {
                     <div className="tick high">
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div className="up">
-                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: pricePrecision})}</span>
+                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: 2})}</span>
                       </div>
                     </div>
 
                     <div className="tick low">
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div className="down">
-                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: pricePrecision})}</span>
+                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: 2})}</span>
                       </div>
                     </div>
 
                     <div className="tick volume">
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
-                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: amountPrecision})}</span>
+                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: 2})}</span>
                       </div>
                     </div>
                   </TokenTick>)
