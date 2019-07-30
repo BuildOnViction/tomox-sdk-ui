@@ -6,6 +6,16 @@ import { formatDistanceStrict } from 'date-fns'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { Theme, DarkMode } from '../../components/Common'
 
+const URL = 'https://scan.testnet.tomochain.com/txs'
+const MESSAGES = {
+  'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
+  'ORDER_CANCELLED': <FormattedMessage id='notifications.orderCancelled' />,
+  'ORDER_MATCHED': <FormattedMessage id='notifications.orderMatched' />,
+  'ORDER_SUCCESS': <FormattedMessage id='notifications.orderSuccess' />,  
+  'ORDER_PENDING': <FormattedMessage id='notifications.orderPending' />,
+  'ERROR': <FormattedMessage id='notifications.orderError' />,
+}
+
 class NotificationsRenderer extends React.PureComponent {
   onScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target
@@ -39,13 +49,18 @@ class NotificationsRenderer extends React.PureComponent {
             (notifications.length > 0) && notifications.map((notification, index) => {
               return (
                 <Notification unread={notification.status === 'UNREAD'} key={index}>
-                  <div>{notification.message}</div>
+                  <div>{MESSAGES[notification.message.type]}</div>
                   <NotificationDate>
                       <Icon icon="time" iconSize="12" />
                       <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date())}</DistanceDate>
                   </NotificationDate>
-                  {(notification.status === 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsRead"})} onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
-                  {(notification.status !== 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsUnread"})} onClick={() => markNotificationUnRead(notification.id)} icon="eye-on" iconSize="15" />)}
+                  <IconsBox>
+                    <TomoScanLink target="_blank" href={`${URL}/${notification.message.description}`}>
+                      <Icon htmlTitle={intl.formatMessage({ id: "notifications.tomoScan" })} icon="document-share" iconSize="15" />
+                    </TomoScanLink>
+                    {(notification.status === 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsRead"})} onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
+                    {(notification.status !== 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsUnread"})} onClick={() => markNotificationUnRead(notification.id)} icon="eye-on" iconSize="15" />)}
+                  </IconsBox>
                 </Notification>
               )            
             })
@@ -102,7 +117,7 @@ const MarkReadAll = styled.span`
   }
 `
 
-const MarkRead = styled(Icon).attrs({
+const IconsBox = styled.div.attrs({
   className: 'notification-status',
 })`
   display: none;
@@ -112,6 +127,8 @@ const MarkRead = styled(Icon).attrs({
   right: 25px;
   transform: translateY(-50%);
 `
+
+const MarkRead = styled(Icon)``
 
 const NotificationDate = styled.div`
   display: flex;
@@ -137,4 +154,14 @@ const Loading = styled.div`
   padding: 15px 0;
   text-align: center;
   background-color: ${props => props.theme.menuBg};
+`
+
+const TomoScanLink = styled.a`
+  display: inline-block;
+  margin-right: 10px;
+  color: ${props => props.theme.menuColor};
+
+  &:hover {
+    color: ${props => props.theme.menuColor};
+  }
 `

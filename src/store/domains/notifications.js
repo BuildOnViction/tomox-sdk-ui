@@ -1,7 +1,7 @@
 //@flow
 const initialState = {
   offset: 1,
-  limit: 10,
+  limit: 20,
   loading: false,
   data: [],
   newData: [],
@@ -51,7 +51,7 @@ export const resetNotifications = () => {
       ...state,
       data: [],
       offset: 1,
-      limit: 10,
+      limit: initialState.limit,
     }
   }
 
