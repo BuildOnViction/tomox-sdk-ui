@@ -19,13 +19,13 @@ import { FormattedMessage } from 'react-intl'
 
 import {
   Theme,
-  CryptoIcon,
   UtilityIcon,
   DarkMode,
   TomoXLogo,
   Centered,
   LargeText,
   SmallText,
+  TokenImage,
 } from '../Common'
 
 import { getChangePercentText } from '../../utils/helpers'
@@ -55,6 +55,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
     const {
       pair,
       baseTokenSymbol,
+      baseTokenAddress,
       quoteTokenSymbol,
       lastPrice,
       high,
@@ -71,7 +72,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
         </Cell>
         <Cell>
-          <CryptoIcon name={baseTokenSymbol} size={25} />
+          <TokenImage tokenAddress={baseTokenAddress} size={25} />
           <PairTitle>{pair}</PairTitle>
         </Cell>
         <Cell width="25%">

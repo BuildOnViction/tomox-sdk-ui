@@ -4,7 +4,7 @@ import { Checkbox, InputGroup } from '@blueprintjs/core'
 import {
   RowSpaceBetween,
   ColoredCryptoIcon,
-  TokenIcon,
+  TokenImage,
   Colors,
   MutedText,
   Theme,
@@ -150,12 +150,12 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, allowancePending }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
       return (
         <Row key={index}>
           <Cell width="24%">
             <TokenNameWrapper>
-              <TokenIcon image={image} symbol={symbol} size={30} />
+              <TokenImage tokenAddress={address} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>
@@ -198,12 +198,12 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, allowancePending }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
       return (
         <Row key={index}>
           <Cell width="24%">
             <TokenNameWrapper>
-              <TokenIcon image={image} symbol={symbol} size={30} />
+              <TokenImage tokenAddress={address} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>
@@ -390,7 +390,8 @@ const CheckboxWrapper = styled(Checkbox)`
 
   input:checked ~ .bp3-control-indicator::before {
     background: url(${tickUrl}) no-repeat center center !important;
-  }
+  }import TokenImage from '../Common/TokenImage';
+
 `
 
 const NoToken = styled.p`

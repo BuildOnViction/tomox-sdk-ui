@@ -82,6 +82,7 @@ export { default as UtilityIcon } from './UtilityIcon'
 
 export { default as ImageIcon } from './ImageIcon'
 export { default as TokenIcon } from './TokenIcon'
+export { default as TokenImage } from './TokenImage'
 
 export { default as Footer } from './Footer'
 export { default as SvgIcon } from './SvgIcon'
