@@ -258,6 +258,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
       result.push({
         pair: pair.pair,
         price: datum.price ? parsePricepoint(datum.price, pair) : null,
+        priceUsd: datum.closeBaseUsd ? datum.closeBaseUsd : null,
         lastPrice: datum.close ? parsePricepoint(datum.close, pair) : null,
         change: datum.open ? computeChange(datum.open, datum.close) : null,
         high: datum.high ? parsePricepoint(datum.high, pair) : null,

@@ -58,6 +58,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       baseTokenAddress,
       quoteTokenSymbol,
       lastPrice,
+      priceUsd,
       high,
       low,
       change,
@@ -81,8 +82,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           </PriceNumber>
           <PriceNumber>
             <SmallText muted>
-              {(change !== null) && currentReferenceCurrency}
-              {(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"} 
+              {(priceUsd !== null) && currentReferenceCurrency}
+              {(priceUsd !== null) ? formatNumber(priceUsd, { precision: 2 }) : "N.A"} 
             </SmallText>
           </PriceNumber>
         </Cell>
