@@ -65,6 +65,9 @@ export function queryAppData(): ThunkAction {
     let currentPair = pairParam ? pairParam[1].replace('-', '/') : ''
 
     try {
+      const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+      if (!addresses) throw new Error('Cannot get tokens or pairs')
+
       let tokens = getTokenDomain(state).tokens()
       const quotes = quoteTokens
 

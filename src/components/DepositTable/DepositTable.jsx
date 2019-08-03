@@ -8,6 +8,11 @@ import TransferTokensModal from '../../components/TransferTokensModal'
 import ReceiveTokensModal from '../../components/ReceiveTokensModal'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 import type { Symbol, TokenData } from '../../types/tokens'
+import {
+  TomoXLogo,
+  Centered,
+  LargeText,
+} from '../Common'
 
 type Props = {
   connected: boolean,
@@ -86,6 +91,17 @@ class DepositTable extends React.PureComponent<Props, State> {
   }
 
   render() {
+
+    const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+    if (!addresses) {
+      return (
+        <Centered my={4}>
+          <TomoXLogo height="100em" width="100em" />
+          <LargeText muted>No tokens to display!</LargeText>
+        </Centered>
+      )
+    }
+
     const {
       props: {
         connected,
