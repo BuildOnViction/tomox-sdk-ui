@@ -67,13 +67,11 @@ src/styles/css/app.css
 .sass-cache
 
 # dotenv environment variables file
-#.env
-#.env.development
-#.env.test
-#.env.local
-#.env.development.local
-#.env.test.local
-#.env.production.local
+.env
+.env.development
+.env.test
+.env.local
+
 
 # next.js build output
 .next
