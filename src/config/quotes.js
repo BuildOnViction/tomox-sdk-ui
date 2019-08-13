@@ -1,5 +1,7 @@
-import addresses from './addresses.json'
-import images from './images.json'
+import addressesFromFile from './addresses'
+
+const addressesFromSession = JSON.parse(sessionStorage.getItem('addresses'))
+const addresses = addressesFromSession ? addressesFromSession : addressesFromFile
 
 const getAddress = (symbol) => {
   for (const address in addresses.tokens) {
@@ -31,7 +33,7 @@ for (const token of quoteSymbolTokens) {
     symbol: addresses.tokens[address].symbol,
     address,
     decimals: addresses.tokens[address].decimals,
-    image: images[token],
+    image: null,
   }
   quoteTokensBySymbolsTable[token] = tokenData
 

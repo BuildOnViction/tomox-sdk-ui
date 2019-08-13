@@ -66,6 +66,9 @@ export default function tradingPageSelector(state: State) {
 export const queryTradingPageData = (): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
+      const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+      if (!addresses) throw new Error('Cannot get tokens or pairs')
+
       socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
