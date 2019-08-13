@@ -1,36 +1,25 @@
-FROM node
+# builder environment
+FROM node:8.16-alpine as builder
+RUN apk update
+RUN apk add --no-cache autoconf make gcc g++ git python libgudev-dev linux-headers eudev-dev libusb-compat-dev hwdata-usb
+RUN mkdir /app
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
+RUN  yarn install --pure-lockfile
+COPY . /app
 
-# if left blank app will run with dev settings
-# to build production image run:
-# $ docker build ./frontend --build-args app_env=production
-ENV NPM_CONFIG_LOGLEVEL warn
+# build environment
+FROM node:8.16-alpine as build
+COPY --from=builder /app /app
+WORKDIR /app
+RUN npm install -g sass && yarn build
 
-RUN mkdir -p /frontend
-WORKDIR /frontend
-COPY ./ ./
-
-RUN yarn install
-RUN yarn global add sass
-RUN yarn sass
-
-# if dev settings will use create-react start script for hot code relaoding via docker-compose shared volume
-# if production setting will build optimized static files and serve using http-server
-CMD yarn start
-
-EXPOSE 3000
-
-
-# USEFUL COMMANDS TO BE REINCLUDED LATER
-
-# ARG app_env
-# ENV NODE_ENV $app_env
-
-# CMD if [ ${NODE_ENV} = production ]; \
-# 	then \
-# 	npm install -g http-server && \
-# 	npm run build && \
-# 	cd build && \
-# 	hs -p 3000; \
-# 	else \
-# 	npm run start; \
-# 	fi
+# production environment
+FROM nginx:1.15.5-alpine
+COPY nginx.conf /etc/nginx
+COPY mime.types /etc/nginx/mime.types
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
