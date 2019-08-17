@@ -120,7 +120,7 @@ export const sendEtherTx = ({
             message: 'Token transfer successful!',
           })
         )
-        dispatch(depositForm.queryBalances())
+        // dispatch(depositForm.queryBalances())
       }
     } catch (error) {
       console.log(error)
@@ -197,7 +197,7 @@ export const sendTransferTokensTx = (
         )
 
         // update token balances
-        dispatch(depositForm.queryBalances())
+        // dispatch(depositForm.queryBalances())
       }
     } catch (error) {
       console.log(error)
