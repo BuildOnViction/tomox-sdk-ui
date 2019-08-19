@@ -105,11 +105,12 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
  */
 export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = pricePrecision) => {
   const { quoteTokenDecimals } = pair
-  const priceMultiplier = utils.bigNumberify(10).pow(18)
+  // const priceMultiplier = utils.bigNumberify(10).pow(18)
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
   const bigPricepoint = utils.bigNumberify(pricepoint)
 
-  return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
+  // return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
+  return (Number(bigPricepoint.div(quoteMultiplier.toString())))
 }
 
 export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {

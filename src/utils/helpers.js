@@ -136,7 +136,7 @@ export const computeTokenAmount = (amount: Object, tokenDecimals: number) => {
 
 export const computePricepoint = ({
                                     price,
-                                    priceMultiplier,
+                                    // priceMultiplier,
                                     quoteMultiplier,
                                     precisionMultiplier,
                                   }: *) => {
@@ -144,11 +144,8 @@ export const computePricepoint = ({
   const b = a.toFixed(0)
   const c = utils.bigNumberify(b)
   const d = c
-    .mul(priceMultiplier)
-    // Todo: At the moment we hardcode is 1e18
-    // after TomoX update we need update use
-    // quote decimals
-    // .mul(quoteMultiplier)
+    // .mul(priceMultiplier)
+    .mul(quoteMultiplier)
     .div(precisionMultiplier)
 
   return d
