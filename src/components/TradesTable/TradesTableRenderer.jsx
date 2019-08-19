@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, CenteredMessage, DarkMode } from '../Common';
+import { Loading, CenteredMessage } from '../Common';
 import { formatDate } from '../../utils/helpers'
 
 import type { Trade } from '../../types/trades'
@@ -57,11 +57,13 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
               width="34%"
               textAlign="center"
               className={trade.change === 'positive' ? 'up' : 'down'}>
-              {trade.price}
+              <Ellipsis>{trade.price}</Ellipsis>
             </Cell>
             <Cell 
               textAlign="right"
-              width="33%">{trade.amount}</Cell>
+              width="33%">
+              <Ellipsis>{trade.amount}</Ellipsis>
+            </Cell>
           </Row>
         ))}
       </ListBody>
@@ -123,6 +125,14 @@ const HeaderCell = styled.span`
   min-width: 35px;
   width: ${props => props.width};
   text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
+`
+
+const Ellipsis = styled.span`
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 export default TradesTableRenderer
