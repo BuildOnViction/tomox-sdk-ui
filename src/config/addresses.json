@@ -1,0 +1,47 @@
+{
+  "tokens": {
+    "0x1c4112E6DC81A722e824223a7d114AddCb8fb4Ce": {
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "decimals": 8,
+      "makeFee": "1",
+      "takeFee": "2"
+    },
+    "0xb70497B537E4902dD0d56BF20bcaB64b26Fa2E09": {
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 18,
+      "makeFee": "1",
+      "takeFee": "2"
+    },
+    "0x64De79a9FF8e1E014406061b2388dF3D86FB59C5": {
+      "name": "Binance",
+      "symbol": "BNB",
+      "decimals": 18,
+      "makeFee": "1",
+      "takeFee": "2"
+    },
+    "0x3154A27BC5016c970C4242dC1FDaFA50668e7E23": {
+      "name": "TRIIP Token",
+      "symbol": "TRIIP",
+      "decimals": 18,
+      "makeFee": "1",
+      "takeFee": "2"
+    },
+    "0x0000000000000000000000000000000000000001": {
+      "name": "Tomochain",
+      "symbol": "TOMO",
+      "decimals": 18,
+      "makeFee": "1",
+      "takeFee": "2"
+    }
+  },
+  "pairs": [
+    "BTC/TOMO",
+    "ETH/TOMO",
+    "BNB/TOMO",
+    "TRIIP/TOMO",
+    "ETH/BTC",
+    "BNB/BTC"
+  ]
+}
