@@ -105,12 +105,13 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
  */
 export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = pricePrecision) => {
   const { quoteTokenDecimals } = pair
-  // const priceMultiplier = utils.bigNumberify(10).pow(18)
+  // We use 18 to avoid result round to 0. 
+  // The precision (=7) not work well in price too small
+  const precisionMultiplier = utils.bigNumberify(10).pow(18)
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
-  const bigPricepoint = utils.bigNumberify(pricepoint)
+  const bigPricepoint = utils.bigNumberify(pricepoint).mul(precisionMultiplier)
 
-  // return (Number(bigPricepoint.div(priceMultiplier).toString()) / Number(quoteMultiplier.toString()))
-  return (Number(bigPricepoint.div(quoteMultiplier.toString())))
+  return (Number(bigPricepoint.div(quoteMultiplier)) / Number(`${precisionMultiplier}`))
 }
 
 export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
@@ -218,7 +219,7 @@ export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precisi
     price: parsePricepoint(ask.pricepoint, pair, precision),
     amount: parseTokenAmount(ask.amount, pair, precision),
   }))
-
+  
   bids = (bids: any).map(bid => ({
     price: parsePricepoint(bid.pricepoint, pair, precision),
     amount: parseTokenAmount(bid.amount, pair, precision),

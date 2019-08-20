@@ -124,9 +124,10 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
         ? (totalSellAmount = quoteAmount.add(fee))
         : (totalSellAmount = baseAmount)
 
-      if (quoteAmount.lt(minQuoteAmount)) {
-        return dispatch(notifierActionCreators.addErrorNotification({ message: `Order value should be higher than ${formattedMinQuoteAmount} ${quoteTokenSymbol}` }))
-      }
+      // Todo: waitting fee api implement
+      // if (quoteAmount.lt(minQuoteAmount)) {
+      //   return dispatch(notifierActionCreators.addErrorNotification({ message: `Order value should be higher than ${formattedMinQuoteAmount} ${quoteTokenSymbol}` }))
+      // }
 
       if (sellTokenBalance.lt(totalSellAmount)) {
         return dispatch(notifierActionCreators.addErrorNotification({ message: `Insufficient ${sellTokenSymbol} balance` }))
