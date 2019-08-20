@@ -60,6 +60,10 @@ class Layout extends React.PureComponent<Props, State> {
     return pathname.includes('/create') || pathname.includes('/unlock')
   }
 
+  componentDidMount = () => {
+    this.props.queryAppData()
+  }
+
   componentWillUnmount = () => {
     this.props.releaseResource()
   }
@@ -81,9 +85,7 @@ class Layout extends React.PureComponent<Props, State> {
 
 class Default extends React.PureComponent<Props, State> {
   componentDidMount() {
-    const { createProvider, authenticated, queryAppData, queryAccountData } = this.props
-
-    queryAppData()
+    const { createProvider, authenticated, queryAccountData } = this.props
 
     if (createProvider) {
       createProvider()
