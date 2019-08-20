@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode } from '../Common'
-import { formatNumber } from 'accounting-js'
+import { formatNumber, unformat } from 'accounting-js'
 import { getChangePercentText } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
@@ -128,12 +128,20 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 {currentPairData && (
                   <React.Fragment>
                     <LatestPrice width="67%">
-                      <CryptoPrice>{formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}</CryptoPrice>
-                      <CashPrice>{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</CashPrice> 
+                      <CryptoPrice>
+                        <Ellipsis title={formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}>
+                          {formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}
+                        </Ellipsis>
+                      </CryptoPrice>
+                      <CashPrice>
+                        <Ellipsis>
+                          {referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}
+                        </Ellipsis>
+                      </CashPrice> 
                     </LatestPrice>
                     
                     <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
-                      {getChangePercentText(currentPairData.ticks[0].change)}
+                      <Ellipsis>{getChangePercentText(currentPairData.ticks[0].change)}</Ellipsis>
                     </PercentChange>  
                   </React.Fragment>
                 )}           
@@ -168,7 +176,7 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row onClick={onClick}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width="33%">{formatNumber(order.price, { precision: pricePrecision })}</Cell>
+      <Cell className="up" width="33%">{formatNumber(unformat(order.price), { precision: pricePrecision })}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell> 
     </Row>
@@ -180,7 +188,7 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row onClick={onClick}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width="33%">{formatNumber(order.price, { precision: pricePrecision })}</Cell>
+      <Cell className="down" width="33%">{formatNumber(unformat(order.price), { precision: pricePrecision })}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell>
     </Row>
@@ -308,7 +316,10 @@ const BuyRowBackground = styled.span`
 `
 
 const Cell = styled.span`
-  width: ${props => props.width? props.width : "35px"}
+  width: ${props => props.width? props.width : "35px"};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const ListHeading = styled.ul`
@@ -348,15 +359,19 @@ const LatestTick = styled.div.attrs({
 const LatestPrice = styled.div.attrs({
   className: 'latest-price',
 })`
-  width: ${props => props.width? props.width : "70px"}
+  width: ${props => props.width? props.width : "70px"};
 `
 const CryptoPrice = styled.span.attrs({
   className: 'crypto',
-})``
+})`
+  width: 60%;
+`
 
 const CashPrice = styled.span.attrs({
   className: 'cash',
-})``
+})`
+  width: 40%;
+`
 
 const PercentChange = styled.div.attrs({
   className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
@@ -370,6 +385,14 @@ const NoItems = styled.div`
   padding-left: 10px;
   justify-content: center;
   align-items: center;
+`
+
+const Ellipsis = styled.span`
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 export default OrderBookRenderer

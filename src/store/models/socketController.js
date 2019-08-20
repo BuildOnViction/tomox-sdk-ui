@@ -18,7 +18,7 @@ import {
 } from '../domains'
 import { getBalancesInOrders } from '../services/api'
 
-import { queryBalances } from './depositForm'
+// import { queryBalances } from './depositForm'
 import { getSigner } from '../services/signer'
 import {
   parseOrder,
@@ -199,7 +199,7 @@ function handleDepositSucceeded(
       dispatch(
         depositActionCreators.updateAssociationTransactions(chain, txEnvelopes),
       )
-      dispatch(queryBalances())
+      // dispatch(queryBalances())
     }
   } catch (e) {
     console.log(e)

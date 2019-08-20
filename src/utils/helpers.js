@@ -136,7 +136,7 @@ export const computeTokenAmount = (amount: Object, tokenDecimals: number) => {
 
 export const computePricepoint = ({
                                     price,
-                                    priceMultiplier,
+                                    // priceMultiplier,
                                     quoteMultiplier,
                                     precisionMultiplier,
                                   }: *) => {
@@ -144,7 +144,7 @@ export const computePricepoint = ({
   const b = a.toFixed(0)
   const c = utils.bigNumberify(b)
   const d = c
-    .mul(priceMultiplier)
+    // .mul(priceMultiplier)
     .mul(quoteMultiplier)
     .div(precisionMultiplier)
 

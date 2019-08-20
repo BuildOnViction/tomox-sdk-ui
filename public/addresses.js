@@ -6,6 +6,13 @@
         if(!tokensResponse.ok) throw new Error('Could not connect to network')
 
         const tokens = {}
+        tokens["0x0000000000000000000000000000000000000001"] = {
+            "name": "Tomochain",
+            "symbol": "TOMO",
+            "decimals": 18,
+            "makeFee": "1",
+            "takeFee": "2"
+        }
         const tokensJson = await tokensResponse.json()
         const tokensRaw = tokensJson.data
 

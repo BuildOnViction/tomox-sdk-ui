@@ -30,7 +30,6 @@ import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
-import { pricePrecision, amountPrecision } from '../../config/tokens'
 import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
@@ -767,7 +766,7 @@ const SwitchTheme = styled(Switch)`
     left: calc(100% - 13px)
   }
 
-  @media (max-width: 1400px) {
+  @media (max-width: 2560px) {
     width: 100%;
     font-size: 0;
 
@@ -775,8 +774,7 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }import Notifications from '../../components/Notifications/Notifications';
-
+    }
   }
 `
 
