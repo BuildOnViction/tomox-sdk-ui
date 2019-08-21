@@ -2,7 +2,12 @@
 
 Official repository for the Tomochain DEX react client, forked from the Proof project.
 
-![demo](./dex-client.png)
+_**Note: This project is under active development. We are using Github Issues to keep track of milestones, tasks, bugs, ....
+It will be officially released when the version is v1.0.0.**_
+
+![demo](./exchange_dark.png)
+
+![demo](./market_dark.png)
 
 ## RLPX/SwarmFeed - Compact and secured way to store decentralized orderbook for each user.
 
@@ -42,7 +47,7 @@ $ yarn storybook
    - [x] Private key
    - [x] Keystore / JSON File
    - [x] Mnemonic Phrase
-   - [x] Metamask
+   - [ ] Metamask
    - [x] Trezor Hardware Wallet
    - [ ] Ledger Hardware Wallet
 2. Wallet Management
