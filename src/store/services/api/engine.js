@@ -149,8 +149,9 @@ export const fetchOrders = async (address: string) => {
     throw new Error('Server error')
   }
 
-  const { data } = await response.json()
-  return data
+  //Todo: at the moment we use only orders, we'll update pagination then.
+  const { data: { orders }} = await response.json()
+  return orders
 }
 
 export const fetchOrderHistory = async (address: string) => {
