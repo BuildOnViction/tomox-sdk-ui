@@ -10,16 +10,15 @@ import {
   Colors,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
-import { FormattedMessage } from 'react-intl'
 
 import type { SIDE } from '../../types/orderForm'
 
 import {
   MutedText,
-  UtilityIcon,
   Theme,
   DarkMode,
 } from '../Common'
+import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
 
 type Props = {
   selectedTabId: string,
@@ -158,7 +157,7 @@ const OrderFormRenderer = (props: Props) => {
               />
             }
           />
-          {/* <Tab
+          <Tab
             id="market"
             title="Market"
             disabled="true"
@@ -189,7 +188,7 @@ const OrderFormRenderer = (props: Props) => {
               />
             }
           />
-          <Tab
+          {/* <Tab
             id="stop"
             title="Stop-Limit"
             disabled="true"
@@ -224,305 +223,11 @@ const OrderFormRenderer = (props: Props) => {
   )
 }
 
-const FractionList = (props) => {
-  const { side, fraction, onInputChange } = props
-
-  return (
-    <FractionListBox>
-      <RadioButtonsWrapper>
-        <RadioButton
-          value={25}
-          fraction={fraction}
-          onInputChange={(e) => onInputChange(side, e)}
-        />
-        <RadioButton
-          value={50}
-          fraction={fraction}
-          onInputChange={(e) => onInputChange(side, e)}
-        />
-        <RadioButton
-          value={75}
-          fraction={fraction}
-          onInputChange={(e) => onInputChange(side, e)}
-        />
-        <RadioButton
-          value={100}
-          fraction={fraction}
-          onInputChange={(e) => onInputChange(side, e)}
-        />
-      </RadioButtonsWrapper>
-    </FractionListBox>  
-  )
-}
-
-const BuyLimitOrderPanel = (props) => {
-  const {
-    buyPrice,
-    buyAmount,
-    buyMaxAmount,
-    fraction,
-    buyTotal,
-    // makeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    // quoteTokenDecimals,
-    // insufficientBalanceToBuy,
-    onInputChange,
-    onInputFocus,
-    onInputBlur,
-    handleSendOrder,
-    handleDecreasePrice,
-    handleIncreasePrice,    
-    handleDecreaseAmount,
-    handleIncreaseAmount,
-    errorBuy,
-    isShowBuyMaxAmount,
-    buyPriceInput,
-    buyAmountInput,
-    authenticated,
-    redirectToLoginPage,
-  } = props
-
-  return (
-    <BuyLimitOrderContainer>
-      <HeaderRow>
-        <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
-        {/* <DecreaseToken>{`-${quoteTokenSymbol}`}</DecreaseToken> */}
-      </HeaderRow>
-
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.price" />:
-        </InputLabel>
-
-        <InputGroupWrapper
-          name="price"
-          onChange={(e) => onInputChange('BUY', e)}
-          onFocus={(e) => onInputFocus('BUY', e)}
-          onBlur={(e) => onInputBlur('BUY', e)}
-          value={buyPrice}
-          title={buyPrice}
-          autoComplete="off"
-          inputRef={buyPriceInput}
-          className={errorBuy && errorBuy.type === 'price' ? 'has-error' : ''}
-        />
-
-        <TokenName>{quoteTokenSymbol}</TokenName>
-
-        <IncreaseAndDecreaseGroup 
-          type="price" 
-          onDecreasePrice={(e) => handleDecreasePrice(e, 'BUY')}
-          onIncreasePrice={(e) => handleIncreasePrice(e, 'BUY')} />
-      </InputBox>
-
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.amount" />:
-        </InputLabel>
-
-        <InputGroupWrapper
-          name="amount"
-          onChange={(e) => onInputChange('BUY', e)}
-          onFocus={(e) => onInputFocus('BUY', e)}
-          onBlur={(e) => onInputBlur('BUY', e)}
-          value={buyAmount}
-          title={buyAmount}
-          autoComplete="off"
-          inputRef={buyAmountInput}
-          className={errorBuy && errorBuy.type === 'amount' ? 'has-error' : ''}
-        />
-
-        <TokenName>{baseTokenSymbol}</TokenName>
-
-        <IncreaseAndDecreaseGroup 
-          type="amount" 
-          onDecreaseAmount={(e) => handleDecreaseAmount(e, 'BUY')}
-          onIncreaseAmount={(e) => handleIncreaseAmount(e, 'BUY')} />
-        
-        {isShowBuyMaxAmount && (<MaxAmountInfo>Max: {buyMaxAmount} {baseTokenSymbol}</MaxAmountInfo>)}
-      </InputBox>
-
-      <FractionList 
-        side="BUY"
-        fraction={fraction}
-        onInputChange={onInputChange} 
-        />
-
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.total" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="buy-total"
-          readOnly
-          // onChange={(e) => onInputChange('BUY', e)}
-          value={buyTotal}
-          tabIndex="-1"
-        />
-        <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput title={buyTotal} />
-      </InputBox>
-
-      {/* {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
-      {buyMaxAmount && <MaxAmount>Max: ~{buyMaxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
-      
-      <ErrorMessage>{errorBuy &&  errorBuy.message}</ErrorMessage>
-
-      {authenticated && (<BuyButton
-        intent="success"
-        text={<FormattedMessage id='exchangePage.buy' />}
-        name="order"
-        onClick={() => handleSendOrder('BUY')}
-        fill
-      />)}
-
-      {!authenticated && (<BuyButton
-        intent="success"
-        text={<FormattedMessage id='exchangePage.unlockWallet' />}
-        name="order"
-        onClick={redirectToLoginPage}
-        fill
-      />)}
-    </BuyLimitOrderContainer>
-  )
-}
-
-const SellLimitOrderPanel = (props) => {
-  const {
-    sellPrice,
-    sellAmount,
-    sellMaxAmount,
-    fraction,
-    sellTotal,
-    // makeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    // quoteTokenDecimals,
-    // insufficientBalanceToSell,
-    onInputChange,
-    onInputFocus,
-    onInputBlur,
-    handleSendOrder,
-    handleDecreasePrice,
-    handleIncreasePrice,    
-    handleDecreaseAmount,
-    handleIncreaseAmount,
-    errorSell,
-    isShowSellMaxAmount,
-    sellPriceInput,
-    sellAmountInput,
-    authenticated,
-    redirectToLoginPage,
-  } = props
-
-  return (
-    <SellLimitOrderContainer>
-      <HeaderRow>
-        <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
-        {/* <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken> */}
-      </HeaderRow>
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.price" />:
-        </InputLabel>
-        
-        <InputGroupWrapper
-          name="price"
-          onChange={(e) => onInputChange('SELL', e)}
-          onMouseDown={(e) => onInputFocus('SELL', e)}
-          onBlur={(e) => onInputBlur('SELL', e)}
-          value={sellPrice}
-          title={sellPrice}
-          autoComplete="off"
-          inputRef={sellPriceInput}
-          className={errorSell && errorSell.type === 'price' ? 'has-error' : ''}
-        />
-
-        <IncreaseAndDecreaseGroup 
-          type="price" 
-          onDecreasePrice={(e) => handleDecreasePrice(e, 'SELL')}
-          onIncreasePrice={(e) => handleIncreasePrice(e, 'SELL')} />
-
-        <TokenName>{quoteTokenSymbol}</TokenName>
-      </InputBox>
-
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.amount" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="amount"
-          onChange={(e) => onInputChange('SELL', e)}
-          onFocus={(e) => onInputFocus('SELL', e)}
-          onBlur={(e) => onInputBlur('SELL', e)}
-          value={sellAmount}
-          title={sellAmount}
-          autoComplete="off"
-          inputRef={sellAmountInput}
-          className={errorSell && errorSell.type === 'amount' ? 'has-error' : ''}
-        />
-        
-        <IncreaseAndDecreaseGroup 
-          type="amount" 
-          onDecreaseAmount={(e) => handleDecreaseAmount(e, 'SELL')}
-          onIncreaseAmount={(e) => handleIncreaseAmount(e, 'SELL')} />
-
-        <TokenName>{baseTokenSymbol}</TokenName>
-        {isShowSellMaxAmount && (<MaxAmountInfo>Max: {sellMaxAmount} {baseTokenSymbol}</MaxAmountInfo>)}
-      </InputBox>
-
-      <FractionList 
-        side="SELL"
-        fraction={fraction}
-        onInputChange={onInputChange} 
-        />
-
-      {/* {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
-      {sellMaxAmount && <MaxAmount>Max: ~{sellMaxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
-      
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.total" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="sell-total"
-          readOnly
-          // onChange={(e) => onInputChange('SELL', e)}
-          value={sellTotal}
-          tabIndex="-1"
-        />
-        <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput title={sellTotal} />
-      </InputBox>
-
-      <ErrorMessage>{errorSell &&  errorSell.message}</ErrorMessage>
-      
-      {authenticated && <SellButton
-        intent="danger"
-        text={<FormattedMessage id='exchangePage.sell' />}
-        name="order"
-        onClick={() => handleSendOrder('SELL')}
-        fill
-      />}
-
-      {!authenticated && <SellButton
-        intent="danger"
-        text={<FormattedMessage id='exchangePage.unlockWallet' />}
-        name="order"
-        onClick={redirectToLoginPage}
-        fill
-      />}
-    </SellLimitOrderContainer>
-  )
-}
-
 const LimitOrderPanel = props => {
   return (
     <OrderWrapper>
-      <BuyLimitOrderPanel {...props} />
-      <SellLimitOrderPanel {...props} />
+      <BuyLimitOrderForm {...props} />
+      <SellLimitOrderForm {...props} />
     </OrderWrapper>
   )
 }
@@ -706,33 +411,6 @@ const RadioButton = props => {
   )
 }
 
-const IncreaseAndDecreaseGroup = (props) => {
-  const { 
-    type,
-    onDecreasePrice,
-    onIncreasePrice,
-    onDecreaseAmount,
-    onIncreaseAmount, 
-  } = props
-
-  if (type === 'price') {
-    return (
-      <IncreaseAndDecreaseBox>
-        <IncreaseAndDecreaseButton onMouseDown={onIncreasePrice}><UtilityIcon name="arrow-up" /></IncreaseAndDecreaseButton>
-        <IncreaseAndDecreaseButton onMouseDown={onDecreasePrice}><UtilityIcon name="arrow-down" /></IncreaseAndDecreaseButton>
-      </IncreaseAndDecreaseBox>
-    )
-  }
-
-  return (
-    <IncreaseAndDecreaseBox>
-      <IncreaseAndDecreaseButton onMouseDown={onIncreaseAmount}><UtilityIcon name="arrow-up" /></IncreaseAndDecreaseButton>
-      <IncreaseAndDecreaseButton onMouseDown={onDecreaseAmount}><UtilityIcon name="arrow-down" /></IncreaseAndDecreaseButton>
-    </IncreaseAndDecreaseBox>
-  )
-  
-}
-
 export default OrderFormRenderer
 
 const OrderFormTabs = styled(Tabs)`
@@ -751,10 +429,6 @@ const OrderFormTabs = styled(Tabs)`
     color: ${props => props.theme.orderTableTabActive};
   }
 `
-
-const FractionListBox = styled.div.attrs({
-  className: 'clearfix',
-})``
 
 const RadioButtonsWrapper = styled.div`
   width: calc(100% - 60px);
@@ -794,37 +468,6 @@ const RadioButtonBox = styled(Label)`
   }
 `
 
-const IncreaseAndDecreaseBox = styled.div.attrs({
-  className: 'increase-decrease-box',
-})`
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 5px 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 2px;
-
-  span:first-child {
-    align-items: flex-end;
-    padding-bottom: 3px;
-  }
-
-  span:last-child {
-    align-items: flex-start;
-    padding-top: 3px;
-  }
-`
-
-const IncreaseAndDecreaseButton = styled.span`
-  display: flex;
-  justify-content: center;
-  width: 15px;
-  height: 50%;
-  cursor: pointer;
-`
-
 const InputGroupWrapper = styled(InputGroup).attrs({
   className: "bp3-fill",
 })`
@@ -842,14 +485,6 @@ const InputGroupWrapper = styled(InputGroup).attrs({
   }
 `
 
-const TokenName = styled.span`
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  user-select: none;
-`
-
 const InputBox = styled.div`
   display: flex;
   position: relative;
@@ -858,7 +493,10 @@ const InputBox = styled.div`
   &:hover {
     .increase-decrease-box {
       display: flex !important;
-    }
+    }import { BuyLimitOrderForm } from '../LimitOrderForms/BuyLimitOrderForm';
+import SellLimitOrderForm from '../LimitOrderForms/SellLimitOrderForm';
+import SellLimitOrderForm from '../LimitOrderForms/SellLimitOrderForm';
+
   }
 
   &:last-child {
@@ -897,67 +535,3 @@ const MaxAmount = styled.div`
 const OrderWrapper = styled.div.attrs({
   className: 'order-wrapper',
 })``
-
-const BuyLimitOrderContainer = styled.div.attrs({
-  className: 'buy-side',
-})``
-
-const SellLimitOrderContainer = styled.div.attrs({
-  className: 'sell-side',
-})``
-
-const HeaderRow = styled.div.attrs({
-  className: 'header',
-})`
-  margin-bottom: 10px;
-`
-
-const BaseToken = styled.span.attrs({
-  className: 'base-token',
-})``
-
-const DecreaseToken = styled.span.attrs({
-  className: 'decrease-token',
-})``
-
-const BuyButton = styled(Button).attrs({
-  className: "buy-btn",
-})``
-
-const SellButton = styled(Button).attrs({
-  className: "sell-btn",
-})``
-
-const MaxAmountInfo = styled.div`
-  background: ${DarkMode.ORANGE};
-  padding: 0 10px;
-  height: 30px;
-  line-height: 30px;
-  overflow: hidden;
-  font-size: ${Theme.FONT_SIZE_MD};
-  color: ${DarkMode.WHITE};
-  position: absolute;
-  top: 100%;
-  left: 67px;
-  right: 0;
-
-`
-
-const ErrorMessage = styled.div`
-  height: 17px;
-  line-height: 17px;
-  width: calc(100% - 60px);
-  padding-left: 8px;
-  color: ${DarkMode.RED};
-  margin-left: auto;
-  margin-top: -7px;
-  margin-bottom: 3px;
-`
-
-const OverlayInput = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
