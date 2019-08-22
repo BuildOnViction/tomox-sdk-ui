@@ -157,7 +157,7 @@ const OrderFormRenderer = (props: Props) => {
               />
             }
           />
-          <Tab
+          {/* <Tab
             id="market"
             title="Market"
             disabled="true"
@@ -187,7 +187,7 @@ const OrderFormRenderer = (props: Props) => {
                 handleSendOrder={handleSendOrder}
               />
             }
-          />
+          /> */}
           {/* <Tab
             id="stop"
             title="Stop-Limit"

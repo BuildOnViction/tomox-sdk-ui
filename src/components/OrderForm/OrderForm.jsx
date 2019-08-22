@@ -89,7 +89,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       && !buyPrice 
       && !sellPrice 
       && currentPairData) {
-      const price = formatNumber(currentPairData.last_trade_price, { precision: pricePrecision })
+      const price = formatNumber(unformat(currentPairData.last_trade_price), { precision: pricePrecision })
 
       this.setOrderFormPrice(price)
       return
@@ -98,7 +98,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     if(!prevSelectedOrder && currSelectedOrder) {
       this.resetErrorObject()
 
-      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+      const price = formatNumber(unformat(currSelectedOrder.price), { precision: pricePrecision })
       this.setOrderFormPrice(price)
       return
     }
@@ -106,7 +106,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (prevSelectedOrder && prevSelectedOrder.price !== currSelectedOrder.price) {
       this.resetErrorObject()
 
-      const price = formatNumber(currSelectedOrder.price, { precision: pricePrecision })
+      const price = formatNumber(unformat(currSelectedOrder.price), { precision: pricePrecision })
       this.setOrderFormPrice(price)
       return
     }  
