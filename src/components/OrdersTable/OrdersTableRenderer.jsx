@@ -32,7 +32,15 @@ type Props = {
   }
 }
 
-const widthColumns = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%', '5%']
+const Status = {
+  'OPEN': 'Open',
+  'CANCELLED': 'Cancelled',
+  'PENDING': 'Pending',
+  'EXECUTED': 'Executed',
+  'PARTIAL_FILLED': 'Partially',
+}
+
+const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '12%', '10%', '10%', '15%', '10%', '15%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
@@ -164,8 +172,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
         <HeaderCell width={widthColumns[7]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={widthColumns[8]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
-        <HeaderCell width={widthColumns[9]}></HeaderCell>
+        <HeaderCell width={widthColumns[8]}></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
@@ -199,15 +206,10 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                 {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
               </Cell>
               <Cell width={widthColumns[8]} muted>
-                {capitalizeFirstLetter(order.status)}
-              </Cell>
-              <Cell width={widthColumns[9]} muted>
-                {order.status === 'OPEN' && (
-                  <CancelIcon 
-                    icon="cross" 
-                    intent="danger" 
-                    onClick={() => cancelOrder(order.hash)} />
-                )}
+                <CancelIcon 
+                  icon="cross" 
+                  intent="danger" 
+                  onClick={() => cancelOrder(order.hash)} />
               </Cell>
             </Row>
           ))}
@@ -262,10 +264,10 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {truncateZeroDecimal(order.total)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[7]} muted>
-                {order.filled && formatNumber(order.filled*100/order.amount, {  precision: 2 })}%
+                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
               </Cell>
               <Cell width={widthColumnsOrderHistory[8]} muted>
-                {capitalizeFirstLetter(order.status)}
+                {capitalizeFirstLetter(Status[order.status])}
               </Cell>
             </Row>
           ))}

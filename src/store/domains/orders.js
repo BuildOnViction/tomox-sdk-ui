@@ -1,5 +1,5 @@
 // @flow
-import { formatNumber } from 'accounting-js'
+import { formatNumber, unformat } from 'accounting-js'
 
 import type { Orders, OrdersState } from '../../types/orders'
 import { getBaseToken, getQuoteToken } from '../../utils/tokens'
@@ -80,9 +80,7 @@ export default function ordersDomain(state: OrdersState) {
       let orders: Orders = getOrders(state)
       orders = orders.slice(Math.max(orders.length - n, 0))
       orders = orders.map(order => {
-        const filledPercent = order.filled ? formatNumber(order.filled*100/order.amount, {
-          precision: amountPrecision,
-        }) : 0
+        const filledPercent = order.filled ? unformat(order.filled)*100/unformat(order.amount) : 0
         const total = formatNumber(order.price * order.amount, { precision: pricePrecision })
         const filled = formatNumber(order.filled, {
           precision: amountPrecision,

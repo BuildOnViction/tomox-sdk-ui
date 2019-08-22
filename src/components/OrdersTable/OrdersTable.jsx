@@ -45,7 +45,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       'CANCELLED',
       'PENDING',
       'EXECUTED',
-      'PARTIALLY_FILLED',
+      'PARTIAL_FILLED',
     ]
 
     for (const filter of filters) {
@@ -54,6 +54,8 @@ class OrdersTable extends React.PureComponent<Props, State> {
         return order.status === filter
       })
     }
+
+    result['OPEN'] = [...result['OPEN'], ...result['PARTIAL_FILLED']]
 
     for (const filter of filters.concat('ALL')) {
       // silence-error: currently too many flow errors, waiting for rest to be resolved
