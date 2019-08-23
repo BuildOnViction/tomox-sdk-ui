@@ -151,7 +151,7 @@ export const fetchOrders = async (address: string) => {
 
   //Todo: at the moment we use only orders, we'll update pagination then.
   const { data: { orders }} = await response.json()
-  return orders
+  return orders || []
 }
 
 export const fetchOrderHistory = async (address: string) => {
@@ -211,18 +211,19 @@ export const fetchTokenPairTrades = async (
 
 export const fetchAddressTrades = async (address: string) => {
   const response = await request(`/trades/history?address=${address}`)
-  const { data, error } = await response.json()
-
+  
   if (response.status === 400) {
+    const { error } = await response.json()
     throw new Error(error)
   }
 
   if (response.status !== 200) {
-    console.log(data)
     throw new Error('Server Error')
-  }
+  }  
 
-  return data
+  // Todo: we'll pagination then
+  const { data: { trades }} = await response.json()
+  return trades || []
 }
 
 export const fetchOrderBook = async (baseToken: string, quoteToken: string) => {
