@@ -187,7 +187,7 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
   return parsed
 }
 
-export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, precision: number = 2) => {
+export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = []
   
   trades.forEach(trade => {
@@ -195,8 +195,8 @@ export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, precision
 
     parsed.push({
       time: trade.createdAt,
-      price: parsePricepoint(trade.pricepoint, pair, precision),
-      amount: parseTokenAmount(trade.amount, pair, precision),
+      price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
+      amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
       hash: trade.hash,
       txHash: trade.txHash,
       orderHash: trade.orderHash,
