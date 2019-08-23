@@ -37,7 +37,8 @@ const Status = {
   'CANCELLED': 'Cancelled',
   'PENDING': 'Pending',
   'EXECUTED': 'Executed',
-  'PARTIAL_FILLED': 'Partially',
+  'PARTIAL_FILLED': 'Partial',
+  'FILLED': 'Filled',
 }
 
 const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
