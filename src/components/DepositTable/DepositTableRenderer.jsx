@@ -71,9 +71,9 @@ const DepositTableRenderer = (props: Props) => {
         </RowSpaceBetween>
         <Table>
           <TableHeader>
-            <TableHeaderCell width="24%"><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
-            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCell>
-            <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="18%"><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="20%"><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCell>
+            <TableHeaderCell width="20%"><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCell>
             <TableHeaderCell width="17%"><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
             <TableHeaderCell width="25%">
               <MutedText><FormattedMessage id="portfolioPage.operation" /></MutedText>
@@ -107,16 +107,16 @@ const TOMORow = (props: Props) => {
 
   return (
     <Row key="TOMO">
-      <Cell width="24%">
+      <Cell width="18%">
         <TokenNameWrapper>
           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
           <span>{symbol}</span>
         </TokenNameWrapper>
       </Cell>
-      <Cell width="17%">
+      <Cell width="20%">
         <Ellipsis title={balance}>{balance}</Ellipsis>
       </Cell>
-      <Cell width="17%">
+      <Cell width="20%">
         <Ellipsis>{availableBalance}</Ellipsis>
       </Cell>
       <Cell width="17%">
@@ -153,16 +153,16 @@ const QuoteTokenRows = (props: Props) => {
     ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
       return (
         <Row key={index}>
-          <Cell width="24%">
+          <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>
-          <Cell width="17%">
+          <Cell width="20%">
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
-          <Cell width="17%">
+          <Cell width="20%">
             <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="17%">
@@ -201,16 +201,16 @@ const BaseTokenRows = (props: Props) => {
     ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
       return (
         <Row key={index}>
-          <Cell width="24%">
+          <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
               <span>{symbol}</span>
             </TokenNameWrapper>
           </Cell>
-          <Cell width="17%">
+          <Cell width="20%">
             <Ellipsis title={balance}>{balance}</Ellipsis>
           </Cell>
-          <Cell width="17%">
+          <Cell width="20%">
             <Ellipsis>{availableBalance}</Ellipsis>
           </Cell>
           <Cell width="17%">

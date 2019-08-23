@@ -1,4 +1,5 @@
 // @flow
+import scientificToDecimal from 'scientific-to-decimal'
 import type {
   AccountAllowances,
   AccountBalances,
@@ -162,7 +163,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
 
       const etherMultiplier = utils.bigNumberify('1000000000000000000')
       const balance = utils
-        .bigNumberify(balancePoints.toString())
+        .bigNumberify(scientificToDecimal(balancePoints))
         .mul(etherMultiplier)
         .div(utils.bigNumberify(precisionMultiplier))
 
