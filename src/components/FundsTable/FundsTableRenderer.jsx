@@ -9,6 +9,7 @@ import {
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 
@@ -84,13 +85,13 @@ const TOMORow = (props: Props) => {
         <TokenNameWrapper>{symbol}</TokenNameWrapper>
       </Cell>
       <Cell width="25%">
-        <Ellipsis title={balance}>{balance}</Ellipsis>
+        <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
       </Cell>
       <Cell width="25%">
-        <Ellipsis>{availableBalance}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
       </Cell>
       <Cell width="25%">
-        <Ellipsis>{inOrders}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
       </Cell>
     </Row>
   )
@@ -107,13 +108,13 @@ const QuoteTokenRows = (props: Props) => {
         <Row key={index}>
           <Cell width="25%">{symbol}</Cell>
           <Cell width="25%">
-            <Ellipsis title={balance}>{balance}</Ellipsis>
+            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>{availableBalance}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>{inOrders}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
         </Row>
       )
@@ -132,13 +133,13 @@ const BaseTokenRows = (props: Props) => {
         <Row key={index}>
           <Cell width="25%">{symbol}</Cell>
           <Cell width="25%">
-            <Ellipsis title={balance}>{balance}</Ellipsis>
+            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>{availableBalance}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
           <Cell width="25%">
-            <Ellipsis>{inOrders}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
         </Row>
       )

@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
+import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
@@ -114,13 +115,13 @@ const TOMORow = (props: Props) => {
         </TokenNameWrapper>
       </Cell>
       <Cell width="20%">
-        <Ellipsis title={balance}>{balance}</Ellipsis>
+        <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
       </Cell>
       <Cell width="20%">
-        <Ellipsis>{availableBalance}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
       </Cell>
       <Cell width="17%">
-        <Ellipsis>{inOrders}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
       </Cell>
       <Cell width="25%">
         <ButtonWrapper>
@@ -160,13 +161,13 @@ const QuoteTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={balance}>{balance}</Ellipsis>
+            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{availableBalance}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{inOrders}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
@@ -208,13 +209,13 @@ const BaseTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={balance}>{balance}</Ellipsis>
+            <Ellipsis title={truncateZeroDecimal(balance)}>{balance}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{availableBalance}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{inOrders}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>

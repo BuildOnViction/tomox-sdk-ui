@@ -9,7 +9,7 @@ import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
 import { ALLOWANCE_MINIMUM } from '../../utils/constants'
 import { formatNumber } from 'accounting-js'
-import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
 // eslint-disable-next-line
 const initialState = {}
 
@@ -189,13 +189,13 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         return {
           ...token,
           balance: state[token.symbol]
-            ? formatNumber(state[token.symbol].balance, { precision: 2 })
+            ? formatNumber(state[token.symbol].balance, { precision: pricePrecision })
             : null,
           inOrders: state[token.symbol]
-            ? formatNumber(state[token.symbol].inOrders, { precision: 2 })
+            ? formatNumber(state[token.symbol].inOrders, { precision: pricePrecision })
             : null,
           availableBalance: state[token.symbol]
-            ? formatNumber(state[token.symbol].availableBalance, { precision: 2 })
+            ? formatNumber(state[token.symbol].availableBalance, { precision: pricePrecision })
             : null,
           allowed:
             state[token.symbol] &&
