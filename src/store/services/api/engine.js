@@ -6,6 +6,7 @@
 import { ENGINE_HTTP_URL } from '../../../config/environment'
 import type { Token } from '../../types/tokens'
 import { utils } from 'ethers'
+import scientificToDecimal from 'scientific-to-decimal'
 
 import {
   parseTokenPairData,
@@ -525,7 +526,7 @@ export const getBalancesInOrders = async (address: string): Promise<number> => {
   }
 
   for (const key in data) {
-    const wei = utils.bigNumberify(data[key].toString())
+    const wei = utils.bigNumberify(scientificToDecimal(data[key]))
     data[key] = parseFloat(utils.formatEther(wei))
   }
 
