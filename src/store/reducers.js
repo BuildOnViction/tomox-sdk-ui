@@ -268,7 +268,7 @@ export const tokenPairs = createReducerPersist({
   key: 'tokenPairs',
   keyPrefix: 'tomo:',
   storage,
-  whitelist: ['favorites'],
+  whitelist: ['favorites', 'currentPair'],
 }, action => {
   const { type, payload } = action
   switch (type) {
