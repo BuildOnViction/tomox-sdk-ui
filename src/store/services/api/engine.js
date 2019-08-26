@@ -311,6 +311,10 @@ export const fetchAccountInfo = async (address: string) => {
 
   const { data, error } = await response.json()
 
+  if (response.status === 404) {
+    return null
+  }
+
   if (response.status === 400) {
     throw new Error(error)
   }
