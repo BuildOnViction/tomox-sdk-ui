@@ -264,6 +264,8 @@ export const validatePassword = (password) => {
 }
 
 export const truncateZeroDecimal = (num: String) => {
+  if (!num) return null
+
   if (num.match(/\.[0]+$/g)) {
     num = num.replace(/\.[0]+$/g, '')
   }

@@ -48,7 +48,11 @@ class FundsTable extends React.PureComponent<Props, State> {
       tokenData,
       quoteTokens,
       baseTokens,
+      authenticated,
     } = this.props
+
+    if (!authenticated) return null
+
     const {
       searchInput,
       isHideZeroBalanceToken,
@@ -76,6 +80,7 @@ class FundsTable extends React.PureComponent<Props, State> {
     return (
       <Wrapper>
         <FundsTableRenderer
+          authenticated={authenticated}
           baseTokensData={filteredBaseTokenData}
           quoteTokensData={filteredQuoteTokenData}
           TOMOTokenData={filteredETHTokenData[0]}
