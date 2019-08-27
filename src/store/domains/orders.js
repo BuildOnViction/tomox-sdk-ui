@@ -6,6 +6,7 @@ import { getBaseToken, getQuoteToken } from '../../utils/tokens'
 import { amountPrecision, pricePrecision } from '../../config/tokens'
 
 const initialState = {
+  loading: false,
   byHash: {},
 }
 
@@ -24,7 +25,10 @@ export function ordersInitialized(orders: Orders) {
       return result
     }, {})
 
-    return { byHash: newState }
+    return { 
+      ...state,
+      byHash: newState,
+    }
   }
 
   return event
@@ -46,6 +50,17 @@ export function ordersUpdated(orders: Orders) {
         ...state.byHash,
         ...newState,
       },
+    }
+  }
+
+  return event
+}
+
+export function ordersUpdatedStatus(status: Boolean) {
+  const event = (state: OrdersState) => {
+    return {
+      ...state,
+      loading: status,
     }
   }
 
@@ -75,6 +90,7 @@ export default function ordersDomain(state: OrdersState) {
   return {
     byHash: () => state.byHash,
     all: () => getOrders(state),
+    loading: () => state.loading,
 
     lastOrders: (n: number): Orders => {
       let orders: Orders = getOrders(state)

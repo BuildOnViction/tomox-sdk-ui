@@ -282,7 +282,6 @@ const OrderFormCell = styled(Cell).attrs({
   className: 'order-form-cell',
 })`
   box-shadow: 0 0 0 1px ${props => props.theme.border};
-  padding: 10px;
   overflow: auto;
   font-size: ${Theme.FONT_SIZE_SM};
 

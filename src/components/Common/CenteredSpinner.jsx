@@ -11,7 +11,9 @@ const SpinnerContainer = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs({
+  className: 'spinner-container',
+})`
   display: flex;
   flex-direction: column;
   justify-content: center;

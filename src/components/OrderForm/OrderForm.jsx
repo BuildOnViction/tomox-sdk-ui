@@ -669,6 +669,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenBalance,
         authenticated,
         redirectToLoginPage,
+        loading,
       },
       onInputChange,
       onInputFocus,
@@ -764,6 +765,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellAmountInput={sellAmountInput}
         authenticated={authenticated}
         redirectToLoginPage={redirectToLoginPage}
+        loading={loading}
       />
     )
   }

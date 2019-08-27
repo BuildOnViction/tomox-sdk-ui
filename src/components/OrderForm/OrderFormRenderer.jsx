@@ -17,6 +17,7 @@ import {
   MutedText,
   Theme,
   DarkMode,
+  SpinnerContainer,
 } from '../Common'
 import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
 
@@ -100,126 +101,130 @@ const OrderFormRenderer = (props: Props) => {
     sellAmountInput,
     authenticated,
     redirectToLoginPage,
+    loading,
   } = props
 
   return (
-    <OrderFormTabs 
-        selectedTabId={selectedTabId} 
-        onChange={handleChangeOrderType}>
-          <Tab
-            id="limit"
-            title="Limit"
-            panel={
-              <LimitOrderPanel
-                loggedIn={loggedIn}
-                side={side}
-                baseTokenSymbol={baseTokenSymbol}
-                quoteTokenSymbol={quoteTokenSymbol}
-                fraction={fraction}
-                priceType={priceType}
-                buyPrice={buyPrice}
-                sellPrice={sellPrice}
-                stopPrice={stopPrice}
-                limitPrice={limitPrice}
-                buyAmount={buyAmount}
-                sellAmount={sellAmount}
-                buyMaxAmount={buyMaxAmount}
-                sellMaxAmount={sellMaxAmount}
-                buyTotal={buyTotal}
-                sellTotal={sellTotal}
-                makeFee={makeFee}
-                takeFee={takeFee}
-                baseTokenDecimals={baseTokenDecimals}
-                quoteTokenDecimals={quoteTokenDecimals}
-                insufficientBalanceToBuy={insufficientBalanceToBuy}
-                insufficientBalanceToSell={insufficientBalanceToSell}
-                pairIsAllowed={pairIsAllowed}
-                pairAllowanceIsPending={pairAllowanceIsPending}
-                onInputChange={onInputChange}
-                onInputFocus={onInputFocus}
-                onInputBlur={onInputBlur}
-                handleUnlockPair={handleUnlockPair}
-                handleSendOrder={handleSendOrder}
-                handleDecreasePrice={handleDecreasePrice}
-                handleIncreasePrice={handleIncreasePrice}
-                handleDecreaseAmount={handleDecreaseAmount}
-                handleIncreaseAmount={handleIncreaseAmount}
-                errorBuy={errorBuy}
-                errorSell={errorSell}
-                isShowBuyMaxAmount={isShowBuyMaxAmount}
-                isShowSellMaxAmount={isShowSellMaxAmount}
-                buyPriceInput={buyPriceInput}
-                sellPriceInput={sellPriceInput}
-                buyAmountInput={buyAmountInput}
-                sellAmountInput={sellAmountInput}
-                authenticated={authenticated}
-                redirectToLoginPage={redirectToLoginPage}
-              />
-            }
-          />
-          {/* <Tab
-            id="market"
-            title="Market"
-            disabled="true"
-            panel={
-              <MarketOrderPanel
-                loggedIn={loggedIn}
-                side={side}
-                baseTokenSymbol={baseTokenSymbol}
-                quoteTokenSymbol={quoteTokenSymbol}
-                fraction={fraction}
-                priceType={priceType}
-                // price={price} //Todo: First step I resolve for only limit order
-                stopPrice={stopPrice}
-                limitPrice={limitPrice}
-                // amount={amount}
-                // maxAmount={maxAmount}
-                // total={total}
-                makeFee={makeFee}
-                takeFee={takeFee}
-                baseTokenDecimals={baseTokenDecimals}
-                quoteTokenDecimals={quoteTokenDecimals}
-                // insufficientBalance={insufficientBalance}
-                pairIsAllowed={pairIsAllowed}
-                pairAllowanceIsPending={pairAllowanceIsPending}
-                onInputChange={onInputChange}
-                handleUnlockPair={handleUnlockPair}
-                handleSendOrder={handleSendOrder}
-              />
-            }
-          /> */}
-          {/* <Tab
-            id="stop"
-            title="Stop-Limit"
-            disabled="true"
-            panel={
-              <StopLimitOrderPanel
-                loggedIn={loggedIn}
-                side={side}
-                baseTokenSymbol={baseTokenSymbol}
-                quoteTokenSymbol={quoteTokenSymbol}
-                fraction={fraction}
-                priceType={priceType}
-                // price={price}
-                stopPrice={stopPrice}
-                limitPrice={limitPrice}
-                // amount={amount}
-                // maxAmount={maxAmount}
-                // total={total}
-                makeFee={makeFee}
-                takeFee={takeFee}
-                baseTokenDecimals={baseTokenDecimals}
-                quoteTokenDecimals={quoteTokenDecimals}
-                // insufficientBalance={insufficientBalance}
-                pairIsAllowed={pairIsAllowed}
-                pairAllowanceIsPending={pairAllowanceIsPending}
-                onInputChange={onInputChange}
-                handleUnlockPair={handleUnlockPair}
-                handleSendOrder={handleSendOrder}
-              />
-            }
-          /> */}
-        </OrderFormTabs>
+    <Container>
+      <OrderFormTabs 
+          selectedTabId={selectedTabId} 
+          onChange={handleChangeOrderType}>
+            <Tab
+              id="limit"
+              title="Limit"
+              panel={
+                <LimitOrderPanel
+                  loggedIn={loggedIn}
+                  side={side}
+                  baseTokenSymbol={baseTokenSymbol}
+                  quoteTokenSymbol={quoteTokenSymbol}
+                  fraction={fraction}
+                  priceType={priceType}
+                  buyPrice={buyPrice}
+                  sellPrice={sellPrice}
+                  stopPrice={stopPrice}
+                  limitPrice={limitPrice}
+                  buyAmount={buyAmount}
+                  sellAmount={sellAmount}
+                  buyMaxAmount={buyMaxAmount}
+                  sellMaxAmount={sellMaxAmount}
+                  buyTotal={buyTotal}
+                  sellTotal={sellTotal}
+                  makeFee={makeFee}
+                  takeFee={takeFee}
+                  baseTokenDecimals={baseTokenDecimals}
+                  quoteTokenDecimals={quoteTokenDecimals}
+                  insufficientBalanceToBuy={insufficientBalanceToBuy}
+                  insufficientBalanceToSell={insufficientBalanceToSell}
+                  pairIsAllowed={pairIsAllowed}
+                  pairAllowanceIsPending={pairAllowanceIsPending}
+                  onInputChange={onInputChange}
+                  onInputFocus={onInputFocus}
+                  onInputBlur={onInputBlur}
+                  handleUnlockPair={handleUnlockPair}
+                  handleSendOrder={handleSendOrder}
+                  handleDecreasePrice={handleDecreasePrice}
+                  handleIncreasePrice={handleIncreasePrice}
+                  handleDecreaseAmount={handleDecreaseAmount}
+                  handleIncreaseAmount={handleIncreaseAmount}
+                  errorBuy={errorBuy}
+                  errorSell={errorSell}
+                  isShowBuyMaxAmount={isShowBuyMaxAmount}
+                  isShowSellMaxAmount={isShowSellMaxAmount}
+                  buyPriceInput={buyPriceInput}
+                  sellPriceInput={sellPriceInput}
+                  buyAmountInput={buyAmountInput}
+                  sellAmountInput={sellAmountInput}
+                  authenticated={authenticated}
+                  redirectToLoginPage={redirectToLoginPage}
+                />
+              }
+            />
+            {/* <Tab
+              id="market"
+              title="Market"
+              disabled="true"
+              panel={
+                <MarketOrderPanel
+                  loggedIn={loggedIn}
+                  side={side}
+                  baseTokenSymbol={baseTokenSymbol}
+                  quoteTokenSymbol={quoteTokenSymbol}
+                  fraction={fraction}
+                  priceType={priceType}
+                  // price={price} //Todo: First step I resolve for only limit order
+                  stopPrice={stopPrice}
+                  limitPrice={limitPrice}
+                  // amount={amount}
+                  // maxAmount={maxAmount}
+                  // total={total}
+                  makeFee={makeFee}
+                  takeFee={takeFee}
+                  baseTokenDecimals={baseTokenDecimals}
+                  quoteTokenDecimals={quoteTokenDecimals}
+                  // insufficientBalance={insufficientBalance}
+                  pairIsAllowed={pairIsAllowed}
+                  pairAllowanceIsPending={pairAllowanceIsPending}
+                  onInputChange={onInputChange}
+                  handleUnlockPair={handleUnlockPair}
+                  handleSendOrder={handleSendOrder}
+                />
+              }
+            /> */}
+            {/* <Tab
+              id="stop"
+              title="Stop-Limit"
+              disabled="true"
+              panel={
+                <StopLimitOrderPanel
+                  loggedIn={loggedIn}
+                  side={side}
+                  baseTokenSymbol={baseTokenSymbol}
+                  quoteTokenSymbol={quoteTokenSymbol}
+                  fraction={fraction}
+                  priceType={priceType}
+                  // price={price}
+                  stopPrice={stopPrice}
+                  limitPrice={limitPrice}
+                  // amount={amount}
+                  // maxAmount={maxAmount}
+                  // total={total}
+                  makeFee={makeFee}
+                  takeFee={takeFee}
+                  baseTokenDecimals={baseTokenDecimals}
+                  quoteTokenDecimals={quoteTokenDecimals}
+                  // insufficientBalance={insufficientBalance}
+                  pairIsAllowed={pairIsAllowed}
+                  pairAllowanceIsPending={pairAllowanceIsPending}
+                  onInputChange={onInputChange}
+                  handleUnlockPair={handleUnlockPair}
+                  handleSendOrder={handleSendOrder}
+                />
+              }
+            /> */}
+      </OrderFormTabs>
+      {loading && <SpinnerContainer />}
+    </Container>
   )
 }
 
@@ -412,6 +417,22 @@ const RadioButton = props => {
 }
 
 export default OrderFormRenderer
+
+const Container = styled.div`
+  position: relative;
+  padding: 10px;
+  height: 100%;
+
+  .spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: not-allowed;
+    background-color: rgba(31, 37, 56, .3);
+  }
+`
 
 const OrderFormTabs = styled(Tabs)`
   user-select: none;

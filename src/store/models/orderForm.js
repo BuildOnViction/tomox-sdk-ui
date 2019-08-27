@@ -1,5 +1,6 @@
 // @flow
 import * as notifierActionCreators from '../actions/app'
+import * as ordersActionCreators from '../actions/orders'
 import * as actionCreators from '../actions/orderForm'
 
 import {
@@ -43,6 +44,7 @@ export default function getOrderFormSelector(state: State) {
   const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
   const currentAddress = accountDomain.address()
   const authenticated = accountDomain.authenticated()
+  const loading = orderDomain.loading()
   const baseTokenLockedBalance = orderDomain.lockedBalanceByToken(baseTokenSymbol, currentAddress)
   const quoteTokenLockedBalance = orderDomain.lockedBalanceByToken(quoteTokenSymbol, currentAddress)
   const baseTokenBalance = baseToken.balance - baseTokenLockedBalance
@@ -65,12 +67,15 @@ export default function getOrderFormSelector(state: State) {
     pairIsAllowed,
     pairAllowanceIsPending,
     authenticated,
+    loading,
   }
 }
 
 export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
     try {
+      dispatch(ordersActionCreators.ordersUpdatedStatus(true))
+
       const state = getState()
       const tokenPairsDomain = getTokenPairsDomain(state)
       const accountBalancesDomain = getAccountBalancesDomain(state)

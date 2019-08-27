@@ -9,6 +9,7 @@ import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
 import * as notificationsActionCreators from '../actions/notifications'
 import * as accountBalancesCreators from '../actions/accountBalances'
+import * as orderActionsCreators from '../actions/orders'
 
 import {
   getAccountDomain,
@@ -266,6 +267,8 @@ const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): Th
   dispatch(accountBalancesCreators.updateBalances(balancesValues))
 
   const { type } = event
+
+  if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false))
 
   switch (type) {
     case 'ORDER_ADDED':

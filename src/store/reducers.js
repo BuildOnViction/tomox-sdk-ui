@@ -27,6 +27,7 @@ import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
 import orderBookActionTypes from './actions/orderBook'
 import tokenPairsActionsTypes from './actions/tokenPairs'
+import orderActionsTypes from './actions/orders'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -245,6 +246,8 @@ export const orders = createReducer(action => {
     case tradingPageActionTypes.initOrdersTable:
     case tokenSearcherActionTypes.initOrdersTable:
       return orderEvents.ordersInitialized(payload.orders)
+    case orderActionsTypes.ordersUpdatedStatus:
+      return orderEvents.ordersUpdatedStatus(payload.status)
     default:
       return orderEvents.initialized()
   }

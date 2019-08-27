@@ -10,7 +10,7 @@ export type OrderStatus =
   | 'OPEN'
   | 'CANCELLED'
   | 'FILLED'
-  | 'PARTIALLY_FILLED'
+  | 'PARTIAL_FILLED'
 
 export type NewOrderParams = {
   userAddress: string,
@@ -63,5 +63,6 @@ export type Orders = Array<Order>
 
 // eslint-disable-next-line
 export type OrdersState = {
+  loading: Boolean,
   byHash: { [key: string]: Order },
 }
