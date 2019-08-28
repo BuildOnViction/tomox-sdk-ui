@@ -118,9 +118,9 @@ export type TokenPairData = {
 }
 
 export type CurrentTokenPairData = {
-  last_trade_price: string,
+  price: string,
   ticks: Array<TokenPairData>,
-  usd: string,
+  priceUsd: string,
 }
 export type TokenPairDataArray = Array<TokenPairData>
 export type TokenPairDataMap = { [string]: TokenPairData }

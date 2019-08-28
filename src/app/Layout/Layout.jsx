@@ -191,8 +191,8 @@ class Default extends React.PureComponent<Props, State> {
                     <div className="tick last-price">
                       <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div>
-                        <span>{formatNumber(currentPairData.last_trade_price, {precision: 2})}</span>
-                        <span className="up">{referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}</span>
+                        <span>{formatNumber(currentPairData.price, {precision: 2})}</span>
+                        <span className="up">{referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}</span>
                       </div>
                     </div>
 

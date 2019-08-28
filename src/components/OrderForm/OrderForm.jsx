@@ -89,7 +89,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       && !buyPrice 
       && !sellPrice 
       && currentPairData) {
-      const price = formatNumber(unformat(currentPairData.last_trade_price), { precision: pricePrecision })
+      const price = formatNumber(unformat(currentPairData.price), { precision: pricePrecision })
 
       this.setOrderFormPrice(price)
       return

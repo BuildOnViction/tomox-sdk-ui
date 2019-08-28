@@ -127,20 +127,20 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               <LatestTick>
                 {currentPairData && (
                   <React.Fragment>
-                    <LatestPrice width="67%">
+                    <LatestPrice width="75%">
                       <CryptoPrice>
-                        <Ellipsis title={formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}>
-                          {formatNumber(currentPairData.last_trade_price, {precision: pricePrecision})}
+                        <Ellipsis title={formatNumber(currentPairData.price, {precision: pricePrecision})}>
+                          {formatNumber(currentPairData.price, {precision: pricePrecision})}
                         </Ellipsis>
                       </CryptoPrice>
                       <CashPrice>
                         <Ellipsis>
-                          {referenceCurrency.symbol}{currentPairData.usd ? formatNumber(currentPairData.usd, {precision: 2}) : '_.__'}
+                          {referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}
                         </Ellipsis>
                       </CashPrice> 
                     </LatestPrice>
                     
-                    <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="33%">
+                    <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="25%">
                       <Ellipsis>{getChangePercentText(currentPairData.ticks[0].change)}</Ellipsis>
                     </PercentChange>  
                   </React.Fragment>
