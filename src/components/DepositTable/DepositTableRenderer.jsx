@@ -209,7 +209,7 @@ const BaseTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={truncateZeroDecimal(balance)}>{balance}</Ellipsis>
+            <Ellipsis title={truncateZeroDecimal(balance)}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
           <Cell width="20%">
             <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
