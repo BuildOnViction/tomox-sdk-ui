@@ -158,8 +158,8 @@ export default function domain(state: OrderBookState) {
             amount: item.amount,
             total:
               result.length > 0
-                ? round(result[result.length - 1].total + item.amount)
-                : round(item.amount)
+                ? round(result[result.length - 1].total + item.amount, amountPrecision)
+                : round(item.amount, amountPrecision)
           });
           return result;
         }, []);
@@ -173,8 +173,8 @@ export default function domain(state: OrderBookState) {
             amount: item.amount,
             total:
               result.length > 0
-                ? round(result[result.length - 1].total + item.amount)
-                : round(item.amount)
+                ? round(result[result.length - 1].total + item.amount, amountPrecision)
+                : round(item.amount, amountPrecision)
           });
 
           return result;

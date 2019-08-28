@@ -212,17 +212,17 @@ export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, currAmoun
   return parsed
 }
 
-export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, precision: number = 2) => {
+export const parseOrderBookData = (data: OrderBookData, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   let { bids, asks } = data
 
   asks = (asks: any).map(ask => ({
-    price: parsePricepoint(ask.pricepoint, pair, precision),
-    amount: parseTokenAmount(ask.amount, pair, precision),
+    price: parsePricepoint(ask.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(ask.amount, pair, currAmountPrecision),
   }))
   
   bids = (bids: any).map(bid => ({
-    price: parsePricepoint(bid.pricepoint, pair, precision),
-    amount: parseTokenAmount(bid.amount, pair, precision),
+    price: parsePricepoint(bid.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(bid.amount, pair, currAmountPrecision),
   }))
 
   return { asks, bids }
