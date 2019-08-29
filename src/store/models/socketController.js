@@ -8,16 +8,13 @@ import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
 import * as notificationsActionCreators from '../actions/notifications'
-import * as accountBalancesCreators from '../actions/accountBalances'
 import * as orderActionsCreators from '../actions/orders'
 
 import {
   getAccountDomain,
-  getAccountBalancesDomain,
   getTokenPairsDomain,
   getWebsocketDomain,
 } from '../domains'
-import { getBalancesInOrders } from '../services/api'
 
 // import { queryBalances } from './depositForm'
 import { getSigner } from '../services/signer'
@@ -35,6 +32,7 @@ import {
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
 import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket'
+import { queryAccountBalance } from './accountBalances'
 
 export default function socketControllerSelector(state: State) {
   return {
@@ -253,22 +251,10 @@ function handleTokenListUpdated(
 }
 
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
-  // Update balances in orders when "orders" event occurs
-  const state = getState()
-  const userAddress = getAccountDomain(state).address()
-  const balances = getAccountBalancesDomain(state).balances() // balanse is an Object
-  const balancesValues = Object.values(balances)
-  const balancesInOders = await getBalancesInOrders(userAddress)
-
-  for (let i = 0; i < balancesValues.length; i++) {
-    balancesValues[i]['inOrders'] = balancesInOders[balancesValues[i].symbol]
-  }
-
-  dispatch(accountBalancesCreators.updateBalances(balancesValues))
-
   const { type } = event
 
   if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false))
+  dispatch(queryAccountBalance())
 
   switch (type) {
     case 'ORDER_ADDED':

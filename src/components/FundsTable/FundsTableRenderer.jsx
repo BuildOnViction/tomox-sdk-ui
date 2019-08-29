@@ -26,6 +26,8 @@ type Props = {
   redirectToTradingPage: string => void,
 }
 
+const WidthColums = ['15%', '33%', '32%', '20%']
+
 const FundsTableRenderer = (props: Props) => {
   const {
     isHideZeroBalanceToken,
@@ -54,10 +56,10 @@ const FundsTableRenderer = (props: Props) => {
       </RowSpaceBetween>
 
       <TableHeader>
-        <TableHeaderCell width="25%"><MutedText>Coin</MutedText></TableHeaderCell>
-        <TableHeaderCell width="25%"><MutedText>Total</MutedText></TableHeaderCell>
-        <TableHeaderCell width="25%"><MutedText>Available amount</MutedText></TableHeaderCell>
-        <TableHeaderCell width="25%"><MutedText>In orders</MutedText></TableHeaderCell>
+        <TableHeaderCell width={WidthColums[0]}><MutedText>Coin</MutedText></TableHeaderCell>
+        <TableHeaderCell width={WidthColums[1]}><MutedText>Total</MutedText></TableHeaderCell>
+        <TableHeaderCell width={WidthColums[2]}><MutedText>Available amount</MutedText></TableHeaderCell>
+        <TableHeaderCell width={WidthColums[3]}><MutedText>In orders</MutedText></TableHeaderCell>
       </TableHeader>
 
       <TableBodyContainer>
@@ -81,16 +83,16 @@ const TOMORow = (props: Props) => {
 
   return (
     <Row key="TOMO">
-      <Cell width="25%">
+      <Cell width={WidthColums[0]}>
         <TokenNameWrapper>{symbol}</TokenNameWrapper>
       </Cell>
-      <Cell width="25%">
+      <Cell width={WidthColums[1]}>
         <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
       </Cell>
-      <Cell width="25%">
+      <Cell width={WidthColums[2]}>
         <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
       </Cell>
-      <Cell width="25%">
+      <Cell width={WidthColums[3]}>
         <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
       </Cell>
     </Row>
@@ -106,14 +108,14 @@ const QuoteTokenRows = (props: Props) => {
     ({ symbol, balance, availableBalance, inOrders }, index) => {
       return (
         <Row key={index}>
-          <Cell width="25%">{symbol}</Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[0]}>{symbol}</Cell>
+          <Cell width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[2]}>
             <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[3]}>
             <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
         </Row>
@@ -131,14 +133,14 @@ const BaseTokenRows = (props: Props) => {
     ({ symbol, balance, availableBalance, inOrders }, index) => {
       return (
         <Row key={index}>
-          <Cell width="25%">{symbol}</Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[0]}>{symbol}</Cell>
+          <Cell width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[2]}>
             <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
           </Cell>
-          <Cell width="25%">
+          <Cell width={WidthColums[3]}>
             <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
         </Row>
