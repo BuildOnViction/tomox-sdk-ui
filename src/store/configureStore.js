@@ -48,7 +48,7 @@ const persistConfig = {
   keyPrefix: 'tomo:',
   storage: storageSession,
   transforms: [accountTransform],
-  whitelist: ['account', 'accountBalances'], // only information related to account will be persisted
+  whitelist: ['account'], // only information related to account will be persisted
 }
 
 const initialStore = {}
