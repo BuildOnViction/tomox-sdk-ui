@@ -146,7 +146,7 @@ class Default extends React.PureComponent<Props, State> {
             </CopyToClipboard>
 
             <IconBox title="Go to Tomoscan">
-              <a target="_blank" rel="noreferrer noopener" href={`https://scan.tomochain.com/address/${address}`}><Icon icon="document-share" /></a>
+              <a target="_blank" rel="noreferrer noopener" href={`http://167.71.222.219/address/${address}`}><Icon icon="document-share" /></a>
             </IconBox>
           </AddressWalletBox>
         </MenuItem>
