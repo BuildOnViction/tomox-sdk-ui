@@ -23,21 +23,15 @@ type Props = {
   toggleCollapse: void => void,
   cancelOrder: string => void,
   orders: {
-    ALL: Array<Order>,
-    OPEN: Array<Order>,
-    PENDING: Array<Order>,
-    EXECUTED: Array<Order>,
-    CANCELLED: Array<Order>,
-    FILLED: Array<Order>
+    finished: Array<Order>,
+    processing: Array<Order>,
   }
 }
 
 const Status = {
   'OPEN': 'Open',
-  'CANCELLED': 'Cancelled',
-  'PENDING': 'Pending',
-  'EXECUTED': 'Executed',
   'PARTIAL_FILLED': 'Partial',
+  'CANCELLED': 'Cancelled',  
   'FILLED': 'Filled',
 }
 
@@ -64,11 +58,11 @@ const OrdersTableRenderer = (props: Props) => {
           id="open-orders"
           title={<FormattedMessage 
             id="exchangePage.openOrders"
-            values={{numberOfOrders: orders['OPEN'].length}} />}
+            values={{numberOfOrders: orders['processing'].length}} />}
           panel={
             <OrdersTablePanel
               loading={loading}
-              orders={orders['OPEN']}
+              orders={orders['processing']}
               cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
@@ -82,7 +76,7 @@ const OrdersTableRenderer = (props: Props) => {
           panel={
             <OrdersTablePanel
               loading={loading}
-              orders={orders['ALL']}
+              orders={orders['finished']}
               cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}

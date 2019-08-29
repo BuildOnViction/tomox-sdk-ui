@@ -36,38 +36,27 @@ class OrdersTable extends React.PureComponent<Props, State> {
   filterOrders = () => {
     const { orders, currentPair: { pair }} = this.props
     const { isHideOtherPairs } = this.state
-    const ordersWithoutOpen = orders.filter(order => {
-      return order.status !== 'OPEN'
+    const result = {}
+
+    result['finished'] = orders.filter(order => {
+      return (order.status !== 'OPEN' && order.status !== 'PARTIAL_FILLED')
     })
-    const result = { ALL: ordersWithoutOpen }
-    const filters = [
-      'OPEN',
-      'CANCELLED',
-      'PENDING',
-      'EXECUTED',
-      'PARTIAL_FILLED',
-    ]
 
-    for (const filter of filters) {
-      // silence-error: currently too many flow errors, waiting for rest to be resolved
-      result[filter] = orders.filter(order => {
-        return order.status === filter
-      })
-    }
+    result['processing'] = orders.filter(order => {
+      return (order.status === 'OPEN' || order.status === 'PARTIAL_FILLED')
+    })
 
-    result['OPEN'] = [...result['OPEN'], ...result['PARTIAL_FILLED']]
-
-    for (const filter of filters.concat('ALL')) {
-      // silence-error: currently too many flow errors, waiting for rest to be resolved
-      result[filter] = sortTable(result[filter], 'time', (a, b) => {
+    for (const property in result) {
+      result[property] = sortTable(result[property], 'time', (a, b) => {
         // sort by DESC
         return a < b ? 1 : -1
       })
     }
 
     if (isHideOtherPairs) {
-      result['OPEN'] = result['OPEN'].filter(trade => trade.pair === pair)
-      result['ALL'] = result['ALL'].filter(trade => trade.pair === pair)
+      for (const property in result) {
+        result[property] = result[property].filter(order => order.pair === pair)
+      }
 
       return result
     }
@@ -103,7 +92,6 @@ class OrdersTable extends React.PureComponent<Props, State> {
         toggleCollapse={this.toggleCollapse}
         authenticated={authenticated}
         cancelOrder={cancelOrder}
-        // silence-error: currently too many flow errors, waiting for rest to be resolved
         orders={filteredOrders}
         trades={filteredTrades}
         isHideOtherPairs={isHideOtherPairs}
