@@ -27,6 +27,7 @@
   "unlockWalletPage.subTitlePart2": "Create new wallet",
   "unlockWalletPage.privateKey.labelPrivateKey": "Enter your private key",  
   "unlockWalletPage.privateKey.invalid": "Private key invalid",
+  "unlockWalletPage.wrongPassword": "Wrong password!",
   "unlockWalletPage.mnemonic.labelMnemonic": "Please enter your 12 word phrase",
   "unlockWalletPage.mnemonic.invalid": "Invalid Mnemonic. Mnemonic must be 12 words long",
   "unlockWalletPage.ledger.instruction1": "1. Enter PIN Code",

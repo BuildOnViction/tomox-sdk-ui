@@ -24,11 +24,11 @@ const accountTransform = createTransform(
   outboundState => {
     if (outboundState.privateKey) {
       // create a local wallet when rehydrate
-      createLocalWalletSigner({
-          privateKey: outboundState.privateKey,
-        },
-        +DEFAULT_NETWORK_ID
-      )
+      // createLocalWalletSigner({
+      //     privateKey: outboundState.privateKey,
+      //   },
+      //   +DEFAULT_NETWORK_ID
+      // )
       return outboundState
     }
     // reset if logged by metamask

@@ -7,11 +7,14 @@ import layoutSelector, {
   queryAppData,
   queryAccountData,
   releaseResource,
+  closeSessionPasswordModal,
+  unlockWalletWithSessionPassword,
 } from '../../store/models/layout'
 import type { State } from '../../types'
 import type { Props as LayoutProps } from './Layout'
 import { copyDataSuccess } from '../../store/models/app'
 import { markNotificationRead } from '../../store/actions/notifications'
+import { logout } from '../../store/models/logoutPage'
 
 export function mapStateToProps(state: State, props: Object): LayoutProps {
   const selector = layoutSelector(state)
@@ -30,6 +33,9 @@ const mapDispatchToProps = {
   copyDataSuccess,
   releaseResource,
   markNotificationRead,
+  logout,
+  closeSessionPasswordModal,
+  unlockWalletWithSessionPassword,
 }
 
 export default connect(

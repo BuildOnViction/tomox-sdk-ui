@@ -193,29 +193,29 @@ class LoginPage extends React.PureComponent<Props, State> {
   unlockWalletWithPrivateKey = async () => {
     const { 
       props: { loginWithWallet },
-      state: { privateKey, privateKeyStatus },
+      state: { privateKey, privateKeyStatus, password, passwordStatus },
     } = this
 
-    if (privateKeyStatus !== 'valid') return
+    if (privateKeyStatus !== 'valid' || passwordStatus !== 'valid') return
 
     const privateKeyString = (privateKey.length === 64) ? `0x${privateKey}` : privateKey
-    const wallet = await createWalletFromPrivateKey(privateKeyString)
+    const { wallet } = await createWalletFromPrivateKey(privateKeyString)
 
     if (!wallet) {
       this.setState({ privateKeyStatus: 'invalid' })
       return
     }
 
-    loginWithWallet(wallet)
+    loginWithWallet(wallet, password)
   }
 
   unlockWalletWithMnemonic = async () => {
     const {
       props: { loginWithWallet },
-      state: { mnemonicStatus, mnemonic },
+      state: { mnemonicStatus, mnemonic, password, passwordStatus },
     } = this
 
-    if (mnemonicStatus !== 'valid') return
+    if (mnemonicStatus !== 'valid' || passwordStatus !== 'valid') return
 
     const wallet = await createWalletFromMnemonic(mnemonic)
 
@@ -224,7 +224,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       return
     }
 
-    loginWithWallet(wallet)
+    loginWithWallet(wallet, password)
   }
 
   toggleAddressesDialog = (status) => {

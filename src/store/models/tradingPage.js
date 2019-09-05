@@ -84,8 +84,7 @@ export const queryTradingPageData = (): ThunkAction => {
       const authenticated = accountDomain.authenticated()
 
       if (authenticated) {
-        const signer = getSigner()
-        const userAddress = await signer.getAddress()
+        const userAddress = accountDomain.address()
 
         let [
           orders,

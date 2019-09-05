@@ -1,5 +1,8 @@
 //@flow
-
+import aes from 'crypto-js/aes'
+import CryptoJS from 'crypto-js'
+import { DEFAULT_NETWORK_ID } from '../../config/environment'
+import { createLocalWalletSigner } from '../services/signer'
 import {
   getAccountDomain,
   getAccountBalancesDomain,
@@ -17,10 +20,12 @@ import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
 import * as accountBalancesCreators from '../actions/accountBalances'
 import * as notificationsCreators from '../actions/notifications'
+import * as layoutCreators from '../actions/layout'
 import * as accountBalancesService from '../services/accountBalances'
 
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
+import { getSigner } from '../services/signer'
 
 export default function createSelector(state: State) {
   const accountDomain = getAccountDomain(state)
@@ -35,6 +40,7 @@ export default function createSelector(state: State) {
   const currentBlock = accountDomain.currentBlock()
   const accountLoading = !TomoBalance
   const referenceCurrency = accountDomain.referenceCurrency()
+  const showSessionPasswordModal = accountDomain.showSessionPasswordModal()
   const locale = settingsDomain.getLocale()
   const mode = settingsDomain.getMode()
   const currentPair = tokenPairs.getCurrentPair()
@@ -54,6 +60,7 @@ export default function createSelector(state: State) {
     pathname,
     referenceCurrency,
     newNotifications,
+    showSessionPasswordModal,
   }
 }
 
@@ -104,11 +111,15 @@ export function queryAccountData(): ThunkAction {
   return async (dispatch, getState, { api, socket }) => {
     const state = getState()
     const accountAddress = getAccountDomain(state).address()
+    const privatekey = getAccountDomain(state).privateKey()
     const notificationsDomain = getNotificationsDomain(state)
     const offset = notificationsDomain.getOffset()
     const limit = notificationsDomain.getLimit()
+    const signer = getSigner()
 
     try {
+      if (!signer && privatekey) return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
+
       socket.subscribeNotification(accountAddress)
 
       let tokens = getTokenDomain(state).tokens()
@@ -186,6 +197,37 @@ export function changeLocale(locale: string): ThunkAction {
 export function changeMode(mode: string): ThunkAction {
   return async (dispatch, getstate) => {
     dispatch(settingsActionCreators.changeMode(mode))
+  }
+}
+
+export function closeSessionPasswordModal(status: Boolean): ThunkAction {
+  return async (dispatch, getstate) => {
+    dispatch(layoutCreators.showSessionPasswordModal(false))
+  }
+}
+
+export function unlockWalletWithSessionPassword(password): ThunkAction {
+  return async (dispatch, getstate) => {
+    const state = getstate()
+    const privateKeyEncrypted = getAccountDomain(state).privateKey()
+
+    try {
+      const bytes = aes.decrypt(privateKeyEncrypted, password)
+      const privateKey = bytes.toString(CryptoJS.enc.Utf8)
+
+      if (!privateKey) return {error: 'Wrong password!'}
+
+      await createLocalWalletSigner({
+          privateKey,
+        },
+        +DEFAULT_NETWORK_ID
+      )   
+
+      dispatch(layoutCreators.showSessionPasswordModal(false))
+      return {error: null}
+    } catch(e) {
+      return {error: e}
+    }
   }
 }
 

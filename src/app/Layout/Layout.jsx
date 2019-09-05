@@ -31,6 +31,7 @@ import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import { formatNumber } from 'accounting-js'
 import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
+import SessionPasswordModal from '../../components/SessionPasswordModal'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
@@ -84,6 +85,11 @@ class Layout extends React.PureComponent<Props, State> {
 }
 
 class Default extends React.PureComponent<Props, State> {
+  state = {
+    sessionPassword: '',
+    sessionPasswordStatus: '',
+  }
+
   componentDidMount() {
     const { createProvider, authenticated, queryAccountData } = this.props
 
@@ -99,7 +105,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidUpdate(prevProps) {
     if (prevProps.authenticated !== this.props.authenticated
       && this.props.authenticated) {
-        this.props.queryAccountData()
+      this.props.queryAccountData()
     }
   }
 
@@ -116,6 +122,25 @@ class Default extends React.PureComponent<Props, State> {
     e.target.checked ? this.props.changeMode('dark') : this.props.changeMode('light')
   }
 
+  handleSessionPasswordChange = (e) => {
+    this.setState({
+      sessionPassword: e.target.value,
+    })
+  }
+
+  unlockWalletWithSessionPassword = async () => {
+    const { error } = await this.props.unlockWalletWithSessionPassword(this.state.sessionPassword)
+    this.setState({ 
+      sessionPasswordStatus: error ? 'incorrect' : '',
+    })
+  }
+
+  closeSessionPasswordModal = () => {
+    const { closeSessionPasswordModal, logout } = this.props
+    closeSessionPasswordModal()
+    logout()
+  }
+
   render() {
     const { 
       children, 
@@ -130,6 +155,7 @@ class Default extends React.PureComponent<Props, State> {
       mode,
       changeLocale,
       newNotifications,
+      showSessionPasswordModal,
     } = this.props
 
     const menu = (
@@ -346,6 +372,13 @@ class Default extends React.PureComponent<Props, State> {
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
+        <SessionPasswordModal 
+          password={this.state.sessionPassword}
+          passwordStatus={this.state.sessionPasswordStatus}
+          onChange={this.handleSessionPasswordChange}          
+          unlockWallet={this.unlockWalletWithSessionPassword}
+          isOpen={showSessionPasswordModal} 
+          handleClose={this.closeSessionPasswordModal} />
       </Wrapper>
     )
   }

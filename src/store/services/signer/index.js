@@ -146,5 +146,5 @@ export const createRpcSigner = async (url: ?string, networkId: ?number) => {
   return accountAddresses[0]
 }
 
-export const getSigner = (): Signer => window.signer.instance
+export const getSigner = (): Signer => window.signer && window.signer.instance
 export const getProvider = (): Provider => window.signer.instance.provider

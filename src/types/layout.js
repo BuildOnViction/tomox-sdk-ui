@@ -3,5 +3,11 @@ export type UpdateReferenceCurrencyAction = {
   payload: { referenceCurrency: string },
 };
 
+export type ShowSessionPasswordModal = {
+  type: 'layout/SHOW_SESSION_PASSWORD_MODAL',
+  payload: { showSessionPasswordModal: Boolean },
+};
+
 export type LayoutAction =
  | UpdateReferenceCurrencyAction
+ | ShowSessionPasswordModal

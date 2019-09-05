@@ -1,13 +1,8 @@
 // @flow
-import * as actionCreators from '../actions/loginPage';
-
-import * as notifierActionCreators from '../actions/app';
-import { getAccountDomain, getLoginPageDomain } from '../domains';
-import {
-  // saveEncryptedWalletInLocalStorage,
-  // savePrivateKeyInSessionStorage,
-  saveEncryptedPrivateKeyInSessionStorage,
-} from '../services/wallet'
+import aes from 'crypto-js/aes'
+import * as actionCreators from '../actions/loginPage'
+import * as notifierActionCreators from '../actions/app'
+import { getAccountDomain, getLoginPageDomain } from '../domains'
 import {
   getSigner,
   createLocalWalletSigner,
@@ -17,16 +12,9 @@ import {
 // import { LedgerSigner } from '../services/signer/ledger';
 
 import type
- { State, ThunkAction } from '../../types';
+ { State, ThunkAction } from '../../types'
 
 import { fetchAccountInfo, createAccount } from '../services/api/engine'
-
-type CreateWalletParams = {
-  wallet: Object,
-  encryptedWallet: string,
-  storeWallet: boolean,
-  storePrivateKey: boolean
-};
 
 export default function loginPageSelector(state: State) {
   return {
@@ -70,19 +58,13 @@ export function loginWithMetamask(): ThunkAction {
   };
 }
 
-export function loginWithWallet(params: CreateWalletParams): ThunkAction {
+export function loginWithWallet(wallet, password): ThunkAction {
   return async dispatch => {
     try {
       dispatch(actionCreators.requestLogin())
-      const { wallet, encryptedPrivateKey, storeAccount } = params
       const { address, privateKey } = wallet
 
-      // if (storeWallet)
-      //   saveEncryptedWalletInLocalStorage(address, encryptedWallet)
-      if (storeAccount) {
-        saveEncryptedPrivateKeyInSessionStorage({ address, encryptedPrivateKey })
-      }
-      
+      const privateKeyEncrypted = aes.encrypt(privateKey, password).toString()      
       await createLocalWalletSigner(wallet)
 
       // Check account exist on backend yet? 
@@ -92,7 +74,7 @@ export function loginWithWallet(params: CreateWalletParams): ThunkAction {
       if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.createWallet(wallet.address))
-      dispatch(actionCreators.loginWithWallet(address, privateKey))
+      dispatch(actionCreators.loginWithWallet(address, privateKeyEncrypted))
       dispatch(
         notifierActionCreators.addSuccessNotification({
           message: `Signed in with ${address}`,
@@ -170,36 +152,9 @@ export function loginWithTrezorWallet(data: Object): ThunkAction {
   }
 }
 
-// export function loginWithLedgerWallet(): ThunkAction {
-//   return async (dispatch, getState) => {
-//     try {
-//       dispatch(actionCreators.requestLogin());
-
-//       let deviceService = new LedgerSigner();
-//       let result = await deviceService.getAddress();
-//       dispatch(actionCreators.loginWithLedgerWallet(result));
-//       dispatch(
-//         notifierActionCreators.addSuccessNotification({
-//           message: 'Signed in with Ledger wallet'
-//         })
-//       );
-//     } catch (e) {
-//       dispatch(
-//         notifierActionCreators.addNotification({ message: 'Login error' })
-//       );
-//       dispatch(actionCreators.loginError(e.message));
-//     }
-//   };
-// }
-
 export function loginWithLedgerWallet(address): ThunkAction {
   return async (dispatch, getState) => {
     try {
-      // dispatch(actionCreators.requestLogin());
-
-      // let deviceService = new LedgerSigner();
-      // let result = await deviceService.getAddress();
-
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX

@@ -122,28 +122,6 @@ export const getWalletFromSessionStorage = address => {
   return wallet;
 };
 
-export const savePrivateKeyInSessionStorage = async ({
-  address,
-  password,
-  encryptedWallet,
-  privateKey
-}) => {
-  if (!privateKey) privateKey = await decryptWallet(encryptedWallet, password);
-  sessionStorage.setItem(address, privateKey);
-};
-
-export const saveEncryptedPrivateKeyInSessionStorage = async ({
-  address,
-  encryptedPrivateKey,
-}) => {
-  sessionStorage.setItem(address, encryptedPrivateKey)
-}
-
-export const getPrivateKeyFromSessionStorage = address => {
-  let key = sessionStorage.getItem(address);
-  return key;
-};
-
 export const saveEncryptedWalletInLocalStorage = (address, encryptedWallet) => {
   localStorage.setItem(address, encryptedWallet);
 };
