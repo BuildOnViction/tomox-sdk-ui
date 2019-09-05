@@ -292,7 +292,7 @@ export const parsePriceBoardData = (data: APIPairData, pairs: Object): Array<Tok
         low: datum.low ? parsePricepoint(datum.low, pair) : null,
         open: datum.open ? parsePricepoint(datum.open, pair) : null,
         close: datum.close ? parsePricepoint(datum.close, pair) : null,
-        volume: datum.volume ? parseTokenAmount(datum.volume, pair, 0) : null,
+        volume: datum.volume ? parseTokenAmount(datum.volume, pair) : null,
       }
   })
 
