@@ -1,7 +1,7 @@
 (async () => {
     //Todo: need handle error, at the moment it a little mess
     try {
-        const ENGINE_HTTP_URL='https://dex.devnet.tomochain.com/api'
+        const ENGINE_HTTP_URL='http://127.0.0.1:8080'
         const tokensResponse = await fetch(`${ENGINE_HTTP_URL}/tokens`)        
         if(!tokensResponse.ok) throw new Error('Could not connect to network')
 
