@@ -41,46 +41,12 @@ type State = {
 };
 
 export default class TradingPage extends React.PureComponent<Props, State> {
-  state = {
-    calloutVisible: false,
-    calloutOptions: {},
-  }
-
-  callouts = {
-    notAuthenticated: () => ({
-      title: 'Authenticated Required',
-      intent: 'danger',
-      message: 'Please authenticate to start trading',
-    }),
-    fundsLocked: (symbol: string) => ({
-      title: `${symbol} Tokens locked`,
-      intent: 'danger',
-      message:
-        'To start trading, you need to unlock funds and allow Tomochain to settle transactions when a match is found',
-    }),
-    quoteTokensLocked: (quoteTokenSymbol: string) => ({
-      title: `Unlock tokens to start trading`,
-      intent: 'danger',
-      message: `To start trading, unlock trading for ${quoteTokenSymbol} tokens on your wallet page.`,
-    }),
-    baseTokensLocked: (baseTokenSymbol: string) => ({
-      title: `Unlock tokens to start trading`,
-      intent: 'danger',
-      message: `To start trading, unlock trading for ${baseTokenSymbol} tokens on your wallet page.`,
-    }),
-    tokensLocked: (baseTokenSymbol: string, quoteTokenSymbol: string) => ({
-      title: `Unlock tokens to start trading`,
-      intent: `danger`,
-      message: `To start trading a currency pair, unlock trading for both tokens (${baseTokenSymbol} and ${quoteTokenSymbol}) on your wallet page.`,
-    }),
-  }
+  state = {chartTadId: 'tvchart'}
 
   componentDidMount() {
     if (this.props.isConnected) {
       this.props.queryTradingPageData()
     }
-
-    // this.checkIfCalloutRequired()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -94,57 +60,11 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     this.props.releaseResources()
   }
 
-  checkIfCalloutRequired = () => {
-    const {
-      authenticated,
-      baseTokenBalance,
-      quoteTokenBalance,
-      baseTokenAllowance,
-      quoteTokenAllowance,
-      baseTokenSymbol,
-      quoteTokenSymbol,
-    } = this.props
-
-    if (!authenticated) {
-      const calloutOptions = this.callouts.notAuthenticated()
-      return this.setState({ calloutVisible: true, calloutOptions })
-    }
-
-    if (baseTokenBalance === '0.0' && quoteTokenBalance === '0.0') {
-      return
-    }
-
-    if (baseTokenBalance !== '0.0' && baseTokenAllowance === '0.0') {
-      const calloutOptions = this.callouts.fundsLocked(baseTokenSymbol)
-      return this.setState({ calloutVisible: true, calloutOptions })
-    }
-
-    if (quoteTokenBalance !== '0.0' && quoteTokenAllowance === '0.0') {
-      const calloutOptions = this.callouts.fundsLocked(quoteTokenSymbol)
-      return this.setState({ calloutVisible: true, calloutOptions })
-    }
-
-    // TODO update when moving balances in redux from string to numbers
-    if (baseTokenAllowance === '0.0') {
-      const calloutOptions = this.callouts.baseTokensLocked(baseTokenSymbol)
-      return this.setState({ calloutVisible: true, calloutOptions })
-    }
-
-    if (quoteTokenAllowance === '0.0') {
-      const calloutOptions = this.callouts.quoteTokensLocked(quoteTokenSymbol)
-      return this.setState({ calloutVisible: true, calloutOptions })
-    }
-  }
-
-  closeCallout = () => {
-    this.setState({ calloutVisible: false })
-  }
+  handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
   render() {
     const { quoteTokenSymbol } = this.props
-    // if (!authenticated) return <Redirect to="/unlock" />
     // if (!isInitiated) return null
-    // const { calloutOptions, calloutVisible } = this.state
 
     return (
       <Grid flow="row dense" 
