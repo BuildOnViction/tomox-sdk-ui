@@ -217,7 +217,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
     if (mnemonicStatus !== 'valid' || passwordStatus !== 'valid') return
 
-    const wallet = await createWalletFromMnemonic(mnemonic)
+    const { wallet } = await createWalletFromMnemonic(mnemonic)
 
     if (!wallet) {
       this.setState({ mnemonicStatus: 'invalid' })

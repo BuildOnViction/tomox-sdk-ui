@@ -158,7 +158,7 @@ const WalletCreateStep = props => {
           </AddressBox>
         </AddressWrapper>
 
-        <CheckboxWrapper checked={storeAccount} label={<FormattedMessage id="createWalletPage.checkboxTitleKeepAccount" />} onChange={handleChangeStoreAccount} />   
+        {/* <CheckboxWrapper checked={storeAccount} label={<FormattedMessage id="createWalletPage.checkboxTitleKeepAccount" />} onChange={handleChangeStoreAccount} />    */}
 
         <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
       </Content>

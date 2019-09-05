@@ -92,9 +92,9 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   complete = () => {
     const { loginWithWallet } = this.props
-    const { wallet, encryptedPrivateKey, storeAccount } = this.state
+    const { wallet, password } = this.state
 
-    loginWithWallet({ wallet, encryptedPrivateKey, storeAccount })
+    loginWithWallet(wallet, password)
   }
 
   handlePasswordChange = (e) => {
