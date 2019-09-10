@@ -100,10 +100,10 @@ export async function subscribeTokenBalances(
 
   tokens.map(async token => {
     const contract = new Contract(token.address, ERC20, provider)
-    // const initialBalance = await contract.balanceOf(address)
 
     const handler = async (sender, receiver, amount) => {
-      if (receiver === address || sender === address) {
+      if (receiver.toLowerCase() === address.toLowerCase() 
+      || sender.toLowerCase() === address.toLowerCase()) {
         const balance = await contract.balanceOf(address)
         callback({
           symbol: token.symbol,
