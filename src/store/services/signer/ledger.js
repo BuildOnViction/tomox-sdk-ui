@@ -75,7 +75,7 @@ export class LedgerWallet extends Signer {
 
     signMessage = async (message) => {
         const result = await this.eth.signPersonalMessage(
-            this.path,
+            `${this.path}/${this.address.index}`,
             Buffer.from(message).toString("hex")
         )
         
