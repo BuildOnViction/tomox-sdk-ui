@@ -65,7 +65,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     isOpenAddressesDialog: false,
     addresses: [],
     indexAddress: 0,
-    indexHdPathActive: 0,
+    indexHdPathActive: 1,
     ledgerError: null,
     loading: false,
   }

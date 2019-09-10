@@ -1,6 +1,5 @@
 import { Signer, providers, utils } from 'ethers'
 import Eth from '@ledgerhq/hw-app-eth'
-// import ethTx from 'ethereumjs-tx'
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import webUsbTransport from '@ledgerhq/hw-transport-webusb'
 import platform from 'platform'
@@ -8,7 +7,9 @@ import platform from 'platform'
 import { TOMOCHAIN_NODE_HTTP_URL, DEFAULT_NETWORK_ID } from '../../../config/environment'
 import { addMethodsToSigner } from './index'
 
-const defaultDPath = "m/44'/889'/0'/0"
+const EthereumTx = require('ethereumjs-tx')
+// const defaultDPath = "m/44'/889'/0'/0"
+const defaultDPath = "m/44'/60'/0'"
 const OPEN_TIMEOUT = 10000
 const LISTENER_TIMEOUT = 15000
 
@@ -16,10 +17,10 @@ export class LedgerWallet extends Signer {
 
     constructor(path = defaultDPath) {
         super()
-        const networkId = DEFAULT_NETWORK_ID === 'default' ? DEFAULT_NETWORK_ID : parseInt(DEFAULT_NETWORK_ID, 10)
+        this.networkId = DEFAULT_NETWORK_ID === 'default' ? DEFAULT_NETWORK_ID : parseInt(DEFAULT_NETWORK_ID, 10)
         
         this.provider = new providers.JsonRpcProvider(TOMOCHAIN_NODE_HTTP_URL, {
-          chainId: networkId,
+          chainId: this.networkId,
         })
 
         window.signer = { instance: this, type: 'hardwareWallet' }
@@ -88,13 +89,53 @@ export class LedgerWallet extends Signer {
         return `0x${result['r']}${result['s']}${v}`
     }
 
-    // To do: Send, receive token on portfolio page
-    signTransaction = async (tx) => {
-        
+    signTransaction = async (transaction) => {
+        if (transaction.value) {
+            transaction.value = utils.hexlify(transaction.value)
+        }
+
+        if (transaction.gasPrice) {
+            transaction.gasPrice = utils.hexlify(transaction.gasPrice)
+        }
+
+        if (transaction.gasLimit) {
+            transaction.gasLimit = utils.hexlify(transaction.gasLimit)
+        }
+    
+        transaction.nonce = utils.hexlify(
+            await this.provider.getTransactionCount(this.address)
+        )
+    
+        // Get sign from transaction
+        const tx = new EthereumTx(transaction)
+        tx.v = Buffer.from([this.networkId])
+        const serializedTx = tx.serialize().toString('hex')
+        const sign = await this.eth.signTransaction(defaultDPath + '/0', serializedTx)
+
+        // Serialize transaction with sign
+        Object.keys(sign).forEach((key, _) => {
+            if (!sign[key].startsWith('0x')) {
+                sign[key] = '0x' + sign[key] 
+            }
+        })
+
+        const txAndSign = new EthereumTx({...transaction, ...sign})
+        const serializedTxAndSign = '0x' + txAndSign.serialize().toString('hex')
+
+        return serializedTxAndSign
     }
 
-    sendTransaction = async () => {
-
+    sendTransaction = async (transaction) => {
+        if (Promise.resolve(transaction.to) === transaction.to) {
+            transaction.to = await transaction.to
+        }
+    
+        if (!transaction.value) {
+            transaction.value = utils.parseEther('0.0')
+        }
+    
+        const txSigned = await this.signTransaction(transaction)       
+        return this.provider.sendTransaction(txSigned)
     }
 }
 
