@@ -161,7 +161,7 @@ export function loginWithLedgerWallet(address): ThunkAction {
       const accountInfo = await fetchAccountInfo(address.addressString)
       if (!accountInfo) { await createAccount(address.addressString) }
 
-      window.signer.instance.setAddress(address.addressString)
+      window.signer.instance.setAddress(address)
 
       dispatch(actionCreators.loginWithLedgerWallet(address.addressString))
       dispatch(

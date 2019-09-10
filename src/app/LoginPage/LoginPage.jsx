@@ -72,7 +72,8 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   createLedgerSigner = async () => {
     try {
-      new LedgerWallet()
+      const { path } = hdPaths[this.state.indexHdPathActive]
+      new LedgerWallet(path)
       await window.signer.instance.create()
     } catch(e) {
       throw e

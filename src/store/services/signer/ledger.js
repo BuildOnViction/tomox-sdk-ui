@@ -17,6 +17,7 @@ export class LedgerWallet extends Signer {
 
     constructor(path = defaultDPath) {
         super()
+        this.path = path
         this.networkId = DEFAULT_NETWORK_ID === 'default' ? DEFAULT_NETWORK_ID : parseInt(DEFAULT_NETWORK_ID, 10)
         
         this.provider = new providers.JsonRpcProvider(TOMOCHAIN_NODE_HTTP_URL, {
@@ -69,12 +70,12 @@ export class LedgerWallet extends Signer {
     }
 
     getAddress = () => {
-        return this.address
+        return this.address.addressString
     }
 
     signMessage = async (message) => {
         const result = await this.eth.signPersonalMessage(
-            defaultDPath,
+            this.path,
             Buffer.from(message).toString("hex")
         )
         
@@ -103,14 +104,14 @@ export class LedgerWallet extends Signer {
         }
     
         transaction.nonce = utils.hexlify(
-            await this.provider.getTransactionCount(this.address)
+            await this.provider.getTransactionCount(this.address.addressString)
         )
     
         // Get sign from transaction
         const tx = new EthereumTx(transaction)
         tx.v = Buffer.from([this.networkId])
         const serializedTx = tx.serialize().toString('hex')
-        const sign = await this.eth.signTransaction(defaultDPath + '/0', serializedTx)
+        const sign = await this.eth.signTransaction(`${this.path}/${this.address.index}`, serializedTx)
 
         // Serialize transaction with sign
         Object.keys(sign).forEach((key, _) => {
