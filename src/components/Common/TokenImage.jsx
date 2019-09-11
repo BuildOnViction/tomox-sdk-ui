@@ -10,7 +10,7 @@ class TokenImage extends React.PureComponent {
         super(props)
 
         this.state = {
-            src: `${IMAGE_URL}/${props.tokenAddress}`,
+            src: `${IMAGE_URL}/${props.tokenAddress}.png`,
             size: props.size,
         }
     }
