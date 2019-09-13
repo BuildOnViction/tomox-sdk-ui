@@ -130,6 +130,9 @@ class Default extends React.PureComponent<Props, State> {
 
   unlockWalletWithSessionPassword = async () => {
     const { error } = await this.props.unlockWalletWithSessionPassword(this.state.sessionPassword)
+
+    if (!error) this.props.queryAccountData()
+
     this.setState({ 
       sessionPasswordStatus: error ? 'incorrect' : '',
     })
