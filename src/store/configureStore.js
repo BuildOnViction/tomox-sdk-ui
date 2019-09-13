@@ -7,8 +7,6 @@ import * as reducers from './reducers'
 import * as services from './services'
 import '../styles/css/index.css'
 import storageSession from 'redux-persist/lib/storage/session'
-import { DEFAULT_NETWORK_ID } from '../config/environment'
-import { createLocalWalletSigner } from './services/signer'
 
 let composeEnhancers = compose
 
@@ -43,35 +41,35 @@ const accountTransform = createTransform(
   }
 )
 
-const persistConfig = {
-  key: 'root',
-  keyPrefix: 'tomo:',
-  storage: storageSession,
-  transforms: [accountTransform],
-  whitelist: ['account'], // only information related to account will be persisted
-}
-
-const initialStore = {}
-
-if (
-  process.env.NODE_ENV !== 'production' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-) {
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-}
-
-const middlewares = [
-  thunk.withExtraArgument(services),
-  routerMiddleware(history),
-]
-const enhancers = [applyMiddleware(...middlewares)]
-const storeEnhancer = composeEnhancers(...enhancers)
-const rootReducer = combineReducers(reducers)
-
-// eslint-disable-next-line
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const configureStore = preloadedState => {
+
+  const persistConfig = {
+    key: 'root',
+    keyPrefix: 'tomo:',
+    storage: storageSession,
+    transforms: [accountTransform],
+    whitelist: ['account'], // only information related to account will be persisted
+  }
+
+  const initialStore = {}
+
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ) {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  }
+
+  const middlewares = [
+    thunk.withExtraArgument(services),
+    routerMiddleware(history),
+  ]
+  const enhancers = [applyMiddleware(...middlewares)]
+  const storeEnhancer = composeEnhancers(...enhancers)
+  const rootReducer = combineReducers(reducers)
+
+  const persistedReducer = persistReducer(persistConfig, rootReducer)
+
   const store = createStore(
     connectRouter(history)(persistedReducer),
     preloadedState,
@@ -98,4 +96,4 @@ const configureStore = preloadedState => {
   }
 }
 
-export default configureStore()
+export default configureStore

@@ -72,11 +72,8 @@ export function queryAppData(): ThunkAction {
     let currentPair = pairParam ? pairParam[1].replace('-', '/') : ''
 
     try {
-      for (let i = 0; i < 60; i++) {
-        const addresses = JSON.parse(sessionStorage.getItem('addresses'))
-        if (!addresses && i === 60) throw new Error('Cannot get tokens or pairs')
-        else break
-      }     
+      const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+      if (!addresses) throw new Error('Cannot get tokens or pairs')
 
       let tokens = getTokenDomain(state).tokens()
       const quotes = quoteTokens
@@ -97,9 +94,11 @@ export function queryAppData(): ThunkAction {
       dispatch(actionCreators.updateTokenPairs(pairs))
       dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
     } catch (e) {
+      const message = e.message ? e.message : "Could not connect to Tomochain network"
+
       dispatch(
         notifierActionCreators.addErrorNotification({
-          message: "Could not connect to Tomochain network",
+          message,
         })
       )
       console.log(e)
@@ -118,6 +117,9 @@ export function queryAccountData(): ThunkAction {
     const signer = getSigner()
 
     try {
+      const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+      if (!addresses) return
+
       if (!signer && privatekey) return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
 
       socket.subscribeNotification(accountAddress)

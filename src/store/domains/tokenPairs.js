@@ -17,22 +17,18 @@ import type {
   CurrentTokenPairData,
 } from '../../types/tokens'
 
-const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
-// Todo: at the moment we choose ETH/TOMO is default current pair
-const defaultTokenPair = Object.values(defaultTokenPairs)[0]
-const defaultInitialState: TokenPairState = {
-  byPair: defaultTokenPairs,
-  data: {},
-  favorites: [],
-  currentPair: (defaultTokenPair: any).pair,
-  sortedPairs: [],
-  smallChartsData: null,
-}
-
-//By default the application is started with a default create from tokens in a configuration file. To
-//create a tokenpair domain with less tokens, the initialized function can be called with a custom initial
-//token pair state (that can be created with the createInitialState function).
 export const initialized = (customInitialState?: TokenPairState) => {
+  const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
+  const defaultTokenPair = Object.values(defaultTokenPairs)[0]
+  const defaultInitialState: TokenPairState = {
+    byPair: defaultTokenPairs,
+    data: {},
+    favorites: [],
+    currentPair: (defaultTokenPair: any).pair,
+    sortedPairs: [],
+    smallChartsData: null,
+  }
+
   const initialState = customInitialState || defaultInitialState
   const event = (state: TokenPairState = initialState) => state
   return event

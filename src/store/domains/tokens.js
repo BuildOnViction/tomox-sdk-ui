@@ -3,41 +3,20 @@ import {
   addElementToArray,
   addKeyToObject,
   arrayWithoutElement,
-  objectWithoutKey
-} from '../../helpers/utils';
-import { tokensBySymbol, tokenSymbols } from '../../config/tokens';
+  objectWithoutKey,
+} from '../../helpers/utils'
+import { tokensBySymbol, tokenSymbols } from '../../config/tokens'
 
-import type { TokenState, Token, TokenImage, Symbol } from '../../types/tokens';
-
-// we should generate these tokenSymbols instead of waiting for websocket update
-const initialState = {
-  symbols: tokenSymbols,
-  bySymbol: tokensBySymbol,
-  // data: {},
-  // favorites: [],
-  // currentPair: 'ETH/TOMO'
-};
-
-// console.log(initialState);
-
-// let initialState;
-// // initialState for testing only
-// if (process.env === 'jsdom') {
-//   initialState = {
-//     symbols: tokenSymbols,
-//     bySymbol: tokensBySymbol,
-//   };
-// } else {
-//   initialState = {
-//     symbols: [],
-//     bySymbol: {},
-//   };
-// }
+import type { TokenState, Token, TokenImage, Symbol } from '../../types/tokens'
 
 export const initialized = () => {
-  const event = (state: TokenState = initialState) => state;
-  return event;
-};
+  const initialState = {
+    symbols: tokenSymbols,
+    bySymbol: tokensBySymbol,
+  }
+  const event = (state: TokenState = initialState) => state
+  return event
+}
 
 // update the whole tokenList
 export const tokenListUpdated = (tokens: Array<Token>) => {

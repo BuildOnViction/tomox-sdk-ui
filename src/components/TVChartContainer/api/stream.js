@@ -1,11 +1,8 @@
 /* eslint-disable */
-import configureStore from '../../../store/configureStore'
-
-const { store } = configureStore
-
 export default {
   subscribeBars: (symbolInfo, resolution, updateCb, uid, resetCache) => { 
 
+    const store = window.store
     window.unsubscribe = store.subscribe(() => {
       const { ohlcv: { ohlcvData } } = store.getState()
 

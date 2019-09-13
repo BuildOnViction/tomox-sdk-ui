@@ -1,9 +1,7 @@
 /* eslint-disable */
 
-import configureStore from '../../../store/configureStore'
 import stream from './stream'
 
-const { store } = configureStore
 const supportedResolutions = ["1", "5", "15", "30", "60", "120", "240", "D", "1W", "1M"]
 
 const config = {
@@ -54,6 +52,7 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
+		const store = window.store
 		const unsubscribeStore = store.subscribe(() => {
 
 			if (firstDataRequest) {

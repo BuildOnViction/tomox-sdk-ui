@@ -1,8 +1,4 @@
 // @flow
-// import tokenPairData from '../../../jsons/tokenPairData.json';
-// import orders from '../../../jsons/orders.json';
-// import trades from '../../../jsons/trades.json';
-// import orderBookData from '../../../jsons/orderBookData.json';
 import { ENGINE_HTTP_URL } from '../../../config/environment'
 import type { Token } from '../../types/tokens'
 import { utils } from 'ethers'
@@ -346,21 +342,6 @@ export const createAccount = async (address: string) => {
   return data
 }
 
-// export const getTokenPairData = async () => {
-//   const data = parseJSONToFixed(tokenPairData)
-//   return data
-// }
-
-// export const getOrders = async () => {
-//   const data = parseOrders(orders)
-//   return data
-// }
-
-// export const getTrades = async () => {
-//   const data = parseTrades(trades)
-//   return data
-// }
-
 export const getOrderCountByAddress = async (address: string): Promise<number> => {
   const response = await request(`/orders/count?address=${address}`)
 
@@ -426,18 +407,6 @@ export const getExchangeAddress = async () => {
 
   return exchangeAddress
 }
-
-// export const getOrderBookData = async () => {
-//   const data = parseOrderBookData(orderBookData)
-//   return data
-// }
-
-// const main = async () => {
-//   let tokens = await fetchAddressTrades("0xE8E84ee367BC63ddB38d3D01bCCEF106c194dc47")
-//   console.log(tokens)
-// }
-
-// main()
 
 export const fetchNotifications = async ({address, offset, limit}) => {
   const response = await request(`/notifications?userAddress=${address}&page=${offset}&perPage=${limit}`)
@@ -531,5 +500,49 @@ export const getBalancesInOrders = async (address: string): Promise<number> => {
   }
 
   return data
+}
+
+export const getTokensAndPairs = async () => {
+  try {
+    const tokensRaw = await fetchTokens()        
+
+    const tokens = {}
+    tokens[NATIVE_TOKEN_ADDRESS] = {
+      "name": "Tomochain",
+      "symbol": "TOMO",
+      "decimals": 18,
+      "makeFee": "1",
+      "takeFee": "2",
+    }
+
+    for (let i = 0; i < tokensRaw.length; i++) {
+      tokens[tokensRaw[i].contractAddress] = {
+      'name': tokensRaw[i].symbol,
+      'symbol': tokensRaw[i].symbol,
+      'decimals': tokensRaw[i].decimals,
+      'makeFee': tokensRaw[i].makeFee,
+      'takeFee': tokensRaw[i].takeFee,
+      }
+    }
+
+    const pairsRaw = await fetchPairs()
+    const pairs = []
+
+    for (let j = 0; j < pairsRaw.length; j++) {
+      const pair = `${pairsRaw[j].baseTokenSymbol}/${pairsRaw[j].quoteTokenSymbol}`
+      pairs.push(pair)
+    }
+
+    const addresses = {
+      tokens,
+      pairs,
+    }     
+
+    sessionStorage.setItem('addresses', JSON.stringify(addresses))
+    return ({ addresses })
+  } catch (err) {
+    sessionStorage.setItem('addresses', null)
+    return ({ err })
+  }
 }
 

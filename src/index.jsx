@@ -12,8 +12,9 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react'
 
 import { messsages } from './locales'
-
-const { store, persistor } = configureStore
+import { getAddresses } from './config/addresses.js'
+import { generateQuotes } from './config/quotes'
+import { generateTokens } from './config/tokens'
 
 // registerServiceWorker()
 
@@ -23,7 +24,18 @@ const ConnectedIntlProvider = connect(state => {
   return { locale, key: locale, messages: messsages[locale] }
 })(IntlProvider)
 
-const render = AppComponent => {
+const render = async (AppComponent) => {
+  // After refactor the flow, we get tokens and pairs from the API instead the addresses.json file but when app render,
+  // tokens.js & quotes.js run before at all so variables relative tokens and pairs export from them are in addresss.json
+  // we will change them with data from the API before create store
+  const {addresses, err} = await getAddresses()
+  if (!err) {
+    generateQuotes(addresses)
+    generateTokens(addresses)
+  }
+  const { store, persistor } = configureStore()
+  window.store = store // for services of TVchart component
+
   return ReactDOM.render(
     <AppContainer>
       <Provider store={store}>

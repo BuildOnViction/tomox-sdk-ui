@@ -14,7 +14,6 @@ import * as actionCreators from '../actions/tradingPage'
 import * as notifierActionCreators from '../actions/app'
 
 import type { State, ThunkAction } from '../../types'
-import { getSigner } from '../services/signer'
 import {
   parseTradesByAddress,
   parseOrders,
@@ -69,11 +68,6 @@ export const queryTradingPageData = (): ThunkAction => {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
-      socket.unsubscribeChart()
-      socket.unsubscribeOrderBook()
-      socket.unsubscribeTrades()
-      socket.unSubscribePrice()
-
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
@@ -115,6 +109,7 @@ export const queryTradingPageData = (): ThunkAction => {
       )
     } catch (e) {
       console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }
@@ -128,6 +123,7 @@ export const releaseResources = (): ThunkAction => {
       socket.unSubscribePrice()
     } catch (e) {
       console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }
@@ -181,6 +177,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       )
     } catch (e) {
       console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
     }
   }
 }

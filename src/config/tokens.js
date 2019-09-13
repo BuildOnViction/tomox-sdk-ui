@@ -1,22 +1,30 @@
-import addressesFromFile from './addresses'
+import data from './addresses.json'
 
-const addressesFromSession = JSON.parse(sessionStorage.getItem('addresses'))
-const addresses = addressesFromSession ? addressesFromSession : addressesFromFile
+let tokensBySymbol = null
+let tokenSymbols = null
+let tokens = null
 
-const tokensBySymbolTable = {}
+export function generateTokens(addresses) {
 
-for (const token in addresses.tokens) {
-    tokensBySymbolTable[addresses.tokens[token].symbol] = {
-      symbol: addresses.tokens[token].symbol,
-      address: token,
-      decimals: addresses.tokens[token].decimals,
-      image: null,
-    }
+  const tokensBySymbolTable = {}
+
+  for (const token in addresses.tokens) {
+      tokensBySymbolTable[addresses.tokens[token].symbol] = {
+        symbol: addresses.tokens[token].symbol,
+        address: token,
+        decimals: addresses.tokens[token].decimals,
+        image: null,
+      }
+  }
+
+  tokensBySymbol = tokensBySymbolTable
+  tokenSymbols = Object.keys(tokensBySymbol)
+  tokens = Object.values(tokensBySymbol)
 }
 
-export const tokensBySymbol = tokensBySymbolTable
-export const tokenSymbols = Object.keys(tokensBySymbol)
-export const tokens = Object.values(tokensBySymbol)
+generateTokens(data)
+
+export { tokensBySymbol, tokenSymbols, tokens }
 export const NATIVE_TOKEN_SYMBOL = 'TOMO'
 export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001'
 export const defaultDecimals = 18
