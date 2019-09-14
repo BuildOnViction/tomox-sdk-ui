@@ -565,11 +565,8 @@ const handlePriceMessage = (
     const state = getState()
     const pairDomain = getTokenPairsDomain(state)
     const data = event.payload
-
-    if (data.ticks.length === 0) return
-
-    const pairs = pairDomain.getPairsByCode()
-    const currentPairData = parsePriceBoardData(data, pairs)
+    const currentPair = pairDomain.getCurrentPair()
+    const currentPairData = parsePriceBoardData(data, currentPair)
     dispatch(tokenPairsActionCreators.updateCurrentPairData(currentPairData))
   }
 }

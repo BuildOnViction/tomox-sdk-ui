@@ -215,7 +215,7 @@ class Default extends React.PureComponent<Props, State> {
 
                 <NavbarDivider />
 
-                {currentPairData && 
+                {currentPairData && (currentPairData.ticks.length > 0) && 
                   (<TokenTick>
                     <div className="tick last-price">
                       <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>

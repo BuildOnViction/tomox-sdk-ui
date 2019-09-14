@@ -103,7 +103,7 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
  * @param precision
  * @returns {number}
  */
-export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = pricePrecision) => {
+export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 18) => {
   const { quoteTokenDecimals } = pair
   // We use 18 to avoid result round to 0. 
   // The precision (=7) not work well in price too small
@@ -275,19 +275,15 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
   return result
 }
 
-export const parsePriceBoardData = (data: APIPairData, pairs: Object): Array<TokenPair> => {
+export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<TokenPair> => {
   let { last_trade_price, ticks, usd } = data
-  if (!last_trade_price
-    || ticks.length === 0) return null
-
-  const pair = pairs[ticks[0].pair.pairName]
   const price = parsePricepoint(last_trade_price, pair)
   const priceUsd = price * Number(usd)
+  const change = ticks.length > 0 ? computeChange(ticks[0].open, ticks[0].close) : ''
   
-  ticks = ticks.map(datum => {
+  const ticksParsed = ticks.map(datum => {
       return {
         pair: pair.pair,
-        change: datum.open ? computeChange(datum.open, datum.close) : null,
         high: datum.high ? parsePricepoint(datum.high, pair) : null,
         low: datum.low ? parsePricepoint(datum.low, pair) : null,
         open: datum.open ? parsePricepoint(datum.open, pair) : null,
@@ -299,7 +295,8 @@ export const parsePriceBoardData = (data: APIPairData, pairs: Object): Array<Tok
   return {
     price,
     priceUsd,
-    ticks,
+    change,
+    ticks: ticksParsed,
   }
 }
 
