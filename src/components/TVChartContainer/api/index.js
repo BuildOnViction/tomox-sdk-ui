@@ -53,19 +53,14 @@ export default {
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
 		const store = window.store
-		const unsubscribeStore = store.subscribe(() => {
 
-			if (firstDataRequest) {
-				const { ohlcv: { ohlcvData } } = store.getState()				
-				onHistoryCallback(ohlcvData, {noData: false})
-
-				window.tvWidget.latestBar = JSON.parse(JSON.stringify(ohlcvData.slice(-1)[0]))
-				firstDataRequest = false
-				unsubscribeStore()
-			} else {	
-				onHistoryCallback([], {noData: true})
-			}
-		})
+		if (firstDataRequest) {
+			const { ohlcv: { ohlcvData } } = store.getState()	
+			onHistoryCallback(ohlcvData, {noData: false})
+			window.tvWidget.latestBar = JSON.parse(JSON.stringify(ohlcvData.slice(-1)[0]))
+		} else {
+			onHistoryCallback([], {noData: true})
+		}
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
 		// console.log('=====subscribeBars runnning')
