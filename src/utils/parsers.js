@@ -177,7 +177,7 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
     txHash: trade.txHash,
     orderHash: trade.orderHash,
     type: trade.type || 'LIMIT',
-    side: trade.side,
+    side: trade.takerOrderSide,
     pair: trade.pairName,
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
     maker: utils.getAddress(trade.maker),

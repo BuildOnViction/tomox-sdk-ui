@@ -56,7 +56,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             <Cell
               width="34%"
               textAlign="left"
-              className={trade.change === 'positive' ? 'up' : 'down'}>
+              className={trade.side === 'BUY' ? 'up' : 'down'}>
               <Ellipsis>{trade.price}</Ellipsis>
             </Cell>
             <Cell 

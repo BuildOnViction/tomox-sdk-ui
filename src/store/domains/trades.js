@@ -139,27 +139,11 @@ export default function tradesDomain(state: TradesState) {
       let trades = getTrades(state)
       trades = sortTable(trades, 'time', 'desc')
       trades = trades.map((trade, index) => {
-        let change
-        let percent
-
-        index === trades.length - 1
-          ? (change = 'positive')
-          : trade.price >= trades[index + 1].price
-          ? (change = 'positive')
-          : (change = 'negative')
-
-        if (trades.length === 1) {
-          percent = 0
-        } else if (index === 0) {
-          percent = Math.abs((trade.price - trades[index + 1].price)/100).toFixed(2)
-        }
 
         return {
           ...trade,
           amount: formatNumber(trade.amount, { precision: amountPrecision }),
           price: formatNumber(trade.price, { precision: pricePrecision }),
-          change,
-          percent,
         }
       })
 
