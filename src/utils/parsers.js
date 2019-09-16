@@ -276,8 +276,8 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
 }
 
 export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<TokenPair> => {
-  let { last_trade_price, ticks, usd } = data
-  if (ticks.length === 0 && !usd) return
+  const { last_trade_price, ticks, usd } = data
+  if (ticks.length === 0 && last_trade_price === '?') return
 
   const price = parsePricepoint(last_trade_price, pair)
   const priceUsd = price * Number(usd)
