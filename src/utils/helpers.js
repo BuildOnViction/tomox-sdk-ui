@@ -219,10 +219,12 @@ export const computeChange = (open: string, close: string) => {
 
 export const getChangePercentText = (change) => {
 
-  if (change > 0) return `+${change}%`
-  if (change < 0) return `${change}%`
+  const percent = Number(change) || 0
 
-  return `${change}%`
+  if (percent > 0) return `+${percent}%`
+  if (percent < 0) return `${percent}%`
+
+  return `${formatNumber(percent, { precision: 2 })}%`
 }
 
 export const getChangePriceText: string = (open: string, close: string, precision: number) => {

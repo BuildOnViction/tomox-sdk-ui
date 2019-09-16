@@ -126,27 +126,25 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               
               <LatestTick>
                 {currentPairData && (
-                  <React.Fragment>
-                    <LatestPrice width="75%">
-                      <CryptoPrice>
-                        <Ellipsis title={formatNumber(currentPairData.price, {precision: pricePrecision})}>
-                          {formatNumber(currentPairData.price, {precision: pricePrecision})}
-                        </Ellipsis>
-                      </CryptoPrice>
-                      <CashPrice>
-                        <Ellipsis>
-                          {referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}
-                        </Ellipsis>
-                      </CashPrice> 
-                    </LatestPrice>
-                    
-                    { currentPairData.change && (
-                      <PercentChange positive={(currentPairData.ticks[0].change) >= 0} width="25%">
-                        <Ellipsis>{getChangePercentText(currentPairData.ticks[0].change)}</Ellipsis>
-                      </PercentChange> 
-                    )}
-                  </React.Fragment>
-                )}           
+                  <LatestPrice width="75%">
+                    <CryptoPrice>
+                      <Ellipsis title={formatNumber(currentPairData.price, {precision: pricePrecision})}>
+                        {formatNumber(currentPairData.price, {precision: pricePrecision})}
+                      </Ellipsis>
+                    </CryptoPrice>
+                    <CashPrice>
+                      <Ellipsis>
+                        {referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}
+                      </Ellipsis>
+                    </CashPrice> 
+                  </LatestPrice>
+                )}  
+
+                {(currentPairData.change !== null) && (
+                  <PercentChange positive={Number(currentPairData.change) >= 0} width="25%">
+                    <Ellipsis>{getChangePercentText(currentPairData.change)}</Ellipsis>
+                  </PercentChange> 
+                )}                          
               </LatestTick>
               
               {bids && (

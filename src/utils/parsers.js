@@ -281,8 +281,8 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
 
   const price = parsePricepoint(last_trade_price, pair)
   const priceUsd = price * Number(usd)
-  const change = ticks.length > 0 ? computeChange(ticks[0].open, ticks[0].close) : ''
-  
+  const change = ticks.length > 0 ? computeChange(ticks[0].open, ticks[0].close) : null
+    
   const ticksParsed = ticks.map(datum => {
       return {
         pair: pair.pair,

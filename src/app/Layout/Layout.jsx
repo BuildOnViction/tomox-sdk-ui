@@ -229,7 +229,7 @@ class Default extends React.PureComponent<Props, State> {
                       <div className="title"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
                         <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
-                        <span>{getChangePercentText(currentPairData.ticks[0].change)}</span>
+                        <span>{getChangePercentText(currentPairData.change)}</span>
                       </div>
                     </div>
 
