@@ -7,7 +7,6 @@ import {
 } from '../domains'
 import * as actionCreators from '../actions/transferTokensForm'
 import * as notificationActionCreators from '../actions/app'
-import * as depositForm from '../models/depositForm'
 import type {
   TOMOTxParams,
   TransferTokensTxParams,
@@ -120,7 +119,6 @@ export const sendEtherTx = ({
             message: 'Token transfer successful!',
           })
         )
-        // dispatch(depositForm.queryBalances())
       }
     } catch (error) {
       console.log(error)
@@ -195,9 +193,6 @@ export const sendTransferTokensTx = (
             message: 'Token transfer successful!',
           })
         )
-
-        // update token balances
-        // dispatch(depositForm.queryBalances())
       }
     } catch (error) {
       console.log(error)
