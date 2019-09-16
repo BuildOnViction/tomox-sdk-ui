@@ -358,6 +358,22 @@ export const getOrderCountByAddress = async (address: string): Promise<number> =
   return data
 }
 
+export const getOrderNonceByAddress = async (address: string): Promise<number> => {
+  const response = await request(`/orders/nonce?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
 export const getOrders = async (userAddress: string): Promise<Orders> => {
   const orders = await fetchOrders(userAddress)
   const parsedOrders = orders ? parseOrders(orders) : []

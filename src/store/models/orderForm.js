@@ -95,7 +95,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
 
       const signer = getSigner()
       const userAddress = await signer.getAddress()
-      const orderCount = await api.getOrderCountByAddress(userAddress)
+      const orderNonce = await api.getOrderNonceByAddress(userAddress)
 
       const params = {
         side,
@@ -106,7 +106,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
         price,
         makeFee,
         takeFee,
-        orderCount,
+        orderNonce,
       }
 
       const pairMultiplier = utils.bigNumberify(10).pow(18 + baseTokenDecimals)
