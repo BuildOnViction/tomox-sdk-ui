@@ -107,8 +107,6 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
         pair,
         amount,
         price,
-        makeFee,
-        takeFee,
         orderNonce,
       }
 
@@ -143,36 +141,6 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
 
       console.log(order)
       socket.sendNewOrderMessage(order)
-
-      // // update to swarm feed
-      // const feedOrder = [
-      //   {
-      //     id: '0x5b8ba1e94971a5143fe0908e',
-      //     amount: utils.bigNumberify(order.amount),
-      //     baseToken: order.baseToken,
-      //     filledAmount: utils.bigNumberify('0'),
-      //     timestamp: Math.round(Date.now() / 1000),
-      //     exchangeAddress: order.exchangeAddress,
-      //     makeFee: utils.bigNumberify('0'),
-      //     nonce: utils.bigNumberify(order.nonce),
-      //     pairName: `${baseTokenSymbol}/${quoteTokenSymbol}`,
-      //     pricepoint: utils.bigNumberify(order.pricepoint),
-      //     quoteToken: order.quoteToken,
-      //     side: order.side,
-      //     status: order.status,
-      //     takeFee: utils.bigNumberify(order.takeFee),
-      //     userAddress: order.userAddress,
-      //     hash: order.hash,
-      //     signature: joinSignature(order.signature),
-      //   },
-      // ]
-      //
-      // const result = await signer.updateSwarmFeed(order.baseToken, feedOrder)
-      // console.log("result", result)
-      //
-      // if (result) {
-      //   return dispatch(notifierActionCreators.addSuccessNotification({ message: 'Order is updated successfully on decentralize storage' }))
-      // }
     } catch (e) {
       console.log(e)
       const message = parseNewOrderError(e)

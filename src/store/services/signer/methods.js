@@ -20,7 +20,7 @@ import type { Trade } from '../../../types/trades'
 // pricePoints ~ price * priceMultiplier ~ price * 1e6
 export const createRawOrder = async function (params: any) {
   const order = {}
-  const { userAddress, exchangeAddress, side, pair, amount, price, makeFee, takeFee, orderNonce } = params
+  const { userAddress, exchangeAddress, side, pair, amount, price, orderNonce } = params
   const { baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = pair
 
 
@@ -39,8 +39,6 @@ export const createRawOrder = async function (params: any) {
   order.amount = amountPoints.toString()
   order.pricepoint = pricepoint.toString()
   order.side = side
-  order.makeFee = makeFee
-  order.takeFee = takeFee
   order.nonce = (orderNonce + 1).toString()
   order.hash = getOrderHash(order)
 
