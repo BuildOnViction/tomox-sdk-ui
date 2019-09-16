@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {
   Button,
-  Checkbox,
+  // Checkbox,
   Icon,
   Label,
   Dialog,
@@ -15,7 +15,7 @@ import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
 import { DarkMode, Theme } from '../../components/Common'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import { Link } from "react-router-dom"
-import tickUrl from '../../assets/images/tick.svg'
+// import tickUrl from '../../assets/images/tick.svg'
 import backupWalletUrl from '../../assets/images/backup_wallet.svg'
 
 type Props = {
@@ -124,7 +124,7 @@ const CreateWalletPageRenderer = (props: Props) => {
 }
 
 const WalletCreateStep = props => {
-  const { address, goToPasswordStep, handleChangeStoreAccount, storeAccount, notifyCopiedSuccess } = props
+  const { address, goToPasswordStep, notifyCopiedSuccess } = props
 
   return (
     <Wrapper>
@@ -497,25 +497,25 @@ const ButtonWrapper = styled(Button)`
   }
 `
 
-const CheckboxWrapper = styled(Checkbox)`
-  font-size: 12px;
-  text-align: center;
-  margin-bottom: 45px;
-  margin-top: 10px;
+// const CheckboxWrapper = styled(Checkbox)`
+//   font-size: 12px;
+//   text-align: center;
+//   margin-bottom: 45px;
+//   margin-top: 10px;
 
-  .bp3-control-indicator {
-    box-shadow: none !important;
-    background-image: none !important;
-  }
+//   .bp3-control-indicator {
+//     box-shadow: none !important;
+//     background-image: none !important;
+//   }
 
-  input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.ORANGE} !important;
-  }
+//   input:checked ~ .bp3-control-indicator {
+//     background-color: ${DarkMode.ORANGE} !important;
+//   }
 
-  input:checked ~ .bp3-control-indicator::before {
-    background: url(${tickUrl}) no-repeat center center !important;
-  }
-`
+//   input:checked ~ .bp3-control-indicator::before {
+//     background: url(${tickUrl}) no-repeat center center !important;
+//   }
+// `
 
 const LinkWrapper = styled(Link)`
   color: ${DarkMode.ORANGE};

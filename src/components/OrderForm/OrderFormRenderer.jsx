@@ -237,6 +237,7 @@ const LimitOrderPanel = props => {
   )
 }
 
+//eslint-disable-next-line
 const MarketOrderPanel = (props: *) => {
   const {
     side,
@@ -325,6 +326,7 @@ const MarketOrderPanel = (props: *) => {
   )
 }
 
+//eslint-disable-next-line
 const StopLimitOrderPanel = (props: *) => {
   const {
     stopPrice,

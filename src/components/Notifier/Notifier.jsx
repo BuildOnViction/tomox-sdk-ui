@@ -15,8 +15,6 @@ type Props = {
 
 class Notifier extends React.Component<Props> {
   show = ({ notificationType, options }: Notification) => {
-    console.log('showing', notificationType, options)
-
     const notification = NotificationFactory(notificationType, options)
     if (notification) ToastInstance.show(notification)
 

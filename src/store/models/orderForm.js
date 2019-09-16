@@ -18,7 +18,10 @@ import type { Side } from '../../types/orders'
 import { getSigner } from '../services/signer'
 import { parseNewOrderError } from '../../config/errors'
 // import { joinSignature } from 'ethers/utils'
-import { max, minOrderAmount } from '../../utils/helpers'
+import { 
+  max, 
+  // minOrderAmount, 
+} from '../../utils/helpers'
 import { push } from 'connected-react-router'
 
 export default function getOrderFormSelector(state: State) {
@@ -88,7 +91,7 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
         baseTokenSymbol,
         quoteTokenSymbol,
         baseTokenDecimals,
-        quoteTokenDecimals,
+        // quoteTokenDecimals,
         makeFee,
         takeFee,
       } = pair
@@ -121,8 +124,8 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
       const sellTokenBalance = accountBalancesDomain.getBigNumberBalance(sellTokenSymbol)
       const baseAmount = utils.bigNumberify(order.amount)
       const quoteAmount = (utils.bigNumberify(order.amount).mul(utils.bigNumberify(order.pricepoint))).div(pairMultiplier)
-      const minQuoteAmount = minOrderAmount(makeFee, takeFee)
-      const formattedMinQuoteAmount = utils.formatUnits(minQuoteAmount, quoteTokenDecimals)
+      // const minQuoteAmount = minOrderAmount(makeFee, takeFee)
+      // const formattedMinQuoteAmount = utils.formatUnits(minQuoteAmount, quoteTokenDecimals)
 
       //In case the order is a sell, the fee is subtracted from the received amount of quote token so there is no requirement
       order.side === 'BUY'

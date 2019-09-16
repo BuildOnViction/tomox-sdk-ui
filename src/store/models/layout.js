@@ -75,7 +75,7 @@ export function queryAppData(): ThunkAction {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
-      let tokens = getTokenDomain(state).tokens()
+      let tokens = getTokenDomain(state).tokens() // eslint-disable-line
       const quotes = quoteTokens
 
       tokens = quotes

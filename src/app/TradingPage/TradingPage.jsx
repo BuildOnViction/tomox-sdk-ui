@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
 import { Grid, Cell } from 'styled-css-grid'
 import { Tabs, Tab } from '@blueprintjs/core'
 
