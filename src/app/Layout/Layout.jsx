@@ -138,6 +138,12 @@ class Default extends React.PureComponent<Props, State> {
     })
   }
 
+
+  unlockWalletWithSessionPasswordOnKeyPress = async (event) => {
+    if (event.key !== 'Enter') return
+    await this.unlockWalletWithSessionPassword()
+  }
+
   closeSessionPasswordModal = () => {
     const { closeSessionPasswordModal, logout } = this.props
     closeSessionPasswordModal()
@@ -378,7 +384,8 @@ class Default extends React.PureComponent<Props, State> {
         <SessionPasswordModal 
           password={this.state.sessionPassword}
           passwordStatus={this.state.sessionPasswordStatus}
-          onChange={this.handleSessionPasswordChange}          
+          onChange={this.handleSessionPasswordChange}  
+          unlockWalletOnKeyPress={this.unlockWalletWithSessionPasswordOnKeyPress}        
           unlockWallet={this.unlockWalletWithSessionPassword}
           isOpen={showSessionPasswordModal} 
           handleClose={this.closeSessionPasswordModal} />

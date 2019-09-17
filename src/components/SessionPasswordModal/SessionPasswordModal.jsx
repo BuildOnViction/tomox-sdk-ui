@@ -20,7 +20,13 @@ const SessionPasswordModal = (props: Props) => (
         className="dark-dialog sm"
     >
         <LabelWrapper>
-            <InputGroupWrapper type="password" value={props.password} isInvalid={props.passwordStatus === 'incorrect'} onChange={props.onChange} marginBottom="5px" />
+            <InputGroupWrapper 
+                type="password" 
+                value={props.password} 
+                isInvalid={props.passwordStatus === 'incorrect'} 
+                onChange={props.onChange} 
+                onKeyPress={props.unlockWalletOnKeyPress}
+                marginBottom="5px" />
         </LabelWrapper>     
         {(props.passwordStatus === 'incorrect') && <ErrorMessage><FormattedMessage id="unlockWalletPage.wrongPassword" /></ErrorMessage>}
         {/* <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText> */}
