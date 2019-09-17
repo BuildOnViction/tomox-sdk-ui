@@ -12,8 +12,6 @@ export const getOrderHash = order => {
       'uint256',
       'uint256',
       'uint256',
-      'uint256',
-      'uint256',
     ],
     [
       order.exchangeAddress,
@@ -24,8 +22,6 @@ export const getOrderHash = order => {
       order.pricepoint,
       order.side === 'BUY' ? '0' : '1',
       order.nonce,
-      order.makeFee,
-      order.takeFee,
     ],
   )
 }

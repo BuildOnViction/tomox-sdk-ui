@@ -140,7 +140,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                   </LatestPrice>
                 )}  
 
-                {(currentPairData.change !== null) && (
+                {currentPairData && (currentPairData.change !== null) && (
                   <PercentChange positive={Number(currentPairData.change) >= 0} width="25%">
                     <Ellipsis>{getChangePercentText(currentPairData.change)}</Ellipsis>
                   </PercentChange> 
