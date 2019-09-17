@@ -228,7 +228,7 @@ const MaxAmountInfo = styled.div`
   height: 30px;
   line-height: 30px;
   overflow: hidden;
-  font-size: ${Theme.FONT_SIZE_MD};
+  font-size: ${Theme.FONT_SIZE_SM};
   color: ${DarkMode.WHITE};
   position: absolute;
   top: 100%;
