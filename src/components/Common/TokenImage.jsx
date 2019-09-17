@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { TOMOTOKENS_URL } from '../../config/environment'
 import defaultTokenImageUrl from '../../assets/images/default_token_img.svg'
-
-const IMAGE_URL = 'https://raw.githubusercontent.com/tomochain/tokens/master/tokens'
 
 class TokenImage extends React.PureComponent {
     constructor(props) {
         super(props)
 
         this.state = {
-            src: `${IMAGE_URL}/${props.tokenAddress}.png`,
+            src: `${TOMOTOKENS_URL}/${props.tokenAddress}.png`,
             size: props.size,
         }
     }
