@@ -593,6 +593,7 @@ const handleNotificationMessage = (
     getState: GetState,
   ) => {
   const { type, payload } = event
-  if (type === 'INIT') return
+  // Todo: need handle in case ERROR
+  if (type === 'INIT' || type === 'ERROR') return
   dispatch(notificationsActionCreators.updateNewNotifications(payload))
 }

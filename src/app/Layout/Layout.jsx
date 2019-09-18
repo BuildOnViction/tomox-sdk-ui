@@ -18,7 +18,8 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 
-import { locales } from '../../locales'
+import { TOMOSCAN_URL } from '../../config/environment'
+import { locales, messsages } from '../../locales'
 import {
   NavbarDivider,
   Theme,
@@ -181,7 +182,7 @@ class Default extends React.PureComponent<Props, State> {
             </CopyToClipboard>
 
             <IconBox title="Go to Tomoscan">
-              <a target="_blank" rel="noreferrer noopener" href={`http://167.71.222.219/address/${address}`}><Icon icon="document-share" /></a>
+              <a target="_blank" rel="noreferrer noopener" href={`${TOMOSCAN_URL}/address/${address}`}><Icon icon="document-share" /></a>
             </IconBox>
           </AddressWalletBox>
         </MenuItem>
@@ -450,10 +451,20 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
 const MenuLocales = (props) => {
   const { changeLocale, locale } = props
 
+  const items = Object.keys(messsages).map((key, index) => {
+    return (
+      <LocaleItem 
+        key={index}
+        active={locale === key} 
+        onClick={() => changeLocale(key)}>
+        {locales[key]} {(locale === key) && (<Icon icon="tick" color={DarkMode.ORANGE} />)}
+      </LocaleItem>
+    )
+  })
+
   return (
     <LocaleList>
-      <LocaleItem active={locale === "en"} onClick={() => changeLocale("en")}>{locales["en"]} {(locale === "en") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
-      <LocaleItem active={(locale === "vi")} onClick={() => changeLocale("vi")}>{locales["vi"]} {(locale === "vi") && (<Icon icon="tick" color={DarkMode.ORANGE} />)}</LocaleItem>
+      {items}
     </LocaleList>
   )
 }

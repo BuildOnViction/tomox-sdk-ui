@@ -235,6 +235,8 @@ export function unlockWalletWithSessionPassword(password): ThunkAction {
 
 export function releaseResource(): ThunkAction {
   return async (dispatch, getState, { socket }) => {
-    socket.unSubscribeNotification()
+    const state = getState()
+    const authenticated = getAccountDomain(state).authenticated()
+    if (authenticated) socket.unSubscribeNotification()
   }
 }

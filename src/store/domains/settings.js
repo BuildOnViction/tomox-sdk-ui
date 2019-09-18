@@ -1,10 +1,11 @@
 import type { SettingsState } from '../../types/settings'
+import { LOCALE } from '../../config/environment'
 
 const initialState = {
   defaultGasLimit: 2100000,
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true,
-  locale: 'en',
+  locale: LOCALE,
   mode: 'dark',
 }
 
