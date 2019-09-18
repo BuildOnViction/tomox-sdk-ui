@@ -2,9 +2,7 @@
 import { connect } from 'react-redux'
 
 import { updateFavorite } from '../../store/actions/tokenSearcher'
-import tokenSearcherSelector from '../../store/models/tokenSearcher'
-import { updateCurrentPair } from '../../store/models/tokenSearcher'
-
+import tokenSearcherSelector, {updateCurrentPair} from '../../store/models/tokenSearcher'
 import type { State } from '../../types'
 
 export const mapStateToProps = (state: State) => {
@@ -13,7 +11,7 @@ export const mapStateToProps = (state: State) => {
 
 export const mapDispatchToProps = {
   updateFavorite,
-  updateCurrentPair
+  updateCurrentPair,
 }
 
 export default connect(
