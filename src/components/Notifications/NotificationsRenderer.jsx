@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { Icon, Spinner, Intent } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import { TOMOSCAN_URL } from '../../config/environment'
 import { Theme, DarkMode } from '../../components/Common'
 
-const URL = 'https://scan.testnet.tomochain.com/txs'
 const MESSAGES = {
   'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
   'ORDER_CANCELLED': <FormattedMessage id='notifications.orderCancelled' />,
@@ -14,6 +14,20 @@ const MESSAGES = {
   'ORDER_SUCCESS': <FormattedMessage id='notifications.orderSuccess' />,  
   'ORDER_PENDING': <FormattedMessage id='notifications.orderPending' />,
   'ERROR': <FormattedMessage id='notifications.orderError' />,
+}
+
+const generateScanUrl = (type, txHash) => {
+  switch(type) {
+    case 'ORDER_ADDED': 
+    case 'ORDER_CANCELLED': 
+    case 'ORDER_PENDING':
+      return `${TOMOSCAN_URL}/orders/${txHash}`
+    case 'ORDER_MATCHED':
+    case 'ORDER_SUCCESS':
+      return `${TOMOSCAN_URL}/trades/${txHash}`
+    default:
+      return ''
+  }
 }
 
 class NotificationsRenderer extends React.PureComponent {
@@ -55,7 +69,7 @@ class NotificationsRenderer extends React.PureComponent {
                       <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date())}</DistanceDate>
                   </NotificationDate>
                   <IconsBox>
-                    <TomoScanLink target="_blank" href={`${URL}/${notification.message.description}`}>
+                    <TomoScanLink target="_blank" href={generateScanUrl(notification.message.type, notification.message.description)}>
                       <Icon htmlTitle={intl.formatMessage({ id: "notifications.tomoScan" })} icon="document-share" iconSize="15" />
                     </TomoScanLink>
                     {(notification.status === 'UNREAD') && (<MarkRead htmlTitle={intl.formatMessage({id: "notifications.markAsRead"})} onClick={() => markNotificationRead(notification.id)} icon="eye-open" iconSize="15" />)}
