@@ -37,6 +37,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       mnemonic,
       handlePrivateKeyChange, 
       unlockWalletWithPrivateKey,
+      unlockWalletWithPrivateKeyOnKeyPress,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       password,
@@ -75,8 +76,9 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 <PrivateKey 
                   privateKey={privateKey} 
                   privateKeyStatus={privateKeyStatus} 
-                  handlePrivateKeyChange={handlePrivateKeyChange} 
+                  handlePrivateKeyChange={handlePrivateKeyChange}
                   unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
+                  unlockWalletWithPrivateKeyOnKeyPress={unlockWalletWithPrivateKeyOnKeyPress}
                   password={password}
                   passwordStatus={passwordStatus}
                   handlePasswordChange={handlePasswordChange} />
@@ -133,6 +135,7 @@ const PrivateKey = (props) => {
     privateKeyStatus, 
     handlePrivateKeyChange, 
     unlockWalletWithPrivateKey,
+    unlockWalletWithPrivateKeyOnKeyPress,
     password,
     passwordStatus,
     handlePasswordChange,
@@ -148,7 +151,7 @@ const PrivateKey = (props) => {
 
       <LabelWrapper>
         <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
+        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} onKeyPress={unlockWalletWithPrivateKeyOnKeyPress} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
       </LabelWrapper>          
       <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 

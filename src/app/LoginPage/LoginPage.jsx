@@ -210,6 +210,12 @@ class LoginPage extends React.PureComponent<Props, State> {
     loginWithWallet(wallet, password)
   }
 
+  unlockWalletWithPrivateKeyOnKeyPress = async (event) => {
+    if (event.key !== 'Enter') return
+
+    await this.unlockWalletWithPrivateKey()
+  }
+
   unlockWalletWithMnemonic = async () => {
     const {
       props: { loginWithWallet },
@@ -303,6 +309,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       handleTabChange,
       handlePrivateKeyChange,
       unlockWalletWithPrivateKey,
+      unlockWalletWithPrivateKeyOnKeyPress,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       handlePasswordChange,
@@ -330,6 +337,7 @@ class LoginPage extends React.PureComponent<Props, State> {
           privateKey={privateKey}
           handlePrivateKeyChange={handlePrivateKeyChange}
           unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
+          unlockWalletWithPrivateKeyOnKeyPress={unlockWalletWithPrivateKeyOnKeyPress}
           mnemonicStatus={mnemonicStatus}
           mnemonic={mnemonic}
           handleMnemonicChange={handleMnemonicChange}
