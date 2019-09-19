@@ -9,6 +9,7 @@ import { DarkMode, Theme, SmallText } from '../../components/Common'
 import { Link } from "react-router-dom"
 import SelectAddressModal from '../../components/SelectAddressModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
+import trezorLogo from '../../assets/images/trezor.svg'
 
 type Props = {
   selectedTabId: string,
@@ -268,32 +269,8 @@ const TrezorDevice = (props) => {
   } = props
 
   return (
-    <LedgerWrapper>
-      <Title>1. Enter PIN Code</Title>
-
-      <LedgerImageBox>       
-        <LedgerImageBody>
-          <LedgerScreen>
-            <PasswordSymbol>******</PasswordSymbol>            
-          </LedgerScreen>
-          <LedgerCircle />
-        </LedgerImageBody>
-
-        <LedgerImageHead />
-      </LedgerImageBox>
-
-      <Title>2. Open TomoChain</Title>
-
-      <LedgerImageBox>       
-        <LedgerImageBody>
-          <LedgerScreen>
-            <img src={appTomoLogoUrl} alt="app Tomo logo"/>          
-          </LedgerScreen>
-          <LedgerCircle />
-        </LedgerImageBody>
-
-        <LedgerImageHead />
-      </LedgerImageBox>
+    <LedgerWrapper>      
+      <TrezorLogo src={trezorLogo} alt="Trezor" />
 
       <InstructionBox>
         <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
@@ -636,6 +613,12 @@ const InstructionBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 13px;
+`
+
+const TrezorLogo = styled.img`
+  width: 25%;
+  margin-top: 10px;
+  margin-bottom: 45px;
 `
 
 const AddressWrapper = styled.div``
