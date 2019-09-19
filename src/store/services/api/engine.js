@@ -532,7 +532,8 @@ export const getTokensAndPairs = async () => {
     }
 
     for (let i = 0; i < tokensRaw.length; i++) {
-      tokens[tokensRaw[i].contractAddress] = {
+      const address = tokensRaw[i].contractAddress.toLowerCase()
+      tokens[address] = {
       'name': tokensRaw[i].symbol,
       'symbol': tokensRaw[i].symbol,
       'decimals': tokensRaw[i].decimals,
