@@ -128,14 +128,6 @@ const TOMORow = (props: Props) => {
           <OperationButton onClick={() => redirectToTradingPage(symbol)}>
             <FormattedMessage id="portfolioPage.trade" />
           </OperationButton>
-
-          <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-            <FormattedMessage id="portfolioPage.deposit" />
-          </ExternalLink>
-
-          <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-            <FormattedMessage id="portfolioPage.withdrawal" />
-          </ExternalLink>
         </ButtonWrapper>
       </Cell>
     </Row>
