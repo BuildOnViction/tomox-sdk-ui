@@ -1,7 +1,6 @@
 //@flow
-import { isFloat, isInteger, round, computeChange } from './helpers'
-
 import { utils } from 'ethers'
+import { isFloat, isInteger, round, computeChange } from './helpers'
 
 import {
   pricePrecision,
@@ -111,7 +110,7 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
   const bigPricepoint = utils.bigNumberify(pricepoint).mul(precisionMultiplier)
 
-  return (Number(bigPricepoint.div(quoteMultiplier)) / Number(`${precisionMultiplier}`))
+  return ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toNumber()
 }
 
 export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
