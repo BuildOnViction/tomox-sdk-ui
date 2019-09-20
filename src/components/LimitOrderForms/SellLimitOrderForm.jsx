@@ -92,8 +92,8 @@ const SellLimitOrderForm = props => {
 
         <TokenName>{baseTokenSymbol}</TokenName>
         {isShowSellMaxAmount && (
-          <MaxAmountInfo>
-            Max: {sellMaxAmount} {baseTokenSymbol}
+          <MaxAmountInfo title={sellMaxAmount}>
+            Max: {sellMaxAmount}
           </MaxAmountInfo>
         )}
       </InputBox>
@@ -227,6 +227,8 @@ const MaxAmountInfo = styled.div`
   height: 30px;
   line-height: 30px;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: ${Theme.FONT_SIZE_SM};
   color: ${DarkMode.WHITE};
   position: absolute;
