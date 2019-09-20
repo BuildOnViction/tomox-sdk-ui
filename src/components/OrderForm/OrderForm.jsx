@@ -1,10 +1,11 @@
 // @flow
 import React from 'react'
 import { utils } from 'ethers'
-import { formatNumber, unformat } from 'accounting-js'
+import { unformat } from 'accounting-js'
+import Big from 'big.js'
+import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { SIDE } from '../../types/orderForm'
-
 import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 
@@ -46,10 +47,10 @@ type State = {
 class OrderForm extends React.PureComponent<Props, State> {
   static defaultProps = {
     loggedIn: true,
-    bidPrice: 0,
-    askPrice: 0,
-    baseTokenBalance: 0,
-    quoteTokenBalance: 0,
+    bidPrice: '',
+    askPrice: '',
+    baseTokenBalance: '',
+    quoteTokenBalance: '',
   }
 
   state = {
@@ -66,12 +67,13 @@ class OrderForm extends React.PureComponent<Props, State> {
     sellAmount: '',
     buyTotal: '',
     sellTotal: '',
-    priceStep: 1/Math.pow(10, pricePrecision),
-    amountStep: 1/Math.pow(10, amountPrecision),
+    priceStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
+    amountStep: toDecimalFormString(1/Math.pow(10, amountPrecision)),
     errorBuy: null,
     errorSell: null,
     isShowBuyMaxAmount: false,
     isShowSellMaxAmount: false,
+    dirtyPriceForm: false,
   }
 
   buyPriceInput = React.createRef()
@@ -83,32 +85,24 @@ class OrderForm extends React.PureComponent<Props, State> {
     const prevSelectedOrder = prevProps.selectedOrder
     const currSelectedOrder = this.props.selectedOrder
     const { currentPairData } = this.props
-    const { buyPrice, sellPrice } = this.state
+    const { dirtyPriceForm } = this.state
 
-    if (!currSelectedOrder 
-      && !buyPrice 
-      && !sellPrice 
-      && currentPairData) {
-      const price = formatNumber(unformat(currentPairData.price), { precision: pricePrecision })
-
-      this.setOrderFormPrice(price)
-      return
+    if (!dirtyPriceForm && currentPairData) {
+      const price = unformat(currentPairData.price)
+      this.setState({ dirtyPriceForm: true })
+      return this.setOrderFormPrice(price)  
     }
 
     if(!prevSelectedOrder && currSelectedOrder) {
       this.resetErrorObject()
-
-      const price = formatNumber(unformat(currSelectedOrder.price), { precision: pricePrecision })
-      this.setOrderFormPrice(price)
-      return
+      const price = unformat(currSelectedOrder.price)
+      return this.setOrderFormPrice(price)      
     }
 
     if (prevSelectedOrder && prevSelectedOrder.price !== currSelectedOrder.price) {
       this.resetErrorObject()
-
-      const price = formatNumber(unformat(currSelectedOrder.price), { precision: pricePrecision })
-      this.setOrderFormPrice(price)
-      return
+      const price = unformat(currSelectedOrder.price)
+      return this.setOrderFormPrice(price)      
     }  
   }
 
@@ -131,20 +125,22 @@ class OrderForm extends React.PureComponent<Props, State> {
     value = value.match(/^0[1-9]/g) ? value.replace(/^0/, '') : value
     value = value.match(/^\.[1-9]/g) ? value.replace(/^./, '0.') : value
     value = value.match(/^[0-9]*\.[0-9]*\.$/g) ? value.replace(/.$/, '') : value
-    
+    const regex = /^[0-9]*\.[0-9]{8,}$/g
+    if (regex.test(value)) return
+
     switch (target.name) {
       case 'stopPrice':
         this.handleStopPriceChange(value)
         break
-      case 'limitPrice':
-        this.handleLimitPriceChange(value)
-        break
+      // case 'limitPrice':
+      //   this.handleLimitPriceChange(value)
+      //   break
       case 'price':
         this.handlePriceChange(value, side)
         break
-      case 'total':
-        this.handleTotalChange(value)
-        break
+      // case 'total':
+      //   this.handleTotalChange(value)
+      //   break
       case 'amount':
         this.handleAmountChange(value, side)
         break
@@ -174,33 +170,31 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleUpdateAmountFraction = (fraction: number, side: SIDE) => {
     const { quoteTokenBalance, baseTokenBalance, authenticated } = this.props
-
     if (!authenticated) return
 
     if (side === 'SELL') {
       const { sellPrice } = this.state
-      let sellAmount, sellTotal
+      if (!sellPrice) return
 
-      sellAmount = (baseTokenBalance / 100) * fraction
-      sellTotal = sellPrice ? unformat(sellPrice) * sellAmount : ''
+      const bigSellAmount = (Big(baseTokenBalance).div(100)).times(fraction)
+      const bigSellTotal = Big(sellPrice).times(bigSellAmount)
 
       this.setState({
         fraction,
-        sellAmount: formatNumber(sellAmount, { precision: amountPrecision }),
-        sellTotal: sellTotal ? formatNumber(sellTotal, { precision: pricePrecision }) : '',
+        sellAmount: bigSellAmount.toFixed(amountPrecision),
+        sellTotal: bigSellTotal.toFixed(pricePrecision),
       })
     } else {
       const { buyPrice } = this.state
-      let buyAmount, buyTotal
+      if (!buyPrice) return
 
-      buyTotal = (quoteTokenBalance / 100) * fraction
-      buyAmount = unformat(buyPrice) ? buyTotal / unformat(buyPrice) : ''
-
+      const bigBuyTotal = (Big(quoteTokenBalance).div(100)).times(fraction)
+      const bigBuyAmount = bigBuyTotal.div(Big(buyPrice))
 
       this.setState({
         fraction,
-        buyAmount: buyAmount ? formatNumber(buyAmount, { precision: amountPrecision }) : '',
-        buyTotal: formatNumber(buyTotal, { precision: pricePrecision }),
+        buyAmount: bigBuyAmount.toFixed(amountPrecision),
+        buyTotal: bigBuyTotal.toFixed(pricePrecision),
       })
     }
   }
@@ -209,42 +203,52 @@ class OrderForm extends React.PureComponent<Props, State> {
     this.resetErrorObject(side)
 
     if (side === 'BUY') {
-      let { buyAmount } = this.state
+      const { buyAmount } = this.state
 
-      buyAmount = unformat(buyAmount)
-      const buyTotal = buyAmount * unformat(price)
+      if (price && buyAmount) {
+        const bigBuyTotal = Big(buyAmount).times(Big(price))
 
-      this.setState({
-        buyTotal: formatNumber(buyTotal, { precision: pricePrecision }),
-        buyAmount: formatNumber(buyAmount, { precision: amountPrecision }),
-        buyPrice: price,
-      })
-    } else {
-      let { sellAmount } = this.state
+        this.setState({
+          buyTotal: bigBuyTotal.toFixed(pricePrecision),
+          buyPrice: price,
+        })
+      } else {
+        this.setState({
+          buyTotal: '',
+          buyPrice: price,
+        })
+      }
+    } else {      
+      const { sellAmount } = this.state
 
-      sellAmount = unformat(sellAmount)
-      const sellTotal = sellAmount * unformat(price)
+      if (price && sellAmount) {
+        const bigSellTotal = Big(sellAmount).times(Big(price))
 
-      this.setState({
-        sellTotal: formatNumber(sellTotal, { precision: pricePrecision }),
-        sellAmount: formatNumber(sellAmount, { precision: amountPrecision }),
-        sellPrice: price,
-      })
+        this.setState({
+          sellTotal: bigSellTotal.toFixed(pricePrecision),
+          sellPrice: price,
+        })
+      } else {
+        this.setState({
+          sellTotal: '',
+          sellPrice: price,
+        })
+      }
     }    
   }
 
-  handleLimitPriceChange = (limitPrice: string) => {
-    let { amount, stopPrice } = this.state
+  // handleLimitPriceChange = (limitPrice: string) => {
+  //   let { amount, stopPrice } = this.state
 
-    amount = unformat(amount)
-    stopPrice = unformat(stopPrice)
+  //   amount = unformat(amount)
+  //   stopPrice = unformat(stopPrice)
 
-    this.setState({
-      amount: formatNumber(amount, { precision: amountPrecision }),
-      stopPrice: formatNumber(stopPrice, { precision: pricePrecision }),
-      limitPrice,
-    })
-  }
+  //   this.setState({
+  //     amount,
+  //     stopPrice,
+  //     limitPrice,
+  //   })
+  // }
 
   handleStopPriceChange = (stopPrice: string) => {
     let { amount } = this.state
@@ -253,99 +257,94 @@ class OrderForm extends React.PureComponent<Props, State> {
     const total = amount * unformat(stopPrice)
 
     this.setState({
-      total: formatNumber(total, { precision: pricePrecision }),
-      amount: formatNumber(amount, { precision: amountPrecision }),
+      total,
+      amount,
       stopPrice,
     })
   }
 
   handleAmountChange = (amount: string, side: SIDE) => {
     this.resetErrorObject(side)
-    const { selectedTabId, amountStep } = this.state
-    const amountStepString = formatNumber(amountStep, { precision: amountPrecision })
+    const { selectedTabId } = this.state
 
     if (side === 'BUY') {
-      if (amount.length >= amountStepString.length 
-      && Number(amount) < Number(amountStep)) {
-        this.setState({ buyAmount: formatNumber(0, { precision: amountPrecision }) })
-        return
-      }
+      const { buyPrice, stopPrice } = this.state
 
-      let { buyPrice, stopPrice } = this.state
-      let buyTotal
+      if (amount && buyPrice) {
+        let bigBuyTotal
 
-      stopPrice = unformat(stopPrice)
-      buyPrice = unformat(buyPrice)
+        selectedTabId === 'stop'
+          ? bigBuyTotal = Big(stopPrice).times(Big(amount))
+          : bigBuyTotal = Big(buyPrice).times(Big(amount))
 
-      selectedTabId === 'stop'
-        ? (buyTotal = stopPrice * unformat(amount))
-        : (buyTotal = buyPrice * unformat(amount))
-
-      this.setState({
-        buyTotal: formatNumber(buyTotal, { precision: pricePrecision }),
-        buyPrice: formatNumber(buyPrice, { precision: pricePrecision }),
-        buyAmount: amount,
-        isShowBuyMaxAmount: true,
-      })
-    } else {
-      if (amount.length >= amountStepString.length 
-      && Number(amount) < Number(amountStep)) {
-        this.setState({ sellAmount: formatNumber(0, { precision: amountPrecision }) })
-        return
-      }
-
-      let { sellPrice, stopPrice } = this.state
-      let sellTotal
-
-      stopPrice = unformat(stopPrice)
-      sellPrice = unformat(sellPrice)
-
-      selectedTabId === 'stop'
-        ? (sellTotal = stopPrice * unformat(amount))
-        : (sellTotal = sellPrice * unformat(amount))
-
-      this.setState({
-        sellTotal: formatNumber(sellTotal, { precision: pricePrecision }),
-        sellPrice: formatNumber(sellPrice, { precision: pricePrecision }),
-        sellAmount: amount,
-        isShowSellMaxAmount: true,
-      })
-    }
-  }
-
-  handleTotalChange = (total: string) => {
-    const { selectedTabId } = this.state
-    let { price, stopPrice } = this.state
-    let amount
-
-    price = unformat(price)
-    stopPrice = unformat(stopPrice)
-
-    if (selectedTabId === 'stop') {
-      if (stopPrice === 0) {
-        amount = 0
+        this.setState({
+          buyTotal: bigBuyTotal.toFixed(pricePrecision),
+          buyAmount: amount,
+          isShowBuyMaxAmount: true,
+        })
       } else {
-        amount = unformat(total) / stopPrice
+        this.setState({
+          buyAmount: amount,
+          buyTotal: '',
+        })
       }
-    } else if (price === 0) {
-      amount = 0
     } else {
-      amount = unformat(total) / price
+      const { sellPrice, stopPrice } = this.state
+
+      if (amount && sellPrice) {
+        let bigSellTotal
+
+        selectedTabId === 'stop'
+          ? bigSellTotal = Big(stopPrice).times(Big(amount))
+          : bigSellTotal = Big(sellPrice).times(Big(amount))
+
+        this.setState({
+          sellTotal: bigSellTotal.toFixed(pricePrecision),
+          sellAmount: amount,
+          isShowSellMaxAmount: true,
+        })
+      } else {
+        this.setState({
+          sellAmount: amount,
+          sellTotal: '',
+        })
+      }
     }
-
-    this.setState({
-      price: formatNumber(price, { precision: pricePrecision }),
-      stopPrice: formatNumber(stopPrice, { precision: pricePrecision }),
-      amount: formatNumber(amount, { precision: amountPrecision }),
-      total,
-    })
   }
 
-  handleUnlockPair = () => {
-    const { baseTokenSymbol, quoteTokenSymbol } = this.props
+  // handleTotalChange = (total: string) => {
+  //   const { selectedTabId } = this.state
+  //   let { price, stopPrice } = this.state
+  //   let amount
 
-    this.props.unlockPair(baseTokenSymbol, quoteTokenSymbol)
-  }
+  //   price = unformat(price)
+  //   stopPrice = unformat(stopPrice)
+
+  //   if (selectedTabId === 'stop') {
+  //     if (stopPrice === 0) {
+  //       amount = 0
+  //     } else {
+  //       amount = unformat(total) / stopPrice
+  //     }
+  //   } else if (price === 0) {
+  //     amount = 0
+  //   } else {
+  //     amount = unformat(total) / price
+  //   }
+
+  //   this.setState({
+  //     price,
+  //     stopPrice,
+  //     amount,
+  //     total,
+  //   })
+  // }
+
+  // handleUnlockPair = () => {
+  //   const { baseTokenSymbol, quoteTokenSymbol } = this.props
+
+  //   this.props.unlockPair(baseTokenSymbol, quoteTokenSymbol)
+  // }
 
   handleChangeOrderType = (tabId: string) => {
     const { askPrice, bidPrice, side } = this.props
@@ -362,13 +361,13 @@ class OrderForm extends React.PureComponent<Props, State> {
     })
 
     if (tabId === 'limit' && side === 'BUY') {
-      this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
+      this.setState({ price: askPrice })
     } else if (tabId === 'limit') {
-      this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
+      this.setState({ price: bidPrice })
     } else if (tabId === 'market' && side === 'BUY') {
-      this.setState({ price: formatNumber(askPrice, { precision: pricePrecision }) })
+      this.setState({ price: askPrice })
     } else if (tabId === 'market') {
-      this.setState({ price: formatNumber(bidPrice, { precision: pricePrecision }) })
+      this.setState({ price: bidPrice })
     }
   }
 
@@ -390,27 +389,43 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (side === 'BUY') {
       buyPriceInput.current.focus()
 
-      buyPrice = unformat(buyPrice) - priceStep
-      buyPrice = buyPrice >= 0 ? buyPrice : 0
+      buyPrice = buyPrice ? buyPrice : 0
+      let bigBuyPrice = Big(buyPrice).minus(Big(priceStep))
+      bigBuyPrice = bigBuyPrice.gt(Big(priceStep)) ? bigBuyPrice : Big(priceStep)
 
-      const buyTotal = buyPrice * unformat(buyAmount)
+      if (buyPrice && buyAmount) {
+        const bigBuyTotal = bigBuyPrice.times(buyAmount)
 
-      this.setState({
-        buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
-        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
-      })
+        this.setState({
+          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          buyTotal: bigBuyTotal.toFixed(pricePrecision),
+        })
+      } else {
+        this.setState({
+          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          buyTotal: '',
+        })
+      }
     } else {
       sellPriceInput.current.focus()
 
-      sellPrice = unformat(sellPrice) - priceStep
-      sellPrice = sellPrice >= 0 ? sellPrice : 0
+      sellPrice = sellPrice ? sellPrice : 0
+      let bigSellPrice = Big(sellPrice).minus(Big(priceStep))
+      bigSellPrice = bigSellPrice.gt(Big(priceStep)) ? bigSellPrice : Big(priceStep)
 
-      const sellTotal = sellPrice * unformat(sellAmount)
+      if (sellPrice && sellAmount) {
+        const bigSellTotal = bigSellPrice.times(Big(sellAmount))
 
-      this.setState({
-        sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
-        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
-      })
+        this.setState({
+          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          sellTotal: bigSellTotal.toFixed(pricePrecision),
+        })
+      } else {
+        this.setState({
+          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          sellTotal: '',
+        })
+      }
     }
   }
 
@@ -432,23 +447,41 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (side === 'BUY') {
       buyPriceInput.current.focus()
 
-      buyPrice = unformat(buyPrice) + priceStep
-      const buyTotal = buyPrice * unformat(buyAmount)
+      buyPrice = buyPrice ? buyPrice : 0
+      const bigBuyPrice = Big(buyPrice).add(Big(priceStep))
 
-      this.setState({
-        buyPrice: formatNumber(buyPrice, {precision: pricePrecision}),
-        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
-      })
+      if (buyPrice && buyAmount) {
+        const bigBuyTotal = bigBuyPrice.times(Big(buyAmount))
+
+        this.setState({
+          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          buyTotal: bigBuyTotal.toFixed(pricePrecision),
+        })
+      } else {
+        this.setState({
+          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          buyTotal: '',
+        })
+      }
     } else {
       sellPriceInput.current.focus()
 
-      sellPrice = unformat(sellPrice) + priceStep
-      const sellTotal = sellPrice * unformat(sellAmount)
+      sellPrice = sellPrice ? sellPrice : 0
+      const bigSellPrice = Big(sellPrice).plus(Big(priceStep))
 
-      this.setState({
-        sellPrice: formatNumber(sellPrice, {precision: pricePrecision}),
-        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
-      })
+      if (sellPrice && sellAmount) {
+        const bigSellTotal = bigSellPrice.times(Big(sellAmount))
+
+        this.setState({
+          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          sellTotal: bigSellTotal.toFixed(pricePrecision),
+        })
+      } else {
+        this.setState({
+          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          sellTotal: '',
+        })
+      }
     }
   }
 
@@ -470,27 +503,43 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (side === 'BUY') {
       buyAmountInput.current.focus()
 
-      buyAmount = unformat(buyAmount) - amountStep
-      buyAmount = buyAmount >= 0 ? buyAmount : 0
+      buyAmount = buyAmount ? buyAmount : 0
+      let bigBuyAmount = Big(buyAmount).minus(Big(amountStep)) 
+      bigBuyAmount = bigBuyAmount.gt(Big(amountStep)) ? bigBuyAmount : Big(amountStep)
 
-      const buyTotal = buyAmount * unformat(buyPrice)
+      if (buyAmount && buyPrice) {
+        const bigBuyTotal = bigBuyAmount.times(Big(buyPrice))
 
-      this.setState({
-        buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
-        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
-      })
+        this.setState({
+          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          buyTotal: bigBuyTotal.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          buyTotal: '',
+        })
+      }
     } else {
       sellAmountInput.current.focus()
 
-      sellAmount = unformat(sellAmount) - amountStep
-      sellAmount = sellAmount >= 0 ? sellAmount : 0
+      sellAmount = sellAmount ? sellAmount : 0
+      let bigSellAmount = Big(sellAmount).minus(Big(amountStep))
+      bigSellAmount = bigSellAmount.gt(Big(amountStep)) ? bigSellAmount : Big(amountStep)
 
-      const sellTotal = sellAmount * unformat(sellPrice)
-      
-      this.setState({
-        sellAmount: formatNumber(sellAmount, {precision: amountPrecision}),
-        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
-      })
+      if (sellAmount && sellPrice) {
+        const bigSellTotal = bigSellAmount.times(Big(sellPrice))
+        
+        this.setState({
+          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          sellTotal: bigSellTotal.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          sellTotal: '',
+        })
+      }
     }
   }
 
@@ -509,30 +558,49 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput,
     } = this
 
+    buyPrice = buyPrice ? buyPrice : 0
+    sellPrice = sellPrice ? sellPrice : 0
+    buyAmount = buyAmount ? buyAmount : 0
+    sellAmount = sellAmount ? sellAmount : 0 
+
     if (side === 'BUY') {
       buyAmountInput.current.focus()
 
-      buyAmount = unformat(buyAmount) + amountStep
-      buyAmount = buyAmount >= 0 ? buyAmount : 0
+      buyAmount = buyAmount ? buyAmount : 0
+      const bigBuyAmount = Big(buyAmount).plus(Big(amountStep))
 
-      const buyTotal = buyAmount * unformat(buyPrice)
+      if (buyAmount && buyPrice) {
+        const bigBuyTotal = bigBuyAmount.times(Big(buyPrice))
 
-      this.setState({
-        buyAmount: formatNumber(buyAmount, {precision: amountPrecision}),
-        buyTotal: formatNumber(buyTotal, {precision: pricePrecision}),
-      })
+        this.setState({
+          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          buyTotal: bigBuyTotal.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          buyTotal: '',
+        })
+      }
     } else {
       sellAmountInput.current.focus()
 
-      sellAmount = unformat(sellAmount) + amountStep
-      sellAmount = sellAmount >= 0 ? sellAmount : 0
+      sellAmount = sellAmount ? sellAmount : 0 
+      const bigSellAmount = Big(sellAmount).plus(Big(amountStep))
 
-      const sellTotal = sellAmount * unformat(sellPrice)
+      if (sellAmount && sellPrice) {
+        const bigSellTotal = bigSellAmount.times(Big(sellPrice))
 
-      this.setState({
-        sellAmount: formatNumber(sellAmount, {precision: amountPrecision}),
-        sellTotal: formatNumber(sellTotal, {precision: pricePrecision}),
-      })
+        this.setState({
+          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          sellTotal: bigSellTotal.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          sellTotal: '',
+        })
+      }
     }
   }
 
@@ -689,28 +757,18 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput,
     } = this
 
-    let buyMaxAmount, sellMaxAmount
-    const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
-    const maxQuoteTokenAmount = quoteTokenBalance - Number(formattedMakeFee)
+    let buyMaxAmount = 0
+    let sellMaxAmount = 0
 
-    // if (buyPrice !== '0.0000000' || sellPrice !== '0.0000000') {
-    //   if (side === 'BUY') {
-    //     buyMaxAmount = formatNumber(maxQuoteTokenAmount / unformat(buyPrice), { decimals: 3 })
-    //   } else {
-    //     sellMaxAmount = formatNumber(baseTokenBalance, { decimals: 3 })
-    //   }
-    // } else {
-    //   buyMaxAmount = '0.0'
-    //   sellMaxAmount = '0.0'
-    // }
+    if (authenticated) {
+      if (unformat(buyPrice) & quoteTokenBalance) {
+        const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
+        const maxQuoteTokenAmount = Big(quoteTokenBalance).minus(formattedMakeFee)
+        buyMaxAmount = maxQuoteTokenAmount.div(Big(buyPrice)).toFixed(amountPrecision)
+      }
 
-    if (unformat(buyPrice)) {
-      buyMaxAmount = formatNumber(maxQuoteTokenAmount / unformat(buyPrice), { decimals: 3 })
-    } else {
-      buyMaxAmount = '0.0'
+      sellMaxAmount = Big(baseTokenBalance).toFixed(amountPrecision)
     }
-
-    sellMaxAmount = formatNumber(baseTokenBalance, { decimals: 3 })
 
     const insufficientBalanceToBuy = (unformat(buyAmount) > unformat(buyMaxAmount))
     const insufficientBalanceToSell = (unformat(sellAmount) > unformat(sellMaxAmount))
