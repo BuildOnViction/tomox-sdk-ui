@@ -45,13 +45,10 @@ export default function getOrderFormSelector(state: State) {
   const selectedOrder = orderBookDomain.getSelectedOrder()
 
   const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
-  const currentAddress = accountDomain.address()
   const authenticated = accountDomain.authenticated()
   const loading = orderDomain.loading()
-  const baseTokenLockedBalance = orderDomain.lockedBalanceByToken(baseTokenSymbol, currentAddress)
-  const quoteTokenLockedBalance = orderDomain.lockedBalanceByToken(quoteTokenSymbol, currentAddress)
-  const baseTokenBalance = baseToken.balance - baseTokenLockedBalance
-  const quoteTokenBalance = quoteToken.balance - quoteTokenLockedBalance
+  const baseTokenBalance = baseToken.availableBalance || 0
+  const quoteTokenBalance = quoteToken.availableBalance || 0
   const pairIsAllowed = baseToken.allowed && quoteToken.allowed
   const pairAllowanceIsPending = baseToken.allowancePending || quoteToken.allowancePending
 

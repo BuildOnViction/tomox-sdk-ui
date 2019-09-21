@@ -17,7 +17,7 @@ export async function queryTomoBalance(address: string): Promise<TokenBalance> {
 
   return {
     symbol: NATIVE_TOKEN_SYMBOL,
-    balance: parseFloat(utils.formatEther(balance)),
+    balance: utils.formatEther(balance),
   }
 }
 
@@ -43,7 +43,7 @@ export async function queryTokenBalances(
     .filter(balance => balance !== null)
     .map((balance, i) => ({
       symbol: tokens[i].symbol,
-      balance: parseFloat(utils.formatEther(balance)),
+      balance: utils.formatEther(balance),
     }))
   return tokenBalances
 }

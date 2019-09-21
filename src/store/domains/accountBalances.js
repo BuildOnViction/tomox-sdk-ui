@@ -1,5 +1,6 @@
 // @flow
 import toDecimalFormString from 'number-to-decimal-form-string-x'
+import Big from 'big.js'
 import type {
   AccountAllowances,
   AccountBalances,
@@ -9,7 +10,7 @@ import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
 import { ALLOWANCE_MINIMUM } from '../../utils/constants'
 import { formatNumber } from 'accounting-js'
-import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
+import { NATIVE_TOKEN_SYMBOL, pricePrecision, amountPrecision } from '../../config/tokens'
 // eslint-disable-next-line
 const initialState = {}
 
@@ -42,7 +43,7 @@ export function updated(accountBalances: AccountBalances) {
         symbol: item.symbol,
         balance: item.balance,
         inOrders,
-        availableBalance: item.balance - inOrders,
+        availableBalance: Big(item.balance).minus(inOrders),
         subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
       }
       return result
