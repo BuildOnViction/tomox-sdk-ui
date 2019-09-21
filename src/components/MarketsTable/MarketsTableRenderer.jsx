@@ -68,7 +68,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
+      <Row key={key} style={style} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
         </Cell>
