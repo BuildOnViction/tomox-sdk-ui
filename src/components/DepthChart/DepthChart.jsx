@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { unformat } from 'accounting-js'
 import DepthChartRenderer from './DepthChartRenderer'
 
 var AmCharts = require('@amcharts/amcharts3-react');
@@ -18,7 +19,7 @@ type Props = {
 class DepthChart extends React.Component<Props, State> {
   
   formatNumber = (val: string, chart: Object, precision: number) => {
-    return AmCharts.formatNumber(val, {
+    return AmCharts.formatNumber(unformat(val), {
       precision: precision ? precision : chart.precision,
       decimalSeparator: chart.decimalSeparator,
       thousandsSeparator: chart.thousandsSeparator,
@@ -41,13 +42,13 @@ class DepthChart extends React.Component<Props, State> {
         graph.chart,
         4
       )}</strong><br />
-      Total volume: <strong>${this.formatNumber(
-        item.dataContext.total,
+      Volume: <strong>${this.formatNumber(
+        item.dataContext.amount,
         graph.chart,
         4
       )}</strong><br />
-      Volume: <strong>${this.formatNumber(
-        item.dataContext.amount,
+      Total volume: <strong>${this.formatNumber(
+        item.dataContext.total,
         graph.chart,
         4
       )}</strong>`
@@ -57,16 +58,17 @@ class DepthChart extends React.Component<Props, State> {
         graph.chart,
         4
       )}</strong><br />
-      Total volume: <strong>${this.formatNumber(
-        item.dataContext.total,
-        graph.chart,
-        4
-      )}</strong><br />
       Volume: <strong>${this.formatNumber(
         item.dataContext.amount,
         graph.chart,
         4
-      )}</strong>`
+      )}</strong><br />
+      Total volume: <strong>${this.formatNumber(
+        item.dataContext.total,
+        graph.chart,
+        4
+      )}</strong>
+      `
     }
     return txt
   };

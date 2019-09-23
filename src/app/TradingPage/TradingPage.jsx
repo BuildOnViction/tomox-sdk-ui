@@ -68,7 +68,6 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     return (
       <Grid flow="column" 
         columns={"7.5fr minmax(520px, 4.5fr)"} 
-        rows={"repeat(1fr, 12)"}
         gap="10px" 
         height="100%">
         <Grid flow="row" 
