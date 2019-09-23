@@ -66,30 +66,43 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     // if (!isInitiated) return null
 
     return (
-      <Grid flow="row dense" 
+      <Grid flow="column" 
         columns={"7.5fr minmax(520px, 4.5fr)"} 
-        rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+        rows={"repeat(1fr, 12)"}
         gap="10px" 
         height="100%">
-        <ChartsCell>
-          <ChartTabs
-            id="tabs-chart"
-            onChange={this.handleTabsChartChange}
-            selectedTabId={this.state.chartTadId}
-          >
+        <Grid flow="row" 
+          columns={"1fr"} 
+          rows={"minmax(350px, 6fr) minmax(130px, 3fr)"} 
+          gap="10px" 
+          height="100%">
+          <ChartsCell>
+            <ChartTabs
+              id="tabs-chart"
+              onChange={this.handleTabsChartChange}
+              selectedTabId={this.state.chartTadId}
+            >
               <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
               <Tab id="depth" title="Depth" panel={<DepthChart />} />
-          </ChartTabs>
-        </ChartsCell>
-        <OrderBooxTrades>
-          <Grid columns={2} height="100%" gap="20px">
-            <Cell width={1}><OrderBook /></Cell>
-            <Cell width={1}><TradesTable /></Cell>
-          </Grid>
-        </OrderBooxTrades>
-        <OrdersTableCell><OrdersTable /></OrdersTableCell>
-        <OrderFormCell><OrderForm /></OrderFormCell>
-      </Grid>
+            </ChartTabs>
+          </ChartsCell>
+          <OrdersTableCell><OrdersTable /></OrdersTableCell>
+        </Grid>
+
+        <Grid flow="row" 
+          columns={"1fr"} 
+          rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+          gap="10px" 
+          height="100%">
+          <OrderBooxTrades>
+            <Grid columns={2} height="100%" gap="20px">
+              <Cell width={1}><OrderBook /></Cell>
+              <Cell width={1}><TradesTable /></Cell>
+            </Grid>
+          </OrderBooxTrades>
+          <OrderFormCell><OrderForm /></OrderFormCell>
+        </Grid>
+      </Grid>  
     )
   }
 }
