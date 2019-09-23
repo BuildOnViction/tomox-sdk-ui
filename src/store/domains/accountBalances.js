@@ -10,7 +10,7 @@ import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
 import { ALLOWANCE_MINIMUM } from '../../utils/constants'
 import { formatNumber } from 'accounting-js'
-import { NATIVE_TOKEN_SYMBOL, pricePrecision, amountPrecision } from '../../config/tokens'
+import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
 // eslint-disable-next-line
 const initialState = {}
 

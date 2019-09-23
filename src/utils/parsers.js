@@ -1,5 +1,6 @@
 //@flow
 import { utils } from 'ethers'
+import { Big } from 'big.js'
 import { isFloat, isInteger, round, computeChange } from './helpers'
 
 import {
@@ -102,15 +103,14 @@ export const parseTokenAmount = (amount: string, pair: TokenPair, precision: num
  * @param precision
  * @returns {number}
  */
-export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 18) => {
+export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 7) => {
   const { quoteTokenDecimals } = pair
   // We use 18 to avoid result round to 0. 
-  // The precision (=7) not work well in price too small
-  const precisionMultiplier = utils.bigNumberify(10).pow(18)
-  const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
-  const bigPricepoint = utils.bigNumberify(pricepoint).mul(precisionMultiplier)
+  const precisionMultiplier = Big(10).pow(18)
+  const quoteMultiplier = Big(10).pow(quoteTokenDecimals)
+  const bigPricepoint = Big(pricepoint).times(precisionMultiplier)
 
-  return ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toNumber()
+  return ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toFixed(precision)
 }
 
 export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
