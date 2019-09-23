@@ -1,6 +1,7 @@
 //@flow
 import { utils } from 'ethers'
 import { Big } from 'big.js'
+import { unformat } from 'accounting-js'
 import { isFloat, isInteger, round, computeChange } from './helpers'
 
 import {
@@ -86,13 +87,14 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
  * @param precision
  * @returns {number}
  */
-export const parseTokenAmount = (amount: string, pair: TokenPair, precision: number = amountPrecision) => {
+export const parseTokenAmount = (amountpoint: string, pair: TokenPair, precision: number = amountPrecision) => {
   const { baseTokenDecimals } = pair
-  const precisionMultiplier = utils.bigNumberify(10).pow(precision)
-  const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
-  const bigAmount = utils.bigNumberify(amount).mul(precisionMultiplier).div(baseMultiplier)
+  const precisionMultiplier = Big(10).pow(precision)
+  const baseMultiplier = Big(10).pow(baseTokenDecimals)
+  const bigAmount = (Big(amountpoint).times(precisionMultiplier)).div(baseMultiplier)
+  const amount = bigAmount.div(precisionMultiplier).toFixed(precision)
 
-  return Number(bigAmount) / Number(precisionMultiplier)
+  return unformat(amount)
 }
 
 /**
@@ -109,8 +111,9 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
   const precisionMultiplier = Big(10).pow(18)
   const quoteMultiplier = Big(10).pow(quoteTokenDecimals)
   const bigPricepoint = Big(pricepoint).times(precisionMultiplier)
+  const price = ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toFixed(precision)
 
-  return ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toFixed(precision)
+  return unformat(price)
 }
 
 export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
