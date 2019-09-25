@@ -204,10 +204,10 @@ class Default extends React.PureComponent<Props, State> {
               <TomoXLogo height={40} width={40} alt="TomoX Logo" />
             </MainLogoWrapper>
 
-            <NavbarGroup align={Alignment.LEFT}>
+            <LeftNavbarGroup align={Alignment.LEFT}>
             {this.isTradingPage(pathname) 
             && (
-              <TokenInfo className="token-info">
+              <TokenInfo>
                 {currentPair && (
                   <TokenSearcherPopover
                     content={<TokenSearcher />}
@@ -220,53 +220,53 @@ class Default extends React.PureComponent<Props, State> {
                   </TokenSearcherPopover>
                 )}
 
-                <NavbarDivider />
+                <HeaderDivider />
 
                 {currentPairData && (currentPairData.ticks.length > 0) && 
                   (<TokenTick>
-                    <div className="tick last-price">
-                      <div className="title"><FormattedMessage id="priceBoard.lastPrice" /></div>
-                      <div>
+                    <LastPriceTick>
+                      <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
+                      <div className="price">
                         <span>{formatNumber(currentPairData.price, {precision: 2})}</span>
                         <span className="up">{referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}</span>
                       </div>
-                    </div>
+                    </LastPriceTick>
 
-                    <div className="tick change">
-                      <div className="title"><FormattedMessage id="priceBoard.24hChange" /></div>
+                    <ChangeTick>
+                      <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
                         <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
                         <span>{getChangePercentText(currentPairData.change)}</span>
                       </div>
-                    </div>
+                    </ChangeTick>
 
-                    <div className="tick high">
+                    <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div className="up">
                         <span>{formatNumber(currentPairData.ticks[0].high, {precision: 2})}</span>
                       </div>
-                    </div>
+                    </HighTick>
 
-                    <div className="tick low">
+                    <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div className="down">
                         <span>{formatNumber(currentPairData.ticks[0].low, {precision: 2})}</span>
                       </div>
-                    </div>
+                    </LowTick>
 
-                    <div className="tick volume">
+                    <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
                         <span>{formatNumber(currentPairData.ticks[0].volume, {precision: 2})}</span>
                       </div>
-                    </div>
+                    </VolumeTick>
                   </TokenTick>)
                 }
               </TokenInfo>
             )}
-            </NavbarGroup>
+            </LeftNavbarGroup>
 
-            <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
+            <NavbarGroup className="utilities-menu xs-hidden" align={Alignment.RIGHT}>
               <SupportItem className="utility-item support">
                 <a href="https://docs.tomochain.com/" target="_blank" rel="noopener noreferrer">
                   <i>support</i>
@@ -321,7 +321,7 @@ class Default extends React.PureComponent<Props, State> {
           </Navbar>
         </Header>
         <MainContainer>
-          <Sidebar className="sidebar"> 
+          <Sidebar> 
             <MarketsLink to="/markets">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
@@ -484,7 +484,11 @@ const CreateImportWrapper = styled(Wrapper)``
 
 const Header = styled.header.attrs({
   className: 'tm-header',
-})``
+})`
+  @media only screen and (max-width: 680px) {
+    padding: 0 5px;
+  }
+`
 
 const CreateImportHeader = styled.header`
   position: relative;
@@ -531,7 +535,7 @@ const CreateImportHeader = styled.header`
 const CreateImportMain = styled.div``
 
 const MainLogoWrapper = styled(NavbarHeading).attrs({
-  className: 'logo',
+  className: 'logo xs-hidden',
 })``
 
 const LogoWrapper = styled(NavbarHeading)`
@@ -568,7 +572,9 @@ const MainContainer = styled.div.attrs({
   grid-template-columns: 155px 1fr;
 `
 
-const Sidebar = styled.div`
+const Sidebar = styled.div.attrs({
+  className: 'sidebar xs-hidden',
+})`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -637,7 +643,17 @@ const MainContent = styled.main`
   }
 `
 
-const TokenInfo = styled.div`
+const HeaderDivider = styled(NavbarDivider).attrs({
+  className: 'xs-hidden',
+})``
+
+const TokenInfo = styled.div.attrs({
+  className: 'token-info',
+})`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
   .arrow {
     transition: transform .5s ease;
   }
@@ -645,14 +661,97 @@ const TokenInfo = styled.div`
   .bp3-popover-open .arrow {
     transform: rotate(180deg);
   }
+
+  @media only screen and (max-width: 680px) {
+    flex-flow: column;
+    width: 100%;
+  }
 `
 
-const TokenTick = styled.div.attrs({ className: 'token-tick' })`
+const LeftNavbarGroup = styled(NavbarGroup)`
+  @media only screen and (max-width: 680px) {
+    width: 100%;
+  }
+`
+
+const TokenTick = styled.div.attrs({ 
+  className: 'token-tick',
+})`
+  display: grid;
+  // grid-auto-flow: column;
+  grid-template-areas: 
+  "last-price change high low volume";
   color: ${props => props.theme.textSmallChart};
+  font-size: ${Theme.FONT_SIZE_SM};
+  .tick {
+    margin-right: 50px;
+    &:last-child {
+      margin-right: 0;
+    }
+    span {
+      margin-right: 12px;
+    }
+  }
+  .title {
+    margin-bottom: 5px;
+  }
 
   .title {
-    color: $tm-gray;
+    color: ${props => props.theme.menuColor};
   }
+
+  @media only screen and (max-width: 680px) {
+    width: 100%;
+    grid-template-areas: 
+    "last-price last-price"
+    "change high"
+    "volume low";
+    .title {
+      margin-bottom: 2px;
+    }
+  }
+`
+
+const Tick = styled.div`
+  @media only screen and (max-width: 680px) {
+    display: flex;
+  }
+`
+
+const LastPriceTick = styled(Tick).attrs({
+  className: 'tick last-price',
+})`
+  grid-area: last-price;
+
+  @media only screen and (max-width: 680px) {
+    .price > span:first-child {
+      font-size: 24px;
+    }
+  }
+`
+
+const ChangeTick = styled(Tick).attrs({
+  className: 'tick change',
+})`
+  grid-area: change;
+`
+
+const HighTick = styled(Tick).attrs({
+  className: 'tick high',
+})`
+  grid-area: high;
+`
+
+const LowTick = styled(Tick).attrs({
+  className: 'tick low',
+})`
+  grid-area: low;
+`
+
+const VolumeTick = styled(Tick).attrs({
+  className: 'tick volume',
+})`
+  grid-area: volume;
 `
 
 const SupportItem = styled.div`

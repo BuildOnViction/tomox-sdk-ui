@@ -66,13 +66,13 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     // if (!isInitiated) return null
 
     return (
-      <Grid flow="column" 
+      <Container flow="column" 
         columns={"7.5fr minmax(520px, 4.5fr)"} 
         gap="10px" 
         height="100%">
         <Grid flow="row" 
           columns={"1fr"} 
-          rows={"minmax(350px, 6fr) minmax(130px, 3fr)"} 
+          rows={"minmax(430px, 6fr) minmax(130px, 3fr)"} 
           gap="10px" 
           height="100%">
           <ChartsCell>
@@ -85,7 +85,9 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               <Tab id="depth" title="Depth" panel={<DepthChart />} />
             </ChartTabs>
           </ChartsCell>
-          <OrdersTableCell><OrdersTable /></OrdersTableCell>
+          <OrdersTableCell>
+            <OrdersTable />            
+          </OrdersTableCell>
         </Grid>
 
         <Grid flow="row" 
@@ -93,24 +95,35 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
           gap="10px" 
           height="100%">
-          <OrderBooxTrades>
-            <Grid columns={2} height="100%" gap="20px">
+          <OrderbooxTradesGrid columns={2} height="100%" gap="20px">
               <Cell width={1}><OrderBook /></Cell>
               <Cell width={1}><TradesTable /></Cell>
-            </Grid>
-          </OrderBooxTrades>
+          </OrderbooxTradesGrid>
           <OrderFormCell><OrderForm /></OrderFormCell>
         </Grid>
-      </Grid>  
+      </Container>  
     )
   }
 }
 
-const OrderBooxTrades = styled(Cell).attrs({
+const Container = styled(Grid)`
+  @media only screen and (max-width: 680px) {
+    grid-auto-flow: row;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+  }
+`
+
+const OrderbooxTradesGrid = styled(Grid).attrs({
   className: 'orderbook-trades',
 })`
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   padding: 10px 0;
+  @media only screen and (max-width: 680px) {
+    grid-auto-flow: row;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+  }
 `
 
 const ChartsCell = styled(Cell).attrs({
