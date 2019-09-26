@@ -71,7 +71,9 @@ export const queryTradingPageData = (): ThunkAction => {
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
-      dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
+      const { router: { location: { pathname }}} = state
+      const currPathname = pathname.includes('trade-mobile') ? 'trade-mobile' : 'trade'
+      dispatch(push(`/${currPathname}/${currentPair.pair.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()
       const accountDomain = getAccountDomain(state)

@@ -60,6 +60,10 @@ const IncreaseAndDecreaseBox = styled.div.attrs({
     align-items: flex-start;
     padding-top: 3px;
   }
+
+  @media only screen and (max-width: 680px) {
+    display: none;
+  }
 `
 
 const IncreaseAndDecreaseButton = styled.span`

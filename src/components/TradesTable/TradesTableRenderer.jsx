@@ -45,7 +45,7 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
             textAlign="right">Amount</HeaderCell>
         </HeadingRow>
       </ListHeader>
-      <ListBody className="content">
+      <ListBody>
         {trades.map((trade, index) => (
           <Row key={index}>
             <Cell 
@@ -84,9 +84,15 @@ const ListHeader = styled.ul`
   margin: 0px;
 `
 
-const ListBody = styled.ul`
+const ListBody = styled.ul.attrs({
+  className: 'content',
+})`
   overflow-y: auto;
   margin: 0;
+
+  @media only screen and (max-width: 680px) {
+    overflow-y: hidden;
+  }
 `
 
 const HeadingRow = styled.li.attrs({
@@ -98,6 +104,10 @@ const HeadingRow = styled.li.attrs({
   margin-bottom: 10px;
   justify-content: space-between;
   padding-right: 10px;
+
+  @media only screen and (max-width: 680px) {
+    padding-left: 10px;
+  }
 `
 
 const Row = styled.li.attrs({
@@ -112,6 +122,10 @@ const Row = styled.li.attrs({
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
+  }
+
+  @media only screen and (max-width: 680px) {
+    padding-left: 10px !important;
   }
 `
 

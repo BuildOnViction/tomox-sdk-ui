@@ -552,6 +552,9 @@ const LogoWrapper = styled(NavbarHeading)`
 
 const TokenSearcherPopover = styled(Popover)`
   width: 100px;
+  @media only screen and (max-width: 680px) {
+    width: 120px;
+  }
 `
 
 const TokenPaisDropDown = styled.div.attrs({
@@ -725,7 +728,7 @@ const LastPriceTick = styled(Tick).attrs({
 
   @media only screen and (max-width: 680px) {
     .price > span:first-child {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 `
