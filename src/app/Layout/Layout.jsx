@@ -89,20 +89,21 @@ class Default extends React.PureComponent<Props, State> {
   state = {
     sessionPassword: '',
     sessionPasswordStatus: '',
+    isShowTokenSearcher: false,
   }
 
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    // if (window.web3 && window.web3.currentProvider &&
-    //   window.web3.currentProvider.isTomoWallet) {
-    //   this.props.loginWithMetamask()
-    // }
-
-    if (window.web3 && window.web3.currentProvider) {
-      await window.ethereum.enable()
-      await this.props.loginWithMetamask()
+    if (window.web3 && window.web3.currentProvider &&
+      window.web3.currentProvider.isTomoWallet) {
+      this.props.loginWithMetamask()
     }
+
+    // if (window.web3 && window.web3.currentProvider) {
+    //   await window.ethereum.enable()
+    //   await this.props.loginWithMetamask()
+    // }
 
     if (createProvider) {
       createProvider()
@@ -161,6 +162,10 @@ class Default extends React.PureComponent<Props, State> {
     logout()
   }
 
+  toggleTokenSearcherMobile = (isShow: Boolean) => {
+    this.setState({ isShowTokenSearcher: isShow })
+  }
+
   render() {
     const { 
       children, 
@@ -177,6 +182,8 @@ class Default extends React.PureComponent<Props, State> {
       newNotifications,
       showSessionPasswordModal,
     } = this.props
+
+    const { isShowTokenSearcher } = this.state
 
     const menu = (
       <MenuWallet>
@@ -219,15 +226,25 @@ class Default extends React.PureComponent<Props, State> {
             && (
               <TokenInfo>
                 {currentPair && (
-                  <TokenSearcherPopover
-                    content={<TokenSearcher />}
-                    position={Position.BOTTOM_LEFT}
-                    minimal>
-                    <TokenPaisDropDown>
-                      <span>{currentPair.pair}</span> 
-                      <i className="arrow"></i>
-                    </TokenPaisDropDown>
-                  </TokenSearcherPopover>
+                  <React.Fragment>
+                    <TokenSearcherPopover
+                      content={<TokenSearcher />}
+                      position={Position.BOTTOM_LEFT}
+                      minimal>
+                      <TokenPaisDropDown>
+                        <span>{currentPair.pair}</span> 
+                        <i className="arrow"></i>
+                      </TokenPaisDropDown>
+                    </TokenSearcherPopover>
+
+                    {/* For mobile */}
+                    {!isShowTokenSearcher && (
+                      <TokenPaisDropDownMobile onClick={() => this.toggleTokenSearcherMobile(true)}>
+                        <span>{currentPair.pair}</span> 
+                        <i className="arrow"></i>
+                      </TokenPaisDropDownMobile>
+                    )}
+                  </React.Fragment>
                 )}
 
                 <HeaderDivider />
@@ -400,6 +417,12 @@ class Default extends React.PureComponent<Props, State> {
           unlockWallet={this.unlockWalletWithSessionPassword}
           isOpen={showSessionPasswordModal} 
           handleClose={this.closeSessionPasswordModal} />
+        {isShowTokenSearcher && (
+          <TokenSearcherBoxMobile>
+            <Close icon="cross" intent="danger" onClick={() => this.toggleTokenSearcherMobile(false)} />
+            <TokenSearcher toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
+          </TokenSearcherBoxMobile>
+        )}
       </Wrapper>
     )
   }
@@ -560,10 +583,31 @@ const LogoWrapper = styled(NavbarHeading)`
   margin: 0;
 `
 
+const TokenSearcherBoxMobile = styled.div`
+  @media only screen and (max-width: 680px) {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1010;
+    padding-top: 40px;
+    background-color: ${props => props.theme.subBg};
+  }
+`
+
+const Close = styled(Icon)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+`
+
 const TokenSearcherPopover = styled(Popover)`
   width: 100px;
   @media only screen and (max-width: 680px) {
-    width: 120px;
+    display: none;
   }
 `
 
@@ -575,6 +619,13 @@ const TokenPaisDropDown = styled.div.attrs({
 
   &:hover {
     color: ${props => props.theme.labelTokensDropdownHover}
+  }
+`
+
+const TokenPaisDropDownMobile = styled(TokenPaisDropDown)`
+  display: none;
+  @media only screen and (max-width: 680px) {
+    display: block;
   }
 `
 

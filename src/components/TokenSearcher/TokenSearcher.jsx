@@ -150,6 +150,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   }
 
   changeSelectedToken = (token: Token) => {
+    if (this.props.toggleTokenSearcherMobile) this.props.toggleTokenSearcherMobile(false)
     if (token.pair === this.state.selectedPair.pair) return
     this.setState({ selectedPair: token })
     this.props.updateCurrentPair(token.pair)
