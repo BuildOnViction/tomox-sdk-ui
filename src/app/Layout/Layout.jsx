@@ -91,8 +91,18 @@ class Default extends React.PureComponent<Props, State> {
     sessionPasswordStatus: '',
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
+
+    // if (window.web3 && window.web3.currentProvider &&
+    //   window.web3.currentProvider.isTomoWallet) {
+    //   this.props.loginWithMetamask()
+    // }
+
+    if (window.web3 && window.web3.currentProvider) {
+      await window.ethereum.enable()
+      await this.props.loginWithMetamask()
+    }
 
     if (createProvider) {
       createProvider()

@@ -83,7 +83,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     return (      
       <Grid flow="row" 
         columns={"1fr"} 
-        rows={"430px 400px"} 
+        rows={"400px 400px"} 
         gap="10px" 
         height="100%">
         <ChartsCell>
@@ -166,6 +166,7 @@ const ButtonGroupBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  z-index: 1000;
 `
 
 const Close = styled(Icon)`
@@ -396,7 +397,7 @@ const MainTabs = styled(RcTabs)`
 
   .rc-tabs-nav-wrap .rc-tabs-tab {
     font-size: ${Theme.FONT_SIZE_MD};
-    padding: 8px 15px;
+    padding: 8px 10px;
     margin-right: 0;
   }
 

@@ -131,7 +131,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     this.getMultipleAddresses(this.state.indexAddress, 5, false)
   }
 
-  handleTabChange = async (selectedTabId: string) => {
+  handleTabChange = (selectedTabId: string) => {
     this.setState({ 
       selectedTabId,
       privateKeyStatus: 'initial',
