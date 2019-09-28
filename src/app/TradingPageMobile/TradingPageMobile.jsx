@@ -9,7 +9,7 @@ import { default as RcTabs, TabPane } from 'rc-tabs'
 import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 
-import OrdersTable from '../../components/OrdersTable'
+import OrdersTableMobile from '../../components/OrdersTableMobile'
 import OrderForm from '../../components/OrderForm'
 // import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
@@ -103,7 +103,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             onChange={() => {}}
             renderTabBar={()=><ScrollableInkTabBar />}
             renderTabContent={()=><TabContent />}>
-            <TabPane tab='Open Orders' key="1"><OrdersTable /></TabPane>
+            <TabPane tab='Orders' key="1"><OrdersTableMobile /></TabPane>
             <TabPane tab='Orderbook' key="2"><OrderBook /></TabPane>  
             <TabPane tab='Trades History' key="3"><TradesTable /></TabPane>         
           </MainTabs>
@@ -177,25 +177,25 @@ const Close = styled(Icon)`
   padding: 10px;
 `
 
-const Container = styled(Grid)`
-  @media only screen and (max-width: 680px) {
-    grid-auto-flow: row;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
-  }
-`
+// const Container = styled(Grid)`
+//   @media only screen and (max-width: 680px) {
+//     grid-auto-flow: row;
+//     grid-template-rows: 1fr 1fr;
+//     grid-template-columns: 1fr;
+//   }
+// `
 
-const OrderbooxTradesGrid = styled(Grid).attrs({
-  className: 'orderbook-trades',
-})`
-  box-shadow: 0 0 0 1px ${props => props.theme.border};
-  padding: 10px 0;
-  @media only screen and (max-width: 680px) {
-    grid-auto-flow: row;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
-  }
-`
+// const OrderbooxTradesGrid = styled(Grid).attrs({
+//   className: 'orderbook-trades',
+// })`
+//   box-shadow: 0 0 0 1px ${props => props.theme.border};
+//   padding: 10px 0;
+//   @media only screen and (max-width: 680px) {
+//     grid-auto-flow: row;
+//     grid-template-rows: 1fr 1fr;
+//     grid-template-columns: 1fr;
+//   }
+// `
 
 const ChartsCell = styled(Cell).attrs({
   className: 'charts-cell',
@@ -240,7 +240,7 @@ const ChartsCell = styled(Cell).attrs({
 const OrdersTableCell = styled(Cell).attrs({
   className: 'orders-table-cell',
 })`
-  padding: 10px 0;
+  padding: 10px 0 50px 0 !important;
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   font-size: ${Theme.FONT_SIZE_SM};
 
