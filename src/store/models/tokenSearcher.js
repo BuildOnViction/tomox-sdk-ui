@@ -47,8 +47,10 @@ export default function tokenSearcherSelector(state: State) {
 export const updateCurrentPair = (pair: string): ThunkAction => {
     return async (dispatch, getState) => {
       const param = pair.replace('/', '-')
+      let { router: { location: { pathname }}} = getState()
+      pathname = pathname.includes('trade-mobile') ? 'trade-mobile' : 'trade'
 
       dispatch(actionCreators.updateCurrentPair(pair))
-      dispatch(push(`/trade/${param}`))
+      dispatch(push(`/${pathname}/${param}`))
     }
 };
