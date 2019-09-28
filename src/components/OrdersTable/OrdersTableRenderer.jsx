@@ -320,12 +320,6 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
 const TabsContainer = styled(Tabs)`
   position: relative;
-
-  @media only screen and (max-width: 680px) {
-    .bp3-tab-list {
-      display: none;
-    }
-  }
 `
 
 const ListContainer = styled.div.attrs({

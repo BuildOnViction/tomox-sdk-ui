@@ -91,7 +91,9 @@ const ListBody = styled.ul.attrs({
   margin: 0;
 
   @media only screen and (max-width: 680px) {
-    overflow-y: hidden;
+    .tomo-wallet & {
+      overflow-y: hidden;
+    }
   }
 `
 
@@ -106,7 +108,9 @@ const HeadingRow = styled.li.attrs({
   padding-right: 10px;
 
   @media only screen and (max-width: 680px) {
-    padding-left: 10px;
+    .tomo-wallet & {
+      padding-left: 10px;
+    }
   }
 `
 
@@ -125,7 +129,9 @@ const Row = styled.li.attrs({
   }
 
   @media only screen and (max-width: 680px) {
-    padding-left: 10px !important;
+    .tomo-wallet & {
+      padding-left: 10px !important;
+    }
   }
 `
 

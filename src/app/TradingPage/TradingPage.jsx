@@ -108,9 +108,11 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
 const Container = styled(Grid)`
   @media only screen and (max-width: 680px) {
-    grid-auto-flow: row;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    .tomo-wallet & {
+      grid-auto-flow: row;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+    }
   }
 `
 
@@ -120,9 +122,11 @@ const OrderbooxTradesGrid = styled(Grid).attrs({
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   padding: 10px 0;
   @media only screen and (max-width: 680px) {
-    grid-auto-flow: row;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    .tomo-wallet & {
+      grid-auto-flow: row;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+    }
   }
 `
 

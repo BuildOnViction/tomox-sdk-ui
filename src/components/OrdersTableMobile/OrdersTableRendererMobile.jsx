@@ -349,7 +349,9 @@ const CheckboxHidePairs = styled(Checkbox)`
   }
 
   @media only screen and (max-width: 680px) {
-    display: none;
+    .tomo-wallet & {
+      display: none;
+    }
   }
 `
 

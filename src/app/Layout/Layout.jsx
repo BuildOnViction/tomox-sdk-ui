@@ -18,6 +18,7 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 
+import { isTomoWallet } from '../../utils/helpers'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -95,8 +96,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (window.web3 && window.web3.currentProvider &&
-      window.web3.currentProvider.isTomoWallet) {
+    if (isTomoWallet()) {
       this.props.loginWithMetamask()
     }
 
@@ -166,6 +166,11 @@ class Default extends React.PureComponent<Props, State> {
     this.setState({ isShowTokenSearcher: isShow })
   }
 
+  generateClassname = () => {
+    const className = this.isTradingPage(this.props.pathname) ? "exchange-page" : ""
+    return isTomoWallet() ? `${className} tomo-wallet` : className
+  }
+
   render() {
     const { 
       children, 
@@ -213,7 +218,7 @@ class Default extends React.PureComponent<Props, State> {
     )
 
     return (
-      <Wrapper mode={mode} className={this.isTradingPage(pathname) ? "exchange-page" : ""}>
+      <Wrapper mode={mode} className={this.generateClassname()}>
         <Notifier />
         <Header>
           <Navbar>
@@ -519,7 +524,9 @@ const Header = styled.header.attrs({
   className: 'tm-header',
 })`
   @media only screen and (max-width: 680px) {
-    padding: 0 5px;
+    .tomo-wallet & {
+      padding: 0 5px;
+    }
   }
 `
 
@@ -607,7 +614,9 @@ const Close = styled(Icon)`
 const TokenSearcherPopover = styled(Popover)`
   width: 100px;
   @media only screen and (max-width: 680px) {
-    display: none;
+    .tomo-wallet & {
+      display: none;
+    }
   }
 `
 
@@ -625,7 +634,9 @@ const TokenPaisDropDown = styled.div.attrs({
 const TokenPaisDropDownMobile = styled(TokenPaisDropDown)`
   display: none;
   @media only screen and (max-width: 680px) {
-    display: block;
+    .tomo-wallet & {
+      display: block;
+    }
   }
 `
 
@@ -727,14 +738,18 @@ const TokenInfo = styled.div.attrs({
   }
 
   @media only screen and (max-width: 680px) {
-    flex-flow: column;
-    width: 100%;
+    .tomo-wallet & {
+      flex-flow: column;
+      width: 100%;
+    }
   }
 `
 
 const LeftNavbarGroup = styled(NavbarGroup)`
   @media only screen and (max-width: 680px) {
-    width: 100%;
+    .tomo-wallet & {
+      width: 100%;
+    }
   }
 `
 
@@ -765,20 +780,24 @@ const TokenTick = styled.div.attrs({
   }
 
   @media only screen and (max-width: 680px) {
-    width: 100%;
-    grid-template-areas: 
-    "last-price last-price"
-    "change high"
-    "volume low";
-    .title {
-      margin-bottom: 2px;
+    .tomo-wallet & {
+      width: 100%;
+      grid-template-areas: 
+      "last-price last-price"
+      "change high"
+      "volume low";
+      .title {
+        margin-bottom: 2px;
+      }
     }
   }
 `
 
 const Tick = styled.div`
   @media only screen and (max-width: 680px) {
-    display: flex;
+    .tomo-wallet & {
+      display: flex;
+    }
   }
 `
 
@@ -788,7 +807,7 @@ const LastPriceTick = styled(Tick).attrs({
   grid-area: last-price;
 
   @media only screen and (max-width: 680px) {
-    .price > span:first-child {
+    .tomo-wallet & .price > span:first-child {
       font-size: 20px;
     }
   }
@@ -993,7 +1012,8 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }
+    }import { isMobile } from '../../utils/helpers';
+
   }
 `
 

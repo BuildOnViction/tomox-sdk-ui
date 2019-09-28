@@ -323,11 +323,12 @@ const TokenSearchCard = styled.div`
   }
 
   @media only screen and (max-width: 680px) {
-    width: unset;
-    height: unset;
-    box-shadow: unset;
-    border-bottom: unset;
-    border-top: unset;
+    .tomo-wallet & {
+      width: unset;
+      height: unset;
+      box-shadow: unset;
+      border: unset;
+    }
   }
 `
 
@@ -382,9 +383,11 @@ const SearchInputBox = styled.div`
   }
 
   @media only screen and (max-width: 680px) {
-    position: unset;
-    width: unset;
-    margin: 0 10px;
+    .tomo-wallet & {
+      position: unset;
+      width: unset;
+      margin: 0 10px;
+    }
   }
 `
 
@@ -425,8 +428,10 @@ const SearchResultBox = styled.div`
   }
 
   @media only screen and (max-width: 680px) {
-    width: calc(100% - 20px);
-    left: 10px;
+    .tomo-wallet & {
+      width: calc(100% - 20px);
+      left: 10px;
+    }
   }
 `
 

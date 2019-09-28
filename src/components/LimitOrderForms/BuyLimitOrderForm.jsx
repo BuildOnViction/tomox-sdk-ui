@@ -175,8 +175,10 @@ const TokenName = styled.span`
   user-select: none;
 
   @media only screen and (max-width: 680px) {
-    top: 65%;
-    font-size: 10px;
+    .tomo-wallet & {
+      top: 65%;
+      font-size: 10px;
+    }
   }
 `
 
@@ -200,10 +202,18 @@ const InputBox = styled.div`
   }
 
   @media only screen and (max-width: 680px) {
-    flex-flow: column;
+    .tomo-wallet & {
+      flex-flow: column;
 
-    .bp3-input-group.bp3-fill {
-      width: 100%;
+      .bp3-input-group.bp3-fill {
+        width: 100%;
+      }
+    }
+
+    .tomo-wallet &:hover {
+      .increase-decrease-box {
+        display: none !important;
+      }
     }
   }
 `
@@ -216,7 +226,9 @@ const InputLabel = styled.div`
   user-select: none;
 
   @media only screen and (max-width: 680px) {
-    width: 100%;
+    .tomo-wallet & {
+      width: 100%;
+    }
   }
 `
 
@@ -254,7 +266,9 @@ const MaxAmountInfo = styled.div`
   right: 0;
   
   @media only screen and (max-width: 680px) {
-    display: none;
+    .tomo-wallet & {
+      display: none;
+    }
   }
 `
 
