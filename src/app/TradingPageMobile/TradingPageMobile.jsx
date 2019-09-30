@@ -83,7 +83,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
     return (      
       <Grid flow="row" 
         columns={"1fr"} 
-        rows={"400px 400px"} 
+        rows={"340px 480px"} 
         gap="10px" 
         height="100%">
         <ChartsCell>
@@ -102,10 +102,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             defaultActiveKey="1"
             onChange={() => {}}
             renderTabBar={()=><ScrollableInkTabBar />}
-            renderTabContent={()=><TabContent />}>
-            <TabPane tab='Orders' key="1"><OrdersTableMobile /></TabPane>
-            <TabPane tab='Orderbook' key="2"><OrderBook /></TabPane>  
-            <TabPane tab='Trades History' key="3"><TradesTable /></TabPane>         
+            renderTabContent={()=><TabContent />}>            
+            <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
+            <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
+            <TabPane tab='Orders' key="3"><OrdersTableMobile /></TabPane>       
           </MainTabs>
         </OrdersTableCell>
 
@@ -146,6 +146,7 @@ const StyledButton = styled(Button)`
   box-shadow: unset !important;
   background-image: unset !important;
   border-radius: 0 !important;
+  min-height: 40px;
 `
 
 const BuyButton = styled(StyledButton).attrs({
@@ -161,7 +162,7 @@ const ButtonGroupBox = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-  height: 45px;
+  height: 50px;
   background-color: ${props => props.theme.mainBg};
   display: flex;
   align-items: center;
@@ -176,26 +177,6 @@ const Close = styled(Icon)`
   cursor: pointer;
   padding: 10px;
 `
-
-// const Container = styled(Grid)`
-//   @media only screen and (max-width: 680px) {
-//     grid-auto-flow: row;
-//     grid-template-rows: 1fr 1fr;
-//     grid-template-columns: 1fr;
-//   }
-// `
-
-// const OrderbooxTradesGrid = styled(Grid).attrs({
-//   className: 'orderbook-trades',
-// })`
-//   box-shadow: 0 0 0 1px ${props => props.theme.border};
-//   padding: 10px 0;
-//   @media only screen and (max-width: 680px) {
-//     grid-auto-flow: row;
-//     grid-template-rows: 1fr 1fr;
-//     grid-template-columns: 1fr;
-//   }
-// `
 
 const ChartsCell = styled(Cell).attrs({
   className: 'charts-cell',
@@ -240,7 +221,8 @@ const ChartsCell = styled(Cell).attrs({
 const OrdersTableCell = styled(Cell).attrs({
   className: 'orders-table-cell',
 })`
-  padding: 10px 0 50px 0 !important;
+  padding: 10px 0 0 0 !important;
+  margin-bottom: 53px;
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   font-size: ${Theme.FONT_SIZE_SM};
 

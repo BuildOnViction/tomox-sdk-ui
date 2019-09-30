@@ -9,16 +9,6 @@
 }
 
 .tm-theme {
-  .trade-history {
-    font-size: $tm-font-size-sm;
-    .header {  
-      height: 16px;    
-    }
-    .content {
-      height: calc(100% - 16px);
-    }
-  }
-
   .order-book {
     font-size: $tm-font-size-sm;
     display: flex;
@@ -65,20 +55,8 @@
     .order-book-content {
       height: calc(100% - 20px);
 
-      .list-header {
-        height: 14px;
-        margin-bottom: 10px;
-      }
-
       .header-cell {
         color: $tm-orange;
-      }
-
-      .list-container {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        height: calc(100% - 24px);
       }
 
       .latest-price {
@@ -366,20 +344,8 @@
     .order-book-content {
       height: calc(100% - 20px);
 
-      .list-header {
-        height: 14px;
-        margin-bottom: 10px;
-      }
-
       .header-cell {
         color: $tm-orange;
-      }
-
-      .list-container {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        height: calc(100% - 24px);
       }
 
       .latest-price {

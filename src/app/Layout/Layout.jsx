@@ -18,7 +18,7 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 
-import { isMobile } from '../../utils/helpers'
+import { isMobile, isTomoWallet } from '../../utils/helpers'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -100,8 +100,8 @@ class Default extends React.PureComponent<Props, State> {
     //   this.props.loginWithMetamask()
     // }
 
-    if (window.web3 && window.web3.currentProvider && isMobile()) {
-      await window.ethereum.enable()
+    if (window.web3 && window.web3.currentProvider && (isMobile() || isTomoWallet())) {
+      if (window.ethereum) await window.ethereum.enable()
       await this.props.loginWithMetamask()
     }
 
@@ -168,7 +168,7 @@ class Default extends React.PureComponent<Props, State> {
 
   generateClassname = () => {
     const className = this.isTradingPage(this.props.pathname) ? "exchange-page" : ""
-    return (window.web3 && window.web3.currentProvider && isMobile()) ? `${className} tomo-wallet` : className
+    return (window.web3 && window.web3.currentProvider && (isMobile() || isTomoWallet())) ? `${className} tomo-wallet` : className
     // return isTomoWallet() ? `${className} tomo-wallet` : className
   }
 
@@ -527,6 +527,7 @@ const Header = styled.header.attrs({
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       padding: 0 5px;
+      height: 110px;
     }
   }
 `
@@ -637,6 +638,9 @@ const TokenPaisDropDownMobile = styled(TokenPaisDropDown)`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       display: block;
+      padding: 25px 0 15px;
+      font-size: ${Theme.FONT_SIZE_MD};
+      font-weight: bold;
     }
   }
 `
@@ -783,6 +787,7 @@ const TokenTick = styled.div.attrs({
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       width: 100%;
+      font-size: 10px;
       grid-template-areas: 
       "last-price last-price"
       "change high"

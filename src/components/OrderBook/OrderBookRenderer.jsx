@@ -103,7 +103,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           <OrderBookContent className="order-book-content all">
             {!bids && <Loading />}
 
-            <ListHeading className="list-header">
+            <ListHeading>
               <HeaderRow>
                 <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
                 <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
@@ -111,7 +111,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               </HeaderRow>
             </ListHeading>
 
-            <ListContent className="list-container">
+            <ListContent>
               {asks && (
                 <List className="bp3-list-unstyled list list-sell" id="list-sell">
                   {asks.map((order, index) => (
@@ -332,15 +332,38 @@ const Cell = styled.span`
   text-overflow: ellipsis;
 `
 
-const ListHeading = styled.ul`
+const ListHeading = styled.ul.attrs({
+  className: "list-header",
+})`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin: 0px;
+  height: 14px;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      margin-bottom: 5px;
+    }
+  }
 `
 
-const ListContent = styled.div``
+const ListContent = styled.div.attrs({
+  className: "list-container",
+})`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: calc(100% - 24px) !important;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      height: calc(100% - 32px) !important;
+    }
+  }
+`
 
 const HeaderRow = styled.li`
   display: flex;

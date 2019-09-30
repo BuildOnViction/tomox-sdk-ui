@@ -45,7 +45,7 @@ export function loginWithMetamask(): ThunkAction {
       dispatch(actionCreators.loginWithMetamask(address));
       dispatch(
         notifierActionCreators.addSuccessNotification({
-          message: 'Signed in with Metamask'
+          message: 'Signed in with Wallet',
         })
       );
     } catch (e) {

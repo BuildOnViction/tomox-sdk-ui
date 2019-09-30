@@ -222,11 +222,16 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 }
 
 const TabsContainer = styled(Tabs)`
-  position: relative;
+  position: relative;  
 
   .bp3-tab-list > *:not(:last-child) {
     margin-right: 0;
     padding-right: 15px !important;
+  }
+
+  .bp3-tab {
+    font-size: ${Theme.FONT_SIZE_SM};
+    user-select: none;
   }
 `
 

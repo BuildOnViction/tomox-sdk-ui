@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, CenteredMessage } from '../Common'
+import { Loading, CenteredMessage, Theme } from '../Common'
 import { formatDate } from '../../utils/helpers'
 
 import type { Trade } from '../../types/trades'
@@ -18,7 +18,7 @@ const TradesTableRenderer = (props: Props) => {
   } = props
 
   return (
-    <Wrapper className="trade-history">
+    <Wrapper>
       <MarketTradesPanel trades={trades} />
     </Wrapper>
   )
@@ -71,9 +71,25 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs({
+  className: "trade-history",
+})`
   margin: auto;
   height: 100% !important;
+  font-size: ${Theme.FONT_SIZE_SM};
+
+  .header {  
+    height: 16px;    
+  }
+  .content {
+    height: calc(100% - 16px);
+  }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & .content {
+      height: 396px;
+    }
+  }
 `
 
 const ListHeader = styled.ul`
