@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
 import { 
-  // formatDate, 
+  formatDate, 
   capitalizeFirstLetter, 
   truncateZeroDecimal, 
 } from '../../utils/helpers'
@@ -138,15 +138,11 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader>
-        {/* <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell> */}
-        <HeaderCell width={"20%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        {/* <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell> */}
+        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={"10%"}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={"25%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        {/* <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell> */}
-        {/* <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
-        <HeaderCell width={"25%"}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={"20%"}></HeaderCell>
+        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={"5%"}></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
@@ -155,31 +151,23 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row key={index}>
-              {/* <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
-              </Cell> */}
-              <Cell width={"20%"} title={order.pair} muted>
+              <Cell width={"30%"} title={order.pair} muted>
                 {order.pair}
+                <br />
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
-              {/* <Cell width={widthColumns[2]} muted>
-                {capitalizeFirstLetter(order.type)}
-              </Cell> */}
               <Cell width={"10%"} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
                 {order.side && capitalizeFirstLetter(order.side)}
               </Cell>
               <Cell width={"25%"} title={order.price} muted>
                 {truncateZeroDecimal(order.price)}
               </Cell>
-              {/* <Cell width={widthColumns[5]} muted>
+              <Cell width={"30%"} muted>
+                {truncateZeroDecimal(order.filled)}
+                <br />
                 {truncateZeroDecimal(order.amount)}
               </Cell>
-              <Cell width={widthColumns[6]} muted>
-                {truncateZeroDecimal(order.total)}
-              </Cell> */}
-              <Cell width={"25%"} muted>
-                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
-              </Cell>
-              <Cell width={"20%"} muted>
+              <Cell width={"5%"} muted>
                 <CancelIcon 
                   icon="cross" 
                   intent="danger" 
@@ -199,15 +187,10 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader className="header">
-        {/* <HeaderCell width={widthColumnsOrderHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell> */}
         <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsOrderHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell> */}
         <HeaderCell width={"10%"}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsOrderHistory[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell> */}
-        {/* <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
         <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsOrderHistory[8]}><FormattedMessage id="exchangePage.status" /></HeaderCell> */}
       </ListHeader>
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
@@ -216,33 +199,20 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row key={index}>
-              {/* <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
-              </Cell> */}
               <Cell width={"30%"} title={order.pair} muted>
                 {order.pair}
+                <br />
+                {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
-              {/* <Cell width={widthColumnsOrderHistory[2]} muted>
-                {capitalizeFirstLetter(order.type)}
-              </Cell> */}
               <Cell width={"10%"} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
                 {order.side && capitalizeFirstLetter(order.side)}
               </Cell>
               <Cell width={"30%"} title={order.price} muted>
                 {truncateZeroDecimal(order.price)}
               </Cell>
-              {/* <Cell width={widthColumnsOrderHistory[5]} muted>
-                {truncateZeroDecimal(order.amount)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[6]} muted>
-                {truncateZeroDecimal(order.total)}
-              </Cell> */}
               <Cell width={"30%"} muted>
                 {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
               </Cell>
-              {/* <Cell width={widthColumnsOrderHistory[8]} muted>
-                {capitalizeFirstLetter(Status[order.status])}
-              </Cell> */}
             </Row>
           ))}
         </ListBodyWrapper>)
@@ -291,9 +261,9 @@ const Row = styled.li.attrs({
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  height: 45px;
-  line-height: 45px;
-  padding: 0 10px;
+  // height: 45px;
+  line-height: 18px;
+  padding: 5px 10px;
   &:nth-child(2n + 1) {
     background: ${props => props.theme.subBg};
   }

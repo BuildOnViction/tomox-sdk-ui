@@ -18,7 +18,7 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 
-import { isTomoWallet } from '../../utils/helpers'
+import { isMobile } from '../../utils/helpers'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -96,14 +96,14 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet()) {
-      this.props.loginWithMetamask()
-    }
-
-    // if (window.web3 && window.web3.currentProvider) {
-    //   await window.ethereum.enable()
-    //   await this.props.loginWithMetamask()
+    // if (isTomoWallet()) {
+    //   this.props.loginWithMetamask()
     // }
+
+    if (window.web3 && window.web3.currentProvider && isMobile()) {
+      await window.ethereum.enable()
+      await this.props.loginWithMetamask()
+    }
 
     if (createProvider) {
       createProvider()
@@ -168,7 +168,8 @@ class Default extends React.PureComponent<Props, State> {
 
   generateClassname = () => {
     const className = this.isTradingPage(this.props.pathname) ? "exchange-page" : ""
-    return isTomoWallet() ? `${className} tomo-wallet` : className
+    return (window.web3 && window.web3.currentProvider && isMobile()) ? `${className} tomo-wallet` : className
+    // return isTomoWallet() ? `${className} tomo-wallet` : className
   }
 
   render() {
@@ -1012,8 +1013,7 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }import { isMobile } from '../../utils/helpers';
-
+    }
   }
 `
 
