@@ -60,6 +60,13 @@ const RadioButtonsWrapper = styled.div`
   margin-left: auto;
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: 100%;
+      padding-left: 0;
+    }
+  }
 `
 
 const RadioButtonBox = styled(Label)`

@@ -68,10 +68,18 @@ export const queryTradingPageData = (): ThunkAction => {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
+      // Unsubscribe socket when change current pair
+      socket.unsubscribeChart()
+      socket.unsubscribeOrderBook()
+      socket.unsubscribeTrades()
+      socket.unSubscribePrice()
+
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
-      dispatch(push(`/trade/${currentPair.pair.replace('/', '-')}`))
+      let { router: { location: { pathname }}} = state
+      pathname = pathname.includes('trade-mobile') ? 'trade-mobile' : 'trade'
+      dispatch(push(`/${pathname}/${currentPair.pair.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()
       const accountDomain = getAccountDomain(state)

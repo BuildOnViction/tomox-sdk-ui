@@ -73,15 +73,16 @@ const TokenSearchRenderer = (props: Props) => {
         (<OverlaySpinner visible={true} transparent={true} />) 
         : (
           <React.Fragment>
-
-            <SearchInput
-              leftIcon="search"
-              onChange={onChangeSearchFilter}
-              onFocus={showSearchResult}
-              onBlur={hideSearchResult}
-              value={searchFilter}
-              placeholder="Search"
-            />
+            <SearchInputBox>
+              <InputGroup
+                leftIcon="search"
+                onChange={onChangeSearchFilter}
+                onFocus={showSearchResult}
+                onBlur={hideSearchResult}
+                value={searchFilter}
+                placeholder="Search"
+              />
+            </SearchInputBox>
 
             {isShowSearchResult 
             && (
@@ -160,11 +161,11 @@ const SearchResult = ({ items, changeSelectedToken }) => {
       <AutoSizer>
         {({height, width}) => (
           <List
-            height={200}
+            height={height}
             rowCount={items.length}
             rowHeight={30}
             rowRenderer={rowRenderer}
-            width={150}
+            width={width}
           />
         )}
       </AutoSizer>
@@ -320,6 +321,15 @@ const TokenSearchCard = styled.div`
     padding: 10px;
     border-bottom: 1px solid ${props => props.theme.border};
   }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: unset;
+      height: unset;
+      box-shadow: unset;
+      border: unset;
+    }
+  }
 `
 
 const Row = styled.div.attrs({
@@ -357,7 +367,7 @@ const TokenSearchPanelBox = styled.div`
   height: 100%;
 `
 
-const SearchInput = styled(InputGroup)`
+const SearchInputBox = styled.div`
   width: 150px;
   position: absolute;
   right: 10px;
@@ -369,6 +379,14 @@ const SearchInput = styled(InputGroup)`
     color: ${props => props.theme.tokenSearcherSearchColor};
     &::placeholder {
       color: ${props => props.theme.tokenSearcherSearchColor};
+    }
+  }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      position: unset;
+      width: unset;
+      margin: 0 10px;
     }
   }
 `
@@ -407,6 +425,13 @@ const SearchResultBox = styled.div`
 
   .ReactVirtualized__List {    
     background-color: ${props => props.theme.tokenSearcherSearchResultBg};
+  }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: calc(100% - 20px);
+      left: 10px;
+    }
   }
 `
 

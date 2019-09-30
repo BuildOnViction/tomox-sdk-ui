@@ -34,8 +34,13 @@ export function loginWithMetamask(): ThunkAction {
         throw new Error('Metamask not installed');
       if (typeof window.web3.eth.defaultAccount === 'undefined')
         throw new Error('Metamask account locked');
-
       let { address } = await createMetamaskSigner();
+
+      // Check account exist on backend yet? 
+      // Create account if not yet for get balance of account from backend
+      // Remove when connect direct to TomoX
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.loginWithMetamask(address));
       dispatch(

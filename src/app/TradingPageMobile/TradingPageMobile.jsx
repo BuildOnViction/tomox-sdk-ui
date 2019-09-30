@@ -2,9 +2,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Tabs, Tab } from '@blueprintjs/core'
+import { Tabs, Tab, Button, Icon } from '@blueprintjs/core'
+import { FormattedMessage } from "react-intl"
+import 'rc-tabs/assets/index.css'
+import { default as RcTabs, TabPane } from 'rc-tabs'
+import TabContent from 'rc-tabs/lib/TabContent'
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 
-import OrdersTable from '../../components/OrdersTable'
+import OrdersTableMobile from '../../components/OrdersTableMobile'
 import OrderForm from '../../components/OrderForm'
 // import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
@@ -40,7 +45,10 @@ type State = {
 };
 
 export default class TradingPage extends React.PureComponent<Props, State> {
-  state = {chartTadId: 'tvchart'}
+  state = {
+    chartTadId: 'tvchart',
+    isShowOrderForm: false,
+  }
 
   componentDidMount() {
     if (this.props.isConnected) {
@@ -61,74 +69,133 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
+  toggleOrderForm = () => {
+    this.setState({
+      isShowOrderForm: !this.state.isShowOrderForm,
+    })
+  }
+
   render() {
     const { quoteTokenSymbol } = this.props
+    const { isShowOrderForm } = this.state
     // if (!isInitiated) return null
 
-    return (
-      <Container flow="column" 
-        columns={"7.5fr minmax(520px, 4.5fr)"} 
+    return (      
+      <Grid flow="row" 
+        columns={"1fr"} 
+        rows={"400px 400px"} 
         gap="10px" 
         height="100%">
-        <Grid flow="row" 
-          columns={"1fr"} 
-          rows={"minmax(430px, 6fr) minmax(130px, 3fr)"} 
-          gap="10px" 
-          height="100%">
-          <ChartsCell>
-            <ChartTabs
-              id="tabs-chart"
-              onChange={this.handleTabsChartChange}
-              selectedTabId={this.state.chartTadId}
-            >
-              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
-              <Tab id="depth" title="Depth" panel={<DepthChart />} />
-            </ChartTabs>
-          </ChartsCell>
-          <OrdersTableCell>
-            <OrdersTable />            
-          </OrdersTableCell>
-        </Grid>
+        <ChartsCell>
+          <ChartTabs
+            id="tabs-chart"
+            onChange={this.handleTabsChartChange}
+            selectedTabId={this.state.chartTadId}
+          >
+            <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
+            <Tab id="depth" title="Depth" panel={<DepthChart />} />
+          </ChartTabs>
+        </ChartsCell>
 
-        <Grid flow="row" 
-          columns={"1fr"} 
-          rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
-          gap="10px" 
-          height="100%">
-          <OrderbooxTradesGrid columns={2} height="100%" gap="20px">
-              <Cell width={1}><OrderBook /></Cell>
-              <Cell width={1}><TradesTable /></Cell>
-          </OrderbooxTradesGrid>
-          <OrderFormCell><OrderForm /></OrderFormCell>
-        </Grid>
-      </Container>  
+        <OrdersTableCell>
+          <MainTabs
+            defaultActiveKey="1"
+            onChange={() => {}}
+            renderTabBar={()=><ScrollableInkTabBar />}
+            renderTabContent={()=><TabContent />}>
+            <TabPane tab='Orders' key="1"><OrdersTableMobile /></TabPane>
+            <TabPane tab='Orderbook' key="2"><OrderBook /></TabPane>  
+            <TabPane tab='Trades History' key="3"><TradesTable /></TabPane>         
+          </MainTabs>
+        </OrdersTableCell>
+
+        { isShowOrderForm && (
+          <OrderFormCell>
+            <OrderForm />
+            <Close icon="cross" intent="danger" onClick={this.toggleOrderForm} />
+          </OrderFormCell>
+        )}
+
+        { !isShowOrderForm && (<ButtonGroup onClick={this.toggleOrderForm} />) }
+      </Grid>
     )
   }
 }
 
-const Container = styled(Grid)`
-  @media only screen and (max-width: 680px) {
-    .tomo-wallet & {
-      grid-auto-flow: row;
-      grid-template-rows: 1fr 1fr;
-      grid-template-columns: 1fr;
-    }
-  }
+const ButtonGroup = (props) => {
+  return (
+    <ButtonGroupBox>
+      <BuyButton 
+        intent="success"
+        text={<FormattedMessage id="exchangePage.buy" />}
+        name="order"
+        onClick={props.onClick}
+      />
+      <SellButton
+        intent="danger"
+        text={<FormattedMessage id="exchangePage.sell" />}
+        name="order"
+        onClick={props.onClick}
+      />
+    </ButtonGroupBox>
+  )
+}
+
+const StyledButton = styled(Button)`
+  padding: 0 50px;
+  box-shadow: unset !important;
+  background-image: unset !important;
+  border-radius: 0 !important;
 `
 
-const OrderbooxTradesGrid = styled(Grid).attrs({
-  className: 'orderbook-trades',
-})`
-  box-shadow: 0 0 0 1px ${props => props.theme.border};
-  padding: 10px 0;
-  @media only screen and (max-width: 680px) {
-    .tomo-wallet & {
-      grid-auto-flow: row;
-      grid-template-rows: 1fr 1fr;
-      grid-template-columns: 1fr;
-    }
-  }
+const BuyButton = styled(StyledButton).attrs({
+  className: "buy-btn",
+})``
+
+const SellButton = styled(StyledButton).attrs({
+  className: "sell-btn",
+})``
+
+const ButtonGroupBox = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 45px;
+  background-color: ${props => props.theme.mainBg};
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
 `
+
+const Close = styled(Icon)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+`
+
+// const Container = styled(Grid)`
+//   @media only screen and (max-width: 680px) {
+//     grid-auto-flow: row;
+//     grid-template-rows: 1fr 1fr;
+//     grid-template-columns: 1fr;
+//   }
+// `
+
+// const OrderbooxTradesGrid = styled(Grid).attrs({
+//   className: 'orderbook-trades',
+// })`
+//   box-shadow: 0 0 0 1px ${props => props.theme.border};
+//   padding: 10px 0;
+//   @media only screen and (max-width: 680px) {
+//     grid-auto-flow: row;
+//     grid-template-rows: 1fr 1fr;
+//     grid-template-columns: 1fr;
+//   }
+// `
 
 const ChartsCell = styled(Cell).attrs({
   className: 'charts-cell',
@@ -173,7 +240,7 @@ const ChartsCell = styled(Cell).attrs({
 const OrdersTableCell = styled(Cell).attrs({
   className: 'orders-table-cell',
 })`
-  padding: 10px 0;
+  padding: 10px 0 50px 0 !important;
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   font-size: ${Theme.FONT_SIZE_SM};
 
@@ -232,6 +299,13 @@ const OrderFormCell = styled(Cell).attrs({
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   overflow: auto;
   font-size: ${Theme.FONT_SIZE_SM};
+  position: fixed;
+  background-color: ${props => props.theme.mainBg};
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
 
   .bp3-tab {
     line-height: initial;
@@ -303,6 +377,36 @@ const ChartTabs = styled(Tabs)`
   .bp3-tab-list {
     position: absolute;
     right: 0;
+  }
+`
+
+const MainTabs = styled(RcTabs)`
+  &.rc-tabs-top {
+    border-bottom: none;
+    height: 100%;
+  }
+
+  .rc-tabs-content {
+    margin-top: 12px;
+    height: calc(100% - 40px);
+  }
+
+  .rc-tabs-nav-wrap .rc-tabs-tab-active {
+    color: ${props => props.theme.active};
+  }
+
+  .rc-tabs-nav-wrap .rc-tabs-tab {
+    font-size: ${Theme.FONT_SIZE_MD};
+    padding: 8px 10px;
+    margin-right: 0;
+  }
+
+  .rc-tabs-nav-wrap .rc-tabs-ink-bar {
+    background-color: ${props => props.theme.active};
+  }
+
+  .rc-tabs-bar {
+    border-bottom: 1px solid ${props => props.theme.border} !important;
   }
 `
 

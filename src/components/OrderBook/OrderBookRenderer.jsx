@@ -81,7 +81,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
-          <Title className="title">Orderbook</Title>
+          <Title>Orderbook</Title>
 
           <PricePrecisionsDropdown 
             pricePrecisionsList={pricePrecisionsList}
@@ -89,10 +89,10 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             pricePrecision={pricePrecision}
              />
 
-          <FilterList className="filter-list">
-            <FilterSell className="filter filter-sell" onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
-            <FilterAll className="filter filter-all" onClick={() => this.changeFilter('all')}><i>filter all</i></FilterAll>
-            <FilterBuy className="filter filter-buy" onClick={() => this.changeFilter('buy')}><i>filter buy</i></FilterBuy>
+          <FilterList>
+            <FilterSell onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
+            <FilterAll onClick={() => this.changeFilter('all')}><i>filter all</i></FilterAll>
+            <FilterBuy onClick={() => this.changeFilter('buy')}><i>filter buy</i></FilterBuy>
           </FilterList>
         </OrderBookHeader>
 
@@ -261,11 +261,21 @@ const OrderBookHeader = styled.div`
   margin-bottom: 4px;
   padding-left: 10px;
 `
-const Title = styled.div``
-const FilterList = styled.div``
-const FilterSell = styled.div``
-const FilterAll = styled.div``
-const FilterBuy = styled.div``
+const Title = styled.div.attrs({
+  className: 'title xs-hidden',
+})``
+const FilterList = styled.div.attrs({
+  className: "filter-list",
+})``
+const FilterSell = styled.div.attrs({
+  className: "filter filter-sell",
+})``
+const FilterAll = styled.div.attrs({
+  className: "filter filter-all",
+})``
+const FilterBuy = styled.div.attrs({
+  className: "filter filter-buy",
+})``
 
 const OrderBookContent = styled.div`
   width: 100%;

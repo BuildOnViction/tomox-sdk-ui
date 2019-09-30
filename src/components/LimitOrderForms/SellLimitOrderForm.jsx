@@ -38,7 +38,6 @@ const SellLimitOrderForm = props => {
     <SellLimitOrderContainer>
       <HeaderRow>
         <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
-        {/* <DecreaseToken>{`-${baseTokenSymbol}`}</DecreaseToken> */}
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -151,15 +150,15 @@ const SellLimitOrderForm = props => {
 export default SellLimitOrderForm
 
 const SellLimitOrderContainer = styled.div.attrs({
-  className: "sell-side"
+  className: "sell-side",
 })``
 
 const SellButton = styled(Button).attrs({
-  className: "sell-btn"
+  className: "sell-btn",
 })``
 
 const InputGroupWrapper = styled(InputGroup).attrs({
-  className: "bp3-fill"
+  className: "bp3-fill",
 })`
   &.has-error .bp3-input {
     box-shadow: 0 0 0 1px ${DarkMode.RED};
@@ -181,6 +180,13 @@ const TokenName = styled.span`
   top: 50%;
   transform: translateY(-50%);
   user-select: none;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      top: 65%;
+      font-size: 10px;
+    }
+  }
 `
 
 const InputBox = styled.div`
@@ -201,6 +207,22 @@ const InputBox = styled.div`
   .bp3-input-group.bp3-fill {
     width: calc(100% - 60px);
   }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      flex-flow: column;
+
+      .bp3-input-group.bp3-fill {
+        width: 100%;
+      }
+    }
+
+    .tomo-wallet &:hover {
+      .increase-decrease-box {
+        display: none !important;
+      }
+    }
+  }
 `
 
 const InputLabel = styled.div`
@@ -209,10 +231,16 @@ const InputLabel = styled.div`
   margin: auto;
   margin-right: 10px;
   user-select: none;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: 100%;
+    }
+  }
 `
 
 const HeaderRow = styled.div.attrs({
-  className: "header"
+  className: "header",
 })`
   margin-bottom: 10px;
 `
@@ -235,6 +263,12 @@ const MaxAmountInfo = styled.div`
   top: 100%;
   left: 67px;
   right: 0;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      display: none;
+    }
+  }
 `
 
 const ErrorMessage = styled.div`

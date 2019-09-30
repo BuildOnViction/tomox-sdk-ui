@@ -10,6 +10,7 @@ import SettingsPage from './SettingsPage'
 import LogoutPage from './LogoutPage'
 import TradingPage from './TradingPage'
 import MarketsPage from './MarketsPage'
+import TradingPageMobile from './TradingPageMobile'
 
 import { ConnectedRouter } from 'connected-react-router'
 import history from '../store/history'
@@ -27,7 +28,8 @@ class App extends React.PureComponent {
             <Route path="/unlock" component={LoginPage} />
             <Route path="/wallet" component={WalletPage} />
             <Route path="/markets" component={MarketsPage} />
-            <Route path="/trade/:pair?" component={TradingPage} />
+            <Route path="/trade/:pair?" component={TradingPage} /> 
+            <Route path="/trade-mobile/:pair?" component={TradingPageMobile} />           
             <Route path="/settings" component={SettingsPage} />
             <Route path="/logout" component={LogoutPage} />
             <Route path="/create" component={CreateWalletPage} />

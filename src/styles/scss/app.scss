@@ -12,6 +12,11 @@ body {
   height: 100%;
 }
 
+.tm-theme.tomo-wallet {
+  min-width: unset;
+  height: unset;
+}
+
 body {
   font-family: $tm_font_family;
   font-size: $tm-font-size-md;
@@ -86,30 +91,6 @@ body {
     .bp3-navbar-divider {
       height: 30px;
       margin: 0 26.5px;
-    }
-
-    .token-info {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-    }
-
-    .token-tick {
-      display: flex;
-      flex-flow: row nowrap;
-      font-size: $tm-font-size-sm;
-      .tick {
-        margin-right: 50px;
-        &:last-child {
-          margin-right: 0;
-        }
-        span {
-          margin-right: 12px;
-        }
-      }
-      .title {
-        margin-bottom: 5px;
-      }
     }
 
     .utilities-menu {
@@ -187,13 +168,6 @@ body {
 
     .bp3-navbar-divider {
       border-left: 1px solid $tm-light-blue;
-    }
-
-    .token-tick {
-      color: $tm-white;
-      .title {
-        color: $tm-gray;
-      }
     }
 
     .utilities-menu {
@@ -366,4 +340,25 @@ body {
       width: 25px !important;
     }
   } 
+}
+
+@media only screen and (max-width: 680px) {
+  .tm-theme.exchange-page.tomo-wallet .main-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .tomo-wallet .bp3-navbar,
+  .tomo-wallet .bp3-navbar-group {
+    padding-top: 2px;
+    padding-bottom: 3px;
+    height: 90px;
+  }
+
+  .tomo-wallet .main-content {
+    padding: 0px 5px;
+  }
+
+  .tomo-wallet .xs-hidden {
+    display: none !important;
+  }
 }
