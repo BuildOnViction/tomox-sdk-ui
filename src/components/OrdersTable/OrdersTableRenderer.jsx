@@ -29,6 +29,7 @@ type Props = {
 }
 
 const Status = {
+  'NEW': 'Open',
   'OPEN': 'Open',
   'PARTIAL_FILLED': 'Partial',
   'CANCELLED': 'Cancelled',  
