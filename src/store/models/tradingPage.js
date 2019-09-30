@@ -78,7 +78,7 @@ export const queryTradingPageData = (): ThunkAction => {
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
       let { router: { location: { pathname }}} = state
-      pathname = pathname.includes('trade-mobile') ? 'trade-mobile' : 'trade'
+      pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
       dispatch(push(`/${pathname}/${currentPair.pair.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()

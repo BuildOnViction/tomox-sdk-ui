@@ -127,7 +127,7 @@ class Default extends React.PureComponent<Props, State> {
   }
 
   isTradingPage = (pathname: string) => {
-    return pathname.includes('/trade')
+    return pathname.includes('/trade') || pathname.includes('/dapp')
   }
 
   handleThemeChange = (e: Object) => {

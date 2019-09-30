@@ -48,7 +48,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
     return async (dispatch, getState) => {
       const param = pair.replace('/', '-')
       let { router: { location: { pathname }}} = getState()
-      pathname = pathname.includes('trade-mobile') ? 'trade-mobile' : 'trade'
+      pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
 
       dispatch(actionCreators.updateCurrentPair(pair))
       dispatch(push(`/${pathname}/${param}`))

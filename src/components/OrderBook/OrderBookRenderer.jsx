@@ -360,7 +360,7 @@ const ListContent = styled.div.attrs({
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      height: calc(100% - 32px) !important;
+      height: 378px !important;
     }
   }
 `
