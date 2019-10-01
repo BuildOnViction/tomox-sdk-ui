@@ -91,3 +91,5 @@ chain/
 
 # Ignore dynamic addresses.json file
 # src/config/addresses.json
+
+.*.sw*
