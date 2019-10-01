@@ -109,6 +109,8 @@ class LoginPage extends React.PureComponent<Props, State> {
         indexAddress: offset + limit,
         addresses: addressesWithBalance,
       })
+
+      return addressesWithBalance
     } catch(e) {
       throw e
     }
@@ -255,10 +257,14 @@ class LoginPage extends React.PureComponent<Props, State> {
   connectToLedger = async () => {    
     try {
       this.setState({ loading: true })
+      console.log('before create signer')
       await this.createLedgerSigner()
-      await this.getMultipleAddresses(0, 5, true) // Init get addresses
+      console.log('after create signer')
       
-      if (this.state.addresses.length > 0) {
+      const addresses = await this.getMultipleAddresses(0, 5, true) // Init get addresses
+      console.log('get multiple address')
+      
+      if (addresses.length > 0) {
         this.setState({ 
           ledgerError: null,
           loading: false,
@@ -267,6 +273,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         this.toggleAddressesDialog('open')
       }
     } catch(e) {
+      console.log(e)
       this.setState({ 
         ledgerError: e,
         addresses: [],
