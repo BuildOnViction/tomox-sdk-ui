@@ -79,6 +79,16 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
   return parsed
 }
 
+export const parseBalance = (balance, decimals: Number, precision: Number = pricePrecision): String => {
+  // We use 18 to avoid result round to 0. 
+  const precisionMultiplier = Big(10).pow(18)
+  const multiplier = Big(10).pow(decimals)
+  const bigBalance = Big(balance).times(precisionMultiplier)
+  const userBalance = ((bigBalance.div(multiplier)).div(precisionMultiplier)).toFixed(precision)
+
+  return userBalance
+}
+
 /**
  * Parse amount
  *
@@ -319,3 +329,5 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
 
   return parsed
 }
+
+

@@ -41,7 +41,7 @@ export function queryAccountBalance(): ThunkAction {
         tokens
       )
 
-      const balancesInOders = await api.getBalancesInOrders(accountAddress)
+      const balancesInOders = await api.getBalancesInOrders(accountAddress, tokens)
       const balances = [tomoBalance].concat(tokenBalances)
 
       for (let i = 0; i < balances.length; i++) {
