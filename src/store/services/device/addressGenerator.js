@@ -1,4 +1,4 @@
-import ethUtil from "ethereumjs-util";
+import { publicToAddress } from "ethereumjs-util";
 import HDKey from "hdkey";
 
 export default class AddressGenerator {
@@ -11,7 +11,7 @@ export default class AddressGenerator {
 
     getAddressString(index) {
         let derivedKey = this.hdk.derive(`m/${index}`);
-        let address = ethUtil.publicToAddress(derivedKey.publicKey, true);
+        let address = publicToAddress(derivedKey.publicKey, true);
         let addressString = '0x' + address.toString('hex');
         return addressString;
     }
