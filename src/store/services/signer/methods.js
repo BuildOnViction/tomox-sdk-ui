@@ -1,7 +1,7 @@
 //@flow
 import { utils } from 'ethers'
 import { getOrderHash, getOrderCancelHash, getTradeHash } from '../../../utils/crypto'
-import { computePricepoint, computeAmountPoints } from '../../../utils/helpers'
+import { computePricepoint, computeAmountPoints, isTomoWallet } from '../../../utils/helpers'
 
 // flow
 import type {
@@ -41,8 +41,16 @@ export const createRawOrder = async function (params: any) {
   order.side = side
   order.nonce = (orderNonce + 1).toString()
   order.hash = getOrderHash(order)
+  
+  let signature = null
 
-  const signature = await this.signMessage(utils.arrayify(order.hash))
+  if (isTomoWallet()) {
+    const orderBase64 = window.btoa(JSON.stringify(order))
+    signature = await this.signMessage(`TOMOX_ORDER:${orderBase64}`)
+  } else {
+    signature = await this.signMessage(utils.arrayify(order.hash))
+  }
+
   const { r, s, v } = utils.splitSignature(signature)
 
   order.signature = { R: r, S: s, V: v }
