@@ -5,10 +5,7 @@ import {ERC20} from '../../config/abis'
 import {getProvider} from './signer'
 import {NATIVE_TOKEN_SYMBOL} from '../../config/tokens'
 import type {Token, TokenBalance} from '../../types/tokens'
-// import type {
-//   AccountBalance,
-//   AccountAllowance,
-// } from '../../types/accountBalances'
+import { parseBalance } from '../../utils/parsers'
 
 export async function queryTomoBalance(address: string): Promise<TokenBalance> {
   const provider = getProvider()
@@ -43,7 +40,7 @@ export async function queryTokenBalances(
     .filter(balance => balance !== null)
     .map((balance, i) => ({
       symbol: tokens[i].symbol,
-      balance: utils.formatEther(balance),
+      balance: parseBalance(balance, tokens[i].decimals),
     }))
   return tokenBalances
 }
@@ -78,7 +75,7 @@ export async function subscribeTokenBalance(
   const handler = async (sender, receiver, tokens) => {
     if (receiver === address) {
       const balance = await contract.balanceOf(receiver)
-      if (balance !== initialBalance) callback(utils.formatEther(balance))
+      if (balance !== initialBalance) callback(parseBalance(balance, token.decimals))
     }
   }
 
@@ -107,7 +104,7 @@ export async function subscribeTokenBalances(
         const balance = await contract.balanceOf(address)
         callback({
           symbol: token.symbol,
-          balance: utils.formatEther(balance),
+          balance: parseBalance(balance, token.decimals),
         })
       }
     }

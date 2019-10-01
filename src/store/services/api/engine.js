@@ -9,6 +9,7 @@ import {
   parseOrders,
   parseTrades,
   parseOrderBookData,
+  parseBalance,
 } from '../../../utils/parsers'
 import fetch from 'isomorphic-fetch'
 
@@ -497,22 +498,25 @@ export const markNotificationUnRead = async (id) => {
   return data
 }
 
-export const getBalancesInOrders = async (address: string): Promise<number> => {
+export const getBalancesInOrders = async (address: string, tokens: Array<Object>): Promise<number> => {
   const response = await request(`/orders/balance/lock?address=${address}`)
 
   const { data, error } = await response.json()
 
   if (response.status === 400) {
-    throw new Error(error)
+  throw new Error(error)
   }
 
   if (response.status !== 200) {
     throw new Error('Server error')
   }
 
-  for (const key in data) {
-    const wei = utils.bigNumberify(toDecimalFormString(data[key]))
-    data[key] = parseFloat(utils.formatEther(wei))
+  const nativeTokenBalance = toDecimalFormString(data[NATIVE_TOKEN_SYMBOL])
+  data[NATIVE_TOKEN_SYMBOL] = utils.formatEther(nativeTokenBalance)
+
+  for (let i = 0; i < tokens.length; i++) {
+    const tokenBalance = toDecimalFormString(data[tokens[i].symbol])
+    data[tokens[i].symbol] = parseBalance(tokenBalance, tokens[i].decimals)
   }
 
   return data

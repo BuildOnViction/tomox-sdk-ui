@@ -142,6 +142,9 @@ export function queryAccountData(): ThunkAction {
 
       if (!accountAddress) throw new Error('Account address is not set')
 
+      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
+      dispatch(notificationsCreators.addNotifications(notifications))
+
       const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
         accountAddress
       )
@@ -151,10 +154,7 @@ export function queryAccountData(): ThunkAction {
         tokens
       )
 
-      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
-      dispatch(notificationsCreators.addNotifications(notifications))
-
-      const balancesInOders = await api.getBalancesInOrders(accountAddress)
+      const balancesInOders = await api.getBalancesInOrders(accountAddress, tokens)
       const balances = [tomoBalance].concat(tokenBalances)
 
       for (let i = 0; i < balances.length; i++) {
