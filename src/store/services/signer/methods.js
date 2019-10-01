@@ -21,7 +21,7 @@ import type { Trade } from '../../../types/trades'
 export const createRawOrder = async function (params: any) {
   const order = {}
   const { userAddress, exchangeAddress, side, pair, amount, price, orderNonce } = params
-  const { baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = pair
+  const { quoteTokenSymbol, baseTokenAddress, quoteTokenAddress, baseTokenSymbol, baseTokenDecimals, quoteTokenDecimals } = pair
 
 
   const precisionMultiplier = utils.bigNumberify(10).pow(9)
@@ -32,10 +32,14 @@ export const createRawOrder = async function (params: any) {
   const pricepoint = computePricepoint({ price, quoteMultiplier, precisionMultiplier })
   const amountPoints = computeAmountPoints({ amount, baseMultiplier, precisionMultiplier })
 
+  order.baseTokenSymbol = baseTokenSymbol
+  order.quoteTokenSymbol = quoteTokenSymbol
   order.exchangeAddress = exchangeAddress
   order.userAddress = userAddress
   order.baseToken = baseTokenAddress
   order.quoteToken = quoteTokenAddress
+  order.userAmount = amount
+  order.userPrice = price
   order.amount = amountPoints.toString()
   order.pricepoint = pricepoint.toString()
   order.side = side
