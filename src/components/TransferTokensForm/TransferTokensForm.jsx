@@ -58,7 +58,9 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   handleChange = (e: SyntheticInputEvent<>) => {
-    const { value, name } = e.target
+    let { value, name } = e.target
+
+    value = (name === 'receiver') ? value.trim() : value
 
     this.setState({ [name]: value }, () => {
       let { amount, receiver, token, customGasPrice, customGas } = this.state
