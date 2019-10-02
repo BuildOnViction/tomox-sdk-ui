@@ -31,7 +31,7 @@
   "unlockWalletPage.mnemonic.labelMnemonic": "Please enter your 12 word phrase",
   "unlockWalletPage.mnemonic.invalid": "Invalid Mnemonic. Mnemonic must be 12 words long",
   "unlockWalletPage.ledger.instruction1": "1. Enter PIN Code",
-  "unlockWalletPage.ledger.instruction2": "2. Open TomoChain",
+  "unlockWalletPage.ledger.instruction2": "2. Open TomoChain or Ethereum",
   "unlockWalletPage.ledger.buttonTitle": "Connect to Ledger",
   "unlockWalletPage.trezor.buttonTitle": "Connect to Trezor",
   "unlockWalletPage.connectionIssues": "Having Connection Issues?",

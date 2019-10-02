@@ -63,9 +63,11 @@ class LoginPage extends React.PureComponent<Props, State> {
     password: '',
     passwordStatus: 'initial',
     isOpenAddressesDialog: false,
+    isOpenSelectHdPathModal: false,
+    addressActive: null,
     addresses: [],
     indexAddress: 0,
-    indexHdPathActive: 1,
+    indexHdPathActive: 0,
     ledgerError: null,
     loading: false,
   }
@@ -236,6 +238,18 @@ class LoginPage extends React.PureComponent<Props, State> {
     loginWithWallet(wallet, password)
   }
 
+  toggleSelectHdPathModal = (status) => {
+    if (status === 'open') {
+      this.setState({ isOpenSelectHdPathModal: true })
+      return
+    } 
+    
+    this.setState({ 
+      indexHdPathActive: 0,
+      isOpenSelectHdPathModal: false,
+    })
+  }
+
   toggleAddressesDialog = (status) => {
     if (status === 'open') {
       this.setState({ isOpenAddressesDialog: true })
@@ -243,26 +257,24 @@ class LoginPage extends React.PureComponent<Props, State> {
     } 
     
     this.setState({ 
-      indexHdPathActive: 0,
       isOpenAddressesDialog: false,
       loading: false,
     })
   }
 
   handleHdPathChange = async (path) => {
-    this.setState({ indexHdPathActive: path.rank - 1 })
-    await this.connectToLedger()
+    this.setState({ 
+      indexHdPathActive: path.rank - 1,
+      ledgerError: null,
+    })
   }
 
   connectToLedger = async () => {    
     try {
       this.setState({ loading: true })
-      console.log('before create signer')
       await this.createLedgerSigner()
-      console.log('after create signer')
       
       const addresses = await this.getMultipleAddresses(0, 5, true) // Init get addresses
-      console.log('get multiple address')
       
       if (addresses.length > 0) {
         this.setState({ 
@@ -271,6 +283,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         })
 
         this.toggleAddressesDialog('open')
+        this.toggleSelectHdPathModal('close')
       }
     } catch(e) {
       console.log(e)
@@ -290,13 +303,20 @@ class LoginPage extends React.PureComponent<Props, State> {
     this.props.closeSelectAddressModal()
   }
 
+  chooseAddress = (address) => {
+    this.setState({ addressActive: address })
+  }
+
+  unlockWalletWithLedger = () => {
+    this.props.loginWithLedgerWallet(this.state.addressActive)
+  } 
+
   render() {
 
     const {
       props: {
         authenticated,
         isSelectAddressModalOpen,
-        loginWithLedgerWallet,
         loginWithTrezorWallet,
       },
       state: { 
@@ -307,8 +327,10 @@ class LoginPage extends React.PureComponent<Props, State> {
         mnemonic,
         password,
         passwordStatus,
+        addressActive,
         addresses,
         isOpenAddressesDialog,
+        isOpenSelectHdPathModal,
         indexHdPathActive,
         ledgerError,
         loading,
@@ -321,6 +343,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       unlockWalletWithMnemonic,
       handlePasswordChange,
       toggleAddressesDialog,
+      toggleSelectHdPathModal,
       handleHdPathChange,
       connectToLedger,
       prevAddresses,
@@ -328,6 +351,8 @@ class LoginPage extends React.PureComponent<Props, State> {
       openAddressesTrezorDialog,
       closeAddressesTrezorDialog,
       deviceService,
+      chooseAddress,
+      unlockWalletWithLedger,
     } = this
 
     // go to markets by default
@@ -352,10 +377,11 @@ class LoginPage extends React.PureComponent<Props, State> {
           password={password}
           passwordStatus={passwordStatus}
           handlePasswordChange={handlePasswordChange}
+          addressActive={addressActive}
           addresses={addresses}
           isOpenAddressesDialog={isOpenAddressesDialog}
           toggleAddressesDialog={toggleAddressesDialog}
-          loginWithLedgerWallet={loginWithLedgerWallet}
+          toggleSelectHdPathModal={toggleSelectHdPathModal}
           handleHdPathChange={handleHdPathChange}
           indexHdPathActive={indexHdPathActive}
           hdPaths={hdPaths}
@@ -364,12 +390,15 @@ class LoginPage extends React.PureComponent<Props, State> {
           nextAddresses={nextAddresses}
           ledgerError={ledgerError}
           errorList={errorList}
+          isOpenSelectHdPathModal={isOpenSelectHdPathModal}
           isSelectAddressModalOpen={isSelectAddressModalOpen}
           openAddressesTrezorDialog={openAddressesTrezorDialog}
           closeAddressesTrezorDialog={closeAddressesTrezorDialog}
           deviceService={deviceService}
           loginWithTrezorWallet={loginWithTrezorWallet}
-          loading={loading} />
+          loading={loading}
+          chooseAddress={chooseAddress}
+          unlockWalletWithLedger={unlockWalletWithLedger} />
       </Wrapper>
     )
   }
