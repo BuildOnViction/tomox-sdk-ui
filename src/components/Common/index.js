@@ -31,7 +31,7 @@ import {
   NavbarDivider,
 } from './Blueprint'
 
-export { DarkMode, LightMode, Theme } from './Colors'
+export { TmColors, DarkMode, LightMode, Theme } from './Colors'
 export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton }
 
 export { Box, TextBox, DividerBox, Flex, FlexItem, FlexRow, FlexColumn }
