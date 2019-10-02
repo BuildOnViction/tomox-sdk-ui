@@ -39,7 +39,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     const result = {}
 
     result['finished'] = orders.filter(order => {
-      return (order.status === 'FILLED' && order.status === 'CANCELLED')
+      return (order.status === 'FILLED' || order.status === 'CANCELLED')
     })
 
     result['processing'] = orders.filter(order => {
