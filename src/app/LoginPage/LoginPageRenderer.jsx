@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button, Dialog, Spinner } from '@blueprintjs/core'
+import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
 import { DarkMode, Theme, SmallText, TmColors } from '../../components/Common'

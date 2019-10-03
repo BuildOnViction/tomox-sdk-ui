@@ -28,7 +28,7 @@ type State = {
 
 class CreateWalletPage extends React.PureComponent<Props, State> {
   state = {
-    currentStep: 0,
+    currentStep: 1, // We skip step 0 because it seems redundant
     password: '',
     passwordStatus: 'initial',
     confirmPassword: '',

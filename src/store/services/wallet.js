@@ -76,15 +76,17 @@ export const createWalletFromJSON = async (
   return { wallet, encryptedWallet };
 };
 
-export const createWalletFromMnemonic = async mnemonic => {
-  let wallet;
+export const createWalletFromMnemonic = async (mnemonic, path = "m/44'/889'/0'/0/", addressIndex = 0) => {
+  let wallet
+
   try {
-    wallet = await Wallet.fromMnemonic(mnemonic);
+    wallet = await Wallet.fromMnemonic(mnemonic, `${path}${addressIndex}`)
   } catch (e) {
-    console.log(e);
+    console.log(e)
   }
-  return { wallet };
-};
+
+  return { wallet }
+}
 
 /**
  * @description Creates an encrypted ethers.js wallet object and returns it
