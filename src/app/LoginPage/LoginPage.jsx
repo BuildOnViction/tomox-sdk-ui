@@ -240,25 +240,24 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   toggleSelectHdPathModal = (status) => {
     if (status === 'open') {
-      this.setState({ isOpenSelectHdPathModal: true })
-      return
+      return this.setState({ isOpenSelectHdPathModal: true })
     } 
     
     this.setState({ 
       indexHdPathActive: 0,
       isOpenSelectHdPathModal: false,
+      loading: false,
     })
   }
 
   toggleAddressesDialog = (status) => {
     if (status === 'open') {
-      this.setState({ isOpenAddressesDialog: true })
-      return
+      return this.setState({ isOpenAddressesDialog: true })
     } 
     
     this.setState({ 
       isOpenAddressesDialog: false,
-      loading: false,
+      addressActive: null,
     })
   }
 
@@ -266,6 +265,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     this.setState({ 
       indexHdPathActive: path.rank - 1,
       ledgerError: null,
+      loading: false,
     })
   }
 
@@ -290,6 +290,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       this.setState({ 
         ledgerError: e,
         addresses: [],
+        loading: false,
       })
     }
   }
@@ -307,8 +308,13 @@ class LoginPage extends React.PureComponent<Props, State> {
     this.setState({ addressActive: address })
   }
 
-  unlockWalletWithLedger = () => {
-    this.props.loginWithLedgerWallet(this.state.addressActive)
+  unlockWalletWithLedger = async () => {
+    try {
+      await this.props.loginWithLedgerWallet(this.state.addressActive)
+      this.toggleAddressesDialog('close')
+    } catch (e) {
+      console.log(e)
+    }
   } 
 
   render() {
