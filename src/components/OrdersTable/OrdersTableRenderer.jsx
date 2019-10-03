@@ -9,7 +9,8 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
-import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
+import { TOMOSCAN_URL } from '../../config/environment'
+import { Colors, Loading, CenteredMessage, DarkMode, Theme, Link, TmColors } from '../Common'
 import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import { formatNumber } from 'accounting-js'
@@ -242,7 +243,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
-                {order.pair}
+                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="blank" color={TmColors.WHITE}>{order.pair}</Link>
               </Cell>
               <Cell width={widthColumnsOrderHistory[2]} muted>
                 {capitalizeFirstLetter(order.type)}
@@ -297,7 +298,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
-                {order.pair}
+                <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="blank" color={TmColors.WHITE}>{order.pair}</Link>
               </Cell>
               <Cell width={widthColumnsTradeHistory[2]} muted>
                 {order.side ? capitalizeFirstLetter(order.side) : '-'}

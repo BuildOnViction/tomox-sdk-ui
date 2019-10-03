@@ -9,15 +9,19 @@ import {
   MutedText,
   Theme,
   DarkMode,
+  TmColors,
+  Link,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
+import { TOMOSCAN_URL } from '../../config/environment'
 import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
+import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens';
 
 type Props = {
   baseTokensData: Array<TokenData>,
@@ -98,6 +102,7 @@ const DepositTableRenderer = (props: Props) => {
 
 const TOMORow = (props: Props) => {
   const {
+    accountAddress,
     TOMOTokenData,
     redirectToTradingPage,
   } = props
@@ -111,7 +116,7 @@ const TOMORow = (props: Props) => {
       <Cell width="18%">
         <TokenNameWrapper>
           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
-          <span>{symbol}</span>
+          <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
         </TokenNameWrapper>
       </Cell>
       <Cell width="20%">
@@ -136,6 +141,7 @@ const TOMORow = (props: Props) => {
 
 const QuoteTokenRows = (props: Props) => {
   const {
+    accountAddress,
     quoteTokensData,
     redirectToTradingPage,
   } = props
@@ -149,7 +155,7 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
-              <span>{symbol}</span>
+              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
@@ -184,6 +190,7 @@ const QuoteTokenRows = (props: Props) => {
 
 const BaseTokenRows = (props: Props) => {
   const {
+    accountAddress,
     baseTokensData,
     redirectToTradingPage,
   } = props
@@ -197,7 +204,7 @@ const BaseTokenRows = (props: Props) => {
           <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
-              <span>{symbol}</span>
+              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
