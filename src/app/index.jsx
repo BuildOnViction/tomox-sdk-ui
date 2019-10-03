@@ -24,7 +24,6 @@ class App extends React.PureComponent {
       <ConnectedRouter history={history}>
         <Layout>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/markets" />} />
             <Route path="/unlock" component={LoginPage} />
             <Route path="/wallet" component={WalletPage} />
             <Route path="/markets" component={MarketsPage} />
@@ -33,6 +32,7 @@ class App extends React.PureComponent {
             <Route path="/settings" component={SettingsPage} />
             <Route path="/logout" component={LogoutPage} />
             <Route path="/create" component={CreateWalletPage} />
+            <Route exact path="*" render={() => <Redirect to="/markets" />} />
           </Switch>
         </Layout>
       </ConnectedRouter>
