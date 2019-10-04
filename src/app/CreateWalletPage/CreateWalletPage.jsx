@@ -52,6 +52,17 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   changeCurrentStep = (currentStep: number) => {
+    if (currentStep === 5) {
+      const { wallet: { mnemonic }} = this.state
+
+      return this.setState({
+        inputMnemonic: [],
+        shuffedMnemonic: shuffleArray(mnemonic.split(' ')),
+        mnemonicErrorMessage: '',
+        currentStep,
+      })
+    }
+
     this.setState({currentStep})
   }
 
@@ -84,8 +95,7 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   goBackToPreviousStep = () => {
     const { currentStep } = this.state
-    let prevStep = currentStep - 1
-    prevStep = (prevStep >=0) ? prevStep : currentStep
+    const prevStep = ((currentStep - 1) > 0) ? (currentStep - 1) : 0 
 
     this.changeCurrentStep(prevStep)
   }
@@ -104,11 +114,10 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   handleChooseMnemonic = (word) => {
-    const inputMnemonic = [...this.state.inputMnemonic, word]
-    const shuffedMnemonic = this.state.shuffedMnemonic.filter(shuffedWord => {
-      return shuffedWord !== word
-    })
-
+    let { inputMnemonic, shuffedMnemonic } = this.state
+    inputMnemonic = [...inputMnemonic, word]
+    const index = shuffedMnemonic.indexOf(word)
+    shuffedMnemonic = [...shuffedMnemonic.slice(0, index), ...shuffedMnemonic.slice(index + 1)]
     this.checkMnemonic(inputMnemonic)
 
     this.setState({
@@ -118,11 +127,10 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   handleRemoveMnemonic = (word) => {
-    const shuffedMnemonic = [...this.state.shuffedMnemonic, word]
-    const inputMnemonic = this.state.inputMnemonic.filter(inputWord => {
-      return inputWord !== word
-    })
-
+    let { inputMnemonic, shuffedMnemonic } = this.state
+    shuffedMnemonic = [...shuffedMnemonic, word]
+    const index = inputMnemonic.indexOf(word)
+    inputMnemonic = [...inputMnemonic.slice(0, index), ...inputMnemonic.slice(index + 1)]
     this.checkMnemonic(inputMnemonic)
 
     this.setState({
