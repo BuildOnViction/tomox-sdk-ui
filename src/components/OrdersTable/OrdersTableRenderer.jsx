@@ -8,12 +8,12 @@ import {
   Checkbox,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Colors, Loading, CenteredMessage, DarkMode, Theme, Link, TmColors } from '../Common'
 import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
-import { formatNumber } from 'accounting-js'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
 
@@ -200,7 +200,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                 {truncateZeroDecimal(order.total)}
               </Cell>
               <Cell width={widthColumns[7]} muted>
-                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
+                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
               </Cell>
               <Cell width={widthColumns[8]} muted>
                 <CancelIcon 
@@ -261,7 +261,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {truncateZeroDecimal(order.total)}
               </Cell>
               <Cell width={widthColumnsOrderHistory[7]} muted>
-                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
+                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
               </Cell>
               <Cell width={widthColumnsOrderHistory[8]} muted>
                 {capitalizeFirstLetter(Status[order.status])}

@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import { utils } from 'ethers'
-import { formatNumber } from 'accounting-js'
+import BigNumber from 'bignumber.js'
 
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
@@ -120,7 +120,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   getBalance = async (address: Object, index: number) => {
     const result = await this.props.getBalance(address.addressString)
-    address.balance = formatNumber(utils.formatEther(result), { precision: 2 })
+    address.balance = BigNumber(utils.formatEther(result)).toFormat(3)
 
     return address
   }

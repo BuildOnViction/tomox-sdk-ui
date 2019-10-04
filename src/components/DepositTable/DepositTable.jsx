@@ -139,7 +139,7 @@ class DepositTable extends React.PureComponent<Props, State> {
 
     const filteredBaseTokenData = this.filterTokens(baseTokenData)
     const filteredQuoteTokenData = this.filterTokens(quoteTokenData)
-    const filteredETHTokenData = this.filterTokens(TOMOTokenData)
+    const filteredTOMOTokenData = this.filterTokens(TOMOTokenData)
 
     return (
       <Wrapper>
@@ -147,7 +147,7 @@ class DepositTable extends React.PureComponent<Props, State> {
           connected={connected}
           baseTokensData={filteredBaseTokenData}
           quoteTokensData={filteredQuoteTokenData}
-          TOMOTokenData={filteredETHTokenData[0]}
+          TOMOTokenData={filteredTOMOTokenData[0]}
           tokenDataLength={tokenData.length}
           searchInput={searchInput}
           isHideZeroBalanceToken={isHideZeroBalanceToken}

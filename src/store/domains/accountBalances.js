@@ -1,6 +1,6 @@
 // @flow
 import toDecimalFormString from 'number-to-decimal-form-string-x'
-import Big from 'big.js'
+import BigNumber from 'bignumber.js'
 import type {
   AccountAllowances,
   AccountBalances,
@@ -9,7 +9,6 @@ import type {
 import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
 import { ALLOWANCE_MINIMUM } from '../../utils/constants'
-import { formatNumber } from 'accounting-js'
 import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
 // eslint-disable-next-line
 const initialState = {}
@@ -43,7 +42,7 @@ export function updated(accountBalances: AccountBalances) {
         symbol: item.symbol,
         balance: item.balance,
         inOrders,
-        availableBalance: Big(item.balance).minus(inOrders),
+        availableBalance: BigNumber(item.balance).minus(inOrders),
         subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
       }
       return result
@@ -108,9 +107,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       const formattedBalances = {}
 
       keys.forEach(key => {
-        formattedBalances[key] = formatNumber(state[key].balance, {
-          precision: 2,
-        })
+        formattedBalances[key] = BigNumber(state[key].balance).toFormat(pricePrecision)
       })
 
       return formattedBalances
@@ -133,7 +130,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     },
     formattedTomoBalance(): ?string {
       return state[NATIVE_TOKEN_SYMBOL]
-        ? formatNumber(state[NATIVE_TOKEN_SYMBOL].balance, { precision: 2 })
+        ? BigNumber(state[NATIVE_TOKEN_SYMBOL].balance).toFormat(pricePrecision)
         : null
     },
     tokenBalance(symbol: string): ?string {
@@ -150,7 +147,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     },
     formattedTokenBalance(symbol: string) {
       return state[symbol]
-        ? formatNumber(state[symbol].balance, { precision: 2 })
+        ? BigNumber(state[symbol].balance).toFormat(pricePrecision)
         : null
     },
     getBigNumberBalance(symbol: string) {
@@ -190,13 +187,13 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         return {
           ...token,
           balance: state[token.symbol]
-            ? formatNumber(state[token.symbol].balance, { precision: pricePrecision })
+            ? BigNumber(state[token.symbol].balance).toFormat(pricePrecision)
             : null,
           inOrders: state[token.symbol]
-            ? formatNumber(state[token.symbol].inOrders, { precision: pricePrecision })
+            ? BigNumber(state[token.symbol].inOrders).toFormat(pricePrecision)
             : null,
           availableBalance: state[token.symbol]
-            ? formatNumber(state[token.symbol].availableBalance, { precision: pricePrecision })
+            ? BigNumber(state[token.symbol].availableBalance).toFormat(pricePrecision)
             : null,
           allowed:
             state[token.symbol] &&
@@ -237,7 +234,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return (Object.values(state): any).map(item => {
         return {
           symbol: item.symbol,
-          balance: formatNumber(item.balance, { precision: 2 }),
+          balance: BigNumber(item.balance).toFormat(pricePrecision),
           allowed: item.allowance > ALLOWANCE_MINIMUM,
           allowancePending: item.allowance === 'pending',
         }
@@ -247,7 +244,7 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return (Object.values(state): any).map(item => {
         return {
           symbol: item.symbol,
-          balance: formatNumber(item.balance, { precision: 2 }),
+          balance: BigNumber(item.balance).toFormat(pricePrecision),
           allowed: item.allowance > ALLOWANCE_MINIMUM,
         }
       })

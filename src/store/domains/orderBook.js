@@ -1,9 +1,8 @@
 // @flow
-import type { OrderBookState, OrderBookData } from '../../types/orderBook';
-import SortedArray from 'sorted-array';
-import { round } from '../../utils/helpers';
-import { amountPrecision, pricePrecision } from '../../config/tokens';
-import { formatNumber } from 'accounting-js';
+import type { OrderBookState, OrderBookData } from '../../types/orderBook'
+import SortedArray from 'sorted-array'
+import { round } from '../../utils/helpers'
+import { amountPrecision } from '../../config/tokens'
 
 const initialState: OrderBookState = {
   selected: null,
@@ -177,34 +176,34 @@ export default function domain(state: OrderBookState) {
                 : round(item.amount, amountPrecision)
           });
 
-          return result;
-        }, []);
+          return result
+        }, [])
 
-      let max;
+      let max
       bids.length > 1 && asks.length > 1
         ? (max = Math.max(
             bids[bids.length - 1].total,
             asks[asks.length - 1].total
           ))
-        : (max = 0);
+        : (max = 0)
 
       bids = bids.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: formatNumber(item.amount, { precision: amountPrecision }),
-        total: formatNumber(item.total, { precision: amountPrecision }),
-        price: formatNumber(item.price, { precision: pricePrecision })
-      }));
+        amount: item.amount,
+        total: item.total,
+        price: item.price,
+      }))
 
       asks = asks.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: formatNumber(item.amount, { precision: amountPrecision }),
-        total: formatNumber(item.total, { precision: amountPrecision }),
-        price: formatNumber(item.price, { precision: pricePrecision })
-      }));
+        amount: item.amount,
+        total: item.total,
+        price: item.price,
+      }))
 
-      return { asks, bids };
+      return { asks, bids }
     },
 
     getBidPrice: () =>

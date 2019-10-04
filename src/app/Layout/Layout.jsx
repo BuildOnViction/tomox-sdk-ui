@@ -17,8 +17,10 @@ import {
 } from '@blueprintjs/core'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 
-import { isMobile, isTomoWallet } from '../../utils/helpers'
+import { pricePrecision } from '../../config/tokens'
+import { isMobile, isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -31,7 +33,6 @@ import Notifier from '../../components/Notifier'
 import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-import { formatNumber } from 'accounting-js'
 import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import SessionPasswordModal from '../../components/SessionPasswordModal'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
@@ -255,8 +256,8 @@ class Default extends React.PureComponent<Props, State> {
                     <LastPriceTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div className="price">
-                        <span>{formatNumber(currentPairData.price, {precision: 2})}</span>
-                        <span className="up">{referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}</span>
+                        <span>{truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))}</span>
+                        <span className="up">{referenceCurrency.symbol}{truncateZeroDecimal(BigNumber(currentPairData.priceUsd).toFormat(pricePrecision))}</span>
                       </div>
                     </LastPriceTick>
 
@@ -271,21 +272,21 @@ class Default extends React.PureComponent<Props, State> {
                     <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div className="up">
-                        <span>{formatNumber(currentPairData.ticks[0].high, {precision: 2})}</span>
+                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].high).toFormat(pricePrecision))}</span>
                       </div>
                     </HighTick>
 
                     <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div className="down">
-                        <span>{formatNumber(currentPairData.ticks[0].low, {precision: 2})}</span>
+                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].low).toFormat(pricePrecision))}</span>
                       </div>
                     </LowTick>
 
                     <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
-                        <span>{formatNumber(currentPairData.ticks[0].volume, {precision: 2})}</span>
+                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].volume).toFormat(pricePrecision))}</span>
                       </div>
                     </VolumeTick>
                   </TokenTick>)

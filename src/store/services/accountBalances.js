@@ -11,7 +11,6 @@ export async function queryTomoBalance(address: string): Promise<TokenBalance> {
   const provider = getProvider()
 
   const balance = await provider.getBalance(address)
-
   return {
     symbol: NATIVE_TOKEN_SYMBOL,
     balance: utils.formatEther(balance),

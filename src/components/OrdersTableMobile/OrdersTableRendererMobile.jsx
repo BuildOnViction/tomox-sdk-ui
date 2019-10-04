@@ -8,6 +8,7 @@ import {
   Checkbox,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 
 import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
 import { 
@@ -16,7 +17,6 @@ import {
   truncateZeroDecimal, 
 } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
-import { formatNumber } from 'accounting-js'
 import tickUrl from '../../assets/images/tick.svg'
 // import FundsTable from '../FundsTable'
 
@@ -211,7 +211,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {truncateZeroDecimal(order.price)}
               </Cell>
               <Cell width={"30%"} muted>
-                {order.filled && formatNumber(order.filledPercent, {  precision: 2 })}%
+                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
               </Cell>
             </Row>
           ))}

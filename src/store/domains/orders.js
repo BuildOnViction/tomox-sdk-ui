@@ -1,5 +1,5 @@
 // @flow
-import { formatNumber, unformat } from 'accounting-js'
+import BigNumber from 'bignumber.js'
 
 import type { Orders, OrdersState } from '../../types/orders'
 import { getBaseToken, getQuoteToken } from '../../utils/tokens'
@@ -96,15 +96,11 @@ export default function ordersDomain(state: OrdersState) {
       let orders: Orders = getOrders(state)
       orders = orders.slice(Math.max(orders.length - n, 0))
       orders = orders.map(order => {
-        const filledPercent = order.filled ? unformat(order.filled)*100/unformat(order.amount) : 0
-        const total = formatNumber(order.price * order.amount, { precision: pricePrecision })
-        const filled = formatNumber(order.filled, {
-          precision: amountPrecision,
-        })
-        const amount = formatNumber(order.amount, {
-          precision: amountPrecision,
-        })
-        const price = formatNumber(order.price, { precision: pricePrecision })
+        const filledPercent = order.filled ? BigNumber(order.filled).times(100).div(order.amount) : 0
+        const total = BigNumber(order.price).times(order.amount).toFormat(pricePrecision)
+        const filled = BigNumber(order.filled).toFormat(amountPrecision)
+        const amount = BigNumber(order.amount).toFormat(amountPrecision)
+        const price = BigNumber(order.price).toFormat(pricePrecision)
         const cancellable =
           order.status === 'OPEN' || order.status === 'PARTIAL_FILLED'
         return { ...order, filledPercent, total, filled, amount, price, cancellable }

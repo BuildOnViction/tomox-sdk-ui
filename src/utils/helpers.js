@@ -1,9 +1,7 @@
 import { utils } from 'ethers'
-// import type { BN, Numberish } from '../types/common';
-
+import BigNumber from 'bignumber.js'
 import ethereum_address from 'ethereum-address'
 import { format, formatRelative } from 'date-fns'
-import { formatNumber } from 'accounting-js'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -224,14 +222,14 @@ export const getChangePercentText = (change) => {
   if (percent > 0) return `+${percent}%`
   if (percent < 0) return `${percent}%`
 
-  return `${formatNumber(percent, { precision: 2 })}%`
+  return `${BigNumber(percent).toFormat(2)}%`
 }
 
 export const getChangePriceText: string = (open: string, close: string, precision: number) => {
-  const result = Number(close) - Number(open)
+  const result = BigNumber(close).minus(open)
 
-  if (result > 0) return `+${formatNumber(result, {precision})}`
-  if (result < 0) return `${formatNumber(result, {precision})}`
+  if (result > 0) return `+${BigNumber(result).toFormat(precision)}`
+  if (result < 0) return `${BigNumber(result).toFormat(precision)}`
 
   return `${result}`
 }

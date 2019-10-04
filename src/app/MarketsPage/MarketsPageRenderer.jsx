@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { formatNumber } from 'accounting-js'
+import BigNumber from 'bignumber.js'
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import MarketsTable from '../../components/MarketsTable'
 import LineChart from '../../components/LineChart/LineChart'
@@ -47,13 +47,13 @@ const StatsBox = ({code, change, price, volume, data}) => {
         <StatsRow>
           <StatsTitle>{code} Index</StatsTitle>
           <StatsChange color={change >=0 ? '#00C38C' : '#f94d5c'}>
-            <SmallText>{change > 0 ? `+${formatNumber(change, { precision: 2 })}` : formatNumber(change, { precision: 2 })}%</SmallText>
+            <SmallText>{change > 0 ? `+${BigNumber(change).toFormat(2)}` : BigNumber(change).toFormat(2)}%</SmallText>
           </StatsChange>
         </StatsRow>
 
         <StatsRow>
-          <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{formatNumber(price, { precision: 2 })} USD</StatsPrice>
-          <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{formatNumber(volume, { precision: 2 })}</StatsVolumeText></StatsVolume>
+          <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{BigNumber(price).toFormat(2)} USD</StatsPrice>
+          <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{BigNumber(volume).toFormat(2)}</StatsVolumeText></StatsVolume>
         </StatsRow>
       </StatsInfo>
       <LineChart data={data} code={code} />

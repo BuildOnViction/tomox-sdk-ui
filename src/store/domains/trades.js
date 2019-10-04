@@ -1,6 +1,6 @@
 // @flow
+import BigNumber from 'bignumber.js'
 import { sortTable } from '../../utils/helpers'
-import { formatNumber } from 'accounting-js'
 import { amountPrecision, pricePrecision } from '../../config/tokens'
 
 import type { Trade, Trades, TradesState } from '../../types/trades'
@@ -126,9 +126,9 @@ export default function tradesDomain(state: TradesState) {
       trades = trades.map(trade => {
         return {
           ...trade,
-          amount: formatNumber(trade.amount, { precision: amountPrecision }),
-          price: formatNumber(trade.price, { precision: pricePrecision }),
-          total: formatNumber(trade.price * trade.amount, { precision: pricePrecision }),
+          amount: BigNumber(trade.amount).toFormat(amountPrecision),
+          price: BigNumber(trade.price).toFormat(pricePrecision),
+          total: BigNumber(trade.price).times(trade.amount).toFormat(pricePrecision),
         }
       })
 
@@ -142,8 +142,8 @@ export default function tradesDomain(state: TradesState) {
 
         return {
           ...trade,
-          amount: formatNumber(trade.amount, { precision: amountPrecision }),
-          price: formatNumber(trade.price, { precision: pricePrecision }),
+          amount: BigNumber(trade.amount).toFormat(amountPrecision),
+          price: BigNumber(trade.price).toFormat(pricePrecision),
         }
       })
 

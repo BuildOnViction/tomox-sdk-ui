@@ -21,7 +21,6 @@ import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
-import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens';
 
 type Props = {
   baseTokensData: Array<TokenData>,

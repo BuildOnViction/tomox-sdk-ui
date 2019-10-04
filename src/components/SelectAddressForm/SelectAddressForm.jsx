@@ -1,8 +1,7 @@
 // @flow
 import React from 'react';
 import { utils } from 'ethers';
-import { formatNumber } from 'accounting-js';
-
+import BigNumber from 'bignumber.js'
 import SelectAddressFormRenderer from './SelectAddressFormRenderer';
 
 import AddressGenerator from '../../store/services/device/addressGenerator';
@@ -111,13 +110,11 @@ class SelectAddressForm extends React.PureComponent<Props, State> {
     addBalance = (address: Object, index: number): Promise<Object> => {
         return new Promise((resolve, reject) => {
             this.props.getBalance(address.addressString).then(result => {
-                address.balance = formatNumber(utils.formatEther(result), {
-                    precision: 2
-                });
-                resolve(address);
-            });
-        });
-    };
+                address.balance = BigNumber(utils.formatEther(result)).toFormat(2)
+                resolve(address)
+            })
+        })
+    }
 
     componentDidUpdate(prevProps: Props) {
         if (

@@ -1,20 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-
-import {
-  formatNumber,
-} from 'accounting-js'
-
-import {
-  List,
-  AutoSizer,
-} from 'react-virtualized'
-
-import {
-  InputGroup,
-} from '@blueprintjs/core'
-
+import BigNumber from 'bignumber.js'
+import { List, AutoSizer } from 'react-virtualized'
+import { InputGroup } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
 import {
@@ -27,8 +16,8 @@ import {
   SmallText,
   TokenImage,
 } from '../Common'
-
-import { getChangePercentText } from '../../utils/helpers'
+import { pricePrecision } from '../../config/tokens'
+import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 
 type Props = {
   searchInput: string,
@@ -78,12 +67,12 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{(lastPrice !== null) ? formatNumber(lastPrice, { precision: 2 }) : "N.A"}</ChangeCell>
+            <ChangeCell change={change}>{(lastPrice !== null) ? truncateZeroDecimal(BigNumber(lastPrice).toFormat(pricePrecision)) : "N.A"}</ChangeCell>
           </PriceNumber>
           <PriceNumber>
             <SmallText muted>
               {(priceUsd !== null) && currentReferenceCurrency}
-              {(priceUsd !== null) ? formatNumber(priceUsd, { precision: 2 }) : "N.A"} 
+              {(priceUsd !== null) ? truncateZeroDecimal(BigNumber(priceUsd).toFormat(pricePrecision)) : "N.A"} 
             </SmallText>
           </PriceNumber>
         </Cell>
@@ -93,13 +82,13 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             </ChangeCell>
         </Cell>
         <Cell>
-            {(high !== null) ? formatNumber(high, { precision: 2 }): "N.A"}
+            {(high !== null) ? truncateZeroDecimal(BigNumber(high).toFormat(pricePrecision)): "N.A"}
         </Cell>
         <Cell>
-          {(low !== null) ? formatNumber(low, { precision: 2 }) : "N.A"}
+          {(low !== null) ? truncateZeroDecimal(BigNumber(low).toFormat(pricePrecision)) : "N.A"}
         </Cell>
         <Cell align="flex-end" flexGrow={2}>
-          {(volume !== null) ? formatNumber(volume, { precision: 2 }) : 'N.A'}
+          {(volume !== null) ? truncateZeroDecimal(BigNumber(volume).toFormat(pricePrecision)) : 'N.A'}
         </Cell>
       </Row>
     )

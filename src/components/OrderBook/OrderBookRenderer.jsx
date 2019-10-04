@@ -2,10 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Loading, Colors, DarkMode } from '../Common'
-import { formatNumber, unformat } from 'accounting-js'
-import { getChangePercentText } from '../../utils/helpers'
+import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
+import BigNumber from 'bignumber.js'
 
 type BidOrAsk = {
   price: number,
@@ -128,13 +128,13 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 {currentPairData && (
                   <LatestPrice width="75%">
                     <CryptoPrice>
-                      <Ellipsis title={formatNumber(currentPairData.price, {precision: pricePrecision})}>
-                        {formatNumber(currentPairData.price, {precision: pricePrecision})}
+                      <Ellipsis title={truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))}>
+                        {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))}
                       </Ellipsis>
                     </CryptoPrice>
                     <CashPrice>
-                      <Ellipsis>
-                        {referenceCurrency.symbol}{formatNumber(currentPairData.priceUsd, {precision: 2})}
+                      <Ellipsis title={truncateZeroDecimal(BigNumber(currentPairData.priceUsd).toFormat(pricePrecision))}>
+                        {referenceCurrency.symbol}{truncateZeroDecimal(BigNumber(currentPairData.priceUsd).toFormat(pricePrecision))}
                       </Ellipsis>
                     </CashPrice> 
                   </LatestPrice>
@@ -176,7 +176,7 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row onClick={onClick}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width="33%">{formatNumber(unformat(order.price), { precision: pricePrecision })}</Cell>
+      <Cell className="up" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell> 
     </Row>
@@ -188,7 +188,7 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row onClick={onClick}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width="33%">{formatNumber(unformat(order.price), { precision: pricePrecision })}</Cell>
+      <Cell className="down" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
       <Cell className="text-right" width="33%">{order.total}</Cell>
     </Row>
