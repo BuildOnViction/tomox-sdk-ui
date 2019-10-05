@@ -38,7 +38,7 @@ const Status = {
 }
 
 const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
-const widthColumnsOrderHistory = ['12%', '10%', '10%', '12%', '10%', '10%', '15%', '10%', '15%']
+const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
 const OrdersTableRenderer = (props: Props) => {

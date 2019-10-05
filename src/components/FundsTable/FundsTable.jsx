@@ -45,6 +45,7 @@ class FundsTable extends React.PureComponent<Props, State> {
 
   render() {
     const {
+      accountAddress,
       tokenData,
       quoteTokens,
       baseTokens,
@@ -89,6 +90,7 @@ class FundsTable extends React.PureComponent<Props, State> {
           isHideZeroBalanceToken={isHideZeroBalanceToken}
           toggleZeroBalanceToken={this.toggleZeroBalanceToken}
           handleSearchInputChange={this.handleSearchInputChange}
+          accountAddress={accountAddress}
         />
       </Wrapper>
     )

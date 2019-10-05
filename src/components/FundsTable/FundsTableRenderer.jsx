@@ -6,9 +6,13 @@ import {
   MutedText,
   Theme,
   DarkMode,
+  TmColors,
+  Link,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+
+import { TOMOSCAN_URL } from '../../config/environment'
 import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
@@ -75,7 +79,7 @@ const FundsTableRenderer = (props: Props) => {
 }
 
 const TOMORow = (props: Props) => {
-  const { TOMOTokenData } = props
+  const { accountAddress, TOMOTokenData } = props
 
   if (!TOMOTokenData) return null
 
@@ -84,7 +88,7 @@ const TOMORow = (props: Props) => {
   return (
     <Row key="TOMO">
       <Cell width={WidthColums[0]}>
-        <TokenNameWrapper>{symbol}</TokenNameWrapper>
+        <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
       </Cell>
       <Cell width={WidthColums[1]}>
         <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
@@ -100,15 +104,17 @@ const TOMORow = (props: Props) => {
 }
 
 const QuoteTokenRows = (props: Props) => {
-  const { quoteTokensData } = props
+  const { accountAddress, quoteTokensData } = props
 
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, availableBalance, inOrders }, index) => {
+    ({ symbol, balance, availableBalance, inOrders, address }, index) => {
       return (
         <Row key={index}>
-          <Cell width={WidthColums[0]}>{symbol}</Cell>
+          <Cell width={WidthColums[0]}>
+          <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+          </Cell>
           <Cell width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
@@ -125,15 +131,17 @@ const QuoteTokenRows = (props: Props) => {
 }
 
 const BaseTokenRows = (props: Props) => {
-  const { baseTokensData } = props
+  const { accountAddress, baseTokensData } = props
 
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, availableBalance, inOrders }, index) => {
+    ({ symbol, balance, availableBalance, inOrders, address }, index) => {
       return (
         <Row key={index}>
-          <Cell width={WidthColums[0]}>{symbol}</Cell>
+          <Cell width={WidthColums[0]}>
+            <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+          </Cell>
           <Cell width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
           </Cell>
@@ -219,15 +227,6 @@ const Row = styled.div`
 const OperationButtonWrapper = styled.div`
   display: flex;
   align-items: center;
-`
-
-const TokenNameWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  & svg,
-  & img {
-    margin-right: 12px;
-  }
 `
 
 const CheckboxWrapper = styled(Checkbox)`
