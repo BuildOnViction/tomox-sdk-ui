@@ -44,7 +44,7 @@ type State = {
   calloutOptions: Object
 };
 
-export default class TradingPage extends React.PureComponent<Props, State> {
+export default class Dapp extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
     isShowOrderForm: false,
