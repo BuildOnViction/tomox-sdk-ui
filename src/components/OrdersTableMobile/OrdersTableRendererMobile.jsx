@@ -18,7 +18,7 @@ import {
 } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
-// import FundsTable from '../FundsTable'
+import FundsTable from '../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -83,13 +83,13 @@ const OrdersTableRendererMobile = (props: Props) => {
             />
           }
         />
-        {/* <Tab
+        <Tab
           id="funds"
           title={<FormattedMessage id="exchangePage.funds" />}
           panel={
             <FundsTable />
           }
-        /> */}
+        />
       </TabsContainer>
     </React.Fragment>
   )

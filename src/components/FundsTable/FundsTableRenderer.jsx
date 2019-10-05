@@ -30,7 +30,7 @@ type Props = {
   redirectToTradingPage: string => void,
 }
 
-const WidthColums = ['15%', '33%', '32%', '20%']
+const WidthColums = ['20%', '30%', '30%', '20%']
 
 const FundsTableRenderer = (props: Props) => {
   const {
@@ -61,8 +61,9 @@ const FundsTableRenderer = (props: Props) => {
 
       <TableHeader>
         <TableHeaderCell width={WidthColums[0]}><MutedText>Coin</MutedText></TableHeaderCell>
-        <TableHeaderCell width={WidthColums[1]}><MutedText>Total</MutedText></TableHeaderCell>
-        <TableHeaderCell width={WidthColums[2]}><MutedText>Available amount</MutedText></TableHeaderCell>
+        <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText>Total</MutedText></TableHeaderCellXsHidden>
+        <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText>Available amount</MutedText></TableHeaderCellXsHidden>
+        <CellXs width="60%">Total/Available</CellXs>
         <TableHeaderCell width={WidthColums[3]}><MutedText>In orders</MutedText></TableHeaderCell>
       </TableHeader>
 
@@ -90,12 +91,16 @@ const TOMORow = (props: Props) => {
       <Cell width={WidthColums[0]}>
         <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
       </Cell>
-      <Cell width={WidthColums[1]}>
+      <CellXsHidden width={WidthColums[1]}>
         <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
-      </Cell>
-      <Cell width={WidthColums[2]}>
+      </CellXsHidden>
+      <CellXsHidden width={WidthColums[2]}>
         <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
-      </Cell>
+      </CellXsHidden>
+      <CellXs width="65%">
+        <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
+        <span>{truncateZeroDecimal(availableBalance)}</span> 
+      </CellXs>
       <Cell width={WidthColums[3]}>
         <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
       </Cell>
@@ -115,12 +120,16 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width={WidthColums[0]}>
           <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
           </Cell>
-          <Cell width={WidthColums[1]}>
+          <CellXsHidden width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
-          </Cell>
-          <Cell width={WidthColums[2]}>
+          </CellXsHidden>
+          <CellXsHidden width={WidthColums[2]}>
             <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
-          </Cell>
+          </CellXsHidden>
+          <CellXs width="65%">
+            <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
+            <span>{truncateZeroDecimal(availableBalance)}</span>
+          </CellXs>
           <Cell width={WidthColums[3]}>
             <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
@@ -142,12 +151,16 @@ const BaseTokenRows = (props: Props) => {
           <Cell width={WidthColums[0]}>
             <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
           </Cell>
-          <Cell width={WidthColums[1]}>
+          <CellXsHidden width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
-          </Cell>
-          <Cell width={WidthColums[2]}>
+          </CellXsHidden>
+          <CellXsHidden width={WidthColums[2]}>
             <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
-          </Cell>
+          </CellXsHidden>
+          <CellXs width="65%">
+            <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
+            <span>{truncateZeroDecimal(availableBalance)}</span>
+          </CellXs>
           <Cell width={WidthColums[3]}>
             <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
           </Cell>
@@ -160,9 +173,17 @@ const BaseTokenRows = (props: Props) => {
 const Wrapper = styled.div`
   padding: 0 15px;
   height: 100%;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      padding: 0 10px;
+    }
+  }
 `
 
-const SearchWrapper= styled(InputGroup)`
+const SearchWrapper= styled(InputGroup).attrs({
+  className: 'xs-hidden',
+})`
   .bp3-input {
     color: ${DarkMode.LIGHT_GRAY};
     max-width: 220px;
@@ -180,7 +201,7 @@ const TableHeader = styled.div`
   height: 35px;
   display: flex;
   align-items: center;  
-  padding: 0 20px;
+  padding: 0 10px;
   &:last-child {
     flex-grow: 2;
   }
@@ -192,6 +213,10 @@ const TableHeaderCell = styled.div`
   justify-content: ${({align}) => align || 'flex-start'};
   flex-grow: ${({flexGrow}) => flexGrow || 0}
 `
+
+const TableHeaderCellXsHidden = styled(TableHeaderCell).attrs({
+  className: 'xs-hidden',
+})``
 
 const TableBodyContainer = styled.div`
   width: 100%;
@@ -213,11 +238,29 @@ const Cell = styled.div`
   flex-grow: ${({flexGrow}) => flexGrow || 0}
 `
 
+const CellXs = styled(Cell)`
+  display: none;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      display: flex;
+      flex-flow: column;
+      align-items: start;
+      justify-content: center;
+      line-height: 16px;
+    }
+  }
+`
+
+const CellXsHidden = styled(Cell).attrs({
+  className: 'xs-hidden',
+})``
+
 const Row = styled.div`
   display: flex;
   width: 100%;
   height: 45px;
-  padding: 0 20px;
+  padding: 0 10px;
 
   &:nth-child(2n+1) {
     background: ${props => props.theme.subBg};
@@ -261,6 +304,10 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const TotalBalance = styled.span`
+  color: ${props => props.theme.link};
 `
 
 export default withRouter(FundsTableRenderer)

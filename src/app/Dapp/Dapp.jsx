@@ -381,6 +381,7 @@ const MainTabs = styled(RcTabs)`
     font-size: ${Theme.FONT_SIZE_MD};
     padding: 8px 10px;
     margin-right: 0;
+    user-select: none;
   }
 
   .rc-tabs-nav-wrap .rc-tabs-ink-bar {
