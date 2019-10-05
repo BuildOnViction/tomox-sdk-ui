@@ -1,6 +1,6 @@
 //@flow
 import { utils } from 'ethers'
-import { Big } from 'big.js'
+import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
 import { isFloat, isInteger, round, computeChange } from './helpers'
 
@@ -81,9 +81,9 @@ export const parseTokens = (tokens: Array<Object>): Tokens => {
 
 export const parseBalance = (balance, decimals: Number, precision: Number = pricePrecision): String => {
   // We use 18 to avoid result round to 0. 
-  const precisionMultiplier = Big(10).pow(18)
-  const multiplier = Big(10).pow(decimals)
-  const bigBalance = Big(balance).times(precisionMultiplier)
+  const precisionMultiplier = BigNumber(10).pow(18)
+  const multiplier = BigNumber(10).pow(decimals)
+  const bigBalance = BigNumber(balance).times(precisionMultiplier)
   const userBalance = ((bigBalance.div(multiplier)).div(precisionMultiplier)).toFixed(precision)
 
   return userBalance
@@ -99,9 +99,9 @@ export const parseBalance = (balance, decimals: Number, precision: Number = pric
  */
 export const parseTokenAmount = (amountpoint: string, pair: TokenPair, precision: number = amountPrecision) => {
   const { baseTokenDecimals } = pair
-  const precisionMultiplier = Big(10).pow(precision)
-  const baseMultiplier = Big(10).pow(baseTokenDecimals)
-  const bigAmount = (Big(amountpoint).times(precisionMultiplier)).div(baseMultiplier)
+  const precisionMultiplier = BigNumber(10).pow(precision)
+  const baseMultiplier = BigNumber(10).pow(baseTokenDecimals)
+  const bigAmount = (BigNumber(amountpoint).times(precisionMultiplier)).div(baseMultiplier)
   const amount = bigAmount.div(precisionMultiplier).toFixed(precision)
 
   return unformat(amount)
@@ -118,9 +118,9 @@ export const parseTokenAmount = (amountpoint: string, pair: TokenPair, precision
 export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 7) => {
   const { quoteTokenDecimals } = pair
   // We use 18 to avoid result round to 0. 
-  const precisionMultiplier = Big(10).pow(18)
-  const quoteMultiplier = Big(10).pow(quoteTokenDecimals)
-  const bigPricepoint = Big(pricepoint).times(precisionMultiplier)
+  const precisionMultiplier = BigNumber(10).pow(18)
+  const quoteMultiplier = BigNumber(10).pow(quoteTokenDecimals)
+  const bigPricepoint = BigNumber(pricepoint).times(precisionMultiplier)
   const price = ((bigPricepoint.div(quoteMultiplier)).div(precisionMultiplier)).toFixed(precision)
 
   return unformat(price)
