@@ -2,8 +2,9 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import aes from 'crypto-js/aes'
+import { utils } from 'ethers'
 import { shuffleArray, validatePassword } from '../../utils/helpers'
-import { createRandomWallet } from '../../store/services/wallet'
+import { createWalletFromMnemonic } from '../../store/services/wallet'
 import CreateWalletPageRenderer from './CreateWalletPageRenderer'
 
 type Props = {
@@ -45,7 +46,8 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
   }
 
   componentDidMount = async () => {
-    const wallet = await createRandomWallet()
+    const mnemonic = utils.HDNode.entropyToMnemonic(utils.randomBytes(16))
+    const { wallet } = await createWalletFromMnemonic(mnemonic)
     const shuffedMnemonic = shuffleArray(wallet.mnemonic.split(' '))
     
     this.setState({ wallet, shuffedMnemonic  })
