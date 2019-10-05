@@ -2,7 +2,7 @@
 import React from 'react'
 import { utils } from 'ethers'
 import { unformat } from 'accounting-js'
-import Big from 'big.js'
+import BigNumber from 'bignumber.js'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { SIDE } from '../../types/orderForm'
@@ -123,7 +123,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
     value = value.match(/^0[1-9]/g) ? value.replace(/^0/, '') : value
-    value = value.match(/^\.[1-9]/g) ? value.replace(/^./, '0.') : value
+    value = value.match(/^\.[1-9]*/g) ? value.replace(/^./, '0.') : value
     value = value.match(/^[0-9]*\.[0-9]*\.$/g) ? value.replace(/.$/, '') : value
     const regex = /^[0-9]*\.[0-9]{8,}$/g
     if (regex.test(value)) return
@@ -176,8 +176,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { sellPrice } = this.state
       if (!sellPrice) return
 
-      const bigSellAmount = (Big(baseTokenBalance).div(100)).times(fraction)
-      const bigSellTotal = Big(sellPrice).times(bigSellAmount)
+      const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
+      const bigSellTotal = BigNumber(sellPrice).times(bigSellAmount)
 
       this.setState({
         fraction,
@@ -188,8 +188,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { buyPrice } = this.state
       if (!buyPrice) return
 
-      const bigBuyTotal = (Big(quoteTokenBalance).div(100)).times(fraction)
-      const bigBuyAmount = bigBuyTotal.div(Big(buyPrice))
+      const bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
+      const bigBuyAmount = bigBuyTotal.div(BigNumber(buyPrice))
 
       this.setState({
         fraction,
@@ -206,7 +206,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { buyAmount } = this.state
 
       if (price && buyAmount) {
-        const bigBuyTotal = Big(buyAmount).times(Big(price))
+        const bigBuyTotal = BigNumber(buyAmount).times(BigNumber(price))
 
         this.setState({
           buyTotal: bigBuyTotal.toFixed(pricePrecision),
@@ -222,7 +222,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { sellAmount } = this.state
 
       if (price && sellAmount) {
-        const bigSellTotal = Big(sellAmount).times(Big(price))
+        const bigSellTotal = BigNumber(sellAmount).times(BigNumber(price))
 
         this.setState({
           sellTotal: bigSellTotal.toFixed(pricePrecision),
@@ -274,8 +274,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         let bigBuyTotal
 
         selectedTabId === 'stop'
-          ? bigBuyTotal = Big(stopPrice).times(Big(amount))
-          : bigBuyTotal = Big(buyPrice).times(Big(amount))
+          ? bigBuyTotal = BigNumber(stopPrice).times(BigNumber(amount))
+          : bigBuyTotal = BigNumber(buyPrice).times(BigNumber(amount))
 
         this.setState({
           buyTotal: bigBuyTotal.toFixed(pricePrecision),
@@ -295,8 +295,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         let bigSellTotal
 
         selectedTabId === 'stop'
-          ? bigSellTotal = Big(stopPrice).times(Big(amount))
-          : bigSellTotal = Big(sellPrice).times(Big(amount))
+          ? bigSellTotal = BigNumber(stopPrice).times(BigNumber(amount))
+          : bigSellTotal = BigNumber(sellPrice).times(BigNumber(amount))
 
         this.setState({
           sellTotal: bigSellTotal.toFixed(pricePrecision),
@@ -390,8 +390,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       buyPriceInput.current.focus()
 
       buyPrice = buyPrice ? buyPrice : 0
-      let bigBuyPrice = Big(buyPrice).minus(Big(priceStep))
-      bigBuyPrice = bigBuyPrice.gt(Big(priceStep)) ? bigBuyPrice : Big(priceStep)
+      let bigBuyPrice = BigNumber(buyPrice).minus(BigNumber(priceStep))
+      bigBuyPrice = bigBuyPrice.gt(BigNumber(priceStep)) ? bigBuyPrice : BigNumber(priceStep)
 
       if (buyPrice && buyAmount) {
         const bigBuyTotal = bigBuyPrice.times(buyAmount)
@@ -410,11 +410,11 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellPriceInput.current.focus()
 
       sellPrice = sellPrice ? sellPrice : 0
-      let bigSellPrice = Big(sellPrice).minus(Big(priceStep))
-      bigSellPrice = bigSellPrice.gt(Big(priceStep)) ? bigSellPrice : Big(priceStep)
+      let bigSellPrice = BigNumber(sellPrice).minus(BigNumber(priceStep))
+      bigSellPrice = bigSellPrice.gt(BigNumber(priceStep)) ? bigSellPrice : BigNumber(priceStep)
 
       if (sellPrice && sellAmount) {
-        const bigSellTotal = bigSellPrice.times(Big(sellAmount))
+        const bigSellTotal = bigSellPrice.times(BigNumber(sellAmount))
 
         this.setState({
           sellPrice: bigSellPrice.toFixed(pricePrecision),
@@ -448,10 +448,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       buyPriceInput.current.focus()
 
       buyPrice = buyPrice ? buyPrice : 0
-      const bigBuyPrice = Big(buyPrice).add(Big(priceStep))
+      const bigBuyPrice = BigNumber(buyPrice).plus(BigNumber(priceStep))
 
       if (buyPrice && buyAmount) {
-        const bigBuyTotal = bigBuyPrice.times(Big(buyAmount))
+        const bigBuyTotal = bigBuyPrice.times(BigNumber(buyAmount))
 
         this.setState({
           buyPrice: bigBuyPrice.toFixed(pricePrecision),
@@ -467,10 +467,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellPriceInput.current.focus()
 
       sellPrice = sellPrice ? sellPrice : 0
-      const bigSellPrice = Big(sellPrice).plus(Big(priceStep))
+      const bigSellPrice = BigNumber(sellPrice).plus(BigNumber(priceStep))
 
       if (sellPrice && sellAmount) {
-        const bigSellTotal = bigSellPrice.times(Big(sellAmount))
+        const bigSellTotal = bigSellPrice.times(BigNumber(sellAmount))
 
         this.setState({
           sellPrice: bigSellPrice.toFixed(pricePrecision),
@@ -504,11 +504,11 @@ class OrderForm extends React.PureComponent<Props, State> {
       buyAmountInput.current.focus()
 
       buyAmount = buyAmount ? buyAmount : 0
-      let bigBuyAmount = Big(buyAmount).minus(Big(amountStep)) 
-      bigBuyAmount = bigBuyAmount.gt(Big(amountStep)) ? bigBuyAmount : Big(amountStep)
+      let bigBuyAmount = BigNumber(buyAmount).minus(BigNumber(amountStep)) 
+      bigBuyAmount = bigBuyAmount.gt(BigNumber(amountStep)) ? bigBuyAmount : BigNumber(amountStep)
 
       if (buyAmount && buyPrice) {
-        const bigBuyTotal = bigBuyAmount.times(Big(buyPrice))
+        const bigBuyTotal = bigBuyAmount.times(BigNumber(buyPrice))
 
         this.setState({
           buyAmount: bigBuyAmount.toFixed(amountPrecision),
@@ -524,11 +524,11 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput.current.focus()
 
       sellAmount = sellAmount ? sellAmount : 0
-      let bigSellAmount = Big(sellAmount).minus(Big(amountStep))
-      bigSellAmount = bigSellAmount.gt(Big(amountStep)) ? bigSellAmount : Big(amountStep)
+      let bigSellAmount = BigNumber(sellAmount).minus(BigNumber(amountStep))
+      bigSellAmount = bigSellAmount.gt(BigNumber(amountStep)) ? bigSellAmount : BigNumber(amountStep)
 
       if (sellAmount && sellPrice) {
-        const bigSellTotal = bigSellAmount.times(Big(sellPrice))
+        const bigSellTotal = bigSellAmount.times(BigNumber(sellPrice))
         
         this.setState({
           sellAmount: bigSellAmount.toFixed(amountPrecision),
@@ -567,10 +567,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       buyAmountInput.current.focus()
 
       buyAmount = buyAmount ? buyAmount : 0
-      const bigBuyAmount = Big(buyAmount).plus(Big(amountStep))
+      const bigBuyAmount = BigNumber(buyAmount).plus(BigNumber(amountStep))
 
       if (buyAmount && buyPrice) {
-        const bigBuyTotal = bigBuyAmount.times(Big(buyPrice))
+        const bigBuyTotal = bigBuyAmount.times(BigNumber(buyPrice))
 
         this.setState({
           buyAmount: bigBuyAmount.toFixed(amountPrecision),
@@ -586,10 +586,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput.current.focus()
 
       sellAmount = sellAmount ? sellAmount : 0 
-      const bigSellAmount = Big(sellAmount).plus(Big(amountStep))
+      const bigSellAmount = BigNumber(sellAmount).plus(BigNumber(amountStep))
 
       if (sellAmount && sellPrice) {
-        const bigSellTotal = bigSellAmount.times(Big(sellPrice))
+        const bigSellTotal = bigSellAmount.times(BigNumber(sellPrice))
 
         this.setState({
           sellAmount: bigSellAmount.toFixed(amountPrecision),
@@ -763,11 +763,11 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (authenticated) {
       if (unformat(buyPrice) & quoteTokenBalance) {
         const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
-        const maxQuoteTokenAmount = Big(quoteTokenBalance).minus(formattedMakeFee)
-        buyMaxAmount = maxQuoteTokenAmount.div(Big(buyPrice)).toFixed(amountPrecision)
+        const maxQuoteTokenAmount = BigNumber(quoteTokenBalance).minus(formattedMakeFee)
+        buyMaxAmount = maxQuoteTokenAmount.div(BigNumber(buyPrice)).toFixed(amountPrecision)
       }
 
-      sellMaxAmount = Big(baseTokenBalance).toFixed(amountPrecision)
+      sellMaxAmount = BigNumber(baseTokenBalance).toFixed(amountPrecision)
     }
 
     const insufficientBalanceToBuy = (unformat(buyAmount) > unformat(buyMaxAmount))
