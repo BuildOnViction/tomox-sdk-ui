@@ -2,7 +2,7 @@
 import { getTokenPairsDomain } from '../domains'
 import OHLCVModel from '../domains/ohlcv'
 import * as actionCreators from '../actions/ohlcv'
-import { timeSpans } from '../../components/OHLCV/OHLCV'
+import { timeSpans } from '../../components/TVChartContainer/TVChart'
 import type { SendTimelineParams } from '../../types/ohlcv'
 import type { State, ThunkAction } from '../../types'
 
