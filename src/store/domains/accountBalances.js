@@ -42,7 +42,7 @@ export function updated(accountBalances: AccountBalances) {
         symbol: item.symbol,
         balance: item.balance,
         inOrders,
-        availableBalance: BigNumber(item.balance).minus(inOrders),
+        availableBalance: BigNumber(item.balance).minus(inOrders).toFixed(pricePrecision),
         subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
       }
       return result
