@@ -281,6 +281,12 @@ const ErrorMessage = styled.div`
   margin-left: auto;
   margin-top: -7px;
   margin-bottom: 3px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: 100%;
+    }
+  }
 `
 
 const OverlayInput = styled.div`
