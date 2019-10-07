@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
-import { DarkMode, Theme, SmallText, TmColors } from '../../components/Common'
-// import type { CreateWalletParams } from '../../types/createWallet'
+import { DarkMode, Theme, SmallText, TmColors, Link as ExternalLink } from '../../components/Common'
 import { Link } from "react-router-dom"
 import SelectAddressModal from '../../components/SelectAddressModal'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
@@ -250,8 +249,8 @@ const LedgerDevice = (props) => {
 
       {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
       <InstructionBox>
-        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
-        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
+        <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
+        <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
       </InstructionBox>
 
       <ButtonWrapper onClick={() => toggleSelectHdPathModal('open')}><FormattedMessage id="unlockWalletPage.ledger.buttonTitle" /></ButtonWrapper>
