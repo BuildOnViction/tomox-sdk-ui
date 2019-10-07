@@ -58,10 +58,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       prevAddresses,
       ledgerError,
       errorList,
-      openAddressesTrezorDialog,
-      isSelectAddressModalOpen,
-      closeAddressesTrezorDialog,
-      deviceService,
+      // openAddressesTrezorDialog,
+      // isSelectAddressModalOpen,
+      // closeAddressesTrezorDialog,
+      // deviceService,
       loading,
       chooseAddress,
       unlockWalletWithLedger,
@@ -124,13 +124,13 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 chooseAddress={chooseAddress} />
             } />
 
-            <Tab id="trezor" title="Trezor" panel={
+            {/* <Tab id="trezor" title="Trezor" panel={
               <TrezorDevice 
                 openAddressesTrezorDialog={openAddressesTrezorDialog}
                 closeAddressesTrezorDialog={closeAddressesTrezorDialog}
                 isSelectAddressModalOpen={isSelectAddressModalOpen}
                 deviceService={deviceService} />
-            } />
+            } /> */}
           </TabsWrapper>
         </ImportWalletWrapper>
       </Wrapper>
@@ -286,6 +286,7 @@ const LedgerDevice = (props) => {
   )
 }
 
+//eslint-disable-next-line
 const TrezorDevice = (props) => {
   const { 
     isSelectAddressModalOpen, 
