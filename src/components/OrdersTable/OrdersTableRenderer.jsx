@@ -301,7 +301,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="blank" color={TmColors.WHITE}>{order.pair}</Link>
               </Cell>
               <Cell width={widthColumnsTradeHistory[2]} muted>
-                {order.side ? capitalizeFirstLetter(order.side) : '-'}
+                {capitalizeFirstLetter(order.type)}
               </Cell>
               <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
                 {truncateZeroDecimal(order.price)}
