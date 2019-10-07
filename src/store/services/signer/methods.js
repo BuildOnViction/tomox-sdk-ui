@@ -43,7 +43,7 @@ export const createRawOrder = async function (params: any) {
   order.amount = amountPoints.toString()
   order.pricepoint = pricepoint.toString()
   order.side = side
-  order.nonce = (orderNonce + 1).toString()
+  order.nonce = orderNonce.toString()
   order.hash = getOrderHash(order)
   
   let signature = null
