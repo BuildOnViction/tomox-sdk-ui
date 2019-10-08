@@ -1,8 +1,9 @@
 // @flow
 import type { OrderBookState, OrderBookData } from '../../types/orderBook'
 import SortedArray from 'sorted-array'
+import BigNumber from 'bignumber.js'
 import { round } from '../../utils/helpers'
-import { amountPrecision } from '../../config/tokens'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
 
 const initialState: OrderBookState = {
   selected: null,
@@ -190,17 +191,17 @@ export default function domain(state: OrderBookState) {
       bids = bids.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: item.amount,
-        total: item.total,
-        price: item.price,
+        amount: BigNumber(item.amount).toFixed(amountPrecision),
+        total: BigNumber(item.total).toFixed(pricePrecision),
+        price: BigNumber(item.price).toFixed(pricePrecision),
       }))
 
       asks = asks.map(item => ({
         ...item,
         relativeTotal: max ? item.total / max : 1,
-        amount: item.amount,
-        total: item.total,
-        price: item.price,
+        amount: BigNumber(item.amount).toFixed(amountPrecision),
+        total: BigNumber(item.total).toFixed(pricePrecision),
+        price: BigNumber(item.price).toFixed(pricePrecision),
       }))
 
       return { asks, bids }
