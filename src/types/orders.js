@@ -42,6 +42,7 @@ export type RawOrder = {
 export type OrderCancel = {
   orderHash: string,
   hash: string,
+  nonce: string,
   signature: Signature,
 }
 

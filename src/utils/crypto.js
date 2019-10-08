@@ -31,7 +31,7 @@ export const getOrderHash = order => {
 }
 
 export const getOrderCancelHash = orderCancel => {
-  return utils.solidityKeccak256(['bytes'], [orderCancel.orderHash])
+  return utils.solidityKeccak256(['bytes', 'uint256'], [orderCancel.orderHash, orderCancel.nonce])
 }
 
 export const getTradeHash = trade => {

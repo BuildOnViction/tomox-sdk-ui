@@ -65,8 +65,9 @@ export const createRawOrder = async function (params: any) {
 
 export const createOrderCancel = async function (
   orderHash: string,
+  nonce: number,
 ): Promise<OrderCancel> {
-  const orderCancel = {}
+  const orderCancel = { nonce: nonce.toString() }
   orderCancel.orderHash = orderHash
   orderCancel.hash = getOrderCancelHash(orderCancel)
 
