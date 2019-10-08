@@ -4,7 +4,7 @@ import type { Signature } from './common'
 import type { TokenPair } from './tokens'
 
 export type Side = 'BUY' | 'SELL'
-export type OrderType = 'MARKET' | 'LIMIT'
+export type OrderType = 'MO' | 'LO'
 export type OrderStatus =
   | 'NEW'
   | 'OPEN'

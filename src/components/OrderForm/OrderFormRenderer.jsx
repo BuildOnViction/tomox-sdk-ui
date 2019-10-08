@@ -11,7 +11,7 @@ import {
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
 
-import type { SIDE } from '../../types/orderForm'
+import type { Side, OrderType } from '../../types/orders'
 
 import {
   MutedText,
@@ -22,8 +22,8 @@ import {
 import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
 
 type Props = {
-  selectedTabId: string,
-  side: 'BUY' | 'SELL',
+  selectedTabId: OrderType,
+  side: Side,
   fraction: number,
   priceType: string,
   buyPrice: string,
@@ -110,7 +110,7 @@ const OrderFormRenderer = (props: Props) => {
           selectedTabId={selectedTabId} 
           onChange={handleChangeOrderType}>
             <Tab
-              id="limit"
+              id="LO"
               title="Limit"
               panel={
                 <LimitOrderPanel
@@ -161,7 +161,7 @@ const OrderFormRenderer = (props: Props) => {
               }
             />
             {/* <Tab
-              id="market"
+              id="MO"
               title="Market"
               disabled="true"
               panel={

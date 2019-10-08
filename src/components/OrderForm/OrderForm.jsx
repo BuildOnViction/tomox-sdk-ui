@@ -5,12 +5,12 @@ import { unformat } from 'accounting-js'
 import BigNumber from 'bignumber.js'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
 
-import type { SIDE } from '../../types/orderForm'
+import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 
 type Props = {
-  side: SIDE,
+  side: Side,
   askPrice: number,
   bidPrice: number,
   baseTokenBalance: number,
@@ -30,6 +30,7 @@ type Props = {
 
 type State = {
   side: SIDE,
+  selectedTabId: OrderType,
   fraction: number,
   priceType: string,
   selectedTabId: string,
@@ -58,7 +59,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     fraction: 0,
     isOpen: true,
     priceType: 'null',
-    selectedTabId: 'limit',
+    selectedTabId: 'LO',
     buyPrice: '',
     sellPrice: '',
     stopPrice: '',
@@ -153,6 +154,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleSendOrder = (side: SIDE) => {
+    const { selectedTabId } = this.state
     const error = this.isInvalidInput(side)
     if (error) {
       (side === 'BUY') ? this.setState({ errorBuy: error }) : this.setState({ errorSell: error })
@@ -162,9 +164,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { buyPrice, sellPrice, buyAmount, sellAmount } = this.state
 
     if (side === 'BUY'){
-      this.props.sendNewOrder(side, unformat(buyAmount), unformat(buyPrice))
+      this.props.sendNewOrder(side, selectedTabId, unformat(buyAmount), unformat(buyPrice))
     } else {
-      this.props.sendNewOrder(side, unformat(sellAmount), unformat(sellPrice))
+      this.props.sendNewOrder(side, selectedTabId, unformat(sellAmount), unformat(sellPrice))
     }                    
   }
 

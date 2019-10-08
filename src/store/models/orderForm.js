@@ -14,7 +14,7 @@ import {
 
 import { utils } from 'ethers'
 import type { State, ThunkAction } from '../../types'
-import type { Side } from '../../types/orders'
+import type { Side, OrderType } from '../../types/orders'
 import { getSigner } from '../services/signer'
 import { parseNewOrderError } from '../../config/errors'
 // import { joinSignature } from 'ethers/utils'
@@ -71,7 +71,7 @@ export default function getOrderFormSelector(state: State) {
   }
 }
 
-export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAction => {
+export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: number): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
     try {
       dispatch(ordersActionCreators.ordersUpdatedStatus(true))
@@ -99,6 +99,8 @@ export const sendNewOrder = (side: Side, amount: number, price: number): ThunkAc
 
       const params = {
         side,
+        type,
+        status: 'NEW',
         exchangeAddress,
         userAddress,
         pair,
