@@ -167,7 +167,7 @@ const ButtonGroupBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: 1000;
+  z-index: 20;
 `
 
 const Close = styled(Icon)`
@@ -287,7 +287,7 @@ const OrderFormCell = styled(Cell).attrs({
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: 30;
 
   .bp3-tab {
     line-height: initial;
