@@ -2,7 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import DepositTableRenderer from './DepositTableRenderer'
-// import DepositModal from '../../components/DepositModal'
 import TransferTokensModal from '../../components/TransferTokensModal'
 import ReceiveTokensModal from '../../components/ReceiveTokensModal'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
@@ -23,14 +22,11 @@ type Props = {
 }
 
 type State = {
-  isDepositModalOpen: boolean,
-  isSendModalOpen: boolean,
-  isConvertModalOpen: boolean,
-  convertModalFromToken: string,
-  convertModalToToken: string,
-  selectedToken: ?TokenData,
-  isHideZeroBalanceToken: boolean,
-  searchInput: string,
+  isSendModalOpen: Boolean,
+  selectedToken: Object,
+  isHideZeroBalanceToken: Boolean,
+  searchInput: String,
+  isOpenReceiveDialog: Boolean,
 }
 
 class DepositTable extends React.PureComponent<Props, State> {
