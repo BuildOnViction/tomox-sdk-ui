@@ -6,7 +6,6 @@ import Layout from './Layout'
 import LoginPage from './LoginPage'
 import CreateWalletPage from './CreateWalletPage'
 import WalletPage from './WalletPage'
-import SettingsPage from './SettingsPage'
 import LogoutPage from './LogoutPage'
 import TradingPage from './TradingPage'
 import MarketsPage from './MarketsPage'
@@ -29,7 +28,6 @@ class App extends React.PureComponent {
             <Route path="/markets" component={MarketsPage} />
             <Route path="/trade/:pair?" component={TradingPage} /> 
             <Route path="/dapp/:pair?" component={Dapp} />           
-            <Route path="/settings" component={SettingsPage} />
             <Route path="/logout" component={LogoutPage} />
             <Route path="/create" component={CreateWalletPage} />
             <Route exact path="*" render={() => <Redirect to="/markets" />} />
