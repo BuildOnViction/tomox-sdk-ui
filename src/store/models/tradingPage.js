@@ -38,24 +38,16 @@ export default function tradingPageSelector(state: State) {
   const authenticated = accountDomain.authenticated()
   const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
   const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
-  const baseTokenAllowance = accountBalancesDomain.tokenAllowance(
-    baseTokenSymbol,
-  )
-  const quoteTokenAllowance = accountBalancesDomain.tokenAllowance(
-    quoteTokenSymbol,
-  )
 
   return {
     currentPairName: pair,
     makeFee,
     takeFee,
     authenticated,
-    baseTokenAllowance,
     baseTokenBalance,
     baseTokenSymbol,
     isConnected,
     isInitiated,
-    quoteTokenAllowance,
     quoteTokenBalance,
     quoteTokenSymbol,
     ohlcvData,

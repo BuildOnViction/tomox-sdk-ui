@@ -3,7 +3,6 @@ export type AccountBalanceState = {
   symbol: string,
   balance: string,
   subscribed: boolean,
-  allowance: string,
 };
 
 export type AccountBalancesState = { +[string]: AccountBalanceState };
@@ -11,12 +10,10 @@ export type AccountBalancesState = { +[string]: AccountBalanceState };
 export type AccountBalance = {
   symbol: string,
   balance: string,
-  allowance?: string,
 };
 
 export type AccountAllowance = {
   symbol: string,
-  allowance: string | 'pending',
 };
 
 export type AccountAllowances = Array<AccountAllowance>;

@@ -90,7 +90,6 @@ export type TokenData = {
   address: string,
   symbol: string,
   balance: string,
-  allowance: string,
 }
 
 export type TokenRate = {

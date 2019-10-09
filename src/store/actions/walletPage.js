@@ -29,24 +29,6 @@ export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
   }
 }
 
-export function updateAllowances(
-  allowances: AccountAllowances
-): UpdateAccountAllowancesAction {
-  return {
-    type: actionTypes.updateAllowances,
-    payload: { allowances },
-  }
-}
-
-export function updateAllowance(
-  allowance: AccountAllowance
-): UpdateAccountAllowanceAction {
-  return {
-    type: actionTypes.updateAllowance,
-    payload: allowance,
-  }
-}
-
 export function updateExchangeAddress(
   exchangeAddress: string
 ): UpdateExchangeAddressAction {

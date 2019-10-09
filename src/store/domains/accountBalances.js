@@ -2,16 +2,12 @@
 import toDecimalFormString from 'number-to-decimal-form-string-x'
 import BigNumber from 'bignumber.js'
 import type {
-  AccountAllowances,
   AccountBalances,
   AccountBalancesState,
 } from '../../types/accountBalances'
 import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
-import { ALLOWANCE_MINIMUM } from '../../utils/constants'
 import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
-// eslint-disable-next-line
-const initialState = {}
 
 export function initialized() {
   const initialState = {}
@@ -48,25 +44,6 @@ export function updated(accountBalances: AccountBalances) {
       return result
     }, {})
 
-    return {
-      ...state,
-      ...newState,
-    }
-  }
-
-  return event
-}
-
-export function allowancesUpdated(allowances: AccountAllowances) {
-  const event = (state: AccountBalancesState) => {
-    const newState = allowances.reduce((result, item) => {
-      result[item.symbol] = {
-        ...state[item.symbol],
-        symbol: item.symbol,
-        allowance: item.allowance,
-      }
-      return result
-    }, {})
     return {
       ...state,
       ...newState,
@@ -136,14 +113,8 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     tokenBalance(symbol: string): ?string {
       return state[symbol] ? state[symbol].balance : null
     },
-    tokenAllowance(symbol: string): ?string {
-      return state[symbol] ? state[symbol].allowance : null
-    },
     numericTokenBalance(symbol: string): ?number {
       return state[symbol] ? Number(state[symbol].balance) : null
-    },
-    numericTokenAllowance(symbol: string): ?number {
-      return state[symbol] ? Number(state[symbol].allowance) : null
     },
     formattedTokenBalance(symbol: string) {
       return state[symbol]
@@ -173,15 +144,6 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     isSubscribed(symbol: string): boolean {
       return state[symbol] ? state[symbol].subscribed : false
     },
-    isAllowed(symbol: string): boolean {
-      return state[symbol] ? state[symbol].allowance > ALLOWANCE_MINIMUM : false
-    },
-    isAllowancePending(symbol: string): boolean {
-      return state[symbol] ? state[symbol].allowance === 'pending' : false
-    },
-    //To simply UX, we suppose that a trader is "allowing" the exchange smart contract to trade tokens if the
-    //allowance value is set to a very large number. If the allowance is above ALLOWANCE_MINIMUM, the tokens is
-    //is considered tradeable on the frontend app.
     getBalancesAndAllowances(tokens: Array<Object>) {
       return (tokens: any).map(token => {
         return {
@@ -195,11 +157,6 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
           availableBalance: state[token.symbol]
             ? BigNumber(state[token.symbol].availableBalance).toFormat(pricePrecision)
             : null,
-          allowed:
-            state[token.symbol] &&
-            state[token.symbol].allowance > ALLOWANCE_MINIMUM,
-          allowancePending:
-            state[token.symbol] && state[token.symbol].allowance === 'pending',
         }
       })
     },
@@ -210,23 +167,17 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
             balance: null,
             inOrders: null,
             availableBalance: null,
-            allowed: null,
-            allowancePending: null,
           }
         }
 
         const balance = state[symbol].balance
         const inOrders = state[symbol].inOrders
         const availableBalance = state[symbol].availableBalance
-        const allowance = state[symbol].allowance
-        const allowed = Number(allowance) >= Math.max(Number(balance), 100000)
 
         return {
           balance,
           inOrders,
           availableBalance,
-          allowed,
-          allowancePending: state[symbol].allowancePending,
         }
       })
     },
@@ -235,8 +186,6 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         return {
           symbol: item.symbol,
           balance: BigNumber(item.balance).toFormat(pricePrecision),
-          allowed: item.allowance > ALLOWANCE_MINIMUM,
-          allowancePending: item.allowance === 'pending',
         }
       })
     },
@@ -245,7 +194,6 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         return {
           symbol: item.symbol,
           balance: BigNumber(item.balance).toFormat(pricePrecision),
-          allowed: item.allowance > ALLOWANCE_MINIMUM,
         }
       })
     },

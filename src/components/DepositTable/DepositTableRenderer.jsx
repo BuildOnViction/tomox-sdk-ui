@@ -148,7 +148,7 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, address }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
@@ -197,7 +197,7 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, allowancePending, address }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, image, address }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
