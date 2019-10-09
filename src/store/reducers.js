@@ -19,7 +19,6 @@ import socketControllerActionTypes from './actions/socketController'
 import loginPageActionTypes from './actions/loginPage'
 import logoutPageActionTypes from './actions/logoutPage'
 import signerSettingsActionTypes from './actions/signerSettings'
-import convertTokensFormActionTypes from './actions/convertTokensForm'
 import appActionTypes from './actions/app'
 import notificationsTypes from './actions/notifications'
 import layoutActionTypes from './actions/layout'
@@ -47,7 +46,6 @@ import * as tokenPairsEvents from './domains/tokenPairs'
 import * as signerEvents from './domains/signer'
 import * as walletsEvents from './domains/wallets'
 import * as notificationEvents from './domains/notifications'
-import * as convertTokensFormEvents from './domains/convertTokensForm'
 import * as connectionEvents from './domains/connection'
 
 export const loginPage = createReducer(action => {
@@ -399,48 +397,6 @@ export const getStartedModal = createReducer(action => {
       return getStartedModalEvents.approveTxConfirmed(payload.receipt)
     default:
       return getStartedModalEvents.initialized()
-  }
-})
-
-export const convertTokensForm = createReducer(action => {
-  const { type, payload } = action
-  switch (type) {
-    case convertTokensFormActionTypes.confirm:
-      return convertTokensFormEvents.confirmed(payload.tokenSymbol)
-    case convertTokensFormActionTypes.reset:
-      return convertTokensFormEvents.reset(payload.tokenSymbol)
-    case convertTokensFormActionTypes.sendConvertTx:
-      return convertTokensFormEvents.convertTxSent(
-        payload.tokenSymbol,
-        payload.hash
-      )
-    case convertTokensFormActionTypes.revertConvertTx:
-      return convertTokensFormEvents.convertTxReverted(
-        payload.tokenSymbol,
-        payload.receipt
-      )
-    case convertTokensFormActionTypes.confirmConvertTx:
-      return convertTokensFormEvents.convertTxConfirmed(
-        payload.tokenSymbol,
-        payload.receipt
-      )
-    case convertTokensFormActionTypes.sendAllowTx:
-      return convertTokensFormEvents.allowTxSent(
-        payload.tokenSymbol,
-        payload.hash
-      )
-    case convertTokensFormActionTypes.revertAllowTx:
-      return convertTokensFormEvents.allowTxReverted(
-        payload.tokenSymbol,
-        payload.receipt
-      )
-    case convertTokensFormActionTypes.confirmAllowTx:
-      return convertTokensFormEvents.allowTxConfirmed(
-        payload.tokenSymbol,
-        payload.receipt
-      )
-    default:
-      return convertTokensFormEvents.initialized()
   }
 })
 
