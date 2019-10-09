@@ -142,6 +142,7 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
       socket.sendNewOrderMessage(order)
     } catch (e) {
       console.log(e)
+      dispatch(ordersActionCreators.ordersUpdatedStatus(false))
       const message = parseNewOrderError(e)
       return dispatch(notifierActionCreators.addErrorNotification({ message }))
     }

@@ -516,10 +516,7 @@ const InputBox = styled.div`
   &:hover {
     .increase-decrease-box {
       display: flex !important;
-    }import { BuyLimitOrderForm } from '../LimitOrderForms/BuyLimitOrderForm';
-import SellLimitOrderForm from '../LimitOrderForms/SellLimitOrderForm';
-import SellLimitOrderForm from '../LimitOrderForms/SellLimitOrderForm';
-
+    }
   }
 
   &:last-child {
