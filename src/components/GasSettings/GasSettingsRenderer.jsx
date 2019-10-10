@@ -1,7 +1,7 @@
 import React from 'react'
 import { Collapse, InputGroup } from '@blueprintjs/core'
-
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { DarkMode } from '../Common'
 
 type Props = {
@@ -16,7 +16,7 @@ const GasSettingsRenderer = (props: Props) => {
   const { visible, gas, gasPrice, handleChange, toggleVisible } = props
   return (
     <div>
-      <ButtonMinimal onClick={toggleVisible}>Show Gas settings</ButtonMinimal>
+      <ButtonMinimal onClick={toggleVisible}><FormattedMessage id="portfolioPage.showGasSetting" /></ButtonMinimal>
 
       <Collapse isOpen={visible}>
         <InputGroupWrapper type="number" placeholder="Gas" name="customGas" value={gas || ''} onChange={handleChange} />

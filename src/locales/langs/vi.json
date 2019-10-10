@@ -117,5 +117,6 @@
   "portfolioPage.operation": "Operation",
   "portfolioPage.trade": "Trade",
   "portfolioPage.deposit": "Deposit",
-  "portfolioPage.withdrawal": "Withdrawal"
+  "portfolioPage.withdrawal": "Withdrawal",
+  "portfolioPage.showGasSetting": "Show Gas settings"
 }
