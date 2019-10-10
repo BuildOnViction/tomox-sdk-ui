@@ -11,6 +11,7 @@ import {
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { truncateZeroDecimal } from '../../utils/helpers'
@@ -60,11 +61,11 @@ const FundsTableRenderer = (props: Props) => {
       </RowSpaceBetween>
 
       <TableHeader>
-        <TableHeaderCell width={WidthColums[0]}><MutedText>Coin</MutedText></TableHeaderCell>
-        <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText>Total</MutedText></TableHeaderCellXsHidden>
-        <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText>Available amount</MutedText></TableHeaderCellXsHidden>
-        <CellXs width="60%">Total/Available</CellXs>
-        <TableHeaderCell width={WidthColums[3]}><MutedText>In orders</MutedText></TableHeaderCell>
+        <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
+        <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCellXsHidden>
+        <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCellXsHidden>
+        <CellXs width="60%"><FormattedMessage id="portfolioPage.total" />/<FormattedMessage id="portfolioPage.availableAmount" /></CellXs>
+        <TableHeaderCell width={WidthColums[3]}><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
       </TableHeader>
 
       <TableBodyContainer>
