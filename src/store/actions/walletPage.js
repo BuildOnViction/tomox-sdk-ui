@@ -1,17 +1,10 @@
 // @flow
 import type {
-  UpdateAccountAllowancesAction,
-  UpdateAccountAllowanceAction,
   UpdateTokenPairsAction,
   UpdateCurrentPairAction,
   UpdateExchangeAddressAction,
 } from '../../types/walletPage'
 import type { TokenPairs } from '../../types/tokens'
-
-import type {
-  AccountAllowances,
-  AccountAllowance,
-} from '../../types/accountBalances'
 
 const actionTypes = {
   updateAllowance: 'walletPage/UPDATE_ALLOWANCE',
