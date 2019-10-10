@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+
 import { Loading, Colors, DarkMode } from '../Common'
 import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
@@ -81,7 +83,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
     return (
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
-          <Title>Orderbook</Title>
+          <Title><FormattedMessage id="exchangePage.orderbook" /></Title>
 
           <PricePrecisionsDropdown 
             pricePrecisionsList={pricePrecisionsList}
@@ -96,7 +98,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           </FilterList>
         </OrderBookHeader>
 
-        {isNoItems && (<NoItems>No Orderbook for this token pair</NoItems>)}
+        {isNoItems && (<NoItems><FormattedMessage id="exchangePage.noOrderbook" /></NoItems>)}
 
         {!isNoItems && 
         (
@@ -105,9 +107,9 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
 
             <ListHeading>
               <HeaderRow>
-                <HeaderCell width="33%" className="header-cell">Price</HeaderCell>
-                <HeaderCell width="34%" className="header-cell text-right">Amount</HeaderCell>
-                <HeaderCell width="33%" className="header-cell text-right">Volume</HeaderCell>
+                <HeaderCell width="33%" className="header-cell"><FormattedMessage id="exchangePage.price" /></HeaderCell>
+                <HeaderCell width="34%" className="header-cell text-right"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+                <HeaderCell width="33%" className="header-cell text-right"><FormattedMessage id="exchangePage.volume" /></HeaderCell>
               </HeaderRow>
             </ListHeading>
 
