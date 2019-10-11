@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Dialog, Icon } from '@blueprintjs/core'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
   DarkMode,
@@ -22,32 +23,33 @@ const ReceiveTokensModal = (props: Props) => {
     accountAddress,
     onClose,
     isOpen,
+    intl,
   } = props
 
   return (
     <Dialog
       className="dark-dialog sm"
       onClose={onClose}
-      title="Receive tokens"
+      title={<FormattedMessage id="portfolioPage.receiveModal.title" />}
       canOutsideClickClose={false}
       isOpen={isOpen}
       >
-        <Title>Copy address:</Title>
+        <Title><FormattedMessage id="portfolioPage.receiveModal.copyAddress" />:</Title>
 
         <AddressWrapper>
           <AddressText>{accountAddress}</AddressText>
           <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
-            <CopyIconBox title="Copy Address"><Icon icon="applications" /></CopyIconBox> 
+            <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}><Icon icon="applications" /></CopyIconBox> 
           </CopyToClipboard>
         </AddressWrapper>
 
-        <ScanQRTitle>or Scan QR Code</ScanQRTitle>
+        <ScanQRTitle><FormattedMessage id="portfolioPage.receiveModal.qrCode" /></ScanQRTitle>
         <QRImage><QRCode value={accountAddress} size={180} includeMargin={true} /></QRImage>  
     </Dialog>
   )
 }
 
-export default ReceiveTokensModal
+export default injectIntl(ReceiveTokensModal)
 
 const Title = styled.div`
   margin-bottom: 7px;
