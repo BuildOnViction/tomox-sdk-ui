@@ -51,7 +51,7 @@ const RadioButton = props => {
 export default FractionList
 
 const FractionListBox = styled.div.attrs({
-  className: "clearfix"
+  className: "clearfix",
 })``
 
 const RadioButtonsWrapper = styled.div`

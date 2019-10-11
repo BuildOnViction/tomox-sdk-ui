@@ -10,9 +10,9 @@ import {
   Colors,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
+import { FormattedMessage } from 'react-intl'
 
 import type { Side, OrderType } from '../../types/orders'
-
 import {
   MutedText,
   Theme,
@@ -111,7 +111,7 @@ const OrderFormRenderer = (props: Props) => {
           onChange={handleChangeOrderType}>
             <Tab
               id="LO"
-              title="Limit"
+              title={<FormattedMessage id="exchangePage.limit" />}
               panel={
                 <LimitOrderPanel
                   loggedIn={loggedIn}
