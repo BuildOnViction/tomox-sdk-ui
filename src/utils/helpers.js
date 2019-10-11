@@ -286,5 +286,5 @@ export const isMobile = () => {
 }
 
 export const isTomoWallet = () => {
-  return window.web3.currentProvider.isTomoWallet
+  return window.web3 && window.web3.currentProvider && window.web3.currentProvider.isTomoWallet
 }
