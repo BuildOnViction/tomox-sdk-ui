@@ -27,7 +27,6 @@ export default function convertTokensFormSelector(state: State) {
     TOMOAddress: () => accountDomain.address(),
     TomoBalance: () => accountBalancesDomain.tomoBalance(),
     WETHBalance: () => accountBalancesDomain.tokenBalance('WETH'),
-    WETHAllowance: () => accountBalancesDomain.tokenAllowance('WETH'),
     networkID: () => signerDomain.getNetworkID(),
     convertTxState: () => getStartedModalDomain.convertTxState(),
     approveTxState: () => getStartedModalDomain.approveTxState()

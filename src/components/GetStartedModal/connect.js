@@ -15,7 +15,6 @@ export const mapStateToProps = (state: State, ownProps: Object) => {
     TomoBalance: selector.TomoBalance(),
     TOMOAddress: selector.TOMOAddress(),
     WETHBalance: selector.WETHBalance(),
-    WETHAllowance: selector.WETHAllowance(),
     approveTxState: selector.approveTxState(),
     convertTxState: selector.convertTxState(),
     closeModal: ownProps.closeHelpModal
