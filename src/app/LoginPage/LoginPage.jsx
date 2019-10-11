@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 import { utils } from 'ethers'
 import BigNumber from 'bignumber.js'
+import { FormattedMessage } from 'react-intl'
 
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
@@ -41,9 +42,9 @@ type State = {
 }
 
 const errorList = {
-  "TransportOpenUserCancelled": "No device selected.",
-  "26368": "Invalid status 0x6700. Check to make sure the right application is selected?",
-  "26628": "Invalid status 0x6804. Check to make sure the right application is selected?",
+  "TransportOpenUserCancelled": <FormattedMessage id="unlockWalletPage.ledger.errorNoDevice" />,
+  "26368": <FormattedMessage id="unlockWalletPage.ledger.error26368" />,
+  "26628": <FormattedMessage id="unlockWalletPage.ledger.error26628" />,
 }
 
 const hdPaths = [

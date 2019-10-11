@@ -247,7 +247,6 @@ const LedgerDevice = (props) => {
         <LedgerImageHead />
       </LedgerImageBox>
 
-      {ledgerError && <ErrorMessage>{errorList[ledgerError.statusCode || ledgerError.name]}</ErrorMessage>}
       <InstructionBox>
         <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
         <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>

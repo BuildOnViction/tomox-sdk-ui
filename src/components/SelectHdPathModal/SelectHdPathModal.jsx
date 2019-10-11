@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 import { Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
-// import { FormattedMessage } from 'react-intl'
-import { DarkMode, SmallText, Highlight, TmColors } from '../../components/Common'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { DarkMode, SmallText, TmColors } from '../../components/Common'
 
 class SelectHdPathModal extends React.PureComponent {
 
@@ -25,11 +25,11 @@ class SelectHdPathModal extends React.PureComponent {
         <Dialog
           className="dark-dialog"
           onClose={onClose}
-          title="Choose HD path"
+          title={<FormattedMessage id="unlockWalletPage.chooseHdPathModal.title" />}
           canOutsideClickClose={false}
           isOpen={isOpen}>
   
-          <SubTitle>Please choose HD path corresponding the App you have opened in Ledger:</SubTitle>
+          <SubTitle><FormattedMessage id="unlockWalletPage.chooseHdPathModal.subTitle" /></SubTitle>
   
           <SelectHdPath
             items={hdPaths}
@@ -41,11 +41,13 @@ class SelectHdPathModal extends React.PureComponent {
               <Button text={`${hdPaths[indexActive].rank}. ${hdPaths[indexActive].path} - ${hdPaths[indexActive].type}`} rightIcon="caret-down" />
           </SelectHdPath>
 
-          <Instruction>Choose paths <Highlight color={TmColors.LIGHT_GRAY} fontWeight={700}>m/44'/60'/0'</Highlight> or <Highlight color={TmColors.LIGHT_GRAY} fontWeight={700}>m/44'/60'/0'/0</Highlight> with Ethereum App, or try path <Highlight color={TmColors.LIGHT_GRAY} fontWeight={700}>m/44'/889'/0'/0</Highlight> with TomoChain App.</Instruction>
+          <Instruction>
+            <FormattedHTMLMessage id="unlockWalletPage.chooseHdPathModal.instruction" />
+          </Instruction>
           {error && (
             <React.Fragment>
               <ErrorMessage>{errorList[error.statusCode || error.name]}</ErrorMessage>
-              <ErrorMessage>Check to make sure "Contract data" in the settings of the App is active?</ErrorMessage>
+              <ErrorMessage><FormattedMessage id="unlockWalletPage.chooseHdPathModal.errorContract" /></ErrorMessage>
             </React.Fragment>
           )}
 
@@ -79,6 +81,10 @@ const Instruction = styled(SmallText)`
   color: ${TmColors.GRAY};
   margin-bottom: 12px;
   line-height: 20px;
+
+  strong {
+    color: ${TmColors.LIGHT_GRAY};
+  }
 `
 
 const SelectHdPath = styled(Select)`
@@ -122,7 +128,9 @@ const ButtonWrapper = styled(Button)`
   &.bp3-disabled {
     cursor: default !important;
     background-color: ${DarkMode.GRAY} !important;
-  }
+  }import Highlight from '../Common/Highlight';
+import { TmColors } from '../Common/Colors';
+
 
   .bp3-button-text {
     display: flex;
