@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import Modal from '../Modal'
 import TransferTokensFormContainer from '../TransferTokensForm'
-
 import type { Token } from '../../types/tokens'
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 
 const TransferTokensModal = (props: Props) => (
   <Modal
-    title="Send TOMO or Tokens"
+    title={<FormattedMessage id="portfolioPage.transferTokensModal.title" />}
     icon="info-sign"
     isOpen={props.isOpen}
     onClose={props.handleClose}

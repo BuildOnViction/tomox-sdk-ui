@@ -136,5 +136,11 @@
   "portfolioPage.showGasSetting": "Show Gas settings",
   "portfolioPage.receiveModal.title": "Receive tokens",
   "portfolioPage.receiveModal.copyAddress": "Copy Address",
-  "portfolioPage.receiveModal.qrCode": "or Scan QR Code"
+  "portfolioPage.receiveModal.qrCode": "or Scan QR Code",
+  "portfolioPage.transferTokensModal.title": "Send TOMO or Tokens",
+  "portfolioPage.transferTokensModal.select": "Select a token",
+  "portfolioPage.transferTokensModal.amount": "Amount",
+  "portfolioPage.transferTokensModal.receiver": "Receiver",
+  "portfolioPage.transferTokensModal.receiverPlaceholder": "Receiver's wallet address",
+  "portfolioPage.transferTokensModal.btnTitle": "Send Transaction"
 }

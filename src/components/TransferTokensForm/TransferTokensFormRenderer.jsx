@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, InputGroup, Label } from '@blueprintjs/core'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import TokenSelect from '../TokenSelect'
 import GasSettings from '../GasSettings'
 import TxNotification from '../TxNotification'
@@ -40,12 +41,13 @@ const TransferTokensFormRenderer = (props: Props) => {
     handleChange,
     handleTokenChange,
     handleSubmit,
+    intl,
   } = props
 
   return (
     <div>
       <Label helpertext="(in ether or in token decimals)" text="Amount to Send">
-        Select a token
+        <FormattedMessage id="portfolioPage.transferTokensModal.select" />
         <TokenSelect
           token={token}
           tokens={tokens}
@@ -54,7 +56,7 @@ const TransferTokensFormRenderer = (props: Props) => {
       </Label>
 
       <Label helpertext="(in ether or in token decimals)" text="Amount to Send"> 
-        Amount         
+        <FormattedMessage id="portfolioPage.transferTokensModal.amount" />         
         <InputGroupWrapper
           icon="filter"
           placeholder=""
@@ -66,9 +68,9 @@ const TransferTokensFormRenderer = (props: Props) => {
       </Label>
 
       <Label text="Receiver Address" helpertext="(should start with 0x)">
-        Receiver
+        <FormattedMessage id="portfolioPage.transferTokensModal.receiver" />
         <InputGroupWrapper
-          placeholder="Receiver's wallet address"
+          placeholder={intl.formatMessage({id: "portfolioPage.transferTokensModal.receiverPlaceholder"})}
           name="receiver"
           value={receiver}
           onChange={handleChange}
@@ -89,7 +91,7 @@ const TransferTokensFormRenderer = (props: Props) => {
       </TxNotificationBox>
 
       <ButtonWrapper
-        text="Send Transaction"
+        text={<FormattedMessage id="portfolioPage.transferTokensModal.btnTitle" />}
         intent="primary"
         large
         type="submit"
@@ -101,7 +103,7 @@ const TransferTokensFormRenderer = (props: Props) => {
   )
 }
 
-export default TransferTokensFormRenderer
+export default injectIntl(TransferTokensFormRenderer)
 
 const TxNotificationBox = styled.div`
   margin-top: 10px;
