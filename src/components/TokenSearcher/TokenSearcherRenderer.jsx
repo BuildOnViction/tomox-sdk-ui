@@ -6,6 +6,7 @@ import {
   InputGroup,
   Classes,
 } from '@blueprintjs/core'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
   OverlaySpinner,
@@ -65,6 +66,7 @@ const TokenSearchRenderer = (props: Props) => {
     onChangeSortOrder,
     changeTab,
     changeSelectedToken,
+    intl,
   } = props
 
   return (
@@ -80,7 +82,7 @@ const TokenSearchRenderer = (props: Props) => {
                 onFocus={showSearchResult}
                 onBlur={hideSearchResult}
                 value={searchFilter}
-                placeholder="Search"
+                placeholder={intl.formatMessage({id: "marketsPage.search"})}
               />
             </SearchInputBox>
 
@@ -173,7 +175,7 @@ const SearchResult = ({ items, changeSelectedToken }) => {
   )
 }
 
-export default TokenSearchRenderer
+export default injectIntl(TokenSearchRenderer)
 
 type PanelProps = {
   filterName: string,
@@ -277,19 +279,19 @@ const Header = ({
       <HeaderRow>
         <Cell width="5%">&nbsp;</Cell>
         <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="pair">Pair</CellTitle>
+          <CellTitle data-filter="pair"><FormattedMessage id="marketsPage.pair" /></CellTitle>
           {filterName === 'pair' && (
             <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
         <Cell data-filter="lastPrice" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="lastPrice">Last Price</CellTitle>
+          <CellTitle data-filter="lastPrice"><FormattedMessage id="priceBoard.lastPrice" /></CellTitle>
           {filterName === 'lastPrice' && (
             <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
         <Cell data-filter="change" width="35%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="change">24h Change</CellTitle>
+          <CellTitle data-filter="change"><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
           {filterName === 'change' && (
             <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
