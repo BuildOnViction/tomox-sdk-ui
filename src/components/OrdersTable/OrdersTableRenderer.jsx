@@ -29,12 +29,12 @@ type Props = {
   }
 }
 
-const Status = {
-  'NEW': 'Open',
-  'OPEN': 'Open',
-  'PARTIAL_FILLED': 'Partial',
-  'CANCELLED': 'Cancelled',  
-  'FILLED': 'Filled',
+const STATUS = {
+  'NEW': <FormattedMessage id='exchangePage.new' />,
+  'OPEN': <FormattedMessage id='exchangePage.open' />,
+  'PARTIAL_FILLED': <FormattedMessage id='exchangePage.partialFilled' />,
+  'CANCELLED': <FormattedMessage id='exchangePage.cancelled' />,  
+  'FILLED': <FormattedMessage id='exchangePage.filledStatus' />,
 }
 
 const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
@@ -264,7 +264,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
               </Cell>
               <Cell width={widthColumnsOrderHistory[8]} muted>
-                {capitalizeFirstLetter(Status[order.status])}
+                {STATUS[order.status]}
               </Cell>
             </Row>
           ))}
