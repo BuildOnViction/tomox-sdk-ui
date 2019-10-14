@@ -180,17 +180,12 @@ export default function domain(state: OrderBookState) {
           return result
         }, [])
 
-      let max
-      bids.length > 1 && asks.length > 1
-        ? (max = Math.max(
-            bids[bids.length - 1].total,
-            asks[asks.length - 1].total
-          ))
-        : (max = 0)
+      const maxBids = bids.length > 1 ? bids[bids.length - 1].total : 0
+      const maxAsks = asks.length > 1 ? asks[asks.length  - 1].total : 0
 
       bids = bids.map(item => ({
         ...item,
-        relativeTotal: max ? item.total / max : 1,
+        relativeTotal: maxBids ? item.amount / maxBids : 1,
         amount: BigNumber(item.amount).toFixed(amountPrecision),
         total: BigNumber(item.total).toFixed(pricePrecision),
         price: BigNumber(item.price).toFixed(pricePrecision),
@@ -198,7 +193,7 @@ export default function domain(state: OrderBookState) {
 
       asks = asks.map(item => ({
         ...item,
-        relativeTotal: max ? item.total / max : 1,
+        relativeTotal: maxAsks ? item.amount / maxAsks : 1,
         amount: BigNumber(item.amount).toFixed(amountPrecision),
         total: BigNumber(item.total).toFixed(pricePrecision),
         price: BigNumber(item.price).toFixed(pricePrecision),
