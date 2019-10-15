@@ -39,6 +39,7 @@ const STATUS = {
 }
 
 const rowHeight = 45
+const overscanRowCount = 5
 const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
@@ -240,7 +241,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
-              overscanRowCount={0}
+              overscanRowCount={overscanRowCount}
             />
           )}
         </AutoSizer>
@@ -312,7 +313,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
-              overscanRowCount={0}
+              overscanRowCount={overscanRowCount}
             />
           )}
         </AutoSizer>
@@ -372,7 +373,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
-              overscanRowCount={0}
+              overscanRowCount={overscanRowCount}
             />
           )}
         </AutoSizer>
@@ -398,6 +399,7 @@ const ListBodyWrapper = styled.ul.attrs({
   width: 100%;
   margin: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 `
 const ListHeader = styled.li.attrs({
   className: 'header',
