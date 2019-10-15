@@ -38,11 +38,19 @@ const STATUS = {
   'FILLED': <FormattedMessage id='exchangePage.filledStatus' />,
 }
 
+const rowHeight = 45
 const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
 const OrdersTableRenderer = (props: Props) => {
+  const hasScrollBar = (orders) => {
+    const tableBodyElm = document.querySelector('.bp3-tab-panel[aria-hidden="false"] #table-body')
+    const tableBodyHeight = tableBodyElm ? tableBodyElm.scrollHeight : 0
+    const contentHeight = orders.length * rowHeight
+    return contentHeight > tableBodyHeight
+  }
+
   const {
     loading,
     selectedTabId,
@@ -70,6 +78,7 @@ const OrdersTableRenderer = (props: Props) => {
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              hasScrollBar={hasScrollBar(orders['processing'])}
             />
           }
         />
@@ -84,6 +93,7 @@ const OrdersTableRenderer = (props: Props) => {
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              hasScrollBar={hasScrollBar(orders['finished'])}
             />
           }
         />
@@ -98,6 +108,7 @@ const OrdersTableRenderer = (props: Props) => {
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              hasScrollBar={hasScrollBar(trades)}
             />
           }
         />
@@ -120,6 +131,7 @@ const OrdersTablePanel = (props: {
   selectedTabId: String,
   isHideOtherPairs: String,
   handleChangeHideOtherPairs: string => void,
+  hasScrollBar: Boolean,
 }) => {
   const { 
     loading, 
@@ -128,6 +140,7 @@ const OrdersTablePanel = (props: {
     selectedTabId, 
     isHideOtherPairs, 
     handleChangeHideOtherPairs, 
+    hasScrollBar,
   } = props
   
   if (loading) return <Loading />
@@ -138,19 +151,22 @@ const OrdersTablePanel = (props: {
                 orders={orders} 
                 cancelOrder={cancelOrder} 
                 isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                hasScrollBar={hasScrollBar} />)
     case 'order-history':
       return (<OrderHistoryTable 
                 orders={orders} 
                 cancelOrder={cancelOrder}
                 isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                hasScrollBar={hasScrollBar} />)
     case 'trade-history':
       return (<TradeHistoryTable 
                 orders={orders} 
                 cancelOrder={cancelOrder}
                 isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                hasScrollBar={hasScrollBar} />)
     default:
       return (<div></div>)
   }
@@ -158,7 +174,7 @@ const OrdersTablePanel = (props: {
 
 const _noRowsRenderer = () => <CenteredMessage message={<FormattedMessage id="exchangePage.noOrders" />} />
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -202,7 +218,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader>
+      <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumns[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
@@ -221,7 +237,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
               width={width}
               height={height}
               rowCount={orders.length}
-              rowHeight={45}
+              rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
               overscanRowCount={0}
@@ -233,7 +249,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
   )
 }
 
-const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -274,7 +290,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader className="header">
+      <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumnsOrderHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
@@ -293,7 +309,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               width={width}
               height={height}
               rowCount={orders.length}
-              rowHeight={45}
+              rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
               overscanRowCount={0}
@@ -305,7 +321,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
-const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
     
@@ -334,10 +350,10 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   }  
 
   return (
-    <ListContainer className="list-container">
+    <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader className="header">
+      <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
@@ -346,14 +362,14 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
       </ListHeader>
 
-      <ListBodyWrapper className="list">
+      <ListBodyWrapper>
         <AutoSizer>
           {({ width, height }) => (
             <List
               width={width}
               height={height}
               rowCount={orders.length}
-              rowHeight={45}
+              rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
               noRowsRenderer={_noRowsRenderer}
               overscanRowCount={0}
@@ -376,6 +392,7 @@ const ListContainer = styled.div.attrs({
 `
 const ListBodyWrapper = styled.ul.attrs({
   className: 'list',
+  id: 'table-body',
 })`
   height: calc(100% - 25px);
   width: 100%;
