@@ -10,7 +10,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { Colors, Loading, CenteredMessage, DarkMode, Theme } from '../Common'
+import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
 import { 
   formatDate, 
   capitalizeFirstLetter, 
@@ -316,7 +316,7 @@ const CheckboxHidePairs = styled(Checkbox)`
   }
 
   input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Collapse, InputGroup } from '@blueprintjs/core'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { DarkMode } from '../Common'
+import { TmColors } from '../Common'
 
 type Props = {
   visible: boolean,
@@ -35,9 +35,9 @@ const GasSettingsRenderer = (props: Props) => {
 const InputGroupWrapper = styled(InputGroup)`
   margin: 5px 0 7px;
   .bp3-input {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${TmColors.LIGHT_GRAY};
     height: 40px;
-    background-color: ${DarkMode.BLACK};
+    background-color: ${TmColors.BLACK};
   }
 `
 
@@ -45,7 +45,7 @@ const ButtonMinimal = styled.span`
   display: inline-block;
   cursor: pointer
   &:hover {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 

@@ -16,7 +16,7 @@ import type { Side, OrderType } from '../../types/orders'
 import {
   MutedText,
   Theme,
-  DarkMode,
+  TmColors,
   SpinnerContainer,
 } from '../Common'
 import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
@@ -495,7 +495,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
   className: "bp3-fill",
 })`
   &.has-error .bp3-input {
-    box-shadow: 0 0 0 1px ${DarkMode.RED};
+    box-shadow: 0 0 0 1px ${TmColors.RED};
   }
 
   .bp3-input {
@@ -503,7 +503,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
     padding-right: 50px !important; 
 
     &:focus {
-      box-shadow: 0 0 0 1px ${DarkMode.ORANGE};
+      box-shadow: 0 0 0 1px ${TmColors.ORANGE};
     }
   }
 `

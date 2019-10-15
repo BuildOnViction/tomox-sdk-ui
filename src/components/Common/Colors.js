@@ -249,18 +249,6 @@ export const TmColors = {
 }
 
 export const DarkMode = {
-  BLACK: '#1f2538',
-  DARK_BLUE: '#252C40',
-  BLUE: '#2d3650',
-  LIGHT_BLUE: '#394362',
-  GRAY: '#6e7793',
-  LIGHT_GRAY: '#9ca4ba',
-  WHITE: '#fff',
-  ORANGE: '#ff9a4d',
-  DARK_ORANGE: '#ec8536',
-  GREEN: '#00c38c',
-  RED: '#f94d5c',
-
   mainBg: '#252C40',
   subBg: '#1f2538',
   menuBg: '#394362',

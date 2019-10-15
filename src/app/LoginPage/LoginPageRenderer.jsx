@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
-import { DarkMode, Theme, SmallText, TmColors, Link as ExternalLink } from '../../components/Common'
+import { TmColors, Theme, SmallText, Link as ExternalLink } from '../../components/Common'
 import { Link } from "react-router-dom"
 import SelectAddressModal from '../../components/SelectAddressModal'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
@@ -248,8 +248,8 @@ const LedgerDevice = (props) => {
       </LedgerImageBox>
 
       <InstructionBox>
-        <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
-        <ExternalLink href="https://docs.tomochain.com/" target="blank"><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
+        <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
+        <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
       </InstructionBox>
 
       <ButtonWrapper onClick={() => toggleSelectHdPathModal('open')}><FormattedMessage id="unlockWalletPage.ledger.buttonTitle" /></ButtonWrapper>
@@ -298,8 +298,8 @@ const TrezorDevice = (props) => {
       <TrezorLogo src={trezorLogo} alt="Trezor" />
 
       <InstructionBox>
-        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
-        <Title color={DarkMode.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
+        <Title color={TmColors.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
+        <Title color={TmColors.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
       </InstructionBox>
 
       <ButtonWrapper onClick={ openAddressesTrezorDialog }><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonWrapper>
@@ -410,17 +410,17 @@ const TabsWrapper = styled(Tabs)`
 
       .bp3-tab-indicator {
         height: 2px;
-        background-color: ${DarkMode.ORANGE};
+        background-color: ${TmColors.ORANGE};
       }
     }
 
     .bp3-tab {
-      color: ${DarkMode.LIGHT_GRAY};
+      color: ${TmColors.LIGHT_GRAY};
     }
 
     .bp3-tab[aria-selected="true"],
     .bp3-tab:hover {
-      color: ${DarkMode.WHITE};
+      color: ${TmColors.WHITE};
     }
   }
 
@@ -433,15 +433,15 @@ const TextAreaWrapper = styled.textarea`
   width: 100%;
   min-height: 128px !important;
   padding: 15px;
-  background-color: ${DarkMode.BLACK};
+  background-color: ${TmColors.BLACK};
   margin-bottom: 5px;
   resize: none;
   font-size: ${Theme.FONT_SIZE_LG};
-  color: ${DarkMode.WHITE};
-  border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
+  color: ${TmColors.WHITE};
+  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
 
   &:focus {
-    border: 1px solid ${DarkMode.ORANGE};
+    border: 1px solid ${TmColors.ORANGE};
   }
 `
 
@@ -451,7 +451,7 @@ const ImportWalletWrapper = styled.div`
 `
 
 const HeaderTitle = styled.h1`
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   font-size: 24px;
   font-weight: 300;
   text-align: center;
@@ -459,10 +459,10 @@ const HeaderTitle = styled.h1`
 `
 
 const LinkWrapper = styled(Link)`
-  color: ${DarkMode.ORANGE};
+  color: ${TmColors.ORANGE};
 
   &:hover {
-    color: ${DarkMode.DARK_ORANGE};
+    color: ${TmColors.DARK_ORANGE};
   }
 `
 
@@ -488,19 +488,19 @@ const ButtonWrapper = styled(Button)`
   margin-right: auto;
   width: ${props => props.width ? props.width : '100%'};
   text-align: center;
-  color: ${DarkMode.BLACK} !important;
+  color: ${TmColors.BLACK} !important;
   border-radius: 0;
-  background-color: ${DarkMode.ORANGE} !important;
+  background-color: ${TmColors.ORANGE} !important;
   box-shadow: none !important;
   background-image: none !important;
   height: 40px;
   &:hover {
-    background-color: ${DarkMode.DARK_ORANGE} !important;
+    background-color: ${TmColors.DARK_ORANGE} !important;
   }
 
   &.bp3-disabled {
     cursor: default !important;
-    background-color: ${DarkMode.GRAY} !important;
+    background-color: ${TmColors.GRAY} !important;
   }
 
   .bp3-spinner {
@@ -511,23 +511,23 @@ const ButtonWrapper = styled(Button)`
 
 const InputGroupWrapper = styled.input`
   height: 50px;
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   font-size: ${Theme.FONT_SIZE_LG};
   padding: 15px;
   margin-top: 0 !important;
   margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-  background: ${DarkMode.BLACK};
-  border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
+  background: ${TmColors.BLACK};
+  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
   width: 100%;import { loginWithTrezorWallet } from '../../store/models/loginPage';
 import { TmColors } from '../../components/Common/Colors';
 
   &:focus {
-    border: 1px solid ${DarkMode.ORANGE};
+    border: 1px solid ${TmColors.ORANGE};
   }
 `
 
 const ErrorMessage = styled.div`
-  color: ${DarkMode.RED};
+  color: ${TmColors.RED};
   font-size: 12px;
   margin-top: 7px;
 `
@@ -556,13 +556,13 @@ const LedgerImageBody = styled.div`
   width: 146px;
   height: 41px;
   border-radius: 6px;
-  background-color: ${DarkMode.BLACK};
+  background-color: ${TmColors.BLACK};
 `
 
 const LedgerImageHead = styled.div`
   width: 16px;
   height: 18px;
-  background-color: ${DarkMode.LIGHT_BLUE};
+  background-color: ${TmColors.LIGHT_BLUE};
   position: absolute;
   left: 0;
   top: 50%;
@@ -574,7 +574,7 @@ const LedgerImageHead = styled.div`
     width: 9px;
     height: 3px;
     display: inline-block;
-    background-color: ${DarkMode.BLACK};
+    background-color: ${TmColors.BLACK};
     position: absolute;
     left: 4px;
     top: 4px;
@@ -589,7 +589,7 @@ const LedgerScreen = styled.div`
   width: 85px;
   height: 18px;
   text-align: center;
-  background-color: ${DarkMode.LIGHT_BLUE};
+  background-color: ${TmColors.LIGHT_BLUE};
   position: absolute;
   left: 35px;
   top: 50%;
@@ -600,7 +600,7 @@ const LedgerCircle = styled.div`
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: ${DarkMode.LIGHT_BLUE};
+  background-color: ${TmColors.LIGHT_BLUE};
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -610,7 +610,7 @@ const LedgerCircle = styled.div`
 const PasswordSymbol = styled.span`
   display: inline-block;
   padding-top: 3px;
-  color: ${DarkMode.ORANGE};
+  color: ${TmColors.ORANGE};
 `
 
 const InstructionBox = styled.div`
@@ -642,11 +642,11 @@ const AddressItem = styled.li`
   cursor: pointer;
 
   &:nth-child(2n+1) {
-    background-color: ${DarkMode.BLACK};
+    background-color: ${TmColors.BLACK};
   }
 
   &:hover {
-    background-color: ${DarkMode.BLUE};
+    background-color: ${TmColors.BLUE};
   }
 `
 
@@ -665,7 +665,7 @@ const NavigatorItem = styled.span`
   cursor: pointer;
 
   &:hover {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 

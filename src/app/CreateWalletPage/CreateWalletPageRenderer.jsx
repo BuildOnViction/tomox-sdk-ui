@@ -12,7 +12,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 
 import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
-import { DarkMode, Theme } from '../../components/Common'
+import { TmColors, Theme } from '../../components/Common'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import { Link } from "react-router-dom"
 // import tickUrl from '../../assets/images/tick.svg'
@@ -331,7 +331,7 @@ const WalletConfirmMnemonicStep = props => {
           <ConfirmMnemonicWrapper hasError={mnemonicErrorMessage}>
             {
               (inputMnemonic.length > 0) && inputMnemonic.map((word, index) => {
-                return (<MnemonicTag bgColor={ DarkMode.GRAY } cursor="pointer" key={index} onClick={() => handleRemoveMnemonic(word)}>{word} <Icon icon="cross" iconSize={Icon.SIZE_STANDARD} /></MnemonicTag>)
+                return (<MnemonicTag bgColor={ TmColors.GRAY } cursor="pointer" key={index} onClick={() => handleRemoveMnemonic(word)}>{word} <Icon icon="cross" iconSize={Icon.SIZE_STANDARD} /></MnemonicTag>)
               })
             }
           </ConfirmMnemonicWrapper>
@@ -378,7 +378,7 @@ const DialogPrivateKey = (props) => {
 const Wrapper = styled.div`
   width: 560px;
   margin: 60px auto 0;
-  border: 1px solid ${DarkMode.LIGHT_BLUE};
+  border: 1px solid ${TmColors.LIGHT_BLUE};
 `
 
 const WrapperWithoutBorder = styled(Wrapper)`
@@ -386,7 +386,7 @@ const WrapperWithoutBorder = styled(Wrapper)`
 `
 
 const Divider = styled.div`
-  border-bottom: 1px solid ${DarkMode.LIGHT_BLUE};
+  border-bottom: 1px solid ${TmColors.LIGHT_BLUE};
 `
 
 const Header = styled.header`
@@ -403,7 +403,7 @@ const HeaderTitle = styled.h1`
   font-size: 24px;
   font-weight: 300;
   text-align: center;
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
 `
 
 const HeaderSubTitle = styled.div`
@@ -424,7 +424,7 @@ const AddressBox = styled.div`
 const Address = styled.div`
   height: 50px;
   padding: 15px 35px 15px 15px;
-  background: ${DarkMode.BLACK};
+  background: ${TmColors.BLACK};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -439,7 +439,7 @@ const CopyIconBox = styled.span`
   padding: 5px;
 
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${TmColors.LIGHT_BLUE};
   }
 `
 
@@ -458,16 +458,16 @@ const InputBox = styled.div`
 
 const InputGroupWrapper = styled.input`
   height: 50px;
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   font-size: ${Theme.FONT_SIZE_LG};
   padding: 15px;
   margin: 0 !important;
-  background: ${DarkMode.BLACK};
-  border: ${props => props.hasError ? `1px solid ${DarkMode.RED} !important` : 'none'};
+  background: ${TmColors.BLACK};
+  border: ${props => props.hasError ? `1px solid ${TmColors.RED} !important` : 'none'};
   width: 100%;
 
   &:focus {
-    border: 1px solid ${DarkMode.ORANGE};
+    border: 1px solid ${TmColors.ORANGE};
   }
 `
 
@@ -481,19 +481,19 @@ const ButtonWrapper = styled(Button)`
   margin: 35px auto 0;
   min-width: 180px;
   text-align: center;
-  color: ${DarkMode.BLACK} !important;
+  color: ${TmColors.BLACK} !important;
   border-radius: 0;
-  background-color: ${DarkMode.ORANGE} !important;
+  background-color: ${TmColors.ORANGE} !important;
   box-shadow: none !important;
   background-image: none !important;
   height: 40px;
   &:hover {
-    background-color: ${DarkMode.DARK_ORANGE} !important;
+    background-color: ${TmColors.DARK_ORANGE} !important;
   }
 
   &.bp3-disabled {
     cursor: default !important;
-    background-color: ${DarkMode.GRAY} !important;
+    background-color: ${TmColors.GRAY} !important;
   }
 `
 
@@ -509,7 +509,7 @@ const ButtonWrapper = styled(Button)`
 //   }
 
 //   input:checked ~ .bp3-control-indicator {
-//     background-color: ${DarkMode.ORANGE} !important;
+//     background-color: ${TmColors.ORANGE} !important;
 //   }
 
 //   input:checked ~ .bp3-control-indicator::before {
@@ -518,9 +518,9 @@ const ButtonWrapper = styled(Button)`
 // `
 
 const LinkWrapper = styled(Link)`
-  color: ${DarkMode.ORANGE};
+  color: ${TmColors.ORANGE};
   &:hover {
-    color: ${DarkMode.DARK_ORANGE};
+    color: ${TmColors.DARK_ORANGE};
   }
 `
 
@@ -530,8 +530,8 @@ const Paragraph = styled.p`
 `
 
 const ConfirmMnemonicWrapper = styled.div`
-  border: ${props => props.hasError ? `1px solid ${DarkMode.RED}` : 'initial'}
-  background-color: ${DarkMode.BLACK};
+  border: ${props => props.hasError ? `1px solid ${TmColors.RED}` : 'initial'}
+  background-color: ${TmColors.BLACK};
   min-height: 130px;
   padding: 20px 25px;
 `
@@ -548,13 +548,13 @@ const MnemonicList = styled.div``
 const MnemonicTag = styled.span`
   display: inline-block;
   height: 40px;
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   background-color: ${props => props.bgColor ? props.bgColor : '#1f2538'};
   padding: 10px 15px;
   margin: 0 5px 15px 5px;
   cursor: ${props => props.cursor ? props.cursor : 'initial'};
   &:hover {
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
   }import PasswordStrengMeter from '../../components/PasswordStrengthMeter/index';
 
 `
@@ -569,23 +569,23 @@ const PrivateKeyBox = styled.div`
   word-break: break-all;
   font-size: ${Theme.FONT_SIZE_LG};
   font-weight: 600;
-  color: ${DarkMode.LIGHT_GRAY};
-  border: 1px dashed ${DarkMode.LIGHT_GRAY};
+  color: ${TmColors.LIGHT_GRAY};
+  border: 1px dashed ${TmColors.LIGHT_GRAY};
   padding: 25px;
 `
 
 const ErrorMessage = styled.div`
-  color: ${DarkMode.RED};
+  color: ${TmColors.RED};
   font-size: 12px;
   margin-top: 5px;
 `
 
 const Highlight = styled.span`
   cursor: pointer;
-  color: ${DarkMode.ORANGE};
+  color: ${TmColors.ORANGE};
 
   &:hover {
-    color: ${DarkMode.DARK_ORANGE};
+    color: ${TmColors.DARK_ORANGE};
   }
 `
 

@@ -27,6 +27,7 @@ import {
   NavbarDivider,
   Theme,
   DarkMode,
+  TmColors,
   LightMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
@@ -492,7 +493,7 @@ const MenuLocales = (props) => {
         key={index}
         active={locale === key} 
         onClick={() => changeLocale(key)}>
-        {locales[key]} {(locale === key) && (<Icon icon="tick" color={DarkMode.ORANGE} />)}
+        {locales[key]} {(locale === key) && (<Icon icon="tick" color={TmColors.ORANGE} />)}
       </LocaleItem>
     )
   })
@@ -862,10 +863,10 @@ const NumberNewNotifications = styled.span`
   width: 7px;
   top: 0px;
   left: 0px;
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   font-size: 12px;
   border-radius: 5px;
-  background-color: ${DarkMode.RED};
+  background-color: ${TmColors.RED};
 `
 
 const LanguageItem = styled.div``
@@ -873,10 +874,10 @@ const LanguageItem = styled.div``
 const UserItem = styled.div``
 
 const NavbarLink = styled(NavLink)`
-  color: ${DarkMode.GRAY};
+  color: ${TmColors.GRAY};
 
   &:hover {
-    color: ${DarkMode.WHITE};
+    color: ${TmColors.WHITE};
   }
 `
 

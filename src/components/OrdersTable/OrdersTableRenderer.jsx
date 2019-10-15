@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { TOMOSCAN_URL } from '../../config/environment'
-import { Colors, Loading, CenteredMessage, DarkMode, Theme, Link } from '../Common'
+import { Colors, Loading, CenteredMessage, TmColors, Theme, Link } from '../Common'
 import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
@@ -405,7 +405,7 @@ const CheckboxHidePairs = styled(Checkbox)`
   }
 
   input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {

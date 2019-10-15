@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import {
   Theme,
   UtilityIcon,
-  DarkMode,
+  TmColors,
   TomoXLogo,
   Centered,
   LargeText,
@@ -179,7 +179,7 @@ const TabItem = (props) => {
         <TabIcon>
           <UtilityIcon name={props.name} 
             size={12}
-            color={props.active ? DarkMode.ORANGE : ''} />
+            color={props.active ? TmColors.ORANGE : ''} />
         </TabIcon>)}
 
       <TabTitle
@@ -192,7 +192,7 @@ const TabItem = (props) => {
 }
 
 const ChangeCell = styled.span`
-  color: ${({change, theme}) => (change > 0 ? DarkMode.GREEN : (change === 0) ? theme.textTable : DarkMode.RED)} !important;
+  color: ${({change, theme}) => (change > 0 ? TmColors.GREEN : (change === 0) ? theme.textTable : TmColors.RED)} !important;
 `
 
 const PriceNumber = styled.span`

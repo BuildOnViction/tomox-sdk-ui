@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { DarkMode } from '../../components/Common'
+import { TmColors } from '../../components/Common'
 import PathSelector from '../PathSelector'
 
 type Props = {
@@ -81,11 +81,11 @@ const AddressListItem = styled.div`
     cursor: pointer;
 
     &:nth-child(2n+1) {
-        background-color: ${DarkMode.BLACK};
+        background-color: ${TmColors.BLACK};
     }
 
     &:hover {
-        background-color: ${DarkMode.BLUE};
+        background-color: ${TmColors.BLUE};
     }
 `
 
@@ -104,7 +104,7 @@ const NavigatorItem = styled.span`
   cursor: pointer;
 
   &:hover {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 

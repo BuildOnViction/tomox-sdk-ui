@@ -10,7 +10,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
   OverlaySpinner,
-  DarkMode,
+  TmColors,
   UtilityIcon,
 } from '../Common'
 import styled from 'styled-components'
@@ -403,7 +403,7 @@ const HeaderRow = styled(Row)`
 
 const Change24H = styled(Cell)`
   color: ${props =>
-    props.change > 0 ? DarkMode.GREEN : DarkMode.RED} !important;
+    props.change > 0 ? TmColors.GREEN : TmColors.RED} !important;
 `
 
 const NoTokens = styled.div`

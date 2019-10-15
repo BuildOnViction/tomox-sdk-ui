@@ -7,7 +7,7 @@ import { Dialog, Icon } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
-  DarkMode,
+  TmColors,
 } from '../Common'
 
 type Props = {
@@ -62,7 +62,7 @@ const AddressWrapper = styled.div`
   align-items: center;
 
   &:hover div {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 
@@ -73,7 +73,7 @@ const CopyIconBox = styled.span`
   padding: 5px;
 
   &:hover {
-    background-color: ${DarkMode.LIGHT_BLUE};
+    background-color: ${TmColors.LIGHT_BLUE};
   }
 `
 
@@ -88,7 +88,7 @@ const ScanQRTitle = styled(Title)`
     position: absolute;
     top: 50%;
     width: 140px;
-    border-top: 1px solid ${DarkMode.GRAY};
+    border-top: 1px solid ${TmColors.GRAY};
   }
 
   :before {

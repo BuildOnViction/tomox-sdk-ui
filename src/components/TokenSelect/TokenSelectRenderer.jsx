@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, MenuItem } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import HighlightText from '../Common/HighlightText'
-import { DarkMode } from '../Common'
+import { TmColors } from '../Common'
 
 type Props = {
   items: Array<Object>,
@@ -58,5 +58,5 @@ export default TokenSelectRenderer
 const ButtonWrapper = styled(Button)`
   height: 40px;
   border-radius: 0;
-  background: ${DarkMode.BLACK} !important;
+  background: ${TmColors.BLACK} !important;
 `

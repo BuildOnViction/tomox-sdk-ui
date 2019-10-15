@@ -5,7 +5,7 @@ import { Icon, Spinner, Intent } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { TOMOSCAN_URL } from '../../config/environment'
-import { Theme, DarkMode } from '../../components/Common'
+import { Theme, TmColors } from '../../components/Common'
 
 const MESSAGES = {
   'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
@@ -147,7 +147,7 @@ const MarkRead = styled(Icon)``
 const NotificationDate = styled.div`
   display: flex;
   align-items: center;
-  color: ${DarkMode.GRAY};
+  color: ${TmColors.GRAY};
   margin-top: 5px;
 `
 

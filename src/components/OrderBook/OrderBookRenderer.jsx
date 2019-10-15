@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Loading, Colors, DarkMode } from '../Common'
+import { Loading, Colors, TmColors } from '../Common'
 import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
@@ -236,18 +236,18 @@ const renderPricePrecisionItem = (item, { handleClick, modifiers }) => {
 const PrecisionButton = styled.div.attrs({
   className: "decimals-dropdown",
 })`
-  color: ${DarkMode.GRAY};
+  color: ${TmColors.GRAY};
   cursor: pointer;
 `
 
 const PrecisionMenuItem = styled.li`
   padding: 3px 10px;
-  color: ${DarkMode.GRAY};
+  color: ${TmColors.GRAY};
   cursor: pointer;
-  background: ${({active}) => active ? DarkMode.LIGHT_BLUE : 'initial'};
+  background: ${({active}) => active ? TmColors.LIGHT_BLUE : 'initial'};
 
   &:hover {
-    background: ${DarkMode.LIGHT_BLUE};
+    background: ${TmColors.LIGHT_BLUE};
   }
 `
 

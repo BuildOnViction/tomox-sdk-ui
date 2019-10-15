@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { DarkMode, SmallText, TmColors } from '../../components/Common'
+import { SmallText, TmColors } from '../../components/Common'
 
 class SelectHdPathModal extends React.PureComponent {
 
@@ -102,7 +102,7 @@ const SelectHdPath = styled(Select)`
 `
 
 const ErrorMessage = styled.div`
-  color: ${DarkMode.RED};
+  color: ${TmColors.RED};
   font-size: 12px;
   margin-bottom: 5px;
 `
@@ -114,20 +114,20 @@ const ButtonWrapper = styled(Button)`
   margin-right: auto;
   width: ${props => props.width ? props.width : '100%'};
   text-align: center;
-  color: ${DarkMode.BLACK} !important;
+  color: ${TmColors.BLACK} !important;
   border-radius: 0;
-  background-color: ${DarkMode.ORANGE} !important;
+  background-color: ${TmColors.ORANGE} !important;
   box-shadow: none !important;
   background-image: none !important;
   height: 40px;
 
   &:hover {
-    background-color: ${DarkMode.DARK_ORANGE} !important;
+    background-color: ${TmColors.DARK_ORANGE} !important;
   }
 
   &.bp3-disabled {
     cursor: default !important;
-    background-color: ${DarkMode.GRAY} !important;
+    background-color: ${TmColors.GRAY} !important;
   }import Highlight from '../Common/Highlight';
 import { TmColors } from '../Common/Colors';
 

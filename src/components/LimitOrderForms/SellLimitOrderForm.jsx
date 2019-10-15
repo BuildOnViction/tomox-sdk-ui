@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Button, InputGroup } from "@blueprintjs/core"
 import { FormattedMessage } from "react-intl"
 
-import { Theme, DarkMode } from "../Common"
+import { Theme, TmColors } from "../Common"
 import { FractionList, IncreaseAndDecreaseGroup } from "../OrderFormCommonComponents"
 
 const SellLimitOrderForm = props => {
@@ -161,7 +161,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
   className: "bp3-fill",
 })`
   &.has-error .bp3-input {
-    box-shadow: 0 0 0 1px ${DarkMode.RED};
+    box-shadow: 0 0 0 1px ${TmColors.RED};
   }
 
   .bp3-input {
@@ -169,7 +169,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
     padding-right: 50px !important;
 
     &:focus {
-      box-shadow: 0 0 0 1px ${DarkMode.ORANGE};
+      box-shadow: 0 0 0 1px ${TmColors.ORANGE};
     }
   }
 `
@@ -250,7 +250,7 @@ const BaseToken = styled.span.attrs({
 })``
 
 const MaxAmountInfo = styled.div`
-  background: ${DarkMode.ORANGE};
+  background: ${TmColors.ORANGE};
   padding: 0 10px;
   height: 30px;
   line-height: 30px;
@@ -258,7 +258,7 @@ const MaxAmountInfo = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: ${Theme.FONT_SIZE_SM};
-  color: ${DarkMode.WHITE};
+  color: ${TmColors.WHITE};
   position: absolute;
   top: 100%;
   left: 67px;
@@ -276,7 +276,7 @@ const ErrorMessage = styled.div`
   line-height: 17px;
   width: calc(100% - 60px);
   padding-left: 8px;
-  color: ${DarkMode.RED};
+  color: ${TmColors.RED};
   margin-left: auto;
   margin-top: -7px;
   margin-bottom: 3px;

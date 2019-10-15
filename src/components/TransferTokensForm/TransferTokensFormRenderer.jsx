@@ -6,7 +6,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import TokenSelect from '../TokenSelect'
 import GasSettings from '../GasSettings'
 import TxNotification from '../TxNotification'
-import { DarkMode, Theme } from '../Common'
+import { TmColors, Theme } from '../Common'
 
 type Props = {
   loading: boolean,
@@ -113,8 +113,8 @@ const TxNotificationBox = styled.div`
 const InputGroupWrapper = styled(InputGroup)`
   .bp3-input {
     height: 40px;
-    color: ${DarkMode.LIGHT_GRAY};
-    background: ${DarkMode.BLACK};
+    color: ${TmColors.LIGHT_GRAY};
+    background: ${TmColors.BLACK};
   }
 `
 
@@ -123,19 +123,19 @@ const ButtonWrapper = styled(Button)`
   margin: 35px auto 0;
   min-width: 180px;
   text-align: center;
-  color: ${DarkMode.BLACK} !important;
+  color: ${TmColors.BLACK} !important;
   border-radius: 0;
-  background-color: ${DarkMode.ORANGE} !important;
+  background-color: ${TmColors.ORANGE} !important;
   box-shadow: none !important;
   background-image: none !important;
   height: 40px;
   &:hover {
-    background-color: ${DarkMode.DARK_ORANGE} !important;
+    background-color: ${TmColors.DARK_ORANGE} !important;
   }
 
   &.bp3-disabled {
     cursor: default !important;
-    background-color: ${DarkMode.GRAY} !important;
+    background-color: ${TmColors.GRAY} !important;
   }
 
   .bp3-button-text {

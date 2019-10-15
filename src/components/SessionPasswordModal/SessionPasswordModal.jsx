@@ -4,7 +4,7 @@ import Modal from '../Modal'
 import styled from 'styled-components'
 import { Label, Button } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
-import { DarkMode, Theme, SmallText } from '../../components/Common'
+import { TmColors, Theme, SmallText } from '../../components/Common'
 
 type Props = {
   isOpen: boolean,
@@ -51,19 +51,19 @@ const ButtonWrapper = styled(Button)`
     margin-right: auto;
     width: ${props => props.width ? props.width : '100%'};
     text-align: center;
-    color: ${DarkMode.BLACK} !important;
+    color: ${TmColors.BLACK} !important;
     border-radius: 0;
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
     box-shadow: none !important;
     background-image: none !important;
     height: 40px;
     &:hover {
-        background-color: ${DarkMode.DARK_ORANGE} !important;
+        background-color: ${TmColors.DARK_ORANGE} !important;
     }
 
     &.bp3-disabled {
         cursor: default !important;
-        background-color: ${DarkMode.GRAY} !important;
+        background-color: ${TmColors.GRAY} !important;
     }
 
     .bp3-spinner {
@@ -74,20 +74,20 @@ const ButtonWrapper = styled(Button)`
 
 const InputGroupWrapper = styled.input`
     height: 50px;
-    color: ${DarkMode.WHITE};
+    color: ${TmColors.WHITE};
     font-size: ${Theme.FONT_SIZE_LG};
     padding: 15px;
     margin-top: 0 !important;
     margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-    background: ${DarkMode.BLACK};
-    border: ${props => props.isInvalid ? `1px solid ${DarkMode.RED} !important` : 'none'};
+    background: ${TmColors.BLACK};
+    border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
     width: 100%;
 
     &:focus {
-        border: 1px solid ${DarkMode.ORANGE};
+        border: 1px solid ${TmColors.ORANGE};
     }
 `
 
 const ErrorMessage = styled(SmallText)`
-    color: ${DarkMode.RED};
+    color: ${TmColors.RED};
 `
