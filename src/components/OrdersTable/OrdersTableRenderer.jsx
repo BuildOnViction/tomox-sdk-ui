@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { TOMOSCAN_URL } from '../../config/environment'
-import { Colors, Loading, CenteredMessage, DarkMode, Theme, Link, TmColors } from '../Common'
+import { Colors, Loading, CenteredMessage, DarkMode, Theme, Link } from '../Common'
 import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
@@ -182,7 +182,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumns[1]} title={order.pair} muted>
-                {order.pair}
+                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
               </Cell>
               <Cell width={widthColumns[2]} muted>
                 {capitalizeFirstLetter(order.type)}
@@ -243,7 +243,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
-                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="blank" color={TmColors.WHITE}>{order.pair}</Link>
+                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
               </Cell>
               <Cell width={widthColumnsOrderHistory[2]} muted>
                 {capitalizeFirstLetter(order.type)}
@@ -298,7 +298,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 {formatDate(order.time, 'LL-dd HH:mm:ss')}
               </Cell>
               <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
-                <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="blank" color={TmColors.WHITE}>{order.pair}</Link>
+                <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
               </Cell>
               <Cell width={widthColumnsTradeHistory[2]} muted>
                 {capitalizeFirstLetter(order.type)}

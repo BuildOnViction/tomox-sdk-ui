@@ -287,6 +287,7 @@ export const DarkMode = {
   tokenSearcherSearchResultBg: '#2d3650',
   tokenSearcherSearchResultItemHover: '#394362',
   notificationUnreadBg: '#6e7793',
+  linkText: '#fff',
 }
 
 export const LightMode = {
@@ -316,6 +317,7 @@ export const LightMode = {
   tokenSearcherSearchResultBg: '#f4f6f8',
   tokenSearcherSearchResultItemHover: '#fff',
   notificationUnreadBg: '#6e7793',
+  linkText: '#303030',
 }
 
 export const Theme = {
