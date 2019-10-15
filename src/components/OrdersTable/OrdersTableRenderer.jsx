@@ -9,6 +9,7 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { List, AutoSizer } from 'react-virtualized'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Colors, Loading, CenteredMessage, TmColors, Theme, Link } from '../Common'
@@ -155,7 +156,48 @@ const OrdersTablePanel = (props: {
   }
 }
 
+const _noRowsRenderer = () => <CenteredMessage message={<FormattedMessage id="exchangePage.noOrders" />} />
+
 const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+  const _rowRenderer = ({index, key, style}: *) => {
+    const order = orders[index]
+
+    return (
+      <Row key={index} style={style}>
+        <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={widthColumns[1]} title={order.pair} muted>
+          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
+        </Cell>
+        <Cell width={widthColumns[2]} muted>
+          {capitalizeFirstLetter(order.type)}
+        </Cell>
+        <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+          {order.side && capitalizeFirstLetter(order.side)}
+        </Cell>
+        <Cell width={widthColumns[4]} title={order.price} muted>
+          {truncateZeroDecimal(order.price)}
+        </Cell>
+        <Cell width={widthColumns[5]} muted>
+          {truncateZeroDecimal(order.amount)}
+        </Cell>
+        <Cell width={widthColumns[6]} muted>
+          {truncateZeroDecimal(order.total)}
+        </Cell>
+        <Cell width={widthColumns[7]} muted>
+          {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
+        </Cell>
+        <Cell width={widthColumns[8]} muted>
+          <CancelIcon 
+            icon="cross" 
+            intent="danger" 
+            onClick={() => cancelOrder(order.hash)} />
+        </Cell>
+      </Row>
+    )
+  }
+
   return (
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -172,51 +214,62 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         <HeaderCell width={widthColumns[8]}></HeaderCell>
       </ListHeader>
 
-      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
-
-      {(orders.length > 0) &&
-        (<ListBodyWrapper className="list">
-          {orders.map((order, index) => (
-            <Row key={index}>
-              <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
-              </Cell>
-              <Cell width={widthColumns[1]} title={order.pair} muted>
-                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
-              </Cell>
-              <Cell width={widthColumns[2]} muted>
-                {capitalizeFirstLetter(order.type)}
-              </Cell>
-              <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-                {order.side && capitalizeFirstLetter(order.side)}
-              </Cell>
-              <Cell width={widthColumns[4]} title={order.price} muted>
-                {truncateZeroDecimal(order.price)}
-              </Cell>
-              <Cell width={widthColumns[5]} muted>
-                {truncateZeroDecimal(order.amount)}
-              </Cell>
-              <Cell width={widthColumns[6]} muted>
-                {truncateZeroDecimal(order.total)}
-              </Cell>
-              <Cell width={widthColumns[7]} muted>
-                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
-              </Cell>
-              <Cell width={widthColumns[8]} muted>
-                <CancelIcon 
-                  icon="cross" 
-                  intent="danger" 
-                  onClick={() => cancelOrder(order.hash)} />
-              </Cell>
-            </Row>
-          ))}
-        </ListBodyWrapper>)
-      }
+      <ListBodyWrapper className="list">
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              width={width}
+              height={height}
+              rowCount={orders.length}
+              rowHeight={45}
+              rowRenderer={_rowRenderer}
+              noRowsRenderer={_noRowsRenderer}
+              overscanRowCount={0}
+            />
+          )}
+        </AutoSizer>
+      </ListBodyWrapper>
     </ListContainer>
   )
 }
 
 const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+  const _rowRenderer = ({index, key, style}: *) => {
+    const order = orders[index]
+
+    return (
+      <Row key={key} style={style}>
+        <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
+          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[2]} muted>
+          {capitalizeFirstLetter(order.type)}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+          {order.side && capitalizeFirstLetter(order.side)}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
+          {truncateZeroDecimal(order.price)}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[5]} muted>
+          {truncateZeroDecimal(order.amount)}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[6]} muted>
+          {truncateZeroDecimal(order.total)}
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[7]} muted>
+          {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
+        </Cell>
+        <Cell width={widthColumnsOrderHistory[8]} muted>
+          {STATUS[order.status]}
+        </Cell>
+      </Row>
+    )
+  }
+  
   return (
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -233,48 +286,53 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsOrderHistory[8]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
       </ListHeader>
 
-      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
-
-      {(orders.length > 0) && 
-        (<ListBodyWrapper className="list">
-          {orders.map((order, index) => (
-            <Row key={index}>
-              <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
-                <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[2]} muted>
-                {capitalizeFirstLetter(order.type)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-                {order.side && capitalizeFirstLetter(order.side)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
-                {truncateZeroDecimal(order.price)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[5]} muted>
-                {truncateZeroDecimal(order.amount)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[6]} muted>
-                {truncateZeroDecimal(order.total)}
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[7]} muted>
-                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
-              </Cell>
-              <Cell width={widthColumnsOrderHistory[8]} muted>
-                {STATUS[order.status]}
-              </Cell>
-            </Row>
-          ))}
-        </ListBodyWrapper>)
-      }
+      <ListBodyWrapper className="list">
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              width={width}
+              height={height}
+              rowCount={orders.length}
+              rowHeight={45}
+              rowRenderer={_rowRenderer}
+              noRowsRenderer={_noRowsRenderer}
+              overscanRowCount={0}
+            />
+          )}
+        </AutoSizer>
+      </ListBodyWrapper>
     </ListContainer>
   )
 }
 
 const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+  const _rowRenderer = ({index, key, style}: *) => {
+    const order = orders[index]
+    
+    return (
+      <Row key={index} style={style}>
+        <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
+          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[2]} muted>
+          {capitalizeFirstLetter(order.type)}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
+          {truncateZeroDecimal(order.price)}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[4]} muted>
+          {truncateZeroDecimal(order.amount)}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[5]} muted>
+          {truncateZeroDecimal(order.total)}
+        </Cell>
+      </Row>
+    )
+  }  
+
   return (
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -288,34 +346,21 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
       </ListHeader>
 
-      {(orders.length === 0) && (<CenteredMessage message="No orders" />)}
-
-      {(orders.length > 0) &&
-        (<ListBodyWrapper className="list">
-          {orders.map((order, index) => (
-            <Row key={index}>
-              <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
-              </Cell>
-              <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
-                <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
-              </Cell>
-              <Cell width={widthColumnsTradeHistory[2]} muted>
-                {capitalizeFirstLetter(order.type)}
-              </Cell>
-              <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
-                {truncateZeroDecimal(order.price)}
-              </Cell>
-              <Cell width={widthColumnsTradeHistory[4]} muted>
-                {truncateZeroDecimal(order.amount)}
-              </Cell>
-              <Cell width={widthColumnsTradeHistory[5]} muted>
-                {truncateZeroDecimal(order.total)}
-              </Cell>
-            </Row>
-          ))}
-        </ListBodyWrapper>)
-      }
+      <ListBodyWrapper className="list">
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              width={width}
+              height={height}
+              rowCount={orders.length}
+              rowHeight={45}
+              rowRenderer={_rowRenderer}
+              noRowsRenderer={_noRowsRenderer}
+              overscanRowCount={0}
+            />
+          )}
+        </AutoSizer>
+      </ListBodyWrapper>
     </ListContainer>
   )
 }
