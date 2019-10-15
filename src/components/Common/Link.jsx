@@ -7,7 +7,7 @@ const Link = (props) => (
 )
 
 const AStyled = styled.a`
-    color: ${props => props.color || TmColors.ORANGE};
+    color: ${props => props.color || props.theme.linkText};
 
     &:hover {
         color: ${TmColors.DARK_ORANGE};

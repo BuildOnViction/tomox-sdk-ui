@@ -5,7 +5,6 @@ import {
   RowSpaceBetween,
   MutedText,
   Theme,
-  DarkMode,
   TmColors,
   Link,
 } from '../Common'
@@ -90,7 +89,7 @@ const TOMORow = (props: Props) => {
   return (
     <Row key="TOMO">
       <Cell width={WidthColums[0]}>
-        <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+        <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="_blank">{symbol}</Link>
       </Cell>
       <CellXsHidden width={WidthColums[1]}>
         <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
@@ -119,7 +118,7 @@ const QuoteTokenRows = (props: Props) => {
       return (
         <Row key={index}>
           <Cell width={WidthColums[0]}>
-          <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+          <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
@@ -150,7 +149,7 @@ const BaseTokenRows = (props: Props) => {
       return (
         <Row key={index}>
           <Cell width={WidthColums[0]}>
-            <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+            <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
             <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
@@ -186,7 +185,7 @@ const SearchWrapper= styled(InputGroup).attrs({
   className: 'xs-hidden',
 })`
   .bp3-input {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${TmColors.LIGHT_GRAY};
     max-width: 220px;
     background: ${props => props.theme.subBg};
     border-radius: 0;
@@ -284,7 +283,7 @@ const CheckboxWrapper = styled(Checkbox)`
   }
 
   input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {

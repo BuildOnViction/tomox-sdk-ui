@@ -8,7 +8,6 @@ import {
   Colors,
   MutedText,
   Theme,
-  DarkMode,
   TmColors,
   Link,
 } from '../Common'
@@ -115,7 +114,7 @@ const TOMORow = (props: Props) => {
       <Cell width="18%">
         <TokenNameWrapper>
           <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
-          <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+          <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="_blank">{symbol}</Link>
         </TokenNameWrapper>
       </Cell>
       <Cell width="20%">
@@ -154,7 +153,7 @@ const QuoteTokenRows = (props: Props) => {
           <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
-              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
@@ -203,7 +202,7 @@ const BaseTokenRows = (props: Props) => {
           <Cell width="18%">
             <TokenNameWrapper>
               <TokenImage tokenAddress={address} size={30} />
-              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="blank" color={TmColors.WHITE}>{symbol}</Link>
+              <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
@@ -238,7 +237,7 @@ const BaseTokenRows = (props: Props) => {
 
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
-    color: ${DarkMode.LIGHT_GRAY};
+    color: ${TmColors.LIGHT_GRAY};
     min-width: 300px;
     background: ${props => props.theme.subBg};
     border-radius: 0;
@@ -337,7 +336,7 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
     cursor: default;
   }
   &:hover {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 
@@ -349,7 +348,7 @@ const ExternalLink = styled.a`
   font-size: ${Theme.FONT_SIZE_MD};
 
   &:hover {
-    color: ${DarkMode.ORANGE};
+    color: ${TmColors.ORANGE};
   }
 `
 
@@ -384,7 +383,7 @@ const CheckboxWrapper = styled(Checkbox)`
   }
 
   input:checked ~ .bp3-control-indicator {
-    background-color: ${DarkMode.ORANGE} !important;
+    background-color: ${TmColors.ORANGE} !important;
   }
 
   input:checked ~ .bp3-control-indicator::before {
