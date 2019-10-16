@@ -30,53 +30,69 @@ type Props = {
   redirectToTradingPage: string => void,
 }
 
+const rowHeight = 45
 const WidthColums = ['20%', '30%', '30%', '20%']
 
-const FundsTableRenderer = (props: Props) => {
-  const {
-    isHideZeroBalanceToken,
-    toggleZeroBalanceToken,
-    searchInput,
-    handleSearchInputChange,
-    tokenDataLength,
-  } = props
-  return (
-    <Wrapper>
-      <RowSpaceBetween style={{ marginBottom: '10px' }}>
-        <OperationButtonWrapper>
-          <CheckboxWrapper
-            label="Hide zero amounts"
-            checked={isHideZeroBalanceToken}  
-            onChange={toggleZeroBalanceToken} />
-        </OperationButtonWrapper>
-        
-        <SearchWrapper
-          type="string"
-          leftIcon="search"
-          placeholder="Search"
-          value={searchInput}
-          onChange={handleSearchInputChange}
-        />
-      </RowSpaceBetween>
+class FundsTableRenderer extends React.PureComponent {
+  state = {hasScrollbar: false}
 
-      <TableHeader>
-        <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
-        <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCellXsHidden>
-        <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCellXsHidden>
-        <CellXs width="60%"><FormattedMessage id="portfolioPage.total" />/<FormattedMessage id="portfolioPage.availableAmount" /></CellXs>
-        <TableHeaderCell width={WidthColums[3]}><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
-      </TableHeader>
+  componentDidUpdate() {
+    const tableBodyHeight = document.getElementById('funds-table-body').clientHeight
+    const contentHeight = this.props.tokenDataLength * rowHeight
+    const hasScrollbar = contentHeight > tableBodyHeight
 
-      <TableBodyContainer>
-        <TableBody>
-          <TOMORow {...props} />
-          <QuoteTokenRows {...props} />
-          <BaseTokenRows {...props} />
-        </TableBody>
-        {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
-      </TableBodyContainer>
-    </Wrapper>
-  )
+    if (this.state.hasScrollbar !== hasScrollbar) {
+      this.setState({hasScrollbar})
+    }
+  }
+
+  render() {
+    const {
+      isHideZeroBalanceToken,
+      toggleZeroBalanceToken,
+      searchInput,
+      handleSearchInputChange,
+      tokenDataLength,
+    } = this.props
+
+    return (
+      <Wrapper>
+        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+          <OperationButtonWrapper>
+            <CheckboxWrapper
+              label="Hide zero amounts"
+              checked={isHideZeroBalanceToken}  
+              onChange={toggleZeroBalanceToken} />
+          </OperationButtonWrapper>
+          
+          <SearchWrapper
+            type="string"
+            leftIcon="search"
+            placeholder="Search"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+          />
+        </RowSpaceBetween>
+
+        <TableHeader style={{paddingRight: this.state.hasScrollbar ? '16px' : '10px'}}>
+          <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
+          <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCellXsHidden>
+          <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCellXsHidden>
+          <CellXs width="60%"><FormattedMessage id="portfolioPage.total" />/<FormattedMessage id="portfolioPage.availableAmount" /></CellXs>
+          <TableHeaderCell width={WidthColums[3]}><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
+        </TableHeader>
+
+        <TableBodyContainer>
+          <TableBody>
+            <TOMORow {...this.props} />
+            <QuoteTokenRows {...this.props} />
+            <BaseTokenRows {...this.props} />
+          </TableBody>
+          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
+        </TableBodyContainer>
+      </Wrapper>
+    )
+  }
 }
 
 const TOMORow = (props: Props) => {
@@ -218,7 +234,9 @@ const TableHeaderCellXsHidden = styled(TableHeaderCell).attrs({
   className: 'xs-hidden',
 })``
 
-const TableBodyContainer = styled.div`
+const TableBodyContainer = styled.div.attrs({
+  id: 'funds-table-body',
+})`
   width: 100%;
   height: calc(100% - 75px);
   overflow-y: auto;
@@ -259,7 +277,7 @@ const CellXsHidden = styled(Cell).attrs({
 const Row = styled.div`
   display: flex;
   width: 100%;
-  height: 45px;
+  height: ${rowHeight}px;
   padding: 0 10px;
 
   &:nth-child(2n+1) {

@@ -46,7 +46,7 @@ const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
 const OrdersTableRenderer = (props: Props) => {
   const hasScrollBar = (orders) => {
-    const tableBodyElm = document.querySelector('.bp3-tab-panel[aria-hidden="false"] #table-body')
+    const tableBodyElm = document.querySelector('.bp3-tab-panel[aria-hidden="false"] .order-table-body')
     const tableBodyHeight = tableBodyElm ? tableBodyElm.scrollHeight : 0
     const contentHeight = orders.length * rowHeight
     return contentHeight > tableBodyHeight
@@ -392,8 +392,7 @@ const ListContainer = styled.div.attrs({
   height: 100%;
 `
 const ListBodyWrapper = styled.ul.attrs({
-  className: 'list',
-  id: 'table-body',
+  className: 'list order-table-body',
 })`
   height: calc(100% - 25px);
   width: 100%;
