@@ -155,7 +155,9 @@ const SellLimitOrderContainer = styled.div.attrs({
 
 const SellButton = styled(Button).attrs({
   className: "sell-btn",
-})``
+})`
+  padding: 10px;
+`
 
 const InputGroupWrapper = styled(InputGroup).attrs({
   className: "bp3-fill",
@@ -246,7 +248,7 @@ const HeaderRow = styled.div.attrs({
 `
 
 const BaseToken = styled.span.attrs({
-  className: "base-token"
+  className: "base-token",
 })``
 
 const MaxAmountInfo = styled.div`
@@ -272,7 +274,7 @@ const MaxAmountInfo = styled.div`
 `
 
 const ErrorMessage = styled.div`
-  height: 17px;
+  min-height: 17px;
   line-height: 17px;
   width: calc(100% - 60px);
   padding-left: 8px;

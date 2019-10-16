@@ -248,7 +248,9 @@ const BaseToken = styled.span.attrs({
 
 const BuyButton = styled(Button).attrs({
   className: "buy-btn",
-})``
+})`
+  padding: 10px;
+`
 
 const MaxAmountInfo = styled.div`
   background: ${TmColors.ORANGE};
@@ -273,7 +275,7 @@ const MaxAmountInfo = styled.div`
 `
 
 const ErrorMessage = styled.div`
-  height: 17px;
+  min-height: 17px;
   line-height: 17px;
   width: calc(100% - 60px);
   padding-left: 8px;
@@ -285,6 +287,7 @@ const ErrorMessage = styled.div`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       width: 100%;
+      height: unset;
     }
   }
 `
