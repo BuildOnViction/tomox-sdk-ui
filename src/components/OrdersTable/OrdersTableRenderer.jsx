@@ -40,7 +40,7 @@ const STATUS = {
 
 const rowHeight = 45
 const overscanRowCount = 5
-const widthColumns = ['12%', '10%', '10%', '8%', '15%', '15%', '15%', '15%', '5%']
+const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '10%', '5%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '10%', '10%', '15%', '10%', '15%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
@@ -439,7 +439,7 @@ const Cell = styled.span.attrs({
       ? props.theme.textTable
       : Colors.WHITE}
 
-  min-width: 35px;
+  min-width: 25px;
   width: ${props => (props.width ? props.width : '10%')};
   white-space: nowrap;
   overflow: hidden;
