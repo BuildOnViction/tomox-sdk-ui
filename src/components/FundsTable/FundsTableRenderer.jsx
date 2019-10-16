@@ -78,7 +78,7 @@ class FundsTableRenderer extends React.PureComponent {
           <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
           <TableHeaderCellXsHidden width={WidthColums[1]}><MutedText><FormattedMessage id="portfolioPage.total" /></MutedText></TableHeaderCellXsHidden>
           <TableHeaderCellXsHidden width={WidthColums[2]}><MutedText><FormattedMessage id="portfolioPage.availableAmount" /></MutedText></TableHeaderCellXsHidden>
-          <CellXs width="60%"><FormattedMessage id="portfolioPage.total" />/<FormattedMessage id="portfolioPage.availableAmount" /></CellXs>
+          <HeaderCellXs width="60%"><FormattedMessage id="portfolioPage.total" />/<FormattedMessage id="portfolioPage.available" /></HeaderCellXs>
           <TableHeaderCell width={WidthColums[3]}><MutedText><FormattedMessage id="portfolioPage.inOrders" /></MutedText></TableHeaderCell>
         </TableHeader>
 
@@ -282,6 +282,16 @@ const Row = styled.div`
 
   &:nth-child(2n+1) {
     background: ${props => props.theme.subBg};
+  }
+`
+
+const HeaderCellXs = styled(CellXs)`
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      align-items: start;
+      justify-content: start;
+      flex-flow: row;
+    }
   }
 `
 
