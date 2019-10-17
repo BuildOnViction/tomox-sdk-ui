@@ -8,6 +8,7 @@ import type {
 import { round } from '../../utils/helpers'
 import { utils } from 'ethers'
 import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
+import { parseBalance } from '../../utils/parsers'
 
 export function initialized() {
   const initialState = {}
@@ -30,19 +31,19 @@ export function subscribed(symbol: string) {
 
 export function updated(accountBalances: AccountBalances) {
   const event = (state: AccountBalancesState) => {
-    const newState = accountBalances.reduce((result, item) => {
-      let inOrders = item.inOrders ? item.inOrders : (state[item.symbol] ? state[item.symbol].inOrders : 0)
+    const newState = {}
 
-      result[item.symbol] = {
-        ...state[item.symbol],
-        symbol: item.symbol,
-        balance: item.balance,
-        inOrders,
-        availableBalance: BigNumber(item.balance).minus(inOrders).toFixed(pricePrecision),
-        subscribed: state[item.symbol] ? state[item.symbol].subscribed : false,
+    for (const key in accountBalances) {
+      const { balance, availableBalance, inOrderBalance, decimals, symbol } = accountBalances[key]      
+      const tokenBalance = {
+        balance: parseBalance(balance, decimals),
+        inOrders: parseBalance(inOrderBalance, decimals),
+        availableBalance: parseBalance(availableBalance, decimals),
+        symbol,
+        address: key,
       }
-      return result
-    }, {})
+      newState[symbol] = tokenBalance
+    }
 
     return {
       ...state,

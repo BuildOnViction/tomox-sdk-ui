@@ -305,7 +305,7 @@ export const fetchTokenPairData = async () => {
 }
 
 export const fetchAccountInfo = async (address: string) => {
-  const response = await request(`/account/${address}`)
+  const response = await request(`/account/${address}`, { 'pragma': 'no-cache', 'cache-control': 'no-cache'})
 
   const { data, error } = await response.json()
 

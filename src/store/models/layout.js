@@ -21,7 +21,6 @@ import * as settingsActionCreators from '../actions/settings'
 import * as accountBalancesCreators from '../actions/accountBalances'
 import * as notificationsCreators from '../actions/notifications'
 import * as layoutCreators from '../actions/layout'
-import * as accountBalancesService from '../services/accountBalances'
 
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
@@ -120,7 +119,10 @@ export function queryAccountData(): ThunkAction {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) return
 
-      if (!signer && privatekey) return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
+      if (!signer && privatekey) {
+        if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
+        return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
+      }
 
       socket.subscribeNotification(accountAddress)
 
@@ -145,34 +147,10 @@ export function queryAccountData(): ThunkAction {
       const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
       dispatch(notificationsCreators.addNotifications(notifications))
 
-      const tomoBalance: TokenBalance = await accountBalancesService.queryTomoBalance(
-        accountAddress
-      )
-      
-      const tokenBalances: TokenBalances = await accountBalancesService.queryTokenBalances(
-        accountAddress,
-        tokens
-      )
-
-      const balancesInOders = await api.getBalancesInOrders(accountAddress, tokens)
-      const balances = [tomoBalance].concat(tokenBalances)
-
-      for (let i = 0; i < balances.length; i++) {
-        balances[i]['inOrders'] = balancesInOders[balances[i].symbol]
-      }
-
-      dispatch(accountBalancesCreators.updateBalances(balances))
-
-      await accountBalancesService.subscribeTokenBalances(
-        accountAddress,
-        tokens,
-        balance => dispatch(accountBalancesCreators.updateBalance(balance.symbol, balance.balance))
-      )
-
-      await accountBalancesService.subscribeTomoBalance(
-        accountAddress,
-        balance => dispatch(accountBalancesCreators.updateBalance(NATIVE_TOKEN_SYMBOL, balance))
-      )
+      window.getBalancesInterval = setInterval(async _ => {
+        const { tokenBalances } = await api.fetchAccountInfo(accountAddress)
+        dispatch(accountBalancesCreators.updateBalances(tokenBalances))
+      }, 2000)
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
@@ -238,5 +216,6 @@ export function releaseResource(): ThunkAction {
     const state = getState()
     const authenticated = getAccountDomain(state).authenticated()
     if (authenticated) socket.unSubscribeNotification()
+    if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
   }
 }

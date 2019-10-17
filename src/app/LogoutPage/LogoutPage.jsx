@@ -9,6 +9,7 @@ type Props = {
 
 class LogoutPage extends React.PureComponent<Props> {
   componentDidMount() {
+    if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
     this.props.logout()
   }
 
