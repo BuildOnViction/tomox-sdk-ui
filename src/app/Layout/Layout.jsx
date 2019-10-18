@@ -272,14 +272,14 @@ class Default extends React.PureComponent<Props, State> {
 
                     <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
-                      <div className="up">
+                      <div>
                         <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].high).toFormat(pricePrecision))}</span>
                       </div>
                     </HighTick>
 
                     <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
-                      <div className="down">
+                      <div>
                         <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].low).toFormat(pricePrecision))}</span>
                       </div>
                     </LowTick>
