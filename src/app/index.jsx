@@ -23,14 +23,14 @@ class App extends React.PureComponent {
       <ConnectedRouter history={history}>
         <Layout>
           <Switch>
-            <Route path="/unlock" component={LoginPage} />
-            <Route path="/wallet" component={WalletPage} />
-            <Route path="/markets" component={MarketsPage} />
-            <Route path="/trade/:pair?" component={TradingPage} /> 
-            <Route path="/dapp/:pair?" component={Dapp} />           
-            <Route path="/logout" component={LogoutPage} />
-            <Route path="/create" component={CreateWalletPage} />
-            <Route exact path="*" render={() => <Redirect to="/markets" />} />
+            <Route exact path="/unlock" component={LoginPage} />
+            <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/markets" component={MarketsPage} />
+            <Route exact path="/trade/:pair?" component={TradingPage} /> 
+            <Route exact path="/dapp/:pair?" component={Dapp} />           
+            <Route exact path="/logout" component={LogoutPage} />
+            <Route exact path="/create" component={CreateWalletPage} />
+            <Route render={() => <Redirect to="/markets" />} />
           </Switch>
         </Layout>
       </ConnectedRouter>
