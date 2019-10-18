@@ -126,7 +126,7 @@ export function queryAccountData(): ThunkAction {
 
       socket.subscribeNotification(accountAddress)
 
-      let tokens = getTokenDomain(state).tokens()
+      let tokens = getTokenDomain(state).tokens() //eslint-disable-line
       const quotes = quoteTokens
 
       tokens = quotes

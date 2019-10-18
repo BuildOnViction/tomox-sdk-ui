@@ -64,17 +64,24 @@ export const createRawOrder = async function (params: any) {
 }
 
 export const createOrderCancel = async function (
-  orderHash: string,
-  nonce: number,
+  order: Object
 ): Promise<OrderCancel> {
-  const orderCancel = { nonce: nonce.toString() }
-  orderCancel.orderHash = orderHash
+  const nonce = order.nonce.toString()
+  const orderHash = order.hash
+  let orderCancel = {nonce, orderHash}
   orderCancel.hash = getOrderCancelHash(orderCancel)
+  let signature = null
 
-  const signature = await this.signMessage(utils.arrayify(orderCancel.hash))
+  if (isTomoWallet()) {
+    orderCancel = {...order, ...orderCancel}
+    const orderBase64 = window.btoa(JSON.stringify(orderCancel))
+    signature = await this.signMessage(`TOMOX_ORDER:${orderBase64}`)
+  } else {
+    signature = await this.signMessage(utils.arrayify(orderCancel.hash))
+  }
+
   const { r, s, v } = utils.splitSignature(signature)
   orderCancel.signature = { R: r, S: s, V: v }
-
   return orderCancel
 }
 

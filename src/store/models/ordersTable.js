@@ -22,10 +22,12 @@ export default function ordersTableSelector(state: State) {
 export const cancelOrder = (hash: string): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
     try {
+      const state = getState()
+      const order = getOrdersDomain(state).getOrderByHash(hash)
       const signer = getSigner()
       const userAddress = await signer.getAddress()
-      const nonce = await api.getOrderNonceByAddress(userAddress)
-      const orderCancelPayload = await signer.createOrderCancel(hash, nonce)
+      order.nonce = await api.getOrderNonceByAddress(userAddress)
+      const orderCancelPayload = await signer.createOrderCancel(order)
 
       dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling order ...` }))
       socket.sendNewOrderCancelMessage(orderCancelPayload)

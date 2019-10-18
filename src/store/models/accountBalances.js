@@ -14,7 +14,7 @@ export function queryAccountBalance(): ThunkAction {
     const accountAddress = getAccountDomain(state).address()
 
     try {
-      let tokens = getTokenDomain(state).tokens()
+      let tokens = getTokenDomain(state).tokens() //eslint-disable-line
       const quotes = quoteTokens
 
       tokens = quotes
