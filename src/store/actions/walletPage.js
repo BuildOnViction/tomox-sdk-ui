@@ -1,6 +1,5 @@
 // @flow
 import type {
-  UpdateTokenPairsAction,
   UpdateCurrentPairAction,
   UpdateExchangeAddressAction,
 } from '../../types/walletPage'
