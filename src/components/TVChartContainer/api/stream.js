@@ -9,7 +9,7 @@ export default {
       if (ohlcvData && ohlcvData.length > 0 && window.tvWidget.latestBar) {
         const currLatestBar = ohlcvData.slice(-1)[0]
 
-        if (currLatestBar.time !== window.tvWidget.latestBar.time) {
+        if (currLatestBar.time >= window.tvWidget.latestBar.time) {
           window.tvWidget.latestBar = JSON.parse(JSON.stringify(currLatestBar))
           updateCb(currLatestBar)
         }
