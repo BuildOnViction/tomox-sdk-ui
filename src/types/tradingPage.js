@@ -1,11 +1,9 @@
 //@flow
-import type { TokenPairDataMap } from './tokens'
 import type { Orders } from './orders'
 import type { Trades } from './trades'
 
 export const actionTypes = {
   updateCurrentPair: 'tradingPage/UPDATE_CURRENT_PAIR',
-  updateTokenPairData: 'tradingPage/UPDATE_TOKEN_PAIR_DATA',
   initOrdersTable: 'tradingPage/INIT_ORDERS_TABLE',
   updateOrdersTable: 'tradingPage/UPDATE_ORDERS_TABLE',
   initOrderBook: 'tradingPage/INIT_ORDERBOOK',
@@ -13,11 +11,6 @@ export const actionTypes = {
   initTradesTable: 'tradingPage/INIT_TRADES_TABLE',
   updateTradesTable: 'tradingPage/UPDATE_TRADES_TABLE',
   updateTradesByAddress: 'tradingPage/UPDATE_TRADES_BY_ADDRESS',
-}
-
-export type UpdateTokenPairDataAction = {
-  type: 'tradingPage/UPDATE_TOKEN_PAIR_DATA',
-  payload: { tokenPairData: TokenPairDataMap }
 }
 
 export type UpdateCurrentPairAction = {

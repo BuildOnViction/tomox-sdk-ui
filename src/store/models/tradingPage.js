@@ -17,7 +17,6 @@ import type { State, ThunkAction } from '../../types'
 import {
   parseTradesByAddress,
   parseOrders,
-  parseTokenPairsData,
 } from '../../utils/parsers'
 
 // eslint-disable-next-line
@@ -94,10 +93,6 @@ export const queryTradingPageData = (): ThunkAction => {
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       }
-
-      let tokenPairData = await api.fetchTokenPairData()
-      tokenPairData = parseTokenPairsData(tokenPairData, pairs)
-      dispatch(actionCreators.updateTokenPairData(tokenPairData))
 
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)

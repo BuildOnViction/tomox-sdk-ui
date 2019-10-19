@@ -1,9 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
-import getMarketsPageSelector, {
-  queryMarketData,
-  releaseResources,
-} from '../../store/models/marketsPage'
+import getMarketsPageSelector from '../../store/models/marketsPage'
 
 import type { State } from '../../types'
 
@@ -16,9 +13,4 @@ export function mapStateToProps(state: State) {
   }
 }
 
-export const mapDispatchToProps = {
-  queryMarketData,
-  releaseResources,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)
+export default connect(mapStateToProps)

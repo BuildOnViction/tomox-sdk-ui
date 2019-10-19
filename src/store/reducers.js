@@ -22,7 +22,6 @@ import signerSettingsActionTypes from './actions/signerSettings'
 import appActionTypes from './actions/app'
 import notificationsTypes from './actions/notifications'
 import layoutActionTypes from './actions/layout'
-import marketsPageActionTypes from './actions/marketsPage'
 import marketsTableActionTypes from './actions/marketsTable'
 import orderBookActionTypes from './actions/orderBook'
 import tokenPairsActionsTypes from './actions/tokenPairs'
@@ -267,7 +266,7 @@ export const tokenPairs = createReducerPersist({
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case walletPageActionTypes.updateTokenPairs:
+    case layoutActionTypes.updateTokenPairs:
       return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
     case tokensActionTypes.updateTokens:
       return tokenPairsEvents.tokenPairsUpdated(payload)
@@ -281,8 +280,6 @@ export const tokenPairs = createReducerPersist({
       )
     case tokenSearcherActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
-    case tradingPageActionTypes.updateTokenPairData:
-    case marketsPageActionTypes.updateTokenPairData:
     case socketControllerActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case socketControllerActionTypes.updateSmallChartsData:

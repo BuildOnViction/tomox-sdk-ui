@@ -64,7 +64,7 @@ export default function createSelector(state: State) {
 }
 
 export function queryAppData(): ThunkAction {
-  return async (dispatch, getState, { api }) => {
+  return async (dispatch, getState, { socket, api }) => {
     const state = getState()
     const { router: { location: { pathname }}} = state
     const pairParam = pathname.match(/.*trade\/?(.*)$/)
@@ -74,6 +74,8 @@ export function queryAppData(): ThunkAction {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
+      socket.subscribeMarkets()
+
       let tokens = getTokenDomain(state).tokens() // eslint-disable-line
       const quotes = quoteTokens
 
@@ -81,17 +83,15 @@ export function queryAppData(): ThunkAction {
         .concat(tokens)
         .filter((token: Token) => token.symbol !== NATIVE_TOKEN_SYMBOL)
 
-
       const pairs = await api.fetchPairs()
-      const tokenPairData = await api.fetchTokenPairData()
-      const exchangeAddress = await api.getExchangeAddress()
-      
-      const availablePairs = tokenPairData.map(pairData => pairData.pair.pairName)
-      currentPair = availablePairs.includes(currentPair) ? currentPair : availablePairs[0]
+      dispatch(layoutCreators.updateTokenPairs(pairs))
 
-      dispatch(actionCreators.updateCurrentPair(currentPair))
-      dispatch(actionCreators.updateTokenPairs(pairs))
+      const exchangeAddress = await api.getExchangeAddress()
       dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
+
+      const {pairs: pairNames} = addresses
+      currentPair = pairNames.includes(currentPair) ? currentPair : pairNames[0]
+      dispatch(actionCreators.updateCurrentPair(currentPair))
     } catch (e) {
       const message = e.message ? e.message : "Could not connect to Tomochain network"
 
@@ -215,6 +215,7 @@ export function releaseResource(): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
     const authenticated = getAccountDomain(state).authenticated()
+    socket.unSubscribeMarkets()
     if (authenticated) socket.unSubscribeNotification()
     if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
   }
