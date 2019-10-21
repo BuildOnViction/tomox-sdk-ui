@@ -327,8 +327,8 @@ const TokenSearchCard = styled.div`
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      width: unset;
-      height: unset;
+      width: 100%;
+      height: 100%;
       box-shadow: unset;
       border: unset;
     }
@@ -356,6 +356,11 @@ const Cell = styled.div`
   align-items: center;
   justify-content: ${({align}) => align || 'flex-start'}
   flex-grow: ${({flexGrow}) => flexGrow || 0}
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      font-size: ${Theme.FONT_SIZE_SM};
+    }
+  }
 `
 
 const CellTitle = styled.span`
