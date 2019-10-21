@@ -83,7 +83,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
     return (      
       <Grid flow="row" 
         columns={"1fr"} 
-        rows={"340px 480px"} 
+        rows={"360px 480px 55px"} 
         gap="10px" 
         height="100%">
         <ChartsCell>
@@ -116,7 +116,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
           </OrderFormCell>
         )}
 
-        { !isShowOrderForm && (<ButtonGroup onClick={this.toggleOrderForm} />) }
+        <FooterCell>{ !isShowOrderForm && (<ButtonGroup onClick={this.toggleOrderForm} />) }</FooterCell>
       </Grid>
     )
   }
@@ -168,6 +168,10 @@ const ButtonGroupBox = styled.div`
   align-items: center;
   justify-content: space-around;
   z-index: 20;
+`
+
+const FooterCell = styled.div`
+  height: 55px;
 `
 
 const Close = styled(Icon)`
