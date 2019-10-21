@@ -10,7 +10,7 @@ import {
   Theme,
   UtilityIcon,
   TmColors,
-  TomoXLogoFlip,
+  TomoXLogo,
   Centered,
   LargeText,
   SmallText,
@@ -97,7 +97,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
   noRowsRenderer = () => {
     return (
       <Centered my={4}>
-        <TomoXLogoFlip height="100px" width="100px" />
+        <TomoXLogo height="100px" width="100px" />
         <LargeText muted>Loading...</LargeText>
       </Centered>
     )
