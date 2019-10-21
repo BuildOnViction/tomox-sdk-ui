@@ -40,14 +40,16 @@ type Props = {
 }
 
 type State = {
-  calloutVisible: boolean,
-  calloutOptions: Object
+  chartTadId: string,
+  isShowOrderForm: boolean,
+  isShowOrdersTable: boolean,
 };
 
 export default class Dapp extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
     isShowOrderForm: false,
+    isShowOrdersTable: false,
   }
 
   componentDidMount() {
@@ -75,10 +77,15 @@ export default class Dapp extends React.PureComponent<Props, State> {
     })
   }
 
+  toggleOrdersTable = () => {
+    this.setState({
+      isShowOrdersTable: !this.state.isShowOrdersTable,
+    })
+  }
+
   render() {
     const { quoteTokenSymbol } = this.props
-    const { isShowOrderForm } = this.state
-    // if (!isInitiated) return null
+    const { isShowOrderForm, isShowOrdersTable } = this.state
 
     return (      
       <Grid flow="row" 
@@ -97,7 +104,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
           </ChartTabs>
         </ChartsCell>
 
-        <OrdersTableCell>
+        <OrdersTradesCell>
           <MainTabs
             defaultActiveKey="1"
             onChange={() => {}}
@@ -105,44 +112,58 @@ export default class Dapp extends React.PureComponent<Props, State> {
             renderTabContent={()=><TabContent />}>            
             <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
             <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
-            <TabPane tab='Orders' key="3"><OrdersTableMobile /></TabPane>       
           </MainTabs>
-        </OrdersTableCell>
+        </OrdersTradesCell>
 
-        { isShowOrderForm && (
+        {isShowOrderForm && (
           <OrderFormCell>
             <OrderForm />
             <Close icon="cross" intent="danger" onClick={this.toggleOrderForm} />
           </OrderFormCell>
         )}
 
-        <FooterCell>{ !isShowOrderForm && (<ButtonGroup onClick={this.toggleOrderForm} />) }</FooterCell>
+        {isShowOrdersTable && (
+          <OrdersTableCell>
+            <OrdersTableMobile />
+            <Close icon="cross" intent="danger" onClick={this.toggleOrdersTable} />
+          </OrdersTableCell>
+        )}
+
+        <FooterCell>{!isShowOrderForm && (<ButtonGroup toggleOrdersTable={this.toggleOrdersTable} toggleOrderForm={this.toggleOrderForm} />)}</FooterCell>
       </Grid>
     )
   }
 }
 
 const ButtonGroup = (props) => {
+  const {toggleOrderForm, toggleOrdersTable} = props
+
   return (
     <ButtonGroupBox>
-      <BuyButton 
-        intent="success"
-        text={<FormattedMessage id="exchangePage.buy" />}
-        name="order"
-        onClick={props.onClick}
-      />
-      <SellButton
-        intent="danger"
-        text={<FormattedMessage id="exchangePage.sell" />}
-        name="order"
-        onClick={props.onClick}
-      />
+      <OrdersButton onClick={toggleOrdersTable}>
+        <Icon icon="document" />
+        <span>Orders</span>
+      </OrdersButton>
+      <OrderFormButtonGroup>
+        <BuyButton 
+          intent="success"
+          text={<FormattedMessage id="exchangePage.buy" />}
+          name="order"
+          onClick={toggleOrderForm}
+        />
+        <SellButton
+          intent="danger"
+          text={<FormattedMessage id="exchangePage.sell" />}
+          name="order"
+          onClick={toggleOrderForm}
+        />
+      </OrderFormButtonGroup>
     </ButtonGroupBox>
   )
 }
 
 const StyledButton = styled(Button)`
-  padding: 0 50px;
+  padding: 0 40px;
   box-shadow: unset !important;
   background-image: unset !important;
   border-radius: 0 !important;
@@ -157,17 +178,42 @@ const SellButton = styled(StyledButton).attrs({
   className: "sell-btn",
 })``
 
+const OrderFormButtonGroup = styled.div`
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 230px;
+`
+
+const OrdersButton = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  flex-grow: 2;
+  padding: 0 10px;
+  font-size: ${Theme.FONT_SIZE_SM};
+  span {
+    user-select: none;
+  }
+
+  span:first-child {
+    margin-bottom: 3px;
+  }
+`
+
 const ButtonGroupBox = styled.div`
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
   height: 50px;
-  background-color: ${props => props.theme.mainBg};
+  background-color: ${props => props.theme.menuBgHover};
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   z-index: 20;
+  padding: 0 5px; 
 `
 
 const FooterCell = styled.div`
@@ -222,7 +268,7 @@ const ChartsCell = styled(Cell).attrs({
   }
 `
 
-const OrdersTableCell = styled(Cell).attrs({
+const OrdersTradesCell = styled(Cell).attrs({
   className: 'orders-table-cell',
 })`
   padding: 10px 0 0 0 !important;
@@ -359,6 +405,19 @@ const OrderFormCell = styled(Cell).attrs({
   }
 `
 
+const OrdersTableCell = styled.div`
+  overflow: auto;
+  font-size: ${Theme.FONT_SIZE_SM};
+  position: fixed;
+  background-color: ${props => props.theme.mainBg};
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 30;
+  padding: 30px 5px 5px 5px;
+`
+
 const ChartTabs = styled(Tabs)`
   .bp3-tab-list {
     position: absolute;
@@ -383,7 +442,7 @@ const MainTabs = styled(RcTabs)`
 
   .rc-tabs-nav-wrap .rc-tabs-tab {
     font-size: ${Theme.FONT_SIZE_MD};
-    padding: 8px 10px;
+    padding: 8px 25px;
     margin-right: 0;
     user-select: none;
   }

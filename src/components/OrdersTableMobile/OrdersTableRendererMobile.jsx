@@ -223,10 +223,15 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
 const TabsContainer = styled(Tabs)`
   position: relative;  
+  height: 100%;
+
+  .bp3-tab-panel {
+    height: calc(100% - 30px);
+  }
 
   .bp3-tab-list > *:not(:last-child) {
     margin-right: 0;
-    padding-right: 15px !important;
+    padding-right: 25px !important;
   }
 
   .bp3-tab {
@@ -331,7 +336,7 @@ const CheckboxHidePairs = styled(Checkbox)`
 `
 
 const NoOrders = styled.div`
-  heigh: calc(100% - 25px);
+  height: calc(100% - 25px);
 `
 
 export default OrdersTableRendererMobile
