@@ -15,6 +15,7 @@ import {
 } from '../Common'
 import styled from 'styled-components'
 import { AutoSizer, List } from 'react-virtualized'
+import { getChangePercentText } from '../../utils/helpers'
 
 type Token = {
   pair: string,
@@ -252,11 +253,11 @@ const TokenRow = ({
       <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {pair}
       </Cell>
-      <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
+      <Cell width="40%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {lastPrice}
       </Cell>
-      <Change24H width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
-        {change}%
+      <Change24H width="25%" change={change} className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
+        {change !== null ? getChangePercentText(change) : "N.A"}
       </Change24H>
     </Row>
   )
@@ -284,13 +285,13 @@ const Header = ({
             <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="lastPrice" width="30%" onClick={onChangeFilterName}>
+        <Cell data-filter="lastPrice" width="40%" onClick={onChangeFilterName}>
           <CellTitle data-filter="lastPrice"><FormattedMessage id="priceBoard.lastPrice" /></CellTitle>
           {filterName === 'lastPrice' && (
             <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="change" width="35%" onClick={onChangeFilterName}>
+        <Cell data-filter="change" width="25%" onClick={onChangeFilterName}>
           <CellTitle data-filter="change"><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
           {filterName === 'change' && (
             <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
@@ -363,10 +364,22 @@ const CellTitle = styled.span`
 
 const TokenSearchTabs = styled(Tabs)`
   height: 100%;
+  .bp3-tab-panel {
+    height: calc(100% - 51px);
+    overflow: auto;
+  }
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      .bp3-tab-panel {
+        height: unset;
+        overflow: auto;
+      }
+    }
+  }
 `
 
 const TokenSearchPanelBox = styled.div`
-  height: 100%;
+  heigth: 100%;
 `
 
 const SearchInputBox = styled.div`
