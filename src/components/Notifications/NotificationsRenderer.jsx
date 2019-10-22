@@ -163,11 +163,10 @@ const NoItems = styled.div`
 const Loading = styled.div`
   position: absolute;
   bottom: 0;
-  left: 15px;
-  right: 15px;
+  left: 0;
+  right: 0;
   padding: 15px 0;
   text-align: center;
-  background-color: ${props => props.theme.menuBg};
 `
 
 const TomoScanLink = styled.a`
