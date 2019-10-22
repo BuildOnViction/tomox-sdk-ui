@@ -57,7 +57,7 @@ class FundsTableRenderer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <RowSpaceBetween style={{ marginBottom: '10px' }}>
+        <Header>
           <OperationButtonWrapper>
             <CheckboxWrapper
               label="Hide zero amounts"
@@ -72,7 +72,7 @@ class FundsTableRenderer extends React.PureComponent {
             value={searchInput}
             onChange={handleSearchInputChange}
           />
-        </RowSpaceBetween>
+        </Header>
 
         <TableHeader style={{paddingRight: this.state.hasScrollbar ? '16px' : '10px'}}>
           <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
@@ -193,6 +193,17 @@ const Wrapper = styled.div`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       padding: 0 10px;
+    }
+  }
+`
+
+const Header = styled(RowSpaceBetween)`
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      margin-bottom: 7px;
+      margin-top: 7px;
     }
   }
 `

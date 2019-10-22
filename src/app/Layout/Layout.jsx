@@ -524,7 +524,7 @@ const Header = styled.header.attrs({
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       padding: 0 5px;
-      height: 110px;
+      height: 120px;
     }
   }
 `
@@ -635,7 +635,7 @@ const TokenPaisDropDownMobile = styled(TokenPaisDropDown)`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       display: block;
-      padding: 25px 0 15px;
+      padding: 30px 0 15px;
       font-size: ${Theme.FONT_SIZE_MD};
       font-weight: bold;
     }
@@ -789,8 +789,12 @@ const TokenTick = styled.div.attrs({
       "last-price last-price"
       "change high"
       "volume low";
-      .title {
+      .tick {
+        &:first-child {
+          margin-bottom: 5px;
+        }
         margin-bottom: 2px;
+        margin-right: 0 !important;
       }
     }
   }

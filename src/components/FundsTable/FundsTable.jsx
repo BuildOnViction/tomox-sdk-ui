@@ -19,7 +19,7 @@ type State = {
 
 class FundsTable extends React.PureComponent<Props, State> {
   state = {
-    isHideZeroBalanceToken: true,
+    isHideZeroBalanceToken: false,
     searchInput: '',
   }
 
