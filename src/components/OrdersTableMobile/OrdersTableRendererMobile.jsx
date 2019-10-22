@@ -225,8 +225,12 @@ const TabsContainer = styled(Tabs)`
   position: relative;  
   height: 100%;
 
+  .bp3-tab-list {
+    margin-bottom: 15px;
+  }
+
   .bp3-tab-panel {
-    height: calc(100% - 30px);
+    height: calc(100% - 47px); // 30px is height, 15px is margin bottom of .bp3-tab-list 
   }
 
   .bp3-tab-list > *:not(:last-child) {
