@@ -52,7 +52,9 @@ export default FractionList
 
 const FractionListBox = styled.div.attrs({
   className: "clearfix",
-})``
+})`
+  margin-bottom: 5px;
+`
 
 const RadioButtonsWrapper = styled.div`
   width: calc(100% - 60px);
