@@ -88,7 +88,7 @@ export const queryTradingPageData = (): ThunkAction => {
         ])
 
         orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(tradesByAddress, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))

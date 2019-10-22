@@ -172,7 +172,7 @@ export const parseTrade = (trade: Trade, pair: TokenPair, currAmountPrecision: n
     hash: trade.hash,
     orderHash: trade.orderHash,
     type: trade.type || 'LIMIT',
-    side: trade.side,
+    side: trade.takerOrderSide,
     pair: trade.pairName,
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
     maker: utils.getAddress(trade.maker),
@@ -199,13 +199,12 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
   return parsed
 }
 
-export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseTradesByAddress = (userAddress, trades: Trades, pairs: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = []
   
   trades.forEach(trade => {
     const pair = pairs[trade.pairName]
-
-    parsed.push({
+    const tradeParsed = {
       time: trade.createdAt,
       price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
       amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
@@ -213,12 +212,18 @@ export const parseTradesByAddress = (trades: Trades, pairs: TokenPair, currAmoun
       txHash: trade.txHash,
       orderHash: trade.orderHash,
       type: trade.type || 'LIMIT',
-      side: trade.side,
+      side: trade.takerOrderSide,
       pair: trade.pairName,
       status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
       maker: utils.getAddress(trade.maker),
       taker: utils.getAddress(trade.taker),
-    })
+    }
+
+    if (userAddress === utils.getAddress(trade.maker)) {
+      tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
+    }
+
+    parsed.push(tradeParsed)
   })
 
   return parsed

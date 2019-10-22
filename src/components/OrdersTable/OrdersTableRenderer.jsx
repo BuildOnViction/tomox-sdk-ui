@@ -337,7 +337,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsTradeHistory[2]} muted>
           {capitalizeFirstLetter(order.type)}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[3]} title={order.price} muted>
+        <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {truncateZeroDecimal(order.price)}
         </Cell>
         <Cell width={widthColumnsTradeHistory[4]} muted>

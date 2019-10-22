@@ -371,12 +371,13 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
 
         matches.trades.forEach(trade => {
           if (utils.getAddress(trade.maker) === signerAddress) {
-            userTrades.push(parseTrade(trade, pairInfo))
+            const tradeParsed = parseTrade(trade, pairInfo)
+            tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
+            userTrades.push(tradeParsed)
           }
         })
       }
-
-
+      
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
       if (userTrades.length > 0) dispatch(actionCreators.updateTradesByAddress(userTrades))
     } catch (e) {
