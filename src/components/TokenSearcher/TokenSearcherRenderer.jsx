@@ -207,24 +207,26 @@ const Panel = (props: PanelProps) => {
 
   return (
     <TokenSearchPanelBox>
-      <Header
+      <TableHeader
         onChangeFilterName={onChangeFilterName}
         isFavoriteTokensList={isFavoriteTokensList}
         filterName={filterName}
         sortOrder={sortOrder}
       />
-      {tokenPairs.map((token, index) => (
-        <TokenRow
-          key={index}
-          index={index}
-          token={token}
-          selectedTabId={selectedTabId}
-          isFavoriteTokensList={isFavoriteTokensList}
-          updateFavorite={updateFavorite}
-          changeSelectedToken={changeSelectedToken}
-        />
-      ))}
-      {tokenPairs.length === 0 && <NoTokens>No Tokens to show</NoTokens>}
+      <TableBody>
+        {tokenPairs.map((token, index) => (
+          <TokenRow
+            key={index}
+            index={index}
+            token={token}
+            selectedTabId={selectedTabId}
+            isFavoriteTokensList={isFavoriteTokensList}
+            updateFavorite={updateFavorite}
+            changeSelectedToken={changeSelectedToken}
+          />
+        ))}
+        {tokenPairs.length === 0 && <NoTokens>No Tokens to show</NoTokens>}
+      </TableBody>
     </TokenSearchPanelBox>
   )
 }
@@ -271,7 +273,7 @@ type HeaderProps = {
   isFavoriteTokensList: boolean
 };
 
-const Header = ({
+const TableHeader = ({
   onChangeFilterName,
   filterName,
   sortOrder,
@@ -389,7 +391,8 @@ const TokenSearchTabs = styled(Tabs)`
 `
 
 const TokenSearchPanelBox = styled.div`
-  heigth: 100%;
+  height: 100%;
+  overflow: hidden;
 `
 
 const SearchInputBox = styled.div`
@@ -468,6 +471,11 @@ const SearchResultItem = styled.div`
   &:hover {
     background-color: ${props => props.theme.tokenSearcherSearchResultItemHover};
   }
+`
+
+const TableBody = styled.div`
+  height: calc(100% - 35px);
+  overflow-y: auto;
 `
 
 export default injectIntl(TokenSearchRenderer)
