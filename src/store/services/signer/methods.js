@@ -51,6 +51,7 @@ export const createRawOrder = async function (params: any) {
   let signature = null
 
   if (isTomoWallet()) {
+    order.action = 'CREATE' 
     const orderBase64 = window.btoa(JSON.stringify(order))
     signature = await this.signMessage(`TOMOX_ORDER:${orderBase64}`)
   } else {
@@ -74,6 +75,7 @@ export const createOrderCancel = async function (
 
   if (isTomoWallet()) {
     orderCancel = {...order, ...orderCancel}
+    orderCancel.action = 'CANCEL'
     const orderBase64 = window.btoa(JSON.stringify(orderCancel))
     signature = await this.signMessage(`TOMOX_ORDER:${orderBase64}`)
   } else {
