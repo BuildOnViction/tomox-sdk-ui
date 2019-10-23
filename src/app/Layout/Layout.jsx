@@ -412,6 +412,7 @@ class Default extends React.PureComponent<Props, State> {
           </Sidebar>
           <MainContent className="main-content">{children}</MainContent>
         </MainContainer>
+
         <SessionPasswordModal 
           password={this.state.sessionPassword}
           passwordStatus={this.state.sessionPasswordStatus}
@@ -420,8 +421,10 @@ class Default extends React.PureComponent<Props, State> {
           unlockWallet={this.unlockWalletWithSessionPassword}
           isOpen={showSessionPasswordModal} 
           handleClose={this.closeSessionPasswordModal} />
+
         {isShowTokenSearcher && (
           <TokenSearcherBoxMobile>
+            <TokenSearcherTitle><FormattedMessage id="mainMenuPage.markets" /></TokenSearcherTitle>
             <Close icon="cross" intent="danger" onClick={() => this.toggleTokenSearcherMobile(false)} />
             <TokenSearcher toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
           </TokenSearcherBoxMobile>
@@ -597,9 +600,18 @@ const TokenSearcherBoxMobile = styled.div`
     left: 0;
     right: 0;
     z-index: 1010;
-    padding-top: 40px;
+    padding-top: 45px;
     background-color: ${props => props.theme.subBg};
   }
+`
+
+const TokenSearcherTitle = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 0;
+  font-size: ${Theme.FONT_SIZE_MD};
 `
 
 const Close = styled(Icon)`

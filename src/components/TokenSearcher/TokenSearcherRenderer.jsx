@@ -96,7 +96,10 @@ const TokenSearchRenderer = (props: Props) => {
             <TokenSearchTabs selectedTabId={selectedTabId} onChange={changeTab}>
               <Tab
                 id="star"
-                title={<UtilityIcon name="Favorite" size={12} />}
+                title={<UtilityIcon 
+                          name="Favorite"
+                          color={selectedTabId === "star" ? TmColors.ORANGE : ''}
+                          size={12} />}
                 panel={
                   <Panel
                     tokenPairs={filteredPairs.favorites}
@@ -176,8 +179,6 @@ const SearchResult = ({ items, changeSelectedToken }) => {
   )
 }
 
-export default injectIntl(TokenSearchRenderer)
-
 type PanelProps = {
   filterName: string,
   sortOrder: string,
@@ -247,13 +248,13 @@ const TokenRow = ({
 
   return (
     <Row>
-      <Cell width="5%" onClick={() => updateFavorite(pair, !favorited)}>
+      <Cell width="10%" onClick={() => updateFavorite(pair, !favorited)}>
         <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
       </Cell>
       <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {pair}
       </Cell>
-      <Cell width="40%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
+      <Cell width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {lastPrice}
       </Cell>
       <Change24H width="25%" change={change} className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
@@ -278,14 +279,14 @@ const Header = ({
 }: HeaderProps) => {
   return (
       <HeaderRow>
-        <Cell width="5%">&nbsp;</Cell>
+        <Cell width="10%">&nbsp;</Cell>
         <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
           <CellTitle data-filter="pair"><FormattedMessage id="marketsPage.pair" /></CellTitle>
           {filterName === 'pair' && (
             <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="lastPrice" width="40%" onClick={onChangeFilterName}>
+        <Cell data-filter="lastPrice" width="35%" onClick={onChangeFilterName}>
           <CellTitle data-filter="lastPrice"><FormattedMessage id="priceBoard.lastPrice" /></CellTitle>
           {filterName === 'lastPrice' && (
             <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
@@ -317,7 +318,7 @@ const TokenSearchCard = styled.div`
 
   .bp3-tab:hover,
   .bp3-tab[aria-selected="true"] {
-    color: ${props => props.theme.menuColorHover};
+    color: ${props => props.theme.menuColorHover} !important;
   }
 
   .bp3-tab-list {
@@ -331,6 +332,10 @@ const TokenSearchCard = styled.div`
       height: 100%;
       box-shadow: unset;
       border: unset;
+
+      .bp3-tab {
+        font-size: ${Theme.FONT_SIZE_SM};
+      }
     }
   }
 `
@@ -464,5 +469,7 @@ const SearchResultItem = styled.div`
     background-color: ${props => props.theme.tokenSearcherSearchResultItemHover};
   }
 `
+
+export default injectIntl(TokenSearchRenderer)
 
 
