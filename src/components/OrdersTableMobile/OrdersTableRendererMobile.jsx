@@ -226,7 +226,7 @@ const TabsContainer = styled(Tabs)`
   height: 100%;
 
   .bp3-tab-list {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .bp3-tab-panel {

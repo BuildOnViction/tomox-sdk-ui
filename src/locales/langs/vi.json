@@ -143,5 +143,6 @@
   "portfolioPage.transferTokensModal.amount": "Amount",
   "portfolioPage.transferTokensModal.receiver": "Receiver",
   "portfolioPage.transferTokensModal.receiverPlaceholder": "Receiver's wallet address",
-  "portfolioPage.transferTokensModal.btnTitle": "Send Transaction"
+  "portfolioPage.transferTokensModal.btnTitle": "Send Transaction",
+  "dapp.orders": "Orders"
 }

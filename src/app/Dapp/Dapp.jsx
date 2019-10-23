@@ -11,9 +11,7 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 
 import OrdersTableMobile from '../../components/OrdersTableMobile'
 import OrderForm from '../../components/OrderForm'
-// import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
-// import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
 import TVChartRenderer from '../../components/TVChartContainer'
 import DepthChart from '../../components/DepthChart'
@@ -125,6 +123,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
         {isShowOrdersTable && (
           <OrdersTableCell>
             <OrdersTableMobile />
+            <OrdersTableTitle><FormattedMessage id="dapp.orders" /></OrdersTableTitle>
             <Close icon="cross" intent="danger" onClick={this.toggleOrdersTable} />
           </OrdersTableCell>
         )}
@@ -226,6 +225,15 @@ const Close = styled(Icon)`
   right: 0;
   cursor: pointer;
   padding: 10px;
+`
+
+const OrdersTableTitle = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  padding: 5px 0;
+  transform: translateX(-50%);
+  font-size: ${Theme.FONT_SIZE_MD};
 `
 
 const ChartsCell = styled(Cell).attrs({
@@ -415,7 +423,7 @@ const OrdersTableCell = styled.div`
   top: 0;
   bottom: 0;
   z-index: 30;
-  padding: 30px 5px 5px 5px;
+  padding: 40px 5px 5px 5px;
 `
 
 const ChartTabs = styled(Tabs)`
