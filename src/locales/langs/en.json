@@ -144,5 +144,9 @@
   "portfolioPage.transferTokensModal.receiver": "Receiver",
   "portfolioPage.transferTokensModal.receiverPlaceholder": "Receiver's wallet address",
   "portfolioPage.transferTokensModal.btnTitle": "Send Transaction",
+  "portfolioPage.transferTokensModal.txHash": "Transaction Hash",
+  "portfolioPage.transferTokensModal.blockHash": "Block Hash",
+  "portfolioPage.transferTokensModal.blockNumber": "Block Number",
+  "portfolioPage.transferTokensModal.gasUsed": "Gas Used",
   "dapp.orders": "Orders"
 }

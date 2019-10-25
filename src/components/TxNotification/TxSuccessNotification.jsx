@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Callout, Intent } from '@blueprintjs/core'
+import { FormattedMessage } from 'react-intl'
 import { TOMOSCAN_URL } from '../../config/environment'
 import TxReceipt from '../TxReceipt'
 import { TmColors } from '../Common'
@@ -14,8 +15,8 @@ type Props = {
 
 const TxSuccessNotification = ({ receipt, hash, title }: Props) => (
   <Callout intent={Intent.SUCCESS} title={title}>
-    <p>Transaction Hash:</p>
-    <WordBreak title={hash}><Link href={`${TOMOSCAN_URL}/txs/${hash}`} target="blank">{hash}</Link></WordBreak>
+    <p><FormattedMessage id="portfolioPage.transferTokensModal.txHash" /></p>
+    <WordBreak title={hash}><Link href={`${TOMOSCAN_URL}/txs/${hash}`} target="_blank">{hash}</Link></WordBreak>
     <TxReceipt receipt={receipt} />
   </Callout>
 )

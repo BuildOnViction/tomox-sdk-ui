@@ -2,6 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Collapse } from '@blueprintjs/core'
+import { FormattedMessage } from 'react-intl'
+import { TmColors } from '../Common'
 
 type Props = {
   visible: boolean,
@@ -13,24 +15,32 @@ type Props = {
 }
 
 const TxReceiptRenderer = (props: Props) => {
-  const { blockHash, blockNumber, gasLimit, hash, visible, toggleVisible } = props
+  const { blockHash, blockNumber, gasUsed, visible, toggleVisible } = props
   return (
     <div>
-      <Button minimal text={visible ? `Hide Receipt` : `Show Receipt`} onClick={toggleVisible} />
+      <ButtonReceipt minimal text={visible ? `Hide Receipt` : `Show Receipt`} onClick={toggleVisible} />
       <Collapse isOpen={visible}>
         <ul>
-          <li key="1">Block Hash: <WordBreak>{blockHash}</WordBreak></li>
-          <li key="2">Block Number: {blockNumber}</li>
-          <li key="3">Gas Used: {gasLimit}</li>
-          <li key="4">Transaction Hash: {hash}</li>
+          <li key="1"><FormattedMessage id="portfolioPage.transferTokensModal.blockHash" />: <WordBreak>{blockHash}</WordBreak></li>
+          <li key="2"><FormattedMessage id="portfolioPage.transferTokensModal.blockNumber" />: {blockNumber}</li>
+          <li key="3"><FormattedMessage id="portfolioPage.transferTokensModal.gasUsed" />: {gasUsed}</li>
         </ul>
       </Collapse>
     </div>
   )
 }
 
-export default TxReceiptRenderer
+const ButtonReceipt = styled(Button)`
+  &.bp3-button {
+    background-color: ${TmColors.BLACK} !important;
+    &:hover {
+      color: ${TmColors.WHITE} !important;
+    }
+  }
+`
 
 const WordBreak = styled.p`
   word-break: break-all;
 `
+
+export default TxReceiptRenderer
