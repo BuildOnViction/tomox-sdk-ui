@@ -167,6 +167,7 @@ const StyledButton = styled(Button)`
   background-image: unset !important;
   border-radius: 0 !important;
   min-height: 40px;
+  user-select: none;
 `
 
 const BuyButton = styled(StyledButton).attrs({
