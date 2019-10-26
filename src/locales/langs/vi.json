@@ -1,7 +1,5 @@
 {
-  "app.introduction": "To get started, edit {code} and save to reload.",
-  "app.landingPage": "Trang chủ",
-  "app.title": "Welcome to React",
+  "app.volume": "Volume: {volume}",
   "notifications.title": "Notifications",
   "notifications.markAllAsRead": "Mark All as Read",
   "notifications.markAsRead": "Mark as Read",

@@ -2,10 +2,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
+import { injectIntl, FormattedMessage } from "react-intl"
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import MarketsTable from '../../components/MarketsTable'
 import LineChart from '../../components/LineChart/LineChart'
-import { SmallText, TmColors } from '../../components/Common'
+import { SmallText, TmColors, Theme } from '../../components/Common'
 
 type Props = {
   loading: boolean,
@@ -14,6 +15,7 @@ type Props = {
 
 const MarketsPageRenderer = (props: Props) => {
   const {
+    intl,
     loading,
     smallChartsData,
   } = props
@@ -28,7 +30,7 @@ const MarketsPageRenderer = (props: Props) => {
             {
               smallChartsData &&
               smallChartsData.map((coin, index) => {
-                return (<StatsBox key={index} {...coin} />)
+                return (<StatsBox key={index} {...coin} intl={intl} />)
               })
             }
           </StatsWrapper>
@@ -40,7 +42,7 @@ const MarketsPageRenderer = (props: Props) => {
   )
 }
 
-const StatsBox = ({code, change, price, volume, data}) => {
+const StatsBox = ({code, change, price, volume, data, intl}) => {
   return (
     <StatsContent>
       <StatsInfo>
@@ -53,7 +55,11 @@ const StatsBox = ({code, change, price, volume, data}) => {
 
         <StatsRow>
           <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{BigNumber(price).toFormat(2)} USD</StatsPrice>
-          <StatsVolume><StatsVolumeText muted>Volume:</StatsVolumeText> <StatsVolumeText>{BigNumber(volume).toFormat(2)}</StatsVolumeText></StatsVolume>
+          <StatsVolume title={intl.formatMessage({id: "app.volume"}, {volume: BigNumber(volume).toFormat(2)})}>
+            <FormattedMessage 
+              id="app.volume"
+              values={{volume: BigNumber(volume).toFormat(2)}} />
+          </StatsVolume>
         </StatsRow>
       </StatsInfo>
       <LineChart data={data} code={code} />
@@ -81,6 +87,10 @@ const StatsInfo = styled.div`
   display: flex;
   flex-direction: column;
   padding: 15px 15px 0 15px;
+
+  @media (max-width: 1200px) {
+    padding: 10px 10px 0 10px;
+  }
 `
 
 const StatsRow = styled.div`
@@ -100,6 +110,10 @@ const StatsCell = styled.div`
 
 const StatsTitle = styled(StatsCell)`
   color: ${props => props.theme.textSmallChart};
+
+  @media (max-width: 1200px) {
+    font-size: ${Theme.FONT_SIZE_SM};
+  }
 `
 
 const StatsChange = styled(StatsCell)`
@@ -108,11 +122,22 @@ const StatsChange = styled(StatsCell)`
   }  
 `
 
-const StatsPrice = styled(StatsCell)``
+const StatsPrice = styled(StatsCell)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 120px;
 
-const StatsVolume = styled(StatsCell)``
+  @media (max-width: 1200px) {
+    font-size: ${Theme.FONT_SIZE_SM};
+  }
+`
 
-const StatsVolumeText = styled(SmallText)`
+const StatsVolume = styled(StatsCell)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: ${Theme.FONT_SIZE_SM};
   color: ${props => props.theme.textSmallChart};
 `
 
@@ -124,4 +149,4 @@ const WalletPageBox = styled.div`
   overflow: hidden;
 `
 
-export default MarketsPageRenderer
+export default injectIntl(MarketsPageRenderer)

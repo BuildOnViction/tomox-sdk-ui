@@ -1,7 +1,5 @@
 {
-  "app.introduction": "To get started, edit {code} and save to reload.",
-  "app.landingPage": "Landing Page",
-  "app.title": "Welcome to React",
+  "app.volume": "Volume: {volume}",
   "notifications.title": "Notifications",
   "notifications.markAllAsRead": "Mark all as read",
   "notifications.markAsRead": "Mark as read",
