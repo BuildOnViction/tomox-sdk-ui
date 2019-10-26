@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import MarketsTable from '../../components/MarketsTable'
 import LineChart from '../../components/LineChart/LineChart'
-import { SmallText } from '../../components/Common'
+import { SmallText, TmColors } from '../../components/Common'
 
 type Props = {
   loading: boolean,
@@ -80,14 +80,13 @@ const StatsContent = styled.div`
 const StatsInfo = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
   padding: 15px 15px 0 15px;
 `
 
 const StatsRow = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `
 
 const StatsCell = styled.div`
@@ -95,7 +94,7 @@ const StatsCell = styled.div`
   &:nth-child(2n) {
     text-align: right;
   }
-  color: ${({color}) => color ? color : '#fff'};
+  color: ${({color}) => color ? color : TmColors.WHITE};
   font-size: ${({fontSize}) => fontSize ? fontSize : '14px'};
 `
 
@@ -105,7 +104,7 @@ const StatsTitle = styled(StatsCell)`
 
 const StatsChange = styled(StatsCell)`
   > span {
-    color: ${({color}) => color ? color : '#fff'};
+    color: ${({color}) => color ? color : TmColors.WHITE};
   }  
 `
 
