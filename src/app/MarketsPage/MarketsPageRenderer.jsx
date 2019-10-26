@@ -126,7 +126,7 @@ const StatsPrice = styled(StatsCell)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 120px;
+  width: 50%;
 
   @media (max-width: 1200px) {
     font-size: ${Theme.FONT_SIZE_SM};
@@ -139,6 +139,7 @@ const StatsVolume = styled(StatsCell)`
   text-overflow: ellipsis;
   font-size: ${Theme.FONT_SIZE_SM};
   color: ${props => props.theme.textSmallChart};
+  width: 50%;
 `
 
 const WalletPageBox = styled.div`
