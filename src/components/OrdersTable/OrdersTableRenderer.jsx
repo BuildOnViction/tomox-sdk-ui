@@ -36,6 +36,7 @@ const STATUS = {
   'PARTIAL_FILLED': <FormattedMessage id='exchangePage.partialFilled' />,
   'CANCELLED': <FormattedMessage id='exchangePage.cancelled' />,  
   'FILLED': <FormattedMessage id='exchangePage.filledStatus' />,
+  'REJECTED': <FormattedMessage id='exchangePage.rejected' />,
 }
 
 const rowHeight = 45

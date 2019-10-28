@@ -32,13 +32,6 @@ type Props = {
   }
 }
 
-// const Status = {
-//   'OPEN': 'Open',
-//   'PARTIAL_FILLED': 'Partial',
-//   'CANCELLED': 'Cancelled',  
-//   'FILLED': 'Filled',
-// }
-
 const OrdersTableRendererMobile = (props: Props) => {
   const {
     loading,

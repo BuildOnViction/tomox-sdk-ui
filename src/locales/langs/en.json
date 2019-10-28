@@ -119,6 +119,7 @@
   "exchangePage.partialFilled": "Partial",
   "exchangePage.cancelled": "Cancelled",
   "exchangePage.filledStatus": "Filled",
+  "exchangePage.rejected": "Rejected",
   "portfolioPage.send": "Send",
   "portfolioPage.receive": "Receive",
   "portfolioPage.hideZeroAmounts": "Hide zero amounts",
