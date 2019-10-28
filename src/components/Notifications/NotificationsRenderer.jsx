@@ -10,6 +10,7 @@ import { Theme, TmColors } from '../../components/Common'
 const MESSAGES = {
   'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
   'ORDER_CANCELLED': <FormattedMessage id='notifications.orderCancelled' />,
+  'ORDER_REJECTED': <FormattedMessage id='notifications.orderRejected' />,
   'ORDER_MATCHED': <FormattedMessage id='notifications.orderMatched' />,
   'ORDER_SUCCESS': <FormattedMessage id='notifications.orderSuccess' />,  
   'ORDER_PENDING': <FormattedMessage id='notifications.orderPending' />,
