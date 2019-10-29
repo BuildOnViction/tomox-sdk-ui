@@ -12,10 +12,14 @@ $ yarn start
 ## Traslations
 
 **Extract messages**  
-`yarn extract-messages`
+```bash
+yarn extract-messages
+```
 
 **Update translation**
-`yarn merge-translations --trim=true`
+```bash
+yarn merge-translations --trim=true
+```
 
 ## Config
 Create `.env` file
