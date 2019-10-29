@@ -101,13 +101,7 @@ export function openConnection(): ThunkAction {
 }
 
 const handleWebsocketOpenMessage = (dispatch, event) => {
-  // tell socket is open
   dispatch(actionCreators.openConnection())
-  dispatch(
-    appActionCreators.addSuccessNotification({
-      message: 'Connection successful',
-    }),
-  )
 }
 
 const handleWebsocketCloseMessage = (
@@ -115,11 +109,6 @@ const handleWebsocketCloseMessage = (
   event,
   closeConnection,
 ) => {
-  dispatch(
-    appActionCreators.addErrorNotification({
-      message: 'Connection lost',
-    }),
-  )
   setTimeout(() => dispatch(openConnection()), 5000)
 }
 
