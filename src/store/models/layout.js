@@ -150,9 +150,6 @@ export function queryAccountData(): ThunkAction {
         const { tokenBalances } = await api.fetchAccountInfo(accountAddress)
         dispatch(accountBalancesCreators.updateBalances(tokenBalances))
       }, 2000)
-
-      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
-      dispatch(notificationsCreators.addNotifications(notifications))
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
