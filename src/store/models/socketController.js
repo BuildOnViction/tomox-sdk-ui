@@ -268,14 +268,16 @@ function handleOrderAdded(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
-      const { pairs } = socketControllerSelector(state)
+      const {orders: {byHash}} = state
       let order = event.payload
+      const { pairs } = socketControllerSelector(state)
       const pairInfo = pairs[order.pairName]
       order = parseOrder(order, pairInfo)
-      console.log(order)
-
-      dispatch(appActionCreators.addOrderAddedNotification())
       dispatch(actionCreators.updateOrdersTable([order]))
+      
+      if (!byHash[order.hash]) {
+        dispatch(appActionCreators.addOrderAddedNotification())
+      }
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
