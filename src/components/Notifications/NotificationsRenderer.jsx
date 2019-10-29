@@ -22,6 +22,7 @@ const generateScanUrl = (type, txHash) => {
     case 'ORDER_ADDED': 
     case 'ORDER_CANCELLED': 
     case 'ORDER_PENDING':
+    case 'ORDER_REJECTED':
       return `${TOMOSCAN_URL}/orders/${txHash}`
     case 'ORDER_MATCHED':
     case 'ORDER_SUCCESS':
