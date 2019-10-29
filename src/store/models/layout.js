@@ -143,14 +143,16 @@ export function queryAccountData(): ThunkAction {
         }, [])
 
       if (!accountAddress) throw new Error('Account address is not set')
-
-      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
-      dispatch(notificationsCreators.addNotifications(notifications))
-
+      
+      const { tokenBalances } = await api.fetchAccountInfo(accountAddress)
+      dispatch(accountBalancesCreators.updateBalances(tokenBalances))
       window.getBalancesInterval = setInterval(async _ => {
         const { tokenBalances } = await api.fetchAccountInfo(accountAddress)
         dispatch(accountBalancesCreators.updateBalances(tokenBalances))
       }, 2000)
+
+      const notifications = await api.fetchNotifications({ address: accountAddress, offset, limit })
+      dispatch(notificationsCreators.addNotifications(notifications))
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
