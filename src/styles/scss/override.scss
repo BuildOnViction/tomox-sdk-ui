@@ -165,5 +165,13 @@
   }
 }
 
+.bp3-toast.bp3-intent-success {
+  background-color: $tm-green !important;
+}
+
+.bp3-toast.bp3-intent-danger {
+  background-color: $tm-red !important;
+}
+
 
 
