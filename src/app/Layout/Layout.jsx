@@ -18,6 +18,7 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { Helmet } from 'react-helmet'
 
 import { pricePrecision } from '../../config/tokens'
 import { isMobile, isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
@@ -217,6 +218,9 @@ class Default extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
+        <Helmet>
+          <title>TomoX</title>
+        </Helmet>
         <Notifier />
         <Header>
           <Navbar>
@@ -228,8 +232,17 @@ class Default extends React.PureComponent<Props, State> {
             {this.isTradingPage(pathname) 
             && (
               <TokenInfo>
+                {currentPair && currentPairData && (
+                  <Helmet>
+                    <title>
+                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | TomoX
+                    </title>
+                  </Helmet>
+                )}
+
                 {currentPair && (
                   <React.Fragment>
+
                     <TokenSearcherPopover
                       content={<TokenSearcher />}
                       position={Position.BOTTOM_LEFT}
@@ -452,6 +465,9 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
 
     return (
       <CreateImportWrapper>
+        <Helmet>
+          <title>TomoX</title>
+        </Helmet>
         <Notifier />
         <CreateImportHeader>
           <Navbar>
