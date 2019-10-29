@@ -97,6 +97,6 @@ const RadioButtonBox = styled(Label)`
     height: 17px;
   }
   &:hover span {
-    color: #fff;
+    color: ${props => props.theme.linkText};
   }
 `
