@@ -50,10 +50,6 @@ export type UpdateAccountAllowancesAction = {
   payload: { allowances: AccountAllowances },
 };
 
-export type ClearAccountBalancesAction = {
-  type: 'accountBalances/CLEAR_BALANCES',
-};
-
 export type AccountBalancesEvent = any => AccountBalancesState => AccountBalancesState;
 
 export type AccountBalancesAction =
@@ -62,4 +58,4 @@ export type AccountBalancesAction =
   | UpdateAccountBalancesAction
   | UpdateAccountAllowanceAction
   | UpdateAccountAllowancesAction
-  | UnsubscribeAccountBalanceAction;
+  | UnsubscribeAccountBalanceAction

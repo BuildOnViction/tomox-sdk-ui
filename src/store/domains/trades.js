@@ -92,6 +92,17 @@ export const tradesInitialized = (trades: Trades) => {
   return event
 }
 
+export const resetTradesByAddress = () => {
+  const event = (state: TradesState) => {
+    return {
+      ...state,
+      byAddress: {},
+    }
+  }
+
+  return event
+}
+
 export const tradesReset = () => {
   const event = (state: TradesState) => {
     return {

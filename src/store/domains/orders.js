@@ -81,6 +81,11 @@ export const ordersDeleted = (hashes: Array<number>) => {
   return event
 }
 
+export const ordersReset = () => {
+  const event = _ => initialState
+  return event
+}
+
 const getOrders = (state: OrdersState): Orders => {
   const orders = Object.keys(state.byHash).map(key => state.byHash[key])
   return JSON.parse(JSON.stringify(orders))

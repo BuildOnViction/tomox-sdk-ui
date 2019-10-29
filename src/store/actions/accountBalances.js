@@ -1,7 +1,6 @@
 // @flow
 import type {
   AccountBalances,
-  ClearAccountBalancesAction,
   SubscribeAccountBalanceAction,
   UnsubscribeAccountBalanceAction,
   UpdateAccountBalanceAction,
@@ -15,7 +14,6 @@ const actionTypes = {
   updateBalance: 'accountBalances/UPDATE_BALANCE',
   updateBalances: 'accountBalances/UPDATE_BALANCES',
   unsubscribeBalance: 'accountBalances/UNSUBSCRIBE_BALANCE',
-  clearBalances: 'accountBalances/CLEAR_BALANCES',
 }
 
 export function subscribeBalance(
@@ -61,12 +59,6 @@ export function unsubscribeBalance(
     payload: {
       symbol,
     },
-  }
-}
-
-export function clearBalances(): ClearAccountBalancesAction {
-  return {
-    type: actionTypes.clearBalances,
   }
 }
 

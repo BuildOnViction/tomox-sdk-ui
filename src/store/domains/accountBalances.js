@@ -66,8 +66,9 @@ export function unsubscribed(symbol: string) {
   return event
 }
 
-export function cleared() {
-  const event = (state: AccountBalancesState) => {}
+export function reset() {
+  const event = _ => ({})
+
   return event
 }
 

@@ -89,8 +89,8 @@ export const accountBalances = createReducer(action => {
     case accountBalancesActionTypes.updateBalances:
     case depositFormActionTypes.updateBalances:
       return accountBalancesEvents.updated(payload.balances)
-    case accountBalancesActionTypes.clearBalances:
-      return accountBalancesEvents.cleared()
+    case logoutPageActionTypes.resetBalances:
+      return accountBalancesEvents.reset()
     case depositFormActionTypes.subscribeBalance:
       return accountBalancesEvents.subscribed(payload.symbol)
     case depositFormActionTypes.unsubscribeBalance:
@@ -197,6 +197,8 @@ export const trades = createReducer(action => {
     case tradingPageActionTypes.updateTradesByAddress:
     case socketControllerActionTypes.updateTradesByAddress:
       return tradeEvents.tradesByAddressUpdated(payload.trades)
+    case logoutPageActionTypes.resetTradesByAddress:
+      return tradeEvents.resetTradesByAddress()
     default:
       return tradeEvents.initialized()
   }
@@ -235,6 +237,8 @@ export const orders = createReducer(action => {
       return orderEvents.ordersInitialized(payload.orders)
     case orderActionsTypes.ordersUpdatedStatus:
       return orderEvents.ordersUpdatedStatus(payload.status)
+    case logoutPageActionTypes.ordersReset:
+      return orderEvents.ordersReset()
     default:
       return orderEvents.initialized()
   }
@@ -452,6 +456,7 @@ export const notifications = createReducer(action => {
     case notificationsTypes.updateNewNotifications:
       return notificationEvents.updateNewNotifications(payload.data)
     case notificationsTypes.resetNotifications:
+    case logoutPageActionTypes.resetNotifications:
       return notificationEvents.resetNotifications()
     case notificationsTypes.resetNewNotifications:
         return notificationEvents.resetNewNotifications()
