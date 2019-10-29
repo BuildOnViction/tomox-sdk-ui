@@ -6,6 +6,7 @@ import type {
   Notification,
   NotificationOptions,
 } from '../../types/notifications'
+import { isTomoWallet } from '../../utils/helpers'
 
 // eslint-disable-next-line
 type Props = {
@@ -52,20 +53,21 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         message: 'Order Added',
         icon: 'tick',
         intent: 'success',
-        timeout: 3000,
+        timeout: 2000,
       }
     case 'orderCancelled':
       return {
         message: 'Order Cancelled',
         icon: 'tick',
         intent: 'success',
+        timeout: 2000,
       }    
     case 'copied': 
       return {
         message: 'The data is copied',
         icon: 'tick',
         intent: 'success',
-        timeout: 3000,
+        timeout: 2000,
       }
     default:
       return {
@@ -76,7 +78,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
 }
 
 const ToastInstance = Toaster.create({
-  position: Position.TOP_CENTER,
+  position: isTomoWallet() ? Position.TOP_CENTER : Position.BOTTOM_LEFT,
 })
 
 export default Notifier
