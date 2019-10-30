@@ -39,6 +39,7 @@ export const orderBookInitialized = (
 
     let newBids = bids.reduce((result, item) => {
       if (item.amount > 0) {
+        item.update = true
         result[item.price] = item;
         if (newSortedBids.search(item.price) === -1)
           newSortedBids.insert(item.price);
@@ -49,6 +50,7 @@ export const orderBookInitialized = (
 
     let newAsks = asks.reduce((result, item) => {
       if (item.amount > 0) {
+        item.update = true
         result[item.price] = item;
         if (newSortedAsks.search(item.price) === -1)
           newSortedAsks.insert(item.price);
@@ -71,56 +73,68 @@ export const orderBookInitialized = (
 
 export const orderBookUpdated = (bids: Array<Object>, asks: Array<Object>) => {
   const event = (state: OrderBookState) => {
-    let newSortedBids = new SortedArray(state.sortedBids, (a, b) => b - a);
-    let newSortedAsks = new SortedArray(state.sortedAsks, (a, b) => a - b);
+    const newSortedBids = new SortedArray(state.sortedBids, (a, b) => b - a)
+    const newSortedAsks = new SortedArray(state.sortedAsks, (a, b) => a - b)
 
-    let newBids = bids.reduce((result, item) => {
+    const oldBids = {}
+    for (const price of state.sortedBids) {
+      oldBids[price] = {...state.bids[price], update: false}
+    }
+
+    const oldAsks = {}
+    for (const price of state.sortedAsks) {
+      oldAsks[price] = {...state.asks[price], update: false}
+    }
+
+    const newBids = bids.reduce((result, item) => {
       if (item.amount > 0) {
-        result[item.price] = item;
+        item.update = true
+        result[item.price] = item
         if (newSortedBids.search(item.price) === -1)
-          newSortedBids.insert(item.price);
+          newSortedBids.insert(item.price)
       }
 
       if (item.amount <= 0) {
-        delete result[item.price];
-        newSortedBids.remove(item.price);
+        delete result[item.price]
+        newSortedBids.remove(item.price)
       }
 
-      return result;
-    }, {});
+      return result
+    }, {})
 
-    let newAsks = asks.reduce((result, item) => {
+    const newAsks = asks.reduce((result, item) => {
       if (item.amount > 0) {
-        result[item.price] = item;
+        item.update = true
+        result[item.price] = item
         if (newSortedAsks.search(item.price) === -1)
-          newSortedAsks.insert(item.price);
+          newSortedAsks.insert(item.price)
       }
 
       if (item.amount <= 0) {
-        delete result[item.price];
-        newSortedAsks.remove(item.price);
+        delete result[item.price]
+        newSortedAsks.remove(item.price)
       }
 
-      return result;
-    }, {});
+      return result
+    }, {})
 
     return {
       ...state,
       bids: {
-        ...state.bids,
-        ...newBids
+        ...oldBids,
+        ...newBids,
       },
       asks: {
-        ...state.asks,
-        ...newAsks
+        ...oldAsks,
+        ...newAsks,
       },
       sortedBids: newSortedBids.array,
-      sortedAsks: newSortedAsks.array
-    };
-  };
+      sortedAsks: newSortedAsks.array,
+    }
+  }
 
-  return event;
-};
+  return event
+}
 
 export const orderBookReset = () => {
   const event = (state: OrderBookState) => {
@@ -154,6 +168,7 @@ export default function domain(state: OrderBookState) {
         .map(price => state.bids[price])
         .reduce((result, item) => {
           result.push({
+            update: item.update,
             price: item.price,
             amount: item.amount,
             total:
@@ -169,6 +184,7 @@ export default function domain(state: OrderBookState) {
         .map(price => state.asks[price])
         .reduce((result, item) => {
           result.push({
+            update: item.update,
             price: item.price,
             amount: item.amount,
             total:

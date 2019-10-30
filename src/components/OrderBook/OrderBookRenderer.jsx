@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Loading, Colors, TmColors } from '../Common'
@@ -176,7 +176,7 @@ export type SingleOrderProps = {
 const BuyOrder = (props: SingleOrderProps) => {
   const { order, pricePrecision, onClick } = props
   return (
-    <Row onClick={onClick}>
+    <Row onClick={onClick} update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
       <Cell className="up" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
@@ -188,7 +188,7 @@ const BuyOrder = (props: SingleOrderProps) => {
 const SellOrder = (props: SingleOrderProps) => {
   const { order, pricePrecision, onClick } = props
   return (
-    <Row onClick={onClick}>
+    <Row onClick={onClick} update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
       <Cell className="down" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
       <Cell className="text-right" width="34%">{order.amount}</Cell>
@@ -290,6 +290,19 @@ const List = styled.ul`
   overflow-y: auto;
 `
 
+const fadeInLightMode = keyframes`
+  0% {background: rgba(57, 67, 98, .1)}
+  50% {background: rgba(57, 67, 98, .3)}
+  100% {background: transparent}
+`
+
+const fadeInDarkMode = keyframes`
+  0% {background: rgba(244, 246, 248, .1)}
+  50% {background: rgba(244, 246, 248, .3)}
+  100% {background: transparent}
+`
+
+/* eslint-disable */
 const Row = styled.li.attrs({
   className: 'row',
 })`
@@ -301,6 +314,11 @@ const Row = styled.li.attrs({
   width: 100%;
   margin: 0px !important;
   padding: 3.5px 0 3.5px 10px !important;
+  animation: ${props => props.update ? 
+              (props.theme.mode === 'light' ? 
+                fadeInLightMode 
+                : fadeInDarkMode) 
+              : ''} 1s ease;
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};

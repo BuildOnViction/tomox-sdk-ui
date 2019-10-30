@@ -249,6 +249,7 @@ export const TmColors = {
 }
 
 export const DarkMode = {
+  mode: 'dark',
   mainBg: '#252C40',
   subBg: '#1f2538',
   menuBg: '#394362',
@@ -279,6 +280,7 @@ export const DarkMode = {
 }
 
 export const LightMode = {
+  mode: 'light',
   mainBg: '#fff',
   subBg: '#f4f6f8',
   menuBg: '#f4f6f8',
