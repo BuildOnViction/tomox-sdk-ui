@@ -327,7 +327,7 @@ const SideIcon = styled.span`
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
   text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
-  font-size: ${Theme.FONT_SIZE_XS};
+  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 const CancelIcon = styled(Icon)`

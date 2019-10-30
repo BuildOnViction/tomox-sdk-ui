@@ -6,7 +6,7 @@ import type {
   Notification,
   NotificationOptions,
 } from '../../types/notifications'
-import { isTomoWallet } from '../../utils/helpers'
+import { isTomoWallet, isMobile } from '../../utils/helpers'
 
 // eslint-disable-next-line
 type Props = {
@@ -85,7 +85,7 @@ const NotificationFactory = (type, options: NotificationOptions) => {
 }
 
 const ToastInstance = Toaster.create({
-  position: isTomoWallet() ? Position.TOP_CENTER : Position.BOTTOM_LEFT,
+  position: isTomoWallet() || isMobile() ? Position.TOP_CENTER : Position.BOTTOM_LEFT,
 })
 
 export default Notifier
