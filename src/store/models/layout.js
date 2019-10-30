@@ -120,8 +120,6 @@ export function queryAccountData(): ThunkAction {
         return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
       }
 
-      socket.subscribeNotification(accountAddress)
-
       let tokens = getTokenDomain(state).tokens() //eslint-disable-line
       const quotes = quoteTokens
 
@@ -208,10 +206,7 @@ export function unlockWalletWithSessionPassword(password): ThunkAction {
 
 export function releaseResource(): ThunkAction {
   return async (dispatch, getState, { socket }) => {
-    const state = getState()
-    const authenticated = getAccountDomain(state).authenticated()
     socket.unSubscribeMarkets()
-    if (authenticated) socket.unSubscribeNotification()
     if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
   }
 }
