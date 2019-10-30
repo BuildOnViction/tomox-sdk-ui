@@ -19,7 +19,6 @@ import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
 import * as accountBalancesCreators from '../actions/accountBalances'
-import * as notificationsCreators from '../actions/notifications'
 import * as layoutCreators from '../actions/layout'
 
 import type { State, ThunkAction } from '../../types'
@@ -110,9 +109,6 @@ export function queryAccountData(): ThunkAction {
     const state = getState()
     const accountAddress = getAccountDomain(state).address()
     const privatekey = getAccountDomain(state).privateKey()
-    const notificationsDomain = getNotificationsDomain(state)
-    const offset = notificationsDomain.getOffset()
-    const limit = notificationsDomain.getLimit()
     const signer = getSigner()
 
     try {

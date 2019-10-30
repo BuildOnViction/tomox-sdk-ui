@@ -318,7 +318,7 @@ class Default extends React.PureComponent<Props, State> {
 
               <NotificationItem>
                 {
-                  (newNotifications.length > 0) && (<NumberNewNotifications />)
+                  (newNotifications > 0) && (<NumberNewNotifications />)
                 } 
                 <Popover
                   content={<Notifications />}

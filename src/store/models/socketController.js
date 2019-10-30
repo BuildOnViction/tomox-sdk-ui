@@ -7,7 +7,6 @@ import * as actionCreators from '../actions/socketController'
 import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
-import * as notificationsActionCreators from '../actions/notifications'
 import * as orderActionsCreators from '../actions/orders'
 
 import {
@@ -82,8 +81,6 @@ export function openConnection(): ThunkAction {
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
           return handleMarketsMessage(dispatch, event, getState)
-        case 'notification':
-          return handleNotificationMessage(dispatch, event, getState)
         default:
           console.log(channel, event)
           break
@@ -242,8 +239,9 @@ function handleTokenListUpdated(
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
   const { type } = event
 
-  if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false))
-  dispatch(queryAccountBalance())
+  if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false)) // Remove loading screen in OrderForm
+  dispatch(actionCreators.updateNewNotifications()) 
+  dispatch(queryAccountBalance()) // Get the balance of tokens
 
   switch (type) {
     case 'ORDER_ADDED':
@@ -598,15 +596,4 @@ const handleMarketsMessage = (
 
   dispatch(actionCreators.updateTokenPairData(pairData))
   dispatch(actionCreators.updateSmallChartsData(smallChartsData))
-}
-
-const handleNotificationMessage = (
-    dispatch,
-    event: WebsocketEvent,
-    getState: GetState,
-  ) => {
-  const { type, payload } = event
-  // Todo: need handle in case ERROR
-  if (type === 'INIT' || type === 'ERROR') return
-  dispatch(notificationsActionCreators.updateNewNotifications(payload))
 }

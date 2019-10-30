@@ -453,8 +453,8 @@ export const notifications = createReducer(action => {
       return notificationEvents.updateNotificationsLoading(payload.status)
     case notificationsTypes.addNotifications: 
       return notificationEvents.addNotifications(payload.data)
-    case notificationsTypes.updateNewNotifications:
-      return notificationEvents.updateNewNotifications(payload.data)
+    case socketControllerActionTypes.updateNewNotifications:
+      return notificationEvents.updateNewNotifications()
     case notificationsTypes.resetNotifications:
     case logoutPageActionTypes.resetNotifications:
       return notificationEvents.resetNotifications()

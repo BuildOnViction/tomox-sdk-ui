@@ -51,6 +51,8 @@ const actionTypes = {
 
   updateTokenPairData: 'socketController/UPDATE_TOKEN_PAIR_DATA',
   updateSmallChartsData: 'socketController/UPDATE_SMALL_CHARTS_DATA',
+
+  updateNewNotifications: 'socketController/UPDATE_NEW_NOTIFICATIONS',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -207,6 +209,13 @@ export function updateSmallChartsData(smallChartsData: Object) {
   return {
     type: actionTypes.updateSmallChartsData,
     payload: { smallChartsData },
+  }
+}
+
+// NOTIFICATION ACTIONS
+export function updateNewNotifications() {
+  return {
+    type: actionTypes.updateNewNotifications,
   }
 }
 

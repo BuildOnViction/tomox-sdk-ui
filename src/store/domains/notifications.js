@@ -4,7 +4,7 @@ const initialState = {
   limit: 20,
   loading: false,
   data: [],
-  newData: [],
+  newData: 0,
   toaster: null,
 }
 
@@ -46,33 +46,27 @@ export const updateNotifications = (notifications) => {
 }
 
 export const resetNotifications = () => {
-  const event = (state: NotificationState = initialState) => {
+  const event = _ => initialState
+
+  return event
+}
+
+export const updateNewNotifications = _ => { 
+  const event = (state: NotificationState) => {
     return {
       ...state,
-      data: [],
-      offset: 1,
-      limit: initialState.limit,
+      newData: ++state.newData,
     }
   }
 
   return event
 }
 
-// Notifications from websocket for realtime alert
-export const updateNewNotifications = (notifications) => { 
-  const event = (state: NotificationState = initialState) => {
+export const resetNewNotifications = _ => { 
+  const event = (state: NotificationState) => {
     return {
       ...state,
-      newData: [...state.newData, ...notifications.reverse()],
-    }
-  }
-  return event
-}
-
-export const resetNewNotifications = (notifications) => { 
-  const event = (state: NotificationState = initialState) => {
-    return {
-      ...initialState,
+      newData: 0,
     }
   }
   return event

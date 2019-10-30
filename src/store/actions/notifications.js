@@ -2,7 +2,6 @@
 const actionTypes = {
   addNotifications: 'notifications/ADD_NOTIFICATIONS',
   updateNotificationsLoading: 'notifications/UPDATE_NOTIFICATIONS_LOADING',
-  updateNewNotifications: 'notifications/UPDATE_NEW_NOTIFICATIONS',
   resetNotifications: 'notifications/RESET_NOTIFICATIONS',
   resetNewNotifications: 'notifications/RESET_NEW_NOTIFICATIONS',
   markNotificationRead: 'notifications/MARK_NOTIFICATION_READ',
@@ -18,13 +17,6 @@ export function updateNotificationsLoading(status: Boolean) {
 export function addNotifications(data: Array<Object>) {
   return {
     type: actionTypes.addNotifications,
-    payload: { data },
-  }
-}
-
-export function updateNewNotifications(data: Array<Object>) {
-  return {
-    type: actionTypes.updateNewNotifications,
     payload: { data },
   }
 }
