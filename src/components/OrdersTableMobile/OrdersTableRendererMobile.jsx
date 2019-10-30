@@ -13,7 +13,6 @@ import BigNumber from 'bignumber.js'
 import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
 import { 
   formatDate, 
-  capitalizeFirstLetter, 
   truncateZeroDecimal, 
 } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
@@ -131,11 +130,10 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader>
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={"10%"}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={"25%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        <HeaderCell width={"5%"}></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={"10%"}></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
@@ -144,28 +142,23 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row key={index}>
-              <Cell width={"30%"} title={order.pair} muted>
-                {order.pair}
-                <br />
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
+              <Cell width={"35%"} title={order.pair} muted>                
+                <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
+                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
-              <Cell width={"10%"} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-                {order.side && capitalizeFirstLetter(order.side)}
-              </Cell>
-              <Cell width={"25%"} title={order.price} muted>
+              <Cell width={"30%"} title={order.price} muted>
                 {truncateZeroDecimal(order.price)}
               </Cell>
-              <Cell width={"30%"} muted>
+              <Cell textAlign="right" width={"30%"} muted>
                 {truncateZeroDecimal(order.filled)}
                 <br />
                 {truncateZeroDecimal(order.amount)}
               </Cell>
-              <Cell width={"5%"} muted>
+              <CancelCell width={"10%"} onClick={() => cancelOrder(order.hash)}>
                 <CancelIcon 
                   icon="cross" 
-                  intent="danger" 
-                  onClick={() => cancelOrder(order.hash)} />
-              </Cell>
+                  intent="danger" />
+              </CancelCell>
             </Row>
           ))}
         </ListBodyWrapper>)
@@ -180,10 +173,9 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader className="header">
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={"10%"}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
@@ -192,18 +184,14 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row key={index}>
-              <Cell width={"30%"} title={order.pair} muted>
-                {order.pair}
-                <br />
-                {formatDate(order.time, 'LL-dd HH:mm:ss')}
+              <Cell width={"35%"} title={order.pair} muted>
+                <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
+                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
-              <Cell width={"10%"} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-                {order.side && capitalizeFirstLetter(order.side)}
-              </Cell>
-              <Cell width={"30%"} title={order.price} muted>
+              <Cell width={"35%"} title={order.price} muted>
                 {truncateZeroDecimal(order.price)}
               </Cell>
-              <Cell width={"30%"} muted>
+              <Cell textAlign="right" width={"30%"} muted>
                 {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
               </Cell>
             </Row>
@@ -258,7 +246,7 @@ const ListHeader = styled.li.attrs({
   margin: 0px !important;
   text-align: left;
   box-shadow: 0 1px 0 0 ${props => props.theme.border};
-  padding: 0 10px 10px 10px;
+  padding: 0 5px 10px 5px;
 `
 
 const Row = styled.li.attrs({
@@ -268,9 +256,8 @@ const Row = styled.li.attrs({
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  // height: 45px;
   line-height: 18px;
-  padding: 5px 10px;
+  padding: 5px;
   &:nth-child(2n + 1) {
     background: ${props => props.theme.subBg};
   }
@@ -286,17 +273,61 @@ const Cell = styled.span.attrs({
       ? Colors.SELL
       : props.muted
       ? props.theme.textTable
-      : Colors.WHITE}
+      : Colors.WHITE};
 
   min-width: 35px;
   width: ${props => (props.width ? props.width : '10%')};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
+`
+
+const CancelCell = styled(Cell)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Pair = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Date = styled.div`
+  font-size: ${Theme.FONT_SIZE_XS};
+  color: ${TmColors.LIGHT_GRAY};
+`
+
+const SideIcon = styled.span`
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin-right: 5px;
+  border-radius: 1px;
+  position: relative;
+  background-color: ${props => props.side === 'BUY' ? TmColors.GREEN : TmColors.RED};
+
+  &::before {
+    content: '${props => props.side === 'BUY' ? 'B' : 'S'}';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    font-size: 8px;
+    font-weight: 700;
+    color: ${TmColors.WHITE};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
+  text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
+  font-size: ${Theme.FONT_SIZE_XS};
 `
 
 const CancelIcon = styled(Icon)`

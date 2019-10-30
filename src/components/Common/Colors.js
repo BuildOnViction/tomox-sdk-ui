@@ -317,4 +317,5 @@ export const Theme = {
   FONT_SIZE_LG: '16px',
   FONT_SIZE_MD: '14px',
   FONT_SIZE_SM: '12px',
+  FONT_SIZE_XS: '10px',
 }
