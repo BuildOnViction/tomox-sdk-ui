@@ -195,11 +195,6 @@ const OrdersTableCell = styled(Cell).attrs({
     line-height: initial;
   }
 
-  .bp3-tab-list > *:not(:last-child) {
-    margin-right: 0;
-    padding-right: 50px;
-  }
-
   .bp3-tab[aria-selected=true], 
   .bp3-tab:not([aria-disabled=true]):hover {
     color: ${props => props.theme.orderTableTabActive};

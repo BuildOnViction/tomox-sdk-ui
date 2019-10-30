@@ -385,6 +385,17 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
 const TabsContainer = styled(Tabs)`
   position: relative;
+
+  .bp3-tab-list > *:not(:last-child) {
+    margin-right: 0;
+    padding-right: 50px;
+  }
+
+  @media (max-width: 1300px) {
+    & .bp3-tab-list > *:not(:last-child) {
+      padding-right: 35px;
+    }
+  }
 `
 
 const ListContainer = styled.div.attrs({
