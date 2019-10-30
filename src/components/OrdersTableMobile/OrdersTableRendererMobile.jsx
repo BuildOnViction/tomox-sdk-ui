@@ -3,12 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 import {
   Tab,
-  Icon,
   Tabs,
   Checkbox,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
 import { 
@@ -129,36 +130,46 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader>
-        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        <HeaderCell width={"10%"}></HeaderCell>
-      </ListHeader>
-
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
 
       {(orders.length > 0) &&
-        (<ListBodyWrapper className="list">
+        (<ListBodyWrapper>
           {orders.map((order, index) => (
             <Row key={index}>
-              <Cell width={"35%"} title={order.pair} muted>                
-                <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
-                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
+              <CenterCell width={"30%"} muted>  
+                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BUY' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
+                <div style={{width: "45px"}}>
+                  <CircularProgressbar 
+                    value={BigNumber(order.filledPercent).toFormat(0)}
+                    text={`${BigNumber(order.filledPercent).toFormat(0)}%`}
+                    styles={buildStyles({
+                      textColor: order.side === 'BUY' ? TmColors.GREEN : TmColors.RED,
+                      // pathColor: TmColors.ORANGE,
+                      // trailColor: TmColors.LIGHT_GRAY
+                    })} />
+                </div>
+              </CenterCell>
+              <Cell width={"70%"} muted>
+                <ChildRow style={{marginBottom: "10px"}}>
+                  <FieldValue>{order.pair}</FieldValue>
+                  <FieldValue color={TmColors.LIGHT_GRAY}>{formatDate(order.time, 'LL-dd HH:mm:ss')}</FieldValue>
+                </ChildRow> 
+                <ChildRow>
+                  <Cell width="70%">
+                    <div>
+                      <FieldTitle><FormattedMessage id="exchangePage.filledAmount" /></FieldTitle>
+                      <FieldValue>{truncateZeroDecimal(order.filled)}/{truncateZeroDecimal(order.amount)}</FieldValue>
+                    </div>
+                    <div>
+                      <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
+                      <FieldValue>{truncateZeroDecimal(order.price)}</FieldValue>
+                    </div>
+                  </Cell>
+                  <Cell width="30%">
+                    <CancelButton onClick={() => cancelOrder(order.hash)}>Cancel</CancelButton>
+                  </Cell>
+                </ChildRow> 
               </Cell>
-              <Cell width={"30%"} title={order.price} muted>
-                {truncateZeroDecimal(order.price)}
-              </Cell>
-              <Cell textAlign="right" width={"30%"} muted>
-                {truncateZeroDecimal(order.filled)}
-                <br />
-                {truncateZeroDecimal(order.amount)}
-              </Cell>
-              <CancelCell width={"10%"} onClick={() => cancelOrder(order.hash)}>
-                <CancelIcon 
-                  icon="cross" 
-                  intent="danger" />
-              </CancelCell>
             </Row>
           ))}
         </ListBodyWrapper>)
@@ -255,12 +266,19 @@ const Row = styled.li.attrs({
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   line-height: 18px;
   padding: 8px 5px;
   &:nth-child(2n + 1) {
     background: ${props => props.theme.subBg};
   }
+`
+
+const ChildRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Cell = styled.span.attrs({
@@ -283,10 +301,11 @@ const Cell = styled.span.attrs({
   text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
 `
 
-const CancelCell = styled(Cell)`
+const CenterCell = styled(Cell)`
   display: flex;
+  padding-right: 20px;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 `
 
 const Pair = styled.div`
@@ -330,10 +349,6 @@ const HeaderCell = styled.span.attrs({ className: props => props.className })`
   font-size: ${Theme.FONT_SIZE_SM};
 `
 
-const CancelIcon = styled(Icon)`
-  cursor: pointer;
-`
-
 const CheckboxHidePairs = styled(Checkbox)`
   font-size: ${Theme.FONT_SIZE_SM};
   text-align: center;
@@ -365,6 +380,31 @@ const CheckboxHidePairs = styled(Checkbox)`
 
 const NoOrders = styled.div`
   height: calc(100% - 25px);
+`
+
+const CancelButton = styled.div`
+  cursor: pointer;
+  border: 1px solid ${TmColors.ORANGE};
+  border-radius: 2px;
+  padding: 3px;
+  text-align: center;
+  max-width: 60px;
+  color: ${TmColors.WHITE};
+
+  &:hover {
+    color: ${TmColors.ORANGE};
+  }
+`
+
+const FieldTitle = styled.span`
+  display: inline-block;
+  width: 40px;
+  color: ${props => props.color || TmColors.LIGHT_GRAY};
+`
+
+const FieldValue = styled.span`
+  display: inline-block;
+  color: ${props => props.color || TmColors.WHITE};
 `
 
 export default OrdersTableRendererMobile
