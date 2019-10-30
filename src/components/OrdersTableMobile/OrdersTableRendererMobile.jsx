@@ -257,7 +257,7 @@ const Row = styled.li.attrs({
   flex-direction: row;
   justify-content: space-around;
   line-height: 18px;
-  padding: 5px;
+  padding: 8px 5px;
   &:nth-child(2n + 1) {
     background: ${props => props.theme.subBg};
   }

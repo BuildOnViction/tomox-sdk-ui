@@ -192,7 +192,7 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      padding: 0 10px;
+      padding: 0;
     }
   }
 `
