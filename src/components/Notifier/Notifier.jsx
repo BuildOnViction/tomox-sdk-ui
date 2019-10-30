@@ -61,7 +61,14 @@ const NotificationFactory = (type, options: NotificationOptions) => {
         icon: 'tick',
         intent: 'success',
         timeout: 2000,
-      }    
+      } 
+    case 'orderRejected':
+      return {
+        message: 'Order Rejected',
+        icon: 'tick',
+        intent: 'success',
+        timeout: 2000,
+      }   
     case 'copied': 
       return {
         message: 'The data is copied',

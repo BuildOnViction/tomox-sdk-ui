@@ -34,6 +34,15 @@ export function addOrderCancelledNotification() {
   }
 }
 
+export function addOrderRejectedNotification() {
+  return {
+    type: actionTypes.addNotification,
+    payload: {
+      notificationType: 'orderRejected',
+    },
+  }
+}
+
 export function addOrderMatchedNotification() {
   return {
     type: actionTypes.addNotification,

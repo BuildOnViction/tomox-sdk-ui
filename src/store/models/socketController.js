@@ -250,6 +250,8 @@ const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): Th
       return dispatch(handleOrderAdded(event))
     case 'ORDER_CANCELLED':
       return dispatch(handleOrderCancelled(event))
+    case 'ORDER_REJECTED':
+      return dispatch(handleOrderRejected(event))
     case 'ORDER_MATCHED':
       return dispatch(handleOrderMatched(event))
     case 'ORDER_SUCCESS':
@@ -297,6 +299,25 @@ function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
       order = parseOrder(order, pairInfo)
 
       dispatch(appActionCreators.addOrderCancelledNotification())
+      dispatch(actionCreators.updateOrdersTable([order]))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+function handleOrderRejected(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const { pairs } = socketControllerSelector(state)
+      let order = event.payload
+      const pairInfo = pairs[order.pairName]
+
+      order = parseOrder(order, pairInfo)
+
+      dispatch(appActionCreators.addOrderRejectedNotification())
       dispatch(actionCreators.updateOrdersTable([order]))
     } catch (e) {
       console.log(e)
