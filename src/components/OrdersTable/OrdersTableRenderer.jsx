@@ -10,6 +10,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { List, AutoSizer } from 'react-virtualized'
+import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../Common'
@@ -174,6 +175,19 @@ const OrdersTablePanel = (props: {
   }
 }
 
+const LoginMessage = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="login" width={32} height={32} />
+      <Text color={TmColors.GRAY}>
+        <FormattedMessage id="app.mustLogin1" />&nbsp;
+        <LoginLink to="/unlock"><FormattedMessage id="app.mustLogin2" /></LoginLink>&nbsp;
+        <FormattedMessage id="app.mustLogin3" />
+      </Text>
+    </Centered>
+  )
+}
+
 const _noOrderRowsRenderer = () => {
   return (
     <Centered my={4}>
@@ -183,7 +197,7 @@ const _noOrderRowsRenderer = () => {
   )
 }
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -240,25 +254,28 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
       </ListHeader>
 
       <ListBodyWrapper className="list">
-        <AutoSizer>
-          {({ width, height }) => (
-            <List
-              width={width}
-              height={height}
-              rowCount={orders.length}
-              rowHeight={rowHeight}
-              rowRenderer={_rowRenderer}
-              noRowsRenderer={_noOrderRowsRenderer}
-              overscanRowCount={overscanRowCount}
-            />
-          )}
-        </AutoSizer>
+        {!authenticated && <LoginMessage />}
+        {authenticated && (
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                width={width}
+                height={height}
+                rowCount={orders.length}
+                rowHeight={rowHeight}
+                rowRenderer={_rowRenderer}
+                noRowsRenderer={_noOrderRowsRenderer}
+                overscanRowCount={overscanRowCount}
+              />
+            )}
+          </AutoSizer>
+        )}
       </ListBodyWrapper>
     </ListContainer>
   )
 }
 
-const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -312,19 +329,22 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       </ListHeader>
 
       <ListBodyWrapper className="list">
-        <AutoSizer>
-          {({ width, height }) => (
-            <List
-              width={width}
-              height={height}
-              rowCount={orders.length}
-              rowHeight={rowHeight}
-              rowRenderer={_rowRenderer}
-              noRowsRenderer={_noOrderRowsRenderer}
-              overscanRowCount={overscanRowCount}
-            />
-          )}
-        </AutoSizer>
+        {!authenticated && <LoginMessage />}
+        {authenticated && (
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                width={width}
+                height={height}
+                rowCount={orders.length}
+                rowHeight={rowHeight}
+                rowRenderer={_rowRenderer}
+                noRowsRenderer={_noOrderRowsRenderer}
+                overscanRowCount={overscanRowCount}
+              />
+            )}
+          </AutoSizer>
+        )}
       </ListBodyWrapper>
     </ListContainer>
   )
@@ -339,7 +359,7 @@ const _noTrageRowsRenderer = () => {
   )
 }
 
-const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
+const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
     
@@ -381,19 +401,22 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       </ListHeader>
 
       <ListBodyWrapper>
-        <AutoSizer>
-          {({ width, height }) => (
-            <List
-              width={width}
-              height={height}
-              rowCount={orders.length}
-              rowHeight={rowHeight}
-              rowRenderer={_rowRenderer}
-              noRowsRenderer={_noTrageRowsRenderer}
-              overscanRowCount={overscanRowCount}
-            />
-          )}
-        </AutoSizer>
+        {!authenticated && <LoginMessage />}
+        {authenticated && (
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                width={width}
+                height={height}
+                rowCount={orders.length}
+                rowHeight={rowHeight}
+                rowRenderer={_rowRenderer}
+                noRowsRenderer={_noTrageRowsRenderer}
+                overscanRowCount={overscanRowCount}
+              />
+            )}
+          </AutoSizer>
+        )}
       </ListBodyWrapper>
     </ListContainer>
   )
@@ -501,6 +524,14 @@ const CheckboxHidePairs = styled(Checkbox)`
 
   input:checked ~ .bp3-control-indicator::before {
     background: url(${tickUrl}) no-repeat center center !important;
+  }
+`
+
+const LoginLink = styled(InternalLink)`
+  color: ${props => props.color || props.theme.linkText};
+
+  &:hover {
+      color: ${TmColors.DARK_ORANGE};
   }
 `
 
