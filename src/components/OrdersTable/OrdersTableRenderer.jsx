@@ -18,6 +18,7 @@ import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../ut
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
+import { authenticated } from '../../store/domains/loginPage'
 
 type Props = {
   loading: boolean,
@@ -82,6 +83,7 @@ const OrdersTableRenderer = (props: Props) => {
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['processing'])}
+              authenticated={authenticated}
             />
           }
         />
@@ -97,6 +99,7 @@ const OrdersTableRenderer = (props: Props) => {
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['finished'])}
+              authenticated={authenticated}
             />
           }
         />
@@ -112,6 +115,7 @@ const OrdersTableRenderer = (props: Props) => {
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(trades)}
+              authenticated={authenticated}
             />
           }
         />
@@ -135,6 +139,7 @@ const OrdersTablePanel = (props: {
   isHideOtherPairs: String,
   handleChangeHideOtherPairs: string => void,
   hasScrollBar: Boolean,
+  authenticated: Boolean,
 }) => {
   const { 
     loading, 
@@ -144,6 +149,7 @@ const OrdersTablePanel = (props: {
     isHideOtherPairs, 
     handleChangeHideOtherPairs, 
     hasScrollBar,
+    authenticated,
   } = props
   
   if (loading) return <Loading />
@@ -155,21 +161,24 @@ const OrdersTablePanel = (props: {
                 cancelOrder={cancelOrder} 
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar} />)
+                hasScrollBar={hasScrollBar}
+                authenticated={authenticated} />)
     case 'order-history':
       return (<OrderHistoryTable 
                 orders={orders} 
                 cancelOrder={cancelOrder}
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar} />)
+                hasScrollBar={hasScrollBar}
+                authenticated={authenticated} />)
     case 'trade-history':
       return (<TradeHistoryTable 
                 orders={orders} 
                 cancelOrder={cancelOrder}
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar} />)
+                hasScrollBar={hasScrollBar}
+                authenticated={authenticated} />)
     default:
       return (<div></div>)
   }
