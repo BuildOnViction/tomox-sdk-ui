@@ -219,7 +219,7 @@ class Default extends React.PureComponent<Props, State> {
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
         <Helmet>
-          <title>TomoX</title>
+          <title>TomoX | Decentralized Exchange</title>
         </Helmet>
         <Notifier />
         <Header>
@@ -235,7 +235,7 @@ class Default extends React.PureComponent<Props, State> {
                 {currentPair && currentPairData && (
                   <Helmet>
                     <title>
-                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | TomoX
+                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | TomoX | Decentralized Exchange
                     </title>
                   </Helmet>
                 )}
@@ -466,7 +466,7 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
     return (
       <CreateImportWrapper>
         <Helmet>
-          <title>TomoX</title>
+          <title>TomoX | Decentralized Exchange</title>
         </Helmet>
         <Notifier />
         <CreateImportHeader>
