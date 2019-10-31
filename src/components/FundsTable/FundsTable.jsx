@@ -52,7 +52,7 @@ class FundsTable extends React.PureComponent<Props, State> {
       authenticated,
     } = this.props
 
-    if (!authenticated) return null
+    // if (!authenticated) return null
 
     const {
       searchInput,

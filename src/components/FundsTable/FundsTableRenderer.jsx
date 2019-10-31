@@ -12,7 +12,7 @@ import {
   Centered,
 } from '../Common'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link as InternalLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 import { TOMOSCAN_URL } from '../../config/environment'
@@ -56,6 +56,7 @@ class FundsTableRenderer extends React.PureComponent {
       searchInput,
       handleSearchInputChange,
       tokenDataLength,
+      authenticated,
     } = this.props
 
     return (
@@ -87,19 +88,33 @@ class FundsTableRenderer extends React.PureComponent {
 
         <TableBodyContainer>
           <TableBody>
-            {tokenDataLength > 0 && (
+            {!authenticated && <LoginMessage />}
+            {authenticated && (tokenDataLength === 0) && <NoItems />}
+            {authenticated && (tokenDataLength > 0) && (
               <React.Fragment>
                 <TOMORow {...this.props} />
                 <QuoteTokenRows {...this.props} />
                 <BaseTokenRows {...this.props} />
               </React.Fragment>
-            )}
-            {tokenDataLength === 0 && <NoItems />}
+            )}            
           </TableBody>
         </TableBodyContainer>
       </Wrapper>
     )
   }
+}
+
+const LoginMessage = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="login" width={32} height={32} />
+      <Text color={TmColors.GRAY}>
+        <FormattedMessage id="app.mustLogin1" />&nbsp;
+        <LoginLink to="/unlock"><FormattedMessage id="app.mustLogin2" /></LoginLink>&nbsp;
+        <FormattedMessage id="app.mustLogin3" />
+      </Text>
+    </Centered>
+  )
 }
 
 const NoItems = () => {
@@ -355,6 +370,14 @@ const Ellipsis = styled.span`
 
 const TotalBalance = styled.span`
   color: ${props => props.theme.link};
+`
+
+const LoginLink = styled(InternalLink)`
+  color: ${props => props.color || props.theme.linkText};
+
+  &:hover {
+      color: ${TmColors.DARK_ORANGE};
+  }
 `
 
 export default withRouter(FundsTableRenderer)
