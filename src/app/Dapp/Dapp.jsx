@@ -114,7 +114,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
           </MainTabs>
         </OrdersTradesCell>
         
-        <OrderFormCell display={isShowOrderForm}>
+        <OrderFormCell isShow={isShowOrderForm}>
           <OrderForm />
           <Close icon="cross" intent="danger" onClick={this.toggleOrderForm} />
         </OrderFormCell>
@@ -336,7 +336,7 @@ const OrdersTradesCell = styled(Cell).attrs({
 const OrderFormCell = styled(Cell).attrs({
   className: 'order-form-cell',
 })`
-  display: ${props => props.display ? 'block' : 'none'};
+  display: ${props => props.isShow ? 'block' : 'none'};
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   overflow: auto;
   font-size: ${Theme.FONT_SIZE_SM};
