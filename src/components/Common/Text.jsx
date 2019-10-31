@@ -1,4 +1,5 @@
 //@flow
+/* eslint-disable */
 import { space, width } from 'styled-system';
 
 import React from 'react';
@@ -14,15 +15,16 @@ export const Text = styled.span`
       ? Fonts.FONT_SIZE_SMALL
       : props.large
       ? Fonts.FONT_SIZE_LARGE
-      : Fonts.FONT_SIZE}
+      : Fonts.FONT_SIZE};
   color: ${props =>
     props.intent
       ? Colors[props.intent]
+      : props.color
+      ? props.color
       : props.muted
       ? Colors.TEXT_MUTED
-      : Colors.TEXT}
-  margin: auto;
-  )}
+      : Colors.TEXT};
+  margin: ${props => props.margin || '10px'}
 `;
 
 export const SmallText = styled.span`
@@ -61,6 +63,8 @@ export const TextDiv = styled.div`
   color: ${props =>
     props.intent
       ? Colors[props.intent]
+      : props.color
+      ? props.color
       : props.muted
       ? Colors.TEXT_MUTED
       : Colors.TEXT}
@@ -74,6 +78,8 @@ export const LargeText = styled.h3`
   color: ${props =>
     props.intent
       ? Colors[props.intent]
+      : props.color
+      ? props.color
       : props.muted
       ? Colors.TEXT_MUTED
       : Colors.HEADING}

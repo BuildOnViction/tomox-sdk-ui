@@ -10,9 +10,8 @@ import {
   Theme,
   UtilityIcon,
   TmColors,
-  TomoXLogo,
   Centered,
-  LargeText,
+  Text,
   SmallText,
   TokenImage,
 } from '../Common'
@@ -97,8 +96,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
   noRowsRenderer = () => {
     return (
       <Centered my={4}>
-        <TomoXLogo height="100px" width="100px" />
-        <LargeText muted>Loading...</LargeText>
+        <UtilityIcon name="not-found" />
+        <Text color={TmColors.GRAY}><FormattedMessage id="marketsPage.pairs.notFound" /></Text>
       </Centered>
     )
   }
@@ -191,9 +190,11 @@ const TabItem = (props) => {
   )
 }
 
+/* eslint-disable */
 const ChangeCell = styled.span`
   color: ${({change, theme}) => (change > 0 ? TmColors.GREEN : (change === 0) ? theme.textTable : TmColors.RED)} !important;
 `
+
 
 const PriceNumber = styled.span`
   margin-right: 25px;

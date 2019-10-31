@@ -9,14 +9,14 @@ const NotFound = (props) => (
     >
         <g fill="none" fillRule="nonzero" stroke="none" strokeWidth="0.5">
             <path
-                fill="#9CA4BA"
-                stroke="#9CA4BA"
+                fill="#6e7793"
+                stroke="#6e7793"
                 d="M36 22.001H11a1 1 0 000 2h25a1 1 0 000-2zM11 16.001h10a1 1 0 000-2H11a1 1 0 000 2zM37 31.001a1 1 0 00-1-1H11a1 1 0 000 2h25a1 1 0 001-1zM29 39.001a1 1 0 00-1-1H11a1 1 0 000 2h17a1 1 0 001-1zM11 46.001a1 1 0 000 2h14a1 1 0 000-2H11z"
                 transform="translate(-736 -472) translate(737 473)"
                 ></path>
             <path
-                fill="#9CA4BA"
-                stroke="#9CA4BA"
+                fill="#6e7793"
+                stroke="#6e7793"
                 d="M2 2.001h29v14h14v17h2V14.587L32.414.001H0v60h30v-2H2v-56zm31 1.414l10.586 10.586H33V3.415z"
                 transform="translate(-736 -472) translate(737 473)"
             ></path>
