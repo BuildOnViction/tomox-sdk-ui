@@ -76,7 +76,8 @@ class FundsTable extends React.PureComponent<Props, State> {
 
     const filteredBaseTokenData = this.filterTokens(baseTokenData)
     const filteredQuoteTokenData = this.filterTokens(quoteTokenData)
-    const filteredETHTokenData = this.filterTokens(TOMOTokenData)
+    const filteredTomoTokenData = this.filterTokens(TOMOTokenData)
+    const tokenDataLength = [...filteredBaseTokenData, ...filteredQuoteTokenData, ...filteredTomoTokenData].length
 
     return (
       <Wrapper>
@@ -84,8 +85,8 @@ class FundsTable extends React.PureComponent<Props, State> {
           authenticated={authenticated}
           baseTokensData={filteredBaseTokenData}
           quoteTokensData={filteredQuoteTokenData}
-          TOMOTokenData={filteredETHTokenData[0]}
-          tokenDataLength={tokenData.length}
+          TOMOTokenData={filteredTomoTokenData[0]}
+          tokenDataLength={tokenDataLength}
           searchInput={searchInput}
           isHideZeroBalanceToken={isHideZeroBalanceToken}
           toggleZeroBalanceToken={this.toggleZeroBalanceToken}

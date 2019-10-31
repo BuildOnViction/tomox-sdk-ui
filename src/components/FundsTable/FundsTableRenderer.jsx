@@ -7,6 +7,9 @@ import {
   Theme,
   TmColors,
   Link,
+  Text,
+  UtilityIcon,
+  Centered,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
@@ -84,15 +87,28 @@ class FundsTableRenderer extends React.PureComponent {
 
         <TableBodyContainer>
           <TableBody>
-            <TOMORow {...this.props} />
-            <QuoteTokenRows {...this.props} />
-            <BaseTokenRows {...this.props} />
+            {tokenDataLength > 0 && (
+              <React.Fragment>
+                <TOMORow {...this.props} />
+                <QuoteTokenRows {...this.props} />
+                <BaseTokenRows {...this.props} />
+              </React.Fragment>
+            )}
+            {tokenDataLength === 0 && <NoItems />}
           </TableBody>
-          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
         </TableBodyContainer>
       </Wrapper>
     )
   }
+}
+
+const NoItems = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text color={TmColors.GRAY}><FormattedMessage id="portfolioPage.notFound" />.</Text>
+    </Centered>
+  )
 }
 
 const TOMORow = (props: Props) => {
