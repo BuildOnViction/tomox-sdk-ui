@@ -10,6 +10,9 @@ import {
   Theme,
   TmColors,
   Link,
+  Text,
+  UtilityIcon,
+  Centered,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
@@ -91,10 +94,19 @@ const DepositTableRenderer = (props: Props) => {
               <BaseTokenRows {...props} />
             </TableBody>
           </Table>
-          {tokenDataLength === 0 && <NoToken>No tokens</NoToken>}
+          {tokenDataLength === 0 && <NoItems />}
         </TableBodyContainer>
       </TableSection>
     </React.Fragment>
+  )
+}
+
+const NoItems = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" />
+      <Text color={TmColors.GRAY}><FormattedMessage id="portfolioPage.notFound" />.</Text>
+    </Centered>
   )
 }
 

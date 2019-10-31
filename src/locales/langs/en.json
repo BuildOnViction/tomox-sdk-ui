@@ -136,6 +136,7 @@
   "portfolioPage.deposit": "Deposit",
   "portfolioPage.withdrawal": "Withdrawal",
   "portfolioPage.showGasSetting": "Show Gas settings",
+  "portfolioPage.notFound": "No tokens found",
   "portfolioPage.receiveModal.title": "Receive tokens",
   "portfolioPage.receiveModal.copyAddress": "Copy Address",
   "portfolioPage.receiveModal.qrCode": "or Scan QR Code",

@@ -97,7 +97,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
     return (
       <Centered my={4}>
         <UtilityIcon name="not-found" />
-        <Text color={TmColors.GRAY}><FormattedMessage id="marketsPage.pairs.notFound" /></Text>
+        <Text color={TmColors.GRAY}><FormattedMessage id="marketsPage.pairs.notFound" />.</Text>
       </Centered>
     )
   }
