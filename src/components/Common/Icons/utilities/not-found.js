@@ -3,8 +3,8 @@ import React from "react"
 const NotFound = (props) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="62"
-      height="62"
+      width={props.width || 62}
+      height={props.width || 62}
       viewBox="0 0 62 62"
     >
         <g fill="none" fillRule="nonzero" stroke="none" strokeWidth="0.5">

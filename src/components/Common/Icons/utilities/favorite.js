@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgFavorite = props => (
-    <svg width={props.size || 20} height={props.size || 20}>
+    <svg width={props.width || 20} height={props.height || 20}>
         <path
         fill={props.color || "#6E7793"}
         fillRule="evenodd"

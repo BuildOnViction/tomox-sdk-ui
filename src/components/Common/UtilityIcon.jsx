@@ -8,24 +8,24 @@ import SvgWallet from './Icons/utilities/wallet.js'
 import Login from './Icons/utilities/login.js'
 import NotFound from './Icons/utilities/not-found.js'
 
-const UtilityIcon = ({name, size, color}) => {
+const UtilityIcon = ({name, width, height, color}) => {
     switch(name) {
         case 'Favorite':
-            return  (<SvgFavorite size={size} color={color} />)
+            return  (<SvgFavorite width={width} height={height} color={color} />)
         case 'FavoriteSolid':
-            return  (<SvgFavoriteSolid size={size} color={color} />)
+            return  (<SvgFavoriteSolid width={width} height={height} color={color} />)
         case 'arrow-up':
-            return  (<SvgArrowUp size={size} color={color} />)
+            return  (<SvgArrowUp width={width} height={height} color={color} />)
         case 'arrow-down':
-            return  (<SvgArrowDown size={size} color={color} />)
+            return  (<SvgArrowDown width={width} height={height} color={color} />)
         case 'wallet':
-            return  (<SvgWallet size={size} color={color} />)
+            return  (<SvgWallet width={width} height={height} color={color} />)
         case 'login':
-            return  (<Login size={size} color={color} />)
+            return  (<Login width={width} height={height} color={color} />)
         case 'not-found':
-            return  (<NotFound size={size} color={color} />)
+            return  (<NotFound width={width} height={height} color={color} />)
         default:
-            return (<SvgFavorite size={size} color={color} />)
+            return (<SvgFavorite width={width} height={height} color={color} />)
     }
 }
 

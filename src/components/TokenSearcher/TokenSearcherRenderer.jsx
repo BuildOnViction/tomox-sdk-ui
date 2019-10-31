@@ -99,7 +99,8 @@ const TokenSearchRenderer = (props: Props) => {
                 title={<UtilityIcon 
                           name="Favorite"
                           color={selectedTabId === "star" ? TmColors.ORANGE : ''}
-                          size={12} />}
+                          width={12}
+                          height={12} />}
                 panel={
                   <Panel
                     tokenPairs={filteredPairs.favorites}
@@ -251,7 +252,7 @@ const TokenRow = ({
   return (
     <Row>
       <Cell width="10%" onClick={() => updateFavorite(pair, !favorited)}>
-        <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
+        <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
       </Cell>
       <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {pair}

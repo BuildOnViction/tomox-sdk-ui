@@ -3,8 +3,8 @@ import React from "react"
 const Login = (props) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="58"
-      height="62"
+      width={props.width || 58}
+      height={props.height || 60}
       viewBox="0 0 58 62"
     >
         <g fill="none" fillRule="nonzero" stroke="none" strokeWidth="0.5">

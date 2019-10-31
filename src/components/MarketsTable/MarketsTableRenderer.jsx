@@ -58,7 +58,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
     return (
       <Row key={key} style={style} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
-          <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} size={12} />
+          <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
         <Cell>
           <TokenImage tokenAddress={baseTokenAddress} size={25} />
@@ -177,7 +177,8 @@ const TabItem = (props) => {
       {props.icon && (
         <TabIcon>
           <UtilityIcon name={props.name} 
-            size={12}
+            width={12}
+            height={12}
             color={props.active ? TmColors.ORANGE : ''} />
         </TabIcon>)}
 
