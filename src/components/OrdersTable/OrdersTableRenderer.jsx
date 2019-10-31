@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js'
 import { List, AutoSizer } from 'react-virtualized'
 
 import { TOMOSCAN_URL } from '../../config/environment'
-import { Colors, Loading, CenteredMessage, TmColors, Theme, Link } from '../Common'
+import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../Common'
 import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
@@ -174,7 +174,14 @@ const OrdersTablePanel = (props: {
   }
 }
 
-const _noRowsRenderer = () => <CenteredMessage message={<FormattedMessage id="exchangePage.noOrders" />} />
+const _noOrderRowsRenderer = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text color={TmColors.GRAY}><FormattedMessage id="exchangePage.noOrders" />.</Text>
+    </Centered>
+  )
+}
 
 const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar}) => {
   const _rowRenderer = ({index, key, style}: *) => {
@@ -241,7 +248,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
               rowCount={orders.length}
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
-              noRowsRenderer={_noRowsRenderer}
+              noRowsRenderer={_noOrderRowsRenderer}
               overscanRowCount={overscanRowCount}
             />
           )}
@@ -313,13 +320,22 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               rowCount={orders.length}
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
-              noRowsRenderer={_noRowsRenderer}
+              noRowsRenderer={_noOrderRowsRenderer}
               overscanRowCount={overscanRowCount}
             />
           )}
         </AutoSizer>
       </ListBodyWrapper>
     </ListContainer>
+  )
+}
+
+const _noTrageRowsRenderer = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text color={TmColors.GRAY}><FormattedMessage id="exchangePage.noTrades" />.</Text>
+    </Centered>
   )
 }
 
@@ -373,7 +389,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               rowCount={orders.length}
               rowHeight={rowHeight}
               rowRenderer={_rowRenderer}
-              noRowsRenderer={_noRowsRenderer}
+              noRowsRenderer={_noTrageRowsRenderer}
               overscanRowCount={overscanRowCount}
             />
           )}
