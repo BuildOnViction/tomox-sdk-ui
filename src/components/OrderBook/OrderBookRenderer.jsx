@@ -318,7 +318,7 @@ const Row = styled.li.attrs({
               (props.theme.mode === 'light' ? 
                 fadeInLightMode 
                 : fadeInDarkMode) 
-              : ''} 1s ease;
+              : ''} .3s ease;
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};

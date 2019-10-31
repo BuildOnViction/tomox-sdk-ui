@@ -346,14 +346,6 @@ const CheckboxWrapper = styled(Checkbox)`
   }
 `
 
-const NoToken = styled.p`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-`
-
 const Ellipsis = styled.span`
   width: 100%;
   white-space: nowrap;

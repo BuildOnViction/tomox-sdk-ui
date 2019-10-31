@@ -12,6 +12,8 @@ import {
   OverlaySpinner,
   TmColors,
   UtilityIcon,
+  Centered,
+  Text,
 } from '../Common'
 import styled from 'styled-components'
 import { AutoSizer, List } from 'react-virtualized'
@@ -147,6 +149,15 @@ const TokenSearchRenderer = (props: Props) => {
   )
 }
 
+const noRowsRenderer = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text color={TmColors.GRAY}><FormattedMessage id="portfolioPage.notFound" />.</Text>
+    </Centered>
+  )
+}
+
 const SearchResult = ({ items, changeSelectedToken }) => {
   function rowRenderer ({ key, index, style }) {
     return (
@@ -160,8 +171,6 @@ const SearchResult = ({ items, changeSelectedToken }) => {
       </SearchResultItem>
     )
   }
-
-  if (items.length === 0) { return (<SearchResultBox><NotFound>Not found</NotFound></SearchResultBox>) }
   
   return (
     <SearchResultBox>
@@ -172,6 +181,7 @@ const SearchResult = ({ items, changeSelectedToken }) => {
             rowCount={items.length}
             rowHeight={30}
             rowRenderer={rowRenderer}
+            noRowsRenderer={noRowsRenderer}
             width={width}
           />
         )}
