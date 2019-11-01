@@ -448,10 +448,6 @@ const NoTokens = styled.div`
   text-align: center;
 `
 
-const NotFound = styled.div`
-    padding: 10px;
-`
-
 const SearchResultBox = styled.div`
   position: absolute;
   top: 40px;

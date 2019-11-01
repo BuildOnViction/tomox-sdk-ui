@@ -6,6 +6,7 @@ const actionTypes = {
   updateReferenceCurrency: 'layout/UPDATE_REFERENCE_CURRENCY',
   showSessionPasswordModal: 'layout/SHOW_SESSION_PASSWORD_MODAL',
   updateTokenPairs: 'layout/UPDATE_TOKEN_PAIRS',
+  updateLoadingTokenPair: 'layout/UPDATE_LOADING_TOKEN_PAIR',
 }
 
 export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
@@ -28,5 +29,12 @@ export function showSessionPasswordModal(showSessionPasswordModal: Boolean): Sho
     payload: { showSessionPasswordModal },
   }
 }
+
+export function updateLoadingTokenPair(loading: Boolean) {
+  return {
+    type: actionTypes.updateLoadingTokenPair,
+    payload: {loading},
+  }
+} 
 
 export default actionTypes

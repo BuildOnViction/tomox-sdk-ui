@@ -10,6 +10,7 @@ type Props = {
   quoteTokens: Array<string>,
   redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   currentReferenceCurrency: string,
+  loading: Boolean,
 };
 
 type State = {
@@ -28,7 +29,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
-    this.setState({ searchInput: e.target.value })
+    this.setState({ searchInput: e.target.value.trim() })
   };
 
   handleChangeTab = (selectedTab: string) => {
@@ -61,6 +62,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
       redirectToTradingPage,
       quoteTokens,
       currentReferenceCurrency,
+      loading,
     } = this.props
 
     const {
@@ -83,6 +85,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
         handleChangeTab={this.handleChangeTab}
         currentReferenceCurrency={currentReferenceCurrency}
         updateFavorite={this.handleFavoriteClick}
+        loading={loading}
       />
     )
   }

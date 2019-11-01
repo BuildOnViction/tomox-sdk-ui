@@ -51,6 +51,7 @@ const actionTypes = {
 
   updateTokenPairData: 'socketController/UPDATE_TOKEN_PAIR_DATA',
   updateSmallChartsData: 'socketController/UPDATE_SMALL_CHARTS_DATA',
+  updateLoadingTokenPair: 'socketController/UPDATE_LOADING_TOKEN_PAIR',
 
   updateNewNotifications: 'socketController/UPDATE_NEW_NOTIFICATIONS',
 }
@@ -198,6 +199,7 @@ export function updateOrderBook(bids: Array<Object>, asks: Array<Object>): Updat
   }
 }
 
+// TOKENPAIR
 export function updateTokenPairData(tokenPairData: TokenPairs): UpdateTokenPairDataAction {
   return {
     type: actionTypes.updateTokenPairData,
@@ -211,6 +213,13 @@ export function updateSmallChartsData(smallChartsData: Object) {
     payload: { smallChartsData },
   }
 }
+
+export function updateLoadingTokenPair(loading: Boolean) {
+  return {
+    type: actionTypes.updateLoadingTokenPair,
+    payload: {loading},
+  }
+} 
 
 // NOTIFICATION ACTIONS
 export function updateNewNotifications() {

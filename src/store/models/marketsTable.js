@@ -19,7 +19,7 @@ import type { State, ThunkAction } from '../../types'
 export default function marketsTableSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const pairsDomain = getTokenPairsDomain(state)
-
+  const loading = pairsDomain.loading()
   const referenceCurrency = accountDomain.referenceCurrency()
   const favoriteds = pairsDomain.getFavoritePairs()
   let pairs = pairsDomain.getTokenPairsWithDataArray()
@@ -30,6 +30,7 @@ export default function marketsTableSelector(state: State) {
   })
 
   return {
+    loading,
     pairs,
     quoteTokens,
     authenticated: accountDomain.authenticated(),

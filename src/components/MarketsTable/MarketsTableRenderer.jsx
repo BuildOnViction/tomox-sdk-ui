@@ -17,6 +17,7 @@ import {
 } from '../Common'
 import { pricePrecision } from '../../config/tokens'
 import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
+import CenteredSpinner from '../../components/Common/CenteredSpinner'
 
 type Props = {
   searchInput: string,
@@ -110,6 +111,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       selectedTab,
       handleChangeTab,
       tabs,
+      loading,
     } = this.props
 
     return (
@@ -151,20 +153,23 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
         </TableHeader>
 
         <TableBody>
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                width={width}
-                height={height}
-                rowCount={pairs.length}
-                rowHeight={60}
-                rowRenderer={this.rowRenderer}
-                noRowsRenderer={this.noRowsRenderer}
-                overscanRowCount={0}
-                pairs={pairs}
-              />
-            )}
-          </AutoSizer>
+          {loading && <CenteredSpinner />}
+          {!loading && (
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  width={width}
+                  height={height}
+                  rowCount={pairs.length}
+                  rowHeight={60}
+                  rowRenderer={this.rowRenderer}
+                  noRowsRenderer={this.noRowsRenderer}
+                  overscanRowCount={0}
+                  pairs={pairs}
+                />
+              )}
+            </AutoSizer>
+          )}
         </TableBody>
       </TableSection>
     )

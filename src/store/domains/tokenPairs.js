@@ -27,6 +27,7 @@ export const initialized = (customInitialState?: TokenPairState) => {
     currentPair: (defaultTokenPair: any).pair,
     sortedPairs: [],
     smallChartsData: null,
+    loading: false,
   }
 
   const initialState = customInitialState || defaultInitialState
@@ -209,8 +210,20 @@ export const updateCurrentPairData = (currentPairData: CurrentTokenPairData) => 
   return event
 }
 
+export const updateLoading = (loading: Boolean) => {
+  const event = (state: TokenPairState): TokenPairState => {
+    return {
+      ...state,
+      loading,
+    }
+  }
+
+  return event
+}
+
 export default function getTokenPairsDomain(state: TokenPairState) {
   return {
+    loading: (): Boolean => state.loading,
     getPairs: (): any => Object.keys(state.byPair),
     getPair: (code: string): any => state.byPair[code],
     getPairsByCode: () => state.byPair,

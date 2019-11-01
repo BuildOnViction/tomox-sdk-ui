@@ -292,6 +292,9 @@ export const tokenPairs = createReducerPersist({
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tokenPairsActionsTypes.updateCurrentPairData:
       return tokenPairsEvents.updateCurrentPairData(payload)
+    case socketControllerActionTypes.updateLoadingTokenPair:
+    case layoutActionTypes.updateLoadingTokenPair:
+      return tokenPairsEvents.updateLoading(payload.loading)
     default:
       return tokenPairsEvents.initialized()
   }

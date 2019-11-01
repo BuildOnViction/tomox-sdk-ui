@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { injectIntl, FormattedMessage } from "react-intl"
-import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import MarketsTable from '../../components/MarketsTable'
 import LineChart from '../../components/LineChart/LineChart'
 import { SmallText, TmColors, Theme } from '../../components/Common'
@@ -16,28 +15,23 @@ type Props = {
 const MarketsPageRenderer = (props: Props) => {
   const {
     intl,
-    loading,
     smallChartsData,
   } = props
 
   return (
     <WalletPageBox>
-      {loading ? (
-        <CenteredSpinner />
-      ) : (
-        <React.Fragment>
-          <StatsWrapper>
-            {
-              smallChartsData &&
-              smallChartsData.map((coin, index) => {
-                return (<StatsBox key={index} {...coin} intl={intl} />)
-              })
-            }
-          </StatsWrapper>
-          
-          <MarketsTable />
-        </React.Fragment>
-      )}
+      <React.Fragment>
+        <StatsWrapper>
+          {
+            smallChartsData &&
+            smallChartsData.map((coin, index) => {
+              return (<StatsBox key={index} {...coin} intl={intl} />)
+            })
+          }
+        </StatsWrapper>
+        
+        <MarketsTable />
+      </React.Fragment>
     </WalletPageBox>
   )
 }

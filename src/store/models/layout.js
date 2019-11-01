@@ -74,6 +74,7 @@ export function queryAppData(): ThunkAction {
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
       socket.subscribeMarkets()
+      dispatch(layoutCreators.updateLoadingTokenPair(true))
 
       let tokens = getTokenDomain(state).tokens() // eslint-disable-line
       const quotes = quoteTokens
