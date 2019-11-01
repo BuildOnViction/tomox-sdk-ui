@@ -2,7 +2,7 @@
 import React from 'react'
 import OrderListRenderer from './OrderBookRenderer'
 import type { TokenPair, Trade } from '../../types/tokens'
-import { pricePrecision, pricePrecisionsList } from '../../config/tokens'
+import { pricePrecisionsList } from '../../config/tokens'
 
 type BidOrAsk = {
   price: number,
@@ -24,7 +24,7 @@ type State = {
 
 class OrderBook extends React.Component<Props, State> {
   state = {
-    pricePrecision,
+    pricePrecision: 5,
   }
 
   handleChangePricePrecision = (precision) => {

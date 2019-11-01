@@ -7,7 +7,7 @@ import {
 import type { State } from '../../types'
 
 export default function orderBookSelector(state: State) {
-  const { bids, asks } = getOrderBookDomain(state).getOrderBookData(25)
+  const { bids, asks } = getOrderBookDomain(state).getOrderBookData(35)
   const pairDomain = getTokenPairsDomain(state)
   const accountDomain = getAccountDomain(state)
 

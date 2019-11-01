@@ -261,7 +261,7 @@ const OrderBookHeader = styled.div`
   align-items: center;
   height: 16px;
   margin-bottom: 4px;
-  padding-left: 10px;
+  padding: 0 10px;
 `
 const Title = styled.div.attrs({
   className: 'title xs-hidden',
@@ -313,7 +313,7 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 3.5px 0 3.5px 10px !important;
+  padding: 3.5px 10px !important;
   animation: ${props => props.update ? 
               (props.theme.mode === 'light' ? 
                 fadeInLightMode 
@@ -389,8 +389,7 @@ const HeaderRow = styled.li`
   display: flex;
   justify-content: space-between;
   margin: 0px !important;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding: 0 10px 10px 10px;
   width: 100%;
 `
 
@@ -406,7 +405,7 @@ const LatestTick = styled.div.attrs({
   flex-flow: row nowrap;
   align-items: center;
   height: 30px;
-  padding-left: 10px;
+  padding: 0 10px;
   background: ${props => props.theme.orderbookLatestPrice};
 `
 const LatestPrice = styled.div.attrs({
