@@ -7,7 +7,7 @@ import type { Order } from '../../types/orders'
 
 type Props = {
   orders: Array<Order>,
-  authenticated: false,
+  authenticated: Boolean,
   cancelOrder: string => void
 };
 
@@ -17,7 +17,6 @@ type State = {
 };
 
 class OrdersTable extends React.PureComponent<Props, State> {
-  static defaultProps = { authenticated: true }
   state = {
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,

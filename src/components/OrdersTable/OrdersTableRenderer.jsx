@@ -18,7 +18,6 @@ import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../ut
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
-import { authenticated } from '../../store/domains/loginPage'
 
 type Props = {
   loading: boolean,
@@ -29,7 +28,8 @@ type Props = {
   orders: {
     finished: Array<Order>,
     processing: Array<Order>,
-  }
+  }, 
+  authenticated: Boolean,
 }
 
 const STATUS = {
@@ -64,6 +64,7 @@ const OrdersTableRenderer = (props: Props) => {
     trades,
     isHideOtherPairs,
     handleChangeHideOtherPairs,
+    authenticated,
   } = props
 
   return (

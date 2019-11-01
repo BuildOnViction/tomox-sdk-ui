@@ -1,7 +1,7 @@
 {
   "app.volume": "Volume: {volume}",
   "app.mustLogin1": "You must be",
-  "app.mustLogin2": "login",
+  "app.mustLogin2": "Unlock wallet",
   "app.mustLogin3": "to view this content",
   "notifications.title": "Notifications",
   "notifications.markAllAsRead": "Mark All as Read",

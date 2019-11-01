@@ -7,7 +7,9 @@ import { parseCancelOrderError } from '../../config/errors'
 import { getSigner } from '../services/signer'
 
 export default function ordersTableSelector(state: State) {
-  const address = getAccountDomain(state).address()
+  const accountDomain = getAccountDomain(state)
+  const address = accountDomain.address()
+  const authenticated = accountDomain.authenticated()
   const orders = getOrdersDomain(state).lastOrders(100)
   const trades = getTradesDomain(state).userTrades(address)
   const currentPair = getTokenPairsDomain(state).getCurrentPair()
@@ -16,6 +18,7 @@ export default function ordersTableSelector(state: State) {
     orders,
     trades,
     currentPair,
+    authenticated,
   }
 }
 
