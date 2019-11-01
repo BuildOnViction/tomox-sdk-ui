@@ -46,7 +46,14 @@ export const updateNotifications = (notifications) => {
 }
 
 export const resetNotifications = () => {
-  const event = _ => initialState
+  const event = _ => ({
+    offset: 1,
+    limit: 20,
+    loading: false,
+    data: [],
+    newData: 0,
+    toaster: null,
+  })
 
   return event
 }
