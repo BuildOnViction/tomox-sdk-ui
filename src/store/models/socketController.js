@@ -561,8 +561,11 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
           return
       }
     } catch (e) {
-      console.log(e)
-      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      // We reject error when calling Mozilla APIs . Reference: https://developer.mozilla.org/en-US/docs/Mozilla/Errors
+      if (e.name !== 'NS_ERROR_NOT_INITIALIZED') {
+        console.log(e)
+        dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      }
     }
   }
 }
