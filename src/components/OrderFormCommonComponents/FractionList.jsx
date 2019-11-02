@@ -41,7 +41,7 @@ const RadioButton = props => {
       <InputGroup
         name="fraction"
         type="radio"
-        onChange={onInputChange}
+        onClick={onInputChange}
         value={value}
       />
     </RadioButtonBox>
