@@ -7,7 +7,9 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { pricePrecision, amountPrecision } from '../../config/tokens'
+import { pricePrecision, amountPrecision, fee } from '../../config/tokens'
+
+BigNumber.config({ ROUNDING_MODE: 3 })
 
 type Props = {
   side: Side,
@@ -180,23 +182,27 @@ class OrderForm extends React.PureComponent<Props, State> {
 
       const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
       const bigSellTotal = BigNumber(sellPrice).times(bigSellAmount)
+      const bigSellFee = bigSellTotal.times(fee)
+      const bigSellTotalWithoutFee = bigSellTotal.minus(bigSellFee)
 
       this.setState({
         fraction,
         sellAmount: bigSellAmount.toFixed(amountPrecision),
-        sellTotal: bigSellTotal.toFixed(pricePrecision),
+        sellTotal: bigSellTotalWithoutFee.toFixed(pricePrecision),
       })
     } else {
       const { buyPrice } = this.state
       if (!buyPrice) return
 
+      const bigBuyFee = BigNumber(quoteTokenBalance).times(fee)
       const bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
-      const bigBuyAmount = bigBuyTotal.div(BigNumber(buyPrice))
+      const bigBuyTotalWithoutFee = bigBuyTotal.minus(bigBuyFee)
+      const bigBuyAmount = bigBuyTotalWithoutFee.div(BigNumber(buyPrice))
 
       this.setState({
         fraction,
         buyAmount: bigBuyAmount.toFixed(amountPrecision),
-        buyTotal: bigBuyTotal.toFixed(pricePrecision),
+        buyTotal: bigBuyTotalWithoutFee.toFixed(pricePrecision),
       })
     }
   }
