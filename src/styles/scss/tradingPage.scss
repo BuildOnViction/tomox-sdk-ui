@@ -31,22 +31,33 @@
         align-items: center;
         margin-top: 5px;
         margin-bottom: 7px;
+
         .filter {
           display: inline-block;
-          font-size: 0;
-          height: 10px;
-          width: 12px;
-          margin-left: 13px;
+          height: 20px;
+          width: 25px;
+          padding: 5px 0 5px 13px;
           cursor: pointer;
+          font-size: 0;
         }
-        .filter-sell {
+
+        .filter.filter-all {
+          padding-top: 2px;
+          padding-bottom: 0px
+        }
+
+        .filter i {
+          display: inline-block;          
+          height: 100%;
+          width: 100%;          
+        }
+        .filter-sell i {
           background: url(../../assets/images/filter_sell_icon_gray.svg) no-repeat center center;
         }
-        .filter-all {
+        .filter-all i {
           background: url(../../assets/images/filter_all_icon_gray.svg) no-repeat center center;
-          height: 16px;
         }
-        .filter-buy {
+        .filter-buy i {
           background: url(../../assets/images/filter_buy_icon_gray.svg) no-repeat center center;
         }
       }
@@ -72,7 +83,7 @@
   }
 
   .order-book.all {
-    .order-book-header .filter-list .filter-all {
+    .order-book-header .filter-list .filter-all i {
       background: url(../../assets/images/filter_all_icon_orange.svg) no-repeat center center;
     }
 
@@ -86,7 +97,7 @@
   }
 
   .order-book.sell {
-    .order-book-header .filter-list .filter-sell {
+    .order-book-header .filter-list .filter-sell i {
       background: url(../../assets/images/filter_sell_icon_orange.svg) no-repeat center center;
     }
 
@@ -110,7 +121,7 @@
   }
 
   .order-book.buy {
-    .order-book-header .filter-list .filter-buy {
+    .order-book-header .filter-list .filter-buy i {
       background: url(../../assets/images/filter_buy_icon_orange.svg) no-repeat center center;
     }
 
@@ -306,32 +317,7 @@
           height: 4px;
           width: 8px;
           background-size: 100%;
-          margin-bottom: 1 px;
-        }
-      }
-      .filter-list {
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        margin-top: 5px;
-        margin-bottom: 7px;
-        .filter {
-          display: inline-block;
-          font-size: 0;
-          height: 10px;
-          width: 12px;
-          margin-left: 13px;
-          cursor: pointer;
-        }
-        .filter-sell {
-          background: url(../../assets/images/filter_sell_icon_gray.svg) no-repeat center center;
-        }
-        .filter-all {
-          background: url(../../assets/images/filter_all_icon_gray.svg) no-repeat center center;
-          height: 16px;
-        }
-        .filter-buy {
-          background: url(../../assets/images/filter_buy_icon_gray.svg) no-repeat center center;
+          margin-bottom: 1px;
         }
       }
     }
@@ -356,7 +342,7 @@
   }
 
   .order-book.all {
-    .order-book-header .filter-list .filter-all {
+    .order-book-header .filter-list .filter-all i {
       background: url(../../assets/images/filter_all_icon_orange.svg) no-repeat center center;
     }
 
@@ -370,7 +356,7 @@
   }
 
   .order-book.sell {
-    .order-book-header .filter-list .filter-sell {
+    .order-book-header .filter-list .filter-sell i {
       background: url(../../assets/images/filter_sell_icon_orange.svg) no-repeat center center;
     }
 
@@ -394,7 +380,7 @@
   }
 
   .order-book.buy {
-    .order-book-header .filter-list .filter-buy {
+    .order-book-header .filter-list .filter-buy i {
       background: url(../../assets/images/filter_buy_icon_orange.svg) no-repeat center center;
     }
 
