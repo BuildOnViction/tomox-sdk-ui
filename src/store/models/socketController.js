@@ -357,7 +357,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
       const pairName = trades[0].pairName
       let userOrders = []
       let userTrades = []
-      const userIsTaker = utils.getAddress(matches.takerOrder.userAddress) === signerAddress
+      const userIsTaker = utils.getAddress(matches.takerOrder.userAddress).toLowerCase() === signerAddress.toLowerCase()
       const pairInfo = pairs[pairName]
 
       if (userIsTaker) {
