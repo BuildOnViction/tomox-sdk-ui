@@ -182,13 +182,11 @@ class OrderForm extends React.PureComponent<Props, State> {
 
       const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
       const bigSellTotal = BigNumber(sellPrice).times(bigSellAmount)
-      const bigSellFee = bigSellTotal.times(fee)
-      const bigSellTotalWithoutFee = bigSellTotal.minus(bigSellFee)
 
       this.setState({
         fraction,
         sellAmount: bigSellAmount.toFixed(amountPrecision),
-        sellTotal: bigSellTotalWithoutFee.toFixed(pricePrecision),
+        sellTotal: bigSellTotal.toFixed(pricePrecision),
       })
     } else {
       const { buyPrice } = this.state
