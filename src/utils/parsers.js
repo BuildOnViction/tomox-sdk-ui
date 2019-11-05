@@ -274,7 +274,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
     const pair = pairs[datum.pair.pairName]
 
     if (pair) {
-      result.push({
+      const pairFomatted = {
         pair: pair.pair,
         price: datum.price ? parsePricepoint(datum.price, pair) : null,
         priceUsd: datum.closeBaseUsd ? datum.closeBaseUsd : null,
@@ -285,7 +285,10 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
         volume: datum.volume ? parseTokenAmount(datum.volume, pair, 0) : null,
         orderVolume: datum.orderVolume ? parseTokenAmount(datum.orderVolume, pair, 0) : null,
         orderCount: datum.orderCount ? datum.orderCount : null,
-      })
+      }
+
+      if (pairFomatted.priceUsd === '0') delete pairFomatted.priceUsd
+      result.push(pairFomatted)
     }
   })
 

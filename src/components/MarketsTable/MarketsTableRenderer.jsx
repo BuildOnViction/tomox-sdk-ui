@@ -71,8 +71,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           </PriceNumber>
           <PriceNumber>
             <SmallText muted>
-              {(priceUsd !== null) && currentReferenceCurrency}
-              {(priceUsd !== null) ? truncateZeroDecimal(BigNumber(priceUsd).toFormat(pricePrecision)) : "N.A"} 
+              {priceUsd && currentReferenceCurrency}
+              {priceUsd ? truncateZeroDecimal(BigNumber(priceUsd).toFormat(pricePrecision)) : "0"} 
             </SmallText>
           </PriceNumber>
         </Cell>
