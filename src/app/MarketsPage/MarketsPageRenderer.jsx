@@ -36,7 +36,7 @@ const MarketsPageRenderer = (props: Props) => {
   )
 }
 
-const StatsBox = ({code, change, price, volume, data, intl}) => {
+const StatsBox = ({code, change, price, volume, data, intl, fiatCurrency}) => {
   return (
     <StatsContent>
       <StatsInfo>
@@ -48,7 +48,7 @@ const StatsBox = ({code, change, price, volume, data, intl}) => {
         </StatsRow>
 
         <StatsRow>
-          <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{BigNumber(price).toFormat(2)} USD</StatsPrice>
+          <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{BigNumber(price).toFormat(2)} {fiatCurrency.toUpperCase()}</StatsPrice>
           <StatsVolume title={intl.formatMessage({id: "app.volume"}, {volume: BigNumber(volume).toFormat(2)})}>
             <FormattedMessage 
               id="app.volume"
