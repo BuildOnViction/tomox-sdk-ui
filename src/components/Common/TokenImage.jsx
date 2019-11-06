@@ -5,15 +5,6 @@ import { TOMOTOKENS_URL } from '../../config/environment'
 import defaultTokenImageUrl from '../../assets/images/default_token_img.svg'
 
 class TokenImage extends React.PureComponent {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            src: `${TOMOTOKENS_URL}/${props.tokenAddress}.png`,
-            size: props.size,
-        }
-    }
-
     onError = () => {
         this.setState({
             src: defaultTokenImageUrl,
@@ -21,7 +12,8 @@ class TokenImage extends React.PureComponent {
     }
 
     render() {
-        const { src, size } = this.state
+        const { tokenAddress, size } = this.props
+        const src = `${TOMOTOKENS_URL}/${tokenAddress}.png`
 
         return (
             <Image 
