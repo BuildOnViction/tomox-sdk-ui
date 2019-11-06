@@ -12,9 +12,11 @@ const colorsCollection = {
 
 const LineChart = (props) => {
   const { code, data } = props
+  const randomCode = Object.keys(colorsCollection)[Math.floor((Math.random()*4))]
+  const colors = colorsCollection[code] ? colorsCollection[code] : colorsCollection[randomCode]
 
   return (
-    <LineChartRenderer data={data} colors={colorsCollection[code]} />
+    <LineChartRenderer data={data} colors={colors} />
   )
 }
 
