@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+- "10"
+
+jobs:
+  include:          
+    - cache:
+      directories:
+      - node_modules
+    - stage: Lint
+      script:
+        - npm run lint
+    - stage: Test
+      script:
+        - npm run test
+    - stage: Release application
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
+
+stages:
+  - name: Lint
+  - name: Test
+  - name: Release application
+    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/tomox-sdk-ui
