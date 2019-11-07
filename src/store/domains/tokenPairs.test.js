@@ -7,7 +7,7 @@ import { quoteTokens } from '../../config/quotes'
 //create an initial state. The default initial state used in the application has to many
 //tokens to be used for tests. Therefore we recreate an initial state with less tokens
 //to test the token pair model
-const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
+// const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
 
 const tokensBySymbol = {
   TOMO: { symbol: 'TOMO', address: '0x0' },
@@ -287,32 +287,32 @@ describe('Token Pair Domain', () => {
       },
     }
 
-    const expectedTokenPairArray = [
-      {
-        pair: 'TOMO/WETH',
-        lastPrice: '7425.2945',
-        change: '4.5421',
-        high: '8782.7964',
-        low: '6499.3696',
-        volume: 720404,
-      },
-      {
-        pair: 'TOMO/DAI',
-        lastPrice: '6018.7886',
-        change: '1.6589',
-        high: '3876.8717',
-        low: '4613.5315',
-        volume: 68946,
-      },
-      {
-        pair: 'OMG/WETH',
-        lastPrice: '398.8988',
-        change: '3.7561',
-        high: '9892.7954',
-        low: '6884.7173',
-        volume: 155839,
-      },
-    ]
+    // const expectedTokenPairArray = [
+    //   {
+    //     pair: 'TOMO/WETH',
+    //     lastPrice: '7425.2945',
+    //     change: '4.5421',
+    //     high: '8782.7964',
+    //     low: '6499.3696',
+    //     volume: 720404,
+    //   },
+    //   {
+    //     pair: 'TOMO/DAI',
+    //     lastPrice: '6018.7886',
+    //     change: '1.6589',
+    //     high: '3876.8717',
+    //     low: '4613.5315',
+    //     volume: 68946,
+    //   },
+    //   {
+    //     pair: 'OMG/WETH',
+    //     lastPrice: '398.8988',
+    //     change: '3.7561',
+    //     high: '9892.7954',
+    //     low: '6884.7173',
+    //     volume: 155839,
+    //   },
+    // ]
 
     const domain = getDomain([eventCreators.initialized(), eventCreators.tokenPairDataUpdated(tokenPairData)])
 

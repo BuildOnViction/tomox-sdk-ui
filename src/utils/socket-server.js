@@ -2,7 +2,6 @@ const express = require('express')
 const http = require('http')
 
 const socketIO = require('socket.io')
-const IOClient = require('socket.io-client')
 
 const ws = require('ws')
 const w = new ws('wss://ws.cex.io/ws/')
@@ -31,12 +30,6 @@ const ohlcv = JSON.stringify({
   rooms: ['pair-BTC-USD'],
 })
 
-const room = JSON.stringify({
-  e: 'subscribe',
-  rooms: ['pair-BTC-USD'],
-})
-
-let roomData
 w.on('open', () => {
   // w.send(room);
   w.send(ohlcv)

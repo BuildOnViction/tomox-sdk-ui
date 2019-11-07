@@ -18,7 +18,7 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-const unsubscribe = jest.fn()
+// const unsubscribe = jest.fn()
 let model
 
 describe('Login Page Model', () => {

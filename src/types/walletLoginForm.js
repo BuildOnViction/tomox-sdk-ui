@@ -1,4 +1,4 @@
-type CreateWalletParams = {
+export type CreateWalletParams = {
   wallet: ?Object,
   encryptedWallet: ?string,
   storeWallet: boolean,

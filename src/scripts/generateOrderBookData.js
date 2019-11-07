@@ -1,13 +1,13 @@
 import fs from 'fs'
 import { rand, randInt, round } from '../utils/helpers'
 import { format } from 'date-fns'
-import tokenPairs from '../jsons/tokenPairs.json'
+// import tokenPairs from '../jsons/tokenPairs.json'
 import { utils } from 'ethers'
 
 const trades = []
 const buys = []
 const sells = []
-const { pairs } = tokenPairs
+// const { pairs } = tokenPairs
 const minTimeStamp = 1519990000000
 const maxTimeStamp = 1520000000000
 const minAmount = 1

@@ -1,8 +1,8 @@
 import getTradesDomain, * as eventCreators from './trades'
 
-const initialState = {
-  byTimestamp: {},
-}
+// const initialState = {
+//   byTimestamp: {},
+// }
 
 function getDomain(events) {
   const state = events.reduce((state, event) => event(state), undefined)

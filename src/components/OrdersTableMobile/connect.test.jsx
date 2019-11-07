@@ -12,7 +12,6 @@ describe('mapStateToProps(state, props)', () => {
     const orders = jest.fn(() => 'test getOrders')
     ordersTableSelector.mockReturnValue({ orders })
 
-    const state = {}
     const result = mapStateToProps({}, {})
     const expected = { orders: 'test getOrders' }
 

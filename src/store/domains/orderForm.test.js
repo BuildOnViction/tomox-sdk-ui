@@ -7,15 +7,15 @@ function getModel(events) {
 }
 
 it('handles initialized event properly', () => {
-  const initialState = {
-    askPrice: 0,
-    bidPrice: 0,
-    totalQuoteBalance: 0,
-    totalBaseBalance: 0,
-    formName: '',
-    quoteToken: '',
-    baseToken: '',
-  }
+  // const initialState = {
+  //   askPrice: 0,
+  //   bidPrice: 0,
+  //   totalQuoteBalance: 0,
+  //   totalBaseBalance: 0,
+  //   formName: '',
+  //   quoteToken: '',
+  //   baseToken: '',
+  // }
 
   const orderForm = getModel([eventCreators.initialized()])
 

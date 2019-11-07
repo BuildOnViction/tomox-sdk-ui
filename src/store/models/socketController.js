@@ -590,6 +590,7 @@ const handleMarketsMessage = (
     event: WebsocketEvent,
     getState: GetState,
   ) => {
+  //eslint-disable-next-line
   let { payload: { pairData, smallChartsData }} = event
   const state = getState()
   const pairDomain = getTokenPairsDomain(state)

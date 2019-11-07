@@ -2,7 +2,7 @@ import getTokenDomain, * as eventCreators from './tokens'
 import { tokensBySymbol, tokenSymbols } from '../../config/tokens'
 import { objectWithoutKey } from '../../helpers/utils'
 
-const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
+// const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
 
 function getDomain(events) {
   const state = events.reduce((state, event) => event(state), undefined)

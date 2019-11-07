@@ -60,7 +60,7 @@ export const compare = (a, b, order = 'asc') => {
     a = a.toUpperCase()
     b = b.toUpperCase()
   }
-
+  //eslint-disable-next-line
   return order === 'asc' ? (a < b ? -1 : 1) : a < b ? 1 : -1
 }
 
@@ -91,8 +91,8 @@ export function toPassowrdType(text) {
 }
 
 export function getSessionStorageWallets() {
-  let wallets = [{ address: 'Enter new...', key: '', rank: 0 }],
-    index = 1
+  const wallets = [{ address: 'Enter new...', key: '', rank: 0 }]
+  let index = 1
   Object.keys(sessionStorage).map(key => {
     if (ethereum_address.isAddress(key)) {
       wallets.push({ address: key, key: sessionStorage[key], rank: index })

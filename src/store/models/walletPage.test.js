@@ -15,7 +15,7 @@ jest.mock('./signerSettings')
 jest.mock('../domains')
 jest.mock('ethers')
 
-let model, tokenModel, accountBalancesDomain
+let accountBalancesDomain
 const { store } = createStore()
 
 const testAddress = '0x7a9f3cd060ab180f36c17fe6bdf9974f577d77aa'
@@ -89,7 +89,6 @@ it('handles toggleAllowance Successfully', async () => {
   getAccountDomain.mockImplementation(getAccountDomainMock)
   getNotificationsDomain.mockImplementation(getNotificationsDomainMock)
   getAccountBalancesDomain.mockImplementation(getAccountBalancesDomainMock)
-  tokenModel = getTokenDomain(store.getState())
 
   expect(getAccountBalancesDomain().isAllowed('ZRX')).toEqual(false)
 
@@ -109,7 +108,7 @@ it('handles queryAccountData properly', async () => {
   const getAccountDomainMock = jest.fn(() => ({ address: () => testAddress }))
   const getNotificationsDomainMock = jest.fn(() => ({
     last: () => {
-      1
+      return 1
     },
   }))
   const chainId = jest.fn().mockReturnValue(8888)
@@ -123,7 +122,6 @@ it('handles queryAccountData properly', async () => {
   getNotificationsDomain.mockImplementation(getNotificationsDomainMock)
 
   accountBalancesDomain = getAccountBalancesDomain(store.getState())
-  tokenModel = getTokenDomain(store.getState())
 
   expect(accountBalancesDomain.get(req.symbol)).toEqual(null)
   expect(accountBalancesDomain.isAllowed(req.symbol)).toEqual(false)

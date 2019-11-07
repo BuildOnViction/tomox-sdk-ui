@@ -2,7 +2,7 @@ import createStore from '../../store/configureStore'
 import logoutPageSelector from './logoutPage'
 import * as actionCreators from './logoutPage'
 
-const unsubscribe = jest.fn()
+// const unsubscribe = jest.fn()
 let selector
 
 describe('Logout Page Model', () => {

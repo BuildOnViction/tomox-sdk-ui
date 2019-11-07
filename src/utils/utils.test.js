@@ -1,8 +1,4 @@
 import { parseJSONData, parseJSONToFixed, parseOrders, parseTrades, parseOrderBookData } from './parsers'
-import { sortedInserts } from './helpers'
-import tokenPairData from '../jsons/tokenPairData'
-import orders from '../jsons/orders'
-import trades from '../jsons/trades'
 
 describe('Parsers', () => {
   it('parseJSONData parses JSON data', () => {

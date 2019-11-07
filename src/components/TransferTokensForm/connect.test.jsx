@@ -4,25 +4,24 @@ import { mount } from 'enzyme'
 import createStore from '../../store/configureStore'
 import connect, { mapStateToProps } from './connect'
 import getTransferTokensFormSelector from '../../store/models/transferTokensForm'
-TransferTokensForm
 jest.mock('../../store/models/transferTokensForm')
 
 describe('mapStateToProps(state, props)', () => {
-  let getState
+  // let getState
 
   beforeEach(() => {
     jest.clearAllMocks()
 
-    getState = jest.fn(() => ({
-      loading: 'test loading',
-      status: 'test status',
-      statusMessage: 'test statusMessage',
-      gas: 'test gas',
-      gasPrice: 'test gasPrice',
-      hash: 'test hash',
-      receipt: 'test receipt',
-      tokens: 'test tokens',
-    }))
+    // getState = jest.fn(() => ({
+    //   loading: 'test loading',
+    //   status: 'test status',
+    //   statusMessage: 'test statusMessage',
+    //   gas: 'test gas',
+    //   gasPrice: 'test gasPrice',
+    //   hash: 'test hash',
+    //   receipt: 'test receipt',
+    //   tokens: 'test tokens',
+    // }))
 
     getTransferTokensFormSelector.mockReturnValue({
       isLoading: jest.fn(() => 'test loading'),
