@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
-import selector from '../../store/models/connectionStatus';
+import { connect } from 'react-redux'
+import selector from '../../store/models/connectionStatus'
 
-export default connect(selector);
+export default connect(selector)

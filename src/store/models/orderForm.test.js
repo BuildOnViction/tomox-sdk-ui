@@ -7,17 +7,17 @@ it('checks Initial Model return', async () => {
   const { store } = createStore()
   const state = store.getState()
 
-  let tokenPairDomain = getTokenPairsDomain(state)
-  let orderBookDomain = getOrderBookDomain(state)
-  let accountBalancesDomain = getAccountBalancesDomain(state)
+  const tokenPairDomain = getTokenPairsDomain(state)
+  const orderBookDomain = getOrderBookDomain(state)
+  const accountBalancesDomain = getAccountBalancesDomain(state)
 
-  let currentPair = tokenPairDomain.getCurrentPair()
-  let baseToken = currentPair.baseTokenSymbol
-  let quoteToken = currentPair.quoteTokenSymbol
-  let baseTokenBalance = accountBalancesDomain.get(baseToken)
-  let quoteTokenBalance = accountBalancesDomain.get(quoteToken)
-  let askPrice = orderBookDomain.getAskPrice()
-  let bidPrice = orderBookDomain.getBidPrice()
+  const currentPair = tokenPairDomain.getCurrentPair()
+  const baseToken = currentPair.baseTokenSymbol
+  const quoteToken = currentPair.quoteTokenSymbol
+  const baseTokenBalance = accountBalancesDomain.get(baseToken)
+  const quoteTokenBalance = accountBalancesDomain.get(quoteToken)
+  const askPrice = orderBookDomain.getAskPrice()
+  const bidPrice = orderBookDomain.getBidPrice()
   const defaultOrderFormDomain = getOrderFormModel(state)
 
   expect(defaultOrderFormDomain).toEqual({
@@ -27,6 +27,6 @@ it('checks Initial Model return', async () => {
     baseTokenBalance,
     quoteTokenBalance,
     askPrice,
-    bidPrice
+    bidPrice,
   })
 })

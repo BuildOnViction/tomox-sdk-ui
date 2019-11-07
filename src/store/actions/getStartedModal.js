@@ -5,10 +5,10 @@ import type {
   RevertApproveTxAction,
   RevertConvertTxAction,
   SendApproveTxAction,
-  SendConvertTxAction
-} from '../../types/getStartedModal';
+  SendConvertTxAction,
+} from '../../types/getStartedModal'
 
-import type { TxReceipt } from '../../types/common';
+import type { TxReceipt } from '../../types/common'
 
 const actionTypes = {
   deposit: 'getStartedModal/DEPOSIT',
@@ -18,49 +18,49 @@ const actionTypes = {
   confirmConvertTx: 'getStartedModal/CONFIRM_CONVERT_TX',
   sendApproveTx: 'getStartedModal/SEND_APPROVE_TX',
   revertApproveTx: 'getStartedModal/REVERT_APPROVE_TX',
-  confirmApproveTx: 'getStartedModal/CONFIRM_APPROVE_TX'
-};
+  confirmApproveTx: 'getStartedModal/CONFIRM_APPROVE_TX',
+}
 
 export function sendConvertTx(hash: string): SendConvertTxAction {
   return {
     type: actionTypes.sendConvertTx,
-    payload: { hash }
-  };
+    payload: { hash },
+  }
 }
 
 export function revertConvertTx(receipt: TxReceipt): RevertConvertTxAction {
   return {
     type: actionTypes.revertConvertTx,
-    payload: { receipt }
-  };
+    payload: { receipt },
+  }
 }
 
 export function confirmConvertTx(receipt: TxReceipt): ConfirmConvertTxAction {
   return {
     type: actionTypes.confirmConvertTx,
-    payload: { receipt }
-  };
+    payload: { receipt },
+  }
 }
 
 export function sendApproveTx(hash: string): SendApproveTxAction {
   return {
     type: actionTypes.sendApproveTx,
-    payload: { hash }
-  };
+    payload: { hash },
+  }
 }
 
 export function revertApproveTx(receipt: TxReceipt): RevertApproveTxAction {
   return {
     type: actionTypes.revertApproveTx,
-    payload: { receipt }
-  };
+    payload: { receipt },
+  }
 }
 
 export function confirmApproveTx(receipt: TxReceipt): ConfirmApproveTxAction {
   return {
     type: actionTypes.confirmApproveTx,
-    payload: { receipt }
-  };
+    payload: { receipt },
+  }
 }
 
-export default actionTypes;
+export default actionTypes

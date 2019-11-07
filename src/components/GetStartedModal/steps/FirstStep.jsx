@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import { Callout, Button, Checkbox } from '@blueprintjs/core';
-import { ModalBody, ModalFooter } from '../../Common';
+import React from 'react'
+import styled from 'styled-components'
+import { Callout, Button, Checkbox } from '@blueprintjs/core'
+import { ModalBody, ModalFooter } from '../../Common'
 
 type Props = {
   step: string,
@@ -32,8 +32,8 @@ const FirstStep = (props: Props) => {
     goToSecondStep,
     goToThirdStep,
     showHelpModalChecked,
-    toggleShowHelpModalCheckBox
-  } = props;
+    toggleShowHelpModalCheckBox,
+  } = props
 
   return (
     <React.Fragment>
@@ -74,14 +74,14 @@ const FirstStep = (props: Props) => {
         </FooterBox>
       </ModalFooter>
     </React.Fragment>
-  );
-};
+  )
+}
 
 const FooterBox = styled.div`
   width: 100%;
   padding-top: 80px;
   display: flex;
   justify-content: space-between;
-`;
+`
 
-export default FirstStep;
+export default FirstStep

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgGbyte = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgGbyte = props => (
       <use fill="#FFF" xlinkHref="#gbyte_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgGbyte;
+export default SvgGbyte

@@ -8,8 +8,8 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
 import { 

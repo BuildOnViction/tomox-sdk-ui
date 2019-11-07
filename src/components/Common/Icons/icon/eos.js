@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEos = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -33,6 +33,6 @@ const SvgEos = props => (
       />
     </g>
   </svg>
-);
+)
 
-export default SvgEos;
+export default SvgEos

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgElix = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -54,6 +54,6 @@ const SvgElix = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgElix;
+export default SvgElix

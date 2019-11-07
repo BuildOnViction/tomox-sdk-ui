@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEqli = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -33,6 +33,6 @@ const SvgEqli = props => (
       />
     </g>
   </svg>
-);
+)
 
-export default SvgEqli;
+export default SvgEqli

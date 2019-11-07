@@ -28,12 +28,12 @@ it('handles signerSet event properly', () => {
   const settings = {
     type: 'metamask',
     url: 'http://127.0.0.1:8545',
-    networkId: 3
+    networkId: 3,
   }
   const signerDomain = getDomain([
     eventCreators.initialized(),
     eventCreators.signerRequested(),
-    eventCreators.signerUpdated(settings)
+    eventCreators.signerUpdated(settings),
   ])
 
   expect(signerDomain.isLoading()).toEqual(false)
@@ -46,7 +46,7 @@ it('handles signerError event properly', () => {
   const signerDomain = getDomain([
     eventCreators.initialized(),
     eventCreators.signerRequested(),
-    eventCreators.signerError('Could not find signer')
+    eventCreators.signerError('Could not find signer'),
   ])
 
   expect(signerDomain.getError()).toEqual('Could not find signer')

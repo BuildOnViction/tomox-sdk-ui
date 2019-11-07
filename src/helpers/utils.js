@@ -11,7 +11,7 @@ export const objectWithoutKey = (myObj, deleteKey) => {
 export const addKeyToObject = (obj, key, addKey) => {
   return {
     ...obj,
-    [key]: addKey
+    [key]: addKey,
   }
 }
 
@@ -35,6 +35,6 @@ export const removeKeys = (myObj, deleteKeys) => {
 export const addByKey = (myObj, addKey, addObject) => {
   return {
     ...myObj,
-    [addKey]: addObject
+    [addKey]: addObject,
   }
 }

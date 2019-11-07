@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgExmo = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgExmo = props => (
       <use fill="#FFF" xlinkHref="#exmo_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgExmo;
+export default SvgExmo

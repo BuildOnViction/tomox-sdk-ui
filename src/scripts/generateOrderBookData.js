@@ -4,17 +4,17 @@ import { format } from 'date-fns'
 import tokenPairs from '../jsons/tokenPairs.json'
 import { utils } from 'ethers'
 
-let trades = []
-let buys = []
-let sells = []
-let { pairs } = tokenPairs
-let minTimeStamp = 1519990000000
-let maxTimeStamp = 1520000000000
-let minAmount = 1
-let maxAmount = 100
-let minPrice = 380
-let middlePrice = 400
-let maxPrice = 420
+const trades = []
+const buys = []
+const sells = []
+const { pairs } = tokenPairs
+const minTimeStamp = 1519990000000
+const maxTimeStamp = 1520000000000
+const minAmount = 1
+const maxAmount = 100
+const minPrice = 380
+const middlePrice = 400
+const maxPrice = 420
 
 console.log(format(new Date(maxTimeStamp), 'DD/MM/YYYY HH:MM:SS Z '))
 console.log(format(new Date(minTimeStamp), 'DD/MM/YYYY HH:MM:SS Z '))
@@ -30,12 +30,12 @@ const randomHash = () => utils.sha256(utils.randomBytes(100))
 const randomAddress = () => randomHash().slice(0, 42)
 const roundToInteger = () => rand(0, 1) / 0.2 > 1
 
-let tradesNumber = rand(100, 200)
-let buyNumber = rand(100, 200)
-let sellNumber = rand(100, 200)
+const tradesNumber = rand(100, 200)
+const buyNumber = rand(100, 200)
+const sellNumber = rand(100, 200)
 
 for (let i = 0; i < tradesNumber; i++) {
-  let order = {
+  const order = {
     amount: roundToInteger() ? round(randomAmount(), 0) : round(randomAmount(), 2),
     price: randomPrice(),
     type: randomOrderType(),
@@ -45,34 +45,34 @@ for (let i = 0; i < tradesNumber; i++) {
     taker: randomAddress(),
     maker: randomAddress(),
     pairName: 'DAI_WETH',
-    createdAt: randomTimestamp()
+    createdAt: randomTimestamp(),
   }
 
   trades.push(order)
 }
 
 for (let i = 0; i < buyNumber; i++) {
-  let buy = {
+  const buy = {
     price: randomBidPrice(),
-    volume: roundToInteger() ? round(randomAmount(), 0) : round(randomAmount(), 2)
+    volume: roundToInteger() ? round(randomAmount(), 0) : round(randomAmount(), 2),
   }
 
   buys.push(buy)
 }
 
 for (let i = 0; i < sellNumber; i++) {
-  let sell = {
+  const sell = {
     price: randomAskPrice(),
-    volume: roundToInteger() ? round(randomAmount(), 0) : round(randomAmount(), 2)
+    volume: roundToInteger() ? round(randomAmount(), 0) : round(randomAmount(), 2),
   }
 
   sells.push(sell)
 }
 
-let orderBookData = {
+const orderBookData = {
   buys,
   sells,
-  trades
+  trades,
 }
 
 fs.writeFile('orderBookData.json', JSON.stringify(orderBookData), 'utf8', err => {

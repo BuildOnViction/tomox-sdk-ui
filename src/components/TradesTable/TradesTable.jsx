@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import TradesTableRenderer from './TradesTableRenderer';
-import type { Trade } from '../../types/trades';
-import type { TokenPair } from '../../types/tokens';
+import React from 'react'
+import TradesTableRenderer from './TradesTableRenderer'
+import type { Trade } from '../../types/trades'
+import type { TokenPair } from '../../types/tokens'
 
 type State = {
   selectedTabId: string,
@@ -28,8 +28,8 @@ class TradesTable extends React.PureComponent<Props, State> {
         currentPair={currentPair}
         trades={sortedMarketTradeHistory}
       />
-    );
+    )
   }
 }
 
-export default TradesTable;
+export default TradesTable

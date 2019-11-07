@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgDew = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgDew = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgDew;
+export default SvgDew

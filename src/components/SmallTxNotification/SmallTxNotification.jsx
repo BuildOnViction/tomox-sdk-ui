@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import { Callout, Button, Intent, Spinner } from '@blueprintjs/core';
-import { Indent } from '../Common';
-import styled from 'styled-components';
+import React from 'react'
+import { Callout, Button, Intent, Spinner } from '@blueprintjs/core'
+import { Indent } from '../Common'
+import styled from 'styled-components'
 
 type Props = {
   loading: boolean,
@@ -13,11 +13,11 @@ type Props = {
 
 //TODO Add link to TOMOscan
 const SmallTxNotification = (props: Props) => {
-  const { status, hash, txName } = props;
-  console.log(hash);
+  const { status, hash, txName } = props
+  console.log(hash)
   switch (status) {
     case 'incomplete':
-      return null;
+      return null
     case 'sent':
       return (
         <CalloutBox>
@@ -33,7 +33,7 @@ const SmallTxNotification = (props: Props) => {
             </NotificationBox>
           </Callout>
         </CalloutBox>
-      );
+      )
     case 'confirmed':
       return (
         <CalloutBox>
@@ -46,7 +46,7 @@ const SmallTxNotification = (props: Props) => {
             </NotificationBox>
           </Callout>
         </CalloutBox>
-      );
+      )
     case 'reverted':
       return (
         <CalloutBox>
@@ -59,7 +59,7 @@ const SmallTxNotification = (props: Props) => {
             </NotificationBox>
           </Callout>
         </CalloutBox>
-      );
+      )
     case 'error':
       return (
         <CalloutBox>
@@ -67,19 +67,19 @@ const SmallTxNotification = (props: Props) => {
             {txName}
           </Callout>
         </CalloutBox>
-      );
+      )
     default:
-      return null;
+      return null
   }
-};
+}
 
 const CalloutBox = styled.div`
   width: 500px;
-`;
+`
 
 const NotificationBox = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`
 
-export default SmallTxNotification;
+export default SmallTxNotification

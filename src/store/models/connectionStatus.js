@@ -1,5 +1,5 @@
-import { getConnectionDomain } from '../domains';
+import { getConnectionDomain } from '../domains'
 
 export default function selector(state) {
-  return getConnectionDomain(state);
+  return getConnectionDomain(state)
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgCtr = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgCtr = props => (
       <use fill="#FFF" xlinkHref="#ctr_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgCtr;
+export default SvgCtr

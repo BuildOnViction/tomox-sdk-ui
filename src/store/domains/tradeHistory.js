@@ -3,7 +3,7 @@ import type { TradeHistoryState } from '../../types/tradeHistory'
 
 const initialState: TradeHistoryState = {
   marketTradeHistory: [{}],
-  userTradeHistory: [{}]
+  userTradeHistory: [{}],
 }
 
 export const initialized = () => {
@@ -15,7 +15,7 @@ export const dataSaved = (data: TradeHistoryState) => {
   const event = (state: TradeHistoryState) => ({
     ...state,
     marketTradeHistory: data.marketTradeHistory,
-    userTradeHistory: data.userTradeHistory
+    userTradeHistory: data.userTradeHistory,
   })
   return event
 }
@@ -24,6 +24,6 @@ export default function model(state: TradeHistoryState) {
   return {
     getState: () => state,
     getMarketTradeHistory: () => state.marketTradeHistory,
-    getUserTradeHistory: () => state.userTradeHistory
+    getUserTradeHistory: () => state.userTradeHistory,
   }
 }

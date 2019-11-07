@@ -31,7 +31,7 @@ const SellLimitOrderForm = props => {
     sellPriceInput,
     sellAmountInput,
     authenticated,
-    redirectToLoginPage
+    redirectToLoginPage,
   } = props
 
   return (

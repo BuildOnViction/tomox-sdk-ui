@@ -12,13 +12,13 @@ const initialState: OrderBookState = {
   sortedBids: [],
   sortedAsks: [],
   quoteToken: '',
-  baseToken: ''
-};
+  baseToken: '',
+}
 
 export const initialized = () => {
-  const event = (state: OrderBookState = initialState) => state;
-  return event;
-};
+  const event = (state: OrderBookState = initialState) => state
+  return event
+}
 
 export const selected = (order: Object) => {
   const event = (state: OrderBookState) => ({
@@ -34,42 +34,42 @@ export const orderBookInitialized = (
   asks: Array<Object>
 ) => {
   const event = (state: OrderBookState) => {
-    let newSortedBids = new SortedArray([], (a, b) => b - a);
-    let newSortedAsks = new SortedArray([], (a, b) => a - b);
+    const newSortedBids = new SortedArray([], (a, b) => b - a)
+    const newSortedAsks = new SortedArray([], (a, b) => a - b)
 
-    let newBids = bids.reduce((result, item) => {
+    const newBids = bids.reduce((result, item) => {
       if (item.amount > 0) {
         item.update = true
-        result[item.price] = item;
+        result[item.price] = item
         if (newSortedBids.search(item.price) === -1)
-          newSortedBids.insert(item.price);
+          newSortedBids.insert(item.price)
       }
 
-      return result;
-    }, {});
+      return result
+    }, {})
 
-    let newAsks = asks.reduce((result, item) => {
+    const newAsks = asks.reduce((result, item) => {
       if (item.amount > 0) {
         item.update = true
-        result[item.price] = item;
+        result[item.price] = item
         if (newSortedAsks.search(item.price) === -1)
-          newSortedAsks.insert(item.price);
+          newSortedAsks.insert(item.price)
       }
 
-      return result;
-    }, {});
+      return result
+    }, {})
 
     return {
       ...state,
       bids: newBids,
       asks: newAsks,
       sortedBids: newSortedBids.array,
-      sortedAsks: newSortedAsks.array
-    };
-  };
+      sortedAsks: newSortedAsks.array,
+    }
+  }
 
-  return event;
-};
+  return event
+}
 
 export const orderBookUpdated = (bids: Array<Object>, asks: Array<Object>) => {
   const event = (state: OrderBookState) => {
@@ -143,12 +143,12 @@ export const orderBookReset = () => {
       bids: {},
       asks: {},
       sortedBids: [],
-      sortedAsks: []
-    };
-  };
+      sortedAsks: [],
+    }
+  }
 
-  return event;
-};
+  return event
+}
 
 export default function domain(state: OrderBookState) {
   return {
@@ -161,7 +161,7 @@ export default function domain(state: OrderBookState) {
     getOrderedAsks: (): Array<Object> =>
       state.sortedAsks.map(price => state.asks[price]),
     getOrderBookData: (ln: number): OrderBookData => {
-      ln = ln || 300;
+      ln = ln || 300
 
       let bids = state.sortedBids
         .slice(0, Math.min(state.sortedBids.length, ln))
@@ -174,10 +174,10 @@ export default function domain(state: OrderBookState) {
             total:
               result.length > 0
                 ? round(result[result.length - 1].total + item.amount, amountPrecision)
-                : round(item.amount, amountPrecision)
-          });
-          return result;
-        }, []);
+                : round(item.amount, amountPrecision),
+          })
+          return result
+        }, [])
 
       let asks = state.sortedAsks
         .slice(0, Math.min(state.sortedAsks.length, ln))
@@ -190,8 +190,8 @@ export default function domain(state: OrderBookState) {
             total:
               result.length > 0
                 ? round(result[result.length - 1].total + item.amount, amountPrecision)
-                : round(item.amount, amountPrecision)
-          });
+                : round(item.amount, amountPrecision),
+          })
 
           return result
         }, [])
@@ -228,5 +228,5 @@ export default function domain(state: OrderBookState) {
         : 0,
     getQuoteToken: () => state.quoteToken,
     getBaseToken: () => state.baseToken,
-  };
+  }
 }

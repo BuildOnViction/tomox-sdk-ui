@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgCdt = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgCdt = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#cdt_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgCdt;
+export default SvgCdt

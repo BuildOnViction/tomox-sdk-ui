@@ -1,7 +1,7 @@
 // @flow
-import React from 'react';
+import React from 'react'
 
-import PathSelectorRenderer from './PathSelectorRenderer';
+import PathSelectorRenderer from './PathSelectorRenderer'
 
 type Props = {
     dPath: Array<any>,
@@ -14,7 +14,7 @@ const PathSelector = (props: Props) => {
             dPath={props.dPath}
             handleSelectPath={props.handleSelectPath}
         />
-    );
-};
+    )
+}
 
-export default PathSelector;
+export default PathSelector

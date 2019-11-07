@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgYoyow = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgYoyow = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#yoyow_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgYoyow;
+export default SvgYoyow

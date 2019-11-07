@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgNcash = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgNcash = props => (
       <use fill="#FFF" xlinkHref="#ncash_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgNcash;
+export default SvgNcash

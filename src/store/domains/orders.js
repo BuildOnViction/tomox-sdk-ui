@@ -152,6 +152,6 @@ export default function ordersDomain(state: OrdersState) {
       )
       return current
     },
-    getOrderByHash: (hash) => state.byHash[hash]
+    getOrderByHash: (hash) => state.byHash[hash],
   }
 }

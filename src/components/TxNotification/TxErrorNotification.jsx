@@ -17,7 +17,7 @@ const TxErrorNotification = ({ error, receipt, title }: Props) => (
 )
 
 TxErrorNotification.defaultProps = {
-  title: 'Transaction Failed'
+  title: 'Transaction Failed',
 }
 
 export default TxErrorNotification

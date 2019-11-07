@@ -1,6 +1,6 @@
 // @flow
-import type { TxReceipt } from '../../types/common';
-import type { TransferTokensFormState } from '../../types/transferTokensForm';
+import type { TxReceipt } from '../../types/common'
+import type { TransferTokensFormState } from '../../types/transferTokensForm'
 
 const initialState: TransferTokensFormState = {
   loading: false,
@@ -9,32 +9,32 @@ const initialState: TransferTokensFormState = {
   gas: 21000,
   gasPrice: 41000000000,
   hash: null,
-  receipt: null
-};
+  receipt: null,
+}
 
 export const initialized = () => {
-  const event = (state: TransferTokensFormState = initialState) => state;
-  return event;
-};
+  const event = (state: TransferTokensFormState = initialState) => state
+  return event
+}
 
 export const txValidated = (statusMessage: string, gas: number) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     status: 'valid',
-    statusMessage: statusMessage,
-    gas: gas
-  });
-  return event;
-};
+    statusMessage,
+    gas,
+  })
+  return event
+}
 
 export const txInvalidated = (statusMessage: string) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     status: 'invalid',
-    statusMessage: statusMessage
-  });
-  return event;
-};
+    statusMessage,
+  })
+  return event
+}
 
 export const txSent = (hash: string) => {
   const event = (state: TransferTokensFormState) => ({
@@ -43,41 +43,41 @@ export const txSent = (hash: string) => {
     status: 'sent',
     statusMessage: null,
     receipt: null,
-    hash: hash
-  });
-  return event;
-};
+    hash,
+  })
+  return event
+}
 
 export const txReverted = (statusMessage: string, receipt: TxReceipt) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     loading: false,
     status: 'reverted',
-    statusMessage: statusMessage,
-    receipt: receipt
-  });
-  return event;
-};
+    statusMessage,
+    receipt,
+  })
+  return event
+}
 
 export const txError = (status: string, statusMessage: string) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     loading: false,
-    status: status,
-    statusMessage: statusMessage
-  });
-  return event;
-};
+    status,
+    statusMessage,
+  })
+  return event
+}
 
 export const txConfirmed = (receipt: TxReceipt) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     loading: false,
     status: 'confirmed',
-    receipt: receipt
-  });
-  return event;
-};
+    receipt,
+  })
+  return event
+}
 
 export const resetForm = () => {
   const event = (state: TransferTokensFormState) => ({
@@ -85,10 +85,10 @@ export const resetForm = () => {
     loading: false,
     status: 'incomplete',
     hash: null,
-    receipt: null
-  });
-  return event;
-};
+    receipt: null,
+  })
+  return event
+}
 
 export default function transferTokensFormDomain(
   state: TransferTokensFormState
@@ -101,6 +101,6 @@ export default function transferTokensFormDomain(
     getGas: () => state.gas,
     getGasPrice: () => state.gasPrice,
     getHash: () => state.hash,
-    getReceipt: () => state.receipt
-  };
+    getReceipt: () => state.receipt,
+  }
 }

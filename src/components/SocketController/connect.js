@@ -1,27 +1,27 @@
 import {
-  connect
-} from 'react-redux';
+  connect,
+} from 'react-redux'
 import socketControllerSelector, {
-  openConnection
-} from '../../store/models/socketController';
+  openConnection,
+} from '../../store/models/socketController'
 
 export function mapStateToProps(state) {
   const {
     authenticated,
-    isOpened
-  } = socketControllerSelector(state);
+    isOpened,
+  } = socketControllerSelector(state)
 
   return {
     authenticated,
-    isOpened
-  };
+    isOpened,
+  }
 }
 
 const mapDispatchToProps = {
-  openConnection
-};
+  openConnection,
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
+)

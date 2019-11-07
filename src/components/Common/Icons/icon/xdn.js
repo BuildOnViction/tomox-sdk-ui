@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgXdn = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgXdn = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgXdn;
+export default SvgXdn

@@ -2,7 +2,7 @@ import React from 'react'
 
 const WalletIcon = props => {
   const styles = {
-    svg: { display: 'inline-block', verticalAlign: 'middle' }
+    svg: { display: 'inline-block', verticalAlign: 'middle' },
   }
 
   return (

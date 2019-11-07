@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgCoqui = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgCoqui = props => (
       <use fill="#FFF" xlinkHref="#coqui_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgCoqui;
+export default SvgCoqui

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgShift = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -36,6 +36,6 @@ const SvgShift = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgShift;
+export default SvgShift

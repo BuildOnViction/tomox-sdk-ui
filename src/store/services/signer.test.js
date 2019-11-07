@@ -26,16 +26,16 @@ describe('createProvider', () => {
   it('create metamask provider', async () => {
     window.web3 = {
       version: {
-        network: '8888'
+        network: '8888',
       },
       currentProvider: 'web3',
       eth: {
-        defaultAccount: 'test defaultAccount'
-      }
+        defaultAccount: 'test defaultAccount',
+      },
     }
 
-    let params = { type: 'metamask', custom: false }
-    let { settings, address } = await signerService.createSigner(params)
+    const params = { type: 'metamask', custom: false }
+    const { settings, address } = await signerService.createSigner(params)
 
     expect(settings).toEqual({ type: 'metamask' })
     expect(address).toEqual({ address: 'test address', networkId: 8888 })
@@ -45,15 +45,15 @@ describe('createProvider', () => {
   })
 
   it('creates local provider', async () => {
-    let params = { type: 'rpc' }
-    let { settings, address } = await signerService.createSigner(params)
+    const params = { type: 'rpc' }
+    const { settings, address } = await signerService.createSigner(params)
 
     expect(settings).toEqual({ type: 'rpc', url: 'http://127.0.0.1:8545', networkId: 8888 })
     expect(address).toEqual('test address')
     expect(providers.JsonRpcProvider).toHaveBeenCalledTimes(1)
     expect(providers.JsonRpcProvider).toHaveBeenCalledWith('http://127.0.0.1:8545', {
       chainId: 8888,
-      name: 'unspecified'
+      name: 'unspecified',
     })
 
     expect(window.signer.instance).toBe('test signer')

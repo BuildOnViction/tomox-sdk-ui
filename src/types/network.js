@@ -1,6 +1,6 @@
 //@flow
 
-import type { Transaction } from './common';
+import type { Transaction } from './common'
 
 export type Network = {
   chainId: number,

@@ -8,7 +8,7 @@ export function initialized() {
 export function subscribed(address) {
   const event = state => ({
     ...state,
-    [address]: null
+    [address]: null,
   })
 
   return event
@@ -17,7 +17,7 @@ export function subscribed(address) {
 export function updated(address, balance) {
   const event = state => ({
     ...state,
-    [address]: balance
+    [address]: balance,
   })
 
   return event
@@ -48,6 +48,6 @@ export default function model(state) {
 
     isSubscribed(address) {
       return typeof state[address] !== 'undefined'
-    }
+    },
   }
 }

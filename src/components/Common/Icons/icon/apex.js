@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgApex = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgApex = props => (
       <use fill="#FFF" xlinkHref="#apex_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgApex;
+export default SvgApex

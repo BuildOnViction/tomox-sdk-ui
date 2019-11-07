@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgPoe = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgPoe = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgPoe;
+export default SvgPoe

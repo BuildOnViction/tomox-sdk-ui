@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgSberbank = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgSberbank = props => (
       <use fill="#FFF" xlinkHref="#sberbank_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgSberbank;
+export default SvgSberbank

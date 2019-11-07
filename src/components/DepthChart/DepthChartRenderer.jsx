@@ -3,7 +3,7 @@ import 'amcharts3/amcharts/amcharts'
 import 'amcharts3/amcharts/serial'
 import 'amcharts3/amcharts/themes/light'
 
-var AmCharts = require('@amcharts/amcharts3-react')
+const AmCharts = require('@amcharts/amcharts3-react')
 
 type BidOrAsk = {
   price: number,
@@ -26,7 +26,7 @@ const DepthChartRenderer = (props: ChartProps) => {
         className="depth-chart"
         style={{
           width: '100%',
-          height: '100%'
+          height: '100%',
         }}
         options={{
           type: 'serial',
@@ -69,15 +69,15 @@ const DepthChartRenderer = (props: ChartProps) => {
               clustered: false,
               valueField: 'asksamount',
               showBalloon: false,
-            }
+            },
           ],
           categoryField: 'price',
           chartCursor: {},
           balloon: {
-            textAlign: 'left'
+            textAlign: 'left',
           },
           categoryAxis: {
-            title: title,
+            title,
             minHorizontalGap: 100,
             startOnAxis: true,
             showFirstLabel: false,

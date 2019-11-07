@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgStorm = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -36,6 +36,6 @@ const SvgStorm = props => (
       <use fill="#FFF" xlinkHref="#storm_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgStorm;
+export default SvgStorm

@@ -386,7 +386,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellPrice, 
         buyAmount, 
         sellAmount, 
-        priceStep
+        priceStep,
       },
       buyPriceInput,
       sellPriceInput,
@@ -444,7 +444,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellPrice, 
         buyAmount, 
         sellAmount, 
-        priceStep
+        priceStep,
       },
       buyPriceInput,
       sellPriceInput,
@@ -500,7 +500,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellAmount, 
         buyPrice, 
         sellPrice, 
-        amountStep
+        amountStep,
       },
       buyAmountInput,
       sellAmountInput,
@@ -558,7 +558,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         sellAmount, 
         buyPrice, 
         sellPrice, 
-        amountStep
+        amountStep,
       }, 
       buyAmountInput, 
       sellAmountInput,

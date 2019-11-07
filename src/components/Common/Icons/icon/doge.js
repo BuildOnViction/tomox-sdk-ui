@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgDoge = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgDoge = props => (
       <use fill="#FFF" xlinkHref="#doge_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgDoge;
+export default SvgDoge

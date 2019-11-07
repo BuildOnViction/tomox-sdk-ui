@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgPasl = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgPasl = props => (
       <use fill="#FFF" xlinkHref="#pasl_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgPasl;
+export default SvgPasl

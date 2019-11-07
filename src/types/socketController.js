@@ -1,10 +1,10 @@
 //@flow
 import type {
-  Orders
-} from './orders';
+  Orders,
+} from './orders'
 import type {
-  Trades
-} from './trades';
+  Trades,
+} from './trades'
 import type {
   TokenPairs,
 } from './types/tokens'

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgStorj = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgStorj = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgStorj;
+export default SvgStorj

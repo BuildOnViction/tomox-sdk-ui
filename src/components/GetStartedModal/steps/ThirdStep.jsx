@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import { Button, Checkbox, Intent } from '@blueprintjs/core';
-import { ModalFooter, ModalBody } from '../../Common';
+import React from 'react'
+import styled from 'styled-components'
+import { Button, Checkbox, Intent } from '@blueprintjs/core'
+import { ModalFooter, ModalBody } from '../../Common'
 
 type Props = {
   step: string,
@@ -35,8 +35,8 @@ const Thirdstep = (props: Props) => {
     handleClose,
     redirectToTradingPage,
     showHelpModalChecked,
-    toggleShowHelpModalCheckBox
-  } = props;
+    toggleShowHelpModalCheckBox,
+  } = props
 
   return (
     <React.Fragment>
@@ -84,12 +84,12 @@ const Thirdstep = (props: Props) => {
         </FooterBox>
       </ModalFooter>
     </React.Fragment>
-  );
-};
+  )
+}
 
 const Box = styled.div`
   text-align: center;
-`;
+`
 
 const ButtonBox = styled.div`
   padding-top: 10px;
@@ -98,7 +98,7 @@ const ButtonBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
+`
 
 const ButtonGroupBox = styled.div`
   padding-left: 15%;
@@ -106,19 +106,19 @@ const ButtonGroupBox = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-`;
+`
 
 const FooterBox = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-`;
+`
 
 const ContactLinksBox = styled.div`
   padding-top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
+`
 
-export default Thirdstep;
+export default Thirdstep

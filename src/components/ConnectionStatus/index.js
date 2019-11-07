@@ -1,4 +1,4 @@
-import ConnectionStatus from './ConnectionStatus';
-import connect from './connect';
+import ConnectionStatus from './ConnectionStatus'
+import connect from './connect'
 
-export default connect(ConnectionStatus);
+export default connect(ConnectionStatus)

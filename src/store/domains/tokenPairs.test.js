@@ -1,38 +1,38 @@
-import * as eventCreators from './tokenPairs';
-import { generateTokenPairs } from '../../utils/tokens';
-import getTokenPairsDomain from './tokenPairs';
-import { quoteTokens } from '../../config/quotes';
+import * as eventCreators from './tokenPairs'
+import { generateTokenPairs } from '../../utils/tokens'
+import getTokenPairsDomain from './tokenPairs'
+import { quoteTokens } from '../../config/quotes'
 
 //createInitialState is not an eventCreator. We simply import it in order to create a new
 //create an initial state. The default initial state used in the application has to many
 //tokens to be used for tests. Therefore we recreate an initial state with less tokens
 //to test the token pair model
-const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX'];
+const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
 
 const tokensBySymbol = {
   TOMO: { symbol: 'TOMO', address: '0x0' },
   EOS: { symbol: 'EOS', address: '0x8d0a722b76c0dcb91bf62334afd11f925c0adb95' },
   WETH: { symbol: 'WETH', address: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6' },
   ZRX: { symbol: 'ZRX', address: '0xc73eec564e96e6653943d6d0e32121d455917653' },
-};
+}
 
-const tokens = Object.values(tokensBySymbol);
+const tokens = Object.values(tokensBySymbol)
 
 const initialTokenPairState = {
   byPair: generateTokenPairs(quoteTokens, tokens),
   data: {},
   favorites: [],
-};
+}
 
 function getDomain(events) {
-  const state = events.reduce((state, event) => event(state), undefined);
-  return getTokenPairsDomain(state);
+  const state = events.reduce((state, event) => event(state), undefined)
+  return getTokenPairsDomain(state)
 }
 
 describe('Token Pair Domain', () => {
   it('handles initialized event properly', () => {
-    const tokenPairsDomain = getDomain([eventCreators.initialized(initialTokenPairState)]);
-    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI'];
+    const tokenPairsDomain = getDomain([eventCreators.initialized(initialTokenPairState)])
+    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI']
 
     const expectedByPairsByCode = {
       'EOS/DAI': {
@@ -70,23 +70,23 @@ describe('Token Pair Domain', () => {
         baseTokenAddress: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6',
         quoteTokenAddress: '0x77da6a1ea1cf893ac9941f08bf9714b63c90298d',
       },
-    };
-    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs);
-    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedByPairsByCode);
-  });
+    }
+    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
+    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedByPairsByCode)
+  })
 
   it('handles tokenPairUpdated event properly', () => {
     const token = {
       symbol: 'REQ',
       address: '0x8f8221afbb33998d8584a2b05749ba73c37a938a',
-    };
+    }
 
     const tokenPairsDomain = getDomain([
       eventCreators.initialized(initialTokenPairState),
       eventCreators.tokenPairUpdated(token),
-    ]);
+    ])
 
-    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI', 'REQ/WETH', 'REQ/DAI'];
+    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI', 'REQ/WETH', 'REQ/DAI']
 
     const expectedPairsBySymbol = {
       'EOS/DAI': {
@@ -138,24 +138,24 @@ describe('Token Pair Domain', () => {
         baseTokenAddress: '0x8f8221afbb33998d8584a2b05749ba73c37a938a',
         quoteTokenAddress: '0x77da6a1ea1cf893ac9941f08bf9714b63c90298d',
       },
-    };
+    }
 
-    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs);
-    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol);
-  });
+    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
+    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol)
+  })
 
   it('handles tokenPairUpdated event properly if the event is already if the token is a quote token', () => {
     const token = {
       symbol: 'DAI',
       address: '0x77da6a1ea1cf893ac9941f08bf9714b63c90298d',
-    };
+    }
 
     const tokenPairsDomain = getDomain([
       eventCreators.initialized(initialTokenPairState),
       eventCreators.tokenPairUpdated(token),
-    ]);
+    ])
 
-    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI'];
+    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'ZRX/WETH', 'ZRX/DAI']
 
     const expectedPairsBySymbol = {
       'EOS/DAI': {
@@ -193,29 +193,29 @@ describe('Token Pair Domain', () => {
         baseTokenAddress: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6',
         quoteTokenAddress: '0x77da6a1ea1cf893ac9941f08bf9714b63c90298d',
       },
-    };
+    }
 
-    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs);
-    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol);
-  });
+    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
+    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol)
+  })
 
   it('handles tokenPairUpdated event properly', () => {
     const token1 = {
       symbol: 'REQ',
       address: '0x8f8221afbb33998d8584a2b05749ba73c37a938a',
-    };
+    }
     const token2 = {
       symbol: 'ZRX',
       address: '0xc73eec564e96e6653943d6d0e32121d455917653',
-    };
+    }
 
     const tokenPairsDomain = getDomain([
       eventCreators.initialized(initialTokenPairState),
       eventCreators.tokenPairUpdated(token1),
       eventCreators.tokenPairRemoved(token2),
-    ]);
+    ])
 
-    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'REQ/WETH', 'REQ/DAI'];
+    const expectedPairs = ['EOS/WETH', 'EOS/DAI', 'WETH/DAI', 'REQ/WETH', 'REQ/DAI']
 
     const expectedPairsBySymbol = {
       'EOS/DAI': {
@@ -253,11 +253,11 @@ describe('Token Pair Domain', () => {
         baseTokenAddress: '0x8f8221afbb33998d8584a2b05749ba73c37a938a',
         quoteTokenAddress: '0x77da6a1ea1cf893ac9941f08bf9714b63c90298d',
       },
-    };
+    }
 
-    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs);
-    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol);
-  });
+    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
+    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol)
+  })
 
   it('handles updated event', () => {
     const tokenPairData = {
@@ -285,7 +285,7 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155839,
       },
-    };
+    }
 
     const expectedTokenPairArray = [
       {
@@ -312,12 +312,12 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155839,
       },
-    ];
+    ]
 
-    const domain = getDomain([eventCreators.initialized(), eventCreators.tokenPairDataUpdated(tokenPairData)]);
+    const domain = getDomain([eventCreators.initialized(), eventCreators.tokenPairDataUpdated(tokenPairData)])
 
-    expect(domain.getTokenPairsData()).toEqual(tokenPairData);
-  });
+    expect(domain.getTokenPairsData()).toEqual(tokenPairData)
+  })
 
   it('handles updated event twice', () => {
     const tokenPairData = {
@@ -345,7 +345,7 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155839,
       },
-    };
+    }
 
     const newTokenPairData = {
       'OMG/DAI': {
@@ -372,7 +372,7 @@ describe('Token Pair Domain', () => {
         low: '2317.9722',
         volume: 786519,
       },
-    };
+    }
 
     const expectedTokenPairData = {
       'TOMO/WETH': {
@@ -423,16 +423,16 @@ describe('Token Pair Domain', () => {
         low: '2317.9722',
         volume: 786519,
       },
-    };
+    }
 
     const domain = getDomain([
       eventCreators.initialized(),
       eventCreators.tokenPairDataUpdated(tokenPairData),
       eventCreators.tokenPairDataUpdated(newTokenPairData),
-    ]);
+    ])
 
-    expect(domain.getTokenPairsData()).toEqual(expectedTokenPairData);
-  });
+    expect(domain.getTokenPairsData()).toEqual(expectedTokenPairData)
+  })
 
   it('handles updated event with overlapping data', () => {
     const tokenPairData = {
@@ -460,7 +460,7 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155839,
       },
-    };
+    }
 
     const newTokenPairData = {
       'OMG/DAI': {
@@ -487,7 +487,7 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155880,
       },
-    };
+    }
 
     const expectedTokenPairData = {
       'TOMO/WETH': {
@@ -530,25 +530,25 @@ describe('Token Pair Domain', () => {
         low: '6884.7173',
         volume: 155880,
       },
-    };
+    }
 
     const domain = getDomain([
       eventCreators.initialized(),
       eventCreators.tokenPairDataUpdated(tokenPairData),
       eventCreators.tokenPairDataUpdated(newTokenPairData),
-    ]);
+    ])
 
-    expect(domain.getTokenPairsData()).toEqual(expectedTokenPairData);
-  });
+    expect(domain.getTokenPairsData()).toEqual(expectedTokenPairData)
+  })
 
   it('handles tokenPairFavorited event', () => {
     const domain = getDomain([
       eventCreators.initialized(initialTokenPairState),
       eventCreators.tokenPairFavorited('EOS/WETH', true),
-    ]);
+    ])
 
-    expect(domain.getFavoritePairs()).toEqual(['EOS/WETH']);
-  });
+    expect(domain.getFavoritePairs()).toEqual(['EOS/WETH'])
+  })
 
   it('handles tokenPairFavorited events', () => {
     const domain = getDomain([
@@ -557,8 +557,8 @@ describe('Token Pair Domain', () => {
       eventCreators.tokenPairFavorited('EOS/DAI', true),
       eventCreators.tokenPairFavorited('EOS/ZRX', true),
       eventCreators.tokenPairFavorited('EOS/WETH', false),
-    ]);
+    ])
 
-    expect(domain.getFavoritePairs()).toEqual(['EOS/DAI', 'EOS/ZRX']);
-  });
-});
+    expect(domain.getFavoritePairs()).toEqual(['EOS/DAI', 'EOS/ZRX'])
+  })
+})

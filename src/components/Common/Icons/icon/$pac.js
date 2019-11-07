@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Svg$pac = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -34,6 +34,6 @@ const Svg$pac = props => (
       />
     </g>
   </svg>
-);
+)
 
-export default Svg$pac;
+export default Svg$pac

@@ -23,19 +23,19 @@ const testAddress = '0x7a9f3cd060ab180f36c17fe6bdf9974f577d77aa'
 const ether = {
   address: '0x0',
   symbol: 'TOMO',
-  balance: 1000
+  balance: 1000,
 }
 
 const req = {
   address: '0x7e0f08462bf391ee4154a88994f8ce2aad7ab144',
   symbol: 'REQ',
-  balance: 2000
+  balance: 2000,
 }
 
 const zrx = {
   address: '0x7e0f08462bf391ee4154a88994f8ce2aad7ab145',
   symbol: 'ZRX',
-  balance: 121
+  balance: 121,
 }
 
 beforeEach(() => {
@@ -44,13 +44,13 @@ beforeEach(() => {
 
   accountBalancesService.queryTokenBalances.mockReturnValue([
     { symbol: 'REQ', balance: 2000 },
-    { symbol: 'ZRX', balance: 2000 }
+    { symbol: 'ZRX', balance: 2000 },
   ])
 
   accountBalancesService.queryExchangeTokenAllowances.mockReturnValue([
     { symbol: 'REQ', allowance: 0 },
     { symbol: 'ZRX', allowance: 0 },
-    { symbol: 'TOMO', allowance: 0 }
+    { symbol: 'TOMO', allowance: 0 },
   ])
 
   accountBalancesService.updateAllowance.mockReturnValue(Promise.resolve({ allowance: 1000 }))
@@ -65,12 +65,12 @@ it('handles toggleAllowance Successfully', async () => {
   const getTokenDomainMock = jest.fn(() => ({
     symbols: () => ['REQ', 'TOMO', 'ZRX'],
     bySymbol: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
-    tokens: () => [zrx, ether, req]
+    tokens: () => [zrx, ether, req],
   }))
 
   const getAccountBalancesDomainMock = jest.fn(() => ({
     balances: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
-    isAllowed: tokenSymbol => accountBalancesDomain.isAllowed(tokenSymbol)
+    isAllowed: tokenSymbol => accountBalancesDomain.isAllowed(tokenSymbol),
   }))
 
   const getAccountDomainMock = jest.fn(() => ({ address: () => testAddress }))
@@ -103,14 +103,14 @@ it('handles queryAccountData properly', async () => {
   const getTokenDomainMock = jest.fn(() => ({
     symbols: () => ['REQ', 'TOMO', 'ZRX'],
     bySymbol: () => ({ REQ: req, TOMO: ether, ZRX: zrx }),
-    tokens: () => [zrx, ether, req]
+    tokens: () => [zrx, ether, req],
   }))
 
   const getAccountDomainMock = jest.fn(() => ({ address: () => testAddress }))
   const getNotificationsDomainMock = jest.fn(() => ({
     last: () => {
-      id: 1
-    }
+      1
+    },
   }))
   const chainId = jest.fn().mockReturnValue(8888)
   const getBlock = jest.fn().mockReturnValue(938)
@@ -139,7 +139,7 @@ it('handles queryAccountData properly', async () => {
   expect(accountBalancesService.queryExchangeTokenAllowances).toHaveBeenCalledTimes(1)
   expect(accountBalancesService.queryExchangeTokenAllowances).toHaveBeenCalledWith(testAddress, [
     ...quotes,
-    ...[zrx, req]
+    ...[zrx, req],
   ])
 
   accountBalancesDomain = getAccountBalancesDomain(store.getState())

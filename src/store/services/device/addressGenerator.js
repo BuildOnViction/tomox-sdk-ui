@@ -1,19 +1,19 @@
-import { publicToAddress } from "ethereumjs-util";
-import HDKey from "hdkey";
+import { publicToAddress } from "ethereumjs-util"
+import HDKey from "hdkey"
 
 export default class AddressGenerator {
 
     constructor(data) {
-        this.hdk = new HDKey();
-        this.hdk.publicKey = new Buffer(data.publicKey, 'hex');
-        this.hdk.chainCode = new Buffer(data.chainCode, 'hex');
+        this.hdk = new HDKey()
+        this.hdk.publicKey = new Buffer(data.publicKey, 'hex')
+        this.hdk.chainCode = new Buffer(data.chainCode, 'hex')
     }
 
     getAddressString(index) {
-        let derivedKey = this.hdk.derive(`m/${index}`);
-        let address = publicToAddress(derivedKey.publicKey, true);
-        let addressString = '0x' + address.toString('hex');
-        return addressString;
+        const derivedKey = this.hdk.derive(`m/${index}`)
+        const address = publicToAddress(derivedKey.publicKey, true)
+        const addressString = '0x' + address.toString('hex')
+        return addressString
     }
 
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { HTMLSelect } from '@blueprintjs/core';
+import React from 'react'
+import { HTMLSelect } from '@blueprintjs/core'
 
 type Props = {
     dPath: Array<any>,
@@ -15,11 +15,11 @@ const PathSelectorRenderer = (props: Props) => {
                         <option key={path.path} value={path.path}>
                             {path.path} ({path.desc})
                         </option>
-                    );
+                    )
                 })}
             </HTMLSelect>
         </div>
-    );
-};
+    )
+}
 
-export default PathSelectorRenderer;
+export default PathSelectorRenderer

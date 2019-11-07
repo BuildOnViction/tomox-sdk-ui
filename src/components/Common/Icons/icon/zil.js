@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgZil = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -50,6 +50,6 @@ const SvgZil = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgZil;
+export default SvgZil

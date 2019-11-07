@@ -1,17 +1,17 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
-import createStore from '../../store/configureStore';
-import connect, { mapStateToProps } from './connect';
-import getTransferTokensFormSelector from '../../store/models/transferTokensForm';
-TransferTokensForm;
-jest.mock('../../store/models/transferTokensForm');
+import React from 'react'
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
+import createStore from '../../store/configureStore'
+import connect, { mapStateToProps } from './connect'
+import getTransferTokensFormSelector from '../../store/models/transferTokensForm'
+TransferTokensForm
+jest.mock('../../store/models/transferTokensForm')
 
 describe('mapStateToProps(state, props)', () => {
-  let getState;
+  let getState
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     getState = jest.fn(() => ({
       loading: 'test loading',
@@ -22,7 +22,7 @@ describe('mapStateToProps(state, props)', () => {
       hash: 'test hash',
       receipt: 'test receipt',
       tokens: 'test tokens',
-    }));
+    }))
 
     getTransferTokensFormSelector.mockReturnValue({
       isLoading: jest.fn(() => 'test loading'),
@@ -33,13 +33,13 @@ describe('mapStateToProps(state, props)', () => {
       getHash: jest.fn(() => 'test hash'),
       getReceipt: jest.fn(() => 'test receipt'),
       tokens: jest.fn(() => 'test tokens'),
-    });
-  });
+    })
+  })
 
   it('returns component TransferTokensForm props as expected', () => {
-    const state = {};
-    const props = { token: { symbol: 'PRFT', address: '0x1' } };
-    const result = mapStateToProps(state, props);
+    const state = {}
+    const props = { token: { symbol: 'PRFT', address: '0x1' } }
+    const result = mapStateToProps(state, props)
     const expected = {
       token: { symbol: 'PRFT', address: '0x1' },
       loading: 'test loading',
@@ -50,38 +50,38 @@ describe('mapStateToProps(state, props)', () => {
       hash: 'test hash',
       receipt: 'test receipt',
       tokens: 'test tokens',
-    };
+    }
 
-    expect(result).toBeDefined();
-    expect(result).toEqual(expected);
-  });
+    expect(result).toBeDefined()
+    expect(result).toEqual(expected)
+  })
 
   it('calls transferTokensFormSelector(state) and then ', () => {
-    const state = {};
-    const props = { token: { symbol: 'PRFT', address: '0x1' } };
-    mapStateToProps(state, props);
+    const state = {}
+    const props = { token: { symbol: 'PRFT', address: '0x1' } }
+    mapStateToProps(state, props)
 
-    expect(getTransferTokensFormSelector).toHaveBeenCalledTimes(1);
-    expect(getTransferTokensFormSelector).toBeCalledWith(state);
-  });
-});
+    expect(getTransferTokensFormSelector).toHaveBeenCalledTimes(1)
+    expect(getTransferTokensFormSelector).toBeCalledWith(state)
+  })
+})
 
 describe('connect(Component)', () => {
   it('injects certain props and renders without crashing', () => {
-    const { store } = createStore();
+    const { store } = createStore()
     const ConnectedTestComponent = connect(props => {
-      expect(props).toBeDefined();
-      expect(props).toHaveProperty('validateEtherTx');
-      expect(props).toHaveProperty('sendEtherTx');
-      expect(props).toHaveProperty('validateTransferTokensTx');
-      expect(props).toHaveProperty('sendTransferTokensTx');
-      return null;
-    });
+      expect(props).toBeDefined()
+      expect(props).toHaveProperty('validateEtherTx')
+      expect(props).toHaveProperty('sendEtherTx')
+      expect(props).toHaveProperty('validateTransferTokensTx')
+      expect(props).toHaveProperty('sendTransferTokensTx')
+      return null
+    })
 
     mount(
       <Provider store={store}>
         <ConnectedTestComponent />
       </Provider>
-    );
-  });
-});
+    )
+  })
+})

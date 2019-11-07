@@ -1,4 +1,4 @@
-import SocketController from './SocketController';
-import connect from './connect';
+import SocketController from './SocketController'
+import connect from './connect'
 
-export default connect(SocketController);
+export default connect(SocketController)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgHush = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgHush = props => (
       <use fill="#FFF" xlinkHref="#hush_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgHush;
+export default SvgHush

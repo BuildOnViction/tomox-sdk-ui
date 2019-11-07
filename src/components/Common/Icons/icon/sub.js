@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgSub = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgSub = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#sub_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgSub;
+export default SvgSub

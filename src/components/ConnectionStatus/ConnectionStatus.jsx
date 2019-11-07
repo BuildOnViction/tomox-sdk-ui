@@ -1,10 +1,10 @@
-import React from 'react';
-import { SvgIcon } from '../../components/Common';
+import React from 'react'
+import { SvgIcon } from '../../components/Common'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const ConnectionStatus = (props: Props) => {
-  const { isConnected, isInitiated } = props;
+  const { isConnected, isInitiated } = props
 
   return (
     <ConnectionStatusBox>
@@ -21,8 +21,8 @@ const ConnectionStatus = (props: Props) => {
           : 'Initializing'}
       </span>
     </ConnectionStatusBox>
-  );
-};
+  )
+}
 
 const ConnectionStatusBox = styled.div`
   display: flex;
@@ -32,6 +32,6 @@ const ConnectionStatusBox = styled.div`
     margin-left: 10px;
     margin-right: 30px;
   }
-`;
+`
 
-export default ConnectionStatus;
+export default ConnectionStatus

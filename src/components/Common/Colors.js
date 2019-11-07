@@ -6,7 +6,7 @@ export const INTENTS = {
   PT_INTENT_PRIMARY: Colors.BLUE3,
   PT_INTENT_SUCCESS: Colors.GREEN3,
   PT_INTENT_WARNING: Colors.ORANGE3,
-  PT_INTENT_DANGET: Colors.RED3
+  PT_INTENT_DANGET: Colors.RED3,
 }
 
 export const TextColors = {
@@ -20,7 +20,7 @@ export const TextColors = {
   PT_DARK_TEXT_COLOR_DISABLED: rgba(Colors.GRAY5, 0.5),
   PT_DARK_HEADING_COLOR: Colors.LIGHT_GRAY5,
   PT_DARK_LINK_COLOR: Colors.BLUE5,
-  PT_TEXT_SELECTION_COLOR: rgba(125, 188, 255, 0.6)
+  PT_TEXT_SELECTION_COLOR: rgba(125, 188, 255, 0.6),
 }
 
 export const IconColors = {
@@ -31,25 +31,25 @@ export const IconColors = {
   PT_DARK_ICON_COLOR: TextColors.PT_DARK_TEXT_COLOR_MUTED,
   PT_DARK_ICON_COLOR_HOVER: TextColors.PT_DARK_TEXT_COLOR,
   PT_DARK_ICON_COLOR_DISABLED: TextColors.PT_DARK_TEXT_COLOR_DISABLED,
-  PT_DARK_ICON_COLOR_SELECTED: INTENTS.PT_INTENT_PRIMARY
+  PT_DARK_ICON_COLOR_SELECTED: INTENTS.PT_INTENT_PRIMARY,
 }
 
 export const DividerColors = {
   PT_DIVIDER_BLACK: rgba(Colors.BLACK, 0.15),
   PT_DARK_DIVIDER_BLACK: rgba(Colors.BLACK, 0.15),
-  PT_DARK_DIVIDER_WHITE: rgba(Colors.WHITE, 0.15)
+  PT_DARK_DIVIDER_WHITE: rgba(Colors.WHITE, 0.15),
 }
 
 export const CodeColors = {
   PT_CODE_TEXT_COLOR: TextColors.PT_TEXT_COLOR_MUTED,
   PT_DARK_CODE_TEXT_COLOR: TextColors.PT_DARK_TEXT_COLOR_MUTED,
   PT_CODE_BACKGROUND_COLOR: rgba(Colors.WHITE, 0.7),
-  PT_DARK_CODE_BACKGROUND_COLOR: rgba(Colors.BLACK, 0.3)
+  PT_DARK_CODE_BACKGROUND_COLOR: rgba(Colors.BLACK, 0.3),
 }
 
 export const BackgroundColors = {
   PT_APP_BACKGROUND_COLOR: Colors.LIGHT_GRAY5,
-  PT_DARK_APP_BACKGROUND_COLOR: Colors.LIGHT_GRAY3
+  PT_DARK_APP_BACKGROUND_COLOR: Colors.LIGHT_GRAY3,
 }
 
 export default {
@@ -190,7 +190,7 @@ export default {
 
   SELL_MUTED: rgba('#F55656', 0.1),
   BUY_MUTED: rgba('#15B371', 0.1),
-  BLUE_MUTED: rgba('#137CBD', 0.3)
+  BLUE_MUTED: rgba('#137CBD', 0.3),
 }
 
 export const Icons = {
@@ -198,11 +198,11 @@ export const Icons = {
   ICONS20_FAMILY: 'Icons20',
 
   PT_ICON_SIZE_STANDARD: '16px',
-  PT_ICON_SIZE_LARGE: '20Ppx'
+  PT_ICON_SIZE_LARGE: '20Ppx',
 }
 
 export const Grids = {
-  PT_GRID_SIZE: 10
+  PT_GRID_SIZE: 10,
 }
 
 export const Fonts = {
@@ -212,26 +212,26 @@ export const Fonts = {
 
   PT_FONT_SIZE: Grids.PT_GRID_SIZE * 1.4,
   PT_FONT_SIZE_LARGE: Grids.PT_GRID_SIZE * 1.6,
-  PT_FONT_SIZE_SMALL: Grids.PT_GRID_SIZE * 1.2
+  PT_FONT_SIZE_SMALL: Grids.PT_GRID_SIZE * 1.2,
 }
 
 export const Line = {
-  PT_LINE_HEIGHT: (Grids.PT_GRID_SIZE * 1.8) / Fonts.PT_FONT_SIZE + 0.0001
+  PT_LINE_HEIGHT: (Grids.PT_GRID_SIZE * 1.8) / Fonts.PT_FONT_SIZE + 0.0001,
 }
 
 export const Buttons = {
   PT_BUTTON_HEIGHT: Grids.PT_GRID_SIZE * 3,
   PT_BUTTON_HEIGHT_SMALL: Grids.PT_GRID_SIZE * 2.4,
-  PT_BUTTON_HEIGHT_LARGE: Grids.PT_GRID_SIZE * 4
+  PT_BUTTON_HEIGHT_LARGE: Grids.PT_GRID_SIZE * 4,
 }
 
 export const Inputs = {
   PT_INPUT_HEIGHT: Grids.PT_GRID_SIZE * 3,
-  PT_INPUT_HEIGHT_LARGE: Grids.PT_GRID_SIZE * 4
+  PT_INPUT_HEIGHT_LARGE: Grids.PT_GRID_SIZE * 4,
 }
 
 export const NavBar = {
-  PT_NAVBAR_HEIGHT: Grids.PT_GRID_SIZE * 5
+  PT_NAVBAR_HEIGHT: Grids.PT_GRID_SIZE * 5,
 }
 
 export const TmColors = {

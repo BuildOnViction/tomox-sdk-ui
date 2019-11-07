@@ -1,22 +1,22 @@
 // @flow
-import type { State, ThunkAction } from '../../types';
-import { getTokenPairsDomain, getAccountBalancesDomain } from '../domains';
-import * as actionCreators from '../actions/tokenSearcher';
+import type { State, ThunkAction } from '../../types'
+import { getTokenPairsDomain, getAccountBalancesDomain } from '../domains'
+import * as actionCreators from '../actions/tokenSearcher'
 // import * as ohlcvActionCreators from '../actions/ohlcv';
 import { push } from 'connected-react-router'
 
-import { getQuoteToken, getBaseToken } from '../../utils/tokens';
-import { quoteTokenSymbols as quotes } from '../../config/quotes';
+import { getQuoteToken, getBaseToken } from '../../utils/tokens'
+import { quoteTokenSymbols as quotes } from '../../config/quotes'
 
 export default function tokenSearcherSelector(state: State) {
-  let domain = getTokenPairsDomain(state);
-  let accountBalancesDomain = getAccountBalancesDomain(state);
-  let tokenPairs = domain.getTokenPairsDataArray();
-  let favoriteTokenPairs = domain.getFavoritePairs();
+  const domain = getTokenPairsDomain(state)
+  const accountBalancesDomain = getAccountBalancesDomain(state)
+  const tokenPairs = domain.getTokenPairsDataArray()
+  const favoriteTokenPairs = domain.getFavoritePairs()
 
-  let tokenPairsByQuoteToken = {};
+  const tokenPairsByQuoteToken = {}
 
-  for (let quote of quotes) {
+  for (const quote of quotes) {
     tokenPairsByQuoteToken[quote] = tokenPairs
       .filter(({ pair }) => getQuoteToken(pair) === quote)
       .map(tokenPair => ({
@@ -27,20 +27,20 @@ export default function tokenSearcherSelector(state: State) {
       .map(tokenPair => ({
         ...tokenPair,
         favorited: favoriteTokenPairs.indexOf(tokenPair.pair) > -1,
-      }));
+      }))
   }
 
-  let currentPair = domain.getCurrentPair();
+  const currentPair = domain.getCurrentPair()
   if (currentPair) {
-    let baseTokenBalance = accountBalancesDomain.tokenBalance(currentPair.baseTokenSymbol);
-    let quoteTokenBalance = accountBalancesDomain.tokenBalance(currentPair.quoteTokenSymbol);
+    const baseTokenBalance = accountBalancesDomain.tokenBalance(currentPair.baseTokenSymbol)
+    const quoteTokenBalance = accountBalancesDomain.tokenBalance(currentPair.quoteTokenSymbol)
 
     return {
       tokenPairsByQuoteToken,
       currentPair,
       baseTokenBalance,
       quoteTokenBalance,
-    };
+    }
   }
 }
 
@@ -53,4 +53,4 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       dispatch(actionCreators.updateCurrentPair(pair))
       dispatch(push(`/${pathname}/${param}`))
     }
-};
+}

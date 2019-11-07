@@ -1,15 +1,15 @@
 // @flow
-import React from 'react';
-import { MenuItem, Intent } from '@blueprintjs/core';
-import { MultiSelect } from '@blueprintjs/select';
+import React from 'react'
+import { MenuItem, Intent } from '@blueprintjs/core'
+import { MultiSelect } from '@blueprintjs/select'
 
 const INTENTS = [
   Intent.NONE,
   Intent.PRIMARY,
   Intent.SUCCESS,
   Intent.DANGER,
-  Intent.WARNING
-];
+  Intent.WARNING,
+]
 
 type Indicator = {
   name: string,
@@ -31,7 +31,7 @@ export default class CustomMultiSelect extends React.PureComponent<
   State
 > {
   state = {
-    indicators: this.props.indicators
+    indicators: this.props.indicators,
   };
 
   // silence-error: couldn't resolve built-in Func params
@@ -43,57 +43,57 @@ export default class CustomMultiSelect extends React.PureComponent<
         text={`${item.name}`}
         key={item.rank}
       />
-    );
+    )
   }
 
   tagRenderer(item: Indicator) {
-    return item.name;
+    return item.name
   }
 
   onItemSelect = (e: Indicator) => {
-    const { indicators } = this.state;
-    const active = !indicators[e.rank].active;
+    const { indicators } = this.state
+    const active = !indicators[e.rank].active
 
-    this.props.onUpdateIndicators(e, active);
+    this.props.onUpdateIndicators(e, active)
     this.setState({
       indicators: [
         ...indicators.slice(0, e.rank),
         { ...indicators[e.rank], active },
-        ...indicators.slice(e.rank + 1)
-      ]
-    });
+        ...indicators.slice(e.rank + 1),
+      ],
+    })
   };
 
   findTag = (tagName: string) => {
-    let foundIndicator = {};
-    const { indicators } = this.state;
+    const foundIndicator = {}
+    const { indicators } = this.state
     indicators.map((indicator, index) => {
       if (indicator.name === tagName) {
-        foundIndicator['indicator'] = indicator;
-        foundIndicator['index'] = index;
+        foundIndicator['indicator'] = indicator
+        foundIndicator['index'] = index
       }
-      return indicator;
-    });
-    return foundIndicator;
+      return indicator
+    })
+    return foundIndicator
   };
 
   handleTagRemove = (tag: string) => {
-    const { indicators } = this.state;
-    let { indicator: changedIndicator, index } = this.findTag(tag);
-    this.props.onUpdateIndicators(indicators[index], false);
-    changedIndicator.active = false;
+    const { indicators } = this.state
+    const { indicator: changedIndicator, index } = this.findTag(tag)
+    this.props.onUpdateIndicators(indicators[index], false)
+    changedIndicator.active = false
     this.setState({
       indicators: [
         ...indicators.slice(0, index),
         changedIndicator,
-        ...indicators.slice(index + 1)
-      ]
-    });
+        ...indicators.slice(index + 1),
+      ],
+    })
   };
 
   getSelectedItem = (): Array<Indicator> => {
-    const { indicators } = this.state;
-    return indicators.filter(item => item.active);
+    const { indicators } = this.state
+    return indicators.filter(item => item.active)
   };
 
   render() {
@@ -102,20 +102,20 @@ export default class CustomMultiSelect extends React.PureComponent<
       getSelectedItem,
       onItemSelect,
       itemRenderer,
-      tagRenderer
-    } = this;
+      tagRenderer,
+    } = this
 
     const getTagProps = (value: string, index: number) => ({
       intent: INTENTS[index % INTENTS.length],
-      minimal: true
-    });
+      minimal: true,
+    })
 
     return (
       <MultiSelect
         tagInputProps={{
           tagProps: getTagProps,
           placeholder: 'Indicators',
-          onRemove: this.handleTagRemove
+          onRemove: this.handleTagRemove,
         }}
         popoverProps={{ minimal: true }}
         itemRenderer={itemRenderer}
@@ -125,6 +125,6 @@ export default class CustomMultiSelect extends React.PureComponent<
         selectedItems={getSelectedItem()}
         onItemSelect={onItemSelect}
       />
-    );
+    )
   }
 }

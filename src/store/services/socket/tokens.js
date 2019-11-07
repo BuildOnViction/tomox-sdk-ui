@@ -1,17 +1,17 @@
 //@flow
-import type { WebsocketMessage } from '../../../types/websocket';
-import { sendMessage } from './common';
+import type { WebsocketMessage } from '../../../types/websocket'
+import { sendMessage } from './common'
 
 export const sendGetTokenMessage = async () => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'tokens',
     event: {
-      type: 'GET_TOKENS'
-    }
-  };
+      type: 'GET_TOKENS',
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}
 
 export const subscribeMarkets = () => {
   const message: WebsocketMessage = {

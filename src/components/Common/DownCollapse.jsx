@@ -3,13 +3,13 @@ import { Button, Collapse } from '@blueprintjs/core'
 
 class DownCollapse extends React.Component {
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   toggleCollapse = () => {
     this.setState(function(prevState) {
       return {
-        isOpen: !prevState.isOpen
+        isOpen: !prevState.isOpen,
       }
     })
   }
@@ -18,7 +18,7 @@ class DownCollapse extends React.Component {
     const {
       state: { isOpen },
       props: { content, title },
-      toggleCollapse
+      toggleCollapse,
     } = this
     return (
       <div className={isOpen ? 'horizontal-collapse is-open' : 'horizontal-collapse is-closed'}>

@@ -50,7 +50,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    let { tokenPairsByQuoteToken, currentPair } = nextProps
+    const { tokenPairsByQuoteToken, currentPair } = nextProps
     const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken)
     const currentQuoteToken = currentPair.quoteTokenSymbol
     
@@ -59,11 +59,11 @@ class TokenSearcher extends React.PureComponent<Props, State> {
 
     if (!prevState.selectedPair) {
       return {
-        quoteTokens: quoteTokens,
+        quoteTokens,
         selectedTabId: currentQuoteToken,
-        selectedPair: selectedPair, // selectedPair: defaultPairs[0],
+        selectedPair, // selectedPair: defaultPairs[0],
       }
-    } else return null
+    } return null
   }
 
   onChangeSearchFilter = (event) => {

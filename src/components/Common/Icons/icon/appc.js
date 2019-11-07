@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgAppc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgAppc = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#appc_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgAppc;
+export default SvgAppc

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgXlm = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgXlm = props => (
       <use fill="#FFF" xlinkHref="#xlm_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgXlm;
+export default SvgXlm

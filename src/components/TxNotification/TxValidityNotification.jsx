@@ -14,9 +14,9 @@ const TxValidityNotification = (props: Props) => {
     return renderInvalidTx(gas, statusMessage)
   } else if (status === 'valid') {
     return renderValidTx(gas, statusMessage)
-  } else {
+  } 
     return null
-  }
+  
 }
 
 const renderInvalidTx = (gas: number, statusMessage: string) => {

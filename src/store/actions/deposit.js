@@ -3,13 +3,13 @@ import type {
   AddressAssociation,
   Chain,
   UpdateAddressAssociationAction,
-  UpdateAssociationTransactionsAction
-} from '../../types/deposit';
+  UpdateAssociationTransactionsAction,
+} from '../../types/deposit'
 
 const actionTypes = {
   updateAddressAssociation: 'deposit/UPDATE_ADDRESS_ASSOCIATION',
-  updateAssociationTransactions: 'deposit/UPDATE_ASSOCIATION_TRANSACTIONS'
-};
+  updateAssociationTransactions: 'deposit/UPDATE_ASSOCIATION_TRANSACTIONS',
+}
 
 export function updateAddressAssociation(
   chain: Chain,
@@ -17,8 +17,8 @@ export function updateAddressAssociation(
 ): UpdateAddressAssociationAction {
   return {
     type: actionTypes.updateAddressAssociation,
-    payload: { chain, addressAssociation }
-  };
+    payload: { chain, addressAssociation },
+  }
 }
 
 export function updateAssociationTransactions(
@@ -27,8 +27,8 @@ export function updateAssociationTransactions(
 ): UpdateAssociationTransactionsAction {
   return {
     type: actionTypes.updateAssociationTransactions,
-    payload: { chain, txEnvelopes }
-  };
+    payload: { chain, txEnvelopes },
+  }
 }
 
-export default actionTypes;
+export default actionTypes

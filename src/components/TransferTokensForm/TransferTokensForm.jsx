@@ -63,7 +63,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     value = (name === 'receiver') ? value.trim() : value
 
     this.setState({ [name]: value }, () => {
-      let { amount, receiver, token, customGasPrice, customGas } = this.state
+      const { amount, receiver, token, customGasPrice, customGas } = this.state
       let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
 
       gas = customGas || gas
@@ -130,7 +130,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
 
   render() {
     let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt } = this.props
-    let { token, amount, receiver, customGas, customGasPrice } = this.state
+    const { token, amount, receiver, customGas, customGasPrice } = this.state
     gas = customGas || gas
     gasPrice = customGasPrice || gasPrice
 

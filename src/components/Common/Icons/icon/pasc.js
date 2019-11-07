@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgPasc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -34,6 +34,6 @@ const SvgPasc = props => (
       />
     </g>
   </svg>
-);
+)
 
-export default SvgPasc;
+export default SvgPasc

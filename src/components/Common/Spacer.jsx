@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { height } from 'styled-system';
+import styled from 'styled-components'
+import { height } from 'styled-system'
 
 const Spacer = styled.div`
   ${height}
-`;
+`
 
-export default Spacer;
+export default Spacer

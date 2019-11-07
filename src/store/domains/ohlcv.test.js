@@ -8,7 +8,7 @@ function getModel(events) {
 
 it('handles initialized event properly', () => {
   const options = {
-    ohlcvData: []
+    ohlcvData: [],
   }
   const ohlcv = getModel([eventCreators.initialized()])
 
@@ -17,7 +17,7 @@ it('handles initialized event properly', () => {
 
 it('handles savedOHLCVData event properly', () => {
   const options = {
-    ohlcvData: [1, 2, 3, 4, 5]
+    ohlcvData: [1, 2, 3, 4, 5],
   }
   const ohlcv = getModel([eventCreators.initialized(), eventCreators.savedOHLCVData(options.ohlcvData)])
 

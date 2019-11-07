@@ -36,7 +36,7 @@ export function queryAccountBalance(): ThunkAction {
     } catch (e) {
       dispatch(
         notifierActionCreators.addErrorNotification({
-          message: "Could not connect to Tomochain network"
+          message: "Could not connect to Tomochain network",
         })
       )
       console.log(e)

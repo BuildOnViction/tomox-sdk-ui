@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgCix = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -52,6 +52,6 @@ const SvgCix = props => (
       <use fill="#FFF" fillOpacity={0.5} fillRule="evenodd" xlinkHref="#cix_svg__g" />
     </g>
   </svg>
-);
+)
 
-export default SvgCix;
+export default SvgCix

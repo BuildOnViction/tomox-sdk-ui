@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgPpc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgPpc = props => (
       <use fill="#FFF" xlinkHref="#ppc_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgPpc;
+export default SvgPpc

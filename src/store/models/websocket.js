@@ -1,7 +1,7 @@
 // @flow
 import websocketModel from '../domains/websocket'
 import type {
-  State
+  State,
 } from '../../types/'
 
 export default function getWebsocketModel(state: State) {

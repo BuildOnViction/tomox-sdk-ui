@@ -1,25 +1,25 @@
 //@flow
-import type { WebsocketMessage } from '../../../types/websocket';
-import type { Chain } from '../../../types/deposit';
-import type { PairAddresses } from '../../../types/pairs';
-import { sendMessage } from './common';
+import type { WebsocketMessage } from '../../../types/websocket'
+import type { Chain } from '../../../types/deposit'
+import type { PairAddresses } from '../../../types/pairs'
+import { sendMessage } from './common'
 
 export const sendNewDepositMessage = async (
   chain: Chain,
   associatedAddress: string,
   pairAddresses: PairAddresses
 ) => {
-  let message: WebsocketMessage = {
+  const message: WebsocketMessage = {
     channel: 'deposit',
     event: {
       type: 'NEW_DEPOSIT',
       payload: {
         chain,
         associatedAddress,
-        pairAddresses
-      }
-    }
-  };
+        pairAddresses,
+      },
+    },
+  }
 
-  return sendMessage(message);
-};
+  return sendMessage(message)
+}

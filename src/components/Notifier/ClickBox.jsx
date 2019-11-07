@@ -16,7 +16,7 @@ class ClickBox extends React.PureComponent<> {
 }
 
 export const mapDispatchToProps = {
-  addNotification
+  addNotification,
 }
 
 export default connect(

@@ -8,7 +8,7 @@ const initialState: OrderFormState = {
   totalQuoteBalance: 0,
   totalBaseBalance: 0,
   quoteToken: '',
-  baseToken: ''
+  baseToken: '',
 }
 
 export const initialized = () => {
@@ -25,7 +25,7 @@ export const dataSaved = (data: OrderFormState) => {
     totalBaseBalance: data.totalBaseBalance,
     formName: data.formName,
     quoteToken: data.quoteToken,
-    baseToken: data.baseToken
+    baseToken: data.baseToken,
   })
   return event
 }
@@ -33,7 +33,7 @@ export const dataSaved = (data: OrderFormState) => {
 export const buyLimit = (data: OrderFormState) => {
   const event = (state: OrderFormState) => ({
     ...state,
-    loading: false
+    loading: false,
   })
   return event
 }
@@ -47,6 +47,6 @@ export default function model(state: OrderFormState) {
     getTotalBaseBalance: () => state.totalBaseBalance,
     getFormName: () => state.formName,
     getQuoteToken: () => state.quoteToken,
-    getBaseToken: () => state.baseToken
+    getBaseToken: () => state.baseToken,
   }
 }

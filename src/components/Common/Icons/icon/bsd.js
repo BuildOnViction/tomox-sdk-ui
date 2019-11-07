@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgBsd = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -31,6 +31,6 @@ const SvgBsd = props => (
       <path d="M27 14.2H5l12.8-4.3L19.6 4 27 14.2zM5.1 15.6h21.8l-12.8 4.2-1.8 6.1-7.2-10.3z" fill="#FFF" />
     </g>
   </svg>
-);
+)
 
-export default SvgBsd;
+export default SvgBsd

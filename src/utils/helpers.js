@@ -104,8 +104,8 @@ export function getSessionStorageWallets() {
 }
 
 export function getLocalStorageWallets() {
-  let wallets = [{ address: 'Enter new...', key: '', rank: 0 }],
-    index = 1
+  const wallets = [{ address: 'Enter new...', key: '', rank: 0 }]
+  let index = 1
   Object.keys(localStorage).map(key => {
     if (ethereum_address.isAddress(key) && isJson(localStorage[key])) {
       wallets.push({ address: key, key: localStorage[key], rank: index })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgVivo = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgVivo = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgVivo;
+export default SvgVivo

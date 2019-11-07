@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgAuto = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgAuto = props => (
       <use fill="#FFF" xlinkHref="#auto_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgAuto;
+export default SvgAuto

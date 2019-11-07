@@ -1,3 +1,3 @@
-import ArrowRightIcon from './ArrowRightIcon';
+import ArrowRightIcon from './ArrowRightIcon'
 
-export default ArrowRightIcon;
+export default ArrowRightIcon

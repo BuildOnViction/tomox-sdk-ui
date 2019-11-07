@@ -25,15 +25,15 @@ w.on('message', msg => {
   }
 })
 
-let ohlcv = JSON.stringify({
+const ohlcv = JSON.stringify({
   e: 'init-ohlcv',
   i: '1m',
-  rooms: ['pair-BTC-USD']
+  rooms: ['pair-BTC-USD'],
 })
 
-let room = JSON.stringify({
+const room = JSON.stringify({
   e: 'subscribe',
-  rooms: ['pair-BTC-USD']
+  rooms: ['pair-BTC-USD'],
 })
 
 let roomData

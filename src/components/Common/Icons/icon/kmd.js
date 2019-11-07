@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgKmd = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgKmd = props => (
       <use fill="#FFF" xlinkHref="#kmd_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgKmd;
+export default SvgKmd

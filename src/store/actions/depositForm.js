@@ -13,7 +13,7 @@ import type {
   UpdateAllowanceAction,
   UpdateAllowancesAction,
   UpdateBalanceAction,
-  UpdateBalancesAction
+  UpdateBalancesAction,
 } from '../../types/depositForm'
 
 import type { TxReceipt } from '../../types/common'
@@ -33,102 +33,102 @@ const actionTypes = {
   updateAllowance: 'depositForm/UPDATE_ALLOWANCE',
   updateBalances: 'depositForm/UPDATE_BALANCES',
   updateAllowances: 'depositForm/UPDATE_ALLOWANCES',
-  unsubscribeBalance: 'depositForm/UNSUBSCRIBE_BALANCE'
+  unsubscribeBalance: 'depositForm/UNSUBSCRIBE_BALANCE',
 }
 
 export function deposit(): DepositAction {
   return {
-    type: actionTypes.deposit
+    type: actionTypes.deposit,
   }
 }
 
 export function confirm(): ConfirmAction {
   return {
-    type: actionTypes.confirm
+    type: actionTypes.confirm,
   }
 }
 
 export function sendConvertTx(hash: string): SendConvertTxAction {
   return {
     type: actionTypes.sendConvertTx,
-    payload: { hash }
+    payload: { hash },
   }
 }
 
 export function revertConvertTx(receipt: TxReceipt): RevertConvertTxAction {
   return {
     type: actionTypes.revertConvertTx,
-    payload: { receipt }
+    payload: { receipt },
   }
 }
 
 export function confirmConvertTx(receipt: TxReceipt): ConfirmConvertTxAction {
   return {
     type: actionTypes.confirmConvertTx,
-    payload: { receipt }
+    payload: { receipt },
   }
 }
 
 export function sendAllowTx(hash: string): SendAllowTxAction {
   return {
     type: actionTypes.sendAllowTx,
-    payload: { hash }
+    payload: { hash },
   }
 }
 
 export function revertAllowTx(receipt: TxReceipt): RevertAllowTxAction {
   return {
     type: actionTypes.revertAllowTx,
-    payload: { receipt }
+    payload: { receipt },
   }
 }
 
 export function confirmAllowTx(receipt: TxReceipt): ConfirmAllowTxAction {
   return {
     type: actionTypes.confirmAllowTx,
-    payload: { receipt }
+    payload: { receipt },
   }
 }
 
 export function subscribeBalance(symbol: string): SubscribeBalanceAction {
   return {
     type: actionTypes.subscribeBalance,
-    payload: { symbol }
+    payload: { symbol },
   }
 }
 
 export function updateBalance(symbol: string, balance: number): UpdateBalanceAction {
   return {
     type: actionTypes.updateBalance,
-    payload: { symbol, balance }
+    payload: { symbol, balance },
   }
 }
 
 export function updateBalances(balances: AccountBalances): UpdateBalancesAction {
   return {
     type: actionTypes.updateBalances,
-    payload: { balances }
+    payload: { balances },
   }
 }
 
 export function updateAllowance(symbol: string, allowed: boolean): UpdateAllowanceAction {
   return {
     type: actionTypes.updateAllowance,
-    payload: { symbol, allowed }
+    payload: { symbol, allowed },
   }
 }
 
 export function updateAllowances(allowances: AccountAllowances): UpdateAllowancesAction {
   return {
     type: actionTypes.updateAllowances,
-    payload: { allowances }
+    payload: { allowances },
   }
 }
 
 export function unsubscribeBalance(symbol: string): UnsubscribeBalanceAction {
   return {
     type: actionTypes.unsubscribeBalance,
-    payload: { symbol }
+    payload: { symbol },
   }
 }
 

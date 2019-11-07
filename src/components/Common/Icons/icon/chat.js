@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgChat = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgChat = props => (
       <use fill="#FFF" xlinkHref="#chat_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgChat;
+export default SvgChat

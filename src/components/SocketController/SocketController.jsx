@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import { Loading } from '../Common';
+import { Loading } from '../Common'
 
 type Props = {
   authenticated: boolean,
@@ -10,20 +10,20 @@ type Props = {
 
 class socketController extends React.Component<Props> {
   openConnection() {
-    const { openConnection } = this.props;
+    const { openConnection } = this.props
     //in case the connection is already set, nothing changes
     //otherwise we open the connection. openConnection() returns
     //the unsubscribe method to close the connection
     if (typeof this.unsubscribe !== 'function') {
-      this.unsubscribe = openConnection();
+      this.unsubscribe = openConnection()
     }
   }
 
   closeConnection() {
-    if (typeof this.unsubscribe !== 'function') return;
+    if (typeof this.unsubscribe !== 'function') return
 
-    this.unsubscribe();
-    this.unsubscribe = null;
+    this.unsubscribe()
+    this.unsubscribe = null
   }
 
   componentWillMount() {
@@ -39,18 +39,18 @@ class socketController extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    this.closeConnection();
+    this.closeConnection()
   }
 
   render() {
     // make sure after open connection successful then render children
-    const { isOpened, children, authenticated } = this.props;
+    const { isOpened, children, authenticated } = this.props
     // check for the first time to avoid initial problems
     if (authenticated && !isOpened) {
-      return <Loading />;
+      return <Loading />
     }
-    return children;
+    return children
   }
 }
 
-export default socketController;
+export default socketController

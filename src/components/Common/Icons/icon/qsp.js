@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgQsp = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgQsp = props => (
       <use fill="#FFF" xlinkHref="#qsp_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgQsp;
+export default SvgQsp

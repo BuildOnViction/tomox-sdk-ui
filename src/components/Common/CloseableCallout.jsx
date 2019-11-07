@@ -1,7 +1,7 @@
 //@flow
-import React from 'react';
-import styled from 'styled-components';
-import { Callout, Button, H4 } from '@blueprintjs/core';
+import React from 'react'
+import styled from 'styled-components'
+import { Callout, Button, H4 } from '@blueprintjs/core'
 
 type Props = {
   title: string,
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const CloseableCallout = (props: Props) => {
-  const { title, message, intent, icon, visible, handleClose } = props;
+  const { title, message, intent, icon, visible, handleClose } = props
 
   return (
     <CalloutBox
@@ -29,17 +29,17 @@ const CloseableCallout = (props: Props) => {
       </H4>
       {message}
     </CalloutBox>
-  );
-};
+  )
+}
 
 const CalloutBox = styled(Callout)`
   display: ${props => props.display};
-`;
+`
 
 const TitleBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
+`
 
-export default CloseableCallout;
+export default CloseableCallout

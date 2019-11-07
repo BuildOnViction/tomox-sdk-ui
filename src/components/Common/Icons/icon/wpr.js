@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgWpr = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgWpr = props => (
       <use fill="#FFF" xlinkHref="#wpr_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgWpr;
+export default SvgWpr

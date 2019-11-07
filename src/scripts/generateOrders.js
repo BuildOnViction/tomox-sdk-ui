@@ -3,14 +3,14 @@ import { rand, randInt } from '../utils/helpers'
 import tokenPairs from '../jsons/tokenPairs.json'
 import { utils } from 'ethers'
 
-let orderHistory = []
-let { pairs } = tokenPairs
-let minTimeStamp = 1500000000000
-let maxTimeStamp = 1520000000000
-let minAmount = 0.1
-let maxAmount = 10000
-let minPrice = 100
-let maxPrice = 100000
+const orderHistory = []
+const { pairs } = tokenPairs
+const minTimeStamp = 1500000000000
+const maxTimeStamp = 1520000000000
+const minAmount = 0.1
+const maxAmount = 10000
+const minPrice = 100
+const maxPrice = 100000
 
 const randomOrderSide = () => (randInt(0, 1) === 1 ? 'BUY' : 'SELL')
 const randomOrderType = () => ['MARKET', 'LIMIT'][randInt(0, 1)]
@@ -25,7 +25,7 @@ const randomHash = () => utils.sha256(utils.randomBytes(100))
 const randomAddress = () => randomHash().slice(0, 42)
 
 for (let i = 0; i < 200; i++) {
-  let order = {
+  const order = {
     userAddress: randomAddress(),
     buyTokenAddress: randomAddress(),
     sellTokenAddress: randomAddress(),
@@ -37,7 +37,7 @@ for (let i = 0; i < 200; i++) {
     pairName: randomPair(),
     amount: randomAmount(),
     price: randomPrice(),
-    createdAt: randomTimestamp()
+    createdAt: randomTimestamp(),
   }
 
   if (order.status === 'CANCELED') {

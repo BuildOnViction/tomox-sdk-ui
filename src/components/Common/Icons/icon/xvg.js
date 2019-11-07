@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgXvg = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgXvg = props => (
       <path fill="#FFF" opacity={0.504} d="M16 23.5L8 6h15.999z" />
     </g>
   </svg>
-);
+)
 
-export default SvgXvg;
+export default SvgXvg

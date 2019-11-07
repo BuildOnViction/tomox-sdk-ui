@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgAda = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgAda = props => (
       <use fill="#FFF" xlinkHref="#ada_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgAda;
+export default SvgAda

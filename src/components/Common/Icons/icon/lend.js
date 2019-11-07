@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgLend = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgLend = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#lend_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgLend;
+export default SvgLend

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgTkn = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgTkn = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#tkn_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgTkn;
+export default SvgTkn

@@ -5,7 +5,7 @@ import * as accountBalancesService from './accountBalances'
 
 jest.mock('ethers')
 jest.mock('dex-contracts', () => ({
-  ERC20Token: { abi: 'test ERC20Token abi' }
+  ERC20Token: { abi: 'test ERC20Token abi' },
 }))
 jest.mock('./signer')
 
@@ -39,7 +39,7 @@ describe('queryTomoBalance', () => {
   })
 
   it('returns the formatted ether balance', async () => {
-    let result = await accountBalancesService.queryTomoBalance(address)
+    const result = await accountBalancesService.queryTomoBalance(address)
 
     expect(utils.formatEther).toHaveBeenCalledTimes(1)
     expect(utils.formatEther).toHaveBeenCalledWith('test getBalance')
@@ -62,7 +62,7 @@ describe('queryBalances', () => {
     address = '0x4dc5790733b997f3db7fc49118ab013182d6ba9b'
     tokens = [
       { symbol: 'REQ', address: '0x6e9a406696617ec5105f9382d33ba3360fcfabcc' },
-      { symbol: 'WETH', address: '0x44809695706c252435531029b1e9d7d0355d475f' }
+      { symbol: 'WETH', address: '0x44809695706c252435531029b1e9d7d0355d475f' },
     ]
   })
 
@@ -91,7 +91,7 @@ describe('queryBalances', () => {
     utils.formatEther.mockReturnValueOnce(1000)
     utils.formatEther.mockReturnValueOnce(2000)
 
-    let result = await accountBalancesService.queryTokenBalances(address, tokens)
+    const result = await accountBalancesService.queryTokenBalances(address, tokens)
 
     expect(utils.formatEther).toHaveBeenCalledTimes(2)
     expect(utils.formatEther.mock.calls[0][0]).toEqual('test REQ balance')

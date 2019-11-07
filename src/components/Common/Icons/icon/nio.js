@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgNio = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgNio = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#nio_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgNio;
+export default SvgNio

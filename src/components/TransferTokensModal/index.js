@@ -1,3 +1,3 @@
-import TransferTokensModal from './TransferTokensModal';
+import TransferTokensModal from './TransferTokensModal'
 
-export default TransferTokensModal;
+export default TransferTokensModal

@@ -25,7 +25,7 @@ it('handles updated event properly', () => {
   const tomoBalance = getModel([
     eventCreators.initialized(),
     eventCreators.subscribed('test address'),
-    eventCreators.updated('test address', 'test balance')
+    eventCreators.updated('test address', 'test balance'),
   ])
 
   expect(tomoBalance.get('test address')).toEqual('test balance')
@@ -37,7 +37,7 @@ it('handles unsubscribed event properly', () => {
     eventCreators.initialized(),
     eventCreators.subscribed('test address'),
     eventCreators.updated('test address', 'test balance'),
-    eventCreators.unsubscribed('test address')
+    eventCreators.unsubscribed('test address'),
   ])
 
   expect(tomoBalance.get('test address')).toEqual(null)

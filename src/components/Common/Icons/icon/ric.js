@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgRic = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgRic = props => (
       <use fill="#FFF" xlinkHref="#ric_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgRic;
+export default SvgRic

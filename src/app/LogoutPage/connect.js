@@ -5,12 +5,12 @@ export function mapStateToProps(state, props) {
   const selector = logoutPageSelector(state)
 
   return {
-    authenticated: selector.authenticated
+    authenticated: selector.authenticated,
   }
 }
 
 const mapDispatchToProps = {
-  logout
+  logout,
 }
 
 export default connect(

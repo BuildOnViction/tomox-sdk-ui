@@ -1,22 +1,22 @@
 // @flow
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import getTransferTokensFormSelector, {
   sendEtherTx,
   sendTransferTokensTx,
   validateEtherTx,
   validateTransferTokensTx,
-  resetForm
-} from '../../store/models/transferTokensForm';
+  resetForm,
+} from '../../store/models/transferTokensForm'
 
-import type { State } from '../../types';
-import type { Token } from '../../types/tokens';
+import type { State } from '../../types'
+import type { Token } from '../../types/tokens'
 
 type Props = {
   token: Token,
 };
 
 export const mapStateToProps = (state: State, ownProps: Props) => {
-  const transferTokensFormSelector = getTransferTokensFormSelector(state);
+  const transferTokensFormSelector = getTransferTokensFormSelector(state)
 
   return {
     token: ownProps.token,
@@ -28,19 +28,19 @@ export const mapStateToProps = (state: State, ownProps: Props) => {
     hash: transferTokensFormSelector.getHash(),
     receipt: transferTokensFormSelector.getReceipt(),
     tokens: transferTokensFormSelector.tokens(),
-    address: transferTokensFormSelector.getAddress()
-  };
-};
+    address: transferTokensFormSelector.getAddress(),
+  }
+}
 
 export const mapDispatchToProps = {
   validateEtherTx,
   sendEtherTx,
   validateTransferTokensTx,
   sendTransferTokensTx,
-  resetForm
-};
+  resetForm,
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
+)

@@ -1,27 +1,27 @@
 // @flow
-import { utils, Contract } from 'ethers';
+import { utils, Contract } from 'ethers'
 import {
   getAccountBalancesDomain,
   getAccountDomain,
   getSignerDomain,
-  getGetStartedModalDomain
-} from '../domains';
+  getGetStartedModalDomain,
+} from '../domains'
 
-import * as notificationActionCreators from '../actions/app';
-import * as actionCreators from '../actions/getStartedModal';
-import { push } from 'connected-react-router';
+import * as notificationActionCreators from '../actions/app'
+import * as actionCreators from '../actions/getStartedModal'
+import { push } from 'connected-react-router'
 
-import { getSigner } from '../services/signer';
-import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts';
-import { WETH } from '../../config/abis';
-import { ALLOWANCE_THRESHOLD } from '../../utils/constants';
-import type { State, ThunkAction } from '../../types';
+import { getSigner } from '../services/signer'
+import { EXCHANGE_ADDRESS, WETH_ADDRESS } from '../../config/contracts'
+import { WETH } from '../../config/abis'
+import { ALLOWANCE_THRESHOLD } from '../../utils/constants'
+import type { State, ThunkAction } from '../../types'
 
 export default function convertTokensFormSelector(state: State) {
-  let accountDomain = getAccountDomain(state);
-  let accountBalancesDomain = getAccountBalancesDomain(state);
-  let signerDomain = getSignerDomain(state);
-  let getStartedModalDomain = getGetStartedModalDomain(state);
+  const accountDomain = getAccountDomain(state)
+  const accountBalancesDomain = getAccountBalancesDomain(state)
+  const signerDomain = getSignerDomain(state)
+  const getStartedModalDomain = getGetStartedModalDomain(state)
 
   return {
     TOMOAddress: () => accountDomain.address(),
@@ -29,91 +29,91 @@ export default function convertTokensFormSelector(state: State) {
     WETHBalance: () => accountBalancesDomain.tokenBalance('WETH'),
     networkID: () => signerDomain.getNetworkID(),
     convertTxState: () => getStartedModalDomain.convertTxState(),
-    approveTxState: () => getStartedModalDomain.approveTxState()
-  };
+    approveTxState: () => getStartedModalDomain.approveTxState(),
+  }
 }
 
 export const convertETH = (convertAmount: number): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      let signer = getSigner();
-      let networkID = signer.provider.network.chainId;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
-      let signerAddress = await signer.getAddress();
-      let txCount = await signer.provider.getTransactionCount(signerAddress);
+      const signer = getSigner()
+      const networkID = signer.provider.network.chainId
+      const weth = new Contract(WETH_ADDRESS[networkID], WETH, signer)
+      const signerAddress = await signer.getAddress()
+      const txCount = await signer.provider.getTransactionCount(signerAddress)
 
-      let convertTxPromise = weth.deposit({
+      const convertTxPromise = weth.deposit({
         value: utils.parseEther(convertAmount.toString()),
-        nonce: txCount
-      });
+        nonce: txCount,
+      })
 
-      let allowTxPromise = weth.approve(
+      const allowTxPromise = weth.approve(
         EXCHANGE_ADDRESS[networkID],
         ALLOWANCE_THRESHOLD,
         { nonce: txCount + 1 }
-      );
+      )
 
-      let [convertTx, allowTx] = await Promise.all([
+      const [convertTx, allowTx] = await Promise.all([
         convertTxPromise,
-        allowTxPromise
-      ]);
-      dispatch(actionCreators.sendConvertTx(convertTx.hash));
-      dispatch(actionCreators.sendApproveTx(allowTx.hash));
+        allowTxPromise,
+      ])
+      dispatch(actionCreators.sendConvertTx(convertTx.hash))
+      dispatch(actionCreators.sendApproveTx(allowTx.hash))
 
-      let [convertTxReceipt, allowTxReceipt] = await Promise.all([
+      const [convertTxReceipt, allowTxReceipt] = await Promise.all([
         signer.provider.waitForTransaction(convertTx.hash),
-        signer.provider.waitForTransaction(allowTx.hash)
-      ]);
+        signer.provider.waitForTransaction(allowTx.hash),
+      ])
 
       convertTxReceipt.status === 0
         ? dispatch(actionCreators.revertConvertTx(convertTxReceipt))
-        : dispatch(actionCreators.confirmConvertTx(convertTxReceipt));
+        : dispatch(actionCreators.confirmConvertTx(convertTxReceipt))
 
       allowTxReceipt.status === 0
         ? dispatch(actionCreators.revertApproveTx(allowTxReceipt))
-        : dispatch(actionCreators.confirmApproveTx(allowTxReceipt));
+        : dispatch(actionCreators.confirmApproveTx(allowTxReceipt))
 
       convertTxReceipt.status === 0 || allowTxReceipt.status === 0
         ? dispatch(
             notificationActionCreators.addErrorNotification({
-              message: 'TOMO conversion transaction failed'
+              message: 'TOMO conversion transaction failed',
             })
           )
         : dispatch(
             notificationActionCreators.addSuccessNotification({
-              message: 'TOMO conversion transaction successful!'
+              message: 'TOMO conversion transaction successful!',
             })
-          );
+          )
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
-  };
-};
+  }
+}
 
 export const redirectToTradingPage = (): ThunkAction => {
   return async (dispatch, getState) => {
-    dispatch(push('/trade'));
-  };
-};
+    dispatch(push('/trade'))
+  }
+}
 
 export const approveWETH = (): ThunkAction => {
   return async (dispatch, getState) => {
     try {
-      let signer = getSigner();
-      let networkID = signer.provider.network.chainId;
-      let weth = new Contract(WETH_ADDRESS[networkID], WETH, signer);
+      const signer = getSigner()
+      const networkID = signer.provider.network.chainId
+      const weth = new Contract(WETH_ADDRESS[networkID], WETH, signer)
 
-      let tx = await weth.approve(
+      const tx = await weth.approve(
         EXCHANGE_ADDRESS[networkID],
         ALLOWANCE_THRESHOLD
-      );
-      let txReceipt = await signer.provider.waitForTransaction(tx.hash);
+      )
+      const txReceipt = await signer.provider.waitForTransaction(tx.hash)
 
       txReceipt.status === 0
         ? dispatch(actionCreators.revertApproveTx(txReceipt))
-        : dispatch(actionCreators.confirmConvertTx(txReceipt));
+        : dispatch(actionCreators.confirmConvertTx(txReceipt))
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
-  };
-};
+  }
+}

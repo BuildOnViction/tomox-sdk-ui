@@ -28,7 +28,7 @@ it('handles subscribed event properly', () => {
 it('handles updated event properly', () => {
   const domain = getDomain([
     eventCreators.initialized(),
-    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }])
+    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
   ])
 
   expect(domain.get('REQ')).toEqual(1000)
@@ -39,7 +39,7 @@ it('handles updated event properly', () => {
   expect(domain.isAllowed('TRX')).toEqual(false)
   expect(domain.balancesArray()).toEqual([
     { symbol: 'REQ', balance: 1000, allowed: false },
-    { symbol: 'TRX', balance: 2000, allowed: false }
+    { symbol: 'TRX', balance: 2000, allowed: false },
   ])
 })
 
@@ -49,8 +49,8 @@ it('handles allowances event properly', () => {
     eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
     eventCreators.allowancesUpdated([
       { symbol: 'REQ', allowance: MAX_ALLOWANCE },
-      { symbol: 'TRX', allowance: MAX_ALLOWANCE }
-    ])
+      { symbol: 'TRX', allowance: MAX_ALLOWANCE },
+    ]),
   ])
 
   expect(domain.get('REQ')).toEqual(1000)
@@ -61,7 +61,7 @@ it('handles allowances event properly', () => {
   expect(domain.isAllowed('TRX')).toEqual(true)
   expect(domain.balancesArray()).toEqual([
     { symbol: 'REQ', balance: 1000, allowed: true },
-    { symbol: 'TRX', balance: 2000, allowed: true }
+    { symbol: 'TRX', balance: 2000, allowed: true },
   ])
 })
 
@@ -70,7 +70,7 @@ it('handles unsubscribed event properly', () => {
     eventCreators.initialized(),
     eventCreators.subscribed('REQ'),
     eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
-    eventCreators.unsubscribed('REQ')
+    eventCreators.unsubscribed('REQ'),
   ])
 
   expect(domain.get('REQ')).toEqual(1000)
@@ -83,7 +83,7 @@ it('handles subscribed event after updated event properly', () => {
   const domain = getDomain([
     eventCreators.initialized(),
     eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
-    eventCreators.subscribed('REQ')
+    eventCreators.subscribed('REQ'),
   ])
 
   expect(domain.get('REQ')).toEqual(1000)

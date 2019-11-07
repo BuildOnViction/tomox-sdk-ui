@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEdoge = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgEdoge = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#edoge_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgEdoge;
+export default SvgEdoge

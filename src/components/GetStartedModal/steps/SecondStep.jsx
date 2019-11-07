@@ -1,17 +1,17 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 import {
   Button,
   Callout,
   Slider,
   Icon,
   Spinner,
-  Checkbox
-} from '@blueprintjs/core';
-import { ModalBody, ModalFooter } from '../../Common';
-import SmallTxNotification from '../../SmallTxNotification';
-import { formatNumber } from 'accounting-js';
+  Checkbox,
+} from '@blueprintjs/core'
+import { ModalBody, ModalFooter } from '../../Common'
+import SmallTxNotification from '../../SmallTxNotification'
+import { formatNumber } from 'accounting-js'
 
 type Props = {
   step: string,
@@ -44,13 +44,13 @@ const NotificationBox = styled.div`
   flex-direction: column;
   align-items: flex-end;
   margin-bottom: 10px;
-`;
+`
 
 const FooterActionsBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-`;
+`
 
 const SecondStep = (props: Props) => {
   const {
@@ -73,8 +73,8 @@ const SecondStep = (props: Props) => {
     showHelpModalChecked,
     toggleShowHelpModalCheckBox,
     transactionsPending,
-    transactionsComplete
-  } = props;
+    transactionsComplete,
+  } = props
 
   if (transactionsPending) {
     return (
@@ -114,7 +114,7 @@ const SecondStep = (props: Props) => {
           </ButtonBox>
         </ModalFooter>
       </React.Fragment>
-    );
+    )
   }
 
   if (transactionsComplete) {
@@ -155,7 +155,7 @@ const SecondStep = (props: Props) => {
           </ButtonBox>
         </ModalFooter>
       </React.Fragment>
-    );
+    )
   }
 
   // if (userHasWETH && userHasApprovedWETH || transactionsComplete) {
@@ -230,7 +230,7 @@ const SecondStep = (props: Props) => {
               <BalanceBox>
                 <h2>
                   {formatNumber(Number(TomoBalance) - convertAmount, {
-                    precision: 3
+                    precision: 3,
                   })}{' '}
                   TOMO
                 </h2>
@@ -238,7 +238,7 @@ const SecondStep = (props: Props) => {
               <BalanceBox>
                 <h2>
                   {formatNumber(Number(WETHBalance) + convertAmount, {
-                    precision: 3
+                    precision: 3,
                   })}{' '}
                   WETH
                 </h2>
@@ -289,7 +289,7 @@ const SecondStep = (props: Props) => {
           </FooterBox>
         </ModalFooter>
       </React.Fragment>
-    );
+    )
   }
 
   if (userHasWETH && !userHasApprovedWETH) {
@@ -324,7 +324,7 @@ const SecondStep = (props: Props) => {
           </FooterBox>
         </ModalFooter>
       </React.Fragment>
-    );
+    )
   }
 
   if (!userHasETH) {
@@ -359,7 +359,7 @@ const SecondStep = (props: Props) => {
           </FooterBox>
         </ModalFooter>
       </React.Fragment>
-    );
+    )
   }
 
   // default
@@ -400,12 +400,12 @@ const SecondStep = (props: Props) => {
         </ButtonBox>
       </ModalFooter>
     </React.Fragment>
-  );
-};
+  )
+}
 
 const SpinnerBox = styled.div`
   padding-top: 40px;
-`;
+`
 
 const FooterBox = styled.div`
   width: 100%;
@@ -413,7 +413,7 @@ const FooterBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-`;
+`
 
 const IconBox = styled.div`
   display: flex;
@@ -421,13 +421,13 @@ const IconBox = styled.div`
   align-items: center;
   padding-top: 50px;
   padding-bottom: 50px;
-`;
+`
 
 const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-`;
+`
 
 const WaitingFormBox = styled.div`
   margin: auto;
@@ -438,16 +438,16 @@ const WaitingFormBox = styled.div`
   align-content: center;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const CurrentBalanceBox = styled.div`
   padding-top: 4px;
-`;
+`
 
 const Address = styled.div`
   padding-top: 40px;
   font-weight: bold;
-`;
+`
 
 const SliderGroup = styled.div`
   margin: 40px;
@@ -455,34 +455,34 @@ const SliderGroup = styled.div`
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 const SliderBox = styled.div`
   display: flex;
   justify-content: space-around;
   flex-direction: row;
   width: 400px;
-`;
+`
 
 const BalancesGroup = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 const BalancesBox = styled.div`
   display: flex;
   width: 80%;
   flex-direction: row;
   justify-content: space-around;
-`;
+`
 
 const BalanceBox = styled.div`
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
-export default SecondStep;
+export default SecondStep

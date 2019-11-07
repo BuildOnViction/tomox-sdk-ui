@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgWax = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgWax = props => (
       <use fill="#FFF" xlinkHref="#wax_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgWax;
+export default SvgWax

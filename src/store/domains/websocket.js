@@ -1,10 +1,10 @@
 // @flow
 import type {
-  WebsocketState
+  WebsocketState,
 } from '../../types/websocket'
 
 const initialState: WebsocketState = {
-  status: 'close'
+  status: 'close',
 }
 
 export const initialized = () => {

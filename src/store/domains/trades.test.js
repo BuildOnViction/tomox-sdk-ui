@@ -1,15 +1,15 @@
-import getTradesDomain, * as eventCreators from './trades';
+import getTradesDomain, * as eventCreators from './trades'
 
 const initialState = {
   byTimestamp: {},
-};
-
-function getDomain(events) {
-  const state = events.reduce((state, event) => event(state), undefined);
-  return getTradesDomain(state);
 }
 
-let trades = [
+function getDomain(events) {
+  const state = events.reduce((state, event) => event(state), undefined)
+  return getTradesDomain(state)
+}
+
+const trades = [
   {
     amount: 3606.63,
     price: 53983.52,
@@ -46,18 +46,18 @@ let trades = [
     pair: 'ZRX_DAI',
     time: 1511091286778,
   },
-];
+]
 
 describe('Trades Domain', () => {
   it('handles initialized event properly', () => {
-    const tradesDomain = getDomain([eventCreators.initialized()]);
-    const expected = {};
+    const tradesDomain = getDomain([eventCreators.initialized()])
+    const expected = {}
 
-    expect(tradesDomain.byTimestamp()).toEqual(expected);
-  });
+    expect(tradesDomain.byTimestamp()).toEqual(expected)
+  })
 
   it('handles the trades updated event', () => {
-    let expected = {
+    const expected = {
       '1504567900560': {
         amount: 3606.63,
         price: 53983.52,
@@ -94,16 +94,16 @@ describe('Trades Domain', () => {
         pair: 'ZRX_DAI',
         time: 1511091286778,
       },
-    };
+    }
 
-    const tradesDomain = getDomain([eventCreators.initialized(), eventCreators.tradesUpdated(trades)]);
+    const tradesDomain = getDomain([eventCreators.initialized(), eventCreators.tradesUpdated(trades)])
 
-    expect(tradesDomain.byTimestamp()).toEqual(expected);
-  });
-});
+    expect(tradesDomain.byTimestamp()).toEqual(expected)
+  })
+})
 
 it('handles trades removed event', () => {
-  let expected = {
+  const expected = {
     '1506911142876': {
       amount: 5765.64,
       price: 98517.23,
@@ -116,13 +116,13 @@ it('handles trades removed event', () => {
       pair: 'TOMO_WETH',
       time: 1506911142876,
     },
-  };
+  }
 
   const tradesDomain = getDomain([
     eventCreators.initialized(),
     eventCreators.tradesUpdated(trades),
     eventCreators.tradesDeleted(['1511091286778', '1504567900560']),
-  ]);
+  ])
 
-  expect(tradesDomain.byTimestamp()).toEqual(expected);
-});
+  expect(tradesDomain.byTimestamp()).toEqual(expected)
+})

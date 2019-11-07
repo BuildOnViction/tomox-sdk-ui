@@ -14,7 +14,7 @@ type Props = {
 
 class ModalStory extends React.PureComponent<Props, State> {
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   handleOpen = () => this.setState({ isOpen: true })

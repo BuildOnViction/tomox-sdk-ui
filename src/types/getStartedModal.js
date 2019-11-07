@@ -1,4 +1,4 @@
-import { TxReceipt, TxStatus } from './common';
+import { TxReceipt, TxStatus } from './common'
 
 export type GetStartedModalState = {
   +convertTxStatus: TxStatus,

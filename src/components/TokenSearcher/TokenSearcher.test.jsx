@@ -5,7 +5,7 @@ import * as orderList from '../../jsons/ordersList.json'
 import { Provider } from 'react-redux'
 import createStore from '../../store/configureStore'
 
-let updateFavorite = jest.fn()
+const updateFavorite = jest.fn()
 
 describe('renders', () => {
   it('renders without crashing', () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgAdx = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgAdx = props => (
       <use fill="#FFF" xlinkHref="#adx_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgAdx;
+export default SvgAdx

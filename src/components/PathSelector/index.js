@@ -1,3 +1,3 @@
-import PathSelector from './PathSelector';
+import PathSelector from './PathSelector'
 
-export default PathSelector;
+export default PathSelector

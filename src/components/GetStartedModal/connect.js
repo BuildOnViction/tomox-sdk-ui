@@ -1,15 +1,15 @@
 // @flow
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import getGetStartedModalSelector, {
   convertETH,
   approveWETH,
-  redirectToTradingPage
-} from '../../store/models/getStartedModal';
-import type { State } from '../../types';
+  redirectToTradingPage,
+} from '../../store/models/getStartedModal'
+import type { State } from '../../types'
 
 export const mapStateToProps = (state: State, ownProps: Object) => {
-  const selector = getGetStartedModalSelector(state);
+  const selector = getGetStartedModalSelector(state)
 
   return {
     TomoBalance: selector.TomoBalance(),
@@ -17,17 +17,17 @@ export const mapStateToProps = (state: State, ownProps: Object) => {
     WETHBalance: selector.WETHBalance(),
     approveTxState: selector.approveTxState(),
     convertTxState: selector.convertTxState(),
-    closeModal: ownProps.closeHelpModal
-  };
-};
+    closeModal: ownProps.closeHelpModal,
+  }
+}
 
 const mapDispatchToProps = {
   convertETH,
   approveWETH,
-  redirectToTradingPage
-};
+  redirectToTradingPage,
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
+)

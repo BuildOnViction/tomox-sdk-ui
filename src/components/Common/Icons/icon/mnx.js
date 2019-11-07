@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgMnx = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgMnx = props => (
       <use fill="#FFF" xlinkHref="#mnx_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgMnx;
+export default SvgMnx

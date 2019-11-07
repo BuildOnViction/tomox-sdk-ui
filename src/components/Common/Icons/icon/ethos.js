@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEthos = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -49,6 +49,6 @@ const SvgEthos = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgEthos;
+export default SvgEthos

@@ -16,7 +16,7 @@ export function updateSigner(params: UpdateSignerParams): ThunkAction {
     try {
       dispatch(actionCreators.requestSigner())
 
-      let { settings, address } = await createSigner(params)
+      const { settings, address } = await createSigner(params)
 
       dispatch(actionCreators.updateSigner(settings, address))
     } catch (e) {

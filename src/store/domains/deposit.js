@@ -1,11 +1,11 @@
 // @flow
-import { addKeyToObject } from '../../helpers/utils';
+import { addKeyToObject } from '../../helpers/utils'
 
 import type {
   DepositState,
   Chain,
-  AddressAssociation
-} from '../../types/deposit';
+  AddressAssociation,
+} from '../../types/deposit'
 
 const initialState = {
   blockchain: ['ethereum'],
@@ -14,15 +14,15 @@ const initialState = {
     ethereum: {
       protocolVersion: 0,
       address: '',
-      signer: ''
-    }
-  }
-};
+      signer: '',
+    },
+  },
+}
 
 export const initialized = () => {
-  const event = (state: DepositState = initialState) => state;
-  return event;
-};
+  const event = (state: DepositState = initialState) => state
+  return event
+}
 
 export const addressAssociationUpdated = (
   chain: Chain,
@@ -30,10 +30,10 @@ export const addressAssociationUpdated = (
 ) => {
   const event = (state: DepositState) => ({
     ...state,
-    byBlockchain: addKeyToObject(state.byBlockchain, chain, addressAssociation)
-  });
-  return event;
-};
+    byBlockchain: addKeyToObject(state.byBlockchain, chain, addressAssociation),
+  })
+  return event
+}
 
 export const associationTransactionsUpdated = (
   chain: Chain,
@@ -41,15 +41,15 @@ export const associationTransactionsUpdated = (
 ) => {
   const event = (state: DepositState) => ({
     ...state,
-    transactions: addKeyToObject(state.transactions, chain, txEnvelopes)
-  });
-  return event;
-};
+    transactions: addKeyToObject(state.transactions, chain, txEnvelopes),
+  })
+  return event
+}
 
 export default function depositDomain(state: DepositState) {
   return {
     blockchain: () => state.blockchain,
     getAddressAssociation: (chain: Chain) => state.byBlockchain[chain],
-    getAssocationTransactions: (chain: Chain) => state.transactions[chain]
-  };
+    getAssocationTransactions: (chain: Chain) => state.transactions[chain],
+  }
 }

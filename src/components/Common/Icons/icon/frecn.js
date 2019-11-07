@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgFrecn = props => (
   <svg viewBox="0 0 64 64" {...props}>
@@ -35,6 +35,6 @@ const SvgFrecn = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgFrecn;
+export default SvgFrecn

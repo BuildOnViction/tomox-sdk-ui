@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEng = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgEng = props => (
       <use fill="#FFF" xlinkHref="#eng_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgEng;
+export default SvgEng

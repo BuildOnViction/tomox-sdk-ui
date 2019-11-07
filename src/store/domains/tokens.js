@@ -20,18 +20,18 @@ export const initialized = () => {
 
 // update the whole tokenList
 export const tokenListUpdated = (tokens: Array<Token>) => {
-  const symbols: Symbol[] = tokens.map(token => token.symbol);
+  const symbols: Symbol[] = tokens.map(token => token.symbol)
   const bySymbol = tokens.reduce((map, token) => {
-    map[token.symbol] = token;
-    return map;
-  }, {});
+    map[token.symbol] = token
+    return map
+  }, {})
   const event = (state: TokenState) => ({
     ...state,
     symbols,
-    bySymbol
-  });
-  return event;
-};
+    bySymbol,
+  })
+  return event
+}
 
 export const tokenUpdated = (
   symbol: string,
@@ -41,19 +41,19 @@ export const tokenUpdated = (
   const event = (state: TokenState) => ({
     ...state,
     symbols: addElementToArray(state.symbols, symbol),
-    bySymbol: addKeyToObject(state.bySymbol, symbol, { symbol, address, image })
-  });
-  return event;
-};
+    bySymbol: addKeyToObject(state.bySymbol, symbol, { symbol, address, image }),
+  })
+  return event
+}
 
 export const tokenRemoved = (symbol: string) => {
   const event = (state: TokenState) => ({
     ...state,
     symbols: arrayWithoutElement(state.symbols, symbol),
-    bySymbol: objectWithoutKey(state.bySymbol, symbol)
-  });
-  return event;
-};
+    bySymbol: objectWithoutKey(state.bySymbol, symbol),
+  })
+  return event
+}
 
 export default function getTokenDomain(state: TokenState) {
   return {
@@ -64,7 +64,7 @@ export default function getTokenDomain(state: TokenState) {
     rankedTokens: () =>
       (Object.values(state.bySymbol): any).map((m, index) => ({
         ...m,
-        rank: index + 1
-      }))
-  };
+        rank: index + 1,
+      })),
+  }
 }

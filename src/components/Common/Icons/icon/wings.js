@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgWings = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -46,6 +46,6 @@ const SvgWings = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgWings;
+export default SvgWings

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgOot = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgOot = props => (
       <use fill="#FFF" xlinkHref="#oot_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgOot;
+export default SvgOot

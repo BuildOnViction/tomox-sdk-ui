@@ -36,7 +36,7 @@ class StandardSelect extends Component {
 StandardSelect.propTypes = {
   item: PropTypes.object,
   items: PropTypes.array,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 }
 
 export default StandardSelect

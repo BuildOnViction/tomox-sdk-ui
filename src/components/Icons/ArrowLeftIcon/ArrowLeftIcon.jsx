@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 const ArrowLeftIcon = props => {
     const styles = {
-        svg: { display: 'inline-block', verticalAlign: 'middle' }
-    };
+        svg: { display: 'inline-block', verticalAlign: 'middle' },
+    }
 
     return (
         <svg
@@ -53,7 +53,7 @@ const ArrowLeftIcon = props => {
                 </g>
             </g>
         </svg>
-    );
-};
+    )
+}
 
-export default ArrowLeftIcon;
+export default ArrowLeftIcon

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEbst = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgEbst = props => (
       <use fill="#FFF" xlinkHref="#ebst_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgEbst;
+export default SvgEbst

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgXpa = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgXpa = props => (
       <use fill="#FFF" xlinkHref="#xpa_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgXpa;
+export default SvgXpa

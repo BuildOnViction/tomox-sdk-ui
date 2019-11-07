@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgDbc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgDbc = props => (
       <use fill="#FFF" xlinkHref="#dbc_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgDbc;
+export default SvgDbc

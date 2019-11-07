@@ -12,9 +12,9 @@ jest.mock('../services/signer')
 let selector
 
 it('handles validateEtherTx (valid) correctly', async () => {
-  let toNumber = jest.fn(() => 'estimated Gas')
-  let estimateGas = jest.fn(() => Promise.resolve({ toNumber }))
-  let getSignerMock = jest.fn(() => ({ provider: { estimateGas } }))
+  const toNumber = jest.fn(() => 'estimated Gas')
+  const estimateGas = jest.fn(() => Promise.resolve({ toNumber }))
+  const getSignerMock = jest.fn(() => ({ provider: { estimateGas } }))
   getSigner.mockImplementation(getSignerMock)
 
   const { store } = createStore()
@@ -27,8 +27,8 @@ it('handles validateEtherTx (valid) correctly', async () => {
 })
 
 it('handles validateEtherTx (invalid) correctly', async () => {
-  let estimateGas = jest.fn(() => Promise.reject(new Error('some error')))
-  let getSignerMock = jest.fn(() => ({ provider: { estimateGas } }))
+  const estimateGas = jest.fn(() => Promise.reject(new Error('some error')))
+  const getSignerMock = jest.fn(() => ({ provider: { estimateGas } }))
   getSigner.mockImplementation(getSignerMock)
 
   const { store } = createStore()
@@ -41,9 +41,9 @@ it('handles validateEtherTx (invalid) correctly', async () => {
 })
 
 it('handles sendEtherTx (transaction confirmed) correctly', async () => {
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
-  let sendTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
+  const sendTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
   getSigner.mockImplementation(getSignerMock)
 
   const { store } = createStore()
@@ -54,14 +54,14 @@ it('handles sendEtherTx (transaction confirmed) correctly', async () => {
   selector = getTransferTokensFormSelector(store.getState())
   expect(selector.getReceipt()).toEqual({
     hash: 'some hash',
-    status: '0x1'
+    status: '0x1',
   })
 })
 
 it('handles sendEtherTx (failed) correctly', async () => {
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x0' }))
-  let sendTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x0' }))
+  const sendTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
   getSigner.mockImplementation(getSignerMock)
 
   const { store } = createStore()
@@ -75,9 +75,9 @@ it('handles sendEtherTx (failed) correctly', async () => {
 })
 
 it('handles sendEtherTx (throwing an error) correctly', async () => {
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
-  let sendTransaction = jest.fn(() => Promise.reject(new Error('some error')))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
+  const sendTransaction = jest.fn(() => Promise.reject(new Error('some error')))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction }, sendTransaction }))
   getSigner.mockImplementation(getSignerMock)
 
   const { store } = createStore()
@@ -90,9 +90,9 @@ it('handles sendEtherTx (throwing an error) correctly', async () => {
 })
 
 it('handles validateTransferTokens (valid) correctly', async () => {
-  let toNumber = jest.fn(() => 'estimated gas')
-  let transfer = jest.fn(() => Promise.resolve({ toNumber }))
-  let contractMock = jest.fn(() => ({ estimate: { transfer } }))
+  const toNumber = jest.fn(() => 'estimated gas')
+  const transfer = jest.fn(() => Promise.resolve({ toNumber }))
+  const contractMock = jest.fn(() => ({ estimate: { transfer } }))
   Contract.mockImplementation(contractMock)
   getSigner.mockImplementation(jest.fn(() => 'signer'))
 
@@ -106,8 +106,8 @@ it('handles validateTransferTokens (valid) correctly', async () => {
 })
 
 it('handles validateTransferTokens (invalid) correctly', async () => {
-  let transfer = jest.fn(() => Promise.reject(new Error('some error')))
-  let contractMock = jest.fn(() => ({ estimate: { transfer } }))
+  const transfer = jest.fn(() => Promise.reject(new Error('some error')))
+  const contractMock = jest.fn(() => ({ estimate: { transfer } }))
   Contract.mockImplementation(contractMock)
   getSigner.mockImplementation(jest.fn(() => 'signer'))
 
@@ -120,10 +120,10 @@ it('handles validateTransferTokens (invalid) correctly', async () => {
 })
 
 it('handles sendTransferTokens (transaction confirmed) correctly', async () => {
-  let transfer = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
-  let contractMock = jest.fn(() => ({ transfer }))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
+  const transfer = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
+  const contractMock = jest.fn(() => ({ transfer }))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
 
   getSigner.mockImplementation(getSignerMock)
   Contract.mockImplementation(contractMock)
@@ -135,15 +135,15 @@ it('handles sendTransferTokens (transaction confirmed) correctly', async () => {
   selector = getTransferTokensFormSelector(store.getState())
   expect(selector.getReceipt()).toEqual({
     hash: 'some hash',
-    status: '0x1'
+    status: '0x1',
   })
 })
 
 it('handles sendTransferTokensTx (transaction failed) correctly', async () => {
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x0' }))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
-  let transfer = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
-  let contractMock = jest.fn(() => ({ transfer }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x0' }))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
+  const transfer = jest.fn(() => Promise.resolve({ hash: 'some hash' }))
+  const contractMock = jest.fn(() => ({ transfer }))
 
   getSigner.mockImplementation(getSignerMock)
   Contract.mockImplementation(contractMock)
@@ -159,10 +159,10 @@ it('handles sendTransferTokensTx (transaction failed) correctly', async () => {
 })
 
 it('handles sendTransferTokens (throwing an error) correctly', async () => {
-  let waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
-  let getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
-  let transfer = jest.fn(() => Promise.reject(new Error('some error')))
-  let contractMock = jest.fn(() => ({ transfer }))
+  const waitForTransaction = jest.fn(() => Promise.resolve({ hash: 'some hash', status: '0x1' }))
+  const getSignerMock = jest.fn(() => ({ provider: { waitForTransaction } }))
+  const transfer = jest.fn(() => Promise.reject(new Error('some error')))
+  const contractMock = jest.fn(() => ({ transfer }))
 
   getSigner.mockImplementation(getSignerMock)
   Contract.mockImplementation(contractMock)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgFair = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgFair = props => (
       <use fill="#FFF" xlinkHref="#fair_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgFair;
+export default SvgFair

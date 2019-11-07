@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgSnm = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgSnm = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#snm_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgSnm;
+export default SvgSnm

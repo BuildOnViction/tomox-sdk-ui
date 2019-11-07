@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgGbp = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgGbp = props => (
       <use fill="#FFF" xlinkHref="#gbp_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgGbp;
+export default SvgGbp

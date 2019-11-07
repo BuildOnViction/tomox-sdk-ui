@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgAmp = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgAmp = props => (
       <use fill="#FFF" xlinkHref="#amp_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgAmp;
+export default SvgAmp

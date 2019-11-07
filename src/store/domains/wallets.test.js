@@ -17,15 +17,15 @@ it('handles initialized event properly', () => {
 it('handles wallet added event properly', () => {
   const wallets = getDomain([
     eventCreators.initialized(),
-    eventCreators.walletAdded(mockSerializedWalletAddress, mockSerializedWallet)
+    eventCreators.walletAdded(mockSerializedWalletAddress, mockSerializedWallet),
   ])
 
   expect(wallets.addresses()).toEqual([mockSerializedWalletAddress])
   expect(wallets.byAddress()).toEqual({
     [mockSerializedWalletAddress]: {
       address: mockSerializedWalletAddress,
-      encryptedWallet: mockSerializedWallet
-    }
+      encryptedWallet: mockSerializedWallet,
+    },
   })
 })
 
@@ -33,7 +33,7 @@ it('handles wallet removed event properly', () => {
   const wallets = getDomain([
     eventCreators.initialized(),
     eventCreators.walletAdded(mockSerializedWalletAddress, mockSerializedWallet),
-    eventCreators.walletRemoved(mockSerializedWalletAddress)
+    eventCreators.walletRemoved(mockSerializedWalletAddress),
   ])
 
   expect(wallets.addresses()).toEqual([])

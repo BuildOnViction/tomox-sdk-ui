@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgWaves = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -36,6 +36,6 @@ const SvgWaves = props => (
       <use fill="#FFF" xlinkHref="#waves_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgWaves;
+export default SvgWaves

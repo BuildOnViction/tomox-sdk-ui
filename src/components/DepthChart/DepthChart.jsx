@@ -3,7 +3,7 @@ import React from 'react'
 import { unformat } from 'accounting-js'
 import DepthChartRenderer from './DepthChartRenderer'
 
-var AmCharts = require('@amcharts/amcharts3-react');
+const AmCharts = require('@amcharts/amcharts3-react')
 
 type BidOrAsk = {
   price: number,

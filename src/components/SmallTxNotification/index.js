@@ -1,3 +1,3 @@
-import SmallTxNotification from './SmallTxNotification';
+import SmallTxNotification from './SmallTxNotification'
 
-export default SmallTxNotification;
+export default SmallTxNotification

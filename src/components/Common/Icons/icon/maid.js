@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgMaid = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -53,6 +53,6 @@ const SvgMaid = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgMaid;
+export default SvgMaid

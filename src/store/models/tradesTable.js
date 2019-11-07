@@ -2,18 +2,18 @@
 import {
   getTradesDomain,
   getTokenPairsDomain,
-  getAccountDomain
-} from '../domains';
-import type { State } from '../../types';
+  getAccountDomain,
+} from '../domains'
+import type { State } from '../../types'
 
 export default function tradesTableSelector(state: State) {
-  let accountDomain = getAccountDomain(state);
-  let userAddress = accountDomain.address();
-  let tradeDomain = getTradesDomain(state);
-  let tokenPairDomain = getTokenPairsDomain(state);
+  const accountDomain = getAccountDomain(state)
+  const userAddress = accountDomain.address()
+  const tradeDomain = getTradesDomain(state)
+  const tokenPairDomain = getTokenPairsDomain(state)
   return {
     trades: (n) => tradeDomain.marketTrades(n),
     userTrades: () => tradeDomain.userTrades(userAddress),
-    currentPair: () => tokenPairDomain.getCurrentPair()
-  };
+    currentPair: () => tokenPairDomain.getCurrentPair(),
+  }
 }

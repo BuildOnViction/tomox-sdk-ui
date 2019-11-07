@@ -3,7 +3,7 @@ import React from 'react'
 const MetamaskIcon = props => {
   const styles = {
     svg: { display: 'inline-block', verticalAlign: 'middle' },
-    path: { fill: props.color }
+    path: { fill: props.color },
   }
 
   return (

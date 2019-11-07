@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
-import Modal from '../Modal';
-import FirstStep from './steps/FirstStep';
-import SecondStep from './steps/SecondStep';
-import ThirdStep from './steps/ThirdStep';
+import React from 'react'
+import Modal from '../Modal'
+import FirstStep from './steps/FirstStep'
+import SecondStep from './steps/SecondStep'
+import ThirdStep from './steps/ThirdStep'
 
 type Props = {
   step: string,
@@ -44,20 +44,20 @@ const GetStartedModalRenderer = (props: Props) => {
     >
       <StepsRenderer {...props} />
     </Modal>
-  );
-};
+  )
+}
 
 const StepsRenderer = (props: Props) => {
   switch (props.step) {
     case '1':
-      return <FirstStep {...props} />;
+      return <FirstStep {...props} />
     case '2':
-      return <SecondStep {...props} />;
+      return <SecondStep {...props} />
     case '3':
-      return <ThirdStep {...props} />;
+      return <ThirdStep {...props} />
     default:
-      return null;
+      return null
   }
-};
+}
 
-export default GetStartedModalRenderer;
+export default GetStartedModalRenderer

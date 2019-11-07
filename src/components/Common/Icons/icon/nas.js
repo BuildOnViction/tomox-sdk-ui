@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgNas = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgNas = props => (
       <use fill="#FFF" xlinkHref="#nas_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgNas;
+export default SvgNas

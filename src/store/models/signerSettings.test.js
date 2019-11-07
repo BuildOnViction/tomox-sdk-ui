@@ -23,7 +23,7 @@ it('handles setProvider (metamask) properly', async () => {
   signerService.createSigner.mockReturnValue(
     Promise.resolve({
       address: 'test address',
-      settings: { type: 'metamask' }
+      settings: { type: 'metamask' },
     })
   )
 

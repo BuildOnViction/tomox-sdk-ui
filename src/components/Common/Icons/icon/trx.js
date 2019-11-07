@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgTrx = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgTrx = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#trx_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgTrx;
+export default SvgTrx

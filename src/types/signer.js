@@ -1,9 +1,9 @@
 //@flow
-import type { Signature, Transaction } from './common';
-import type { NewOrderParams, Order, RawOrder, OrderCancel } from './orders';
-import type { Request } from './swarm';
-import type { Trade } from './trades';
-import type { Network, Connection } from './network';
+import type { Signature, Transaction } from './common'
+import type { NewOrderParams, Order, RawOrder, OrderCancel } from './orders'
+import type { Request } from './swarm'
+import type { Trade } from './trades'
+import type { Network, Connection } from './network'
 
 type Callback = (string, string, string) => Promise<void>;
 

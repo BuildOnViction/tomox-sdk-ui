@@ -18,7 +18,7 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-let unsubscribe = jest.fn()
+const unsubscribe = jest.fn()
 let model
 
 describe('Login Page Model', () => {
@@ -50,7 +50,7 @@ describe('Login Page Model', () => {
   it('handles loginWithMetamask action (web3 present but account locked)', async () => {
     const { store } = createStore()
     global.web3 = {
-      eth: 'test eth'
+      eth: 'test eth',
     }
 
     model = loginPageSelector(store.getState())
@@ -73,8 +73,8 @@ describe('Login Page Model', () => {
   it('handles loginWithMetamask action (metamask unlocked)', async () => {
     global.web3 = {
       eth: {
-        defaultAccount: 'c838efcb6512a2ca12027ebcdf9e1fc5e4ff7ee3'
-      }
+        defaultAccount: 'c838efcb6512a2ca12027ebcdf9e1fc5e4ff7ee3',
+      },
     }
     const { store } = createStore()
 
@@ -94,11 +94,11 @@ describe('Login Page Model', () => {
     const { store } = createStore()
     const params = {
       wallet: {
-        address: 'test address'
+        address: 'test address',
       },
       encryptedWallet: 'test encryptedWallet',
       storeWallet: false,
-      storePrivateKey: false
+      storePrivateKey: false,
     }
 
     await store.dispatch(actionCreators.loginWithWallet(params))
@@ -110,8 +110,8 @@ describe('Login Page Model', () => {
     expect(domain.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: 'test encryptedWallet'
-      }
+        encryptedWallet: 'test encryptedWallet',
+      },
     })
   })
 
@@ -119,10 +119,10 @@ describe('Login Page Model', () => {
     const { store } = createStore()
     const params = {
       wallet: {
-        address: 'test address'
+        address: 'test address',
       },
       storeWallet: false,
-      storePrivateKey: true
+      storePrivateKey: true,
     }
 
     await store.dispatch(actionCreators.loginWithWallet(params))
@@ -135,8 +135,8 @@ describe('Login Page Model', () => {
     expect(domain.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: null
-      }
+        encryptedWallet: null,
+      },
     })
   })
 
@@ -145,11 +145,11 @@ describe('Login Page Model', () => {
     const params = {
       wallet: {
         address: 'test address',
-        privateKey: 'test privateKey'
+        privateKey: 'test privateKey',
       },
       encryptedWallet: 'test encryptedWallet',
       storeWallet: true,
-      storePrivateKey: true
+      storePrivateKey: true,
     }
 
     await store.dispatch(actionCreators.loginWithWallet(params))
@@ -162,8 +162,8 @@ describe('Login Page Model', () => {
     expect(domain.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: 'test encryptedWallet'
-      }
+        encryptedWallet: 'test encryptedWallet',
+      },
     })
   })
 })
@@ -188,11 +188,11 @@ describe('Create wallet (Integration Test)', () => {
     const params = {
       wallet: {
         address: '0x17fE89190052827FB351e965C965E5fE1Ee60080',
-        privateKey: '0x77d7e234e5141bc98b11cb7ea8e9190dc6ef028f17ce237ec36a41cf1ac6fbec'
+        privateKey: '0x77d7e234e5141bc98b11cb7ea8e9190dc6ef028f17ce237ec36a41cf1ac6fbec',
       },
-      encryptedWallet: encryptedWallet,
+      encryptedWallet,
       storeWallet: true,
-      storePrivateKey: true
+      storePrivateKey: true,
     }
 
     await store.dispatch(actionCreators.loginWithWallet(params))
@@ -202,8 +202,8 @@ describe('Create wallet (Integration Test)', () => {
     expect(domain.byAddress()).toEqual({
       '0x17fE89190052827FB351e965C965E5fE1Ee60080': {
         address: '0x17fE89190052827FB351e965C965E5fE1Ee60080',
-        encryptedWallet: encryptedWallet
-      }
+        encryptedWallet,
+      },
     })
 
     //TODO (2)

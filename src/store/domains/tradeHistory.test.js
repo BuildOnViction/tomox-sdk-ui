@@ -9,7 +9,7 @@ function getModel(events) {
 it('handles initialized event properly', () => {
   const tradeHistoryData = {
     marketTradeHistory: [{}],
-    userTradeHistory: [{}]
+    userTradeHistory: [{}],
   }
 
   const tradeHistory = getModel([eventCreators.initialized()])
@@ -21,7 +21,7 @@ it('handles initialized event properly', () => {
 it('handles dataSaved event properly', () => {
   const tradeHistoryData = {
     marketTradeHistory: [{ time: 63127631232, types: 'sell', amount: 200, price: 0.12 }],
-    userTradeHistory: [{ time: 63127631232, types: 'buy', amount: 200, price: 0.12 }]
+    userTradeHistory: [{ time: 63127631232, types: 'buy', amount: 200, price: 0.12 }],
   }
 
   const tradeHistory = getModel([eventCreators.initialized(), eventCreators.dataSaved(tradeHistoryData)])

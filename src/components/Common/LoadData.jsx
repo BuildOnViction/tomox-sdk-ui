@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react';
+import React from 'react'
 
-import type { Element } from 'react';
+import type { Element } from 'react'
 
 type Data = any[];
 
@@ -22,10 +22,10 @@ export default class LoadData extends React.Component<Props, State> {
     data: [],
   };
   async componentDidMount() {
-    const data = await this.props.getData();
-    this.setState({ data });
+    const data = await this.props.getData()
+    this.setState({ data })
   }
   render() {
-    return this.props.children(this.state.data);
+    return this.props.children(this.state.data)
   }
 }

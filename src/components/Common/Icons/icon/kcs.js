@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgKcs = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgKcs = props => (
       <use fill="#FFF" xlinkHref="#kcs_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgKcs;
+export default SvgKcs

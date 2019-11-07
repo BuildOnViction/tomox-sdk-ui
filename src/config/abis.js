@@ -6,12 +6,12 @@ export const ERC20 = [
     "outputs": [
       {
         "name": "",
-        "type": "string"
-      }
+        "type": "string",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -20,12 +20,12 @@ export const ERC20 = [
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -34,12 +34,12 @@ export const ERC20 = [
     "outputs": [
       {
         "name": "",
-        "type": "uint8"
-      }
+        "type": "uint8",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -48,12 +48,12 @@ export const ERC20 = [
     "outputs": [
       {
         "name": "",
-        "type": "string"
-      }
+        "type": "string",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "anonymous": false,
@@ -61,21 +61,21 @@ export const ERC20 = [
       {
         "indexed": true,
         "name": "_from",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": true,
         "name": "_to",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "_value",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Transfer",
-    "type": "event"
+    "type": "event",
   },
   {
     "anonymous": false,
@@ -83,21 +83,21 @@ export const ERC20 = [
       {
         "indexed": true,
         "name": "_owner",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": true,
         "name": "_spender",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "_value",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Approval",
-    "type": "event"
+    "type": "event",
   },
   {
     "constant": true,
@@ -106,129 +106,129 @@ export const ERC20 = [
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
     "inputs": [
       {
         "name": "_owner",
-        "type": "address"
-      }
+        "type": "address",
+      },
     ],
     "name": "balanceOf",
     "outputs": [
       {
         "name": "balance",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
     "inputs": [
       {
         "name": "_owner",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "_spender",
-        "type": "address"
-      }
+        "type": "address",
+      },
     ],
     "name": "allowance",
     "outputs": [
       {
         "name": "remaining",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "_to",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "_value",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "transfer",
     "outputs": [
       {
         "name": "success",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "_from",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "_to",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "_value",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "transferFrom",
     "outputs": [
       {
         "name": "success",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "_spender",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "_value",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "approve",
     "outputs": [
       {
         "name": "success",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
+    "type": "function",
+  },
+]
 
 export const WETH = [
   {
@@ -238,12 +238,12 @@ export const WETH = [
     "outputs": [
       {
         "name": "",
-        "type": "string"
-      }
+        "type": "string",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -252,31 +252,31 @@ export const WETH = [
     "outputs": [
       {
         "name": "",
-        "type": "uint8"
-      }
+        "type": "uint8",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
     "inputs": [
       {
         "name": "",
-        "type": "address"
-      }
+        "type": "address",
+      },
     ],
     "name": "balanceOf",
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -285,40 +285,40 @@ export const WETH = [
     "outputs": [
       {
         "name": "",
-        "type": "string"
-      }
+        "type": "string",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
     "inputs": [
       {
         "name": "",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "",
-        "type": "address"
-      }
+        "type": "address",
+      },
     ],
     "name": "allowance",
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "payable": true,
     "stateMutability": "payable",
-    "type": "fallback"
+    "type": "fallback",
   },
   {
     "anonymous": false,
@@ -326,21 +326,21 @@ export const WETH = [
       {
         "indexed": true,
         "name": "src",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": true,
         "name": "guy",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Approval",
-    "type": "event"
+    "type": "event",
   },
   {
     "anonymous": false,
@@ -348,21 +348,21 @@ export const WETH = [
       {
         "indexed": true,
         "name": "src",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": true,
         "name": "dst",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Transfer",
-    "type": "event"
+    "type": "event",
   },
   {
     "anonymous": false,
@@ -370,16 +370,16 @@ export const WETH = [
       {
         "indexed": true,
         "name": "dst",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Deposit",
-    "type": "event"
+    "type": "event",
   },
   {
     "anonymous": false,
@@ -387,16 +387,16 @@ export const WETH = [
       {
         "indexed": true,
         "name": "src",
-        "type": "address"
+        "type": "address",
       },
       {
         "indexed": false,
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "Withdrawal",
-    "type": "event"
+    "type": "event",
   },
   {
     "constant": false,
@@ -405,21 +405,21 @@ export const WETH = [
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "withdraw",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": true,
@@ -428,85 +428,85 @@ export const WETH = [
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "guy",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "approve",
     "outputs": [
       {
         "name": "",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "dst",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "transfer",
     "outputs": [
       {
         "name": "",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "src",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "dst",
-        "type": "address"
+        "type": "address",
       },
       {
         "name": "wad",
-        "type": "uint256"
-      }
+        "type": "uint256",
+      },
     ],
     "name": "transferFrom",
     "outputs": [
       {
         "name": "",
-        "type": "bool"
-      }
+        "type": "bool",
+      },
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
+    "type": "function",
+  },
+]
 

@@ -1,6 +1,6 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import MarketsTable from './MarketsTable';
+import React from 'react'
+import { shallow } from 'enzyme'
+import MarketsTable from './MarketsTable'
 
 
 const pairs = [
@@ -55,7 +55,7 @@ const pairs = [
     takeFee: '500000',
     orderbookSize: '100000',
   },
-];
+]
 
 const quoteTokens = ['USDC', 'WETH', 'DAI']
 
@@ -66,5 +66,5 @@ it('renders without crashing', () => {
       quoteTokens={quoteTokens}
       redirectToTradingPage={jest.fn()}
       pairs={pairs}
-    />);
-});
+    />)
+})

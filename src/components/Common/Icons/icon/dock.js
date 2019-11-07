@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgDock = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -34,6 +34,6 @@ const SvgDock = props => (
       />
     </g>
   </svg>
-);
+)
 
-export default SvgDock;
+export default SvgDock

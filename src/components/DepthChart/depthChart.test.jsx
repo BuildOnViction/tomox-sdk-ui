@@ -4,12 +4,12 @@ import OrderBook from './OrderBook'
 
 describe('Component methods', () => {
   let wrapper, instance
-  let currentPair = {
+  const currentPair = {
     pair: 'DAI_WETH',
     baseTokenSymbol: 'DAI',
     quoteTokenSymbol: 'WETH',
     baseTokenAddress: '0xc838efcb6512a2ca12027ebcdf9e1fc5e4ff7ee3',
-    quoteTokenAddress: '0xe8e84ee367bc63ddb38d3d01bccef106c194dc47'
+    quoteTokenAddress: '0xe8e84ee367bc63ddb38d3d01bccef106c194dc47',
   }
 
   beforeEach(() => {

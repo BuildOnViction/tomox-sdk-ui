@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgArdr = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -39,6 +39,6 @@ const SvgArdr = props => (
       <use fill="#FFF" xlinkHref="#ardr_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgArdr;
+export default SvgArdr

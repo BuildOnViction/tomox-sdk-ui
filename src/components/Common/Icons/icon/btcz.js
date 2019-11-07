@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgBtcz = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgBtcz = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#btcz_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgBtcz;
+export default SvgBtcz

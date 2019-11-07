@@ -6,8 +6,8 @@ import type {
   LoginWithWalletAction,
   LoginWithTrezorWalletAction,
   LoginWithLedgerWalletAction,
-  RequestLoginAction
-} from '../../types/loginPage';
+  RequestLoginAction,
+} from '../../types/loginPage'
 
 const actionTypes = {
   createWallet: 'loginPage/CREATE_WALLET',
@@ -18,8 +18,8 @@ const actionTypes = {
   loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
   loginError: 'loginPage/LOGIN_ERROR',
   getPublicKey: 'loginPage/GET_PUBLIC_KEY',
-  toggleSelectAddressModal: 'loginPage/TOGGLE_SELECT_ADDRESS_MODAL'
-};
+  toggleSelectAddressModal: 'loginPage/TOGGLE_SELECT_ADDRESS_MODAL',
+}
 
 export function createWallet(
   address: string,
@@ -27,15 +27,15 @@ export function createWallet(
 ): CreateWalletAction {
   return {
     type: actionTypes.createWallet,
-    payload: { address, encryptedWallet }
-  };
+    payload: { address, encryptedWallet },
+  }
 }
 
 export function loginWithMetamask(address: string): LoginWithMetamaskAction {
   return {
     type: actionTypes.loginWithMetamask,
-    payload: { address }
-  };
+    payload: { address },
+  }
 }
 
 export function loginWithWallet(
@@ -44,8 +44,8 @@ export function loginWithWallet(
 ): LoginWithWalletAction {
   return {
     type: actionTypes.loginWithWallet,
-    payload: { address, privateKey }
-  };
+    payload: { address, privateKey },
+  }
 }
 
 export function loginWithTrezorWallet(
@@ -53,8 +53,8 @@ export function loginWithTrezorWallet(
 ): LoginWithTrezorWalletAction {
   return {
     type: actionTypes.loginWithTrezorWallet,
-    payload: { address }
-  };
+    payload: { address },
+  }
 }
 
 export function loginWithLedgerWallet(
@@ -62,35 +62,35 @@ export function loginWithLedgerWallet(
 ): LoginWithLedgerWalletAction {
   return {
     type: actionTypes.loginWithLedgerWallet,
-    payload: { address }
-  };
+    payload: { address },
+  }
 }
 
 export function loginError(error: string): LoginErrorAction {
   return {
     type: actionTypes.loginError,
-    payload: { error }
-  };
+    payload: { error },
+  }
 }
 
 export function requestLogin(): RequestLoginAction {
   return {
-    type: actionTypes.requestLogin
-  };
+    type: actionTypes.requestLogin,
+  }
 }
 
 export function getPublicKey(data: Object) {
   return {
     type: actionTypes.getPublicKey,
-    payload: data
-  };
+    payload: data,
+  }
 }
 
 export function toggleSelectAddressModal(isOpen: boolean) {
   return {
     type: actionTypes.toggleSelectAddressModal,
-    payload: isOpen
-  };
+    payload: isOpen,
+  }
 }
 
-export default actionTypes;
+export default actionTypes

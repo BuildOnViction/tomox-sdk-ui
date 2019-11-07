@@ -1,24 +1,24 @@
-import tokenSearcherSelector from './tokenSearcher';
-import * as domains from '../domains';
+import tokenSearcherSelector from './tokenSearcher'
+import * as domains from '../domains'
 
-jest.mock('../domains');
+jest.mock('../domains')
 
 it('tokenSearcherSelector parses data correctly', () => {
-  let getFavoritePairsMock = jest.fn(() => ['TOMO/DAI', 'ZRX/WETH']);
+  const getFavoritePairsMock = jest.fn(() => ['TOMO/DAI', 'ZRX/WETH'])
 
-  let getCurrentPairMock = jest.fn(() => ({
+  const getCurrentPairMock = jest.fn(() => ({
     pair: 'TOMO/WETH',
     baseTokenSymbol: 'TOMO',
     quoteTokenSymbol: 'WETH',
-  }));
+  }))
 
-  let tokenBalanceMock = jest.fn(symbol => {
-    if (symbol === 'TOMO') return '100.00';
-    if (symbol === 'WETH') return '10.00';
-    return;
-  });
+  const tokenBalanceMock = jest.fn(symbol => {
+    if (symbol === 'TOMO') return '100.00'
+    if (symbol === 'WETH') return '10.00'
+    return
+  })
 
-  let getTokenPairsDataArrayMock = jest.fn(() => [
+  const getTokenPairsDataArrayMock = jest.fn(() => [
     {
       pair: 'TOMO/WETH',
       lastPrice: '7425.2945',
@@ -59,9 +59,9 @@ it('tokenSearcherSelector parses data correctly', () => {
       low: '6884.7173',
       volume: 155880,
     },
-  ]);
+  ])
 
-  let expectedTokenPairsByQuoteToken = {
+  const expectedTokenPairsByQuoteToken = {
     WETH: [
       {
         pair: 'TOMO/WETH',
@@ -121,21 +121,21 @@ it('tokenSearcherSelector parses data correctly', () => {
         favorited: false,
       },
     ],
-  };
+  }
 
   domains.getTokenPairsDomain = jest.fn(() => ({
     getTokenPairsDataArray: getTokenPairsDataArrayMock,
     getFavoritePairs: getFavoritePairsMock,
     getCurrentPair: getCurrentPairMock,
-  }));
+  }))
 
   domains.getAccountBalancesDomain = jest.fn(() => ({
     tokenBalance: tokenBalanceMock,
-  }));
+  }))
 
-  let { tokenPairsByQuoteToken, currentPair, baseTokenBalance, quoteTokenBalance } = tokenSearcherSelector();
-  expect(tokenPairsByQuoteToken).toEqual(expectedTokenPairsByQuoteToken);
-  expect(currentPair).toEqual({ pair: 'TOMO/WETH', baseTokenSymbol: 'TOMO', quoteTokenSymbol: 'WETH' });
-  expect(baseTokenBalance).toEqual('100.00');
-  expect(quoteTokenBalance).toEqual('10.00');
-});
+  const { tokenPairsByQuoteToken, currentPair, baseTokenBalance, quoteTokenBalance } = tokenSearcherSelector()
+  expect(tokenPairsByQuoteToken).toEqual(expectedTokenPairsByQuoteToken)
+  expect(currentPair).toEqual({ pair: 'TOMO/WETH', baseTokenSymbol: 'TOMO', quoteTokenSymbol: 'WETH' })
+  expect(baseTokenBalance).toEqual('100.00')
+  expect(quoteTokenBalance).toEqual('10.00')
+})

@@ -1,12 +1,12 @@
-import { parseJSONData, parseJSONToFixed, parseOrders, parseTrades, parseOrderBookData } from './parsers';
-import { sortedInserts } from './helpers';
-import tokenPairData from '../jsons/tokenPairData';
-import orders from '../jsons/orders';
-import trades from '../jsons/trades';
+import { parseJSONData, parseJSONToFixed, parseOrders, parseTrades, parseOrderBookData } from './parsers'
+import { sortedInserts } from './helpers'
+import tokenPairData from '../jsons/tokenPairData'
+import orders from '../jsons/orders'
+import trades from '../jsons/trades'
 
 describe('Parsers', () => {
   it('parseJSONData parses JSON data', () => {
-    let data = {
+    const data = {
       key1: '1',
       key2: 'some string',
       key3: '1.234',
@@ -18,9 +18,9 @@ describe('Parsers', () => {
       },
       key8: NaN,
       key9: undefined,
-    };
+    }
 
-    let expected = {
+    const expected = {
       key1: 1,
       key2: 'some string',
       key3: 1.234,
@@ -32,14 +32,14 @@ describe('Parsers', () => {
       },
       key8: NaN,
       key9: undefined,
-    };
+    }
 
-    let parsed = parseJSONData(data);
-    expect(parsed).toEqual(expected);
-  });
+    const parsed = parseJSONData(data)
+    expect(parsed).toEqual(expected)
+  })
 
   it('parseJSONToFixed parses JSON data', () => {
-    let data = {
+    const data = {
       key1: '1',
       key2: 'some string',
       key3: '1.234',
@@ -51,9 +51,9 @@ describe('Parsers', () => {
       },
       key8: NaN,
       key9: undefined,
-    };
+    }
 
-    let expected = {
+    const expected = {
       key1: 1,
       key2: 'some string',
       key3: 1.23,
@@ -65,14 +65,14 @@ describe('Parsers', () => {
       },
       key8: NaN,
       key9: undefined,
-    };
+    }
 
-    let parsed = parseJSONToFixed(data, 2);
-    expect(parsed).toEqual(expected);
-  });
+    const parsed = parseJSONToFixed(data, 2)
+    expect(parsed).toEqual(expected)
+  })
 
   it('parseOrders return correct data', () => {
-    let data = [
+    const data = [
       {
         userAddress: '0x13ae20cc1ef6758f32ba15c190a1703a80a80c4b',
         buyTokenAddress: '0x4facc27542a29a851efe5b6c88c244c2a3f93db9',
@@ -124,9 +124,9 @@ describe('Parsers', () => {
         buyAmount: '213.6124',
         sellAmount: 1875456.97508304,
       },
-    ];
+    ]
 
-    let expected = [
+    const expected = [
       {
         hash: '0xec8670a09f530571146fe610a36b426a54aa1cb26ade3a3baea820621ea30cc1',
         type: 'LIMIT',
@@ -160,14 +160,14 @@ describe('Parsers', () => {
         time: 1506551515816,
         filled: 213.61,
       },
-    ];
+    ]
 
-    let parsed = parseOrders(data, 2);
-    expect(parsed).toEqual(expected);
-  });
+    const parsed = parseOrders(data, 2)
+    expect(parsed).toEqual(expected)
+  })
 
   it('parseTrades return correct data', () => {
-    let data = [
+    const data = [
       {
         amount: '3606.6333',
         price: '53983.5159',
@@ -204,9 +204,9 @@ describe('Parsers', () => {
         pairName: 'ZRX_DAI',
         createdAt: 1511091286778,
       },
-    ];
+    ]
 
-    let expected = [
+    const expected = [
       {
         amount: 3606.63,
         price: 53983.52,
@@ -243,14 +243,14 @@ describe('Parsers', () => {
         pair: 'ZRX_DAI',
         time: 1511091286778,
       },
-    ];
+    ]
 
-    let parsed = parseTrades(data, 2);
-    expect(parsed).toEqual(expected);
-  });
+    const parsed = parseTrades(data, 2)
+    expect(parsed).toEqual(expected)
+  })
 
   it('parseOrderBookData return correct data', () => {
-    let data = {
+    const data = {
       buys: [
         {
           price: '409.0390',
@@ -321,9 +321,9 @@ describe('Parsers', () => {
           createdAt: 1519995626620,
         },
       ],
-    };
+    }
 
-    let expected = {
+    const expected = {
       bids: [
         {
           price: 409.04,
@@ -394,9 +394,9 @@ describe('Parsers', () => {
           time: 1519995626620,
         },
       ],
-    };
+    }
 
-    let parsed = parseOrderBookData(data, 2);
-    expect(parsed).toEqual(expected);
-  });
-});
+    const parsed = parseOrderBookData(data, 2)
+    expect(parsed).toEqual(expected)
+  })
+})

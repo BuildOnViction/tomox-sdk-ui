@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgEla = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -49,6 +49,6 @@ const SvgEla = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgEla;
+export default SvgEla

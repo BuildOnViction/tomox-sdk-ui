@@ -1,11 +1,11 @@
-import getOrdersDomain, * as eventCreators from './orders';
+import getOrdersDomain, * as eventCreators from './orders'
 
 function getDomain(events) {
-  const state = events.reduce((state, event) => event(state), undefined);
-  return getOrdersDomain(state);
+  const state = events.reduce((state, event) => event(state), undefined)
+  return getOrdersDomain(state)
 }
 
-let orders = [
+const orders = [
   {
     amount: 3606.63,
     price: 53983.52,
@@ -42,19 +42,19 @@ let orders = [
     pair: 'ZRX_DAI',
     time: 1511091286778,
   },
-];
+]
 
 describe('Order Domain', () => {
   it('handles initialized event properly', () => {
-    const ordersDomain = getDomain([eventCreators.initialized()]);
-    const expected = {};
+    const ordersDomain = getDomain([eventCreators.initialized()])
+    const expected = {}
 
-    expect(ordersDomain.byTimestamp()).toEqual(expected);
-  });
+    expect(ordersDomain.byTimestamp()).toEqual(expected)
+  })
 
   //TODO replace with real order values or with test keys ?
   it('handles the orders updated event', () => {
-    let expected = {
+    const expected = {
       '1504567900560': {
         amount: 3606.63,
         price: 53983.52,
@@ -91,16 +91,16 @@ describe('Order Domain', () => {
         pair: 'ZRX_DAI',
         time: 1511091286778,
       },
-    };
+    }
 
-    const ordersDomain = getDomain([eventCreators.initialized(), eventCreators.ordersUpdated(orders)]);
+    const ordersDomain = getDomain([eventCreators.initialized(), eventCreators.ordersUpdated(orders)])
 
-    expect(ordersDomain.byTimestamp()).toEqual(expected);
-  });
-});
+    expect(ordersDomain.byTimestamp()).toEqual(expected)
+  })
+})
 
 it('handles orders removed event', () => {
-  let expected = {
+  const expected = {
     '1506911142876': {
       amount: 5765.64,
       price: 98517.23,
@@ -113,13 +113,13 @@ it('handles orders removed event', () => {
       pair: 'TOMO_WETH',
       time: 1506911142876,
     },
-  };
+  }
 
   const ordersDomain = getDomain([
     eventCreators.initialized(),
     eventCreators.ordersUpdated(orders),
     eventCreators.ordersDeleted(['1511091286778', '1504567900560']),
-  ]);
+  ])
 
-  expect(ordersDomain.byTimestamp()).toEqual(expected);
-});
+  expect(ordersDomain.byTimestamp()).toEqual(expected)
+})

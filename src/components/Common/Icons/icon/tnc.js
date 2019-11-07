@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgTnc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -42,6 +42,6 @@ const SvgTnc = props => (
       <use fill="#FFF" xlinkHref="#tnc_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgTnc;
+export default SvgTnc

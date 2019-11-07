@@ -20,7 +20,7 @@ export default function createWalletModalSelector(state: State) {
 export function createWallet(params: CreateWalletParams): ThunkAction {
   return async dispatch => {
     try {
-      let { address, encryptedWallet, password, storeWallet, storePrivateKey } = params
+      const { address, encryptedWallet, password, storeWallet, storePrivateKey } = params
       dispatch(actionCreators.createWallet(address, encryptedWallet))
 
       if (storeWallet) saveEncryptedWalletInLocalStorage(address, encryptedWallet)

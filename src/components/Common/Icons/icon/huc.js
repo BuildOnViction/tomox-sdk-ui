@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgHuc = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -36,6 +36,6 @@ const SvgHuc = props => (
       <use fill="#FFF" xlinkHref="#huc_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgHuc;
+export default SvgHuc

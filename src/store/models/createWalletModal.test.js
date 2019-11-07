@@ -23,7 +23,7 @@ describe('create Wallet', () => {
       encryptedWallet: 'test encryptedWallet',
       password: 'test password',
       storeWallet: false,
-      storePrivateKey: false
+      storePrivateKey: false,
     }
 
     await store.dispatch(actionCreators.createWallet(params))
@@ -37,8 +37,8 @@ describe('create Wallet', () => {
     expect(selector.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: 'test encryptedWallet'
-      }
+        encryptedWallet: 'test encryptedWallet',
+      },
     })
   })
 
@@ -49,7 +49,7 @@ describe('create Wallet', () => {
       encryptedWallet: 'test encryptedWallet',
       password: 'test password',
       storeWallet: true,
-      storePrivateKey: false
+      storePrivateKey: false,
     }
 
     await store.dispatch(actionCreators.createWallet(params))
@@ -64,8 +64,8 @@ describe('create Wallet', () => {
     expect(selector.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: 'test encryptedWallet'
-      }
+        encryptedWallet: 'test encryptedWallet',
+      },
     })
   })
 
@@ -76,7 +76,7 @@ describe('create Wallet', () => {
       encryptedWallet: 'test encryptedWallet',
       password: 'test password',
       storeWallet: true,
-      storePrivateKey: true
+      storePrivateKey: true,
     }
 
     await store.dispatch(actionCreators.createWallet(params))
@@ -87,7 +87,7 @@ describe('create Wallet', () => {
     expect(walletService.savePrivateKeyInSessionStorage).toHaveBeenCalledWith({
       address: 'test address',
       password: 'test password',
-      encryptedWallet: 'test encryptedWallet'
+      encryptedWallet: 'test encryptedWallet',
     })
 
     selector = createWalletModalSelector(store.getState())
@@ -96,8 +96,8 @@ describe('create Wallet', () => {
     expect(selector.byAddress()).toEqual({
       'test address': {
         address: 'test address',
-        encryptedWallet: 'test encryptedWallet'
-      }
+        encryptedWallet: 'test encryptedWallet',
+      },
     })
   })
 })

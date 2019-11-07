@@ -6,7 +6,7 @@ import {
   mockHash,
   mockHash2,
   mockTxReceipt,
-  mockTxReceipt2
+  mockTxReceipt2,
 } from '../../mockData'
 
 function getDomain(events) {
@@ -21,12 +21,12 @@ it('handles initialized event properly', () => {
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'incomplete',
     allowTxHash: null,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'incomplete',
     convertTxHash: null,
-    convertTxReceipt: null
+    convertTxReceipt: null,
   })
 })
 
@@ -37,12 +37,12 @@ it('handles deposit event properly', () => {
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'incomplete',
     allowTxHash: null,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'incomplete',
     convertTxHash: null,
-    convertTxReceipt: null
+    convertTxReceipt: null,
   })
 })
 
@@ -53,12 +53,12 @@ it('handles deposit event properly', () => {
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'incomplete',
     allowTxHash: null,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'incomplete',
     convertTxHash: null,
-    convertTxReceipt: null
+    convertTxReceipt: null,
   })
 })
 
@@ -66,19 +66,19 @@ it('handles convertTxSent event properly', () => {
   const domain = getDomain([
     eventCreators.initialized(),
     eventCreators.deposited(),
-    eventCreators.convertTxSent(mockHash)
+    eventCreators.convertTxSent(mockHash),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'incomplete',
     allowTxHash: null,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'sent',
     convertTxHash: mockHash,
-    convertTxReceipt: null
+    convertTxReceipt: null,
   })
 })
 
@@ -87,19 +87,19 @@ it('handles allowTxSent event properly', () => {
     eventCreators.initialized(),
     eventCreators.deposited(),
     eventCreators.convertTxSent(mockHash),
-    eventCreators.allowTxSent(mockHash2)
+    eventCreators.allowTxSent(mockHash2),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'sent',
     allowTxHash: mockHash2,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'sent',
     convertTxHash: mockHash,
-    convertTxReceipt: null
+    convertTxReceipt: null,
   })
 })
 
@@ -109,19 +109,19 @@ it('handles convertTxReverted event properly', () => {
     eventCreators.deposited(),
     eventCreators.convertTxSent(mockHash),
     eventCreators.allowTxSent(mockHash2),
-    eventCreators.convertTxReverted(mockFailedTxReceipt)
+    eventCreators.convertTxReverted(mockFailedTxReceipt),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'sent',
     allowTxHash: mockHash2,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'reverted',
     convertTxHash: mockHash,
-    convertTxReceipt: mockFailedTxReceipt
+    convertTxReceipt: mockFailedTxReceipt,
   })
 })
 
@@ -131,19 +131,19 @@ it('handles convertTxConfirmed event properly', () => {
     eventCreators.deposited(),
     eventCreators.convertTxSent(mockHash),
     eventCreators.allowTxSent(mockHash2),
-    eventCreators.convertTxConfirmed(mockTxReceipt)
+    eventCreators.convertTxConfirmed(mockTxReceipt),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'sent',
     allowTxHash: mockHash2,
-    allowTxReceipt: null
+    allowTxReceipt: null,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'confirmed',
     convertTxHash: mockHash,
-    convertTxReceipt: mockTxReceipt
+    convertTxReceipt: mockTxReceipt,
   })
 })
 
@@ -154,19 +154,19 @@ it('handles allowTxReverted event properly', () => {
     eventCreators.convertTxSent(mockHash),
     eventCreators.allowTxSent(mockHash2),
     eventCreators.convertTxConfirmed(mockTxReceipt),
-    eventCreators.allowTxReverted(mockFailedTxReceipt2)
+    eventCreators.allowTxReverted(mockFailedTxReceipt2),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'reverted',
     allowTxHash: mockHash2,
-    allowTxReceipt: mockFailedTxReceipt2
+    allowTxReceipt: mockFailedTxReceipt2,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'confirmed',
     convertTxHash: mockHash,
-    convertTxReceipt: mockTxReceipt
+    convertTxReceipt: mockTxReceipt,
   })
 })
 
@@ -177,18 +177,18 @@ it('handles allowTxConfirmed event properly', () => {
     eventCreators.convertTxSent(mockHash),
     eventCreators.allowTxSent(mockHash2),
     eventCreators.convertTxConfirmed(mockTxReceipt),
-    eventCreators.allowTxConfirmed(mockTxReceipt2)
+    eventCreators.allowTxConfirmed(mockTxReceipt2),
   ])
 
   expect(domain.getStep()).toEqual('convert')
   expect(domain.getAllowTxState()).toEqual({
     allowTxStatus: 'confirmed',
     allowTxHash: mockHash2,
-    allowTxReceipt: mockTxReceipt2
+    allowTxReceipt: mockTxReceipt2,
   })
   expect(domain.getConvertTxState()).toEqual({
     convertTxStatus: 'confirmed',
     convertTxHash: mockHash,
-    convertTxReceipt: mockTxReceipt
+    convertTxReceipt: mockTxReceipt,
   })
 })

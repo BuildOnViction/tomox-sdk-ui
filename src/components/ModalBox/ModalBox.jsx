@@ -3,7 +3,7 @@ import { Button } from '@blueprintjs/core'
 
 class ModalBox extends React.PureComponent<> {
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   handleOpen = () => this.setState({ isOpen: true })
@@ -17,7 +17,7 @@ class ModalBox extends React.PureComponent<> {
         <Button intent="primary" onClick={this.handleOpen} text="Click to open modal" />
         {this.props.children({
           handleClose: this.handleClose,
-          isOpen: isOpen
+          isOpen,
         })}
       </React.Fragment>
     )

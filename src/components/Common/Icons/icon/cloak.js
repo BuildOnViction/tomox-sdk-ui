@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgCloak = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -41,6 +41,6 @@ const SvgCloak = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgCloak;
+export default SvgCloak

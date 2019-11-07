@@ -1,9 +1,9 @@
 //@flow
 import type {
   DepositFormEvent,
-  DepositFormState
-} from '../../types/depositForm';
-import type { TxReceipt } from '../../types/common';
+  DepositFormState,
+} from '../../types/depositForm'
+import type { TxReceipt } from '../../types/common'
 
 const initialState = {
   step: 'waiting',
@@ -12,113 +12,113 @@ const initialState = {
   convertTxHash: null,
   convertTxReceipt: null,
   allowTxHash: null,
-  allowTxReceipt: null
-};
+  allowTxReceipt: null,
+}
 
 export const initialized = (): DepositFormEvent => {
-  const event = (state: DepositFormState = initialState) => state;
-  return event;
-};
+  const event = (state: DepositFormState = initialState) => state
+  return event
+}
 
 export const deposited = (): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
-    step: 'convert'
-  });
-  return event;
-};
+    step: 'convert',
+  })
+  return event
+}
 
 export const confirmed = (): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
-    step: 'confirm'
-  });
+    step: 'confirm',
+  })
 
-  return event;
-};
+  return event
+}
 
 export const convertTxSent = (hash: string) => {
   const event = (state: DepositFormState) => {
     return {
       ...state,
       convertTxStatus: 'sent',
-      convertTxHash: hash
-    };
-  };
-  return event;
-};
+      convertTxHash: hash,
+    }
+  }
+  return event
+}
 
 export const convertTxReverted = (receipt: TxReceipt): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
     convertTxStatus: 'reverted',
-    convertTxReceipt: receipt
-  });
+    convertTxReceipt: receipt,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const convertTxConfirmed = (receipt: TxReceipt): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
     convertTxStatus: 'confirmed',
-    convertTxReceipt: receipt
-  });
+    convertTxReceipt: receipt,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const allowTxSent = (hash: string): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
     allowTxStatus: 'sent',
-    allowTxHash: hash
-  });
+    allowTxHash: hash,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const allowTxReverted = (receipt: TxReceipt): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
     allowTxStatus: 'reverted',
-    allowTxReceipt: receipt
-  });
+    allowTxReceipt: receipt,
+  })
 
-  return event;
-};
+  return event
+}
 
 export const allowTxConfirmed = (receipt: TxReceipt): DepositFormEvent => {
   const event = (state: DepositFormState) => ({
     ...state,
     allowTxStatus: 'confirmed',
-    allowTxReceipt: receipt
-  });
+    allowTxReceipt: receipt,
+  })
 
-  return event;
-};
+  return event
+}
 
 export default function depositFormDomain(state: DepositFormState) {
   return {
     getStep() {
-      return state.step;
+      return state.step
     },
     getAllowTxState() {
       return {
         allowTxStatus: state.allowTxStatus,
         allowTxHash: state.allowTxHash,
-        allowTxReceipt: state.allowTxReceipt
-      };
+        allowTxReceipt: state.allowTxReceipt,
+      }
     },
     getAssociatedAddress() {
-      return state.associatedAddress;
+      return state.associatedAddress
     },
     getConvertTxState() {
       return {
         convertTxStatus: state.convertTxStatus,
         convertTxHash: state.convertTxHash,
-        convertTxReceipt: state.convertTxReceipt
-      };
-    }
-  };
+        convertTxReceipt: state.convertTxReceipt,
+      }
+    },
+  }
 }

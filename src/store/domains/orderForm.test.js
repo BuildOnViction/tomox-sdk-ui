@@ -14,7 +14,7 @@ it('handles initialized event properly', () => {
     totalBaseBalance: 0,
     formName: '',
     quoteToken: '',
-    baseToken: ''
+    baseToken: '',
   }
 
   const orderForm = getModel([eventCreators.initialized()])
@@ -38,7 +38,7 @@ it('handles dataSaved event properly', () => {
     quoteToken: 'TOMO',
     baseToken: 'USD',
     decimals: 7,
-    loggedIn: false
+    loggedIn: false,
   }
 
   const orderForm = getModel([eventCreators.initialized(), eventCreators.dataSaved(orderFormData)])

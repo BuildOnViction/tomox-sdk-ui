@@ -1,9 +1,9 @@
 // @flow
 import {
-  tsvParse
+  tsvParse,
 } from 'd3-dsv'
 import {
-  timeParse
+  timeParse,
 } from 'd3-time-format'
 
 const request = (endpoint: string, options: Object) => {
@@ -11,10 +11,10 @@ const request = (endpoint: string, options: Object) => {
     headers: {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     mode: 'cors',
-    ...options
+    ...options,
   })
 }
 
@@ -29,15 +29,15 @@ export const fetchOHLCV = async (
   const response = await request(`/trades/ticks`, {
     body: JSON.stringify({
       pair: [{
-        baseToken: baseToken,
-        quoteToken: quoteToken
+        baseToken,
+        quoteToken,
       }],
-      from: from,
-      to: to,
-      duration: duration,
-      units: units
+      from,
+      to,
+      duration,
+      units,
     }),
-    method: 'POST'
+    method: 'POST',
   })
 
   if (response.status !== 200) {
@@ -45,7 +45,7 @@ export const fetchOHLCV = async (
   }
 
   const {
-    data
+    data,
   } = await response.json()
   return data
 }

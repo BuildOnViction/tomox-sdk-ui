@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgOax = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -40,6 +40,6 @@ const SvgOax = props => (
       <use fill="#FFF" fillRule="evenodd" xlinkHref="#oax_svg__e" />
     </g>
   </svg>
-);
+)
 
-export default SvgOax;
+export default SvgOax

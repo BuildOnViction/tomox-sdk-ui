@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SvgIotx = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -56,6 +56,6 @@ const SvgIotx = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default SvgIotx;
+export default SvgIotx

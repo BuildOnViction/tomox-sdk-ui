@@ -4,13 +4,13 @@ import type { CreateWalletAction, RemoveWalletAction } from '../../types/wallets
 const actionTypes = {
   createWallet: 'createWallet/CREATE',
   addWallet: 'wallets/ADD', //DEPRECATED
-  removeWallet: 'wallets/REMOVE' //DEPRECATED
+  removeWallet: 'wallets/REMOVE', //DEPRECATED
 }
 
 export function createWallet(address: string, encryptedWallet: string): CreateWalletAction {
   return {
     type: actionTypes.createWallet,
-    payload: { address, encryptedWallet }
+    payload: { address, encryptedWallet },
   }
 }
 
@@ -18,7 +18,7 @@ export function createWallet(address: string, encryptedWallet: string): CreateWa
 export function addWallet(address: string, encryptedWallet: string): CreateWalletAction {
   return {
     type: actionTypes.createWallet,
-    payload: { address, encryptedWallet }
+    payload: { address, encryptedWallet },
   }
 }
 
@@ -26,7 +26,7 @@ export function addWallet(address: string, encryptedWallet: string): CreateWalle
 export function removeWallet(address: string): RemoveWalletAction {
   return {
     type: actionTypes.removeWallet,
-    payload: { address }
+    payload: { address },
   }
 }
 

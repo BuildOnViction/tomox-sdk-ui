@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Svg2give = props => (
   <svg width={props.width || 64} height={props.height || 64} {...props}>
@@ -49,6 +49,6 @@ const Svg2give = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default Svg2give;
+export default Svg2give

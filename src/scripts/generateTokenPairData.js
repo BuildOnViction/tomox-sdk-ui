@@ -4,16 +4,16 @@ import tokenPairs from '../jsons/tokenPairs.json'
 
 const tokenPairNames = tokenPairs.pairs
 
-let result = {}
+const result = {}
 
-for (let pair of tokenPairNames) {
+for (const pair of tokenPairNames) {
   result[pair] = {
-    pair: pair,
+    pair,
     lastPrice: rand(0, 10000),
     change: rand(1, 5),
     high: rand(0, 12000),
     low: rand(0, 8000),
-    volume: randInt(0, 1000000)
+    volume: randInt(0, 1000000),
   }
 }
 
