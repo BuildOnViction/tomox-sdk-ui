@@ -90,6 +90,10 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { currentPairData } = this.props
     const { dirtyPriceForm } = this.state
 
+    if (prevProps.currentPair.pair !== this.props.currentPair.pair) {
+      this.setState({dirtyPriceForm: false})
+    }
+
     if (!dirtyPriceForm && currentPairData) {
       const price = unformat(currentPairData.price)
       this.setState({ dirtyPriceForm: true })
