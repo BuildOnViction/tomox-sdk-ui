@@ -268,13 +268,13 @@ export default function getTokenPairsDomain(state: TokenPairState) {
 
     getSmallChartsData: () => {
       const { smallChartsData } = state
-
       if (!smallChartsData) return null
 
       const coins = Object.keys(smallChartsData)
       const newSmallChartsData = []
 
       for (let i = 0; i < coins.length; i++) {
+        if (!smallChartsData[coins[i]] || smallChartsData[coins[i]].length === 0) return null
         const lengthPriceArray = smallChartsData[coins[i]].length
         const volume = +smallChartsData[coins[i]][0].totalVolume
         const closePrice = +smallChartsData[coins[i]][0].price
