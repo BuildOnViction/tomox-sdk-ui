@@ -2,12 +2,13 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import { Loading, Colors, TmColors } from '../Common'
-import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 import BigNumber from 'bignumber.js'
+
+import { Loading, Colors, TmColors } from '../Common'
+import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
+import { pricePrecision as defaultPricePrecision } from '../../config/tokens'
 
 type BidOrAsk = {
   price: number,
@@ -179,8 +180,8 @@ const BuyOrder = (props: SingleOrderProps) => {
     <Row onClick={onClick} update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
       <Cell className="up" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
-      <Cell className="text-right" width="34%">{order.amount}</Cell>
-      <Cell className="text-right" width="33%">{order.total}</Cell> 
+      <Cell className="text-right" width="34%">{BigNumber(order.amount).toFormat(defaultPricePrecision)}</Cell>
+      <Cell className="text-right" width="33%">{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell> 
     </Row>
   )
 }
@@ -191,8 +192,8 @@ const SellOrder = (props: SingleOrderProps) => {
     <Row onClick={onClick} update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
       <Cell className="down" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
-      <Cell className="text-right" width="34%">{order.amount}</Cell>
-      <Cell className="text-right" width="33%">{order.total}</Cell>
+      <Cell className="text-right" width="34%">{BigNumber(order.amount).toFormat(defaultPricePrecision)}</Cell>
+      <Cell className="text-right" width="33%">{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell>
     </Row>
   )
 }
