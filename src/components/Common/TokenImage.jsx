@@ -11,7 +11,7 @@ class TokenImage extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.src === this.props.tokenAddress && prevProps.size === this.props.size) return
+        if (prevProps.tokenAddress === this.props.tokenAddress && prevProps.size === this.props.size) return
 
         this.setState({
             src: `${TOMOTOKENS_URL}/${this.props.tokenAddress}.png`,
