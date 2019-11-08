@@ -319,6 +319,8 @@ const Row = styled.li.attrs({
                 fadeInLightMode 
                 : fadeInDarkMode) 
               : ''} .3s ease;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};

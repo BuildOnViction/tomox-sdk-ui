@@ -139,6 +139,8 @@ const Row = styled.li.attrs({
   justify-content: space-between;
   padding: 3.5px 10px 3.5px 0 !important;
   cursor: default;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
