@@ -14,9 +14,13 @@ jobs:
       script:
         - npm run test
     - stage: Release application
+      script:
+        - npm run build
+        - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.tar.gz ./build
       deploy:
         provider: releases
         api_key: $GH_TOKEN
+        file: tomox-sdk-ui.$TRAVIS_TAG.tar.gz
         skip_cleanup: true
         overwrite: true
         on:
