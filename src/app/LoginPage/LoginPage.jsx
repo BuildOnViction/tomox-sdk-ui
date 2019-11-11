@@ -24,7 +24,7 @@ type Props = {
   loginWithTrezorWallet: Object => void,
   loginWithLedgerWallet: () => void,
   removeNotification: any => void,
-  getTrezorPublicKey: (Object, ?string) => void
+  getTrezorPublicKey: (Object, ?string) => void,
 }
 
 type State = {
@@ -39,6 +39,7 @@ type State = {
   addresses: Array<Object>,
   indexAddress: number,
   ledgerError: object,
+  error: object,
 }
 
 const errorList = {
@@ -56,7 +57,7 @@ const hdPaths = [
 class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
-    selectedTabId: 'private-key',
+    selectedTabId: 'ledger',
     privateKeyStatus: 'initial',
     privateKey: '',
     mnemonicStatus: 'initial',
@@ -145,6 +146,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       mnemonic: '',
       password: '',
       passwordStatus: 'initial',
+      error: null,
     })
   }
 
@@ -316,7 +318,12 @@ class LoginPage extends React.PureComponent<Props, State> {
     } catch (e) {
       console.log(e)
     }
-  } 
+  }
+
+  unlockWalletWithMetaMask = async _ => {
+    const error = await this.props.loginWithMetamask()
+    if (error) {this.setState({error})}
+  }
 
   render() {
 
@@ -341,6 +348,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         indexHdPathActive,
         ledgerError,
         loading,
+        error,
       },
       handleTabChange,
       handlePrivateKeyChange,
@@ -360,6 +368,7 @@ class LoginPage extends React.PureComponent<Props, State> {
       deviceService,
       chooseAddress,
       unlockWalletWithLedger,
+      unlockWalletWithMetaMask,
     } = this
 
     // go to markets by default
@@ -405,7 +414,9 @@ class LoginPage extends React.PureComponent<Props, State> {
           loginWithTrezorWallet={loginWithTrezorWallet}
           loading={loading}
           chooseAddress={chooseAddress}
-          unlockWalletWithLedger={unlockWalletWithLedger} />
+          unlockWalletWithLedger={unlockWalletWithLedger}
+          unlockWalletWithMetaMask={unlockWalletWithMetaMask}
+          error={error} />
       </Wrapper>
     )
   }

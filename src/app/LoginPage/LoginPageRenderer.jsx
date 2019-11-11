@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { TmColors, Theme, SmallText, Link as ExternalLink } from '../../components/Common'
 import { Link } from "react-router-dom"
+import MetaMask from '../../components/MetaMask'
 import SelectAddressModal from '../../components/SelectAddressModal'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
@@ -23,6 +24,8 @@ type Props = {
   unlockWalletWithMnemonic: void => void,
   password: string,
   handlePasswordChange: void => void,
+  unlockWalletWithMetaMask: void => void,
+  error: object,
 }
 
 class LoginPageRenderer extends React.PureComponent<Props> {
@@ -64,6 +67,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       loading,
       chooseAddress,
       unlockWalletWithLedger,
+      unlockWalletWithMetaMask,
+      error,
     } = this.props
 
     return (
@@ -73,6 +78,39 @@ class LoginPageRenderer extends React.PureComponent<Props> {
           <SubTitle><FormattedMessage id="unlockWalletPage.subTitlePart1" /> <LinkWrapper to="/create"><FormattedMessage id="unlockWalletPage.subTitlePart2" /></LinkWrapper></SubTitle>
 
           <TabsWrapper id="import-list" onChange={handleTabChange} selectedTabId={selectedTabId}>
+            <Tab id="ledger" title="Ledger Nano S" panel={
+              <LedgerDevice 
+                addressActive={addressActive}
+                addresses={addresses}
+                isOpenAddressesDialog={isOpenAddressesDialog}
+                toggleAddressesDialog={toggleAddressesDialog}
+                isOpenSelectHdPathModal={isOpenSelectHdPathModal}
+                toggleSelectHdPathModal={toggleSelectHdPathModal}
+                unlockWalletWithLedger={unlockWalletWithLedger}
+                handleHdPathChange={handleHdPathChange}
+                indexHdPathActive={indexHdPathActive}
+                hdPaths={hdPaths}
+                connectToLedger={connectToLedger}
+                nextAddresses={nextAddresses}
+                prevAddresses={prevAddresses}
+                ledgerError={ledgerError}
+                errorList={errorList}
+                loading={loading}
+                chooseAddress={chooseAddress} />
+            } />
+            <Tab id="metamask" title="MetaMask" panel={
+              <MetaMask 
+                unlockWallet={unlockWalletWithMetaMask}
+                error={error} />
+            } />
+
+            {/* <Tab id="trezor" title="Trezor" panel={
+              <TrezorDevice 
+                openAddressesTrezorDialog={openAddressesTrezorDialog}
+                closeAddressesTrezorDialog={closeAddressesTrezorDialog}
+                isSelectAddressModalOpen={isSelectAddressModalOpen}
+                deviceService={deviceService} />
+            } /> */}
             <Tab 
               id="private-key" 
               title="Private Key" 
@@ -100,36 +138,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   password={password}
                   passwordStatus={passwordStatus}
                   handlePasswordChange={handlePasswordChange} />
-              } />
-
-            <Tab id="ledger" title="Ledger Nano S" panel={
-              <LedgerDevice 
-                addressActive={addressActive}
-                addresses={addresses}
-                isOpenAddressesDialog={isOpenAddressesDialog}
-                toggleAddressesDialog={toggleAddressesDialog}
-                isOpenSelectHdPathModal={isOpenSelectHdPathModal}
-                toggleSelectHdPathModal={toggleSelectHdPathModal}
-                unlockWalletWithLedger={unlockWalletWithLedger}
-                handleHdPathChange={handleHdPathChange}
-                indexHdPathActive={indexHdPathActive}
-                hdPaths={hdPaths}
-                connectToLedger={connectToLedger}
-                nextAddresses={nextAddresses}
-                prevAddresses={prevAddresses}
-                ledgerError={ledgerError}
-                errorList={errorList}
-                loading={loading}
-                chooseAddress={chooseAddress} />
-            } />
-
-            {/* <Tab id="trezor" title="Trezor" panel={
-              <TrezorDevice 
-                openAddressesTrezorDialog={openAddressesTrezorDialog}
-                closeAddressesTrezorDialog={closeAddressesTrezorDialog}
-                isSelectAddressModalOpen={isSelectAddressModalOpen}
-                deviceService={deviceService} />
-            } /> */}
+              } />            
           </TabsWrapper>
         </ImportWalletWrapper>
       </Wrapper>
@@ -519,7 +528,6 @@ const InputGroupWrapper = styled.input`
   background: ${TmColors.BLACK};
   border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
   width: 100%;import { loginWithTrezorWallet } from '../../store/models/loginPage';
-import { TmColors } from '../../components/Common/Colors';
 
   &:focus {
     border: 1px solid ${TmColors.ORANGE};
