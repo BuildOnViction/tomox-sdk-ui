@@ -100,7 +100,6 @@ class Default extends React.PureComponent<Props, State> {
     const { createProvider, authenticated, queryAccountData } = this.props
 
     if (window.web3 && window.web3.currentProvider && (isMobile() || isTomoWallet())) {
-      if (window.ethereum) await window.ethereum.enable()
       await this.props.loginWithMetamask()
     }
 

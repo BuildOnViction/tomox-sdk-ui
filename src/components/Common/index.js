@@ -33,6 +33,7 @@ import {
 
 export { TmColors, DarkMode, LightMode, Theme } from './Colors'
 export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton }
+export { default as ButtonLogin } from './ButtonLogin'
 
 export { Box, TextBox, DividerBox, Flex, FlexItem, FlexRow, FlexColumn }
 export {

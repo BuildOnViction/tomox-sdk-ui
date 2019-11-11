@@ -26,6 +26,8 @@ export default function loginPageSelector(state: State) {
 
 export function loginWithMetamask(): ThunkAction {
   return async (dispatch, getState) => {
+    if (window.ethereum) await window.ethereum.enable()
+
     try {
       dispatch(actionCreators.requestLogin())
       if (typeof window.web3 === 'undefined')
@@ -42,16 +44,8 @@ export function loginWithMetamask(): ThunkAction {
 
       dispatch(actionCreators.loginWithMetamask(address))
     } catch (e) {
-      if (e.message === 'Metamask account locked')
-        return dispatch(actionCreators.loginError('Metamask account locked'))
-      if (e.message === 'Metamask not installed')
-        return dispatch(actionCreators.loginError('Metamask not installed'))
-      if (process.env.NODE_ENV !== 'test') console.log(e)
-
-      dispatch(
-        notifierActionCreators.addNotification({ message: 'Login error ' })
-      )
       dispatch(actionCreators.loginError(e.message))
+      return e
     }
   }
 }
