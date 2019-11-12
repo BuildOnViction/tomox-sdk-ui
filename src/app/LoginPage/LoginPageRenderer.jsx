@@ -6,10 +6,9 @@ import { FormattedMessage } from 'react-intl'
 import { TmColors, Theme, SmallText, Link as ExternalLink } from '../../components/Common'
 import { Link } from "react-router-dom"
 import MetaMask from '../../components/MetaMask'
-import SelectAddressModal from '../../components/SelectAddressModal'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
-import trezorLogo from '../../assets/images/trezor.svg'
+import TrezorWallet from '../../components/TrezorWallet'
 
 type Props = {
   selectedTabId: string,
@@ -60,10 +59,10 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       prevAddresses,
       ledgerError,
       errorList,
-      // openAddressesTrezorDialog,
-      // isSelectAddressModalOpen,
-      // closeAddressesTrezorDialog,
-      // deviceService,
+      openAddressesTrezorDialog,
+      isSelectAddressModalOpen,
+      closeAddressesTrezorDialog,
+      deviceService,
       loading,
       chooseAddress,
       unlockWalletWithLedger,
@@ -104,13 +103,13 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 error={error} />
             } />
 
-            {/* <Tab id="trezor" title="Trezor" panel={
-              <TrezorDevice 
+            <Tab id="trezor" title="Trezor" panel={
+              <TrezorWallet 
                 openAddressesTrezorDialog={openAddressesTrezorDialog}
                 closeAddressesTrezorDialog={closeAddressesTrezorDialog}
                 isSelectAddressModalOpen={isSelectAddressModalOpen}
                 deviceService={deviceService} />
-            } /> */}
+            } />
             <Tab 
               id="private-key" 
               title="Private Key" 
@@ -289,36 +288,6 @@ const LedgerDevice = (props) => {
         ledgerError={ledgerError}
         errorList={errorList}
         chooseAddress={chooseAddress} />
-    </LedgerWrapper>
-  )
-}
-
-//eslint-disable-next-line
-const TrezorDevice = (props) => {
-  const { 
-    isSelectAddressModalOpen, 
-    openAddressesTrezorDialog, 
-    closeAddressesTrezorDialog,
-    deviceService,
-  } = props
-
-  return (
-    <LedgerWrapper>      
-      <TrezorLogo src={trezorLogo} alt="Trezor" />
-
-      <InstructionBox>
-        <Title color={TmColors.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.connectionIssues" /></Title>
-        <Title color={TmColors.ORANGE} cursor="pointer"><FormattedMessage id="unlockWalletPage.instructions" /></Title>
-      </InstructionBox>
-
-      <ButtonWrapper onClick={ openAddressesTrezorDialog }><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonWrapper>
-
-      <SelectAddressModal
-        title="Trezor Address"
-        isOpen={isSelectAddressModalOpen}
-        handleClose={closeAddressesTrezorDialog}
-        deviceService={deviceService}
-      />
     </LedgerWrapper>
   )
 }
@@ -626,12 +595,6 @@ const InstructionBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 13px;
-`
-
-const TrezorLogo = styled.img`
-  width: 25%;
-  margin-top: 10px;
-  margin-bottom: 45px;
 `
 
 const AddressWrapper = styled.div``
