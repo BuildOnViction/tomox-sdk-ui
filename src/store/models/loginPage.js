@@ -118,18 +118,18 @@ export function getBalance(address: string): ThunkAction {
   }
 }
 
-export function loginWithTrezorWallet(data: Object): ThunkAction {
+export function loginWithTrezorWallet(address: string): ThunkAction {
   return async (dispatch, getState) => {
     try {
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX
-      const accountInfo = await fetchAccountInfo(data.address)
-      if (!accountInfo) { await createAccount(data.address) }
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.toggleSelectAddressModal(false))
       dispatch(actionCreators.requestLogin())
-      dispatch(actionCreators.loginWithTrezorWallet(data.address))
+      dispatch(actionCreators.loginWithTrezorWallet(address))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })

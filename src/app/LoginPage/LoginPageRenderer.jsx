@@ -76,7 +76,11 @@ class LoginPageRenderer extends React.PureComponent<Props> {
           <HeaderTitle><FormattedMessage id="unlockWalletPage.title" /></HeaderTitle>
           <SubTitle><FormattedMessage id="unlockWalletPage.subTitlePart1" /> <LinkWrapper to="/create"><FormattedMessage id="unlockWalletPage.subTitlePart2" /></LinkWrapper></SubTitle>
 
-          <TabsWrapper id="import-list" onChange={handleTabChange} selectedTabId={selectedTabId}>
+          <TabsWrapper 
+            id="import-list" 
+            onChange={handleTabChange} 
+            selectedTabId={selectedTabId}
+            renderActiveTabPanelOnly={true}>
             <Tab id="ledger" title="Ledger Nano S" panel={
               <LedgerDevice 
                 addressActive={addressActive}
@@ -103,13 +107,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 error={error} />
             } />
 
-            <Tab id="trezor" title="Trezor" panel={
-              <TrezorWallet 
-                openAddressesTrezorDialog={openAddressesTrezorDialog}
-                closeAddressesTrezorDialog={closeAddressesTrezorDialog}
-                isSelectAddressModalOpen={isSelectAddressModalOpen}
-                deviceService={deviceService} />
-            } />
+            <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab 
               id="private-key" 
               title="Private Key" 

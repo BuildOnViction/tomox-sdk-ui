@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 
 import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
-import { TrezorSigner } from '../../store/services/signer/trezor'
+
 import { LedgerWallet } from '../../store/services/signer/ledger'
 import {
   createWalletFromMnemonic,
@@ -296,15 +296,6 @@ class LoginPage extends React.PureComponent<Props, State> {
         loading: false,
       })
     }
-  }
-
-  openAddressesTrezorDialog = async () => {
-    this.deviceService = new TrezorSigner()
-    await this.props.getTrezorPublicKey(this.deviceService)
-  }
-
-  closeAddressesTrezorDialog = () => {
-    this.props.closeSelectAddressModal()
   }
 
   chooseAddress = (address) => {

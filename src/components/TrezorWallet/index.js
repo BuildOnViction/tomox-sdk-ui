@@ -1,2 +1,4 @@
+import connect from "./connect"
 import TrezorWallet from "./TrezorWallet"
-export default TrezorWallet
+
+export default connect(TrezorWallet)

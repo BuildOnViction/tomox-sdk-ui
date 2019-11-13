@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { SmallText, TmColors } from '../../components/Common'
+import { SmallText, TmColors, ButtonLogin } from '../../components/Common'
 
 class SelectHdPathModal extends React.PureComponent {
 
@@ -19,6 +19,8 @@ class SelectHdPathModal extends React.PureComponent {
         errorList,
         connect,
         loading,
+        subTitleId,
+        instructionId,
       } = this.props
   
       return (
@@ -29,7 +31,7 @@ class SelectHdPathModal extends React.PureComponent {
           canOutsideClickClose={false}
           isOpen={isOpen}>
   
-          <SubTitle><FormattedMessage id="unlockWalletPage.chooseHdPathModal.subTitle" /></SubTitle>
+          {subTitleId && <SubTitle><FormattedMessage id={subTitleId} /></SubTitle>}
   
           <SelectHdPath
             items={hdPaths}
@@ -41,9 +43,7 @@ class SelectHdPathModal extends React.PureComponent {
               <Button text={`${hdPaths[indexActive].rank}. ${hdPaths[indexActive].path} - ${hdPaths[indexActive].type}`} rightIcon="caret-down" />
           </SelectHdPath>
 
-          <Instruction>
-            <FormattedHTMLMessage id="unlockWalletPage.chooseHdPathModal.instruction" />
-          </Instruction>
+          {instructionId && <Instruction><FormattedHTMLMessage id={instructionId} /></Instruction>}
           {error && (
             <React.Fragment>
               <ErrorMessage>{errorList[error.statusCode || error.name]}</ErrorMessage>
@@ -51,7 +51,7 @@ class SelectHdPathModal extends React.PureComponent {
             </React.Fragment>
           )}
 
-          <ButtonWrapper width="30%" onClick={connect}>Next {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonWrapper>
+          <ButtonLogin width="30%" onClick={connect}>Next {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonLogin>
         </Dialog>
       )
     }
@@ -105,42 +105,6 @@ const ErrorMessage = styled.div`
   color: ${TmColors.RED};
   font-size: 12px;
   margin-bottom: 5px;
-`
-
-const ButtonWrapper = styled(Button)`
-  display: block;
-  margin-top: ${props => props.margintop ? props.margintop : '30px'};
-  margin-left: auto;
-  margin-right: auto;
-  width: ${props => props.width ? props.width : '100%'};
-  text-align: center;
-  color: ${TmColors.BLACK} !important;
-  border-radius: 0;
-  background-color: ${TmColors.ORANGE} !important;
-  box-shadow: none !important;
-  background-image: none !important;
-  height: 40px;
-
-  &:hover {
-    background-color: ${TmColors.DARK_ORANGE} !important;
-  }
-
-  &.bp3-disabled {
-    cursor: default !important;
-    background-color: ${TmColors.GRAY} !important;
-  }import Highlight from '../Common/Highlight';
-import { TmColors } from '../Common/Colors';
-
-
-  .bp3-button-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .bp3-spinner {
-    margin-left: 10px;
-  }
 `
 
 export default SelectHdPathModal

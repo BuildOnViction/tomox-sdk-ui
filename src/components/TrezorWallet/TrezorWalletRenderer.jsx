@@ -3,15 +3,11 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { TmColors, ButtonLogin, Link as ExternalLink } from '../../components/Common'
-import SelectAddressModal from '../../components/SelectAddressModal'
 import { Trezor } from '../../components/Icons'
 
 const TrezorWalletRenderer = (props) => {
     const { 
-      isSelectAddressModalOpen, 
-      openAddressesTrezorDialog, 
-      closeAddressesTrezorDialog,
-      deviceService,
+        toggleSelectHdPathModal,
     } = props
   
     return (
@@ -23,14 +19,7 @@ const TrezorWalletRenderer = (props) => {
             <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
         </InstructionBox>
   
-        <ButtonLogin onClick={ openAddressesTrezorDialog }><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonLogin>
-  
-        <SelectAddressModal
-          title="Trezor Address"
-          isOpen={isSelectAddressModalOpen}
-          handleClose={closeAddressesTrezorDialog}
-          deviceService={deviceService}
-        />
+        <ButtonLogin onClick={() => toggleSelectHdPathModal('open')}><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonLogin>
       </Wrapper>
     )
 }
