@@ -68,7 +68,6 @@ class LoginPageRenderer extends React.PureComponent<Props> {
 
     return (
       <Wrapper>
-        <ImportWalletWrapper>
           <HeaderTitle><FormattedMessage id="unlockWalletPage.title" /></HeaderTitle>
           <SubTitle><FormattedMessage id="unlockWalletPage.subTitlePart1" /> <LinkWrapper to="/create"><FormattedMessage id="unlockWalletPage.subTitlePart2" /></LinkWrapper></SubTitle>
 
@@ -133,7 +132,6 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                   handlePasswordChange={handlePasswordChange} />
               } />            
           </TabsWrapper>
-        </ImportWalletWrapper>
       </Wrapper>
     )
   }
@@ -152,7 +150,7 @@ const PrivateKey = (props) => {
   } = props
 
   return (
-    <React.Fragment>
+    <WalletWrapper>
       <LabelWrapper>
         <LabelTitle><FormattedMessage id="unlockWalletPage.privateKey.labelPrivateKey" /></LabelTitle> 
         <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
@@ -166,7 +164,7 @@ const PrivateKey = (props) => {
       <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
       <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonWrapper>
-    </React.Fragment>
+    </WalletWrapper>
   )
 }
 
@@ -182,7 +180,7 @@ const MnemonicPhrase = (props) => {
   } = props
 
   return (
-    <React.Fragment>
+    <WalletWrapper>
       <LabelWrapper>
         <LabelTitle><FormattedMessage id="unlockWalletPage.mnemonic.labelMnemonic" /></LabelTitle> 
         <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
@@ -196,7 +194,7 @@ const MnemonicPhrase = (props) => {
       <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
 
       <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
-    </React.Fragment>
+    </WalletWrapper>
   )
 }
 
@@ -222,7 +220,7 @@ const LedgerDevice = (props) => {
   } = props
 
   return (
-    <LedgerWrapper>
+    <WalletWrapper>
       <Title><FormattedMessage id="unlockWalletPage.ledger.instruction1" /></Title>
 
       <LedgerImageBox>       
@@ -282,7 +280,7 @@ const LedgerDevice = (props) => {
         ledgerError={ledgerError}
         errorList={errorList}
         chooseAddress={chooseAddress} />
-    </LedgerWrapper>
+    </WalletWrapper>
   )
 }
 
@@ -361,24 +359,24 @@ const AddressListBox = (props) => {
 
 export default LoginPageRenderer
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  margin-top: 50px;
+`
 
 const TabsWrapper = styled(Tabs)`
   margin-top: 35px;
 
   .bp3-tab-list {
-    justify-content: space-between;
+    justify-content: center;
 
     .bp3-tab {
-      margin: 0;
-
-      &:last-child {
-        text-align: right;
-      }
+      padding: 0 10px;
+      user-select: none;
     }
 
     .bp3-tab-indicator-wrapper {
       display: block;
+
 
       .bp3-tab-indicator {
         height: 2px;
@@ -417,9 +415,13 @@ const TextAreaWrapper = styled.textarea`
   }
 `
 
-const ImportWalletWrapper = styled.div`
+const WalletWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 395px;
-  margin: 50px auto 0;
+  margin: 0 auto;
 `
 
 const HeaderTitle = styled.h1`
@@ -444,6 +446,7 @@ const SubTitle = styled.div`
 
 const LabelWrapper = styled(Label)`
   margin-bottom: 0 !important;
+  width: 100%;
   &:not(:first-child) {
     margin-top: 35px;
   }
@@ -501,12 +504,7 @@ const ErrorMessage = styled.div`
   color: ${TmColors.RED};
   font-size: 12px;
   margin-top: 7px;
-`
-
-const LedgerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
 `
 
 const Title = styled.div`

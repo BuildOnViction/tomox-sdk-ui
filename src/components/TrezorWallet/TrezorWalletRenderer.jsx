@@ -28,6 +28,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 395px;
+  margin: 0 auto;
 `
 
 const InstructionBox = styled.div`
