@@ -9,6 +9,7 @@ import MetaMask from '../../components/MetaMask'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
 import TrezorWallet from '../../components/TrezorWallet'
+import PrivateKeyWallet from '../../components/PrivateKeyWallet'
 
 type Props = {
   selectedTabId: string,
@@ -33,13 +34,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
     const {
       selectedTabId,
       handleTabChange,
-      privateKeyStatus,
-      privateKey,
       mnemonicStatus,
       mnemonic,
-      handlePrivateKeyChange, 
-      unlockWalletWithPrivateKey,
-      unlockWalletWithPrivateKeyOnKeyPress,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       password,
@@ -62,8 +58,6 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       loading,
       chooseAddress,
       unlockWalletWithLedger,
-      unlockWalletWithMetaMask,
-      error,
     } = this.props
 
     return (
@@ -98,21 +92,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
             } />
             <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
-            <Tab 
-              id="private-key" 
-              title="Private Key" 
-              panel={
-                <PrivateKey 
-                  privateKey={privateKey} 
-                  privateKeyStatus={privateKeyStatus} 
-                  handlePrivateKeyChange={handlePrivateKeyChange}
-                  unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
-                  unlockWalletWithPrivateKeyOnKeyPress={unlockWalletWithPrivateKeyOnKeyPress}
-                  password={password}
-                  passwordStatus={passwordStatus}
-                  handlePasswordChange={handlePasswordChange} />
-              } />
-
+            <Tab id="private-key" title="Private Key" panel={<PrivateKeyWallet />} />
             <Tab 
               id="seed-phrase" 
               title="Mnemonic Phrase" 
@@ -130,37 +110,6 @@ class LoginPageRenderer extends React.PureComponent<Props> {
       </Wrapper>
     )
   }
-}
-
-const PrivateKey = (props) => {
-  const { 
-    privateKey, 
-    privateKeyStatus, 
-    handlePrivateKeyChange, 
-    unlockWalletWithPrivateKey,
-    unlockWalletWithPrivateKeyOnKeyPress,
-    password,
-    passwordStatus,
-    handlePasswordChange,
-  } = props
-
-  return (
-    <WalletWrapper>
-      <LabelWrapper>
-        <LabelTitle><FormattedMessage id="unlockWalletPage.privateKey.labelPrivateKey" /></LabelTitle> 
-        <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
-      </LabelWrapper>
-      {(privateKeyStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.privateKey.invalid" /></ErrorMessage>)}
-
-      <LabelWrapper>
-        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} onKeyPress={unlockWalletWithPrivateKeyOnKeyPress} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
-      </LabelWrapper>          
-      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
-
-      <ButtonWrapper onClick={unlockWalletWithPrivateKey} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonWrapper>
-    </WalletWrapper>
-  )
 }
 
 const MnemonicPhrase = (props) => {
@@ -489,7 +438,7 @@ const InputGroupWrapper = styled.input`
   margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
   background: ${TmColors.BLACK};
   border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
-  width: 100%;import { loginWithTrezorWallet } from '../../store/models/loginPage';
+  width: 100%;
 
   &:focus {
     border: 1px solid ${TmColors.ORANGE};

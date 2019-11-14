@@ -10,11 +10,7 @@ import LoginPageRenderer from './LoginPageRenderer'
 import type { LoginWithWallet } from '../../types/loginPage'
 
 import { LedgerWallet } from '../../store/services/signer/ledger'
-import {
-  createWalletFromMnemonic,
-  createWalletFromPrivateKey,
-  // getEncryptedWalletAddress,
-} from '../../store/services/wallet'
+import { createWalletFromMnemonic } from '../../store/services/wallet'
 import AddressGenerator from '../../store/services/device/addressGenerator'
 import { validatePassword } from '../../utils/helpers'
 
@@ -58,8 +54,6 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     selectedTabId: 'trezor',
-    privateKeyStatus: 'initial',
-    privateKey: '',
     mnemonicStatus: 'initial',
     mnemonic: '',
     password: '',
@@ -140,29 +134,11 @@ class LoginPage extends React.PureComponent<Props, State> {
   handleTabChange = (selectedTabId: string) => {
     this.setState({ 
       selectedTabId,
-      privateKeyStatus: 'initial',
       mnemonicStatus: 'initial',
-      privateKey: '',
       mnemonic: '',
       password: '',
       passwordStatus: 'initial',
-      error: null,
     })
-  }
-
-  handlePrivateKeyChange = (e) => {
-    if (e.target.value.length === 66 || e.target.value.length === 64) {
-      this.setState({
-        privateKey: e.target.value,
-        privateKeyStatus: 'valid',
-      })
-      return 
-    }
-
-    this.setState({ 
-      privateKey: e.target.value,
-      privateKeyStatus: 'invalid',
-    })    
   }
 
   handleMnemonicChange = (e) => {
@@ -196,31 +172,6 @@ class LoginPage extends React.PureComponent<Props, State> {
       passwordStatus: 'valid',
       password,
     })
-  }
-
-  unlockWalletWithPrivateKey = async () => {
-    const { 
-      props: { loginWithWallet },
-      state: { privateKey, privateKeyStatus, password, passwordStatus },
-    } = this
-
-    if (privateKeyStatus !== 'valid' || passwordStatus !== 'valid') return
-
-    const privateKeyString = (privateKey.length === 64) ? `0x${privateKey}` : privateKey
-    const { wallet } = await createWalletFromPrivateKey(privateKeyString)
-
-    if (!wallet) {
-      this.setState({ privateKeyStatus: 'invalid' })
-      return
-    }
-
-    loginWithWallet(wallet, password)
-  }
-
-  unlockWalletWithPrivateKeyOnKeyPress = async (event) => {
-    if (event.key !== 'Enter') return
-
-    await this.unlockWalletWithPrivateKey()
   }
 
   unlockWalletWithMnemonic = async () => {
@@ -321,8 +272,6 @@ class LoginPage extends React.PureComponent<Props, State> {
       },
       state: { 
         selectedTabId, 
-        privateKeyStatus, 
-        privateKey,
         mnemonicStatus,
         mnemonic,
         password,
@@ -334,12 +283,8 @@ class LoginPage extends React.PureComponent<Props, State> {
         indexHdPathActive,
         ledgerError,
         loading,
-        error,
       },
       handleTabChange,
-      handlePrivateKeyChange,
-      unlockWalletWithPrivateKey,
-      unlockWalletWithPrivateKeyOnKeyPress,
       handleMnemonicChange,
       unlockWalletWithMnemonic,
       handlePasswordChange,
@@ -349,12 +294,8 @@ class LoginPage extends React.PureComponent<Props, State> {
       connectToLedger,
       prevAddresses,
       nextAddresses,
-      openAddressesTrezorDialog,
-      closeAddressesTrezorDialog,
-      deviceService,
       chooseAddress,
       unlockWalletWithLedger,
-      unlockWalletWithMetaMask,
     } = this
 
     // go to markets by default
@@ -367,11 +308,6 @@ class LoginPage extends React.PureComponent<Props, State> {
         <LoginPageRenderer
           selectedTabId={selectedTabId}
           handleTabChange={handleTabChange}
-          privateKeyStatus={privateKeyStatus}
-          privateKey={privateKey}
-          handlePrivateKeyChange={handlePrivateKeyChange}
-          unlockWalletWithPrivateKey={unlockWalletWithPrivateKey}
-          unlockWalletWithPrivateKeyOnKeyPress={unlockWalletWithPrivateKeyOnKeyPress}
           mnemonicStatus={mnemonicStatus}
           mnemonic={mnemonic}
           handleMnemonicChange={handleMnemonicChange}
@@ -394,15 +330,10 @@ class LoginPage extends React.PureComponent<Props, State> {
           errorList={errorList}
           isOpenSelectHdPathModal={isOpenSelectHdPathModal}
           isSelectAddressModalOpen={isSelectAddressModalOpen}
-          openAddressesTrezorDialog={openAddressesTrezorDialog}
-          closeAddressesTrezorDialog={closeAddressesTrezorDialog}
-          deviceService={deviceService}
           loginWithTrezorWallet={loginWithTrezorWallet}
           loading={loading}
           chooseAddress={chooseAddress}
-          unlockWalletWithLedger={unlockWalletWithLedger}
-          unlockWalletWithMetaMask={unlockWalletWithMetaMask}
-          error={error} />
+          unlockWalletWithLedger={unlockWalletWithLedger} />
       </Wrapper>
     )
   }
