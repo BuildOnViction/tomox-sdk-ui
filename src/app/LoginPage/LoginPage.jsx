@@ -311,11 +311,6 @@ class LoginPage extends React.PureComponent<Props, State> {
     }
   }
 
-  unlockWalletWithMetaMask = async _ => {
-    const error = await this.props.loginWithMetamask()
-    if (error) {this.setState({error})}
-  }
-
   render() {
 
     const {

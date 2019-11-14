@@ -96,12 +96,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
                 loading={loading}
                 chooseAddress={chooseAddress} />
             } />
-            <Tab id="metamask" title="MetaMask" panel={
-              <MetaMask 
-                unlockWallet={unlockWalletWithMetaMask}
-                error={error} />
-            } />
-
+            <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab 
               id="private-key" 
@@ -370,6 +365,7 @@ const TabsWrapper = styled(Tabs)`
     justify-content: center;
 
     .bp3-tab {
+      margin: 0 10px
       padding: 0 10px;
       user-select: none;
     }

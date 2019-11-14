@@ -1,2 +1,3 @@
-import Metamask from "./MetaMaskRenderer"
-export default Metamask
+import connect from './connect'
+import Metamask from "./MetaMask"
+export default connect(Metamask)

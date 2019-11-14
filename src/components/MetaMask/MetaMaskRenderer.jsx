@@ -5,7 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { TmColors, SmallText, ButtonLogin } from '../../components/Common'
 import { Metamask } from '../../components/Icons'
 
-const MetaMaskRenderer = (props) => {
+type Props = {
+    unlockWallet: void => void,
+    error: Object,
+}
+
+const MetaMaskRenderer = (props: Props) => {
     const { 
         unlockWallet,
         error,
