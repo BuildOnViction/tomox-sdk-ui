@@ -14,7 +14,7 @@ type Props = {
     password: String,
     passwordStatus: String,
     handlePasswordChange: void => void,
-  }
+}
 
 const PrivateKeyWalletRenderer = (props: Props) => {
     const { 

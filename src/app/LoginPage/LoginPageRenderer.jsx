@@ -1,15 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Label, Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
+import { Tab, Tabs, Button, Dialog } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
-import { TmColors, Theme, SmallText, Link as ExternalLink } from '../../components/Common'
+import { TmColors, Link as ExternalLink } from '../../components/Common'
 import { Link } from "react-router-dom"
 import MetaMask from '../../components/MetaMask'
 import SelectHdPathModal from '../../components/SelectHdPathModal'
 import appTomoLogoUrl from '../../assets/images/app_tomo_logo.svg'
 import TrezorWallet from '../../components/TrezorWallet'
 import PrivateKeyWallet from '../../components/PrivateKeyWallet'
+import MnemonicWallet from '../../components/MnemonicWallet'
 
 type Props = {
   selectedTabId: string,
@@ -34,13 +35,6 @@ class LoginPageRenderer extends React.PureComponent<Props> {
     const {
       selectedTabId,
       handleTabChange,
-      mnemonicStatus,
-      mnemonic,
-      handleMnemonicChange,
-      unlockWalletWithMnemonic,
-      password,
-      passwordStatus,
-      handlePasswordChange,
       addressActive,
       addresses,
       isOpenAddressesDialog,
@@ -93,53 +87,11 @@ class LoginPageRenderer extends React.PureComponent<Props> {
             <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab id="private-key" title="Private Key" panel={<PrivateKeyWallet />} />
-            <Tab 
-              id="seed-phrase" 
-              title="Mnemonic Phrase" 
-              panel={
-                <MnemonicPhrase 
-                  mnemonic={mnemonic} 
-                  mnemonicStatus={mnemonicStatus} 
-                  handleMnemonicChange={handleMnemonicChange} 
-                  unlockWalletWithMnemonic={unlockWalletWithMnemonic}
-                  password={password}
-                  passwordStatus={passwordStatus}
-                  handlePasswordChange={handlePasswordChange} />
-              } />            
+            <Tab id="seed-phrase" title="Mnemonic Phrase" panel={<MnemonicWallet />} />            
           </TabsWrapper>
       </Wrapper>
     )
   }
-}
-
-const MnemonicPhrase = (props) => {
-  const { 
-    mnemonic,
-    mnemonicStatus, 
-    handleMnemonicChange, 
-    unlockWalletWithMnemonic,
-    password, 
-    passwordStatus,
-    handlePasswordChange,
-  } = props
-
-  return (
-    <WalletWrapper>
-      <LabelWrapper>
-        <LabelTitle><FormattedMessage id="unlockWalletPage.mnemonic.labelMnemonic" /></LabelTitle> 
-        <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
-      </LabelWrapper>
-      {(mnemonicStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.mnemonic.invalid" /></ErrorMessage>)}
-
-      <LabelWrapper>
-        <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-        <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
-      </LabelWrapper>          
-      <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
-
-      <ButtonWrapper disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWalletWithMnemonic}>Unlock Wallet</ButtonWrapper>
-    </WalletWrapper>
-  )
 }
 
 const LedgerDevice = (props) => {
@@ -344,22 +296,6 @@ const TabsWrapper = styled(Tabs)`
   }
 `
 
-const TextAreaWrapper = styled.textarea`
-  width: 100%;
-  min-height: 128px !important;
-  padding: 15px;
-  background-color: ${TmColors.BLACK};
-  margin-bottom: 5px;
-  resize: none;
-  font-size: ${Theme.FONT_SIZE_LG};
-  color: ${TmColors.WHITE};
-  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
-
-  &:focus {
-    border: 1px solid ${TmColors.ORANGE};
-  }
-`
-
 const WalletWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -389,17 +325,6 @@ const SubTitle = styled.div`
   text-align: center;
 `
 
-const LabelWrapper = styled(Label)`
-  margin-bottom: 0 !important;
-  width: 100%;
-  &:not(:first-child) {
-    margin-top: 35px;
-  }
-`
-
-const LabelTitle = styled.div`
-  margin-bottom: 25px;
-`
 
 const ButtonWrapper = styled(Button)`
   display: block;
@@ -429,28 +354,6 @@ const ButtonWrapper = styled(Button)`
   }
 `
 
-const InputGroupWrapper = styled.input`
-  height: 50px;
-  color: ${TmColors.WHITE};
-  font-size: ${Theme.FONT_SIZE_LG};
-  padding: 15px;
-  margin-top: 0 !important;
-  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-  background: ${TmColors.BLACK};
-  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
-  width: 100%;
-
-  &:focus {
-    border: 1px solid ${TmColors.ORANGE};
-  }
-`
-
-const ErrorMessage = styled.div`
-  color: ${TmColors.RED};
-  font-size: 12px;
-  margin-top: 7px;
-  width: 100%;
-`
 
 const Title = styled.div`
   text-align: ${props => props.textAlign ? props.textAlign : 'left'};

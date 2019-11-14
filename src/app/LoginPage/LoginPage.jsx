@@ -7,35 +7,21 @@ import BigNumber from 'bignumber.js'
 import { FormattedMessage } from 'react-intl'
 
 import LoginPageRenderer from './LoginPageRenderer'
-import type { LoginWithWallet } from '../../types/loginPage'
-
 import { LedgerWallet } from '../../store/services/signer/ledger'
-import { createWalletFromMnemonic } from '../../store/services/wallet'
 import AddressGenerator from '../../store/services/device/addressGenerator'
-import { validatePassword } from '../../utils/helpers'
 
 type Props = {
   authenticated: boolean,
-  loginWithWallet: LoginWithWallet => void,
-  loginWithTrezorWallet: Object => void,
   loginWithLedgerWallet: () => void,
   removeNotification: any => void,
-  getTrezorPublicKey: (Object, ?string) => void,
 }
 
 type State = {
   selectedTabId: string,
-  privateKeyStatus: string,
-  privateKey: string,
-  mnemonicStatus: string,
-  mnemonic: string,
-  password: string,
-  passwordStatus: string,
   isOpenAddressesDialog: boolean,
   addresses: Array<Object>,
   indexAddress: number,
   ledgerError: object,
-  error: object,
 }
 
 const errorList = {
@@ -54,10 +40,6 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     selectedTabId: 'trezor',
-    mnemonicStatus: 'initial',
-    mnemonic: '',
-    password: '',
-    passwordStatus: 'initial',
     isOpenAddressesDialog: false,
     isOpenSelectHdPathModal: false,
     addressActive: null,
@@ -141,57 +123,6 @@ class LoginPage extends React.PureComponent<Props, State> {
     })
   }
 
-  handleMnemonicChange = (e) => {
-    if (e.target.value.trim().split(' ').length !== 12) {
-      this.setState({ 
-        mnemonicStatus: 'invalid',
-        mnemonic: e.target.value,
-      })
-      return
-    }
-
-    this.setState({
-      mnemonicStatus: 'valid',
-      mnemonic: e.target.value,
-    })
-  }
-
-  handlePasswordChange = (e) => {
-    const password = e.target.value
-
-    if (!validatePassword(password)) {
-      this.setState({ 
-        passwordStatus: 'invalid',
-        password,
-      })
-
-      return
-    }
-
-    this.setState({ 
-      passwordStatus: 'valid',
-      password,
-    })
-  }
-
-  unlockWalletWithMnemonic = async () => {
-    const {
-      props: { loginWithWallet },
-      state: { mnemonicStatus, mnemonic, password, passwordStatus },
-    } = this
-
-    if (mnemonicStatus !== 'valid' || passwordStatus !== 'valid') return
-
-    const { wallet } = await createWalletFromMnemonic(mnemonic)
-
-    if (!wallet) {
-      this.setState({ mnemonicStatus: 'invalid' })
-      return
-    }
-
-    loginWithWallet(wallet, password)
-  }
-
   toggleSelectHdPathModal = (status) => {
     if (status === 'open') {
       return this.setState({ isOpenSelectHdPathModal: true })
@@ -268,14 +199,9 @@ class LoginPage extends React.PureComponent<Props, State> {
       props: {
         authenticated,
         isSelectAddressModalOpen,
-        loginWithTrezorWallet,
       },
       state: { 
         selectedTabId, 
-        mnemonicStatus,
-        mnemonic,
-        password,
-        passwordStatus,
         addressActive,
         addresses,
         isOpenAddressesDialog,
@@ -285,9 +211,6 @@ class LoginPage extends React.PureComponent<Props, State> {
         loading,
       },
       handleTabChange,
-      handleMnemonicChange,
-      unlockWalletWithMnemonic,
-      handlePasswordChange,
       toggleAddressesDialog,
       toggleSelectHdPathModal,
       handleHdPathChange,
@@ -308,13 +231,6 @@ class LoginPage extends React.PureComponent<Props, State> {
         <LoginPageRenderer
           selectedTabId={selectedTabId}
           handleTabChange={handleTabChange}
-          mnemonicStatus={mnemonicStatus}
-          mnemonic={mnemonic}
-          handleMnemonicChange={handleMnemonicChange}
-          unlockWalletWithMnemonic={unlockWalletWithMnemonic}
-          password={password}
-          passwordStatus={passwordStatus}
-          handlePasswordChange={handlePasswordChange}
           addressActive={addressActive}
           addresses={addresses}
           isOpenAddressesDialog={isOpenAddressesDialog}
@@ -330,7 +246,6 @@ class LoginPage extends React.PureComponent<Props, State> {
           errorList={errorList}
           isOpenSelectHdPathModal={isOpenSelectHdPathModal}
           isSelectAddressModalOpen={isSelectAddressModalOpen}
-          loginWithTrezorWallet={loginWithTrezorWallet}
           loading={loading}
           chooseAddress={chooseAddress}
           unlockWalletWithLedger={unlockWalletWithLedger} />
