@@ -102,7 +102,7 @@ class TrezorWallet extends React.PureComponent {
 
     unlockWalletWithTrezor = async () => {
         try {
-            await this.props.loginWithTrezorWallet(this.state.addressActive.addressString)
+            await this.props.loginWithTrezorWallet(this.state.addressActive)
             this.toggleAddressesDialog('close')
         } catch (e) {
             console.log(e)
