@@ -6,6 +6,11 @@ import { addMethodsToSigner } from './index'
 
 const defaultDPath = "m/44'/60'/0'/0"
 
+TrezorConnect.manifest({
+  email: 'developer@xyz.com',
+  appUrl: 'http://your.application.com',
+})
+
 export class TrezorSigner extends Signer {
   constructor(path = defaultDPath) {
     super()
@@ -32,7 +37,7 @@ export class TrezorSigner extends Signer {
   }
 
   getAddress = () => {
-    return this.address
+    return this.address.addressString
   }
 
   setAddress = address => {
@@ -42,12 +47,13 @@ export class TrezorSigner extends Signer {
   signMessage = async message => {
     return new Promise(async (resolve, reject) => {
       const result = await TrezorConnect.ethereumSignMessage({
-        path: this.path + '/0',
-        message,
-      })
+        path: `${this.path}/${this.address.index}`,
+        message: Buffer.from(message).toString("hex"),
+        hex: true,
+      })      
 
       if (result.success) {
-        resolve(result.payload.signature)
+        resolve(`0x${result.payload.signature}`)
       } else {
         console.error('Error:', result.payload.error) // error message
         reject(result.payload.error)
@@ -67,11 +73,11 @@ export class TrezorSigner extends Signer {
     }
 
     transaction.nonce = utils.hexlify(
-      await this.provider.getTransactionCount(this.address)
+      await this.provider.getTransactionCount(this.address.addressString)
     )
 
     const result = await TrezorConnect.ethereumSignTransaction({
-      path: this.path + '/0',
+      path: `${this.path}/${this.address.index}`,
       transaction,
     })
 

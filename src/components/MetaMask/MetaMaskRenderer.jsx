@@ -5,14 +5,19 @@ import { FormattedMessage } from 'react-intl'
 import { TmColors, SmallText, ButtonLogin } from '../../components/Common'
 import { Metamask } from '../../components/Icons'
 
-const MetaMaskRenderer = (props) => {
+type Props = {
+    unlockWallet: void => void,
+    error: Object,
+}
+
+const MetaMaskRenderer = (props: Props) => {
     const { 
         unlockWallet,
         error,
     } = props
   
     return (
-      <React.Fragment>
+      <Wrapper>
         <Centered><Metamask size={80} /></Centered>
         {!error && (<Note>
             <FormattedMessage 
@@ -27,9 +32,18 @@ const MetaMaskRenderer = (props) => {
             </React.Fragment>
         )}
         <ButtonLogin onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
-      </React.Fragment>
+      </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 395px;
+    margin: 0 auto;
+`
 
 const Centered = styled.div`
     display: flex;

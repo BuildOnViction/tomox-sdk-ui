@@ -13,7 +13,7 @@ const defaultDPath = "m/44'/60'/0'"
 const OPEN_TIMEOUT = 10000
 const LISTENER_TIMEOUT = 15000
 
-export class LedgerWallet extends Signer {
+export class LedgerSigner extends Signer {
 
     constructor(path = defaultDPath) {
         super()
@@ -54,10 +54,10 @@ export class LedgerWallet extends Signer {
         }
     }
 
-    getPublicKey = async (hdPath = defaultDPath) => {
+    getPublicKey = async _ => {
         if (this.eth) {
             // Result of getAddress function includes address, publickKey, chainCode
-            const result = await this.eth.getAddress(hdPath, false, true)
+            const result = await this.eth.getAddress(this.path, false, true)
 
             return result
         }

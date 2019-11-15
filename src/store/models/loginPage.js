@@ -118,18 +118,21 @@ export function getBalance(address: string): ThunkAction {
   }
 }
 
-export function loginWithTrezorWallet(data: Object): ThunkAction {
+export function loginWithTrezorWallet(address: Object): ThunkAction {
   return async (dispatch, getState) => {
     try {
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX
-      const accountInfo = await fetchAccountInfo(data.address)
-      if (!accountInfo) { await createAccount(data.address) }
+      const accountInfo = await fetchAccountInfo(address.addressString)
+      if (!accountInfo) { await createAccount(address.addressString) }
+
+      const signer = getSigner()
+      signer.setAddress(address)
 
       dispatch(actionCreators.toggleSelectAddressModal(false))
       dispatch(actionCreators.requestLogin())
-      dispatch(actionCreators.loginWithTrezorWallet(data.address))
+      dispatch(actionCreators.loginWithTrezorWallet(address.addressString))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
@@ -139,7 +142,7 @@ export function loginWithTrezorWallet(data: Object): ThunkAction {
   }
 }
 
-export function loginWithLedgerWallet(address): ThunkAction {
+export function loginWithLedgerWallet(address: Object): ThunkAction {
   return async (dispatch, getState) => {
     try {
       // Check account exist on backend yet? 
@@ -148,7 +151,9 @@ export function loginWithLedgerWallet(address): ThunkAction {
       const accountInfo = await fetchAccountInfo(address.addressString)
       if (!accountInfo) { await createAccount(address.addressString) }
 
-      window.signer.instance.setAddress(address)
+      const signer = getSigner()
+      signer.setAddress(address)
+
       dispatch(actionCreators.loginWithLedgerWallet(address.addressString))
     } catch (e) {
       dispatch(
