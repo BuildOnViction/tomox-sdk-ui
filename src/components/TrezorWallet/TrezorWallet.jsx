@@ -7,8 +7,7 @@ import SelectHdPathModal from '../../components/SelectHdPathModal'
 import SelectAddressModal from '../../components/SelectAddressModal'
 
 const HDPATHS = [
-    {path: "m/44'/60'/0'", type: "Ledger Live"},
-    {path: "m/44'/60'/0'/0", type: "Ethereum App"},
+    {path: "m/44'/60'/0'/0", type: "Ethereum"},
 ].map((m, index) => ({ ...m, rank: index + 1 }))
 
 class TrezorWallet extends React.PureComponent {
