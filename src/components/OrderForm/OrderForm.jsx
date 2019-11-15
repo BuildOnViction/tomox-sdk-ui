@@ -806,6 +806,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenSymbol={quoteTokenSymbol}
         baseTokenDecimals={baseTokenDecimals}
         quoteTokenDecimals={quoteTokenDecimals}
+        baseTokenBalance={baseTokenBalance}
+        quoteTokenBalance={quoteTokenBalance}
         loggedIn={loggedIn}
         insufficientBalanceToBuy={insufficientBalanceToBuy}
         insufficientBalanceToSell={insufficientBalanceToSell}

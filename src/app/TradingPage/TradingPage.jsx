@@ -72,7 +72,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
         height="100%">
         <Grid flow="row" 
           columns={"1fr"} 
-          rows={"minmax(430px, 6fr) minmax(130px, 3fr)"} 
+          rows={"minmax(410px, 6fr) minmax(150px, 3fr)"} 
           gap="10px" 
           height="100%">
           <ChartsCell>
@@ -92,7 +92,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
         <Grid flow="row" 
           columns={"1fr"} 
-          rows={"minmax(200px, 6fr) minmax(270px, 3fr)"} 
+          rows={"minmax(200px, 6fr) minmax(300px, 3fr)"} 
           gap="10px" 
           height="100%">
           <OrderbooxTradesGrid columns={2} height="100%" gap="20px">

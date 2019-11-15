@@ -76,6 +76,8 @@ const OrderFormRenderer = (props: Props) => {
     quoteTokenSymbol,
     baseTokenDecimals,
     quoteTokenDecimals,
+    baseTokenBalance,
+    quoteTokenBalance,
     loggedIn,
     insufficientBalanceToBuy,
     insufficientBalanceToSell,
@@ -134,6 +136,8 @@ const OrderFormRenderer = (props: Props) => {
                   takeFee={takeFee}
                   baseTokenDecimals={baseTokenDecimals}
                   quoteTokenDecimals={quoteTokenDecimals}
+                  baseTokenBalance={baseTokenBalance}
+                  quoteTokenBalance={quoteTokenBalance}
                   insufficientBalanceToBuy={insufficientBalanceToBuy}
                   insufficientBalanceToSell={insufficientBalanceToSell}
                   pairIsAllowed={pairIsAllowed}
