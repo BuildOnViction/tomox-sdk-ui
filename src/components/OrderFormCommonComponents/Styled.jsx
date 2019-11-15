@@ -113,6 +113,7 @@ export const SellButton = styled(Button).attrs({
     className: "sell-btn",
 })`
     padding: 10px;
+    margin-top: 15px;
 `
   
 export const BaseToken = styled.span.attrs({
@@ -123,6 +124,7 @@ export const BuyButton = styled(Button).attrs({
     className: "buy-btn",
 })`
     padding: 10px;
+    margin-top: 15px;
 `
   
 export const MaxAmountInfo = styled.div`
