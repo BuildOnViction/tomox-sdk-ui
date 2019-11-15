@@ -41,8 +41,11 @@ const PrivateKeyWalletRenderer = (props: Props) => {
                 <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} onKeyPress={unlockWalletByKeyPress} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
             </LabelWrapper>          
             <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
+            <Warning><FormattedMessage id="unlockWalletPage.notRecommended" /></Warning>
     
-            <ButtonLogin onClick={unlockWallet} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
+            <ButtonLogin onClick={unlockWallet} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>
+                <FormattedMessage id="unlockWalletPage.unlockWallet" />
+            </ButtonLogin>
         </WalletWrapper>
     )
 }
@@ -89,6 +92,12 @@ const ErrorMessage = styled.div`
     font-size: 12px;
     margin-top: 7px;
     width: 100%;
+`
+
+const Warning = styled(SmallText)`
+    color: ${TmColors.RED};
+    width: 100%;
+    margin-top: 5px;
 `
 
 export default PrivateKeyWalletRenderer

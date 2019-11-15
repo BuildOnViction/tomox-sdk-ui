@@ -56,6 +56,7 @@
   "unlockWalletPage.metaMaskNote": "Please install & login {link} then connect it to Tomochain Mainnet or Testnet.",
   "unlockWalletPage.metaMaskError1": "Have you installed MetaMask extension?",
   "unlockWalletPage.metaMaskError2": "Make sure your MetaMask is configured correctly.",
+  "unlockWalletPage.notRecommended": "Note: not recommended",
   "createWalletPage.title": "Create New Wallet",
   "createWalletPage.subTitlePart1": "Sign in",
   "createWalletPage.subTitlePart2": "to your wallet or",

@@ -62,11 +62,10 @@ const Wrapper = styled.div`
 `
 
 const TabsWrapper = styled(Tabs)`
-  margin-top: 35px;
+  margin: 35px auto 0 auto;
+  width: 480px;
 
   .bp3-tab-list {
-    justify-content: center;
-
     .bp3-tab {
       user-select: none;
     }

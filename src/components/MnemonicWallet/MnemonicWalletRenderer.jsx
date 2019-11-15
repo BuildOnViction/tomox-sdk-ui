@@ -29,6 +29,7 @@ const MnemonicWalletRenderer = (props) => {
           <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
         </LabelWrapper>          
         <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
+        <Warning><FormattedMessage id="unlockWalletPage.notRecommended" /></Warning>
   
         <ButtonLogin disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
       </WalletWrapper>
@@ -36,12 +37,12 @@ const MnemonicWalletRenderer = (props) => {
 }
 
 const WalletWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 395px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 395px;
+  margin: 0 auto;
 `
 
 const LabelWrapper = styled(Label)`
@@ -57,42 +58,48 @@ const LabelTitle = styled.div`
 `
 
 const InputGroupWrapper = styled.input`
-    height: 50px;
-    color: ${TmColors.WHITE};
-    font-size: ${Theme.FONT_SIZE_LG};
-    padding: 15px;
-    margin-top: 0 !important;
-    margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-    background: ${TmColors.BLACK};
-    border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
-    width: 100%;
+  height: 50px;
+  color: ${TmColors.WHITE};
+  font-size: ${Theme.FONT_SIZE_LG};
+  padding: 15px;
+  margin-top: 0 !important;
+  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
+  background: ${TmColors.BLACK};
+  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
+  width: 100%;
 
-    &:focus {
-        border: 1px solid ${TmColors.ORANGE};
-    }
+  &:focus {
+      border: 1px solid ${TmColors.ORANGE};
+  }
 `
 
 const TextAreaWrapper = styled.textarea`
-    width: 100%;
-    min-height: 128px !important;
-    padding: 15px;
-    background-color: ${TmColors.BLACK};
-    margin-bottom: 5px;
-    resize: none;
-    font-size: ${Theme.FONT_SIZE_LG};
-    color: ${TmColors.WHITE};
-    border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
+  width: 100%;
+  min-height: 128px !important;
+  padding: 15px;
+  background-color: ${TmColors.BLACK};
+  margin-bottom: 5px;
+  resize: none;
+  font-size: ${Theme.FONT_SIZE_LG};
+  color: ${TmColors.WHITE};
+  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
 
-    &:focus {
-        border: 1px solid ${TmColors.ORANGE};
-    }
+  &:focus {
+      border: 1px solid ${TmColors.ORANGE};
+  }
 `
 
 const ErrorMessage = styled.div`
-    color: ${TmColors.RED};
-    font-size: 12px;
-    margin-top: 7px;
-    width: 100%;
+  color: ${TmColors.RED};
+  font-size: 12px;
+  margin-top: 7px;
+  width: 100%;
+`
+
+const Warning = styled(SmallText)`
+  color: ${TmColors.RED};
+  width: 100%;
+  margin-top: 5px;
 `
 
 export default MnemonicWalletRenderer
