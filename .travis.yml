@@ -1,0 +1,33 @@
+language: node_js
+node_js:
+- "10"
+
+jobs:
+  include:          
+    - cache:
+      directories:
+      - node_modules
+    - stage: Lint
+      script:
+        - npm run lint
+    - stage: Test
+      script:
+        - npm run test
+    - stage: Release application
+      script:
+        - npm run build
+        - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.tar.gz ./build
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        file: tomox-sdk-ui.$TRAVIS_TAG.tar.gz
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
+
+stages:
+  - name: Lint
+  - name: Test
+  - name: Release application
+    if: type != pull_request AND branch =~ ^v AND tag IS present AND repo = tomochain/tomox-sdk-ui
