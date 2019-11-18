@@ -76,7 +76,7 @@ class PrivateKeyWallet extends React.PureComponent {
     unlockWalletByKeyPress = async (event) => {
         if (event.key !== 'Enter') return
     
-        await this.unlockWalletWithPrivateKey()
+        await this.unlockWallet()
     }
 
     render() {
