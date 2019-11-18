@@ -196,7 +196,7 @@ class Default extends React.PureComponent<Props, State> {
             <AddressText>{address}</AddressText>
 
             <CopyToClipboard text={address} onCopy={copyDataSuccess}>
-              <IconBox title="Coppy Address">              
+              <IconBox title="Copy Address">              
                 <Icon icon="applications" />              
               </IconBox>
             </CopyToClipboard>
