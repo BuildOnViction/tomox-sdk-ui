@@ -21,7 +21,7 @@ import BigNumber from 'bignumber.js'
 import { Helmet } from 'react-helmet'
 
 import { pricePrecision } from '../../config/tokens'
-import { isMobile, isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
+import { isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
