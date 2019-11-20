@@ -41,6 +41,7 @@ export function updated(accountBalances: AccountBalances) {
         availableBalance: parseBalance(availableBalance, decimals),
         symbol,
         address: key,
+        decimals,
       }
       newState[symbol] = tokenBalance
     }
@@ -128,16 +129,15 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       //The precision multiplier allows for rounding a decimal balance to a "point" number that
       //can be converted into a bignumber. After the bignumber balance is computed, we divide by
       //the precisionMultiplier to offset the initial multiplication by the precision multiplier
-      const precisionMultiplier = 1e4
+      const precisionMultiplier = Math.pow(10, pricePrecision)
       const numericBalance = Number(state[symbol].balance)
       const balancePoints = round(numericBalance * precisionMultiplier, 0)
 
-      const etherMultiplier = utils.bigNumberify('1000000000000000000')
+      const etherMultiplier = utils.bigNumberify(10).pow(state[symbol].decimals)
       const balance = utils
         .bigNumberify(toDecimalFormString(balancePoints))
         .mul(etherMultiplier)
         .div(utils.bigNumberify(precisionMultiplier))
-
       return balance
     },
     get(symbol: string): ?string {

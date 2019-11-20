@@ -137,15 +137,15 @@ export const computePricepoint = ({
                                     price,
                                     // priceMultiplier,
                                     quoteMultiplier,
-                                    precisionMultiplier,
+                                    pricePrecisionMultiplier,
                                   }: *) => {
-  const a = price * precisionMultiplier
+  const a = price * pricePrecisionMultiplier
   const b = a.toFixed(0)
   const c = utils.bigNumberify(b)
   const d = c
     // .mul(priceMultiplier)
     .mul(quoteMultiplier)
-    .div(precisionMultiplier)
+    .div(pricePrecisionMultiplier)
 
   return d
 }
@@ -153,12 +153,12 @@ export const computePricepoint = ({
 export const computeAmountPoints = ({
                                       amount,
                                       baseMultiplier,
-                                      precisionMultiplier,
+                                      amountPrecisionMultiplier,
                                     }: *) => {
-  const a = amount * precisionMultiplier
+  const a = amount * amountPrecisionMultiplier
   const b = a.toFixed(0)
   const c = utils.bigNumberify(b)
-  const d = c.mul(baseMultiplier).div(precisionMultiplier)
+  const d = c.mul(baseMultiplier).div(amountPrecisionMultiplier)
 
   return d
 }
