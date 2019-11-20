@@ -638,7 +638,7 @@ const Close = styled(Icon)`
 `
 
 const TokenSearcherPopover = styled(Popover)`
-  width: 100px;
+  width: fit-content;
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       display: none;
