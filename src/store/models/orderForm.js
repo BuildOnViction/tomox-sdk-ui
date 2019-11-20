@@ -2,6 +2,7 @@
 import * as notifierActionCreators from '../actions/app'
 import * as ordersActionCreators from '../actions/orders'
 import * as actionCreators from '../actions/orderForm'
+import * as orderActionsCreators from '../actions/orders'
 
 import {
   getTokenPairsDomain,
@@ -135,6 +136,7 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
       // }
 
       if (sellTokenBalance.lt(totalSellAmount)) {
+        dispatch(orderActionsCreators.ordersUpdatedStatus(false))
         return dispatch(notifierActionCreators.addErrorNotification({ message: `Insufficient ${sellTokenSymbol} balance` }))
       }
 

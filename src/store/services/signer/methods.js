@@ -9,6 +9,7 @@ import type {
   OrderCancel,
 } from '../../../types/orders'
 import type { Trade } from '../../../types/trades'
+import { amountPrecision, pricePrecision } from '../../../config/tokens'
 
 // The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
 // that are used to turn decimal values into rounded integers that can be converted into
@@ -24,13 +25,14 @@ export const createRawOrder = async function (params: any) {
   const { quoteTokenSymbol, baseTokenAddress, quoteTokenAddress, baseTokenSymbol, baseTokenDecimals, quoteTokenDecimals } = pair
 
 
-  const precisionMultiplier = utils.bigNumberify(10).pow(9)
+  const pricePrecisionMultiplier = utils.bigNumberify(10).pow(pricePrecision)
+  const amountPrecisionMultiplier = utils.bigNumberify(10).pow(amountPrecision)
   // const priceMultiplier = utils.bigNumberify(10).pow(18)
   const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
   // const pricepoint = computePricepoint({ price, priceMultiplier, quoteMultiplier, precisionMultiplier })
-  const pricepoint = computePricepoint({ price, quoteMultiplier, precisionMultiplier })
-  const amountPoints = computeAmountPoints({ amount, baseMultiplier, precisionMultiplier })
+  const pricepoint = computePricepoint({ price, quoteMultiplier, pricePrecisionMultiplier })
+  const amountPoints = computeAmountPoints({ amount, baseMultiplier, amountPrecisionMultiplier })
 
   order.baseTokenSymbol = baseTokenSymbol
   order.quoteTokenSymbol = quoteTokenSymbol
