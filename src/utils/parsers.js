@@ -136,7 +136,7 @@ export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: n
     hash: order.hash,
     side: order.side,
     pair: order.pairName,
-    type: 'LIMIT',
+    type: order.type,
     status: order.status,
   }
 }
@@ -155,7 +155,7 @@ export const parseOrders = (orders: Orders, pairs: Object, currAmountPrecision: 
         hash: order.hash,
         side: order.side,
         pair: order.pairName,
-        type: 'LIMIT',
+        type: order.type,
         status: order.status,
       })
     }
@@ -171,7 +171,7 @@ export const parseTrade = (trade: Trade, pair: TokenPair, currAmountPrecision: n
     amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
     hash: trade.hash,
     orderHash: trade.orderHash,
-    type: trade.type || 'LIMIT',
+    type: trade.type,
     side: trade.takerOrderSide,
     pair: trade.pairName,
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
@@ -188,7 +188,7 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
     hash: trade.hash,
     txHash: trade.txHash,
     orderHash: trade.orderHash,
-    type: trade.type || 'LIMIT',
+    type: trade.type,
     side: trade.takerOrderSide,
     pair: trade.pairName,
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
@@ -211,7 +211,7 @@ export const parseTradesByAddress = (userAddress, trades: Trades, pairs: TokenPa
       hash: trade.hash,
       txHash: trade.txHash,
       orderHash: trade.orderHash,
-      type: trade.type || 'LIMIT',
+      type: trade.type,
       side: trade.takerOrderSide,
       pair: trade.pairName,
       status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,

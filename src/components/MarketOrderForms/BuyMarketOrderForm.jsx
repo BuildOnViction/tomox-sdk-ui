@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from "react-intl"
+import { injectIntl, FormattedMessage } from "react-intl"
 import BigNumber from 'bignumber.js'
 
 import { 
@@ -23,31 +23,24 @@ import { truncateZeroDecimal } from '../../utils/helpers'
 
 const BuyLimitOrderForm = props => {
   const {
-    buyPrice,
     buyAmount,
     buyMaxAmount,
     fraction,
-    buyTotal,
-    // makeFee,
     baseTokenSymbol,
     quoteTokenSymbol,
     quoteTokenBalance,
-    // quoteTokenDecimals,
-    // insufficientBalanceToBuy,
     onInputChange,
     onInputFocus,
     onInputBlur,
     handleSendOrder,
-    handleDecreasePrice,
-    handleIncreasePrice,
     handleDecreaseAmount,
     handleIncreaseAmount,
     errorBuy,
     isShowBuyMaxAmount,
-    buyPriceInput,
     buyAmountInput,
     authenticated,
     redirectToLoginPage,
+    intl,
   } = props
 
   return (
@@ -63,23 +56,11 @@ const BuyLimitOrderForm = props => {
 
         <InputGroupWrapper
           name="price"
-          onChange={e => onInputChange("BUY", e)}
-          onFocus={e => onInputFocus("BUY", e)}
-          onBlur={e => onInputBlur("BUY", e)}
-          value={buyPrice}
-          title={buyPrice}
-          autoComplete="off"
-          inputRef={buyPriceInput}
-          className={errorBuy && errorBuy.type === "price" ? "has-error" : ""}
+          value={intl.formatMessage({id: "exchangePage.market"})}
+          disabled
         />
 
         <TokenName>{quoteTokenSymbol}</TokenName>
-
-        <IncreaseAndDecreaseGroup
-          type="price"
-          onDecreasePrice={e => handleDecreasePrice(e, "BUY")}
-          onIncreasePrice={e => handleIncreasePrice(e, "BUY")}
-        />
       </InputBox>
 
       <InputBox>
@@ -120,24 +101,11 @@ const BuyLimitOrderForm = props => {
         onInputChange={onInputChange}
       />
 
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.total" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="total"
-          onChange={(e) => onInputChange('BUY', e)}
-          value={buyTotal}
-          autoComplete="off"
-        />
-        <TokenName>{quoteTokenSymbol}</TokenName>
-      </InputBox>
-
       <ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage>
 
       {authenticated && (
         <React.Fragment>
-          <InputBox mb="15px">
+          <InputBox mb="15px" mt="5px">
             <InputLabel><FormattedMessage id="portfolioPage.available" />:</InputLabel>
             <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
               <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
@@ -166,4 +134,4 @@ const BuyLimitOrderForm = props => {
   )
 }
 
-export default BuyLimitOrderForm
+export default injectIntl(BuyLimitOrderForm)

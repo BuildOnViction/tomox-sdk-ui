@@ -139,9 +139,6 @@ class OrderForm extends React.PureComponent<Props, State> {
       case 'stopPrice':
         this.handleStopPriceChange(value)
         break
-      // case 'limitPrice':
-      //   this.handleLimitPriceChange(value)
-      //   break
       case 'price':
         this.handlePriceChange(value, side)
         break
@@ -247,19 +244,6 @@ class OrderForm extends React.PureComponent<Props, State> {
     }    
   }
 
-  // handleLimitPriceChange = (limitPrice: string) => {
-  //   let { amount, stopPrice } = this.state
-
-  //   amount = unformat(amount)
-  //   stopPrice = unformat(stopPrice)
-
-  //   this.setState({
-  //     amount,
-  //     stopPrice,
-  //     limitPrice,
-  //   })
-  // }
-
   handleStopPriceChange = (stopPrice: string) => {
     let { amount } = this.state
 
@@ -363,35 +347,17 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  // handleUnlockPair = () => {
-  //   const { baseTokenSymbol, quoteTokenSymbol } = this.props
-
-  //   this.props.unlockPair(baseTokenSymbol, quoteTokenSymbol)
-  // }
-
   handleChangeOrderType = (tabId: string) => {
-    const { askPrice, bidPrice, side } = this.props
-
     this.setState({
       selectedTabId: tabId,
       fraction: 0,
-      priceType: 'null',
-      price: '',
-      stopPrice: '',
-      limitPrice: '',
-      amount: '',
-      total: '',
+      buyAmount: '',
+      sellAmount: '',
+      buyTotal: '',
+      sellTotal: '',
+      errorBuy: null,
+      errorSell: null,
     })
-
-    if (tabId === 'limit' && side === 'BUY') {
-      this.setState({ price: askPrice })
-    } else if (tabId === 'limit') {
-      this.setState({ price: bidPrice })
-    } else if (tabId === 'market' && side === 'BUY') {
-      this.setState({ price: askPrice })
-    } else if (tabId === 'market') {
-      this.setState({ price: bidPrice })
-    }
   }
 
   handleDecreasePrice = (event, side: SIDE) => {

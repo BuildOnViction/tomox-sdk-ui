@@ -128,6 +128,7 @@
   "exchangePage.sell": "Sell",
   "exchangePage.unlockWallet": "Unlock wallet",
   "exchangePage.limit": "Limit",
+  "exchangePage.market": "Market",
   "exchangePage.new": "Open",
   "exchangePage.open": "Open",
   "exchangePage.partialFilled": "Partial",

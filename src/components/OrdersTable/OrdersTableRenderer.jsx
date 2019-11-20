@@ -41,6 +41,11 @@ const STATUS = {
   'REJECTED': <FormattedMessage id='exchangePage.rejected' />,
 }
 
+const ORDERTYPES = {
+  'LO': <FormattedMessage id='exchangePage.limit' />,
+  'MO': <FormattedMessage id='exchangePage.market' />,
+}
+
 const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '10%', '5%']
@@ -220,7 +225,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
         </Cell>
         <Cell width={widthColumns[2]} muted>
-          {capitalizeFirstLetter(order.type)}
+          {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
@@ -298,7 +303,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
         </Cell>
         <Cell width={widthColumnsOrderHistory[2]} muted>
-          {capitalizeFirstLetter(order.type)}
+          {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
@@ -382,7 +387,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
         </Cell>
         <Cell width={widthColumnsTradeHistory[2]} muted>
-          {capitalizeFirstLetter(order.type)}
+          {ORDERTYPES[order.type] || ORDERTYPES['MO']}
         </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {truncateZeroDecimal(order.price)}

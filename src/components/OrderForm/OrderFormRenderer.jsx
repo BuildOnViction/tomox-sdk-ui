@@ -6,7 +6,6 @@ import {
   Tab,
   Button,
   InputGroup,
-  Label,
   Colors,
 } from '@blueprintjs/core'
 import { utils } from 'ethers'
@@ -20,6 +19,7 @@ import {
   SpinnerContainer,
 } from '../Common'
 import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
+import { BuyMarketOrderForm, SellMarketOrderForm } from '../MarketOrderForms'
 
 type Props = {
   selectedTabId: OrderType,
@@ -109,7 +109,8 @@ const OrderFormRenderer = (props: Props) => {
     <Container>
       <OrderFormTabs 
           selectedTabId={selectedTabId} 
-          onChange={handleChangeOrderType}>
+          onChange={handleChangeOrderType}
+          renderActiveTabPanelOnly={true}>
             <Tab
               id="LO"
               title={<FormattedMessage id="exchangePage.limit" />}
@@ -162,36 +163,38 @@ const OrderFormRenderer = (props: Props) => {
                 />
               }
             />
-            {/* <Tab
+            <Tab
               id="MO"
-              title="Market"
-              disabled="true"
+              title={<FormattedMessage id="exchangePage.market" />}
               panel={
                 <MarketOrderPanel
                   side={side}
                   baseTokenSymbol={baseTokenSymbol}
                   quoteTokenSymbol={quoteTokenSymbol}
                   fraction={fraction}
-                  priceType={priceType}
-                  // price={price} //Todo: First step I resolve for only limit order
-                  stopPrice={stopPrice}
-                  limitPrice={limitPrice}
-                  // amount={amount}
-                  // maxAmount={maxAmount}
-                  // total={total}
-                  makeFee={makeFee}
-                  takeFee={takeFee}
-                  baseTokenDecimals={baseTokenDecimals}
-                  quoteTokenDecimals={quoteTokenDecimals}
-                  // insufficientBalance={insufficientBalance}
-                  pairIsAllowed={pairIsAllowed}
-                  pairAllowanceIsPending={pairAllowanceIsPending}
+                  buyAmount={buyAmount}
+                  sellAmount={sellAmount}
+                  buyMaxAmount={buyMaxAmount}
+                  sellMaxAmount={sellMaxAmount}
+                  baseTokenBalance={baseTokenBalance}
+                  quoteTokenBalance={quoteTokenBalance}
                   onInputChange={onInputChange}
-                  handleUnlockPair={handleUnlockPair}
+                  onInputFocus={onInputFocus}
+                  onInputBlur={onInputBlur}
                   handleSendOrder={handleSendOrder}
+                  handleDecreaseAmount={handleDecreaseAmount}
+                  handleIncreaseAmount={handleIncreaseAmount}
+                  errorBuy={errorBuy}
+                  errorSell={errorSell}
+                  isShowBuyMaxAmount={isShowBuyMaxAmount}
+                  isShowSellMaxAmount={isShowSellMaxAmount}
+                  buyAmountInput={buyAmountInput}
+                  sellAmountInput={sellAmountInput}
+                  authenticated={authenticated}
+                  redirectToLoginPage={redirectToLoginPage}
                 />
               }
-            /> */}
+            />
             {/* <Tab
               id="stop"
               title="Stop-Limit"
@@ -237,92 +240,12 @@ const LimitOrderPanel = props => {
   )
 }
 
-//eslint-disable-next-line
-const MarketOrderPanel = (props: *) => {
-  const {
-    side,
-    price,
-    amount,
-    maxAmount,
-    fraction,
-    total,
-    makeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    quoteTokenDecimals,
-    insufficientBalance,
-    pairIsAllowed,
-    onInputChange,
-    handleUnlockPair,
-    handleSendOrder,
-  } = props
-
+const MarketOrderPanel = props => {
   return (
-    <React.Fragment>
-      <InputBox>
-        <InputLabel>
-          Price <MutedText>({quoteTokenSymbol})</MutedText>
-        </InputLabel>
-        <InputGroupWrapper
-          name="price"
-          onChange={onInputChange}
-          placeholder={price}
-          disabled
-        />
-      </InputBox>
-      <InputBox>
-        <InputLabel>
-          Amount <MutedText>({baseTokenSymbol})</MutedText>
-        </InputLabel>
-        <InputGroupWrapper
-          name="amount"
-          value={amount}
-          placeholder="Amount"
-          onChange={onInputChange}
-          rightElement={
-            <Total>
-              Total: ~{total} {quoteTokenSymbol}
-            </Total>
-          }
-        />
-      </InputBox>
-      <RadioButtonsWrapper>
-        <RadioButton
-          value={25}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={50}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={75}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-        <RadioButton
-          value={100}
-          fraction={fraction}
-          onInputChange={onInputChange}
-        />
-      </RadioButtonsWrapper>
-
-      {total && <MaxAmount>Total: ~{total} {quoteTokenSymbol}</MaxAmount>}
-      {maxAmount && <MaxAmount>Max: ~{maxAmount} {baseTokenSymbol}</MaxAmount>}
-      {makeFee && <MaxAmount>Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>}
-
-      <Button
-        intent={side === 'BUY' ? 'success' : 'danger'}
-        text={side}
-        name="order"
-        onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-        disabled={insufficientBalance}
-        fill
-      />
-
-    </React.Fragment>
+    <OrderWrapper>
+      <BuyMarketOrderForm {...props} />
+      <SellMarketOrderForm {...props} />
+    </OrderWrapper>
   )
 }
 
@@ -408,16 +331,6 @@ const StopLimitOrderPanel = (props: *) => {
   )
 }
 
-const RadioButton = props => {
-  const { onInputChange, value } = props
-  return (
-    <RadioButtonBox>
-      <span>{value}%</span>
-      <InputGroup name="fraction" type="radio" onChange={onInputChange} value={value} />
-    </RadioButtonBox>
-  )
-}
-
 export default OrderFormRenderer
 
 const Container = styled.div`
@@ -444,50 +357,12 @@ const OrderFormTabs = styled(Tabs)`
   }
 
   .bp3-tab {
-    color: ${props => props.theme.orderTableTabActive};
+    color: ${props => props.theme.menuColor};
   }
 
   .bp3-tab:hover,
   .bp3-tab[aria-selected="true"] {
     color: ${props => props.theme.orderTableTabActive};
-  }
-`
-
-const RadioButtonsWrapper = styled.div`
-  width: calc(100% - 60px);
-  padding-left: 8px;
-  margin-left: auto;
-  display: flex;
-  justify-content: space-between;
-`
-
-const RadioButtonBox = styled(Label)`
-  min-width: 35px;
-  width: 15%;
-  padding: 5px 0;
-  text-align: center;
-  cursor: pointer;
-  input.bp3-input {
-    opacity: 0;
-    width: 0px;
-    height: 0;
-    margin: 0px;
-  }
-  .bp3-input-group {
-    width: 0px;
-    height: 0;
-  }
-  &:first-child {
-    text-align: left;
-  }
-  &:last-child {
-    text-align: right;
-  }
-  span {
-    height: 17px;
-  }
-  &:hover span {
-    color: #fff;
   }
 `
 
