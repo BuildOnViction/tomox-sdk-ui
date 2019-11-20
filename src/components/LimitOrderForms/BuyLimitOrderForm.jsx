@@ -17,7 +17,6 @@ import {
   BuyButton,
   MaxAmountInfo,
   ErrorMessage,
-  OverlayInput,
 } from "../OrderFormCommonComponents"
 import { pricePrecision } from "../../config/tokens"
 import { truncateZeroDecimal } from '../../utils/helpers'
@@ -126,19 +125,13 @@ const BuyLimitOrderForm = props => {
           <FormattedMessage id="exchangePage.total" />:
         </InputLabel>
         <InputGroupWrapper
-          name="buy-total"
-          readOnly
-          // onChange={(e) => onInputChange('BUY', e)}
+          name="total"
+          onChange={(e) => onInputChange('BUY', e)}
           value={buyTotal}
-          tabIndex="-1"
+          autoComplete="off"
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput title={buyTotal} />
       </InputBox>
-
-      {/* {buyTotal && <MaxAmount>Total: ~{buyTotal} {quoteTokenSymbol}</MaxAmount>}
-        {buyMaxAmount && <MaxAmount>Max: ~{buyMaxAmount} {baseTokenSymbol}</MaxAmount>}
-        {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
 
       {errorBuy && (<ErrorMessage>{errorBuy.message}</ErrorMessage>)}
 

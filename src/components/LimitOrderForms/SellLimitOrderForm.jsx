@@ -17,7 +17,6 @@ import {
   SellButton,
   MaxAmountInfo,
   ErrorMessage,
-  OverlayInput,
 } from "../OrderFormCommonComponents"
 import { pricePrecision } from "../../config/tokens"
 import { truncateZeroDecimal } from '../../utils/helpers'
@@ -120,23 +119,18 @@ const SellLimitOrderForm = props => {
         onInputChange={onInputChange}
       />
 
-      {/* {sellTotal && <MaxAmount>Total: ~{sellTotal} {quoteTokenSymbol}</MaxAmount>}
-        {sellMaxAmount && <MaxAmount>Max: ~{sellMaxAmount} {baseTokenSymbol}</MaxAmount>}
-        {makeFee && <MaxAmount> Fee: {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol}</MaxAmount>} */}
 
       <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangePage.total" />:
         </InputLabel>
         <InputGroupWrapper
-          name="sell-total"
-          readOnly
-          // onChange={(e) => onInputChange('SELL', e)}
+          name="total"
+          onChange={(e) => onInputChange('SELL', e)}
           value={sellTotal}
-          tabIndex="-1"
+          autoComplete="off"
         />
         <TokenName>{quoteTokenSymbol}</TokenName>
-        <OverlayInput title={sellTotal} />
       </InputBox>
 
       {errorSell && (<ErrorMessage>{errorSell.message}</ErrorMessage>)}

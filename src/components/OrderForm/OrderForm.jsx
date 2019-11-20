@@ -9,7 +9,7 @@ import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision, amountPrecision, fee } from '../../config/tokens'
 
-BigNumber.config({ ROUNDING_MODE: 3 })
+BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
 
 type Props = {
   side: Side,
@@ -23,7 +23,7 @@ type Props = {
   quoteTokenDecimals: number,
   makeFee: string,
   takeFee: string,
-  loggedIn: boolean,
+  authenticated: boolean,
   pairIsAllowed: boolean,
   pairAllowanceIsPending: boolean,
   unlockPair: (string, string) => void,
@@ -49,7 +49,7 @@ type State = {
 
 class OrderForm extends React.PureComponent<Props, State> {
   static defaultProps = {
-    loggedIn: true,
+    authenticated: false,
     bidPrice: '',
     askPrice: '',
     baseTokenBalance: '',
@@ -125,7 +125,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   onInputChange = (side: SIDE = 'BUY', { target }: Object) => {
-    const { loggedIn } = this.props
+    const { authenticated } = this.props
     let { value } = target
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
@@ -145,14 +145,14 @@ class OrderForm extends React.PureComponent<Props, State> {
       case 'price':
         this.handlePriceChange(value, side)
         break
-      // case 'total':
-      //   this.handleTotalChange(value)
-      //   break
+      case 'total':
+        this.handleTotalChange(value, side)
+        break
       case 'amount':
         this.handleAmountChange(value, side)
         break
       case 'fraction':
-        loggedIn && this.handleUpdateAmountFraction(value, side)
+        authenticated && this.handleUpdateAmountFraction(value, side)
         break
       default:
         break
@@ -322,33 +322,46 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  // handleTotalChange = (total: string) => {
-  //   const { selectedTabId } = this.state
-  //   let { price, stopPrice } = this.state
-  //   let amount
+  handleTotalChange = (total: string, side: SIDE) => {
+    this.resetErrorObject(side)
+    const { sellPrice, buyPrice } = this.state
 
-  //   price = unformat(price)
-  //   stopPrice = unformat(stopPrice)
+    if (side === 'BUY') {
+      let bigBuyTotal = BigNumber(total)
+      let bigBuyPrice = BigNumber(buyPrice)
 
-  //   if (selectedTabId === 'stop') {
-  //     if (stopPrice === 0) {
-  //       amount = 0
-  //     } else {
-  //       amount = unformat(total) / stopPrice
-  //     }
-  //   } else if (price === 0) {
-  //     amount = 0
-  //   } else {
-  //     amount = unformat(total) / price
-  //   }
+      if (buyPrice && total) {
+        const bigBuyAmount = bigBuyTotal.div(bigBuyPrice)
 
-  //   this.setState({
-  //     price,
-  //     stopPrice,
-  //     amount,
-  //     total,
-  //   })
-  // }
+        this.setState({
+          buyTotal: total,
+          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          buyTotal: total,
+          buyAmount: '',
+        })
+      }
+    } else {
+      let bigSellTotal = BigNumber(total)
+      let bigSellPrice = BigNumber(sellPrice)
+
+      if (sellPrice && total) {
+        const bigSellAmount = bigSellTotal.div(bigSellPrice)
+
+        this.setState({
+          sellTotal: total,
+          sellAmount: bigSellAmount.toFixed(amountPrecision),
+        })
+      } else {
+        this.setState({
+          sellTotal: total,
+          sellAmount: '',
+        })
+      }
+    }
+  }
 
   // handleUnlockPair = () => {
   //   const { baseTokenSymbol, quoteTokenSymbol } = this.props
@@ -738,7 +751,6 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenSymbol,
         baseTokenDecimals,
         quoteTokenDecimals,
-        loggedIn,
         pairIsAllowed,
         pairAllowanceIsPending,
         makeFee,
@@ -808,7 +820,6 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenDecimals={quoteTokenDecimals}
         baseTokenBalance={baseTokenBalance}
         quoteTokenBalance={quoteTokenBalance}
-        loggedIn={loggedIn}
         insufficientBalanceToBuy={insufficientBalanceToBuy}
         insufficientBalanceToSell={insufficientBalanceToSell}
         pairIsAllowed={pairIsAllowed}

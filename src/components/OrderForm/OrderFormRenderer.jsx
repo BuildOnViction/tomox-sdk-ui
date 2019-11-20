@@ -42,7 +42,7 @@ type Props = {
   baseTokenDecimals: number,
   quoteTokenDecimals: number,
   isOpen: boolean,
-  loggedIn: boolean,
+  authenticated: boolean,
   insufficientBalance: boolean,
   pairIsAllowed: boolean,
   pairAllowanceIsPending: boolean,
@@ -78,7 +78,6 @@ const OrderFormRenderer = (props: Props) => {
     quoteTokenDecimals,
     baseTokenBalance,
     quoteTokenBalance,
-    loggedIn,
     insufficientBalanceToBuy,
     insufficientBalanceToSell,
     pairIsAllowed,
@@ -116,7 +115,6 @@ const OrderFormRenderer = (props: Props) => {
               title={<FormattedMessage id="exchangePage.limit" />}
               panel={
                 <LimitOrderPanel
-                  loggedIn={loggedIn}
                   side={side}
                   baseTokenSymbol={baseTokenSymbol}
                   quoteTokenSymbol={quoteTokenSymbol}
@@ -170,7 +168,6 @@ const OrderFormRenderer = (props: Props) => {
               disabled="true"
               panel={
                 <MarketOrderPanel
-                  loggedIn={loggedIn}
                   side={side}
                   baseTokenSymbol={baseTokenSymbol}
                   quoteTokenSymbol={quoteTokenSymbol}
@@ -201,7 +198,6 @@ const OrderFormRenderer = (props: Props) => {
               disabled="true"
               panel={
                 <StopLimitOrderPanel
-                  loggedIn={loggedIn}
                   side={side}
                   baseTokenSymbol={baseTokenSymbol}
                   quoteTokenSymbol={quoteTokenSymbol}
