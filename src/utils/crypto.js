@@ -30,6 +30,33 @@ export const getOrderHash = order => {
   )
 }
 
+export const getMarketOrderHash = order => {
+  return utils.solidityKeccak256(
+    [
+      'bytes',
+      'bytes',
+      'bytes',
+      'bytes',
+      'uint256',
+      'uint256',
+      'string',
+      'string',
+      'uint256',
+    ],
+    [
+      order.exchangeAddress,
+      order.userAddress,
+      order.baseToken,
+      order.quoteToken,
+      order.amount,
+      order.side === 'BUY' ? '0' : '1',
+      order.status,
+      order.type,
+      order.nonce,
+    ],
+  )
+}
+
 export const getOrderCancelHash = orderCancel => {
   return utils.solidityKeccak256(['bytes', 'uint256'], [orderCancel.orderHash, orderCancel.nonce])
 }

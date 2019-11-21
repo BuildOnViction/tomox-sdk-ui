@@ -1,6 +1,6 @@
 //@flow
 import { utils } from 'ethers'
-import { getOrderHash, getOrderCancelHash, getTradeHash } from '../../../utils/crypto'
+import { getOrderHash, getOrderCancelHash, getTradeHash, getMarketOrderHash } from '../../../utils/crypto'
 import { computePricepoint, computeAmountPoints, isTomoWallet } from '../../../utils/helpers'
 
 // flow
@@ -48,7 +48,7 @@ export const createRawOrder = async function (params: any) {
   order.type = type
   order.status = status
   order.nonce = orderNonce.toString()
-  order.hash = getOrderHash(order)
+  order.hash = (type.toLowerCase() === 'lo') ? getOrderHash(order) : getMarketOrderHash(order)
   
   let signature = null
 
