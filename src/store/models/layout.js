@@ -86,8 +86,9 @@ export function queryAppData(): ThunkAction {
       const pairs = await api.fetchPairs()
       dispatch(layoutCreators.updateTokenPairs(pairs))
 
-      const exchangeAddress = await api.getExchangeAddress()
-      dispatch(actionCreators.updateExchangeAddress(exchangeAddress))
+      const {exchangeAddress, fee} = await api.fetchInfo()
+      dispatch(layoutCreators.updateExchangeAddress(exchangeAddress))
+      dispatch(layoutCreators.updateExchangeFee(fee))
 
       const {pairs: pairNames} = addresses
       currentPair = pairNames.includes(currentPair) ? currentPair : pairNames[0]

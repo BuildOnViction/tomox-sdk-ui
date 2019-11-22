@@ -317,8 +317,10 @@ export const account = createReducer(action => {
       return accountEvents.accountUpdated(payload.address, '')
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)
-    case walletPageActionTypes.updateExchangeAddress:
+    case layoutActionTypes.updateExchangeAddress:
       return accountEvents.exchangeAddressUpdated(payload.exchangeAddress)
+    case layoutActionTypes.updateExchangeFee:
+      return accountEvents.exchangeFeeUpdated(payload.exchangeFee)
     case layoutActionTypes.updateReferenceCurrency:
       return accountEvents.referenceCurrencyUpdated(payload.referenceCurrency)
     case layoutActionTypes.showSessionPasswordModal:

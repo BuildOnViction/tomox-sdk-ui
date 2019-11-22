@@ -70,6 +70,17 @@ export const exchangeAddressUpdated = (exchangeAddress: string) => {
   return event
 }
 
+export const exchangeFeeUpdated = (fee: string) => {
+  const exchangeFee = +fee/1000
+
+  const event = (state: AccountState) => ({
+    ...state,
+    exchangeFee,
+  })
+
+  return event
+}
+
 export const referenceCurrencyUpdated = (referenceCurrency: ReferenceCurrency) => {
 
   console.log(referenceCurrency)

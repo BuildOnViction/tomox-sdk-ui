@@ -7,6 +7,8 @@ const actionTypes = {
   showSessionPasswordModal: 'layout/SHOW_SESSION_PASSWORD_MODAL',
   updateTokenPairs: 'layout/UPDATE_TOKEN_PAIRS',
   updateLoadingTokenPair: 'layout/UPDATE_LOADING_TOKEN_PAIR',
+  updateExchangeAddress: 'layout/UPDATE_EXCHANGE_ADDRESS',
+  updateExchangeFee: 'layout/UPDATE_EXCHANGE_FEE',
 }
 
 export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
@@ -36,5 +38,23 @@ export function updateLoadingTokenPair(loading: Boolean) {
     payload: {loading},
   }
 } 
+
+export function updateExchangeAddress(
+  exchangeAddress: string
+): UpdateExchangeAddressAction {
+  return {
+    type: actionTypes.updateExchangeAddress,
+    payload: { exchangeAddress },
+  }
+}
+
+export function updateExchangeFee(
+  exchangeFee: string
+): UpdateExchangeFeeAction {
+  return {
+    type: actionTypes.updateExchangeFee,
+    payload: { exchangeFee },
+  }
+}
 
 export default actionTypes
