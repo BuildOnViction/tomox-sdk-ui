@@ -13,17 +13,12 @@ import {
   getOrdersDomain,
 } from '../domains/'
 
-import { utils } from 'ethers'
 import type { State, ThunkAction } from '../../types'
 import type { Side, OrderType } from '../../types/orders'
 import { getSigner } from '../services/signer'
 import { parseNewOrderError } from '../../config/errors'
-// import { joinSignature } from 'ethers/utils'
-import { 
-  max, 
-  // minOrderAmount, 
-} from '../../utils/helpers'
 import { push } from 'connected-react-router'
+import { BigNumber } from 'bignumber.js'
 
 export default function getOrderFormSelector(state: State) {
   const tokenPairsDomain = getTokenPairsDomain(state)
@@ -83,17 +78,14 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
       const tokenPairsDomain = getTokenPairsDomain(state)
       const accountBalancesDomain = getAccountBalancesDomain(state)
       const accountDomain = getAccountDomain(state)
-
       const pair = tokenPairsDomain.getCurrentPair()
       const exchangeAddress = accountDomain.exchangeAddress()
+      const fee = accountDomain.fee()
 
       const {
         baseTokenSymbol,
         quoteTokenSymbol,
         baseTokenDecimals,
-        // quoteTokenDecimals,
-        makeFee,
-        takeFee,
       } = pair
 
       const signer = getSigner()
@@ -112,37 +104,32 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
         orderNonce,
       }
 
-      const pairMultiplier = utils.bigNumberify(10).pow(18 + baseTokenDecimals)
+      const pairMultiplier = Math.pow(10, baseTokenDecimals)
       const order = await signer.createRawOrder(params)
       let sellTokenSymbol, totalSellAmount
-      const fee = max(makeFee, takeFee)
 
       order.side === 'BUY'
         ? (sellTokenSymbol = quoteTokenSymbol)
         : (sellTokenSymbol = baseTokenSymbol)
 
       const sellTokenBalance = accountBalancesDomain.getBigNumberBalance(sellTokenSymbol)
-      const baseAmount = utils.bigNumberify(order.amount)
-      const quoteAmount = (utils.bigNumberify(order.amount).mul(utils.bigNumberify(order.pricepoint))).div(pairMultiplier)
-      // const minQuoteAmount = minOrderAmount(makeFee, takeFee)
-      // const formattedMinQuoteAmount = utils.formatUnits(minQuoteAmount, quoteTokenDecimals)
+      const baseAmount = BigNumber(order.amount)
+      // order.amount = amount * Math.pow(10, baseDecimals)
+      // order.pricepoint = price * Math.pow(10, quoteDecimals)
+      // quoteAmount = order.amount * order.pricepoint / Math.pow(10, baseTokenDecimls)
+      const quoteAmount = BigNumber(order.amount).times(order.pricepoint).div(pairMultiplier)
 
       //In case the order is a sell, the fee is subtracted from the received amount of quote token so there is no requirement
       order.side === 'BUY'
-        ? (totalSellAmount = quoteAmount.add(fee))
+        ? (totalSellAmount = quoteAmount.plus(quoteAmount.times(fee)))
         : (totalSellAmount = baseAmount)
 
-      // Todo: waitting fee api implement
-      // if (quoteAmount.lt(minQuoteAmount)) {
-      //   return dispatch(notifierActionCreators.addErrorNotification({ message: `Order value should be higher than ${formattedMinQuoteAmount} ${quoteTokenSymbol}` }))
-      // }
-
+      console.log(sellTokenBalance.toFixed(0), totalSellAmount.toFixed(0), '===================')
       if (sellTokenBalance.lt(totalSellAmount)) {
         dispatch(orderActionsCreators.ordersUpdatedStatus(false))
         return dispatch(notifierActionCreators.addErrorNotification({ message: `Insufficient ${sellTokenSymbol} balance` }))
       }
-
-      console.log(order)
+      
       socket.sendNewOrderMessage(order)
     } catch (e) {
       console.log(e)

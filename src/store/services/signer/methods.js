@@ -27,10 +27,8 @@ export const createRawOrder = async function (params: any) {
 
   const pricePrecisionMultiplier = utils.bigNumberify(10).pow(pricePrecision)
   const amountPrecisionMultiplier = utils.bigNumberify(10).pow(amountPrecision)
-  // const priceMultiplier = utils.bigNumberify(10).pow(18)
   const baseMultiplier = utils.bigNumberify(10).pow(baseTokenDecimals)
   const quoteMultiplier = utils.bigNumberify(10).pow(quoteTokenDecimals)
-  // const pricepoint = computePricepoint({ price, priceMultiplier, quoteMultiplier, precisionMultiplier })
   const pricepoint = computePricepoint({ price, quoteMultiplier, pricePrecisionMultiplier })
   const amountPoints = computeAmountPoints({ amount, baseMultiplier, amountPrecisionMultiplier })
 

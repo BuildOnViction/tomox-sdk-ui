@@ -609,9 +609,9 @@ class OrderForm extends React.PureComponent<Props, State> {
       baseTokenBalance,
     } = this.props
 
-    const formattedMakeFee = BigNumber(quoteTokenBalance).times(fee)
-    const maxQuoteTokenAmount = BigNumber(quoteTokenBalance).minus(formattedMakeFee)
-    const buyMaxAmount = maxQuoteTokenAmount.div(buyPrice)
+    const buyTotal = BigNumber(buyPrice).times(buyAmount)
+    const buyFee = buyTotal.times(fee)
+    const buyTotalWithFee = buyTotal.plus(buyFee)
     const sellMaxAmount = BigNumber(baseTokenBalance)
 
     if (side === 'BUY') { 
@@ -627,7 +627,7 @@ class OrderForm extends React.PureComponent<Props, State> {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (BigNumber(buyAmount).gt(buyMaxAmount)):
+        case (buyTotalWithFee.gt(quoteTokenBalance)):
           return {
             type: 'total',
             message: 'Your balance is not enough',
@@ -718,8 +718,6 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenSymbol,
         baseTokenDecimals,
         quoteTokenDecimals,
-        pairIsAllowed,
-        pairAllowanceIsPending,
         fee,
         baseTokenBalance,
         quoteTokenBalance,

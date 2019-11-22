@@ -1,12 +1,10 @@
 // @flow
-import toDecimalFormString from 'number-to-decimal-form-string-x'
 import BigNumber from 'bignumber.js'
 import type {
   AccountBalances,
   AccountBalancesState,
 } from '../../types/accountBalances'
 import { round } from '../../utils/helpers'
-import { utils } from 'ethers'
 import { NATIVE_TOKEN_SYMBOL, pricePrecision } from '../../config/tokens'
 import { parseBalance } from '../../utils/parsers'
 
@@ -78,7 +76,6 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
     balances(): AccountBalancesState {
       return state
     },
-    // we assume that account balances are loading as long as we have no TOMO and no WETH state.
     loading(): boolean {
       return !(state[NATIVE_TOKEN_SYMBOL])
     },
@@ -130,14 +127,13 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       //can be converted into a bignumber. After the bignumber balance is computed, we divide by
       //the precisionMultiplier to offset the initial multiplication by the precision multiplier
       const precisionMultiplier = Math.pow(10, pricePrecision)
-      const numericBalance = Number(state[symbol].balance)
-      const balancePoints = round(numericBalance * precisionMultiplier, 0)
+      const balancePoints = BigNumber(state[symbol].balance).times(precisionMultiplier).toFixed(0)
+      const tomoMultiplier = Math.pow(10, state[symbol].decimals)
 
-      const etherMultiplier = utils.bigNumberify(10).pow(state[symbol].decimals)
-      const balance = utils
-        .bigNumberify(toDecimalFormString(balancePoints))
-        .mul(etherMultiplier)
-        .div(utils.bigNumberify(precisionMultiplier))
+      const balance = BigNumber(balancePoints)
+        .times(tomoMultiplier)
+        .div(precisionMultiplier)
+
       return balance
     },
     get(symbol: string): ?string {
