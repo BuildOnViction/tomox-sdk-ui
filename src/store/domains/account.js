@@ -106,5 +106,6 @@ export default function accountDomain(state: AccountState) {
     showSessionPasswordModal: () => state.showSessionPasswordModal,
     exchangeAddress: () => state.exchangeAddress,
     referenceCurrency: () => state.referenceCurrency,
+    fee: () => state.exchangeFee,
   }
 }

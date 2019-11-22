@@ -52,6 +52,7 @@ export default function getOrderFormSelector(state: State) {
   const quoteTokenBalance = quoteToken.availableBalance || 0
   const pairIsAllowed = baseToken.allowed && quoteToken.allowed
   const pairAllowanceIsPending = baseToken.allowancePending || quoteToken.allowancePending
+  const fee = accountDomain.fee()
 
   return {
     selectedOrder,
@@ -69,6 +70,7 @@ export default function getOrderFormSelector(state: State) {
     pairAllowanceIsPending,
     authenticated,
     loading,
+    fee,
   }
 }
 

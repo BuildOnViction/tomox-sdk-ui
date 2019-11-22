@@ -1,13 +1,12 @@
 // @flow
 import React from 'react'
-import { utils } from 'ethers'
 import { unformat } from 'accounting-js'
 import BigNumber from 'bignumber.js'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { pricePrecision, amountPrecision, fee } from '../../config/tokens'
+import { pricePrecision, amountPrecision } from '../../config/tokens'
 
 BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
 
@@ -21,8 +20,7 @@ type Props = {
   quoteTokenSymbol: string,
   baseTokenDecimals: number,
   quoteTokenDecimals: number,
-  makeFee: string,
-  takeFee: string,
+  fee: number,
   authenticated: boolean,
   pairIsAllowed: boolean,
   pairAllowanceIsPending: boolean,
@@ -174,7 +172,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleUpdateAmountFraction = (fraction: number, side: SIDE) => {
-    const { quoteTokenBalance, baseTokenBalance, authenticated } = this.props
+    const { quoteTokenBalance, baseTokenBalance, authenticated, fee } = this.props
     if (!authenticated) return
 
     if (side === 'SELL') {
@@ -188,6 +186,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         fraction,
         sellAmount: bigSellAmount.toFixed(amountPrecision),
         sellTotal: bigSellTotal.toFixed(pricePrecision),
+        errorBuy: null,
+        errorSell: null,
       })
     } else {
       const { buyPrice } = this.state
@@ -202,6 +202,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         fraction,
         buyAmount: bigBuyAmount.toFixed(amountPrecision),
         buyTotal: bigBuyTotalWithoutFee.toFixed(pricePrecision),
+        errorBuy: null,
+        errorSell: null,
       })
     }
   }
@@ -602,31 +604,30 @@ class OrderForm extends React.PureComponent<Props, State> {
     } = this.state
 
     const {
-      makeFee,
-      quoteTokenDecimals,
+      fee,
       quoteTokenBalance,
       baseTokenBalance,
     } = this.props
 
-    const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
-    const maxQuoteTokenAmount = quoteTokenBalance - Number(formattedMakeFee)
-    const buyMaxAmount = maxQuoteTokenAmount / unformat(buyPrice)
-    const sellMaxAmount = Number(baseTokenBalance)
+    const formattedMakeFee = BigNumber(quoteTokenBalance).times(fee)
+    const maxQuoteTokenAmount = BigNumber(quoteTokenBalance).minus(formattedMakeFee)
+    const buyMaxAmount = maxQuoteTokenAmount.div(buyPrice)
+    const sellMaxAmount = BigNumber(baseTokenBalance)
 
     if (side === 'BUY') { 
       switch (true) {
-        case (unformat(buyPrice) === 0):
+        case (!buyPrice || BigNumber(buyPrice).eq(0)):
           return {
             type: 'price',
             message: 'Please input price',
           }
 
-        case (unformat(buyAmount) === 0):
+        case (!buyAmount || BigNumber(buyAmount).eq(0)):
           return {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (buyAmount > buyMaxAmount):
+        case (BigNumber(buyAmount).gt(buyMaxAmount)):
           return {
             type: 'total',
             message: 'Your balance is not enough',
@@ -636,17 +637,17 @@ class OrderForm extends React.PureComponent<Props, State> {
       }
     } else {
       switch(true) {
-        case (unformat(sellPrice) === 0):
+        case (!sellPrice || BigNumber(sellPrice).eq(0)):
           return {
             type: 'price',
             message: 'Please input price',
           }
-        case (unformat(sellAmount) === 0):
+        case (!sellAmount || BigNumber(sellAmount).eq(0)):
           return {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (sellAmount > sellMaxAmount):
+        case (BigNumber(sellAmount).gt(sellMaxAmount)):
           return {
             type: 'total',
             message: 'Your balance is not enough',
@@ -719,8 +720,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         quoteTokenDecimals,
         pairIsAllowed,
         pairAllowanceIsPending,
-        makeFee,
-        takeFee,
+        fee,
         baseTokenBalance,
         quoteTokenBalance,
         authenticated,
@@ -750,16 +750,13 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     if (authenticated) {
       if (unformat(buyPrice) & quoteTokenBalance) {
-        const formattedMakeFee = makeFee && utils.formatUnits(makeFee, quoteTokenDecimals)
+        const formattedMakeFee = BigNumber(quoteTokenBalance).times(fee)
         const maxQuoteTokenAmount = BigNumber(quoteTokenBalance).minus(formattedMakeFee)
-        buyMaxAmount = maxQuoteTokenAmount.div(BigNumber(buyPrice)).toFixed(amountPrecision)
+        buyMaxAmount = maxQuoteTokenAmount.div(buyPrice).toFixed(amountPrecision)
       }
 
       sellMaxAmount = BigNumber(baseTokenBalance).toFixed(amountPrecision)
     }
-
-    const insufficientBalanceToBuy = (unformat(buyAmount) > unformat(buyMaxAmount))
-    const insufficientBalanceToSell = (unformat(sellAmount) > unformat(sellMaxAmount))
 
     return (
       <OrderFormRenderer
@@ -778,18 +775,13 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyTotal={buyTotal}
         sellTotal={sellTotal}
         isOpen={isOpen}
-        makeFee={makeFee}
-        takeFee={takeFee}
+        fee={fee}
         baseTokenSymbol={baseTokenSymbol}
         quoteTokenSymbol={quoteTokenSymbol}
         baseTokenDecimals={baseTokenDecimals}
         quoteTokenDecimals={quoteTokenDecimals}
         baseTokenBalance={baseTokenBalance}
         quoteTokenBalance={quoteTokenBalance}
-        insufficientBalanceToBuy={insufficientBalanceToBuy}
-        insufficientBalanceToSell={insufficientBalanceToSell}
-        pairIsAllowed={pairIsAllowed}
-        pairAllowanceIsPending={pairAllowanceIsPending}
         onInputChange={onInputChange}
         onInputFocus={onInputFocus}
         onInputBlur={onInputBlur}

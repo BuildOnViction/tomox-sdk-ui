@@ -43,9 +43,6 @@ type Props = {
   quoteTokenDecimals: number,
   isOpen: boolean,
   authenticated: boolean,
-  insufficientBalance: boolean,
-  pairIsAllowed: boolean,
-  pairAllowanceIsPending: boolean,
   onInputChange: Object => void,
   handleChangeOrderType: string => void,
   handleUnlockPair: (string, string) => void,
@@ -78,10 +75,6 @@ const OrderFormRenderer = (props: Props) => {
     quoteTokenDecimals,
     baseTokenBalance,
     quoteTokenBalance,
-    insufficientBalanceToBuy,
-    insufficientBalanceToSell,
-    pairIsAllowed,
-    pairAllowanceIsPending,
     onInputChange,
     onInputFocus,
     onInputBlur,
@@ -137,10 +130,6 @@ const OrderFormRenderer = (props: Props) => {
                   quoteTokenDecimals={quoteTokenDecimals}
                   baseTokenBalance={baseTokenBalance}
                   quoteTokenBalance={quoteTokenBalance}
-                  insufficientBalanceToBuy={insufficientBalanceToBuy}
-                  insufficientBalanceToSell={insufficientBalanceToSell}
-                  pairIsAllowed={pairIsAllowed}
-                  pairAllowanceIsPending={pairAllowanceIsPending}
                   onInputChange={onInputChange}
                   onInputFocus={onInputFocus}
                   onInputBlur={onInputBlur}
