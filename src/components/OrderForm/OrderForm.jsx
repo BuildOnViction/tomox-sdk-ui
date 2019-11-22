@@ -171,7 +171,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     }                    
   }
 
-  handleUpdateAmountFraction = (fraction: number, side: SIDE) => {
+  handleUpdateAmountFraction = (fraction: string, side: SIDE) => {
     const { quoteTokenBalance, baseTokenBalance, authenticated, fee } = this.props
     if (!authenticated) return
 
@@ -193,15 +193,20 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { buyPrice } = this.state
       if (!buyPrice) return
 
-      const bigBuyFee = BigNumber(quoteTokenBalance).times(fee)
-      const bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
-      const bigBuyTotalWithoutFee = bigBuyTotal.minus(bigBuyFee)
-      const bigBuyAmount = bigBuyTotalWithoutFee.div(BigNumber(buyPrice))
+      let bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
+      let bigBuyAmount = ''
+
+      if (+fraction === 100) {
+        bigBuyAmount = BigNumber(quoteTokenBalance).div(BigNumber(1 + fee).times(buyPrice))
+        bigBuyTotal = bigBuyAmount.times(buyPrice)
+      } else {
+        bigBuyAmount = bigBuyTotal.div(buyPrice)
+      }
 
       this.setState({
         fraction,
         buyAmount: bigBuyAmount.toFixed(amountPrecision),
-        buyTotal: bigBuyTotalWithoutFee.toFixed(pricePrecision),
+        buyTotal: bigBuyTotal.toFixed(pricePrecision),
         errorBuy: null,
         errorSell: null,
       })
