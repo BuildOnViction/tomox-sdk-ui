@@ -6,7 +6,8 @@ let ENGINE_HTTP_URL,
   DEFAULT_NETWORK_ID,
   LOCALE,
   REACT_APP_DEX_VERSION,
-  DEX_TITLE
+  DEX_TITLE,
+  DEX_LOGO
 
 const env = window.env || process.env
 
@@ -31,6 +32,7 @@ if (env) {
   LOCALE = env.REACT_APP_LOCALE || 'en'
   REACT_APP_DEX_VERSION = env.REACT_APP_DEX_VERSION || 'ALPHA'
   DEX_TITLE = env.REACT_APP_TITLE || 'TomoX | Decentralized Exchange'
+  DEX_LOGO = env.REACT_APP_LOGO
 }
 
 export {
@@ -44,4 +46,5 @@ export {
   LOCALE,
   REACT_APP_DEX_VERSION,
   DEX_TITLE,
+  DEX_LOGO,
 }

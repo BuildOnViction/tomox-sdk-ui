@@ -22,7 +22,7 @@ import { Helmet } from 'react-helmet'
 
 import { pricePrecision } from '../../config/tokens'
 import { isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
-import { TOMOSCAN_URL, DEX_TITLE } from '../../config/environment'
+import { TOMOSCAN_URL, DEX_TITLE, DEX_LOGO } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
   NavbarDivider,
@@ -224,7 +224,7 @@ class Default extends React.PureComponent<Props, State> {
         <Header>
           <Navbar>
             <MainLogoWrapper>
-              <TomoXLogo height={40} width={40} alt="TomoX Logo" />
+              <TomoXLogo src={DEX_LOGO} height={40} width={40} />
             </MainLogoWrapper>
 
             <LeftNavbarGroup align={Alignment.LEFT}>
