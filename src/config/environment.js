@@ -5,7 +5,8 @@ let ENGINE_HTTP_URL,
   TOMOTOKENS_URL,
   DEFAULT_NETWORK_ID,
   LOCALE,
-  REACT_APP_DEX_VERSION
+  REACT_APP_DEX_VERSION,
+  DEX_TITLE
 
 const env = window.env || process.env
 
@@ -29,6 +30,7 @@ if (env) {
   DEFAULT_NETWORK_ID = env.REACT_APP_DEFAULT_NETWORK_ID || 'default'
   LOCALE = env.REACT_APP_LOCALE || 'en'
   REACT_APP_DEX_VERSION = env.REACT_APP_DEX_VERSION || 'ALPHA'
+  DEX_TITLE = env.REACT_APP_TITLE || 'TomoX | Decentralized Exchange'
 }
 
 export {
@@ -41,4 +43,5 @@ export {
   WS_PROTOCOL,
   LOCALE,
   REACT_APP_DEX_VERSION,
+  DEX_TITLE,
 }

@@ -22,7 +22,7 @@ import { Helmet } from 'react-helmet'
 
 import { pricePrecision } from '../../config/tokens'
 import { isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
-import { TOMOSCAN_URL } from '../../config/environment'
+import { TOMOSCAN_URL, DEX_TITLE } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
   NavbarDivider,
@@ -218,7 +218,7 @@ class Default extends React.PureComponent<Props, State> {
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
         <Helmet>
-          <title>TomoX | Decentralized Exchange</title>
+          <title>{DEX_TITLE}</title>
         </Helmet>
         <Notifier />
         <Header>
@@ -234,7 +234,7 @@ class Default extends React.PureComponent<Props, State> {
                 {currentPair && currentPairData && (
                   <Helmet>
                     <title>
-                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | TomoX | Decentralized Exchange
+                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | {DEX_TITLE}
                     </title>
                   </Helmet>
                 )}
