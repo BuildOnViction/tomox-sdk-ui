@@ -3,5 +3,10 @@ import { shallow } from 'enzyme'
 import Layout from './Layout'
 
 it('renders without crashing', () => {
-  shallow(<Layout />)
+  const props = {
+    pathname: '/markets',
+    queryAppData: jest.fn(),
+  }
+
+  shallow(<Layout {...props} />)
 })
