@@ -22,7 +22,7 @@ import { Helmet } from 'react-helmet'
 
 import { pricePrecision } from '../../config/tokens'
 import { isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
-import { TOMOSCAN_URL, DEX_TITLE, DEX_LOGO } from '../../config/environment'
+import { TOMOSCAN_URL, DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
   NavbarDivider,
@@ -40,6 +40,7 @@ import SessionPasswordModal from '../../components/SessionPasswordModal'
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
+import favicon from '../../assets/images/favico-32x32.png'
 
 export type Props = {
   TomoBalance: string,
@@ -218,6 +219,7 @@ class Default extends React.PureComponent<Props, State> {
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
         <Helmet>
+          <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
           <title>{DEX_TITLE}</title>
         </Helmet>
         <Notifier />

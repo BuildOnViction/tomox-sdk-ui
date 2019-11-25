@@ -54,7 +54,7 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="shortcut icon" href="%REACT_APP_FAVICON%" />
+    <!-- <link rel="shortcut icon" href="%REACT_APP_FAVICON%" /> -->
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -89,11 +89,6 @@
         padding: 0;
       }
     </style>
-    <script>
-      if (!"%REACT_APP_FAVICON%") {
-        document.querySelector('link[rel="shortcut icon"]').href = "%PUBLIC_URL%/favico-32x32.png"
-      }
-    </script>
     <script src="/charting_library/charting_library.min.js"></script>
   </body>
 </html>
