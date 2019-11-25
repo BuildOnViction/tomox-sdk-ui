@@ -5,7 +5,7 @@ import tomoXLogo from '../../assets/logo.png'
 class TomoXLogo extends React.PureComponent {
 
   state = {
-    src: this.props.src || tomoXLogo + 'not-found',
+    src: this.props.src,
     width: 40,
     height: 40,
   }
