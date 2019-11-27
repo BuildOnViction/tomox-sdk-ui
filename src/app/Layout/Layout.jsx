@@ -79,11 +79,23 @@ class Layout extends React.PureComponent<Props, State> {
     const { pathname, mode } = this.props
 
     if (this.isCreateImportWalletPage(pathname)) {
-      return (<CreateImportWallet {...this.props} />)
+      return (
+        <>
+          <Helmet>
+            <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
+            <title>{DEX_TITLE}</title>
+          </Helmet>
+          <CreateImportWallet {...this.props} />
+        </>
+      )
     }
 
     return (
       <ThemeProvider theme={theme[mode]}>
+        <Helmet>
+          <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
+          <title>{DEX_TITLE}</title>
+        </Helmet>
         <Default {...this.props} />
       </ThemeProvider>
     )
@@ -218,10 +230,6 @@ class Default extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
-        <Helmet>
-          <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
-          <title>{DEX_TITLE}</title>
-        </Helmet>
         <Notifier />
         <Header>
           <Navbar>
@@ -473,7 +481,7 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
         <CreateImportHeader>
           <Navbar>
             <LogoWrapper>
-              <TomoXLogo height={40} width={40} alt="TomoX Logo" />
+              <TomoXLogo src={DEX_LOGO} height={40} width={40} />
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
