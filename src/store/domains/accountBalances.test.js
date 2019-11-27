@@ -1,8 +1,6 @@
 import accountBalancesDomain from './accountBalances'
 import * as eventCreators from './accountBalances'
 
-const MAX_ALLOWANCE = '115792089237316195423570985008687907853269984665640564039457.584007913129639935'
-
 function getDomain(events) {
   const state = events.reduce((state, event) => event(state), undefined)
 
@@ -22,72 +20,38 @@ it('handles subscribed event properly', () => {
 
   expect(domain.get('REQ')).toEqual(null)
   expect(domain.isSubscribed('REQ')).toEqual(true)
-  expect(domain.isAllowed('REQ')).toEqual(false)
 })
 
 it('handles updated event properly', () => {
+  const data = {
+    "0x0000000000000000000000000000000000000001": {
+      address: "0x0000000000000000000000000000000000000001",
+      availableBalance: "999999985256884602581200000000",
+      balance: "999999985256884602581200000000",
+      decimals: 18,
+      inOrderBalance: "0",
+      symbol: "TOMO",
+    },
+    "0x4d7eA2cE949216D6b120f3AA10164173615A2b6C": {
+      address: "0x4d7eA2cE949216D6b120f3AA10164173615A2b6C",
+      availableBalance: "999981000000350000000000000000",
+      balance: "999981000000350000000000000000",
+      decimals: 18,
+      inOrderBalance: "0",
+      symbol: "BTC",
+    },
+  }
+
+  const expedted =  [
+    {"balance": "999,999,985,256.8846026", "symbol": "TOMO"}, 
+    {"balance": "999,981,000,000.3500000", "symbol": "BTC"}]
+
   const domain = getDomain([
     eventCreators.initialized(),
-    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
+    eventCreators.updated(data),
   ])
 
-  expect(domain.get('REQ')).toEqual(1000)
-  expect(domain.get('TRX')).toEqual(2000)
-  expect(domain.isSubscribed('REQ')).toEqual(false)
-  expect(domain.isSubscribed('TRX')).toEqual(false)
-  expect(domain.isAllowed('REQ')).toEqual(false)
-  expect(domain.isAllowed('TRX')).toEqual(false)
-  expect(domain.balancesArray()).toEqual([
-    { symbol: 'REQ', balance: 1000, allowed: false },
-    { symbol: 'TRX', balance: 2000, allowed: false },
-  ])
-})
-
-it('handles allowances event properly', () => {
-  const domain = getDomain([
-    eventCreators.initialized(),
-    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
-    eventCreators.allowancesUpdated([
-      { symbol: 'REQ', allowance: MAX_ALLOWANCE },
-      { symbol: 'TRX', allowance: MAX_ALLOWANCE },
-    ]),
-  ])
-
-  expect(domain.get('REQ')).toEqual(1000)
-  expect(domain.get('TRX')).toEqual(2000)
-  expect(domain.isSubscribed('REQ')).toEqual(false)
-  expect(domain.isSubscribed('TRX')).toEqual(false)
-  expect(domain.isAllowed('REQ')).toEqual(true)
-  expect(domain.isAllowed('TRX')).toEqual(true)
-  expect(domain.balancesArray()).toEqual([
-    { symbol: 'REQ', balance: 1000, allowed: true },
-    { symbol: 'TRX', balance: 2000, allowed: true },
-  ])
-})
-
-it('handles unsubscribed event properly', () => {
-  const domain = getDomain([
-    eventCreators.initialized(),
-    eventCreators.subscribed('REQ'),
-    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
-    eventCreators.unsubscribed('REQ'),
-  ])
-
-  expect(domain.get('REQ')).toEqual(1000)
-  expect(domain.get('TRX')).toEqual(2000)
-  expect(domain.isSubscribed('REQ')).toEqual(false)
-  expect(domain.isSubscribed('TRX')).toEqual(false)
-})
-
-it('handles subscribed event after updated event properly', () => {
-  const domain = getDomain([
-    eventCreators.initialized(),
-    eventCreators.updated([{ symbol: 'REQ', balance: 1000 }, { symbol: 'TRX', balance: 2000 }]),
-    eventCreators.subscribed('REQ'),
-  ])
-
-  expect(domain.get('REQ')).toEqual(1000)
-  expect(domain.get('TRX')).toEqual(2000)
-  expect(domain.isSubscribed('REQ')).toEqual(true)
-  expect(domain.isSubscribed('TRX')).toEqual(false)
+  expect(domain.get('TOMO')).toEqual('999999985256.8846026')
+  expect(domain.get('BTC')).toEqual('999981000000.3500000')
+  expect(domain.balancesArray()).toEqual(expedted)
 })

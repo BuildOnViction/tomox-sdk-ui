@@ -12,7 +12,8 @@ beforeEach(() => {
   ether.subscribeBalance.mockReturnValue(unsubscribe)
 })
 
-it('handle subscribeBalance properly', () => {
+// We get TOMO's balance by api
+it.skip('handle subscribeBalance properly', () => {
   const address = 'test address'
   const { store } = createStore()
 

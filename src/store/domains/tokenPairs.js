@@ -4,11 +4,9 @@ import { tokens } from '../../config/tokens'
 import {
   generateTokenPairs,
   getPairSymbol,
-  getBaseToken,
 } from '../../utils/tokens'
 
 import type {
-  Token,
   TokenPair,
   TokenPairs,
   TokenPairState,
@@ -25,6 +23,7 @@ export const initialized = (customInitialState?: TokenPairState) => {
     data: {},
     favorites: [],
     currentPair: (defaultTokenPair: any).pair,
+    currentPairData: null,
     sortedPairs: [],
     smallChartsData: null,
     loading: false,
@@ -58,9 +57,6 @@ export const tokenPairsUpdated = (pairs: TokenPairs) => {
           quoteTokenAddress: pair.quoteTokenAddress,
           baseTokenDecimals: pair.baseTokenDecimals,
           quoteTokenDecimals: pair.quoteTokenDecimals,
-          makeFee: pair.makeFee,
-          takeFee: pair.takeFee,
-          listed: pair.listed,
           active: pair.active,
           rank: pair.rank,
         }
@@ -128,10 +124,10 @@ export const tokenPairsReset = (pairs: TokenPairs) => {
   return event
 }
 
-export const tokenPairRemoved = (baseToken: Token) => {
+export const tokenPairRemoved = (pair: pairToken) => {
   const event = (state: TokenPairState) => {
     const newByPair = Object.keys(state.byPair)
-      .filter(key => getBaseToken(key) !== baseToken.symbol)
+      .filter(pairName => pairName !== pair.pair)
       .reduce((result, current) => {
         result[current] = state.byPair[current]
         return result

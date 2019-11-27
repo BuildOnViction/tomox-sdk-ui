@@ -1,5 +1,9 @@
 import getSignerDomain from './signer'
 import * as eventCreators from './signer'
+import {
+  TOMOCHAIN_NODE_HTTP_URL,
+  DEFAULT_NETWORK_ID,
+} from '../../config/environment'
 
 function getDomain(events) {
   const state = events.reduce((state, event) => event(state), undefined)
@@ -11,8 +15,8 @@ it('handles initialized event properly', () => {
 
   expect(signerDomain.isLoading()).toEqual(false)
   expect(signerDomain.getType()).toEqual('rpc')
-  expect(signerDomain.getUrl()).toEqual('http://127.0.0.1:8545')
-  expect(signerDomain.getNetworkId()).toEqual(8888)
+  expect(signerDomain.getUrl()).toEqual(TOMOCHAIN_NODE_HTTP_URL)
+  expect(signerDomain.getNetworkId()).toEqual(DEFAULT_NETWORK_ID)
 })
 
 it('handles signerRequested event properly', () => {
@@ -20,8 +24,8 @@ it('handles signerRequested event properly', () => {
 
   expect(signerDomain.isLoading()).toEqual(true)
   expect(signerDomain.getType()).toEqual('rpc')
-  expect(signerDomain.getUrl()).toEqual('http://127.0.0.1:8545')
-  expect(signerDomain.getNetworkId()).toEqual(8888)
+  expect(signerDomain.getUrl()).toEqual(TOMOCHAIN_NODE_HTTP_URL)
+  expect(signerDomain.getNetworkId()).toEqual(DEFAULT_NETWORK_ID)
 })
 
 it('handles signerSet event properly', () => {

@@ -1,5 +1,6 @@
 import createStore from '../../store/configureStore'
 import * as signerService from '../services/signer'
+import { TOMOCHAIN_NODE_HTTP_URL, DEFAULT_NETWORK_ID } from '../../config/environment'
 
 import getSignerSettingsSelector from './signerSettings'
 import * as actionCreators from './signerSettings'
@@ -15,8 +16,8 @@ it('returns default provider state', () => {
 
   selector = getSignerSettingsSelector(store.getState())
   expect(selector.getType()).toEqual('rpc')
-  expect(selector.getNetworkId()).toEqual(8888)
-  expect(selector.getUrl()).toEqual('http://127.0.0.1:8545')
+  expect(selector.getNetworkId()).toEqual(DEFAULT_NETWORK_ID)
+  expect(selector.getUrl()).toEqual(TOMOCHAIN_NODE_HTTP_URL)
 })
 
 it('handles setProvider (metamask) properly', async () => {

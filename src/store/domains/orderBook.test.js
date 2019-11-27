@@ -10,6 +10,7 @@ it('handles initialized event properly', () => {
   const domain = getDomain([eventCreators.initialized()])
 
   expect(domain.getState()).toEqual({
+    selected: null,
     bids: {},
     asks: {},
     sortedBids: [],
@@ -80,75 +81,166 @@ it('handles handles updated event properly', () => {
   const domain = getDomain([eventCreators.initialized(), eventCreators.orderBookUpdated(bids, asks)])
 
   expect(domain.getState()).toEqual({
-    bids: {
-      '409.039': {
-        price: 409.039,
-        amount: 17,
+    "asks": {
+      "400.1586": {
+        "amount": 21,
+        "price": 400.1586,
+        "update": true,
       },
-      '407.5885': {
-        price: 407.5885,
-        amount: 69,
+      "402.2414": {
+        "amount": 79,
+        "price": 402.2414,
+        "update": true,
       },
-      '414.3982': {
-        price: 414.3982,
-        amount: 76.85,
+      "403.3452": {
+        "amount": 45,
+        "price": 403.3452,
+        "update": true,
       },
-      '414.2421': {
-        price: 414.2421,
-        amount: 80,
+      "403.755": {
+        "amount": 43,
+        "price": 403.755,
+        "update": true,
       },
-      '411.7926': {
-        price: 411.7926,
-        amount: 64,
+      "417.5532": {
+        "amount": 16,
+        "price": 417.5532,
+        "update": true,
       },
-    },
-    asks: {
-      '400.1586': {
-        price: 400.1586,
-        amount: 21,
-      },
-      '418.1707': {
-        price: 418.1707,
-        amount: 52,
-      },
-      '402.2414': {
-        price: 402.2414,
-        amount: 79,
-      },
-      '417.5532': {
-        price: 417.5532,
-        amount: 16,
-      },
-      '403.755': {
-        price: 403.755,
-        amount: 43,
-      },
-      '403.3452': {
-        price: 403.3452,
-        amount: 45,
+      "418.1707": {
+        "amount": 52,
+        "price": 418.1707,
+        "update": true,
       },
     },
-    sortedBids: ['414.3982', '414.2421', '411.7926', '409.039', '407.5885'],
-    sortedAsks: ['400.1586', '402.2414', '403.3452', '403.755', '417.5532', '418.1707'],
-    quoteToken: '',
-    baseToken: '',
+    "baseToken": "",
+    "bids": {
+      "407.5885": {
+        "amount": 69,
+        "price": 407.5885,
+        "update": true,
+      },
+      "409.039": {
+        "amount": 17,
+        "price": 409.039,
+        "update": true,
+      },
+      "411.7926": {
+        "amount": 64,
+        "price": 411.7926,
+        "update": true,
+      },
+      "414.2421": {
+        "amount": 80,
+        "price": 414.2421,
+        "update": true,
+      },
+      "414.3982": {
+        "amount": 76.85,
+        "price": 414.3982,
+        "update": true,
+      },
+    },
+    "quoteToken": "",
+    "selected": null,
+    "sortedAsks": [
+      400.1586,
+      402.2414,
+      403.3452,
+      403.755,
+      417.5532,
+      418.1707,
+    ],
+    "sortedBids": [
+      414.3982,
+      414.2421,
+      411.7926,
+      409.039,
+      407.5885,
+    ],
   })
 
   expect(domain.getOrderBookData()).toEqual({
-    bids: [
-      { price: 414.3982, amount: 76.85, total: 76.85, relativeTotal: 0.2504481016783444 },
-      { price: 414.2421, amount: 80, total: 156.85, relativeTotal: 0.5111618054423985 },
-      { price: 411.7926, amount: 64, total: 220.85, relativeTotal: 0.7197327684536418 },
-      { price: 409.039, amount: 17, total: 237.85, relativeTotal: 0.7751344305035033 },
-      { price: 407.5885, amount: 69, total: 306.85, relativeTotal: 1 },
+    "asks": [
+      {
+        "amount": "21.0000000",
+        "price": "400.1586000",
+        "relativeTotal": 0.08203125,
+        "total": "21.0000000",
+        "update": true,
+      },
+      {
+        "amount": "79.0000000",
+        "price": "402.2414000",
+        "relativeTotal": 0.30859375,
+        "total": "100.0000000",
+        "update": true,
+      },
+      {
+        "amount": "45.0000000",
+        "price": "403.3452000",
+        "relativeTotal": 0.17578125,
+        "total": "145.0000000",
+        "update": true,
+      },
+      {
+        "amount": "43.0000000",
+        "price": "403.7550000",
+        "relativeTotal": 0.16796875,
+        "total": "188.0000000",
+        "update": true,
+      },
+      {
+        "amount": "16.0000000",
+        "price": "417.5532000",
+        "relativeTotal": 0.0625,
+        "total": "204.0000000",
+        "update": true,
+      },
+      {
+        "amount": "52.0000000",
+        "price": "418.1707000",
+        "relativeTotal": 0.203125,
+        "total": "256.0000000",
+        "update": true,
+      },
     ],
-    asks: [
-      { price: 400.1586, amount: 21, total: 21, relativeTotal: 0.06843734723806419 },
-      { price: 402.2414, amount: 79, total: 100, relativeTotal: 0.3258921297050676 },
-      { price: 403.3452, amount: 45, total: 145, relativeTotal: 0.47254358807234803 },
-      { price: 403.755, amount: 43, total: 188, relativeTotal: 0.612677203845527 },
-      { price: 417.5532, amount: 16, total: 204, relativeTotal: 0.6648199445983379 },
-      { price: 418.1707, amount: 52, total: 256, relativeTotal: 0.834283852044973 },
+    "bids": [
+      {
+        "amount": "76.8500000",
+        "price": "414.3982000",
+        "relativeTotal": 0.2504481016783444,
+        "total": "76.8500000",
+        "update": true,
+      },
+      {
+        "amount": "80.0000000",
+        "price": "414.2421000",
+        "relativeTotal": 0.26071370376405406,
+        "total": "156.8500000",
+        "update": true,
+      },
+      {
+        "amount": "64.0000000",
+        "price": "411.7926000",
+        "relativeTotal": 0.20857096301124325,
+        "total": "220.8500000",
+        "update": true,
+      },
+      {
+        "amount": "17.0000000",
+        "price": "409.0390000",
+        "relativeTotal": 0.055401662049861494,
+        "total": "237.8500000",
+        "update": true,
+      },
+      {
+        "amount": "69.0000000",
+        "price": "407.5885000",
+        "relativeTotal": 0.22486556949649664,
+        "total": "306.8500000",
+        "update": true,
+      },
     ],
   })
 })

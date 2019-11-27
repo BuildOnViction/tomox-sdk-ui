@@ -7,20 +7,20 @@ it('tokenSearcherSelector parses data correctly', () => {
   const getFavoritePairsMock = jest.fn(() => ['TOMO/DAI', 'ZRX/WETH'])
 
   const getCurrentPairMock = jest.fn(() => ({
-    pair: 'TOMO/WETH',
-    baseTokenSymbol: 'TOMO',
-    quoteTokenSymbol: 'WETH',
+    pair: 'BTC/TOMO',
+    baseTokenSymbol: 'BTC',
+    quoteTokenSymbol: 'TOMO',
   }))
 
   const tokenBalanceMock = jest.fn(symbol => {
-    if (symbol === 'TOMO') return '100.00'
-    if (symbol === 'WETH') return '10.00'
+    if (symbol === 'BTC') return '100.00'
+    if (symbol === 'TOMO') return '10.00'
     return
   })
 
   const getTokenPairsDataArrayMock = jest.fn(() => [
     {
-      pair: 'TOMO/WETH',
+      pair: 'BTC/TOMO',
       lastPrice: '7425.2945',
       change: '4.5421',
       high: '8782.7964',
@@ -28,97 +28,38 @@ it('tokenSearcherSelector parses data correctly', () => {
       volume: 720404,
     },
     {
-      pair: 'TOMO/DAI',
+      pair: 'DAI/TOMO',
       lastPrice: '6018.7886',
       change: '1.6589',
       high: '3876.8717',
       low: '4613.5315',
       volume: 68946,
     },
-    {
-      pair: 'OMG/DAI',
-      lastPrice: '66.2789',
-      change: '3.5460',
-      high: '9211.5292',
-      low: '4241.7509',
-      volume: 912048,
-    },
-    {
-      pair: 'ZRX/WETH',
-      lastPrice: '8176.7874',
-      change: '1.7811',
-      high: '6165.0712',
-      low: '2242.4298',
-      volume: 752620,
-    },
-    {
-      pair: 'OMG/WETH',
-      lastPrice: '398.888',
-      change: '3.7561',
-      high: '9892.7954',
-      low: '6884.7173',
-      volume: 155880,
-    },
   ])
 
   const expectedTokenPairsByQuoteToken = {
-    WETH: [
+    "TOMO": [
       {
-        pair: 'TOMO/WETH',
-        lastPrice: '7425.2945',
-        change: '4.5421',
-        high: '8782.7964',
-        low: '6499.3696',
-        volume: 720404,
-        base: 'TOMO',
-        quote: 'WETH',
-        favorited: false,
+        "base": "BTC",
+        "change": "4.5421",
+        "favorited": false,
+        "high": "8782.7964",
+        "lastPrice": "7425.2945",
+        "low": "6499.3696",
+        "pair": "BTC/TOMO",
+        "quote": "TOMO",
+        "volume": 720404,
       },
       {
-        pair: 'ZRX/WETH',
-        lastPrice: '8176.7874',
-        change: '1.7811',
-        high: '6165.0712',
-        low: '2242.4298',
-        volume: 752620,
-        base: 'ZRX',
-        quote: 'WETH',
-        favorited: true,
-      },
-      {
-        pair: 'OMG/WETH',
-        lastPrice: '398.888',
-        change: '3.7561',
-        high: '9892.7954',
-        low: '6884.7173',
-        volume: 155880,
-        base: 'OMG',
-        quote: 'WETH',
-        favorited: false,
-      },
-    ],
-    DAI: [
-      {
-        pair: 'TOMO/DAI',
-        lastPrice: '6018.7886',
-        change: '1.6589',
-        high: '3876.8717',
-        low: '4613.5315',
-        base: 'TOMO',
-        quote: 'DAI',
-        volume: 68946,
-        favorited: true,
-      },
-      {
-        pair: 'OMG/DAI',
-        lastPrice: '66.2789',
-        change: '3.5460',
-        high: '9211.5292',
-        low: '4241.7509',
-        base: 'OMG',
-        quote: 'DAI',
-        volume: 912048,
-        favorited: false,
+        "base": "DAI",
+        "change": "1.6589",
+        "favorited": false,
+        "high": "3876.8717",
+        "lastPrice": "6018.7886",
+        "low": "4613.5315",
+        "pair": "DAI/TOMO",
+        "quote": "TOMO",
+        "volume": 68946,
       },
     ],
   }
@@ -135,7 +76,11 @@ it('tokenSearcherSelector parses data correctly', () => {
 
   const { tokenPairsByQuoteToken, currentPair, baseTokenBalance, quoteTokenBalance } = tokenSearcherSelector()
   expect(tokenPairsByQuoteToken).toEqual(expectedTokenPairsByQuoteToken)
-  expect(currentPair).toEqual({ pair: 'TOMO/WETH', baseTokenSymbol: 'TOMO', quoteTokenSymbol: 'WETH' })
+  expect(currentPair).toEqual({
+    baseTokenSymbol: "BTC", 
+    pair: "BTC/TOMO", 
+    quoteTokenSymbol: "TOMO",
+  })
   expect(baseTokenBalance).toEqual('100.00')
   expect(quoteTokenBalance).toEqual('10.00')
 })

@@ -124,7 +124,6 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
         ? (totalSellAmount = quoteAmount.plus(quoteAmount.times(fee)))
         : (totalSellAmount = baseAmount)
 
-      console.log(sellTokenBalance.toFixed(0), totalSellAmount.toFixed(0), '===================')
       if (sellTokenBalance.lt(totalSellAmount)) {
         dispatch(orderActionsCreators.ordersUpdatedStatus(false))
         return dispatch(notifierActionCreators.addErrorNotification({ message: `Insufficient ${sellTokenSymbol} balance` }))

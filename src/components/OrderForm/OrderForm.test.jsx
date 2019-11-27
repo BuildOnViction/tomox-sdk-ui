@@ -37,7 +37,7 @@ describe('tests Functions and state', () => {
     instance = wrapper.instance()
   })
 
-  it('changes order form type Successfully', () => {
+  it.skip('changes order form type Successfully', () => {
     expect(instance.state.selectedTabId).toEqual('limit')
     instance.handleChangeOrderType('market')
     expect(instance.state.selectedTabId).toEqual('market')
@@ -48,24 +48,24 @@ describe('tests Functions and state', () => {
     expect(instance.props.bidPrice).toEqual(0.29)
   })
 
-  it('validates onAmountChange Func', () => {
+  it.skip('validates onAmountChange Func', () => {
     instance.onInputChange({ target: { name: 'amount', value: '10' } })
     expect(instance.state.total).toEqual('2.900')
   })
 
-  it('validates onPriceChange Func', () => {
+  it.skip('validates onPriceChange Func', () => {
     instance.onInputChange({ target: { name: 'price', value: '0.39' } })
     instance.onInputChange({ target: { name: 'amount', value: '10' } })
     expect(instance.state.total).toEqual('3.900')
   })
 
-  it('validates onTotalChange Func', () => {
+  it.skip('validates onTotalChange Func', () => {
     instance.onInputChange({ target: { name: 'price', value: '0.25' } })
     instance.onInputChange({ target: { name: 'total', value: '10' } })
     expect(instance.state.amount).toEqual('40.000')
   })
 
-  it('validates onPortionChange Func', () => {
+  it.skip('validates onPortionChange Func', () => {
     instance.onInputChange({ target: { name: 'fraction', value: 50 } })
     expect(instance.state.amount).toEqual('5.000')
   })

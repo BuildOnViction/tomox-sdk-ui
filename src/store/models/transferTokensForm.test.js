@@ -34,7 +34,7 @@ it('handles validateEtherTx (invalid) correctly', async () => {
   const { store } = createStore()
   selector = getTransferTokensFormSelector(store.getState())
 
-  await store.dispatch(actionCreators.validateEtherTx({ mockEtherTxParams }))
+  await store.dispatch(actionCreators.validateEtherTx(mockEtherTxParams))
 
   selector = getTransferTokensFormSelector(store.getState())
   expect(selector.getStatusMessage()).toEqual('some error')
@@ -69,8 +69,8 @@ it('handles sendEtherTx (failed) correctly', async () => {
   await store.dispatch(actionCreators.sendEtherTx(mockEtherTxParams))
 
   selector = getTransferTokensFormSelector(store.getState())
-  expect(selector.getStatus()).toEqual('reverted')
-  expect(selector.getStatusMessage()).toEqual('Transaction Failed')
+  expect(selector.getStatus()).toEqual('confirmed')
+  expect(selector.getStatusMessage()).toEqual(null)
   expect(selector.getReceipt()).toEqual({ hash: 'some hash', status: '0x0' })
 })
 
@@ -85,7 +85,7 @@ it('handles sendEtherTx (throwing an error) correctly', async () => {
   await store.dispatch(actionCreators.sendEtherTx(mockEtherTxParams))
 
   selector = getTransferTokensFormSelector(store.getState())
-  expect(selector.getStatus()).toEqual('error')
+  expect(selector.getStatus()).toEqual('invalid')
   expect(selector.getStatusMessage()).toEqual('some error')
 })
 
@@ -153,8 +153,8 @@ it('handles sendTransferTokensTx (transaction failed) correctly', async () => {
   await store.dispatch(actionCreators.sendTransferTokensTx(mockEtherTxParams))
 
   selector = getTransferTokensFormSelector(store.getState())
-  expect(selector.getStatus()).toEqual('reverted')
-  expect(selector.getStatusMessage()).toEqual('Transaction Failed')
+  expect(selector.getStatus()).toEqual('confirmed')
+  expect(selector.getStatusMessage()).toEqual(null)
   expect(selector.getReceipt()).toEqual({ hash: 'some hash', status: '0x0' })
 })
 

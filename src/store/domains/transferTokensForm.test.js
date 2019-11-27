@@ -50,7 +50,7 @@ it('handles txSent event properly', () => {
     eventCreators.txSent(mockHash),
   ])
 
-  expect(domain.isLoading()).toEqual(false)
+  expect(domain.isLoading()).toEqual(true)
   expect(domain.getStatus()).toEqual('sent')
   expect(domain.getStatusMessage()).toEqual(null)
   expect(domain.getGas()).toEqual(21000)
