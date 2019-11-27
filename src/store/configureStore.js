@@ -5,7 +5,6 @@ import history from './history'
 import thunk from 'redux-thunk'
 import * as reducers from './reducers'
 import * as services from './services'
-import '../styles/css/index.css'
 import storageSession from 'redux-persist/lib/storage/session'
 
 let composeEnhancers = compose
