@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tomochain/tomox-sdk-ui.svg?branch=master)](https://travis-ci.org/tomochain/tomox-sdk-ui)
+
 # tomox-sdk-ui
 
 This is client-side for TomoX-SDK
