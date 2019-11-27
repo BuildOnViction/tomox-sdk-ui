@@ -14,7 +14,7 @@ const env = window.env || process.env
 
 const WS_PROTOCOL = window.location.protocol.replace('http', 'ws')
 const standardizeWSProtocol = url => {
-  if (!url.startsWith('ws')) {
+  if (!url || !url.startsWith('ws')) {
     url = `${WS_PROTOCOL}//${window.location.hostname}/${url.replace(
       /^\/+/,
       ''
