@@ -6,11 +6,9 @@ import { Tabs, Tab } from '@blueprintjs/core'
 
 import OrdersTable from '../../components/OrdersTable'
 import OrderForm from '../../components/OrderForm'
-// import { CloseableCallout } from '../../components/Common'
 import TradesTable from '../../components/TradesTable'
-// import TokenSearcher from '../../components/TokenSearcher'
 import OrderBook from '../../components/OrderBook'
-import TVChartRenderer from '../../components/TVChartContainer'
+import TVChartContainer from '../../components/TVChartContainer'
 import DepthChart from '../../components/DepthChart'
 import { Theme } from '../../components/Common'
 import arrowDownOrangeUrl from '../../assets/images/arrow_down_orange.svg'
@@ -81,7 +79,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               onChange={this.handleTabsChartChange}
               selectedTabId={this.state.chartTadId}
             >
-              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
+              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartContainer />} />
               <Tab id="depth" title="Depth" panel={<DepthChart />} />
             </ChartTabs>
           </ChartsCell>

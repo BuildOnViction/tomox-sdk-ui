@@ -535,6 +535,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
     if (event.type === 'ERROR' || !event.payload) return
     if (event.payload.length === 0) {
       dispatch(actionCreators.initOHLCV([]))
+      dispatch(actionCreators.updateOHLCVLoading(false))
       return
     }
 
@@ -552,6 +553,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
         case 'INIT':
           ohlcv = parseOHLCV(ohlcv, pair)
           dispatch(actionCreators.initOHLCV(ohlcv))
+          dispatch(actionCreators.updateOHLCVLoading(false))
           break
         case 'UPDATE':
           ohlcv = parseOHLCV(ohlcv, pair)

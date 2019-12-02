@@ -10,6 +10,7 @@ import type {
   InitOrderBookAction,
   InitOrdersTableAction,
   InitTradesTableAction,
+  UpdateOHLCVLoading,
 } from '../../types/tradingPage'
 
 export function updateCurrentPair(pair: string): UpdateCurrentPairAction {
@@ -71,6 +72,13 @@ export function updateTradesByAddress(trades: any) {
   return {
     type: actionTypes.updateTradesByAddress,
     payload: { trades },
+  }
+}
+
+export function updateOHLCVLoading(loading: boolean): UpdateOHLCVLoading {
+  return {
+    type: actionTypes.updateOHLCVLoading,
+    payload: { loading },
   }
 }
 

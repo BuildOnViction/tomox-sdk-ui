@@ -194,7 +194,7 @@ const LoginMessage = () => {
   return (
     <Centered my={4}>
       <UtilityIcon name="login" width={32} height={32} />
-      <Text color={TmColors.GRAY}>
+      <Text sm={true} color={TmColors.GRAY}>
         <FormattedMessage id="app.mustLogin1" />&nbsp;
         <LoginLink to="/unlock"><FormattedMessage id="app.mustLogin2" /></LoginLink>&nbsp;
         <FormattedMessage id="app.mustLogin3" />
@@ -207,7 +207,7 @@ const _noOrderRowsRenderer = () => {
   return (
     <Centered my={4}>
       <UtilityIcon name="not-found" width={32} height={32} />
-      <Text color={TmColors.GRAY}><FormattedMessage id="exchangePage.noOrders" />.</Text>
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noOrders" />.</Text>
     </Centered>
   )
 }
@@ -365,11 +365,11 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
-const _noTrageRowsRenderer = () => {
+const _noTradeRowsRenderer = () => {
   return (
     <Centered my={4}>
       <UtilityIcon name="not-found" width={32} height={32} />
-      <Text color={TmColors.GRAY}><FormattedMessage id="exchangePage.noTrades" />.</Text>
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noTrades" />.</Text>
     </Centered>
   )
 }
@@ -426,7 +426,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 rowCount={orders.length}
                 rowHeight={rowHeight}
                 rowRenderer={_rowRenderer}
-                noRowsRenderer={_noTrageRowsRenderer}
+                noRowsRenderer={_noTradeRowsRenderer}
                 overscanRowCount={overscanRowCount}
               />
             )}
@@ -523,7 +523,7 @@ const CheckboxHidePairs = styled(Checkbox)`
   font-size: ${Theme.FONT_SIZE_SM};
   text-align: center;
   margin-bottom: 0 !important;
-  position: absolute;
+  position: absolute !important;
   top: 2px;
   right: 10px;
   user-select: none;

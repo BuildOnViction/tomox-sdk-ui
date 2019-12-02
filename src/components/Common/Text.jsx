@@ -4,18 +4,20 @@ import { space, width } from 'styled-system';
 
 import React from 'react';
 import styled from 'styled-components';
-import Colors, { TmColors } from './Colors';
+import Colors, { TmColors, Theme } from './Colors';
 import { Fonts } from './Variables';
 
 export const Text = styled.span`
   ${space}
   ${width}
   font-size: ${props =>
-    props.small
-      ? Fonts.FONT_SIZE_SMALL
-      : props.large
-      ? Fonts.FONT_SIZE_LARGE
-      : Fonts.FONT_SIZE};
+    props.xs
+      ? Theme.FONT_SIZE_XS
+      : props.sm
+      ? Theme.FONT_SIZE_SM
+      : props.lg
+      ? Theme.FONT_SIZE_LG
+      : Theme.FONT_SIZE_MD};
   color: ${props =>
     props.intent
       ? Colors[props.intent]

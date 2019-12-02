@@ -50,6 +50,7 @@ export const updateTimeSpan = (
     const pairDomain = getTokenPairsDomain(state)
     const currentPair = pairDomain.getCurrentPair()
 
+    dispatch(actionCreators.updateOHLCVLoading(true))
     socket.subscribeChart(
       currentPair,
       state.ohlcv.currentTimeSpan.label,
@@ -70,6 +71,7 @@ export const updateDuration = (
     const pairDomain = getTokenPairsDomain(state)
     const currentPair = pairDomain.getCurrentPair()
 
+    dispatch(actionCreators.updateOHLCVLoading(true))
     socket.subscribeChart(
       currentPair,
       state.ohlcv.currentTimeSpan.label,

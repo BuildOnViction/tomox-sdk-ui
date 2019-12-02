@@ -43,6 +43,7 @@ const actionTypes = {
   unsubscribeOHLCV: 'socketController/UNSUBSCRIBE_OHLCV',
   initOHLCV: 'socketController/INIT_OHLCV',
   updateOHLCV: 'socketController/UPDATE_OHLCV',
+  updateOHLCVLoading: 'socketController/UPDATE_OHLCV_LOADING',
 
   subscribeOrderbook: 'socketController/SUBSCRIBE_ORDERBOOK',
   unsubscribeOrderbook: 'socketController/UNSUBSCRIBE_ORDERBOOK',
@@ -163,6 +164,13 @@ export function updateOHLCV(data: Array<Object>): UpdateOHLCVAction {
     payload: {
       data,
     },
+  }
+}
+
+export function updateOHLCVLoading(loading: boolean) {
+  return {
+    type: actionTypes.updateOHLCVLoading,
+    payload: { loading },
   }
 }
 

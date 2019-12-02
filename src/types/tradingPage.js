@@ -11,6 +11,7 @@ export const actionTypes = {
   initTradesTable: 'tradingPage/INIT_TRADES_TABLE',
   updateTradesTable: 'tradingPage/UPDATE_TRADES_TABLE',
   updateTradesByAddress: 'tradingPage/UPDATE_TRADES_BY_ADDRESS',
+  updateOHLCVLoading: 'tradingPage/UPDATE_OHLCV_LOADING',
 }
 
 export type UpdateCurrentPairAction = {
@@ -54,6 +55,11 @@ export type SingleOrderTypes = {
   decimals: number,
 }
 
+export type UpdateOHLCVLoading = {
+  type: 'tradingPage/UPDATE_OHLCV_LOADING',
+  payload: { loading: boolean }
+}
+
 export type TradingPageAction =
   | UpdateTokenPairDataAction
   | UpdateCurrentPairAction
@@ -62,3 +68,4 @@ export type TradingPageAction =
   | UpdateOrdersTableAction
   | InitTradesTableAction
   | InitOrderBookAction
+  | UpdateOHLCVLoading

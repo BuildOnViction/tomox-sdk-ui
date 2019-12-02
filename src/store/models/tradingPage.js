@@ -97,6 +97,7 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
+      dispatch(actionCreators.updateOHLCVLoading(true))
       socket.subscribeChart(
         currentPair,
         state.ohlcv.currentTimeSpan.label,
@@ -165,6 +166,7 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       socket.subscribePrice(tokenPair)
       socket.subscribeTrades(tokenPair)
       socket.subscribeOrderBook(tokenPair)
+      dispatch(actionCreators.updateOHLCVLoading(true))
       socket.subscribeChart(
         tokenPair,
         state.ohlcv.currentTimeSpan.label,

@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { FormattedMessage } from 'react-intl'
 
+import { TmColors, Centered, Text, UtilityIcon } from '../Common'
 import TVChartRenderer from './TVChartRenderer'
 import { Loading } from '../Common'
 
@@ -46,6 +48,15 @@ const modes = {
   },
 }
 
+const NoData = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noData" />.</Text>
+    </Centered>
+  )
+}
+
 export default class TVChart extends React.PureComponent {    
 
     componentDidUpdate(prevProps) {
@@ -75,8 +86,8 @@ export default class TVChart extends React.PureComponent {
 
     render() {
         const { currentPair: { pair }, ohlcv } = this.props
-
-        if (!pair || !ohlcv || ohlcv.ohlcvData.length === 0) { return <Loading /> }
+        if (!pair || !ohlcv || ohlcv.loading) return <Loading />
+        if (ohlcv.ohlcvData.length === 0) return <NoData />
         
         return (
           <React.Fragment>

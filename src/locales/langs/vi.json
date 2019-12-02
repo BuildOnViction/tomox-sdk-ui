@@ -119,6 +119,7 @@
   "exchangePage.filled": "Filled(%)",
   "exchangePage.filledAmount": "Filled",
   "exchangePage.status": "Status",
+  "exchangePage.noData": "No data available",
   "exchangePage.noOrders": "You have no orders",
   "exchangePage.orderbook": "Orderbook",
   "exchangePage.volume": "Volume",

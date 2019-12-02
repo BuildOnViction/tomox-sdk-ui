@@ -5,6 +5,7 @@ const actionTypes = {
   saveTimeSpan: 'ohlcv/SAVE_TIME_SPAN',
   saveNoOfCandles: 'ohlcv/SAVE_NO_OF_CANDLES',
   resetOHLCVData: 'ohlcv/SAVE_OHLCV_DATA',
+  updateOHLCVLoading: 'ohlcv/UPDATE_OHLCV_LOADING',
 }
 
 export function saveData(data: Array<Object>) {
@@ -38,6 +39,13 @@ export function saveTimeSpan(data: Object) {
 export function resetOHLCVData() {
   return {
     type: actionTypes.resetOHLCVData,
+  }
+}
+
+export function updateOHLCVLoading(loading: boolean) {
+  return {
+    type: actionTypes.updateOHLCVLoading,
+    payload: { loading },
   }
 }
 

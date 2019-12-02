@@ -6,6 +6,7 @@ const initialState: OHLCVState = {
   noOfCandles: 150,
   currentTimeSpan: { name: '1 min', label: '1m', value: '1' },
   currentDuration: { name: '1 Day', label: '1d' },
+  loading: false,
 }
 
 export const initialized = () => {
@@ -62,10 +63,19 @@ export const ohlcvReset = () => {
   return event
 }
 
+export const updateOHLCVLoading = (loading: boolean) => {
+  const event = (state: OHLCVState): OHLCVState => ({
+    ...state,
+    loading,
+  })
+  return event
+}
+
 export default function model(state: OHLCVState) {
   return {
     getState: () => state,
     getNoOfCandles: () => state.noOfCandles,
     getOHLCVData: () => state.ohlcvData,
+    getLoading: () => state.loading,
   }
 }

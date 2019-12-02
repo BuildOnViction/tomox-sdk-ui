@@ -174,6 +174,10 @@ export const ohlcv = createReducer(action => {
     case tradingPageActionTypes.updateCurrentPair:
     case marketsTableActionTypes.updateCurrentPair:
       return ohlcvEvents.ohlcvReset()
+    case tradingPageActionTypes.updateOHLCVLoading:
+    case ohlcvActionTypes.updateOHLCVLoading:
+    case socketControllerActionTypes.updateOHLCVLoading:
+      return ohlcvEvents.updateOHLCVLoading(payload.loading)
     default:
       return ohlcvEvents.initialized()
   }
