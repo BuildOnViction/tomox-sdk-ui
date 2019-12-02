@@ -108,7 +108,7 @@ const LoginMessage = () => {
   return (
     <Centered my={4}>
       <UtilityIcon name="login" width={32} height={32} />
-      <Text color={TmColors.GRAY}>
+      <Text sm={true} color={TmColors.GRAY}>
         <FormattedMessage id="app.mustLogin1" />&nbsp;
         <LoginLink to="/unlock"><FormattedMessage id="app.mustLogin2" /></LoginLink>&nbsp;
         <FormattedMessage id="app.mustLogin3" />
@@ -121,7 +121,7 @@ const NoItems = () => {
   return (
     <Centered my={4}>
       <UtilityIcon name="not-found" width={32} height={32} />
-      <Text color={TmColors.GRAY}><FormattedMessage id="portfolioPage.notFound" />.</Text>
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="portfolioPage.notFound" />.</Text>
     </Centered>
   )
 }

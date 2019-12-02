@@ -6,7 +6,7 @@ import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 import BigNumber from 'bignumber.js'
 
-import { Loading, Colors, TmColors } from '../Common'
+import { Loading, Colors, TmColors, Centered, UtilityIcon, Text } from '../Common'
 import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
 import { pricePrecision as defaultPricePrecision } from '../../config/tokens'
 
@@ -25,6 +25,15 @@ type PricePrecision = {
   title: string,
   value: number,
   rank: number,
+}
+
+const NoData = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noOrderbook" />.</Text>
+    </Centered>
+  )
 }
 
 export class OrderBookRenderer extends React.PureComponent<Props> {
@@ -99,7 +108,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           </FilterList>
         </OrderBookHeader>
 
-        {isNoItems && (<NoItems><FormattedMessage id="exchangePage.noOrderbook" /></NoItems>)}
+        {isNoItems && (<NoData />)}
 
         {!isNoItems && 
         (
@@ -432,14 +441,6 @@ const PercentChange = styled.div.attrs({
   className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
 })`
   width: ${props => props.width? props.width : "35px"}
-`
-
-const NoItems = styled.div`
-  height: calc(100% - 50px);
-  display: flex;
-  padding-left: 10px;
-  justify-content: center;
-  align-items: center;
 `
 
 const Ellipsis = styled.span`

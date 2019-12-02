@@ -1,9 +1,10 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Loading, CenteredMessage, Theme } from '../Common'
-import { formatDate } from '../../utils/helpers'
+import { FormattedMessage } from 'react-intl'
 
+import { Loading, Centered, Theme, TmColors, Text, UtilityIcon } from '../Common'
+import { formatDate } from '../../utils/helpers'
 import type { Trade } from '../../types/trades'
 import type { TokenPair } from '../../types/tokens'
 
@@ -24,11 +25,19 @@ const TradesTableRenderer = (props: Props) => {
   )
 }
 
+const NoData = () => {
+  return (
+    <Centered my={4}>
+      <UtilityIcon name="not-found" width={32} height={32} />
+      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noTradesHistory" />.</Text>
+    </Centered>
+  )
+}
+
 const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
   const { trades } = props
   if (!trades) return <Loading />
-  if (trades.length === 0)
-    return <CenteredMessage message="No trades for this token pair" />
+  if (trades.length === 0) return <NoData />
 
   return (
     <React.Fragment>
@@ -36,13 +45,13 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
         <HeadingRow>
           <HeaderCell 
             width="33%"
-            textAlign="left">Time</HeaderCell>
+            textAlign="left"><FormattedMessage id="exchangePage.time" /></HeaderCell>
           <HeaderCell 
             width="34%"
-            textAlign="center">Price</HeaderCell>
+            textAlign="center"><FormattedMessage id="exchangePage.price" /></HeaderCell>
           <HeaderCell 
             width="33%"
-            textAlign="right">Amount</HeaderCell>
+            textAlign="right"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         </HeadingRow>
       </ListHeader>
       <ListBody>
