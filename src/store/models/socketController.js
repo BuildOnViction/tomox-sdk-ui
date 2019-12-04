@@ -38,6 +38,7 @@ export default function socketControllerSelector(state: State) {
     authenticated: getAccountDomain(state).authenticated(),
     pairs: getTokenPairsDomain(state).getPairsByCode(),
     isOpened: getWebsocketDomain(state).isOpened(),
+    currentPairData: getTokenPairsDomain(state).getCurrentPairData(),
   }
 }
 

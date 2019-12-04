@@ -119,6 +119,7 @@ const OrderbooxTradesGrid = styled(Grid).attrs({
 })`
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   padding: 10px 0;
+  min-width: 650px;
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       grid-auto-flow: row;

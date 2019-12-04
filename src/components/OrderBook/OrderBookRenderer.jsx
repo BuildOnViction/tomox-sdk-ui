@@ -27,6 +27,8 @@ type PricePrecision = {
   rank: number,
 }
 
+const widthColumns = ['30%', '32%', '38%']
+
 const NoData = () => {
   return (
     <Centered my={4}>
@@ -83,6 +85,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onSelect,
       pricePrecisionsList,
       pricePrecision,
+      amountPrecision,
       onChangePricePrecision,
       currentPairData,
       referenceCurrency,
@@ -95,11 +98,14 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
         <OrderBookHeader className="order-book-header">
           <Title><FormattedMessage id="exchangePage.orderbook" /></Title>
 
-          <PricePrecisionsDropdown 
-            pricePrecisionsList={pricePrecisionsList}
-            onChangePricePrecision={onChangePricePrecision}
-            pricePrecision={pricePrecision}
-             />
+          {
+            (pricePrecisionsList.lenght > 0) && (
+              <PricePrecisionsDropdown 
+                pricePrecisionsList={pricePrecisionsList}
+                onChangePricePrecision={onChangePricePrecision}
+                pricePrecision={pricePrecision}
+                />)
+          }
 
           <FilterList>
             <FilterSell onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
@@ -117,9 +123,9 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
 
             <ListHeading>
               <HeaderRow>
-                <HeaderCell width="33%" className="header-cell"><FormattedMessage id="exchangePage.price" /></HeaderCell>
-                <HeaderCell width="34%" className="header-cell text-right"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-                <HeaderCell width="33%" className="header-cell text-right"><FormattedMessage id="exchangePage.volume" /></HeaderCell>
+                <HeaderCell width={widthColumns[0]} className="header-cell"><FormattedMessage id="exchangePage.price" /></HeaderCell>
+                <HeaderCell width={widthColumns[1]} className="header-cell text-right pd-rl-6"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+                <HeaderCell width={widthColumns[2]} className="header-cell text-right"><FormattedMessage id="exchangePage.volume" /></HeaderCell>
               </HeaderRow>
             </ListHeading>
 
@@ -130,7 +136,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                     <SellOrder 
                       key={index} 
                       order={order}
-                      pricePrecision={pricePrecision} 
+                      pricePrecision={pricePrecision}
+                      amountPrecision={amountPrecision} 
                       onClick={() => onSelect(order)} />
                   ))}
                 </List>
@@ -166,6 +173,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                       key={index} 
                       order={order} 
                       pricePrecision={pricePrecision}
+                      amountPrecision={amountPrecision}
                       onClick={() => onSelect(order)}/>
                   ))}
                 </List>
@@ -184,25 +192,25 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order, pricePrecision, onClick } = props
+  const { order, pricePrecision, amountPrecision, onClick } = props
   return (
     <Row onClick={onClick} update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
-      <Cell className="text-right" width="34%">{BigNumber(order.amount).toFormat(defaultPricePrecision)}</Cell>
-      <Cell className="text-right" width="33%">{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell> 
+      <Cell className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
+      <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
+      <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell> 
     </Row>
   )
 }
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, pricePrecision, onClick } = props
+  const { order, pricePrecision, amountPrecision, onClick } = props
   return (
     <Row onClick={onClick} update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width="33%">{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
-      <Cell className="text-right" width="34%">{BigNumber(order.amount).toFormat(defaultPricePrecision)}</Cell>
-      <Cell className="text-right" width="33%">{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell>
+      <Cell className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
+      <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
+      <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell>
     </Row>
   )
 }
@@ -263,6 +271,10 @@ const PrecisionMenuItem = styled.li`
 
 const Wrapper = styled.div`
   height: 100%;
+
+  .pd-rl-6 {
+    padding: 0 6px;
+  }
 `
 const OrderBookHeader = styled.div`
   display: flex;

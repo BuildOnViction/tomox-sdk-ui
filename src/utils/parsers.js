@@ -115,7 +115,7 @@ export const parseTokenAmount = (amountpoint: string, pair: TokenPair, precision
  * @param precision
  * @returns {number}
  */
-export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = 7) => {
+export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: number = pricePrecision) => {
   const { quoteTokenDecimals } = pair
   // We use 18 to avoid result round to 0. 
   const precisionMultiplier = BigNumber(10).pow(18)
@@ -267,7 +267,6 @@ export const parseTokenPairData = (
 }
 
 export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<TokenPair> => {
-
   const result = []
 
   data.forEach(datum => {
@@ -288,6 +287,10 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
       }
 
       if (pairFomatted.priceUsd === '0') delete pairFomatted.priceUsd
+      const { pricePrecision, amountPrecision } = calcPrecision(pairFomatted.lastPrice)
+      pairFomatted.pricePrecision = pricePrecision
+      pairFomatted.amountPrecision = amountPrecision
+
       result.push(pairFomatted)
     }
   })
@@ -300,6 +303,7 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
   if (ticks.length === 0 && last_trade_price === '?') return
 
   const price = parsePricepoint(last_trade_price, pair)
+  const { pricePrecision, amountPrecision } = calcPrecision(price)
   const priceUsd = price * Number(usd)
   const change = ticks.length > 0 ? computeChange(ticks[0].open, ticks[0].close) : null
     
@@ -319,6 +323,8 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
     priceUsd,
     change,
     ticks: ticksParsed,
+    pricePrecision,
+    amountPrecision,
   }
 }
 
@@ -336,6 +342,36 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   })
 
   return parsed
+}
+
+export const calcPrecision = (price: number) => {
+  const totalPresision = 8
+  let pricePrecision, amountPrecision
+
+  switch (true) {
+    case (price >= 50):
+      pricePrecision = 2
+      amountPrecision = totalPresision - pricePrecision
+      break
+    case (price >= 1):
+      pricePrecision = 4
+      amountPrecision = totalPresision - pricePrecision
+      break
+    case (price >= 0.1):
+      pricePrecision = 5
+      amountPrecision = totalPresision - pricePrecision
+      break
+    case (price >= 0.001):
+      pricePrecision = 6
+      amountPrecision = totalPresision - pricePrecision
+      break
+    default:
+      pricePrecision = 8
+      amountPrecision = totalPresision - pricePrecision
+      break
+  }
+
+  return { pricePrecision, amountPrecision }
 }
 
 

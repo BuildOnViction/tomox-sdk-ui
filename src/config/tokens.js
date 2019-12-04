@@ -28,6 +28,5 @@ export { tokensBySymbol, tokenSymbols, tokens }
 export const NATIVE_TOKEN_SYMBOL = 'TOMO'
 export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001'
 export const defaultDecimals = 18
-export const pricePrecision = 7
-export const pricePrecisionsList = [1, 2, 3, 4, 5, 6, 7]
-export const amountPrecision = 7
+export const pricePrecision = 8
+export const amountPrecision = 8
