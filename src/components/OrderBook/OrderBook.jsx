@@ -28,7 +28,7 @@ class OrderBook extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.currentPairData && this.props.currentPairData) {
+    if ((this.props.currentPairData && this.props.currentPairData.pricePrecision !== this.state.pricePrecision)) {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,

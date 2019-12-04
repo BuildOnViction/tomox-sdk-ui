@@ -461,26 +461,31 @@ function handleOrderError(event: WebsocketEvent): ThunkAction {
 const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
-    const { pairs } = socketControllerSelector(state)
+    const { pairs, currentPairData } = socketControllerSelector(state)
 
     if (event.type === 'ERROR' || !event.payload) return
     // if (event.payload.length === 0) return
 
     const { pairName } = event.payload
     const pairInfo = pairs[pairName]
-    let bids, asks, orderBookData
+    let bids, asks, orderBookData, pricePrecision = 4, amountPrecision =4
+
+    if (currentPairData) {
+      pricePrecision = currentPairData.pricePrecision
+      amountPrecision = currentPairData.amountPrecision
+    }
 
     try {
       switch (event.type) {
         case 'INIT':
-          orderBookData = parseOrderBookData(event.payload, pairInfo)
+          orderBookData = parseOrderBookData(event.payload, pairInfo, amountPrecision, pricePrecision)
           bids = orderBookData.bids
           asks = orderBookData.asks
           dispatch(actionCreators.initOrderBook(bids, asks))
           break
 
         case 'UPDATE':
-          orderBookData = parseOrderBookData(event.payload, pairInfo)
+          orderBookData = parseOrderBookData(event.payload, pairInfo, amountPrecision, pricePrecision)
           bids = orderBookData.bids
           asks = orderBookData.asks
           dispatch(actionCreators.updateOrderBook(bids, asks))

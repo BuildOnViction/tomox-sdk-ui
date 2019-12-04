@@ -60,10 +60,10 @@ export const queryTradingPageData = (): ThunkAction => {
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
       // Unsubscribe socket when change current pair
+      socket.unSubscribePrice()
       socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
-      socket.unsubscribeTrades()
-      socket.unSubscribePrice()
+      socket.unsubscribeTrades()      
 
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
