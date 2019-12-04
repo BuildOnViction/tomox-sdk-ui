@@ -25,6 +25,7 @@ class OrderBook extends React.Component<Props, State> {
   state = {
     pricePrecision: 4,
     amountPrecision: 4,
+    currentPricePrecision: 4,
   }
 
   componentDidUpdate(prevProps) {
@@ -32,13 +33,14 @@ class OrderBook extends React.Component<Props, State> {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,
+        currentPricePrecision: this.props.currentPairData.pricePrecision,
       })
     }
   }
 
   handleChangePricePrecision = (precision) => {
     this.setState({
-      pricePrecision: precision.value,
+      currentPricePrecision: precision.value,
     })
   }
 
@@ -54,13 +56,14 @@ class OrderBook extends React.Component<Props, State> {
       state: { 
         pricePrecision,
         amountPrecision,
+        currentPricePrecision,
       },
       handleChangePricePrecision,
     }
     = this
 
     const pricePrecisionsList = []
-    for (let i = 0; i < pricePrecision; i++) {
+    for (let i = 0; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
     }
 
@@ -71,6 +74,7 @@ class OrderBook extends React.Component<Props, State> {
         onSelect={select}
         pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
+        currentPricePrecision={currentPricePrecision}
         amountPrecision={amountPrecision}
         onChangePricePrecision={handleChangePricePrecision}
         currentPairData={currentPairData}

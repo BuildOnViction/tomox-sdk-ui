@@ -85,6 +85,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onSelect,
       pricePrecisionsList,
       pricePrecision,
+      currentPricePrecision,
       amountPrecision,
       onChangePricePrecision,
       currentPairData,
@@ -99,11 +100,11 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
           <Title><FormattedMessage id="exchangePage.orderbook" /></Title>
 
           {
-            (pricePrecisionsList.lenght > 0) && (
+            (pricePrecisionsList.length > 0) && (
               <PricePrecisionsDropdown 
                 pricePrecisionsList={pricePrecisionsList}
                 onChangePricePrecision={onChangePricePrecision}
-                pricePrecision={pricePrecision}
+                currentPricePrecision={currentPricePrecision}
                 />)
           }
 
@@ -136,7 +137,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                     <SellOrder 
                       key={index} 
                       order={order}
-                      pricePrecision={pricePrecision}
+                      currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision} 
                       onClick={() => onSelect(order)} />
                   ))}
@@ -172,7 +173,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                     <BuyOrder 
                       key={index} 
                       order={order} 
-                      pricePrecision={pricePrecision}
+                      currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision}
                       onClick={() => onSelect(order)}/>
                   ))}
@@ -192,11 +193,11 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order, pricePrecision, amountPrecision, onClick } = props
+  const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
     <Row onClick={onClick} update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
+      <Cell className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
       <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
       <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell> 
     </Row>
@@ -204,11 +205,11 @@ const BuyOrder = (props: SingleOrderProps) => {
 }
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, pricePrecision, amountPrecision, onClick } = props
+  const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
     <Row onClick={onClick} update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(pricePrecision)}</Cell>
+      <Cell className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
       <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
       <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(defaultPricePrecision)}</Cell>
     </Row>
@@ -216,7 +217,7 @@ const SellOrder = (props: SingleOrderProps) => {
 }
 
 const PricePrecisionsDropdown = (props: Array<number>) => {
-  const { pricePrecision, pricePrecisionsList, onChangePricePrecision } = props
+  const { currentPricePrecision, pricePrecisionsList, onChangePricePrecision } = props
 
   const items: Array<PricePrecision> = pricePrecisionsList.map((precision, index) => {
     return {
@@ -226,7 +227,7 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
     }
   })
 
-  const selectedItem = items.find(item => item.value === pricePrecision)
+  const selectedItem = items.find(item => item.value === currentPricePrecision)
 
   return (
     <Select
