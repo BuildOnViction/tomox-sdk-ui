@@ -302,19 +302,20 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
   const { last_trade_price, ticks, usd } = data
   if (ticks.length === 0 && last_trade_price === '?') return
 
-  const price = parsePricepoint(last_trade_price, pair)
+  let price = parsePricepoint(last_trade_price, pair)
   const { pricePrecision, amountPrecision } = calcPrecision(price)
-  const priceUsd = price * Number(usd)
+  price = BigNumber(price).toFixed(pricePrecision)
+  const priceUsd = usd ? BigNumber(price).times(usd).toFixed(pricePrecision) : '_'
   const change = ticks.length > 0 ? computeChange(ticks[0].open, ticks[0].close) : null
     
   const ticksParsed = ticks.map(datum => {
       return {
         pair: pair.pair,
-        high: datum.high ? parsePricepoint(datum.high, pair) : null,
-        low: datum.low ? parsePricepoint(datum.low, pair) : null,
-        open: datum.open ? parsePricepoint(datum.open, pair) : null,
-        close: datum.close ? parsePricepoint(datum.close, pair) : null,
-        volume: datum.volume ? parseTokenAmount(datum.volume, pair) : null,
+        high: datum.high ? parsePricepoint(datum.high, pair, pricePrecision).toFixed(pricePrecision) : null,
+        low: datum.low ? parsePricepoint(datum.low, pair, pricePrecision).toFixed(pricePrecision) : null,
+        open: datum.open ? parsePricepoint(datum.open, pair, pricePrecision).toFixed(pricePrecision) : null,
+        close: datum.close ? parsePricepoint(datum.close, pair, pricePrecision).toFixed(pricePrecision) : null,
+        volume: datum.volume ? parseTokenAmount(datum.volume, pair, amountPrecision, pricePrecision).toFixed(2) : null,
       }
   })
 

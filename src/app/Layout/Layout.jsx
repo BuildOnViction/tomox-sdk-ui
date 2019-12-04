@@ -271,8 +271,8 @@ class Default extends React.PureComponent<Props, State> {
                     <LastPriceTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div className="price">
-                        <span>{truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))}</span>
-                        <span className="up">{referenceCurrency.symbol}{truncateZeroDecimal(BigNumber(currentPairData.priceUsd).toFormat(pricePrecision))}</span>
+                        <span>{currentPairData.price}</span>
+                        <span className="up">{referenceCurrency.symbol}{currentPairData.priceUsd}</span>
                       </div>
                     </LastPriceTick>
 
@@ -287,21 +287,21 @@ class Default extends React.PureComponent<Props, State> {
                     <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div>
-                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].high).toFormat(pricePrecision))}</span>
+                        <span>{currentPairData.ticks[0].high}</span>
                       </div>
                     </HighTick>
 
                     <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div>
-                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].low).toFormat(pricePrecision))}</span>
+                        <span>{currentPairData.ticks[0].low}</span>
                       </div>
                     </LowTick>
 
                     <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
-                        <span>{truncateZeroDecimal(BigNumber(currentPairData.ticks[0].volume).toFormat(pricePrecision))}</span>
+                        <span>{currentPairData.ticks[0].volume}</span>
                       </div>
                     </VolumeTick>
                   </TokenTick>)
