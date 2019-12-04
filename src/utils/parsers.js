@@ -2,7 +2,7 @@
 import { utils } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
-import { isFloat, isInteger, round, computeChange } from './helpers'
+import { isFloat, isInteger, round, computeChange, calcPrecision } from './helpers'
 
 import {
   pricePrecision,
@@ -342,36 +342,6 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   })
 
   return parsed
-}
-
-export const calcPrecision = (price: number) => {
-  const totalPresision = 8
-  let pricePrecision, amountPrecision
-
-  switch (true) {
-    case (price >= 50):
-      pricePrecision = 2
-      amountPrecision = totalPresision - pricePrecision
-      break
-    case (price >= 1):
-      pricePrecision = 4
-      amountPrecision = totalPresision - pricePrecision
-      break
-    case (price >= 0.1):
-      pricePrecision = 5
-      amountPrecision = totalPresision - pricePrecision
-      break
-    case (price >= 0.001):
-      pricePrecision = 6
-      amountPrecision = totalPresision - pricePrecision
-      break
-    default:
-      pricePrecision = 8
-      amountPrecision = totalPresision - pricePrecision
-      break
-  }
-
-  return { pricePrecision, amountPrecision }
 }
 
 

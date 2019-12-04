@@ -288,3 +288,36 @@ export const isMobile = () => {
 export const isTomoWallet = () => {
   return window.web3 && window.web3.currentProvider && window.web3.currentProvider.isTomoWallet
 }
+
+export const calcPrecision = (price: number) => {
+  const totalPrecision = 8
+  let pricePrecision = 4
+  let amountPrecision = totalPrecision - pricePrecision
+
+  if (!price) return {totalPrecision}
+
+  switch (true) {
+    case (price >= 50):
+      pricePrecision = 2
+      amountPrecision = totalPrecision - pricePrecision
+      break
+    case (price >= 1):
+      pricePrecision = 4
+      amountPrecision = totalPrecision - pricePrecision
+      break
+    case (price >= 0.1):
+      pricePrecision = 5
+      amountPrecision = totalPrecision - pricePrecision
+      break
+    case (price >= 0.001):
+      pricePrecision = 6
+      amountPrecision = totalPrecision - pricePrecision
+      break
+    default:
+      pricePrecision = 8
+      amountPrecision = totalPrecision - pricePrecision
+      break
+  }
+
+  return { pricePrecision, amountPrecision }
+}
