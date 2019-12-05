@@ -504,7 +504,7 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
 const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
-    const { pairs } = socketControllerSelector(state)
+    const { pairs, currentPairData } = socketControllerSelector(state)
 
     if (event.type === 'ERROR' || !event.payload) return
     if (event.payload.length === 0) return
@@ -512,15 +512,22 @@ const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
     let trades = event.payload
     const { pairName } = trades[0]
     const pair = pairs[pairName]
+    let pricePrecision = 4
+    let amountPrecision = 4
+
+    if (currentPairData) {
+      pricePrecision = currentPairData.pricePrecision
+      amountPrecision = currentPairData.amountPrecision
+    }
 
     try {
       switch (event.type) {
         case 'INIT':
-          trades = parseTrades(trades, pair)
+          trades = parseTrades(trades, pair, amountPrecision, pricePrecision)
           dispatch(actionCreators.initTradesTable(trades))
           break
         case 'UPDATE':
-          trades = parseTrades(trades, pair)
+          trades = parseTrades(trades, pair, amountPrecision, pricePrecision)
           dispatch(actionCreators.updateTradesTable(trades))
           break
         default:

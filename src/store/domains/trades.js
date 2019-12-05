@@ -153,8 +153,8 @@ export default function tradesDomain(state: TradesState) {
 
         return {
           ...trade,
-          amount: BigNumber(trade.amount).toFormat(amountPrecision),
-          price: BigNumber(trade.price).toFormat(pricePrecision),
+          amount: trade.amount,
+          price: trade.price,
         }
       })
 

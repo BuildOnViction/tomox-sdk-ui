@@ -13,6 +13,8 @@ type Props = {
   trades: Array<Trade>,
 };
 
+const columnWidth = ['30%', '30%', '40%']
+
 const TradesTableRenderer = (props: Props) => {
   const {
     trades,
@@ -44,13 +46,13 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
       <ListHeader className="header">
         <HeadingRow>
           <HeaderCell 
-            width="33%"
+            width={columnWidth[0]}
             textAlign="left"><FormattedMessage id="exchangePage.time" /></HeaderCell>
           <HeaderCell 
-            width="34%"
-            textAlign="center"><FormattedMessage id="exchangePage.price" /></HeaderCell>
+            width={columnWidth[1]}
+            textAlign="right"><FormattedMessage id="exchangePage.price" /></HeaderCell>
           <HeaderCell 
-            width="33%"
+            width={columnWidth[2]}
             textAlign="right"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         </HeadingRow>
       </ListHeader>
@@ -58,19 +60,19 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
         {trades.map((trade, index) => (
           <Row key={index}>
             <Cell 
-              width="33%"
+              width={columnWidth[0]}
               textAlign="left">
               {formatDate(trade.time, 'HH:mm:ss')}
             </Cell>
             <Cell
-              width="34%"
-              textAlign="left"
+              width={columnWidth[1]}
+              textAlign="right"
               className={trade.side === 'BUY' ? 'up' : 'down'}>
               <Ellipsis>{trade.price}</Ellipsis>
             </Cell>
             <Cell 
               textAlign="right"
-              width="33%">
+              width={columnWidth[2]}>
               <Ellipsis>{trade.amount}</Ellipsis>
             </Cell>
           </Row>
@@ -146,7 +148,7 @@ const Row = styled.li.attrs({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5px 10px 3.5px 0 !important;
+  padding: 3.5px 6px 3.5px 0 !important;
   cursor: default;
   font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
