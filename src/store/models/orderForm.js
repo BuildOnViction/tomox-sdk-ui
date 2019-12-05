@@ -32,8 +32,6 @@ export default function getOrderFormSelector(state: State) {
   const {
     baseTokenSymbol,
     quoteTokenSymbol,
-    makeFee,
-    takeFee,
     baseTokenDecimals,
     quoteTokenDecimals,
   } = currentPair
@@ -45,8 +43,6 @@ export default function getOrderFormSelector(state: State) {
   const loading = orderDomain.loading()
   const baseTokenBalance = baseToken.availableBalance || 0
   const quoteTokenBalance = quoteToken.availableBalance || 0
-  const pairIsAllowed = baseToken.allowed && quoteToken.allowed
-  const pairAllowanceIsPending = baseToken.allowancePending || quoteToken.allowancePending
   const fee = accountDomain.fee()
 
   return {
@@ -59,10 +55,6 @@ export default function getOrderFormSelector(state: State) {
     quoteTokenBalance,
     baseTokenDecimals,
     quoteTokenDecimals,
-    makeFee,
-    takeFee,
-    pairIsAllowed,
-    pairAllowanceIsPending,
     authenticated,
     loading,
     fee,
@@ -142,39 +134,5 @@ export const sendNewOrder = (side: Side, type: OrderType,amount: number, price: 
 export const redirectToLoginPage = (): ThunkAction => {
   return async (dispatch, getState) => {
     dispatch(push('/unlock'))
-  }
-}
-
-export function unlockPair(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
-  return async (dispatch, getState, { txProvider }) => {
-
-    try {
-      const state = getState()
-      const tokens = getTokenDomain(state).bySymbol()
-      const baseTokenAddress = tokens[baseTokenSymbol].address
-      const quoteTokenAddress = tokens[quoteTokenSymbol].address
-
-      const txSentHandler = (txHash1, txHash2) => {
-        const tx1 = { type: 'Token Unlocked', hash: txHash1, time: Date.now(), status: 'PENDING' }
-        const tx2 = { type: 'Token Unlocked', hash: txHash2, time: Date.now(), status: 'PENDING' }
-
-        dispatch(actionCreators.unlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2))
-      }
-
-      const txConfirmHandler = (txConfirmed, txHash1, txHash2) => {
-        const tx1 = { type: 'Token Unlocked', hash: txHash1, time: Date.now(), status: 'CONFIRMED' }
-        const tx2 = { type: 'Token Unlocked', hash: txHash2, time: Date.now(), status: 'CONFIRMED' }
-        const errorMessage = `Approval failed. Please try again`
-
-        txConfirmed
-          ? dispatch(actionCreators.confirmUnlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2))
-          : dispatch(actionCreators.errorUnlockPair(baseTokenSymbol, quoteTokenSymbol, tx1, tx2, errorMessage))
-      }
-
-      txProvider.updatePairAllowances(baseTokenAddress, quoteTokenAddress, txConfirmHandler, txSentHandler)
-    } catch (e) {
-      console.log(e)
-      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
-    }
   }
 }

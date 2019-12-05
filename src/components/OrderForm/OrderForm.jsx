@@ -6,7 +6,7 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { pricePrecision, amountPrecision } from '../../config/tokens'
+import { pricePrecision as defaulPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
 
 BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
 
@@ -22,9 +22,6 @@ type Props = {
   quoteTokenDecimals: number,
   fee: number,
   authenticated: boolean,
-  pairIsAllowed: boolean,
-  pairAllowanceIsPending: boolean,
-  unlockPair: (string, string) => void,
   sendNewOrder: (string, number, number) => void,
 }
 
@@ -68,8 +65,10 @@ class OrderForm extends React.PureComponent<Props, State> {
     sellAmount: '',
     buyTotal: '',
     sellTotal: '',
-    priceStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
-    amountStep: toDecimalFormString(1/Math.pow(10, amountPrecision)),
+    pricePrecision: defaulPricePrecision,
+    amountPrecision: defaultAmountPrecision,
+    priceStep: toDecimalFormString(1/Math.pow(10, defaulPricePrecision)),
+    amountStep: toDecimalFormString(1/Math.pow(10, defaultAmountPrecision)),
     errorBuy: null,
     errorSell: null,
     isShowBuyMaxAmount: false,
@@ -87,6 +86,17 @@ class OrderForm extends React.PureComponent<Props, State> {
     const currSelectedOrder = this.props.selectedOrder
     const { currentPairData } = this.props
     const { dirtyPriceForm } = this.state
+
+    if ((currentPairData && this.props.currentPairData.pricePrecision !== this.state.pricePrecision)) {
+      const { pricePrecision, amountPrecision } = currentPairData
+
+      this.setState({
+        pricePrecision,
+        amountPrecision,
+        priceStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
+        amountStep: toDecimalFormString(1/Math.pow(10, amountPrecision)),
+      })
+    }
 
     if (prevProps.currentPair.pair !== this.props.currentPair.pair) {
       this.setState({dirtyPriceForm: false})
@@ -124,30 +134,33 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   onInputChange = (side: SIDE = 'BUY', { target }: Object) => {
     const { authenticated } = this.props
+    const { pricePrecision, amountPrecision } = this.state
     let { value } = target
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
     value = value.match(/^0[1-9]/g) ? value.replace(/^0/, '') : value
     value = value.match(/^\.[1-9]*/g) ? value.replace(/^./, '0.') : value
     value = value.match(/^[0-9]*\.[0-9]*\.$/g) ? value.replace(/.$/, '') : value
-    const regex = /^[0-9]*\.[0-9]{8,}$/g
-    if (regex.test(value)) return
 
     switch (target.name) {
-      case 'stopPrice':
-        this.handleStopPriceChange(value)
-        break
+      // case 'stopPrice':
+      //   this.handleStopPriceChange(value)
+      //   break
       case 'price':
+        const pricePattern = new RegExp(`^[0-9]*.[0-9]{${pricePrecision + 1},}$`, 'g')
+        if (pricePattern.test(value)) return
         this.handlePriceChange(value, side)
-        break
-      case 'total':
-        this.handleTotalChange(value, side)
-        break
+        break      
       case 'amount':
+        const amountPattern = new RegExp(`^[0-9]*.[0-9]{${amountPrecision + 1},}$`, 'g')
+        if (amountPattern.test(value)) return
         this.handleAmountChange(value, side)
         break
       case 'fraction':
         authenticated && this.handleUpdateAmountFraction(value, side)
+        break
+      case 'total':
+        this.handleTotalChange(value, side)
         break
       default:
         break
@@ -172,6 +185,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleUpdateAmountFraction = (fraction: string, side: SIDE) => {
+    const { pricePrecision, amountPrecision } = this.state
     const { quoteTokenBalance, baseTokenBalance, authenticated, fee } = this.props
     if (!authenticated) return
 
@@ -215,6 +229,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handlePriceChange = (price: string, side: SIDE) => {
     this.resetErrorObject(side)
+    const { pricePrecision } = this.state
 
     if (side === 'BUY') {
       const { buyAmount } = this.state
@@ -266,7 +281,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleAmountChange = (amount: string, side: SIDE) => {
     this.resetErrorObject(side)
-    const { selectedTabId } = this.state
+    const { selectedTabId, pricePrecision } = this.state
 
     if (side === 'BUY') {
       const { buyPrice, stopPrice } = this.state
@@ -315,7 +330,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleTotalChange = (total: string, side: SIDE) => {
     this.resetErrorObject(side)
-    const { sellPrice, buyPrice } = this.state
+    const { sellPrice, buyPrice, amountPrecision } = this.state
 
     if (side === 'BUY') {
       let bigBuyTotal = BigNumber(total)
@@ -377,6 +392,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyAmount, 
         sellAmount, 
         priceStep,
+        pricePrecision,
       },
       buyPriceInput,
       sellPriceInput,
@@ -435,6 +451,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyAmount, 
         sellAmount, 
         priceStep,
+        pricePrecision,
       },
       buyPriceInput,
       sellPriceInput,
@@ -491,6 +508,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyPrice, 
         sellPrice, 
         amountStep,
+        amountPrecision,
       },
       buyAmountInput,
       sellAmountInput,
@@ -549,6 +567,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         buyPrice, 
         sellPrice, 
         amountStep,
+        amountPrecision,
       }, 
       buyAmountInput, 
       sellAmountInput,
@@ -717,6 +736,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         errorSell,
         isShowBuyMaxAmount,
         isShowSellMaxAmount,
+        amountPrecision,
       },
       props: {
         baseTokenSymbol,

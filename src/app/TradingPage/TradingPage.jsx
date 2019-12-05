@@ -61,11 +61,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
   render() {
     const { quoteTokenSymbol } = this.props
-    // if (!isInitiated) return null
 
     return (
       <Container flow="column" 
-        columns={"7.5fr minmax(520px, 4.5fr)"} 
+        columns={"1fr 600px"} 
         gap="10px" 
         height="100%">
         <Grid flow="row" 
@@ -119,7 +118,6 @@ const OrderbooxTradesGrid = styled(Grid).attrs({
 })`
   box-shadow: 0 0 0 1px ${props => props.theme.border};
   padding: 10px 0;
-  min-width: 650px;
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       grid-auto-flow: row;
