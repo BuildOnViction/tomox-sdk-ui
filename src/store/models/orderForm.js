@@ -1,7 +1,6 @@
 // @flow
 import * as notifierActionCreators from '../actions/app'
 import * as ordersActionCreators from '../actions/orders'
-import * as actionCreators from '../actions/orderForm'
 import * as orderActionsCreators from '../actions/orders'
 
 import {
@@ -9,7 +8,6 @@ import {
   getOrderBookDomain,
   getAccountBalancesDomain,
   getAccountDomain,
-  getTokenDomain,
   getOrdersDomain,
 } from '../domains/'
 

@@ -13,11 +13,13 @@ export default function ordersTableSelector(state: State) {
   const orders = getOrdersDomain(state).lastOrders(100)
   const trades = getTradesDomain(state).userTrades(address)
   const currentPair = getTokenPairsDomain(state).getCurrentPair()
+  const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
 
   return {
     orders,
     trades,
     currentPair,
+    currentPairData,
     authenticated,
   }
 }

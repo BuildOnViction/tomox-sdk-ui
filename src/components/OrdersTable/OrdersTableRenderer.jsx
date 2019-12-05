@@ -14,7 +14,7 @@ import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../Common'
-import { formatDate, capitalizeFirstLetter, truncateZeroDecimal } from '../../utils/helpers'
+import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
@@ -70,6 +70,8 @@ const OrdersTableRenderer = (props: Props) => {
     isHideOtherPairs,
     handleChangeHideOtherPairs,
     authenticated,
+    pricePrecision,
+    amountPrecision,
   } = props
 
   return (
@@ -90,6 +92,8 @@ const OrdersTableRenderer = (props: Props) => {
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['processing'])}
               authenticated={authenticated}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
             />
           }
         />
@@ -106,6 +110,8 @@ const OrdersTableRenderer = (props: Props) => {
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['finished'])}
               authenticated={authenticated}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
             />
           }
         />
@@ -122,6 +128,8 @@ const OrdersTableRenderer = (props: Props) => {
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(trades)}
               authenticated={authenticated}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
             />
           }
         />
@@ -156,6 +164,8 @@ const OrdersTablePanel = (props: {
     handleChangeHideOtherPairs, 
     hasScrollBar,
     authenticated,
+    pricePrecision,
+    amountPrecision,
   } = props
   
   if (loading) return <Loading />
@@ -168,7 +178,9 @@ const OrdersTablePanel = (props: {
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
                 hasScrollBar={hasScrollBar}
-                authenticated={authenticated} />)
+                authenticated={authenticated}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     case 'order-history':
       return (<OrderHistoryTable 
                 orders={orders} 
@@ -176,7 +188,9 @@ const OrdersTablePanel = (props: {
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
                 hasScrollBar={hasScrollBar}
-                authenticated={authenticated} />)
+                authenticated={authenticated}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     case 'trade-history':
       return (<TradeHistoryTable 
                 orders={orders} 
@@ -184,7 +198,9 @@ const OrdersTablePanel = (props: {
                 isHideOtherPairs={isHideOtherPairs} 
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
                 hasScrollBar={hasScrollBar}
-                authenticated={authenticated} />)
+                authenticated={authenticated}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     default:
       return (<div></div>)
   }
@@ -212,7 +228,7 @@ const _noOrderRowsRenderer = () => {
   )
 }
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -231,13 +247,13 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumns[4]} title={order.price} muted>
-          {truncateZeroDecimal(order.price)}
+          {BigNumber(order.price).toFormat(pricePrecision)}
         </Cell>
         <Cell width={widthColumns[5]} muted>
-          {truncateZeroDecimal(order.amount)}
+          {BigNumber(order.amount).toFormat(amountPrecision)}
         </Cell>
         <Cell width={widthColumns[6]} muted>
-          {truncateZeroDecimal(order.total)}
+          {BigNumber(order.total).toFormat(pricePrecision)}
         </Cell>
         <Cell width={widthColumns[7]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
@@ -290,7 +306,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
   )
 }
 
-const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -309,13 +325,13 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
-          {truncateZeroDecimal(order.price)}
+          {BigNumber(order.price).toFormat(pricePrecision)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[5]} muted>
-          {truncateZeroDecimal(order.amount)}
+          {BigNumber(order.amount).toFormat(amountPrecision)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[6]} muted>
-          {truncateZeroDecimal(order.total)}
+          {BigNumber(order.total).toFormat(pricePrecision)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[7]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
@@ -374,7 +390,7 @@ const _noTradeRowsRenderer = () => {
   )
 }
 
-const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated}) => {
+const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
     
@@ -390,13 +406,13 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {ORDERTYPES[order.type] || ORDERTYPES['MO']}
         </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {truncateZeroDecimal(order.price)}
+          {BigNumber(order.price).toFormat(pricePrecision)}
         </Cell>
         <Cell width={widthColumnsTradeHistory[4]} muted>
-          {truncateZeroDecimal(order.amount)}
+          {BigNumber(order.amount).toFormat(amountPrecision)}
         </Cell>
         <Cell width={widthColumnsTradeHistory[5]} muted>
-          {truncateZeroDecimal(order.total)}
+          {BigNumber(order.total).toFormat(pricePrecision)}
         </Cell>
       </Row>
     )

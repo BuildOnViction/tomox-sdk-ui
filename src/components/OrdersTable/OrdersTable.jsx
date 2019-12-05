@@ -20,6 +20,17 @@ class OrdersTable extends React.PureComponent<Props, State> {
   state = {
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
+    pricePrecision: 4,
+    amountPrecision: 4,
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((this.props.currentPairData && this.props.currentPairData.pricePrecision !== this.state.pricePrecision)) {
+      this.setState({
+        pricePrecision: this.props.currentPairData.pricePrecision,
+        amountPrecision: this.props.currentPairData.amountPrecision,
+      })
+    }
   }
 
   changeTab = (tabId: string) => {
@@ -78,7 +89,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
   render() {
     const { authenticated, orders, cancelOrder } = this.props
-    const { selectedTabId, isHideOtherPairs } = this.state
+    const { selectedTabId, isHideOtherPairs, pricePrecision, amountPrecision } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
@@ -88,13 +99,14 @@ class OrdersTable extends React.PureComponent<Props, State> {
         loading={loading}
         selectedTabId={selectedTabId}
         onChange={this.changeTab}
-        toggleCollapse={this.toggleCollapse}
         authenticated={authenticated}
         cancelOrder={cancelOrder}
         orders={filteredOrders}
         trades={filteredTrades}
         isHideOtherPairs={isHideOtherPairs}
         handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
+        pricePrecision={pricePrecision}
+        amountPrecision={amountPrecision}
       />
     )
   }
