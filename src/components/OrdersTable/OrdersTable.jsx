@@ -25,7 +25,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
-    if ((this.props.currentPairData && this.props.currentPairData.pricePrecision !== this.state.pricePrecision)) {
+    if (this.props.currentPairData && (
+      this.props.currentPairData.pricePrecision !== this.state.pricePrecision
+      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,

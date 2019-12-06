@@ -87,7 +87,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { currentPairData } = this.props
     const { dirtyPriceForm } = this.state
 
-    if ((currentPairData && this.props.currentPairData.pricePrecision !== this.state.pricePrecision)) {
+    if (currentPairData && 
+      (this.props.currentPairData.pricePrecision !== this.state.pricePrecision
+      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
       const { pricePrecision, amountPrecision } = currentPairData
 
       this.setState({
@@ -147,12 +149,12 @@ class OrderForm extends React.PureComponent<Props, State> {
       //   this.handleStopPriceChange(value)
       //   break
       case 'price':
-        const pricePattern = new RegExp(`^[0-9]*.[0-9]{${pricePrecision + 1},}$`, 'g')
+        const pricePattern = new RegExp(`^[0-9]*\\.[0-9]{${pricePrecision + 1},}$`, 'g')
         if (pricePattern.test(value)) return
         this.handlePriceChange(value, side)
         break      
       case 'amount':
-        const amountPattern = new RegExp(`^[0-9]*.[0-9]{${amountPrecision + 1},}$`, 'g')
+        const amountPattern = new RegExp(`^[0-9]*\\.[0-9]{${amountPrecision + 1},}$`, 'g')
         if (amountPattern.test(value)) return
         this.handleAmountChange(value, side)
         break
