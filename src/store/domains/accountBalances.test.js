@@ -42,16 +42,17 @@ it('handles updated event properly', () => {
     },
   }
 
-  const expedted =  [
-    {"balance": "999,999,985,256.8846026", "symbol": "TOMO"}, 
-    {"balance": "999,981,000,000.3500000", "symbol": "BTC"}]
+  const expedted = [
+    {"balance": "999,999,985,256.88460258", "symbol": "TOMO"}, 
+    {"balance": "999,981,000,000.35000000", "symbol": "BTC"}
+  ]
 
   const domain = getDomain([
     eventCreators.initialized(),
     eventCreators.updated(data),
   ])
 
-  expect(domain.get('TOMO')).toEqual('999999985256.8846026')
-  expect(domain.get('BTC')).toEqual('999981000000.3500000')
+  expect(domain.get('TOMO')).toEqual('999999985256.88460258')
+  expect(domain.get('BTC')).toEqual('999981000000.35000000')
   expect(domain.balancesArray()).toEqual(expedted)
 })

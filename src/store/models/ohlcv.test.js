@@ -9,6 +9,7 @@ it('checks Initial Model return', async () => {
     noOfCandles: 150,
     currentTimeSpan: { name: '1 min', label: '1m', value: '1' },
     currentDuration: { name: '1 Day', label: '1d' },
+    loading: false,
   }
   const { store } = createStore()
   const defaultOHLCVDomain = getOHLCVModel(store.getState()).getState()
