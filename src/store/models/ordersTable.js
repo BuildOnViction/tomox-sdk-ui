@@ -29,10 +29,11 @@ export const cancelOrder = (hash: string): ThunkAction => {
     try {
       const state = getState()
       const order = getOrdersDomain(state).getOrderByHash(hash)
-      const signer = getSigner()
-      const userAddress = await signer.getAddress()
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
       order.nonce = await api.getOrderNonceByAddress(userAddress)
-      const orderCancelPayload = await signer.createOrderCancel(order)
+      const orderCancelPayload = await getSigner().createOrderCancel({...order, status: 'CANCELLED', userAddress, exchangeAddress})
 
       dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling order ...` }))
       socket.sendNewOrderCancelMessage(orderCancelPayload)

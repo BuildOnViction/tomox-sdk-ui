@@ -104,9 +104,8 @@ export default function ordersDomain(state: OrdersState) {
         const filled = order.filled
         const amount = order.amount
         const price = order.price
-        const cancellable =
-          order.status === 'OPEN' || order.status === 'PARTIAL_FILLED'
-        return { ...order, filledPercent, total, filled, amount, price, cancellable }
+        const cancelAble = (order.status === 'OPEN' || order.status === 'PARTIAL_FILLED') && (order.orderID !== '0')
+        return { ...order, filledPercent, total, filled, amount, price, cancelAble }
       })
 
       return orders

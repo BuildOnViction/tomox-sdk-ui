@@ -33,7 +33,7 @@ type Props = {
 }
 
 const STATUS = {
-  'NEW': <FormattedMessage id='exchangePage.new' />,
+  'ADDED': <FormattedMessage id='exchangePage.added' />,
   'OPEN': <FormattedMessage id='exchangePage.open' />,
   'PARTIAL_FILLED': <FormattedMessage id='exchangePage.partialFilled' />,
   'CANCELLED': <FormattedMessage id='exchangePage.cancelled' />,  
@@ -259,10 +259,12 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
         <Cell width={widthColumns[8]} muted>
-          <CancelIcon 
-            icon="cross" 
-            intent="danger" 
-            onClick={() => cancelOrder(order.hash)} />
+          {order.cancelAble && (
+            <CancelIcon 
+              icon="cross" 
+              intent="danger" 
+              onClick={() => cancelOrder(order.hash)} />
+          )}
         </Cell>
       </Row>
     )
