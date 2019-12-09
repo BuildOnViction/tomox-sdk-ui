@@ -138,6 +138,7 @@ export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: n
     pair: order.pairName,
     type: order.type,
     status: order.status,
+    orderID: order.orderID,
   }
 }
 

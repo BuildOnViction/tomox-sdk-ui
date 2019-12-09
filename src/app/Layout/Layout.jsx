@@ -930,12 +930,14 @@ const NavExternalLink = styled.a.attrs({
 `
 
 const MenuWallet = styled(Menu)`
-  width: 320px;
-  color: ${props => props.theme.menuColor};
-  background-color: ${props => props.theme.menuBg};
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
-  overflow: hidden;
-  margin-top: 10px;
+  &.bp3-menu {
+    width: 320px;
+    color: ${props => props.theme.menuColor};
+    background-color: ${props => props.theme.menuBg};
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
+    overflow: hidden;
+    margin-top: 10px;
+  }
 `
 
 const MenuItemTitle = styled.div`
