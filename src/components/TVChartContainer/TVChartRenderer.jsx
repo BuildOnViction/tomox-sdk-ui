@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { calcPrecision } from '../../utils/helpers'
+
 import './index.css'
 import Datafeed from './api/'
-
 
 function getLanguageFromURL() {
 	const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -14,19 +15,17 @@ export default class TVChartRenderer extends React.PureComponent {
 	static defaultProps = {
 		containerId: 'tv_chart_container',
 		libraryPath: '/charting_library/',
-		chartsStorageUrl: 'https://saveload.tradingview.com',
-		chartsStorageApiVersion: '1.1',
-		clientId: 'tradingview.com',
 		userId: 'public_user_id',
 		fullscreen: false,
 		autosize: true,
 		studiesOverrides: {},
-	};
+	}
 
 	createWidget() {
 		const { 
 			ohlcv: {
 				currentTimeSpan,
+				ohlcvData,
 			},
 			changeTimeSpan,
 			currentPair: { pair },
@@ -36,6 +35,7 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const { location: { origin } } = window
 		const custom_css_url = `${ origin }/tvchart.css`
+		const { pricePrecision } = calcPrecision(ohlcvData[ohlcvData.length - 1].close)
 
 		const widgetOptions = {
 			debug: false,
@@ -67,12 +67,12 @@ export default class TVChartRenderer extends React.PureComponent {
 			custom_css_url,
 			overrides: {
 				...modes[mode],
+				'mainSeriesProperties.minTick': `${Math.pow(10, pricePrecision)},1,false`,
 			},
 			time_frames: [],
 		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
-		window.tvWidget.latestBar = null
 
 		widget.onChartReady(() => {		
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
@@ -86,10 +86,13 @@ export default class TVChartRenderer extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
-		// if (window.tvWidget !== null) {
-		// 	window.tvWidget.remove()
-		// 	window.tvWidget = null
-		// }		
+		if (window.tvWidget !== null) {
+			window.tvWidget.onChartReady(() => {
+				window.tvWidget.latestBar = null
+				window.tvWidget.remove()
+				window.tvWidget = null
+			})
+		}		
 	}
 
 	render() {
