@@ -301,7 +301,7 @@ class Default extends React.PureComponent<Props, State> {
                     <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
-                        <span>{BigNumber(currentPairData.ticks[0].volume).toFormat(2)}</span>
+                        {currentPair && (<span>{BigNumber(currentPairData.ticks[0].volume).toFormat(2)} {currentPair.quoteTokenSymbol}</span>)}
                       </div>
                     </VolumeTick>
                   </TokenTick>)
@@ -794,15 +794,7 @@ const TokenTick = styled.div.attrs({
   "last-price change high low volume";
   color: ${props => props.theme.textSmallChart};
   font-size: ${Theme.FONT_SIZE_SM};
-  .tick {
-    margin-right: 50px;
-    &:last-child {
-      margin-right: 0;
-    }
-    span {
-      margin-right: 12px;
-    }
-  }
+
   .title {
     margin-bottom: 5px;
   }
@@ -831,6 +823,20 @@ const TokenTick = styled.div.attrs({
 `
 
 const Tick = styled.div`
+  margin-right: 50px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  span {
+    margin-right: 12px;
+  }
+
+  @media only screen and (max-width: 1300px) {
+    margin-right: 15px;
+  }
+
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       display: flex;

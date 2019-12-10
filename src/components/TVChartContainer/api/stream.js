@@ -6,7 +6,7 @@ export default {
     window.unsubscribe = store.subscribe(() => {
       const { ohlcv: { ohlcvData } } = store.getState()
 
-      if (ohlcvData && ohlcvData.length > 0 && window.tvWidget.latestBar) {
+      if (ohlcvData && (ohlcvData.length > 0) && window.tvWidget && window.tvWidget.latestBar) {
         const currLatestBar = ohlcvData.slice(-1)[0]
 
         if (currLatestBar.time >= window.tvWidget.latestBar.time) {
@@ -18,7 +18,6 @@ export default {
   },
   unsubscribeBars: function(uid) {
     window.unsubscribe()
-    window.tvWidget.latestBar = null
   }
 }
 
