@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 
 import { Loading, Centered, Theme, TmColors, Text, UtilityIcon } from '../Common'
 import { formatDate } from '../../utils/helpers'
@@ -16,13 +17,10 @@ type Props = {
 const columnWidth = ['30%', '30%', '40%']
 
 const TradesTableRenderer = (props: Props) => {
-  const {
-    trades,
-  } = props
 
   return (
     <Wrapper>
-      <MarketTradesPanel trades={trades} />
+      <MarketTradesPanel {...props} />
     </Wrapper>
   )
 }
@@ -37,7 +35,7 @@ const NoData = () => {
 }
 
 const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
-  const { trades } = props
+  const { trades, pricePrecision, amountPrecision } = props
   if (!trades) return <Loading />
   if (trades.length === 0) return <NoData />
 
@@ -68,12 +66,12 @@ const MarketTradesPanel = (props: { trades: Array<Trade> }) => {
               width={columnWidth[1]}
               textAlign="right"
               className={trade.side === 'BUY' ? 'up' : 'down'}>
-              <Ellipsis>{trade.price}</Ellipsis>
+              <Ellipsis>{BigNumber(trade.price).toFormat(pricePrecision)}</Ellipsis>
             </Cell>
             <Cell 
               textAlign="right"
               width={columnWidth[2]}>
-              <Ellipsis>{trade.amount}</Ellipsis>
+              <Ellipsis>{BigNumber(trade.amount).toFormat(amountPrecision)}</Ellipsis>
             </Cell>
           </Row>
         ))}
@@ -160,7 +158,8 @@ const Row = styled.li.attrs({
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       padding-left: 10px !important;
-    }
+    }import { pricePrecision } from '../../config/tokens';
+
   }
 `
 

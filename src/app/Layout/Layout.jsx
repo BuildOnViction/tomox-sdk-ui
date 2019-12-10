@@ -270,39 +270,39 @@ class Default extends React.PureComponent<Props, State> {
                   (<TokenTick>
                     <LastPriceTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
-                      <div className="price">
+                      <LastPriceContentTick className="price">
                         <span>{BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)}</span>
                         {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)}
-                      </div>
+                      </LastPriceContentTick>
                     </LastPriceTick>
 
                     <ChangeTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
-                      <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
+                      <ChangeContentTick className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
                         <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, currentPairData.pricePrecision)}</span>
                         <span>{getChangePercentText(currentPairData.change)}</span>
-                      </div>
+                      </ChangeContentTick>
                     </ChangeTick>
 
                     <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
-                      <div>
+                      <HighContentTick>
                         <span>{BigNumber(currentPairData.ticks[0].high).toFormat(currentPairData.pricePrecision)}</span>
-                      </div>
+                      </HighContentTick>
                     </HighTick>
 
                     <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
-                      <div>
+                      <LowContentTick>
                         <span>{BigNumber(currentPairData.ticks[0].low).toFormat(currentPairData.pricePrecision)}</span>
-                      </div>
+                      </LowContentTick>
                     </LowTick>
 
                     <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
-                      <div>
+                      <VolumeContentTick>
                         {currentPair && (<span>{BigNumber(currentPairData.ticks[0].volume).toFormat(2)} {currentPair.quoteTokenSymbol}</span>)}
-                      </div>
+                      </VolumeContentTick>
                     </VolumeTick>
                   </TokenTick>)
                 }
@@ -844,6 +844,10 @@ const Tick = styled.div`
   }
 `
 
+const ContentTick = styled.div`
+  font-family: "Ubuntu", sans-serif;
+`
+
 const LastPriceTick = styled(Tick).attrs({
   className: 'tick last-price',
 })`
@@ -857,11 +861,15 @@ const LastPriceTick = styled(Tick).attrs({
   }
 `
 
+const LastPriceContentTick = styled(ContentTick)``
+
 const ChangeTick = styled(Tick).attrs({
   className: 'tick change',
 })`
   grid-area: change;
 `
+
+const ChangeContentTick = styled(ContentTick)``
 
 const HighTick = styled(Tick).attrs({
   className: 'tick high',
@@ -869,17 +877,23 @@ const HighTick = styled(Tick).attrs({
   grid-area: high;
 `
 
+const HighContentTick = styled(ContentTick)``
+
 const LowTick = styled(Tick).attrs({
   className: 'tick low',
 })`
   grid-area: low;
 `
 
+const LowContentTick = styled(ContentTick)``
+
 const VolumeTick = styled(Tick).attrs({
   className: 'tick volume',
 })`
   grid-area: volume;
 `
+
+const VolumeContentTick = styled(ContentTick)``
 
 const SupportItem = styled.div`
   a {

@@ -185,8 +185,8 @@ export const parseTrade = (trade: Trade, pair: TokenPair, currAmountPrecision: n
 export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = (trades: any).map(trade => ({
     time: trade.createdAt,
-    price: parsePricepoint(trade.pricepoint, pair, currPricePrecision).toFixed(currPricePrecision),
-    amount: parseTokenAmount(trade.amount, pair, currAmountPrecision).toFixed(currAmountPrecision),
+    price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
     hash: trade.hash,
     txHash: trade.txHash,
     orderHash: trade.orderHash,
