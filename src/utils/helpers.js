@@ -2,6 +2,7 @@ import { utils } from 'ethers'
 import BigNumber from 'bignumber.js'
 import ethereum_address from 'ethereum-address'
 import { format, formatRelative } from 'date-fns'
+import { pricePrecision } from '../config/tokens'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -225,7 +226,7 @@ export const getChangePercentText = (change) => {
   return `${BigNumber(percent).toFormat(2)}%`
 }
 
-export const getChangePriceText: string = (open: string, close: string, precision: number) => {
+export const getChangePriceText: string = (open: string, close: string, precision: number = pricePrecision) => {
   const result = BigNumber(close).minus(open)
 
   if (result > 0) return `+${BigNumber(result).toFormat(precision)}`

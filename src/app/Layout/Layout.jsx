@@ -271,15 +271,15 @@ class Default extends React.PureComponent<Props, State> {
                     <LastPriceTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
                       <div className="price">
-                        <span>{currentPairData.price}</span>
-                        <span className="up">{referenceCurrency.symbol}{currentPairData.priceUsd}</span>
+                        <span>{BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)}</span>
+                        {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)}
                       </div>
                     </LastPriceTick>
 
                     <ChangeTick>
                       <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
                       <div className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
-                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, 2)}</span>
+                        <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, currentPairData.pricePrecision)}</span>
                         <span>{getChangePercentText(currentPairData.change)}</span>
                       </div>
                     </ChangeTick>
@@ -287,21 +287,21 @@ class Default extends React.PureComponent<Props, State> {
                     <HighTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
                       <div>
-                        <span>{currentPairData.ticks[0].high}</span>
+                        <span>{BigNumber(currentPairData.ticks[0].high).toFormat(currentPairData.pricePrecision)}</span>
                       </div>
                     </HighTick>
 
                     <LowTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
                       <div>
-                        <span>{currentPairData.ticks[0].low}</span>
+                        <span>{BigNumber(currentPairData.ticks[0].low).toFormat(currentPairData.pricePrecision)}</span>
                       </div>
                     </LowTick>
 
                     <VolumeTick>
                       <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
                       <div>
-                        <span>{currentPairData.ticks[0].volume}</span>
+                        <span>{BigNumber(currentPairData.ticks[0].volume).toFormat(2)}</span>
                       </div>
                     </VolumeTick>
                   </TokenTick>)
@@ -842,6 +842,7 @@ const LastPriceTick = styled(Tick).attrs({
   className: 'tick last-price',
 })`
   grid-area: last-price;
+  min-width: 120px;
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & .price > span:first-child {
