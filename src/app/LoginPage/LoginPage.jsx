@@ -31,7 +31,7 @@ class LoginPage extends React.PureComponent<Props, State> {
     } = this
 
     if (authenticated) {
-      return <Redirect to="/markets" />
+      return <Redirect to="/trade" />
     }
 
     return (
