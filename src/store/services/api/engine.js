@@ -1,5 +1,5 @@
 // @flow
-import { ENGINE_HTTP_URL } from '../../../config/environment'
+import { ENGINE_HTTP_URL, TOMOTOKENS_URL } from '../../../config/environment'
 import type { Token } from '../../types/tokens'
 import { utils } from 'ethers'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
@@ -324,6 +324,16 @@ export const fetchAccountInfo = async (address: string) => {
   return data
 }
 
+export const fetchVerifiedTokens = async () => {
+  try {
+    const res = await fetch(`${TOMOTOKENS_URL}/bridge.json`)
+    const data = await res.json()
+    return { data }
+  } catch (error) {
+    return { error }
+  }
+}
+
 export const createAccount = async (address: string) => {
   const response = await request(`/account/create?address=${address}`, {
     method: 'POST',
@@ -339,7 +349,6 @@ export const createAccount = async (address: string) => {
     throw new Error('Server error')
   }
 
-  console.log(data)
   return data
 }
 
@@ -524,25 +533,25 @@ export const getBalancesInOrders = async (address: string, tokens: Array<Object>
 
 export const getTokensAndPairs = async () => {
   try {
-    const tokensRaw = await fetchTokens()        
+    const tokensRaw = await fetchTokens()
+    const { data, error } = await fetchVerifiedTokens()    
+    const verifiedTokens = !error ? data : []
 
     const tokens = {}
     tokens[NATIVE_TOKEN_ADDRESS] = {
       "name": "Tomochain",
       "symbol": "TOMO",
       "decimals": 18,
-      "makeFee": "1",
-      "takeFee": "2",
     }
 
     for (let i = 0; i < tokensRaw.length; i++) {
       const address = tokensRaw[i].contractAddress.toLowerCase()
+
       tokens[address] = {
-      'name': tokensRaw[i].symbol,
-      'symbol': tokensRaw[i].symbol,
-      'decimals': tokensRaw[i].decimals,
-      'makeFee': tokensRaw[i].makeFee,
-      'takeFee': tokensRaw[i].takeFee,
+        'name': tokensRaw[i].symbol,
+        'symbol': tokensRaw[i].symbol,
+        'decimals': tokensRaw[i].decimals,
+        'verified': verifiedTokens.includes(address),
       }
     }
 
@@ -566,4 +575,3 @@ export const getTokensAndPairs = async () => {
     return ({ err })
   }
 }
-

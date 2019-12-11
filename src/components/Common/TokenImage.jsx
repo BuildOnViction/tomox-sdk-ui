@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import { TOMOTOKENS_URL } from '../../config/environment'
 import defaultTokenImageUrl from '../../assets/images/default_token_img.svg'
 
+const tokensUrl = TOMOTOKENS_URL + '/tokens'
 class TokenImage extends React.PureComponent {
     state = {
-        src: `${TOMOTOKENS_URL}/${this.props.tokenAddress}.png`,
+        src: `${tokensUrl}/${this.props.tokenAddress}.png`,
         size: this.props.size,
     }
 
@@ -14,7 +15,7 @@ class TokenImage extends React.PureComponent {
         if (prevProps.tokenAddress === this.props.tokenAddress && prevProps.size === this.props.size) return
 
         this.setState({
-            src: `${TOMOTOKENS_URL}/${this.props.tokenAddress}.png`,
+            src: `${tokensUrl}/${this.props.tokenAddress}.png`,
             size: this.props.size,
         })
     }

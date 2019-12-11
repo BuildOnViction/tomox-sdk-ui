@@ -13,7 +13,7 @@ export function generateTokens(addresses) {
         symbol: addresses.tokens[token].symbol,
         address: token,
         decimals: addresses.tokens[token].decimals,
-        image: null,
+        verified: addresses.tokens[token].verified,
       }
   }
 

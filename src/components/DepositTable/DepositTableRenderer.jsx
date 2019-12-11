@@ -159,7 +159,7 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, address }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, address, verified }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
@@ -183,13 +183,17 @@ const QuoteTokenRows = (props: Props) => {
                 <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                <FormattedMessage id="portfolioPage.deposit" />
-              </ExternalLink>
+              {verified && (
+                <React.Fragment>
+                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                    <FormattedMessage id="portfolioPage.deposit" />
+                  </ExternalLink>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                <FormattedMessage id="portfolioPage.withdrawal" />
-              </ExternalLink>
+                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                    <FormattedMessage id="portfolioPage.withdrawal" />
+                  </ExternalLink>
+                </React.Fragment>
+              )}              
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -208,7 +212,7 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, image, address }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, address, verified }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
@@ -231,14 +235,17 @@ const BaseTokenRows = (props: Props) => {
               <OperationButton onClick={() => redirectToTradingPage(symbol)}>
                 <FormattedMessage id="portfolioPage.trade" />
               </OperationButton>
+              {verified && (
+                <React.Fragment>
+                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                    <FormattedMessage id="portfolioPage.deposit" />
+                  </ExternalLink>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                <FormattedMessage id="portfolioPage.deposit" />
-              </ExternalLink>
-
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                <FormattedMessage id="portfolioPage.withdrawal" />
-              </ExternalLink>
+                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                    <FormattedMessage id="portfolioPage.withdrawal" />
+                  </ExternalLink>
+                </React.Fragment>
+              )}              
             </ButtonWrapper>
           </Cell>
         </Row>
