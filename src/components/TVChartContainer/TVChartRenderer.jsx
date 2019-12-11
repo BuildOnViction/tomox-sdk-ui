@@ -36,6 +36,9 @@ export default class TVChartRenderer extends React.PureComponent {
 		const { location: { origin } } = window
 		const custom_css_url = `${ origin }/tvchart.css`
 		const { pricePrecision } = calcPrecision(ohlcvData[ohlcvData.length - 1].close)
+		// Intl maybe incorrect depend browser and it's version
+		let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone
 
 		const widgetOptions = {
 			debug: false,
@@ -70,6 +73,7 @@ export default class TVChartRenderer extends React.PureComponent {
 				'mainSeriesProperties.minTick': `${Math.pow(10, pricePrecision)},1,false`,
 			},
 			time_frames: [],
+			timezone,
 		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
