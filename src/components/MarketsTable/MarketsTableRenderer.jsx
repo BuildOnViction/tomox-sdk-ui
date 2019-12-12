@@ -29,6 +29,7 @@ type Props = {
   tabs: Array<string>,
   quoteTokens: Array<string>,
   currentReferenceCurrency: string,
+  onChangeFilter: Function,
 };
 
 class MarketsTableRenderer extends React.PureComponent<Props> {
@@ -112,6 +113,9 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       handleChangeTab,
       tabs,
       loading,
+      onChangeFilter,
+      filter, 
+      order,
     } = this.props
 
     return (
@@ -144,12 +148,42 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
         <TableHeader>
           <TableHeaderCell width="25px"></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.pair" />}</SmallText></TableHeaderCell>
-          <TableHeaderCell width="25%"><SmallText muted>{<FormattedMessage id="marketsPage.lastPrice" />}</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hChange" />}</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hHigh" />}</SmallText></TableHeaderCell>
-          <TableHeaderCell><SmallText muted>{<FormattedMessage id="marketsPage.24hLow" />}</SmallText></TableHeaderCell>
-          <TableHeaderCell align="flex-end" flexGrow={2}><SmallText muted>{<FormattedMessage id="marketsPage.24hVolume" />}</SmallText></TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("pair")}>
+            <SmallText muted>{<FormattedMessage dataColumn="pair" id="marketsPage.pair" />}</SmallText>
+            {filter === 'pair' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("lastPrice")} width="25%">
+            <SmallText muted>{<FormattedMessage id="marketsPage.lastPrice" />}</SmallText>
+            {filter === 'lastPrice' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("change")}>
+            <SmallText muted>{<FormattedMessage id="marketsPage.24hChange" />}</SmallText>
+            {filter === 'change' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("high")}>
+            <SmallText muted>{<FormattedMessage id="marketsPage.24hHigh" />}</SmallText>
+            {filter === 'high' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("low")}>
+            <SmallText muted>{<FormattedMessage id="marketsPage.24hLow" />}</SmallText>
+            {filter === 'low' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
+          <TableHeaderCell onClick={() => onChangeFilter("volume")} align="flex-end" flexGrow={2}>
+            <SmallText muted>{<FormattedMessage id="marketsPage.24hVolume" />}</SmallText>
+            {filter === 'volume' && (
+              <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
+            )}
+          </TableHeaderCell>
         </TableHeader>
 
         <TableBody>
@@ -166,6 +200,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
                   noRowsRenderer={this.noRowsRenderer}
                   overscanRowCount={0}
                   pairs={pairs}
+                  filter={filter}
+                  order={order}
                 />
               )}
             </AutoSizer>
@@ -261,6 +297,13 @@ const TableHeaderCell = styled.div`
   width: ${props => props.width || '15%'};
   justify-content: ${({align}) => align || 'flex-start'};
   flex-grow: ${({flexGrow}) => flexGrow || 0};
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+
+  svg {
+    margin-left: 7px;
+  }
 `
 
 const Cell = styled.div`

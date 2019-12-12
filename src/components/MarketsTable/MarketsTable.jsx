@@ -4,6 +4,7 @@ import React from 'react'
 import MarketsTableRenderer from './MarketsTableRenderer'
 
 import type { TokenPair } from '../../types/tokens'
+import { sortTable } from '../../utils/helpers'
 
 type Props = {
   pairs: Array<TokenPair>,
@@ -26,6 +27,8 @@ class MarketsTable extends React.PureComponent<Props, State> {
   state = {
     searchInput: '',
     selectedTab: 'All',
+    filter: '',
+    order: 'asc',
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
@@ -37,7 +40,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
   }
 
   filterTokens = (pairs: Array<TokenPair>) => {
-    const { searchInput, selectedTab } = this.state
+    const { searchInput, selectedTab, filter, order } = this.state
 
     if (selectedTab.toLowerCase() !== 'all'
       && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
@@ -45,6 +48,8 @@ class MarketsTable extends React.PureComponent<Props, State> {
     if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
     
     pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
+
+    if (filter) pairs = sortTable(pairs, filter, order)
 
     return pairs
   }
@@ -54,6 +59,21 @@ class MarketsTable extends React.PureComponent<Props, State> {
 
     const { updateFavorite } = this.props
     updateFavorite(pair, favorited)
+  }
+
+  onChangeFilter = (column: string) => {
+    const { filter, order } = this.state
+
+    if (filter === column) {
+      this.setState({
+        order: (order === 'asc') ? 'des' : 'asc',
+      })
+    } else {
+      this.setState({
+        filter: column,
+        order: 'asc',
+      })
+    }
   }
 
   render() {
@@ -68,6 +88,8 @@ class MarketsTable extends React.PureComponent<Props, State> {
     const {
       searchInput,
       selectedTab,
+      filter,
+      order,
     } = this.state
 
     const filteredPairs = this.filterTokens(pairs)
@@ -86,6 +108,9 @@ class MarketsTable extends React.PureComponent<Props, State> {
         currentReferenceCurrency={currentReferenceCurrency}
         updateFavorite={this.handleFavoriteClick}
         loading={loading}
+        onChangeFilter={this.onChangeFilter}
+        filter={filter}
+        order={order}
       />
     )
   }

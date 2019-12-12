@@ -48,7 +48,7 @@ export const convertPricepointToPrice = (
 export const sortTable = (
   table,
   column,
-  order: (a, b) => number | string = 'order'
+  order: (a, b) => number | string = 'asc | des'
 ) => {
   const compareFn =
     typeof order === 'function' ? order : (a, b) => compare(a, b, order)
