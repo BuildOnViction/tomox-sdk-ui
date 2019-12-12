@@ -15,8 +15,7 @@ import {
   SmallText,
   TokenImage,
 } from '../Common'
-import { pricePrecision } from '../../config/tokens'
-import { getChangePercentText, truncateZeroDecimal } from '../../utils/helpers'
+import { getChangePercentText } from '../../utils/helpers'
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 
 type Props = {
@@ -54,6 +53,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       change,
       volume,
       favorited,
+      pricePrecision,
+      pricePrecisionUsd,
     } = pairs[index]
 
 
@@ -68,12 +69,12 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{(lastPrice !== null) ? truncateZeroDecimal(BigNumber(lastPrice).toFormat(pricePrecision)) : "N.A"}</ChangeCell>
+            <ChangeCell change={change}>{(lastPrice !== null) ? BigNumber(lastPrice).toFormat(pricePrecision) : "N.A"}</ChangeCell>
           </PriceNumber>
           <PriceNumber>
             <SmallText muted>
               {priceUsd && currentReferenceCurrency}
-              {priceUsd ? truncateZeroDecimal(BigNumber(priceUsd).toFormat(pricePrecision)) : "0"} 
+              {priceUsd ? BigNumber(priceUsd).toFormat(pricePrecisionUsd) : "0"} 
             </SmallText>
           </PriceNumber>
         </Cell>
@@ -83,13 +84,13 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             </ChangeCell>
         </Cell>
         <Cell>
-            {(high !== null) ? truncateZeroDecimal(BigNumber(high).toFormat(pricePrecision)): "N.A"}
+            {(high !== null) ? BigNumber(high).toFormat(pricePrecision): "N.A"}
         </Cell>
         <Cell>
-          {(low !== null) ? truncateZeroDecimal(BigNumber(low).toFormat(pricePrecision)) : "N.A"}
+          {(low !== null) ? BigNumber(low).toFormat(pricePrecision) : "N.A"}
         </Cell>
         <Cell align="flex-end" flexGrow={2}>
-          {(volume !== null) ? truncateZeroDecimal(BigNumber(volume).toFormat(pricePrecision)) : 'N.A'}
+          {(volume !== null) ? BigNumber(volume).toFormat(2) : 'N.A'}
         </Cell>
       </Row>
     )
