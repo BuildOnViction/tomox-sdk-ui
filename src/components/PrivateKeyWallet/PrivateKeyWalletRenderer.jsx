@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Label } from '@blueprintjs/core'
+import { Label, Spinner } from '@blueprintjs/core'
 
 import { TmColors, Theme, SmallText, ButtonLogin } from '../../components/Common'
 
@@ -14,6 +14,7 @@ type Props = {
     password: String,
     passwordStatus: String,
     handlePasswordChange: void => void,
+    loading: Boolean,
 }
 
 const PrivateKeyWalletRenderer = (props: Props) => {
@@ -26,6 +27,7 @@ const PrivateKeyWalletRenderer = (props: Props) => {
       password,
       passwordStatus,
       handlePasswordChange,
+      loading,
     } = props
   
     return (
@@ -45,6 +47,7 @@ const PrivateKeyWalletRenderer = (props: Props) => {
     
             <ButtonLogin onClick={unlockWallet} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>
                 <FormattedMessage id="unlockWalletPage.unlockWallet" />
+                {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}
             </ButtonLogin>
         </WalletWrapper>
     )

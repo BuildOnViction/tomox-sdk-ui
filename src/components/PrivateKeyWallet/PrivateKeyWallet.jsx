@@ -9,7 +9,6 @@ type State = {
     privateKey: string,
     password: string,
     passwordStatus: string,
-    loading: Boolean,
 }
 
 class PrivateKeyWallet extends React.PureComponent {
@@ -19,7 +18,6 @@ class PrivateKeyWallet extends React.PureComponent {
         privateKey: '',
         password: '',
         passwordStatus: 'initial',
-        loading: false,
     }
 
     handlePrivateKeyChange = (e) => {
@@ -87,6 +85,9 @@ class PrivateKeyWallet extends React.PureComponent {
                 password,
                 passwordStatus,
             },
+            props: {
+                loading,
+            },
             handlePrivateKeyChange,
             unlockWallet,
             unlockWalletByKeyPress,
@@ -102,7 +103,8 @@ class PrivateKeyWallet extends React.PureComponent {
                 unlockWalletByKeyPress={unlockWalletByKeyPress}
                 password={password}
                 passwordStatus={passwordStatus}
-                handlePasswordChange={handlePasswordChange} />
+                handlePasswordChange={handlePasswordChange}
+                loading={loading} />
         )
     }
 }

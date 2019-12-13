@@ -144,6 +144,9 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             placeholder="Search" 
             value={searchInput}
             onChange={handleSearchInputChange}
+            autoComplete="off"
+            id="search"
+            name="search"
           />
         </HeaderWrapper>
 

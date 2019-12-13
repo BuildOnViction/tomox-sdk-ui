@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Label } from '@blueprintjs/core'
+import { Label, Spinner } from '@blueprintjs/core'
 
 import { TmColors, Theme, SmallText, ButtonLogin } from '../../components/Common'
 
@@ -14,6 +14,7 @@ const MnemonicWalletRenderer = (props) => {
       password, 
       passwordStatus,
       handlePasswordChange,
+      loading,
     } = props
   
     return (
@@ -31,7 +32,10 @@ const MnemonicWalletRenderer = (props) => {
         <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>
         <Warning><FormattedMessage id="unlockWalletPage.notRecommended" /></Warning>
   
-        <ButtonLogin disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
+        <ButtonLogin disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWallet}>
+          <FormattedMessage id="unlockWalletPage.unlockWallet" />
+          {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}
+        </ButtonLogin>
       </WalletWrapper>
     )
 }

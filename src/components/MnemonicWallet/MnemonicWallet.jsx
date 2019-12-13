@@ -9,7 +9,6 @@ type State = {
     mnemonic: String,
     password: String,
     passwordStatus: String,
-    loading: Boolean,
 }
 
 class MnemonicWallet extends React.PureComponent {
@@ -19,7 +18,6 @@ class MnemonicWallet extends React.PureComponent {
         mnemonic: '',
         password: '',
         passwordStatus: 'initial',
-        loading: false,
     }
 
     handleMnemonicChange = (e) => {
@@ -81,7 +79,9 @@ class MnemonicWallet extends React.PureComponent {
                 password,
                 passwordStatus,
             },
-            
+            props: {
+                loading,
+            },
             unlockWalletWithMnemonic,
             handleMnemonicChange,
             handlePasswordChange,
@@ -95,7 +95,8 @@ class MnemonicWallet extends React.PureComponent {
                 unlockWallet={unlockWalletWithMnemonic}
                 password={password}
                 passwordStatus={passwordStatus}
-                handlePasswordChange={handlePasswordChange} />
+                handlePasswordChange={handlePasswordChange}
+                loading={loading} />
         )
     }    
 }
