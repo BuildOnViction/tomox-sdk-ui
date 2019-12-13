@@ -58,11 +58,11 @@ export const getMarketOrderHash = order => {
 }
 
 export const getOrderCancelHash = orderCancel => {
-  const {orderHash, nonce, userAddress, orderID, status, exchangeAddress} = orderCancel
+  const {orderHash, nonce, userAddress, orderID, status, exchangeAddress, baseTokenAddress, quoteTokenAddress} = orderCancel
 
   return utils.solidityKeccak256(
-    ['bytes', 'uint256', 'bytes', 'uint256', 'string', 'bytes'], 
-    [orderHash, nonce, userAddress, orderID, status, exchangeAddress]
+    ['bytes', 'uint256', 'bytes', 'uint256', 'string', 'bytes', 'bytes', 'bytes'], 
+    [orderHash, nonce, userAddress, orderID, status, exchangeAddress, baseTokenAddress, quoteTokenAddress]
   )
 }
 

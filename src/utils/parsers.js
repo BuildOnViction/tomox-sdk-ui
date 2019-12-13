@@ -139,6 +139,8 @@ export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: n
     type: order.type,
     status: order.status,
     orderID: order.orderID,
+    baseTokenAddress: order.baseToken,
+    quoteTokenAddress: order.quoteToken,
   }
 }
 
@@ -148,18 +150,9 @@ export const parseOrders = (orders: Orders, pairs: Object, currAmountPrecision: 
   orders.forEach(order => {
     const pair = pairs[order.pairName]
     if (pair) {
-      parsedOrders.push({
-        time: order.createdAt,
-        amount: parseTokenAmount(order.amount, pair, currAmountPrecision),
-        filled: parseTokenAmount(order.filledAmount, pair, currAmountPrecision),
-        price: parsePricepoint(order.pricepoint, pair, currPricePrecision),
-        hash: order.hash,
-        side: order.side,
-        pair: order.pairName,
-        type: order.type,
-        status: order.status,
-        orderID: order.orderID,
-      })
+      const orderParsed = parseOrder(order, pair, currAmountPrecision, currPricePrecision)
+
+      parsedOrders.push(orderParsed)
     }
   })
 
