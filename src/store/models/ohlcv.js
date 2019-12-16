@@ -2,7 +2,6 @@
 import { getTokenPairsDomain } from '../domains'
 import OHLCVModel from '../domains/ohlcv'
 import * as actionCreators from '../actions/ohlcv'
-import { timeSpans } from '../../components/TVChartContainer/TVChart'
 import type { SendTimelineParams } from '../../types/ohlcv'
 import type { State, ThunkAction } from '../../types'
 
@@ -117,7 +116,7 @@ function byDuration(duration) {
   }
 }
 
-function getDurationByTimeSpan(timeSpan) {
+export function getDurationByTimeSpan(timeSpan) {
   switch (timeSpan.label) {
     case '1m':
     case '5m':
@@ -132,8 +131,10 @@ function getDurationByTimeSpan(timeSpan) {
       return { name: '4 Month', label: '4M' }
     case '4h':
       return { name: '9 Month', label: '9M' }
+    case '1d':
     case '1D':
       return { name: '1 Year', label: '1Y' }
+    case '7d':
     case '1W': 
       return { name: '7 Year', label: '7Y' }
     default:
@@ -218,3 +219,17 @@ function timeToMinutes(time) {
       return 0
   }
 }
+
+export const timeSpans: Array<Object> = [
+  { name: '1 min', label: '1m', value: '1' },
+  { name: '5 min', label: '5m', value: '5' },
+  { name: '15 min', label: '15m', value: '15' },
+  { name: '30 min', label: '30m', value: '30' },
+  { name: '1 hr', label: '1h', value: '60' },
+  { name: '2 hr', label: '2h', value: '120' },
+  { name: '4 hr', label: '4h', value: '240' },
+  { name: '12 hr', label: '12h', value: '720' },
+  { name: '1 day', label: '1d', value: '1D' },
+  { name: '7 days', label: '7d', value: '1W' },
+  { name: '1 month', label: '1M', value: '1M' },
+].map((p, index) => ({ ...p, rank: index }))

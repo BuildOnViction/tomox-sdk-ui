@@ -78,7 +78,10 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
 
-		widget.onChartReady(() => {		
+		widget.onChartReady(() => {			
+			const template = JSON.parse(localStorage.getItem('tomo_latest_template'))
+			if (template) widget.chart().applyStudyTemplate(template)	
+
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
 				changeTimeSpan(interval)
 			})
@@ -92,6 +95,8 @@ export default class TVChartRenderer extends React.PureComponent {
 	componentWillUnmount() {
 		if (window.tvWidget !== null) {
 			window.tvWidget.onChartReady(() => {
+				const template = window.tvWidget.chart().createStudyTemplate({saveInterval: true})
+				localStorage.setItem('tomo_latest_template', JSON.stringify(template))
 				window.tvWidget.latestBar = null
 				window.tvWidget.remove()
 				window.tvWidget = null
