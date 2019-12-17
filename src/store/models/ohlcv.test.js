@@ -11,9 +11,27 @@ it('checks Initial Model return', async () => {
     currentDuration: { name: '1 Day', label: '1d' },
     loading: false,
   }
+  const expected = {
+    "_persist": {
+      "rehydrated": false,
+      "version": -1,
+    },
+    "currentDuration": {
+      "label": "1d",
+      "name": "1 Day",
+    },
+    "currentTimeSpan": {
+      "label": "1m",
+      "name": "1 min",
+      "value": "1",
+    },
+    "loading": false,
+    "noOfCandles": 150,
+    "ohlcvData": [],
+  }
   const { store } = createStore()
   const defaultOHLCVDomain = getOHLCVModel(store.getState()).getState()
-  expect(defaultOHLCVDomain).toEqual(initialState)
+  expect(defaultOHLCVDomain).toEqual(expected)
 })
 
 it('check updateTimeLine on Duration/Time change', async () => {
