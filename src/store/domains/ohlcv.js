@@ -1,6 +1,5 @@
 // @flow
 import type { OHLCVState } from '../../types/ohlcv'
-import { timeSpans, getDurationByTimeSpan } from "../models/ohlcv"
 
 const initialState: OHLCVState = {
   ohlcvData: [],
@@ -11,21 +10,7 @@ const initialState: OHLCVState = {
 }
 
 export const initialized = () => {
-  let event = (state: OHLCVState = initialState) => {
-    let newState = state
-    const template = JSON.parse(localStorage.getItem('tomo_latest_template'))
-
-    if (template) {
-      const currentTimeSpan = timeSpans.find(item => item.value === template.interval)
-      if (currentTimeSpan) {
-        const currentDuration = getDurationByTimeSpan(currentTimeSpan)
-
-        newState = {...newState, currentTimeSpan, currentDuration}
-      }
-    }  
-
-    return newState
-  }
+  const event = (state: OHLCVState = initialState) => state
 
   return event
 }

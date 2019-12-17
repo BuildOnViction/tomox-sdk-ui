@@ -155,7 +155,13 @@ export const websocket = createReducer(action => {
   }
 })
 
-export const ohlcv = createReducer(action => {
+export const ohlcv = createReducerPersist({
+    key: 'ohlcv',
+    keyPrefix: 'tomo:',
+    storage,
+    whitelist: ['currentTimeSpan', 'currentDuration'],
+  },
+  action => {
   const { type, payload } = action
   switch (type) {
     case socketControllerActionTypes.initOHLCV:
