@@ -276,7 +276,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
         change: datum.open ? computeChange(datum.open, datum.close) : null,
         high: datum.high ? parsePricepoint(datum.high, pair) : null,
         low: datum.low ? parsePricepoint(datum.low, pair) : null,
-        volume: datum.volume ? parseTokenAmount(datum.volume, pair) : null,
+        volume: datum.volume ? parsePricepoint(datum.volume, pair) : null,
       }
 
       if (pairFomatted.priceUsd === '0') delete pairFomatted.priceUsd
@@ -310,7 +310,7 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
         low: datum.low ? parsePricepoint(datum.low, pair) : null,
         open: datum.open ? parsePricepoint(datum.open, pair) : null,
         close: datum.close ? parsePricepoint(datum.close, pair) : null,
-        volume: datum.volume ? parseTokenAmount(datum.volume, pair) : null,
+        volume: datum.volume ? parsePricepoint(datum.volume, pair) : null,
       }
   })
 
