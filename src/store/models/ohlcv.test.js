@@ -4,6 +4,7 @@ import getOHLCVModel, { updateTimeLine } from './ohlcv'
 import { getOhlcvDomain } from '../domains'
 
 it('checks Initial Model return', async () => {
+  /*
   const initialState = {
     ohlcvData: [],
     noOfCandles: 150,
@@ -11,6 +12,7 @@ it('checks Initial Model return', async () => {
     currentDuration: { name: '1 Day', label: '1d' },
     loading: false,
   }
+  */
   const expected = {
     "_persist": {
       "rehydrated": false,

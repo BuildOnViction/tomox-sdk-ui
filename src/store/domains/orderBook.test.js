@@ -203,7 +203,7 @@ it('handles handles updated event properly', () => {
         "relativeTotal": 0.203125,
         "total": "256.00000000",
         "update": true,
-      }
+      },
     ],
     "bids": [
       {

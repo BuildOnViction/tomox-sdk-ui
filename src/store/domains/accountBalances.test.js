@@ -44,7 +44,7 @@ it('handles updated event properly', () => {
 
   const expedted = [
     {"balance": "999,999,985,256.88460258", "symbol": "TOMO"}, 
-    {"balance": "999,981,000,000.35000000", "symbol": "BTC"}
+    {"balance": "999,981,000,000.35000000", "symbol": "BTC"},
   ]
 
   const domain = getDomain([
