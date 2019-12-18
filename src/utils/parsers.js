@@ -281,7 +281,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
 
       if (pairFomatted.priceUsd === '0') delete pairFomatted.priceUsd
       const { pricePrecision, amountPrecision } = calcPrecision(pairFomatted.lastPrice)
-      const { pricePrecision: pricePrecisionUsd } = calcPrecision()
+      const { pricePrecision: pricePrecisionUsd } = calcPrecision(pairFomatted.priceUsd)
       pairFomatted.pricePrecision = pricePrecision
       pairFomatted.pricePrecisionUsd = pricePrecisionUsd
       pairFomatted.amountPrecision = amountPrecision
