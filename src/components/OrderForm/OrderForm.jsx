@@ -213,8 +213,11 @@ class OrderForm extends React.PureComponent<Props, State> {
       let bigBuyAmount = ''
 
       if (+fraction === 100) {
-        bigBuyAmount = BigNumber(quoteTokenBalance).div(BigNumber(1 + fee).times(buyPrice))
-        bigBuyTotal = bigBuyAmount.times(buyPrice)
+        const multiplier = Math.pow(10, 18)
+        const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
+        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(buyPrice)
+        bigBuyTotal = bigBuyTotalMultiplier.div(multiplier)      
+        bigBuyAmount = bigBuyAmountMultiplier.div(multiplier)
       } else {
         bigBuyAmount = bigBuyTotal.div(buyPrice)
       }

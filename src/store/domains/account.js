@@ -70,8 +70,9 @@ export const exchangeAddressUpdated = (exchangeAddress: string) => {
   return event
 }
 
+// Todo: need improve /info api to get correct fee
 export const exchangeFeeUpdated = (fee: string) => {
-  const exchangeFee = +fee/1000
+  const exchangeFee = 1/1000
 
   const event = (state: AccountState) => ({
     ...state,
