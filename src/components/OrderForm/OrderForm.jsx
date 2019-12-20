@@ -777,13 +777,14 @@ class OrderForm extends React.PureComponent<Props, State> {
     let sellMaxAmount = 0
 
     if (authenticated) {
-      if (unformat(buyPrice) & quoteTokenBalance) {
-        const formattedMakeFee = BigNumber(quoteTokenBalance).times(fee)
-        const maxQuoteTokenAmount = BigNumber(quoteTokenBalance).minus(formattedMakeFee)
-        buyMaxAmount = maxQuoteTokenAmount.div(buyPrice).toFixed(amountPrecision)
+      if (unformat(buyPrice) && quoteTokenBalance) {
+        const multiplier = Math.pow(10, 18)
+        const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
+        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(buyPrice)
+        buyMaxAmount = bigBuyAmountMultiplier.div(multiplier).toFormat(amountPrecision)
       }
 
-      sellMaxAmount = BigNumber(baseTokenBalance).toFixed(amountPrecision)
+      sellMaxAmount = BigNumber(baseTokenBalance).toFormat(amountPrecision)
     }
 
     return (
