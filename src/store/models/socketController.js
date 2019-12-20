@@ -567,7 +567,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
           break
         case 'UPDATE':
           ohlcv = parseOHLCV(ohlcv, pair)
-          if (window.onRealtimeCallback && (ohlcv[0].time > window.ohlcvLastBar.time)) {
+          if (window.onRealtimeCallback && (ohlcv[0].time >= window.ohlcvLastBar.time)) {
             window.onRealtimeCallback(ohlcv[0])
             window.ohlcvLastBar = ohlcv[0]
           }

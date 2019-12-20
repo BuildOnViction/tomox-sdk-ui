@@ -97,6 +97,9 @@ export default {
 
 		// call socket unsubscribe in here
 		socket.unsubscribeChart()
+		window.onHistoryCallback = null
+		window.onRealtimeCallback = null
+		window.ohlcvLastBar = null
 	},
 	calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
 		//optional
