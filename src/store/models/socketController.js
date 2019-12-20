@@ -558,11 +558,19 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
       switch (event.type) {
         case 'INIT':
           ohlcv = parseOHLCV(ohlcv, pair)
+          if (window.onHistoryCallback) {
+            window.onHistoryCallback(ohlcv)
+            window.ohlcvLastBar = ohlcv.slice(-1)[0]
+          }
           dispatch(actionCreators.initOHLCV(ohlcv))
           dispatch(actionCreators.updateOHLCVLoading(false))
           break
         case 'UPDATE':
           ohlcv = parseOHLCV(ohlcv, pair)
+          if (window.onRealtimeCallback && (ohlcv[0].time > window.ohlcvLastBar.time)) {
+            window.onRealtimeCallback(ohlcv[0])
+            window.ohlcvLastBar = ohlcv[0]
+          }
           dispatch(actionCreators.updateOHLCV(ohlcv))
           break
         default:

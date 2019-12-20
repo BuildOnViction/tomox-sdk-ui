@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import {
-  updateDuration,
   updateTimeSpan,
   resetOHLCVData,
 } from '../../store/models/ohlcv'
@@ -25,7 +24,6 @@ export const mapStateToProps = (state: State) => {
 }
 
 export const mapDispatchToProps = {
-  updateDuration,
   updateTimeSpan,
   resetOHLCVData,
 }

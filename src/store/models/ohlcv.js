@@ -45,16 +45,16 @@ export const updateTimeSpan = (
     dispatch(actionCreators.saveTimeSpan(currentTimeSpan))
     dispatch(updateTimeLine(config))
 
-    const state = getState()
-    const pairDomain = getTokenPairsDomain(state)
-    const currentPair = pairDomain.getCurrentPair()
+    // const state = getState()
+    // const pairDomain = getTokenPairsDomain(state)
+    // const currentPair = pairDomain.getCurrentPair()
 
-    dispatch(actionCreators.updateOHLCVLoading(true))
-    socket.subscribeChart(
-      currentPair,
-      state.ohlcv.currentTimeSpan.label,
-      state.ohlcv.currentDuration.label
-    )
+    // dispatch(actionCreators.updateOHLCVLoading(true))
+    // socket.subscribeChart(
+    //   currentPair,
+    //   state.ohlcv.currentTimeSpan.label,
+    //   state.ohlcv.currentDuration.label
+    // )
   }
 }
 

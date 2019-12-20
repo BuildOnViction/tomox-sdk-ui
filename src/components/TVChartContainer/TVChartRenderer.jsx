@@ -28,7 +28,7 @@ export default class TVChartRenderer extends React.PureComponent {
 				ohlcvData,
 			},
 			changeTimeSpan,
-			currentPair: { pair },
+			currentPair: { pair, baseTokenAddress, quoteTokenAddress },
 			mode,
 			modes,
 		} = this.props
@@ -42,7 +42,7 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: pair,
+			symbol: [pair, baseTokenAddress, quoteTokenAddress].join('-'),
 			datafeed: Datafeed,
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,

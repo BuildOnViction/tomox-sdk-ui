@@ -56,7 +56,7 @@ export default class TVChart extends React.PureComponent {
     }
     
     changeTimeSpan = (value: string) => {
-      this.props.resetOHLCVData()
+      // this.props.resetOHLCVData()
 
       const { ohlcv: { currentDuration }} = this.props
       const interval = timeSpans.find(item => {
@@ -72,7 +72,7 @@ export default class TVChart extends React.PureComponent {
 
     render() {
       const { currentPair: { pair }, ohlcv } = this.props
-      if (!pair || !ohlcv || ohlcv.loading) return <Loading />
+      if (!pair) return <Loading />
       if (ohlcv.ohlcvData.length === 0) return <NoData />
       
       return (
