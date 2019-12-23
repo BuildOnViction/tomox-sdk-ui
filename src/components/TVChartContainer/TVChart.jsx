@@ -72,8 +72,8 @@ export default class TVChart extends React.PureComponent {
 
     render() {
       const { currentPair: { pair }, ohlcv } = this.props
-      if (!pair) return <Loading />
-      if (ohlcv.ohlcvData.length === 0) return <NoData />
+      if (!pair || ohlcv.loading) return <Loading />
+      if (ohlcv.ohlcvData.length === 0 && !ohlcv.loading) return <NoData />
       
       return (
         <React.Fragment>

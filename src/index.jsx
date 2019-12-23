@@ -34,7 +34,6 @@ const render = async (AppComponent) => {
     generateTokens(addresses)
   }
   const { store, persistor } = configureStore()
-  window.store = store // for services of TVchart component
 
   return ReactDOM.render(
     <AppContainer>

@@ -10,6 +10,12 @@ function getLanguageFromURL() {
 	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
+const isExpired = (timestamp, expireDays) => {
+	const now = Date.now()
+	const expire = expireDays * 24 * 60 * 60 * 1000
+	return (now - timestamp) > expire
+}
+
 export default class TVChartRenderer extends React.PureComponent {
 
 	static defaultProps = {
@@ -39,6 +45,12 @@ export default class TVChartRenderer extends React.PureComponent {
 		// Intl maybe incorrect depend browser and it's version
 		let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone
+
+		let saved_data = JSON.parse(localStorage.getItem(`savedChart.${this.props.currentPair.pair}`))
+		if (saved_data && isExpired(saved_data.createdAt, 7)) {
+			saved_data = null
+			localStorage.removeItem(`savedChart.${this.props.currentPair.pair}`)
+		}
 
 		const widgetOptions = {
 			debug: false,
@@ -74,14 +86,12 @@ export default class TVChartRenderer extends React.PureComponent {
 			},
 			time_frames: [],
 			timezone,
+			saved_data,
 		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
 
-		widget.onChartReady(() => {			
-			const template = JSON.parse(localStorage.getItem('tomo_latest_template'))
-			if (template) widget.chart().applyStudyTemplate(template)	
-
+		widget.onChartReady(() => {
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
 				changeTimeSpan(interval)
 			})
@@ -94,10 +104,13 @@ export default class TVChartRenderer extends React.PureComponent {
 
 	componentWillUnmount() {
 		if (window.tvWidget !== null) {
-			window.tvWidget.onChartReady(() => {
-				const template = window.tvWidget.chart().createStudyTemplate({saveInterval: true})
-				localStorage.setItem('tomo_latest_template', JSON.stringify(template))
-				window.tvWidget.latestBar = null
+			window.tvWidget.onChartReady(_ => {
+				window.tvWidget.save(data => {
+					localStorage.setItem(
+						`savedChart.${this.props.currentPair.pair}`, 
+						JSON.stringify({...data, createdAt: Date.now()})
+					)
+				})
 				window.tvWidget.remove()
 				window.tvWidget = null
 			})

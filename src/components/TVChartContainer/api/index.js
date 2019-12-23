@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-import stream from './stream'
 import { socket } from '../../../store/services'
 import { timeSpans, getDurationByTimeSpan } from '../../../store/models/ohlcv'
 
@@ -54,17 +52,6 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		
-		// const store = window.store
-
-		// if (firstDataRequest) {
-		// 	const { ohlcv: { ohlcvData } } = store.getState()	
-		// 	onHistoryCallback(ohlcvData, {noData: false})
-		// 	window.tvWidget.latestBar = JSON.parse(JSON.stringify(ohlcvData.slice(-1)[0]))
-		// } else {
-		// 	onHistoryCallback([], {noData: true})
-		// }
-
-		// call socket subscribe in here
 		if (firstDataRequest) {
 			const [pair, baseTokenAddress, quoteTokenAddress] = symbolInfo.name.split('-')
 			const { interval } = window.tvWidget.symbolInterval()
@@ -87,15 +74,11 @@ export default {
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
 		// console.log('=====subscribeBars runnning')
-		// stream.subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback)
 		window.onRealtimeCallback = onRealtimeCallback
 	},
 	unsubscribeBars: subscriberUID => {
 		// console.log('=====unsubscribeBars running')
 
-		// stream.unsubscribeBars(subscriberUID)
-
-		// call socket unsubscribe in here
 		socket.unsubscribeChart()
 		window.onHistoryCallback = null
 		window.onRealtimeCallback = null
