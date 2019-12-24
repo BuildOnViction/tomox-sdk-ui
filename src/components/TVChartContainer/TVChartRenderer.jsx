@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { calcPrecision } from '../../utils/helpers'
 
 import './index.css'
 import Datafeed from './api/'
@@ -31,17 +30,15 @@ export default class TVChartRenderer extends React.PureComponent {
 		const { 
 			ohlcv: {
 				currentTimeSpan,
-				ohlcvData,
 			},
 			changeTimeSpan,
-			currentPair: { pair, baseTokenAddress, quoteTokenAddress },
+			currentPair: { pair, baseTokenAddress, quoteTokenAddress, pricePrecision },
 			mode,
 			modes,
 		} = this.props
 
 		const { location: { origin } } = window
 		const custom_css_url = `${ origin }/tvchart.css`
-		const { pricePrecision } = calcPrecision(ohlcvData[ohlcvData.length - 1].close)
 		// Intl maybe incorrect depend browser and it's version
 		let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone

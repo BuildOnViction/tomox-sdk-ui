@@ -61,7 +61,7 @@ export const queryTradingPageData = (): ThunkAction => {
 
       // Unsubscribe socket when change current pair
       socket.unSubscribePrice()
-      socket.unsubscribeChart()
+      // socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()      
 
@@ -97,12 +97,12 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
-      dispatch(actionCreators.updateOHLCVLoading(true))
-      socket.subscribeChart(
-        currentPair,
-        state.ohlcv.currentTimeSpan.label,
-        state.ohlcv.currentDuration.label,
-      )
+      // dispatch(actionCreators.updateOHLCVLoading(true))
+      // socket.subscribeChart(
+      //   currentPair,
+      //   state.ohlcv.currentTimeSpan.label,
+      //   state.ohlcv.currentDuration.label,
+      // )
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))

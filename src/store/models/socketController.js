@@ -540,6 +540,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
 
     if (event.type === 'ERROR' || !event.payload) return
     if (event.payload.length === 0) {
+      if (window.onHistoryCallback) window.onHistoryCallback([], {noData: true})
       dispatch(actionCreators.initOHLCV([]))
       dispatch(actionCreators.updateOHLCVLoading(false))
       return
@@ -559,7 +560,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
         case 'INIT':
           ohlcv = parseOHLCV(ohlcv, pair)
           if (window.onHistoryCallback) {
-            window.onHistoryCallback(ohlcv)
+            window.onHistoryCallback(ohlcv, {noData: false})
             window.ohlcvLastBar = ohlcv.slice(-1)[0]
           }
           dispatch(actionCreators.initOHLCV(ohlcv))

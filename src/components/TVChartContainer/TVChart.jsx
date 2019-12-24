@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { FormattedMessage } from 'react-intl'
 
-import { TmColors, Centered, Text, UtilityIcon, Loading } from '../Common'
+import { Loading } from '../Common'
 import TVChartRenderer from './TVChartRenderer'
 import { timeSpans } from '../../store/models/ohlcv'
 
@@ -34,15 +33,6 @@ const modes = {
   },
 }
 
-const NoData = () => {
-  return (
-    <Centered my={4}>
-      <UtilityIcon name="not-found" width={32} height={32} />
-      <Text sm={true} color={TmColors.GRAY}><FormattedMessage id="exchangePage.noData" />.</Text>
-    </Centered>
-  )
-}
-
 export default class TVChart extends React.PureComponent {    
 
     componentDidUpdate(prevProps) {
@@ -56,8 +46,6 @@ export default class TVChart extends React.PureComponent {
     }
     
     changeTimeSpan = (value: string) => {
-      // this.props.resetOHLCVData()
-
       const { ohlcv: { currentDuration }} = this.props
       const interval = timeSpans.find(item => {
         return item.value === value
@@ -71,9 +59,8 @@ export default class TVChart extends React.PureComponent {
     }
 
     render() {
-      const { currentPair: { pair }, ohlcv } = this.props
-      if (!pair || ohlcv.loading) return <Loading />
-      if (ohlcv.ohlcvData.length === 0 && !ohlcv.loading) return <NoData />
+      const { currentPair: { pair, pricePrecision }} = this.props
+      if (!pair || !pricePrecision) return <Loading />
       
       return (
         <React.Fragment>

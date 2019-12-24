@@ -39,22 +39,10 @@ export const updateTimeSpan = (
   config: Object
 ): ThunkAction => {
   return (dispatch, getState, { socket }) => {
-    socket.unsubscribeChart()
     const durationByTimeSpan = getDurationByTimeSpan(currentTimeSpan)
     dispatch(actionCreators.saveDuration(durationByTimeSpan))
     dispatch(actionCreators.saveTimeSpan(currentTimeSpan))
     dispatch(updateTimeLine(config))
-
-    // const state = getState()
-    // const pairDomain = getTokenPairsDomain(state)
-    // const currentPair = pairDomain.getCurrentPair()
-
-    // dispatch(actionCreators.updateOHLCVLoading(true))
-    // socket.subscribeChart(
-    //   currentPair,
-    //   state.ohlcv.currentTimeSpan.label,
-    //   state.ohlcv.currentDuration.label
-    // )
   }
 }
 
