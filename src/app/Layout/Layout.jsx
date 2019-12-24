@@ -236,7 +236,7 @@ class Default extends React.PureComponent<Props, State> {
                 {currentPair && currentPairData && (
                   <Helmet>
                     <title>
-                      {truncateZeroDecimal(BigNumber(currentPairData.price).toFormat(pricePrecision))} | {currentPair.pair.replace("/", "")} | {DEX_TITLE}
+                      {BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)} | {currentPair.pair.replace("/", "")} | {DEX_TITLE}
                     </title>
                   </Helmet>
                 )}
