@@ -465,7 +465,7 @@ const TabsContainer = styled(Tabs)`
 
   @media (max-width: 1300px) {
     & .bp3-tab-list > *:not(:last-child) {
-      padding-right: 15px;
+      padding-right: 12px;
     }
   }
 `

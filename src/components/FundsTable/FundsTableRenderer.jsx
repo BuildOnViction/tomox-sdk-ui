@@ -1,8 +1,7 @@
 // @flow
 import React from 'react'
-import { Checkbox, InputGroup } from '@blueprintjs/core'
+import { Checkbox } from '@blueprintjs/core'
 import {
-  RowSpaceBetween,
   MutedText,
   Theme,
   TmColors,
@@ -34,7 +33,7 @@ type Props = {
 }
 
 const rowHeight = 45
-const WidthColums = ['20%', '30%', '30%', '20%']
+const WidthColums = ['15%', '30%', '30%', '25%']
 
 class FundsTableRenderer extends React.PureComponent {
   state = {hasScrollbar: false}
@@ -53,30 +52,16 @@ class FundsTableRenderer extends React.PureComponent {
     const {
       isHideZeroBalanceToken,
       toggleZeroBalanceToken,
-      searchInput,
-      handleSearchInputChange,
       tokenDataLength,
       authenticated,
     } = this.props
 
     return (
       <Wrapper>
-        <Header>
-          <OperationButtonWrapper>
-            <CheckboxWrapper
-              label="Hide zero amounts"
-              checked={isHideZeroBalanceToken}  
-              onChange={toggleZeroBalanceToken} />
-          </OperationButtonWrapper>
-          
-          <SearchWrapper
-            type="string"
-            leftIcon="search"
-            placeholder="Search"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-          />
-        </Header>
+        <CheckboxWrapper
+          label="Hide zero amounts"
+          checked={isHideZeroBalanceToken}  
+          onChange={toggleZeroBalanceToken} />
 
         <TableHeader style={{paddingRight: this.state.hasScrollbar ? '16px' : '10px'}}>
           <TableHeaderCell width={WidthColums[0]}><MutedText><FormattedMessage id="portfolioPage.coin" /></MutedText></TableHeaderCell>
@@ -218,51 +203,13 @@ const BaseTokenRows = (props: Props) => {
 }
 
 const Wrapper = styled.div`
-  padding: 0 15px;
   height: 100%;
-
-  @media only screen and (max-width: 680px) {
-    .tomo-wallet & {
-      padding: 0;
-    }
-  }
-`
-
-const Header = styled(RowSpaceBetween)`
-  margin-bottom: 10px;
-
-  @media only screen and (max-width: 680px) {
-    .tomo-wallet & {
-      margin-bottom: 7px;
-      margin-top: 7px;
-    }
-  }
-`
-
-const SearchWrapper= styled(InputGroup).attrs({
-  className: 'xs-hidden',
-})`
-  .bp3-input {
-    color: ${TmColors.LIGHT_GRAY};
-    max-width: 220px;
-    background: ${props => props.theme.subBg};
-    border-radius: 0;
-    &:focus, 
-    &.bp3-active {
-      box-shadow: none;
-    }
-  }
 `
 
 const TableHeader = styled.div`
   width: 100%;
-  height: 35px;
+  padding: 0 10px 10px 10px;
   display: flex;
-  align-items: center;  
-  padding: 0 10px;
-  &:last-child {
-    flex-grow: 2;
-  }
 `
 
 const TableHeaderCell = styled.div`
@@ -280,7 +227,7 @@ const TableBodyContainer = styled.div.attrs({
   id: 'funds-table-body',
 })`
   width: 100%;
-  height: calc(100% - 75px);
+  height: calc(100% - 25px);
   overflow-y: auto;
 `
 
@@ -337,15 +284,14 @@ const HeaderCellXs = styled(CellXs)`
   }
 `
 
-const OperationButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const CheckboxWrapper = styled(Checkbox)`
   font-size: ${Theme.FONT_SIZE_SM};
   text-align: center;
   margin-bottom: 0 !important;
+  position: absolute !important;
+  top: 2px;
+  right: 10px;
+  user-select: none;
 
   .bp3-control-indicator {
     box-shadow: none !important;
