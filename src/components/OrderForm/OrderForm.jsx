@@ -6,7 +6,7 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { pricePrecision as defaulPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
+import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
 
 BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
 
@@ -65,9 +65,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     sellAmount: '',
     buyTotal: '',
     sellTotal: '',
-    pricePrecision: defaulPricePrecision,
+    pricePrecision: defaultPricePrecision,
     amountPrecision: defaultAmountPrecision,
-    priceStep: toDecimalFormString(1/Math.pow(10, defaulPricePrecision)),
+    priceStep: toDecimalFormString(1/Math.pow(10, defaultPricePrecision)),
     amountStep: toDecimalFormString(1/Math.pow(10, defaultAmountPrecision)),
     errorBuy: null,
     errorSell: null,
@@ -87,9 +87,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { currentPairData } = this.props
     const { dirtyPriceForm } = this.state
 
-    if (currentPairData && 
-      (this.props.currentPairData.pricePrecision !== this.state.pricePrecision
-      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
+    if (currentPairData 
+      && currentPairData.pricePrecision
+      && (currentPairData.pricePrecision !== this.state.pricePrecision)) {
       const { pricePrecision, amountPrecision } = currentPairData
 
       this.setState({

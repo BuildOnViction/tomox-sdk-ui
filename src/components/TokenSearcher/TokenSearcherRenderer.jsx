@@ -7,6 +7,8 @@ import {
   Classes,
 } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+
 import {
   Theme,
   OverlaySpinner,
@@ -18,6 +20,7 @@ import {
 import styled from 'styled-components'
 import { AutoSizer, List } from 'react-virtualized'
 import { getChangePercentText } from '../../utils/helpers'
+import { pricePrecision as defaultPricePrecision } from '../../config/tokens'
 
 type Token = {
   pair: string,
@@ -258,6 +261,7 @@ const TokenRow = ({
   changeSelectedToken,
 }: TokenRowProps) => {
   const { favorited, lastPrice, change, pair } = token
+  let pricePrecision = token.pricePrecision ? token.pricePrecision : defaultPricePrecision
 
   return (
     <Row>
@@ -268,7 +272,7 @@ const TokenRow = ({
         {pair}
       </Cell>
       <Cell width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
-        {lastPrice}
+        {BigNumber(lastPrice).toFormat(pricePrecision)}
       </Cell>
       <Change24H width="25%" change={change} className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {change !== null ? getChangePercentText(change) : "N.A"}
