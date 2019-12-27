@@ -8,8 +8,6 @@ import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
 
-BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
-
 type Props = {
   side: Side,
   askPrice: number,

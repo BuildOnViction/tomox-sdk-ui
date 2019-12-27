@@ -20,8 +20,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { Helmet } from 'react-helmet'
 
-import { pricePrecision } from '../../config/tokens'
-import { isTomoWallet, truncateZeroDecimal } from '../../utils/helpers'
+import { isTomoWallet } from '../../utils/helpers'
 import { TOMOSCAN_URL, DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {

@@ -18,6 +18,8 @@ import type { OrderBookData } from '../types/orderBook'
 import type { Candles } from '../types/ohlcv'
 import type { APIPairData } from '../types/api'
 
+BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
+
 export const parseJSONData = (obj: Object): Object => {
   for (const key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -326,14 +328,18 @@ export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<Toke
 }
 
 export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
+  const latestOHLCV = data.slice(-1)[0]
+  const price = parsePricepoint(latestOHLCV.close, pair)
+  const { pricePrecision } = calcPrecision(price)
+
   const parsed = (data: Candles).map(datum => {
     return {
       date: new Date(datum.timestamp),
       time: datum.timestamp,
-      open: parsePricepoint(datum.open, pair),
-      high: parsePricepoint(datum.high, pair),
-      low: parsePricepoint(datum.low, pair),
-      close: parsePricepoint(datum.close, pair),
+      open: parsePricepoint(datum.open, pair, pricePrecision),
+      high: parsePricepoint(datum.high, pair, pricePrecision),
+      low: parsePricepoint(datum.low, pair, pricePrecision),
+      close: parsePricepoint(datum.close, pair, pricePrecision),
       volume: parseTokenAmount(datum.volume, pair, 2),
     }
   })
