@@ -123,7 +123,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             <ListHeading>
               <HeaderRow>
                 <HeaderCell width={widthColumns[0]} className="header-cell"><FormattedMessage id="exchangePage.price" /></HeaderCell>
-                <HeaderCell width={widthColumns[1]} className="header-cell text-right pd-rl-6"><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+                <AmountHeader width={widthColumns[1]} className="header-cell text-right"><FormattedMessage id="exchangePage.amount" /></AmountHeader>
                 <HeaderCell width={widthColumns[2]} className="header-cell text-right"><FormattedMessage id="exchangePage.volume" /></HeaderCell>
               </HeaderRow>
             </ListHeading>
@@ -137,7 +137,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                       order={order}
                       currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision} 
-                      onClick={() => onSelect(order)} />
+                      onClick={onSelect} />
                   ))}
                 </List>
               )}
@@ -173,7 +173,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                       order={order} 
                       currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision}
-                      onClick={() => onSelect(order)}/>
+                      onClick={onSelect}/>
                   ))}
                 </List>
               )}
@@ -193,11 +193,11 @@ export type SingleOrderProps = {
 const BuyOrder = (props: SingleOrderProps) => {
   const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
-    <Row onClick={onClick} update={order.update}>
+    <Row update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
-      <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell> 
+      <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell> 
     </Row>
   )
 }
@@ -205,11 +205,11 @@ const BuyOrder = (props: SingleOrderProps) => {
 const SellOrder = (props: SingleOrderProps) => {
   const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
-    <Row onClick={onClick} update={order.update}>
+    <Row update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <Cell className="text-right pd-rl-6" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</Cell>
-      <Cell className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell>
+      <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell>
     </Row>
   )
 }
@@ -270,10 +270,6 @@ const PrecisionMenuItem = styled.li`
 
 const Wrapper = styled.div`
   height: 100%;
-
-  .pd-rl-6 {
-    padding: 0 6px;
-  }
 `
 const OrderBookHeader = styled.div`
   display: flex;
@@ -334,7 +330,7 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 3.5px 10px !important;
+  padding: 0 10px !important;
   animation: ${props => props.update ? 
               (props.theme.mode === 'light' ? 
                 fadeInLightMode 
@@ -342,6 +338,7 @@ const Row = styled.li.attrs({
               : ''} .3s ease;
   font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
+  user-select: none;
 
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
@@ -373,6 +370,16 @@ const Cell = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  user-select: none;
+  padding: 3.5px 0;
+
+  &:hover {
+    font-weight: 700;
+  }
+`
+
+const AmountCell = styled(Cell)`
+  padding: 3.5px 6px;
 `
 
 const ListHeading = styled.ul.attrs({
@@ -418,6 +425,11 @@ const HeaderRow = styled.li`
 
 const HeaderCell = styled.span`
   width: ${props => props.width? props.width : "35px"}
+`
+
+const AmountHeader = styled(HeaderCell)`
+  padding-right: 6px;
+  padding-left: 6px;
 `
 
 const LatestTick = styled.div.attrs({

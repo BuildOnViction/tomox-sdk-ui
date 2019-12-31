@@ -15,7 +15,7 @@ export const InputGroupWrapper = styled(InputGroup).attrs({
       padding-right: 50px !important;
   
       &:focus {
-        box-shadow: 0 0 0 1px ${TmColors.ORANGE};
+        box-shadow: 0 0 0 1px ${TmColors.ORANGE} !important;
       }
     }
 `
