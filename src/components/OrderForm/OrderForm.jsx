@@ -87,7 +87,9 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     if (currentPairData 
       && currentPairData.pricePrecision
-      && (currentPairData.pricePrecision !== this.state.pricePrecision)) {
+      && ((currentPairData.pricePrecision !== this.state.pricePrecision)
+        || (currentPairData.amountPrecision !== this.state.amountPrecision))
+      ) {
       const { pricePrecision, amountPrecision } = currentPairData
 
       this.setState({
@@ -162,6 +164,7 @@ class OrderForm extends React.PureComponent<Props, State> {
           let amountFormated = BigNumber(total).toFixed(amountPrecision)
           if (authenticated) {
             let { buyMaxAmount } = this.calcMaxAmount(priceFormated)
+
             buyMaxAmount = BigNumber(buyMaxAmount).gt(0) ? buyMaxAmount : ''
             amountFormated = BigNumber(amountFormated).lte(buyMaxAmount) ? amountFormated : buyMaxAmount
           }
@@ -178,7 +181,7 @@ class OrderForm extends React.PureComponent<Props, State> {
           buyAmount: '',
           buyTotal: '',
         }, _ => {
-          if (authenticated) {
+          if (authenticated && this.state.sellAmount) {
             let sellAmountFormated = BigNumber(this.state.sellAmount).toFixed(amountPrecision)
             let { sellMaxAmount } = this.calcMaxAmount(priceFormated)
             sellMaxAmount = BigNumber(sellMaxAmount).gt(0) ? sellMaxAmount : ''
@@ -196,7 +199,7 @@ class OrderForm extends React.PureComponent<Props, State> {
           sellAmount: '',
           sellTotal: '',
         }, _ => {
-          if (authenticated) {
+          if (authenticated && this.state.buyAmount) {
             let buyAmountFormated = BigNumber(this.state.buyAmount).toFixed(amountPrecision)
             let { buyMaxAmount } = this.calcMaxAmount(priceFormated)
             buyMaxAmount = BigNumber(buyMaxAmount).gt(0) ? buyMaxAmount : ''
@@ -810,10 +813,10 @@ class OrderForm extends React.PureComponent<Props, State> {
         const multiplier = Math.pow(10, 18)
         const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
         const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(buyPrice)
-        buyMaxAmount = bigBuyAmountMultiplier.div(multiplier).toFormat(amountPrecision)
+        buyMaxAmount = bigBuyAmountMultiplier.div(multiplier).toFixed(amountPrecision)
       }
 
-      sellMaxAmount = BigNumber(baseTokenBalance).toFormat(amountPrecision)
+      sellMaxAmount = BigNumber(baseTokenBalance).toFixed(amountPrecision)
     }
 
     return { buyMaxAmount, sellMaxAmount }
@@ -839,6 +842,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         errorSell,
         isShowBuyMaxAmount,
         isShowSellMaxAmount,
+        amountPrecision,
       },
       props: {
         baseTokenSymbol,
@@ -913,6 +917,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         authenticated={authenticated}
         redirectToLoginPage={redirectToLoginPage}
         loading={loading}
+        amountPrecision={amountPrecision}
       />
     )
   }

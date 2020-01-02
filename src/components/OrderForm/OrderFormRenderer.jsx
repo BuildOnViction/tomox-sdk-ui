@@ -96,6 +96,7 @@ const OrderFormRenderer = (props: Props) => {
     authenticated,
     redirectToLoginPage,
     loading,
+    amountPrecision,
   } = props
 
   return (
@@ -149,6 +150,7 @@ const OrderFormRenderer = (props: Props) => {
                   sellAmountInput={sellAmountInput}
                   authenticated={authenticated}
                   redirectToLoginPage={redirectToLoginPage}
+                  amountPrecision={amountPrecision}
                 />
               }
             />
@@ -181,6 +183,7 @@ const OrderFormRenderer = (props: Props) => {
                   sellAmountInput={sellAmountInput}
                   authenticated={authenticated}
                   redirectToLoginPage={redirectToLoginPage}
+                  amountPrecision={amountPrecision}
                 />
               }
             />

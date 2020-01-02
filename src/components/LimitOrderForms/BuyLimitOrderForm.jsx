@@ -46,6 +46,7 @@ const BuyLimitOrderForm = props => {
     buyAmountInput,
     authenticated,
     redirectToLoginPage,
+    amountPrecision,
   } = props
 
   return (
@@ -107,7 +108,7 @@ const BuyLimitOrderForm = props => {
 
         {isShowBuyMaxAmount && (
           <MaxAmountInfo title={buyMaxAmount}>
-            Max: {buyMaxAmount}
+            Max: {BigNumber(buyMaxAmount).toFormat(amountPrecision)}
           </MaxAmountInfo>
         )}
       </InputBox>

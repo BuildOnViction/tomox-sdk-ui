@@ -46,6 +46,7 @@ const SellLimitOrderForm = props => {
     sellAmountInput,
     authenticated,
     redirectToLoginPage,
+    amountPrecision,
   } = props
 
   return (
@@ -106,7 +107,7 @@ const SellLimitOrderForm = props => {
         <TokenName>{baseTokenSymbol}</TokenName>
         {isShowSellMaxAmount && (
           <MaxAmountInfo title={sellMaxAmount}>
-            Max: {sellMaxAmount}
+            Max: {BigNumber(sellMaxAmount).toFormat(amountPrecision)}
           </MaxAmountInfo>
         )}
       </InputBox>
