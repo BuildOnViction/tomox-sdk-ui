@@ -127,10 +127,12 @@ class OrderForm extends React.PureComponent<Props, State> {
     }  
   }
 
-  setOrderByChoose(order) {
+  setOrderByChoose(order) {    
+    const { pricePrecision, amountPrecision, selectedTabId } = this.state
+    if (selectedTabId === 'MO') return 
+
     this.resetErrorObject()
     const { authenticated } = this.props
-    const { pricePrecision, amountPrecision } = this.state
     let { type, price, total, side } = order
     const oppositeSide = (side === 'BUY') ? 'SELL' : 'BUY'
 
