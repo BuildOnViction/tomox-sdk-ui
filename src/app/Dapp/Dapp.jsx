@@ -164,9 +164,13 @@ const StyledButton = styled(Button)`
   padding: 0 40px;
   box-shadow: unset !important;
   background-image: unset !important;
-  border-radius: 0 !important;
-  min-height: 40px;
+  border-radius: 0 !important;  
   user-select: none;
+
+  &.bp3-button  {
+    min-height: 40px;
+    min-width: 45%;
+  }
 `
 
 const BuyButton = styled(StyledButton).attrs({

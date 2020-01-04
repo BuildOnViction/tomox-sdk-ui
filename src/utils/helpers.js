@@ -287,7 +287,8 @@ export const isMobile = () => {
 }
 
 export const isTomoWallet = () => {
-  return window.web3 && window.web3.currentProvider && window.web3.currentProvider.isTomoWallet
+  if (!window.web3 || !window.web3.currentProvider) return false
+  return window.web3.currentProvider.isTomoWallet
 }
 
 export const calcPrecision = (price: number) => {

@@ -20,7 +20,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { Helmet } from 'react-helmet'
 
-import { isTomoWallet } from '../../utils/helpers'
+import { isTomoWallet, isMobile } from '../../utils/helpers'
 import { TOMOSCAN_URL, DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -166,7 +166,7 @@ class Default extends React.PureComponent<Props, State> {
 
   generateClassname = () => {
     const className = this.isTradingPage(this.props.pathname) ? "exchange-page" : ""
-    return (window.web3 && window.web3.currentProvider && isTomoWallet()) ? `${className} tomo-wallet` : className
+    return (isTomoWallet() || isMobile()) ? `${className} tomo-wallet` : className
   }
 
   render() {
@@ -1071,7 +1071,8 @@ const SwitchTheme = styled(Switch)`
       float: none !important;
       margin-right: 0 !important;
       margin-left: -4px !important;
-    }
+    }import { isMobile } from '../../utils/helpers';
+
   }
 `
 
