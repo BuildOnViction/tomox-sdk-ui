@@ -80,6 +80,9 @@ export default class TVChartRenderer extends React.PureComponent {
 			overrides: {
 				...modes[mode],
 				'mainSeriesProperties.minTick': `${Math.pow(10, pricePrecision)},1,false`,
+				'paneProperties.legendProperties.showSeriesOHLC': true,
+				'paneProperties.legendProperties.showLegend': false,
+				'paneProperties.legendProperties.showBarChange': true,
 			},
 			time_frames: [],
 			timezone,

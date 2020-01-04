@@ -16,6 +16,7 @@ import history from '../store/history'
 import '../styles/css/index.css'
 
 import createSelector from '../store/models/app'
+import { Centered, Loading } from '../components/Common'
 
 const Layout = lazy(_ => import('./Layout'))
 const LoginPage = lazy(_ => import('./LoginPage'))
@@ -30,7 +31,7 @@ class App extends React.PureComponent {
   render() {
     return (
       <ConnectedRouter history={history}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Centered><Loading/></Centered>}>
           <Layout>          
             <Switch>
               <Route exact path="/unlock" component={LoginPage} />

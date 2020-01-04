@@ -52,11 +52,28 @@ html.theme-light .layout__area--left {
     display: none;
 }
 
+.pane-legend-line.pane-legend-wrap .pane-legend-item-value-container,
+.chart-toolbar.chart-controls-bar .toolbar-2MJefnwP- {
+    font-size: 12px !important;
+}
+
+.chart-toolbar.chart-controls-bar {
+    height: 30px;
+}
+
+.pane-legend-line.pane-legend-wrap .pane-legend-item-value {
+    padding-left: 2px;
+}
+
 @media only screen and (max-width: 480px) {
     #header-toolbar-indicators .js-button-text,
     .group-wWM3zP_M-:nth-last-child(2),
     .group-wWM3zP_M-:last-child,
     .control-bar-wrapper {
         display: none;
+    }
+
+    .chart-toolbar.chart-controls-bar {
+        height: 22px;
     }
 }
