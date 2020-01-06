@@ -52,7 +52,6 @@ html.theme-light .layout__area--left {
     display: none;
 }
 
-.pane-legend-line.pane-legend-wrap .pane-legend-item-value-container,
 .chart-toolbar.chart-controls-bar .toolbar-2MJefnwP- {
     font-size: 12px !important;
 }
@@ -69,11 +68,8 @@ html.theme-light .layout__area--left {
     #header-toolbar-indicators .js-button-text,
     .group-wWM3zP_M-:nth-last-child(2),
     .group-wWM3zP_M-:last-child,
-    .control-bar-wrapper {
-        display: none;
-    }
-
+    .control-bar-wrapper,
     .chart-toolbar.chart-controls-bar {
-        height: 22px;
+        display: none;
     }
 }
