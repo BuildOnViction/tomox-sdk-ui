@@ -87,9 +87,9 @@ export default class Dapp extends React.PureComponent<Props, State> {
     const { isShowOrderForm, isShowOrdersTable } = this.state
 
     return (      
-      <Grid flow="row" 
+      <Grid flow="column" 
         columns={"1fr"} 
-        rows={"360px 480px 55px"} 
+        rows={"300px 500px 55px"} 
         gap="10px" 
         height="100%">
         <ChartsCell>
@@ -104,18 +104,26 @@ export default class Dapp extends React.PureComponent<Props, State> {
         </ChartsCell>
 
         <OrdersTradesCell>
-          <MainTabs
+          {/* <MainTabs
             defaultActiveKey="1"
             onChange={() => {}}
             renderTabBar={()=><ScrollableInkTabBar />}
             renderTabContent={()=><TabContent />}>            
             <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
             <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
-          </MainTabs>
+          </MainTabs> */}
+          <OrdersTradesTabs />
         </OrdersTradesCell>
         
         <OrderFormCell isShow={isShowOrderForm}>
-          <OrderForm />
+          <Grid flow="column" 
+            columns={"1fr"} 
+            rows={"400px 500px 55px"} 
+            gap="10px" 
+            height="100%">
+            <Cell><OrderForm /></Cell>
+            <Cell><OrdersTradesTabs /></Cell>
+          </Grid>
           <Close icon="cross" intent="danger" onClick={this.toggleOrderForm} />
         </OrderFormCell>
 
@@ -132,6 +140,17 @@ export default class Dapp extends React.PureComponent<Props, State> {
     )
   }
 }
+
+const OrdersTradesTabs = _ => (
+  <MainTabs
+    defaultActiveKey="1"
+    onChange={() => {}}
+    renderTabBar={()=><ScrollableInkTabBar />}
+    renderTabContent={()=><TabContent />}>            
+    <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
+    <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
+  </MainTabs>
+)
 
 const ButtonGroup = (props) => {
   const {toggleOrderForm, toggleOrdersTable} = props

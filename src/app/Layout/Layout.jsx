@@ -99,7 +99,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (window.web3 && window.web3.currentProvider && isTomoWallet()) {
+    if (isTomoWallet() || isMobile()) {
       await this.props.loginWithMetamask()
     }
 

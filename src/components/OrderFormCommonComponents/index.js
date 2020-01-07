@@ -16,6 +16,7 @@ import {
     MaxAmountInfo,
     ErrorMessage,
     OverlayInput,
+    Row,
 } from './Styled'
 
 export { 
@@ -36,4 +37,5 @@ export {
     MaxAmountInfo,
     ErrorMessage,
     OverlayInput,
+    Row,
 }

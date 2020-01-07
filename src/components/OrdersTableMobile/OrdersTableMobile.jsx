@@ -21,6 +21,19 @@ class OrdersTableMobile extends React.PureComponent<Props, State> {
   state = {
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
+    pricePrecision: 4,
+    amountPrecision: 4,
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentPairData && (
+      this.props.currentPairData.pricePrecision !== this.state.pricePrecision
+      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
+      this.setState({
+        pricePrecision: this.props.currentPairData.pricePrecision,
+        amountPrecision: this.props.currentPairData.amountPrecision,
+      })
+    }
   }
 
   changeTab = (tabId: string) => {

@@ -305,6 +305,16 @@ const CheckboxWrapper = styled(Checkbox)`
   input:checked ~ .bp3-control-indicator::before {
     background: url(${tickUrl}) no-repeat center center !important;
   }
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      position: unset !important;
+      text-align: unset;
+      margin-top: -5px;
+      margin-bottom: 10px !important;
+      padding-left: 15px;
+    }
+  }
 `
 
 const Ellipsis = styled.span`

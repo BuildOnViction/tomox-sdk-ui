@@ -17,6 +17,7 @@ import {
   BuyButton,
   MaxAmountInfo,
   ErrorMessage,
+  Row,
 } from "../OrderFormCommonComponents"
 import { pricePrecision } from "../../config/tokens"
 import { truncateZeroDecimal } from '../../utils/helpers'
@@ -132,7 +133,9 @@ const BuyLimitOrderForm = props => {
         <TokenName>{quoteTokenSymbol}</TokenName>
       </InputBox>
 
-      <ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage>
+      <Row>
+        <ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage>
+      </Row>
 
       {authenticated && (
         <React.Fragment>

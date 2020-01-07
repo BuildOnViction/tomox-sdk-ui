@@ -12,10 +12,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
 import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
-import { 
-  formatDate, 
-  truncateZeroDecimal, 
-} from '../../utils/helpers'
+import { formatDate } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
@@ -41,6 +38,8 @@ const OrdersTableRendererMobile = (props: Props) => {
     orders,
     isHideOtherPairs,
     handleChangeHideOtherPairs,
+    pricePrecision,
+    amountPrecision,
   } = props
 
   return (
@@ -59,6 +58,8 @@ const OrdersTableRendererMobile = (props: Props) => {
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
             />
           }
         />
@@ -73,6 +74,8 @@ const OrdersTableRendererMobile = (props: Props) => {
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
               handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
             />
           }
         />
@@ -102,7 +105,9 @@ const OrdersTablePanel = (props: {
     cancelOrder, 
     selectedTabId, 
     isHideOtherPairs, 
-    handleChangeHideOtherPairs, 
+    handleChangeHideOtherPairs,
+    pricePrecision,
+    amountPrecision,
   } = props
   
   if (loading) return <Loading />
@@ -113,19 +118,23 @@ const OrdersTablePanel = (props: {
                 orders={orders} 
                 cancelOrder={cancelOrder} 
                 isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     case 'order-history':
       return (<OrderHistoryTable 
                 orders={orders} 
                 cancelOrder={cancelOrder}
                 isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs} />)
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     default:
       return (<div></div>)
   }
 }
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, amountPrecision}) => {
   return (
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -158,11 +167,11 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                   <Cell width="70%">
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.filledAmount" /></FieldTitle>
-                      <FieldValue>{truncateZeroDecimal(order.filled)}/{truncateZeroDecimal(order.amount)}</FieldValue>
+                      <FieldValue>{BigNumber(order.filled).toFormat(amountPrecision)}/{BigNumber(order.amount).toFormat(amountPrecision)}</FieldValue>
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
-                      <FieldValue>{truncateZeroDecimal(order.price)}</FieldValue>
+                      <FieldValue>{BigNumber(order.price).toFormat(amountPrecision)}</FieldValue>
                     </div>
                   </Cell>
                   <Cell width="30%">
@@ -178,7 +187,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
   )
 }
 
-const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs}) => {
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision}) => {
   return (
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -200,7 +209,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
               <Cell width={"35%"} title={order.price} muted>
-                {truncateZeroDecimal(order.price)}
+                {BigNumber(order.price).toFormat(pricePrecision)}
               </Cell>
               <Cell textAlign="right" width={"30%"} muted>
                 {order.filled && BigNumber(order.filledPercent).toFormat(2)}%

@@ -328,7 +328,6 @@ export default OrderFormRenderer
 const Container = styled.div`
   position: relative;
   padding: 10px;
-  height: 100%;
 
   .spinner-container {
     position: absolute;
