@@ -88,8 +88,8 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
+    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
+    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
   </MainTabs>
 )
 
@@ -111,11 +111,12 @@ const ButtonGroup = (props) => {
 }
 
 const StyledButton = styled(Link)`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 40px;
   user-select: none;
   height: 40px;
-  line-height: 40px;
   min-width: 45%;
   color: ${TmColors.WHITE};
 `

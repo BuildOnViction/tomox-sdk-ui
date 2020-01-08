@@ -26,6 +26,7 @@ export default class DappOrders extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if ((!prevProps.isConnected && this.props.isConnected)
+      || (this.props.currentPairName !== prevProps.currentPairName)
       || (this.props.authenticated && !prevProps.authenticated)) {
       this.props.queryDappTradePageData()
     }

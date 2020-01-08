@@ -31,6 +31,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if ((!prevProps.isConnected && this.props.isConnected)
+      || (this.props.currentPairName !== prevProps.currentPairName)
       || (this.props.authenticated && !prevProps.authenticated)) {
       this.props.queryDappTradePageData()
     }
@@ -49,11 +50,11 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
       <OrderFormCell isShow={true}>
         <Grid flow="column" 
           columns={"1fr"} 
-          rows={"360px 500px"} 
+          rows={"auto 500px"} 
           gap="10px" 
           height="100%">
           <Cell><OrderForm /></Cell>
-          <Cell><OrdersTradesTabs /></Cell>
+          <OrdersTradesCell><OrdersTradesTabs /></OrdersTradesCell>
         </Grid>
         <BackButton to={`/dapp/${currentPairName.replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>
       </OrderFormCell>
@@ -62,14 +63,14 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 }
 
 const OrdersTradesTabs = _ => (
-  <MainTabs
+  <TabsStyled
     defaultActiveKey="1"
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
-  </MainTabs>
+    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
+    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
+  </TabsStyled>
 )
 
 const BackButton = styled(Link)`
@@ -165,7 +166,9 @@ const OrderFormCell = styled(Cell).attrs({
   }
 `
 
-const MainTabs = styled(RcTabs)`
+const TabsStyled = styled(RcTabs)`
+  box-shadow: 0 0 0 1px ${props => props.theme.border};
+
   &.rc-tabs-top {
     border-bottom: none;
     height: 100%;
@@ -194,6 +197,10 @@ const MainTabs = styled(RcTabs)`
   .rc-tabs-bar {
     border-bottom: 1px solid ${props => props.theme.border} !important;
   }
+`
+
+const OrdersTradesCell = styled(Cell)`
+  padding: 10px;
 `
 
 
