@@ -110,6 +110,53 @@ export const queryTradingPageData = (): ThunkAction => {
   }
 }
 
+export const queryDappTradePageData = (): ThunkAction => {
+  return async (dispatch, getState, { api, socket }) => {
+    try {
+      const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+      if (!addresses) throw new Error('Cannot get tokens or pairs')
+
+      // Unsubscribe socket when change current pair
+      socket.unSubscribePrice()
+      socket.unsubscribeOrderBook()
+      socket.unsubscribeTrades()      
+
+      const state = getState()
+      const pairDomain = getTokenPairsDomain(state)
+      const currentPair = pairDomain.getCurrentPair()
+
+      const pairs = pairDomain.getPairsByCode()
+      const accountDomain = getAccountDomain(state)
+      const authenticated = accountDomain.authenticated()
+
+      if (authenticated) {
+        const userAddress = accountDomain.address()
+
+        let [
+          orders,
+          tradesByAddress, // For trade history in OrderTable
+        ] = await Promise.all([
+          api.fetchOrders(userAddress),
+          api.fetchAddressTrades(userAddress), 
+        ])
+
+        orders = parseOrders(orders, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+
+        dispatch(actionCreators.initOrdersTable(orders))
+        dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+      }
+
+      socket.subscribePrice(currentPair)
+      socket.subscribeTrades(currentPair)
+      socket.subscribeOrderBook(currentPair)
+    } catch (e) {
+      console.log(e)
+      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
 export const releaseResources = (): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
