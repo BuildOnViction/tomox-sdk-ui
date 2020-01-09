@@ -7,6 +7,7 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 import type { Side, OrderType } from '../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
 import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
+import { isTomoWallet, isMobile } from '../../utils/helpers'
 
 type Props = {
   side: Side,
@@ -139,6 +140,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     const priceFormated = BigNumber(price).toFixed(pricePrecision)
 
     if (type === 'amount') {
+      if (isTomoWallet() || isMobile()) return
       if (side === 'BUY') {
         this.setState({
           buyPrice: priceFormated, 
