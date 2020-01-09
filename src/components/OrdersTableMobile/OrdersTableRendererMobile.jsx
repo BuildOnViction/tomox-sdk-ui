@@ -12,7 +12,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
 import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
-import { formatDate } from '../../utils/helpers'
+import { formatDate, calcPercent } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
@@ -134,7 +134,7 @@ const OrdersTablePanel = (props: {
   }
 }
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, amountPrecision}) => {
+const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, amountPrecision, pricePrecision}) => {
   return (
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -145,12 +145,12 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         (<ListBodyWrapper>
           {orders.map((order, index) => (
             <Row key={index}>
-              <CenterCell width={"30%"} muted>  
+              <CenterCell width={"25%"} muted>  
                 <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BUY' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
-                <div style={{width: "45px"}}>
+                <div style={{width: "40px"}}>
                   <CircularProgressbar 
-                    value={BigNumber(order.filledPercent).toFormat(0)}
-                    text={`${BigNumber(order.filledPercent).toFormat(0)}%`}
+                    value={calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}
+                    text={`${calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}%`}
                     styles={buildStyles({
                       textColor: order.side === 'BUY' ? TmColors.GREEN : TmColors.RED,
                       // pathColor: TmColors.ORANGE,
@@ -158,7 +158,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     })} />
                 </div>
               </CenterCell>
-              <Cell width={"70%"} muted>
+              <Cell width={"75%"} muted>
                 <ChildRow style={{marginBottom: "10px"}}>
                   <FieldValue>{order.pair}</FieldValue>
                   <FieldValue color={TmColors.LIGHT_GRAY}>{formatDate(order.time, 'LL-dd HH:mm:ss')}</FieldValue>
@@ -167,15 +167,19 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                   <Cell width="70%">
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.filledAmount" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.filled).toFormat(amountPrecision)}/{BigNumber(order.amount).toFormat(amountPrecision)}</FieldValue>
+                      <FieldValue>{order.filled ? BigNumber(order.filled).toFormat(amountPrecision) : "--"}</FieldValue>
+                    </div>
+                    <div>
+                      <FieldTitle><FormattedMessage id="exchangePage.amount" /></FieldTitle>
+                      <FieldValue>{BigNumber(order.amount).toFormat(amountPrecision)}</FieldValue>
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.price).toFormat(amountPrecision)}</FieldValue>
+                      <FieldValue>{BigNumber(order.price).toFormat(pricePrecision)}</FieldValue>
                     </div>
                   </Cell>
                   <Cell width="30%">
-                    <CancelButton onClick={() => cancelOrder(order.hash)}>Cancel</CancelButton>
+                  {order.cancelAble && (<CancelButton onClick={() => cancelOrder(order.hash)}>Cancel</CancelButton>)}
                   </Cell>
                 </ChildRow> 
               </Cell>
@@ -187,7 +191,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
   )
 }
 
-const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision}) => {
+const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision, amountPrecision}) => {
   return (
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -195,7 +199,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <ListHeader className="header">
         <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
       </ListHeader>
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
@@ -203,7 +207,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       {(orders.length > 0) && 
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
-            <Row key={index}>
+            <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
               <Cell width={"35%"} title={order.pair} muted>
                 <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
@@ -211,9 +215,10 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
               <Cell width={"35%"} title={order.price} muted>
                 {BigNumber(order.price).toFormat(pricePrecision)}
               </Cell>
-              <Cell textAlign="right" width={"30%"} muted>
-                {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
-              </Cell>
+              <AmountCell textAlign="right" width={"30%"} muted>
+                <span>{order.filled ? BigNumber(order.filled).toFormat(amountPrecision) : "--"}</span>
+                <span>{BigNumber(order.amount).toFormat(amountPrecision)}</span>
+              </AmountCell>
             </Row>
           ))}
         </ListBodyWrapper>)
@@ -277,9 +282,12 @@ const Row = styled.li.attrs({
   flex-direction: row;
   line-height: 18px;
   padding: 8px 5px;
+
   &:nth-child(2n + 1) {
     background: ${props => props.theme.subBg};
   }
+
+  background: ${props => props.cancel ? `${props.theme.secondSubBg} !important` : 'inherit'};
 `
 
 const ChildRow = styled.div`
@@ -308,6 +316,10 @@ const Cell = styled.span.attrs({
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
+
+  span:last-child {
+    color: ${TmColors.GRAY};
+  }
 `
 
 const CenterCell = styled(Cell)`
@@ -315,6 +327,11 @@ const CenterCell = styled(Cell)`
   padding-right: 20px;
   flex-direction: column;
   align-items: center;
+`
+
+const AmountCell = styled(Cell)`
+  display: flex;
+  flex-direction: column;
 `
 
 const Pair = styled.div`
@@ -407,7 +424,7 @@ const CancelButton = styled.div`
 
 const FieldTitle = styled.span`
   display: inline-block;
-  width: 40px;
+  width: 50px;
   color: ${props => props.color || TmColors.LIGHT_GRAY};
 `
 

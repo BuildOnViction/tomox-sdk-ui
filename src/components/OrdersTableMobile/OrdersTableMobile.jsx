@@ -92,7 +92,7 @@ class OrdersTableMobile extends React.PureComponent<Props, State> {
 
   render() {
     const { authenticated, orders, cancelOrder } = this.props
-    const { selectedTabId, isHideOtherPairs } = this.state
+    const { selectedTabId, isHideOtherPairs, pricePrecision, amountPrecision } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
@@ -109,6 +109,8 @@ class OrdersTableMobile extends React.PureComponent<Props, State> {
         trades={filteredTrades}
         isHideOtherPairs={isHideOtherPairs}
         handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
+        pricePrecision={pricePrecision} 
+        amountPrecision={amountPrecision}
       />
     )
   }
