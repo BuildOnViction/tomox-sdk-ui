@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import './index.css'
 import Datafeed from './api/'
+import { isTomoWallet, isMobile } from '../../utils/helpers';
 
 function getLanguageFromURL() {
 	const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -102,6 +103,10 @@ export default class TVChartRenderer extends React.PureComponent {
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
 
 		widget.onChartReady(() => {
+			if (isTomoWallet() || isMobile()) {
+				window.tvWidget.chart().executeActionById('drawingToolbarAction')
+			}
+
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
 				changeTimeSpan(interval)
 			})

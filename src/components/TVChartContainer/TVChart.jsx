@@ -34,38 +34,37 @@ const modes = {
 }
 
 export default class TVChart extends React.PureComponent {    
-
-    componentDidUpdate(prevProps) {
-      if (prevProps.mode !== this.props.mode 
-        && window.tvWidget) {
-        window.tvWidget.changeTheme(this.props.mode)
-        window.tvWidget.applyOverrides({
-          ...modes[this.props.mode],
-        })
-      }
-    }
-    
-    changeTimeSpan = (value: string) => {
-      const { ohlcv: { currentDuration }} = this.props
-      const interval = timeSpans.find(item => {
-        return item.value === value
-      })
-    
-      this.props.updateTimeSpan(interval, {
-        updateWRT: 'timespan',
-        time: interval.label,
-        duration: currentDuration.label,
+  componentDidUpdate(prevProps) {      
+    if (prevProps.mode !== this.props.mode 
+      && window.tvWidget) {
+      window.tvWidget.changeTheme(this.props.mode)
+      window.tvWidget.applyOverrides({
+        ...modes[this.props.mode],
       })
     }
+  }
+  
+  changeTimeSpan = (value: string) => {
+    const { ohlcv: { currentDuration }} = this.props
+    const interval = timeSpans.find(item => {
+      return item.value === value
+    })
+  
+    this.props.updateTimeSpan(interval, {
+      updateWRT: 'timespan',
+      time: interval.label,
+      duration: currentDuration.label,
+    })
+  }
 
-    render() {
-      const { currentPair: { pair, pricePrecision }} = this.props
-      if (!pair || !pricePrecision) return <Loading />
-      
-      return (
-        <React.Fragment>
-          <TVChartRenderer {...this.props } modes={modes} changeTimeSpan={this.changeTimeSpan} />
-        </React.Fragment>
-      )
-    }        
+  render() {
+    const { currentPair: { pair, pricePrecision }} = this.props
+    if (!pair || !pricePrecision) return <Loading />
+    
+    return (
+      <React.Fragment>
+        <TVChartRenderer {...this.props } modes={modes} changeTimeSpan={this.changeTimeSpan} />
+      </React.Fragment>
+    )
+  }        
 }
