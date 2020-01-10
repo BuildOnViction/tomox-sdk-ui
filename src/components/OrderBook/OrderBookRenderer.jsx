@@ -130,7 +130,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
 
             <ListContent>
               {asks && (
-                <List className="bp3-list-unstyled list list-sell" id="list-sell">
+                <Asks>
                   {asks.map((order, index) => (
                     <SellOrder 
                       key={index} 
@@ -139,7 +139,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                       amountPrecision={amountPrecision} 
                       onClick={onSelect} />
                   ))}
-                </List>
+                </Asks>
               )}
               
               <LatestTick>
@@ -166,7 +166,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               </LatestTick>
               
               {bids && (
-                <List className="bp3-list-unstyled list list-buy" id="list-buy">
+                <Bids>
                   {bids.map((order, index) => (
                     <BuyOrder 
                       key={index} 
@@ -175,7 +175,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                       amountPrecision={amountPrecision}
                       onClick={onSelect}/>
                   ))}
-                </List>
+                </Bids>
               )}
             </ListContent>
           </OrderBookContent>
@@ -305,7 +305,23 @@ const OrderBookContent = styled.div`
 
 const List = styled.ul`
   overflow-y: auto;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      overflow: hidden;
+    }
+  }
 `
+
+const Asks = styled(List).attrs({
+  className: "bp3-list-unstyled list list-sell",
+  id: "list-sell",
+})``
+
+const Bids = styled(List).attrs({
+  className: "bp3-list-unstyled list list-buy",
+  id: "list-buy",
+})``
 
 const fadeInLightMode = keyframes`
   0% {background: rgba(57, 67, 98, .1)}
