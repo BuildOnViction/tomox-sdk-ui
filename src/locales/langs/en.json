@@ -166,5 +166,9 @@
   "portfolioPage.transferTokensModal.blockHash": "Block Hash",
   "portfolioPage.transferTokensModal.blockNumber": "Block Number",
   "portfolioPage.transferTokensModal.gasUsed": "Gas Used",
-  "dapp.orders": "Orders"
+  "dapp.orders": "Orders",
+  "dapp.instruction": "Please use TomoWallet for this action. You can download it from",
+  "dapp.or": "or",
+  "dapp.appStore": "App store",
+  "dapp.googleStore": "Google play"
 }

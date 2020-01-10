@@ -10,6 +10,7 @@ import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link } from "react-router-dom"
 
+import { isTomoWallet } from '../../utils/helpers'
 import TradesTable from '../../components/TradesTable'
 import OrderBook from '../../components/OrderBook'
 import TVChartRenderer from '../../components/TVChartContainer'
@@ -26,8 +27,7 @@ type State = {
 export default class Dapp extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
-    isShowOrderForm: false,
-    isShowOrdersTable: false,
+    isShowHelpPanel: false,
   }
 
   componentDidMount() {
@@ -50,8 +50,11 @@ export default class Dapp extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
+  toggleHelpPanel = (value: boolean) => this.setState({isShowHelpPanel: value})
+
   render() {
-    const { quoteTokenSymbol, currentPairName } = this.props
+    const { isShowHelpPanel } = this.state
+    const { quoteTokenSymbol, currentPairName, authenticated } = this.props
 
     return (      
       <Grid flow="column" 
@@ -75,11 +78,36 @@ export default class Dapp extends React.PureComponent<Props, State> {
         </OrdersTradesCell>
 
         <FooterCell>
-          {<ButtonGroup pair={currentPairName} />}
+          {<ButtonGroup 
+            toggleHelpPanel={this.toggleHelpPanel}
+            authenticated={authenticated}  
+            pair={currentPairName} />}
         </FooterCell>
+
+        {isShowHelpPanel && <HelpPanel togglePanel={this.toggleHelpPanel} />}
       </Grid>
     )
   }
+}
+
+const HelpPanel = ({togglePanel}) => {
+  return (
+    <HelpPanelContainer>
+      <Instruction><FormattedMessage id="dapp.instruction" /></Instruction>
+      <ExternalLinksGroup>
+        <ExternalLink href="https://apps.apple.com/us/app/tomo-wallet/id1436476145">
+          <i className="fa fa-apple" aria-hidden="true" />
+          <FormattedMessage id="dapp.appStore" />
+        </ExternalLink>
+        <Divider><FormattedMessage id="dapp.or" /></Divider>
+        <ExternalLink href="https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en_US">
+          <i className="fa fa-android" aria-hidden="true" />
+          <FormattedMessage id="dapp.googleStore" />
+        </ExternalLink>
+      </ExternalLinksGroup>
+      <Close icon="cross" intent="danger" onClick={() => togglePanel(false)} />
+    </HelpPanelContainer>
+  )
 }
 
 const OrdersTradesTabs = _ => (
@@ -93,24 +121,102 @@ const OrdersTradesTabs = _ => (
   </MainTabs>
 )
 
-const ButtonGroup = (props) => {
-  const { pair } = props
+const ButtonGroup = ({toggleHelpPanel, pair}) => {
 
-  return (
+  return isTomoWallet() 
+  ? (
     <ButtonGroupBox>
-      <OrdersButton to="/dapp/orders">
+      <OrdersLink to="/dapp/orders">
         <Icon icon="document" />
-        <span>Orders</span>
+        <FormattedMessage id="dapp.orders" />
+      </OrdersLink>
+      <OrderFormButtonGroup>
+        <BuyLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
+        <SellLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
+      </OrderFormButtonGroup>
+    </ButtonGroupBox>
+  )
+  : (
+    <ButtonGroupBox>
+      <OrdersButton onClick={() => toggleHelpPanel(true)}>
+        <Icon icon="document" />
+        <FormattedMessage id="dapp.orders" />
       </OrdersButton>
       <OrderFormButtonGroup>
-        <BuyButton to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyButton>
-        <SellButton to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellButton>
+        <BuyButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.buy" /></BuyButton>
+        <SellButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.sell" /></SellButton>
       </OrderFormButtonGroup>
     </ButtonGroupBox>
   )
 }
 
-const StyledButton = styled(Link)`
+const HelpPanelContainer = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 110;
+  background: ${props => props.theme.mainBg};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+const Instruction = styled.div`
+  padding: 0 10px;
+  text-align: center;
+  line-height: 1.7em;
+`
+
+const ExternalLinksGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 15px;
+`
+
+const Divider = styled.div`
+  margin: 10px auto;
+`
+
+const ExternalLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 70%;
+  color: ${TmColors.WHITE};
+  background: ${props => props.theme.secondSubBg};
+  border-radius: 10px;
+
+  i {
+    margin-right: 5px;
+  }
+`
+
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  user-select: none;
+  height: 40px;
+  min-width: 45%;
+  color: ${TmColors.WHITE};
+`
+
+const BuyLink = styled(StyledLink)`
+  background: ${TmColors.GREEN};
+`
+
+const SellLink = styled(StyledLink)`
+  background: ${TmColors.RED};
+`
+
+const StyledButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,7 +242,25 @@ const OrderFormButtonGroup = styled.div`
   width: 230px;
 `
 
-const OrdersButton = styled(Link)`
+const OrdersLink = styled(Link)`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  flex-grow: 2;
+  padding: 0 10px;
+  font-size: ${Theme.FONT_SIZE_SM};
+  color: ${TmColors.GRAY};
+
+  span {
+    user-select: none;
+  }
+
+  span:first-child {
+    margin-bottom: 3px;
+  }
+`
+const OrdersButton = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -306,6 +430,14 @@ const MainTabs = styled(RcTabs)`
   .rc-tabs-bar {
     border-bottom: 1px solid ${props => props.theme.border} !important;
   }
+
+`
+
+const Close = styled(Icon)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
 `
 
 
