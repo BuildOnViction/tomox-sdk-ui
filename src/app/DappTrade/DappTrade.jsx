@@ -7,8 +7,9 @@ import 'rc-tabs/assets/index.css'
 import { default as RcTabs, TabPane } from 'rc-tabs'
 import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 
+import { isTomoWallet } from '../../utils/helpers'
 import { Theme, TmColors } from '../../components/Common'
 import OrderForm from '../../components/OrderForm'
 import TradesTable from '../../components/TradesTable'
@@ -45,6 +46,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   render() {
     const { currentPairName } = this.props
+    if (!isTomoWallet()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
 
     return (     
       <OrderFormCell isShow={true}>
