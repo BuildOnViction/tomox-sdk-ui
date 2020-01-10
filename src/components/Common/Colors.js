@@ -245,6 +245,7 @@ export const TmColors = {
   ORANGE: '#ff9a4d',
   DARK_ORANGE: '#ec8536',
   GREEN: '#00c38c',
+  LIGHT_GREEN: '#8bc34a',
   RED: '#f94d5c',
 }
 

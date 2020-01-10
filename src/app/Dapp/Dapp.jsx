@@ -95,13 +95,13 @@ const HelpPanel = ({togglePanel}) => {
     <HelpPanelContainer>
       <Instruction><FormattedMessage id="dapp.instruction" /></Instruction>
       <ExternalLinksGroup>
-        <ExternalLink href="https://apps.apple.com/us/app/tomo-wallet/id1436476145">
+        <ExternalLink target="_blank" href="https://apps.apple.com/us/app/tomo-wallet/id1436476145">
           <i className="fa fa-apple" aria-hidden="true" />
           <FormattedMessage id="dapp.appStore" />
         </ExternalLink>
         <Divider><FormattedMessage id="dapp.or" /></Divider>
-        <ExternalLink href="https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en_US">
-          <i className="fa fa-android" aria-hidden="true" />
+        <ExternalLink target="_blank" href="https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en_US">
+          <GoolgePlayIcon className="fa fa-android" aria-hidden="true" />
           <FormattedMessage id="dapp.googleStore" />
         </ExternalLink>
       </ExternalLinksGroup>
@@ -188,13 +188,18 @@ const ExternalLink = styled.a`
   justify-content: center;
   height: 40px;
   width: 70%;
+  max-width: 250px;
   color: ${TmColors.WHITE};
-  background: ${props => props.theme.secondSubBg};
+  background: ${TmColors.LIGHT_BLUE};
   border-radius: 10px;
 
   i {
     margin-right: 5px;
   }
+`
+
+const GoolgePlayIcon = styled.i`
+  color: ${TmColors.LIGHT_GREEN};
 `
 
 const StyledLink = styled(Link)`
