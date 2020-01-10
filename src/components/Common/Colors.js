@@ -245,6 +245,7 @@ export const TmColors = {
   ORANGE: '#ff9a4d',
   DARK_ORANGE: '#ec8536',
   GREEN: '#00c38c',
+  LIGHT_GREEN: '#8bc34a',
   RED: '#f94d5c',
 }
 
@@ -252,6 +253,7 @@ export const DarkMode = {
   mode: 'dark',
   mainBg: '#252C40',
   subBg: '#1f2538',
+  secondSubBg: '#394362',
   menuBg: '#394362',
   menuBgHover: '#2d3650',
   menuColor: '#9ca4ba',
@@ -283,6 +285,7 @@ export const LightMode = {
   mode: 'light',
   mainBg: '#fff',
   subBg: '#f4f6f8',
+  secondSubBg: '#dedede',
   menuBg: '#f4f6f8',
   menuBgHover: '#dedede',
   menuColor: '#040404',

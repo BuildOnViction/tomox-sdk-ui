@@ -312,7 +312,7 @@ const CheckboxWrapper = styled(Checkbox)`
       text-align: unset;
       margin-top: -5px;
       margin-bottom: 10px !important;
-      padding-left: 15px;
+      margin-left: 10px;
     }
   }
 `

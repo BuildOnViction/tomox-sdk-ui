@@ -101,6 +101,12 @@ export const Value = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: 100%;
+    }
+  }
 `
   
 export const BuyLimitOrderContainer = styled.div.attrs({

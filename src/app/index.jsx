@@ -26,6 +26,8 @@ const LogoutPage = lazy(_ => import('./LogoutPage'))
 const TradingPage = lazy(_ => import('./TradingPage'))
 const MarketsPage = lazy(_ => import('./MarketsPage'))
 const Dapp = lazy(_ => import('./Dapp'))
+const DappTrade = lazy(_ => import('./DappTrade'))
+const DappOrders = lazy(_ => import('./DappOrders'))
 class App extends React.PureComponent {
 
   render() {
@@ -37,10 +39,12 @@ class App extends React.PureComponent {
               <Route exact path="/unlock" component={LoginPage} />
               <Route exact path="/wallet" component={WalletPage} />
               <Route exact path="/markets" component={MarketsPage} />
-              <Route exact path="/trade/:pair?" component={TradingPage} /> 
-              <Route exact path="/dapp/:pair?" component={Dapp} />           
+              <Route exact path="/trade/:pair?" component={TradingPage} />                    
               <Route exact path="/logout" component={LogoutPage} />
               <Route exact path="/create" component={CreateWalletPage} />
+              <Route exact path="/dapp/orders" component={DappOrders} />
+              <Route exact path="/dapp/:pair?" component={Dapp} />               
+              <Route exact path="/dapp/trade/:pair?" component={DappTrade} />  
               <Route render={() => <Redirect to="/markets" />} />
             </Switch>          
           </Layout>

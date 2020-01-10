@@ -99,7 +99,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet() || isMobile()) {
+    if (isTomoWallet()) {
       await this.props.loginWithMetamask()
     }
 
@@ -165,8 +165,9 @@ class Default extends React.PureComponent<Props, State> {
   }
 
   generateClassname = () => {
-    const className = this.isTradingPage(this.props.pathname) ? "exchange-page" : ""
-    return (isTomoWallet() || isMobile()) ? `${className} tomo-wallet` : className
+    const { pathname } = this.props
+    const className = this.isTradingPage(pathname) ? "exchange-page" : ""
+    return ((isTomoWallet() || isMobile()) && pathname.includes('/dapp')) ? `${className} tomo-wallet` : className
   }
 
   render() {

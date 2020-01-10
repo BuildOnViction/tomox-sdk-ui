@@ -286,6 +286,10 @@ export const isMobile = () => {
   return check
 }
 
+export const isWeb3 = () => {
+  return window.web3 || !window.web3.currentProvider
+}
+
 export const isTomoWallet = () => {
   if (!window.web3 || !window.web3.currentProvider) return false
   return window.web3.currentProvider.isTomoWallet
@@ -322,4 +326,11 @@ export const calcPrecision = (price: number) => {
   }
 
   return { pricePrecision, amountPrecision }
+}
+
+export const calcPercent = (a: string, b: string, precision: number) => {
+  const aFormated = BigNumber(a).toFixed(precision)
+  const bFormated = BigNumber(b).toFixed(precision)
+
+  return BigNumber(aFormated).times(100).div(bFormated).toNumber()
 }

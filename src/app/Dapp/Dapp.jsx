@@ -2,40 +2,21 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Tabs, Tab, Button, Icon } from '@blueprintjs/core'
+import { Tabs, Tab, Icon } from '@blueprintjs/core'
 import { FormattedMessage } from "react-intl"
 import 'rc-tabs/assets/index.css'
 import { default as RcTabs, TabPane } from 'rc-tabs'
 import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
+import { Link } from "react-router-dom"
 
-import OrdersTableMobile from '../../components/OrdersTableMobile'
-import OrderForm from '../../components/OrderForm'
+import { isTomoWallet } from '../../utils/helpers'
 import TradesTable from '../../components/TradesTable'
 import OrderBook from '../../components/OrderBook'
 import TVChartRenderer from '../../components/TVChartContainer'
 import DepthChart from '../../components/DepthChart'
-import { Theme } from '../../components/Common'
+import { Theme, TmColors } from '../../components/Common'
 import arrowDownOrangeUrl from '../../assets/images/arrow_down_orange.svg'
-type Props = {
-  authenticated: boolean,
-  isConnected: boolean,
-  isInitiated: boolean,
-  balancesLoading: boolean,
-  baseTokenBalance: string,
-  quoteTokenBalance: string,
-  baseTokenAllowance: string,
-  quoteTokenAllowance: string,
-  baseTokenSymbol: string,
-  quoteTokenSymbol: string,
-  pairIsAllowed: boolean,
-  pairName: string,
-  queryTradingPageData: () => void,
-  makeFee: string,
-  takeFee: string,
-  toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
-  ohlcvData: Array<Object>,
-}
 
 type State = {
   chartTadId: string,
@@ -46,8 +27,7 @@ type State = {
 export default class Dapp extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
-    isShowOrderForm: false,
-    isShowOrdersTable: false,
+    isShowHelpPanel: false,
   }
 
   componentDidMount() {
@@ -70,21 +50,11 @@ export default class Dapp extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
-  toggleOrderForm = () => {
-    this.setState({
-      isShowOrderForm: !this.state.isShowOrderForm,
-    })
-  }
-
-  toggleOrdersTable = () => {
-    this.setState({
-      isShowOrdersTable: !this.state.isShowOrdersTable,
-    })
-  }
+  toggleHelpPanel = (value: boolean) => this.setState({isShowHelpPanel: value})
 
   render() {
-    const { quoteTokenSymbol } = this.props
-    const { isShowOrderForm, isShowOrdersTable } = this.state
+    const { isShowHelpPanel } = this.state
+    const { quoteTokenSymbol, currentPairName, authenticated } = this.props
 
     return (      
       <Grid flow="column" 
@@ -104,41 +74,40 @@ export default class Dapp extends React.PureComponent<Props, State> {
         </ChartsCell>
 
         <OrdersTradesCell>
-          {/* <MainTabs
-            defaultActiveKey="1"
-            onChange={() => {}}
-            renderTabBar={()=><ScrollableInkTabBar />}
-            renderTabContent={()=><TabContent />}>            
-            <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
-            <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
-          </MainTabs> */}
           <OrdersTradesTabs />
         </OrdersTradesCell>
-        
-        <OrderFormCell isShow={isShowOrderForm}>
-          <Grid flow="column" 
-            columns={"1fr"} 
-            rows={"400px 500px 55px"} 
-            gap="10px" 
-            height="100%">
-            <Cell><OrderForm /></Cell>
-            <Cell><OrdersTradesTabs /></Cell>
-          </Grid>
-          <Close icon="cross" intent="danger" onClick={this.toggleOrderForm} />
-        </OrderFormCell>
 
-        {isShowOrdersTable && (
-          <OrdersTableCell>
-            <OrdersTableMobile />
-            <OrdersTableTitle><FormattedMessage id="dapp.orders" /></OrdersTableTitle>
-            <Close icon="cross" intent="danger" onClick={this.toggleOrdersTable} />
-          </OrdersTableCell>
-        )}
+        <FooterCell>
+          {<ButtonGroup 
+            toggleHelpPanel={this.toggleHelpPanel}
+            authenticated={authenticated}  
+            pair={currentPairName} />}
+        </FooterCell>
 
-        <FooterCell>{!isShowOrderForm && (<ButtonGroup toggleOrdersTable={this.toggleOrdersTable} toggleOrderForm={this.toggleOrderForm} />)}</FooterCell>
+        {isShowHelpPanel && <HelpPanel togglePanel={this.toggleHelpPanel} />}
       </Grid>
     )
   }
+}
+
+const HelpPanel = ({togglePanel}) => {
+  return (
+    <HelpPanelContainer>
+      <Instruction><FormattedMessage id="dapp.instruction" /></Instruction>
+      <ExternalLinksGroup>
+        <ExternalLink target="_blank" href="https://apps.apple.com/us/app/tomo-wallet/id1436476145">
+          <i className="fa fa-apple" aria-hidden="true" />
+          <FormattedMessage id="dapp.appStore" />
+        </ExternalLink>
+        <Divider><FormattedMessage id="dapp.or" /></Divider>
+        <ExternalLink target="_blank" href="https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en_US">
+          <GoolgePlayIcon className="fa fa-android" aria-hidden="true" />
+          <FormattedMessage id="dapp.googleStore" />
+        </ExternalLink>
+      </ExternalLinksGroup>
+      <Close icon="cross" intent="danger" onClick={() => togglePanel(false)} />
+    </HelpPanelContainer>
+  )
 }
 
 const OrdersTradesTabs = _ => (
@@ -147,58 +116,129 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Orderbook' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Trades History' key="2"><TradesTable /></TabPane>  
+    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
+    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
   </MainTabs>
 )
 
-const ButtonGroup = (props) => {
-  const {toggleOrderForm, toggleOrdersTable} = props
+const ButtonGroup = ({toggleHelpPanel, pair}) => {
 
-  return (
+  return isTomoWallet() 
+  ? (
     <ButtonGroupBox>
-      <OrdersButton onClick={toggleOrdersTable}>
+      <OrdersLink to="/dapp/orders">
         <Icon icon="document" />
-        <span>Orders</span>
+        <FormattedMessage id="dapp.orders" />
+      </OrdersLink>
+      <OrderFormButtonGroup>
+        <BuyLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
+        <SellLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
+      </OrderFormButtonGroup>
+    </ButtonGroupBox>
+  )
+  : (
+    <ButtonGroupBox>
+      <OrdersButton onClick={() => toggleHelpPanel(true)}>
+        <Icon icon="document" />
+        <FormattedMessage id="dapp.orders" />
       </OrdersButton>
       <OrderFormButtonGroup>
-        <BuyButton 
-          intent="success"
-          text={<FormattedMessage id="exchangePage.buy" />}
-          name="order"
-          onClick={toggleOrderForm}
-        />
-        <SellButton
-          intent="danger"
-          text={<FormattedMessage id="exchangePage.sell" />}
-          name="order"
-          onClick={toggleOrderForm}
-        />
+        <BuyButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.buy" /></BuyButton>
+        <SellButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.sell" /></SellButton>
       </OrderFormButtonGroup>
     </ButtonGroupBox>
   )
 }
 
-const StyledButton = styled(Button)`
-  padding: 0 40px;
-  box-shadow: unset !important;
-  background-image: unset !important;
-  border-radius: 0 !important;  
-  user-select: none;
+const HelpPanelContainer = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 110;
+  background: ${props => props.theme.mainBg};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
-  &.bp3-button  {
-    min-height: 40px;
-    min-width: 45%;
+const Instruction = styled.div`
+  padding: 0 10px;
+  text-align: center;
+  line-height: 1.7em;
+`
+
+const ExternalLinksGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 15px;
+`
+
+const Divider = styled.div`
+  margin: 10px auto;
+`
+
+const ExternalLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 70%;
+  max-width: 250px;
+  color: ${TmColors.WHITE};
+  background: ${TmColors.LIGHT_BLUE};
+  border-radius: 10px;
+
+  i {
+    margin-right: 5px;
   }
 `
 
-const BuyButton = styled(StyledButton).attrs({
-  className: "buy-btn",
-})``
+const GoolgePlayIcon = styled.i`
+  color: ${TmColors.LIGHT_GREEN};
+`
 
-const SellButton = styled(StyledButton).attrs({
-  className: "sell-btn",
-})``
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  user-select: none;
+  height: 40px;
+  min-width: 45%;
+  color: ${TmColors.WHITE};
+`
+
+const BuyLink = styled(StyledLink)`
+  background: ${TmColors.GREEN};
+`
+
+const SellLink = styled(StyledLink)`
+  background: ${TmColors.RED};
+`
+
+const StyledButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  user-select: none;
+  height: 40px;
+  min-width: 45%;
+  color: ${TmColors.WHITE};
+`
+
+const BuyButton = styled(StyledButton)`
+  background: ${TmColors.GREEN};
+`
+
+const SellButton = styled(StyledButton)`
+  background: ${TmColors.RED};
+`
 
 const OrderFormButtonGroup = styled.div`
   display: flex;
@@ -207,6 +247,24 @@ const OrderFormButtonGroup = styled.div`
   width: 230px;
 `
 
+const OrdersLink = styled(Link)`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  flex-grow: 2;
+  padding: 0 10px;
+  font-size: ${Theme.FONT_SIZE_SM};
+  color: ${TmColors.GRAY};
+
+  span {
+    user-select: none;
+  }
+
+  span:first-child {
+    margin-bottom: 3px;
+  }
+`
 const OrdersButton = styled.div`
   cursor: pointer;
   display: flex;
@@ -215,6 +273,8 @@ const OrdersButton = styled.div`
   flex-grow: 2;
   padding: 0 10px;
   font-size: ${Theme.FONT_SIZE_SM};
+  color: ${TmColors.GRAY};
+
   span {
     user-select: none;
   }
@@ -240,23 +300,6 @@ const ButtonGroupBox = styled.div`
 
 const FooterCell = styled.div`
   height: 55px;
-`
-
-const Close = styled(Icon)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  padding: 10px;
-`
-
-const OrdersTableTitle = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  padding: 5px 0;
-  transform: translateX(-50%);
-  font-size: ${Theme.FONT_SIZE_MD};
 `
 
 const ChartsCell = styled(Cell).attrs({
@@ -356,100 +399,6 @@ const OrdersTradesCell = styled(Cell).attrs({
   } 
 `
 
-const OrderFormCell = styled(Cell).attrs({
-  className: 'order-form-cell',
-})`
-  display: ${props => props.isShow ? 'block' : 'none'};
-  box-shadow: 0 0 0 1px ${props => props.theme.border};
-  overflow: auto;
-  font-size: ${Theme.FONT_SIZE_SM};
-  position: fixed;
-  background-color: ${props => props.theme.mainBg};
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 30;
-
-  .bp3-tab {
-    line-height: initial;
-  }
-
-  .bp3-tab-list > *:not(:last-child) {
-    margin-right: 0;
-    padding-right: 40px;
-  }
-
-  .bp3-input {
-    border-radius: initial;
-    box-shadow: initial;
-    background: ${props => props.theme.subBg};
-    color: ${props => props.theme.textTable};
-  }
-
-  .buy-btn,
-  .sell-btn {
-    border-radius: initial;
-    box-shadow: initial;
-  }
-
-  .buy-btn {
-    background: #00c38c;
-  }
-
-  .sell-btn {
-    background: #f94d5c;
-  }
-
-  .order-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    position: relative;
-
-    label.bp3-label {
-      margin-top: -5px;
-      margin-bottom: 0;
-    }
-
-    &:after {
-      content: "";
-      position: absolute;
-      top: 5px;
-      right: 50%;
-      height: 80%;
-      border-right: 1px solid ${props => props.theme.border};
-    }
-
-    .buy-side,
-    .sell-side {
-      width: calc(50% - 12px);
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      .base-token {
-        font-size: ${Theme.FONT_SIZE_MD};
-      }
-    }
-  }
-`
-
-const OrdersTableCell = styled.div`
-  overflow: auto;
-  font-size: ${Theme.FONT_SIZE_SM};
-  position: fixed;
-  background-color: ${props => props.theme.mainBg};
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 30;
-  padding: 40px 5px 5px 5px;
-`
-
 const ChartTabs = styled(Tabs)`
   .bp3-tab-list {
     position: absolute;
@@ -486,6 +435,14 @@ const MainTabs = styled(RcTabs)`
   .rc-tabs-bar {
     border-bottom: 1px solid ${props => props.theme.border} !important;
   }
+
+`
+
+const Close = styled(Icon)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
 `
 
 
