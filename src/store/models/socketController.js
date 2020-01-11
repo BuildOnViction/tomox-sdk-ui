@@ -32,6 +32,7 @@ import {
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
 import type { WebsocketEvent, WebsocketMessage } from '../../types/websocket'
 import { queryAccountBalance } from './accountBalances'
+import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
 
 export default function socketControllerSelector(state: State) {
   return {
@@ -468,7 +469,7 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
 
     const { pairName } = event.payload
     const pairInfo = pairs[pairName]
-    let bids, asks, orderBookData, pricePrecision = 4, amountPrecision =4
+    let bids, asks, orderBookData, pricePrecision = defaultPricePrecision, amountPrecision = defaultAmountPrecision
 
     if (currentPairData) {
       pricePrecision = currentPairData.pricePrecision
