@@ -65,9 +65,10 @@ export default function createSelector(state: State) {
 export function queryAppData(): ThunkAction {
   return async (dispatch, getState, { socket, api }) => {
     const state = getState()
+    const { pair } = getTokenPairsDomain(state).getCurrentPair()
     const { router: { location: { pathname }}} = state
-    const pairParam = pathname.match(/.*trade\/?(.*)$/)
-    let currentPair = pairParam ? pairParam[1].replace('-', '/') : ''
+    const pairParam = pathname.match(/.*\/(trade|dapp)\/?(.*)$/i)
+    let currentPair = (pairParam && pairParam[2]) ? pairParam[2].replace('-', '/').toUpperCase() : pair ? pair : ''
 
     try {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
@@ -91,7 +92,7 @@ export function queryAppData(): ThunkAction {
       dispatch(layoutCreators.updateExchangeFee(fee))
 
       const {pairs: pairNames} = addresses
-      currentPair = pairNames.includes(currentPair) ? currentPair : pairNames[0]
+      currentPair = (currentPair && pairNames.includes(currentPair)) ? currentPair : pairNames[0]
       dispatch(actionCreators.updateCurrentPair(currentPair))
     } catch (e) {
       const message = e.message ? e.message : "Could not connect to Tomochain network"

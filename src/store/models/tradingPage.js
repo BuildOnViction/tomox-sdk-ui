@@ -61,16 +61,19 @@ export const queryTradingPageData = (): ThunkAction => {
 
       // Unsubscribe socket when change current pair
       socket.unSubscribePrice()
-      // socket.unsubscribeChart()
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()      
 
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
+
       let { router: { location: { pathname }}} = state
+      const pairParam = pathname.match(/.*\/(trade|dapp)\/?(.*)$/i)
+      let pairName = (pairParam && pairParam[2]) ? pairParam[2].toUpperCase() : (currentPair.pair ? currentPair.pair : '')
+
       pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
-      dispatch(push(`/${pathname}/${currentPair.pair.replace('/', '-')}`))
+      dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()
       const accountDomain = getAccountDomain(state)
@@ -97,12 +100,6 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
       socket.subscribeOrderBook(currentPair)
-      // dispatch(actionCreators.updateOHLCVLoading(true))
-      // socket.subscribeChart(
-      //   currentPair,
-      //   state.ohlcv.currentTimeSpan.label,
-      //   state.ohlcv.currentDuration.label,
-      // )
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
