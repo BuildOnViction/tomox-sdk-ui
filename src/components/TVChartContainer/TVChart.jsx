@@ -6,30 +6,14 @@ import { timeSpans } from '../../store/models/ohlcv'
 
 const modes = {
   dark: {
-    "volumePaneSize": "medium",
     "paneProperties.background": "#252C40",
     "paneProperties.vertGridProperties.color": "#252C40",
     "paneProperties.horzGridProperties.color": "#394362",
-    "paneProperties.legendProperties.showSeriesTitle": false,
-    "scalesProperties.textColor" : "#6e7793",
-    "scalesProperties.fontSize": 12,
-    "scalesProperties.lineColor": "#394362",
-    // "mainSeriesProperties.candleStyle.wickUpColor": '#336854',
-    // "mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
-    "timeScale.rightOffset": 5,
   },
   light: {
-    "volumePaneSize": "medium",
     "paneProperties.background": "#fff",
     "paneProperties.vertGridProperties.color": "#fff",
     "paneProperties.horzGridProperties.color": "#d7e1ea",
-    "paneProperties.legendProperties.showSeriesTitle": false,
-    "scalesProperties.textColor" : "#6e7793",
-    "scalesProperties.fontSize": 12,
-    "scalesProperties.lineColor": "#394362",
-    // "mainSeriesProperties.candleStyle.wickUpColor": '#336854',
-    // "mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
-    "timeScale.rightOffset": 5,
   },
 }
 

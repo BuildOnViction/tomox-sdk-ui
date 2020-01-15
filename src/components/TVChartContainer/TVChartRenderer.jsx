@@ -94,6 +94,10 @@ export default class TVChartRenderer extends React.PureComponent {
 				'mainSeriesProperties.candleStyle.borderDownColor': "#f94d5c",			
 				'scalesProperties.fontSize': 12,
 				'scalesProperties.textColor' : "#6e7793",
+				"paneProperties.legendProperties.showSeriesTitle": false,
+				"scalesProperties.lineColor": "#394362",
+				"timeScale.rightOffset": 5,
+				"volumePaneSize": "medium",
 			},
 			time_frames: [],
 			timezone,
@@ -101,8 +105,10 @@ export default class TVChartRenderer extends React.PureComponent {
 		}
 
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
-
+		
 		widget.onChartReady(() => {
+			widget.applyOverrides({...modes[mode]})
+
 			if (isTomoWallet() || isMobile()) {
 				window.tvWidget.chart().executeActionById('drawingToolbarAction')
 			}
@@ -121,6 +127,8 @@ export default class TVChartRenderer extends React.PureComponent {
 		if (window.tvWidget !== null) {
 			window.tvWidget.onChartReady(_ => {
 				window.tvWidget.save(data => {
+					delete data.charts[0].chartProperties.paneProperties.background
+
 					localStorage.setItem(
 						`savedChart.${this.props.currentPair.pair}`, 
 						JSON.stringify({...data, createdAt: Date.now()})
