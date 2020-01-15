@@ -405,7 +405,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
         </Cell>
         <Cell width={widthColumnsTradeHistory[2]} muted>
-          {ORDERTYPES[order.type] || ORDERTYPES['MO']}
+          {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {BigNumber(order.price).toFormat(pricePrecision)}

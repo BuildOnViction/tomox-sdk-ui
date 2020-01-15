@@ -107,7 +107,7 @@ export default class TVChartRenderer extends React.PureComponent {
 		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
 		
 		widget.onChartReady(() => {
-			// This workaround detail see the issue #171
+			// This is a workaround detail see the issue #171
 			widget.applyOverrides({...modes[mode]})
 
 			if (isTomoWallet() || isMobile()) {
@@ -128,7 +128,7 @@ export default class TVChartRenderer extends React.PureComponent {
 		if (window.tvWidget !== null) {
 			window.tvWidget.onChartReady(_ => {
 				window.tvWidget.save(data => {
-					// This workaround detail see the issue #171
+					// This is a workaround detail see the issue #171
 					delete data.charts[0].chartProperties.paneProperties.background
 
 					localStorage.setItem(
