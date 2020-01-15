@@ -369,11 +369,9 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         userTrades = matches.trades.map(trade => parseTrade(trade, pairInfo))
         const { price, amount, side, filled, pair } = parsedOrder
         dispatch(appActionCreators.addOrderSuccessNotification({ txHash, pair, price, amount, filled, side }))
-
-
       } else {
         matches.makerOrders.forEach(order => {
-          if (utils.getAddress(order.userAddress) === signerAddress) {
+          if (utils.getAddress(order.userAddress).toLowerCase() === signerAddress.toLowerCase()) {
             const parsedOrder = parseOrder(order, pairInfo)
             userOrders.push(parsedOrder)
             const { price, amount, filled, side, pair } = parsedOrder
@@ -382,7 +380,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         matches.trades.forEach(trade => {
-          if (utils.getAddress(trade.maker) === signerAddress) {
+          if (utils.getAddress(trade.maker).toLowerCase() === signerAddress.toLowerCase()) {
             const tradeParsed = parseTrade(trade, pairInfo)
             tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
             userTrades.push(tradeParsed)
