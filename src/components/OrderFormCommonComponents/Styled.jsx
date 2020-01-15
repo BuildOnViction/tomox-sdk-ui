@@ -58,7 +58,7 @@ export const InputBox = styled.div`
   }
 
   .bp3-input-group.bp3-fill {
-    width: calc(100% - 55px);
+    width: calc(100% - 60px);
   }
 
   @media only screen and (max-width: 680px) {
@@ -80,7 +80,10 @@ export const InputBox = styled.div`
   
 export const InputLabel = styled.div`
   height: 100%;
-  width: 55px;
+  width: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin: auto 0;
   padding-right: 5px;
   user-select: none;
@@ -153,7 +156,7 @@ export const MaxAmountInfo = styled.div`
   color: ${TmColors.WHITE};
   position: absolute;
   top: 100%;
-  left: 67px;
+  left: 60px;
   right: 0;
   
   @media only screen and (max-width: 680px) {
