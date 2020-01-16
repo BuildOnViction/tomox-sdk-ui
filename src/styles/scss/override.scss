@@ -5,6 +5,10 @@
  * In this file we override or reset style of some common components of blueprintjs
  * like navbar, card, ...
  */
+.bp3-toast-message {
+  word-break: break-all;
+}
+
 .bp3-navbar {
   padding: 0;
 }
