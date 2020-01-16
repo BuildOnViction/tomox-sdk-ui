@@ -15,12 +15,15 @@ export const mapStateToProps = (state: State) => {
   const currentPair = getTokenPairsDomain(state).getCurrentPair()
   const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
   const pricePrecision = currentPairData ? currentPairData.pricePrecision : null
-  const mode = getSettingsDomain(state).getMode()
+  const settingsDomain = getSettingsDomain(state)
+  const mode = settingsDomain.getMode()
+  const locale = settingsDomain.getLocale()
 
   return {
     ohlcv,
     currentPair: { ...currentPair, pricePrecision },
     mode,
+    locale,
   }
 }
 

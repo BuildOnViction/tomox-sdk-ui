@@ -4,13 +4,7 @@ import './index.css'
 import Datafeed from './api/'
 import { isTomoWallet, isMobile } from '../../utils/helpers';
 
-function getLanguageFromURL() {
-	const regex = new RegExp('[\\?&]lang=([^&#]*)')
-	const results = regex.exec(window.location.search)
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
-}
-
-const isExpired = (timestamp, expireDays) => {
+const isExpired = (timestamp, expireDays: number = 1) => {
 	const now = Date.now()
 	const expire = expireDays * 24 * 60 * 60 * 1000
 	return (now - timestamp) > expire
@@ -36,6 +30,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			currentPair: { pair, baseTokenAddress, quoteTokenAddress, pricePrecision },
 			mode,
 			modes,
+			locale,
 		} = this.props
 
 		const { location: { origin } } = window
@@ -45,7 +40,7 @@ export default class TVChartRenderer extends React.PureComponent {
 		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone
 
 		let saved_data = JSON.parse(localStorage.getItem(`savedChart.${this.props.currentPair.pair}`))
-		if (saved_data && isExpired(saved_data.createdAt, 7)) {
+		if (saved_data && isExpired(saved_data.createdAt, 1)) {
 			saved_data = null
 			localStorage.removeItem(`savedChart.${this.props.currentPair.pair}`)
 		}
@@ -57,7 +52,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
 			library_path: this.props.libraryPath,
-			locale: getLanguageFromURL() || 'en',
+			locale,
 			disabled_features: [
 				'use_localstorage_for_settings', 
 				'volume_force_overlay', 
