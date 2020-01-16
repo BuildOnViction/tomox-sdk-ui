@@ -286,7 +286,7 @@ export const LightMode = {
   mainBg: '#fff',
   subBg: '#f4f6f8',
   secondSubBg: '#dedede',
-  menuBg: '#f4f6f8',
+  menuBg: '#e3e5e6',
   menuBgHover: '#dedede',
   menuColor: '#040404',
   menuColorHover: '#ff9a4d',
