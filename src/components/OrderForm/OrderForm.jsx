@@ -101,6 +101,9 @@ class OrderForm extends React.PureComponent<Props, State> {
       })
     }
 
+    // currentPair and currentPairData changed and ready at different times
+    // so we use dirtyPriceForm to indicate token pair changed & order form is refresh
+    // and when currenPairData ready we will add price to form
     if (prevProps.currentPair.pair !== this.props.currentPair.pair) {
       this.setState({dirtyPriceForm: false})
     }
@@ -112,6 +115,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       return this.setState({ 
         buyPrice: priceFormated, 
         sellPrice: priceFormated,
+        buyAmount: '',
+        sellAmount: '',
+        buyTotal: '',
+        sellTotal: '',
         dirtyPriceForm: true,
       }) 
     }
