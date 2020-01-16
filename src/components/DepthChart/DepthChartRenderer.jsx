@@ -15,7 +15,7 @@ type ChartProps = {
   title: string,
   bids: Array<BidOrAsk>,
   asks: Array<BidOrAsk>,
-  tootTip: (Object, Object) => string
+  toolTip: (Object, Object) => string
 }
 
 const DepthChartRenderer = (props: ChartProps) => {
@@ -30,6 +30,7 @@ const DepthChartRenderer = (props: ChartProps) => {
         }}
         options={{
           type: 'serial',
+          fontFamily: 'SFProText, -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "Icons16", sans-serif;',
           dataProvider: [...bids.reverse(), ...asks],
           graphs: [
             {

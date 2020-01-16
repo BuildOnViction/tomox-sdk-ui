@@ -2,7 +2,10 @@
 import React from 'react'
 import { unformat } from 'accounting-js'
 import DepthChartRenderer from './DepthChartRenderer'
+import BigNumber from 'bignumber.js'
+import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../config/tokens'
 
+BigNumber.config({ ROUNDING_MODE: 3 }) // The round is floor
 const AmCharts = require('@amcharts/amcharts3-react')
 
 type BidOrAsk = {
@@ -17,6 +20,25 @@ type Props = {
 };
 
 class DepthChart extends React.Component<Props, State> {
+  state = {
+    pricePrecision: defaultPricePrecision,
+    amountPrecision: defaultAmountPrecision,
+  }
+
+  componentDidUpdate() {
+    const { pricePrecision, amountPrecision } = this.state
+    const { currentPairData } = this.props
+    
+    if (currentPairData && (
+      (currentPairData.pricePrecision !== pricePrecision)
+      || (currentPairData.amountPrecision !== amountPrecision)
+    )) {
+      this.setState({
+        pricePrecision: currentPairData.pricePrecision,
+        amountPrecision: currentPairData.amountPrecision,
+      })
+    }
+  }
   
   formatNumber = (val: string, chart: Object, precision: number) => {
     return AmCharts.formatNumber(unformat(val), {
@@ -26,47 +48,51 @@ class DepthChart extends React.Component<Props, State> {
     })
   }
 
-  processData = (list: Array<BidOrAsk>, type: string) => {
+  processData = (list: Array<BidOrAsk>, pricePrecision: number, amountPrecision: number, type: string) => {
     return list.map(item => {
-      item[`${type}total`] = item.total
-      item[`${type}amount`] = item.amount
+      item['price'] = BigNumber(item.price).toFixed(pricePrecision)
+      item['amount'] = BigNumber(item.amount).toFixed(amountPrecision)
+      item['total'] = BigNumber(item.total).toFixed(defaultAmountPrecision)      
+      item[`${type}amount`] = BigNumber(item.amount).toFixed(amountPrecision)
+      item[`${type}total`] = BigNumber(item.total).toFixed(defaultAmountPrecision)
       return item
     })
   }
 
   toolTip = (item: Object, graph: Object) => {
+    const { pricePrecision, amountPrecision } = this.state
     let txt
     if (graph.id === 'asks') {
-      txt = `Ask: <strong>${this.formatNumber(
+      txt = `Sell price: <strong>${this.formatNumber(
         item.dataContext.price,
         graph.chart,
-        4
+        pricePrecision,
       )}</strong><br />
-      Volume: <strong>${this.formatNumber(
+      Amount: <strong>${this.formatNumber(
         item.dataContext.amount,
         graph.chart,
-        4
+        amountPrecision,
       )}</strong><br />
-      Total volume: <strong>${this.formatNumber(
+      Total: <strong>${this.formatNumber(
         item.dataContext.total,
         graph.chart,
-        4
+        defaultAmountPrecision,
       )}</strong>`
     } else {
-      txt = `Bid: <strong>${this.formatNumber(
+      txt = `Buy price: <strong>${this.formatNumber(
         item.dataContext.price,
         graph.chart,
-        4
+        pricePrecision,
       )}</strong><br />
-      Volume: <strong>${this.formatNumber(
+      Amount: <strong>${this.formatNumber(
         item.dataContext.amount,
         graph.chart,
-        4
+        amountPrecision,
       )}</strong><br />
-      Total volume: <strong>${this.formatNumber(
+      Total: <strong>${this.formatNumber(
         item.dataContext.total,
         graph.chart,
-        4
+        defaultAmountPrecision,
       )}</strong>
       `
     }
@@ -74,15 +100,19 @@ class DepthChart extends React.Component<Props, State> {
   };
 
   render() {
-    const { bids, asks } = this.props
-    const processedBids = this.processData(bids, 'bids')
-    const processedAsks = this.processData(asks, 'asks')
+    let { bids, asks} = this.props
+    const { pricePrecision, amountPrecision } = this.state
+
+    const processedBids = this.processData(bids, pricePrecision, amountPrecision, 'bids')
+    const processedAsks = this.processData(asks, pricePrecision, amountPrecision, 'asks')
 
     return (
       <DepthChartRenderer
         bids={processedBids}
         asks={processedAsks}
         toolTip={this.toolTip}
+        pricePrecision={pricePrecision}
+        amountPrecision={amountPrecision}
       />
     )
   }
