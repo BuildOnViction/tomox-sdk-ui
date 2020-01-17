@@ -92,7 +92,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           rows={"minmax(200px, 6fr) minmax(300px, 3fr)"} 
           gap="10px" 
           height="100%">
-          <OrderbooxTradesGrid columns={2} height="100%" gap="20px">
+          <OrderbooxTradesGrid columns={2} height="100%" gap="15px">
               <Cell width={1}><OrderBook /></Cell>
               <Cell width={1}><TradesTable /></Cell>
           </OrderbooxTradesGrid>

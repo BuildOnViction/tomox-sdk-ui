@@ -6,7 +6,7 @@ import { PopoverPosition } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
 import BigNumber from 'bignumber.js'
 
-import { Loading, Colors, TmColors, Centered, UtilityIcon, Text } from '../Common'
+import { Loading, Colors, TmColors, Centered, UtilityIcon, Text, Theme } from '../Common'
 import { getChangePercentText } from '../../utils/helpers'
 
 type BidOrAsk = {
@@ -26,7 +26,7 @@ type PricePrecision = {
   rank: number,
 }
 
-const widthColumns = ['30%', '32%', '38%']
+const widthColumns = ['32%', '32%', '36%']
 
 const NoData = () => {
   return (
@@ -88,6 +88,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onChangePricePrecision,
       currentPairData,
       referenceCurrency,
+      baseTokenSymbol,
+      quoteTokenSymbol,
     } = this.props
 
     const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
@@ -122,9 +124,21 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
 
             <ListHeading>
               <HeaderRow>
-                <HeaderCell width={widthColumns[0]} className="header-cell"><FormattedMessage id="exchangePage.price" /></HeaderCell>
-                <AmountHeader width={widthColumns[1]} className="header-cell text-right"><FormattedMessage id="exchangePage.amount" /></AmountHeader>
-                <HeaderCell width={widthColumns[2]} className="header-cell text-right"><FormattedMessage id="exchangePage.volume" /></HeaderCell>
+                <HeaderCell width={widthColumns[0]} className="header-cell">
+                  <FormattedMessage 
+                    id="exchangePage.orderbook.price"
+                    values={{quoteTokenSymbol}} />
+                </HeaderCell>
+                <AmountHeader width={widthColumns[1]} className="header-cell text-right">
+                  <FormattedMessage 
+                    id="exchangePage.orderbook.amount"
+                    values={{baseTokenSymbol}} />
+                </AmountHeader>
+                <HeaderCell width={widthColumns[2]} className="header-cell text-right">
+                  <FormattedMessage 
+                    id="exchangePage.orderbook.total"
+                    values={{baseTokenSymbol}} />
+                </HeaderCell>
               </HeaderRow>
             </ListHeading>
 
@@ -395,7 +409,7 @@ const Cell = styled.span`
 `
 
 const AmountCell = styled(Cell)`
-  padding: 3.5px 6px;
+  padding: 3.5px 0;
 `
 
 const ListHeading = styled.ul.attrs({
@@ -441,11 +455,15 @@ const HeaderRow = styled.li`
 
 const HeaderCell = styled.span`
   width: ${props => props.width? props.width : "35px"}
+  height: fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 const AmountHeader = styled(HeaderCell)`
-  padding-right: 6px;
-  padding-left: 6px;
 `
 
 const LatestTick = styled.div.attrs({

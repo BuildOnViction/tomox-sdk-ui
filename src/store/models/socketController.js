@@ -239,9 +239,9 @@ function handleTokenListUpdated(
 }
 
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
-  const { type, payload } = event
+  const { type } = event
 
-  if (type !== 'ORDER_CANCELLED' && payload.orderID !== '0') dispatch(orderActionsCreators.ordersUpdatedStatus(false)) // Remove loading screen in OrderForm
+  if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false)) // Remove loading screen in OrderForm
   dispatch(actionCreators.updateNewNotifications()) 
   dispatch(queryAccountBalance()) // Get the balance of tokens
 

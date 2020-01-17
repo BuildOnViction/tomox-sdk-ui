@@ -52,6 +52,10 @@ class OrderBook extends React.Component<Props, State> {
         bids, 
         asks,
         select,
+        currentPair: {
+          baseTokenSymbol,
+          quoteTokenSymbol,
+        },
         currentPairData,
         referenceCurrency,
       },
@@ -80,7 +84,9 @@ class OrderBook extends React.Component<Props, State> {
         amountPrecision={amountPrecision}
         onChangePricePrecision={handleChangePricePrecision}
         currentPairData={currentPairData}
-        referenceCurrency={referenceCurrency} />
+        referenceCurrency={referenceCurrency}
+        baseTokenSymbol={baseTokenSymbol}
+        quoteTokenSymbol={quoteTokenSymbol} />
     )
   }
 }
