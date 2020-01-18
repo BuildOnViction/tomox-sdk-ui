@@ -434,7 +434,8 @@ class Default extends React.PureComponent<Props, State> {
           unlockWalletOnKeyPress={this.unlockWalletWithSessionPasswordOnKeyPress}        
           unlockWallet={this.unlockWalletWithSessionPassword}
           isOpen={showSessionPasswordModal} 
-          handleClose={this.closeSessionPasswordModal} />
+          handleClose={this.closeSessionPasswordModal}
+          mode={mode} />
 
         {isShowTokenSearcher && (
           <TokenSearcherBoxMobile>

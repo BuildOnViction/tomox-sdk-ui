@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Button, MenuItem } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import HighlightText from '../Common/HighlightText'
-import { TmColors } from '../Common'
 
 type Props = {
   items: Array<Object>,
@@ -14,21 +13,21 @@ type Props = {
 
 const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
   return (
-    <Select
+    <StyledSelect
       items={items}
       filterable={true}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
       noResults={<MenuItem disabled text="No results." />}
       onItemSelect={onChange}
-      popoverProps={{ minimal: true }}
+      popoverProps={{ minimal: true, usePortal: false }}
     >
-      <ButtonWrapper
+      <StyledButton
         text={item ? `${item.symbol}` : '(No selection)'}
         rightIcon="caret-down"
         fill={true}
       />
-    </Select>
+    </StyledSelect>
   )
 }
 
@@ -53,10 +52,17 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
   )
 }
 
-export default TokenSelectRenderer
-
-const ButtonWrapper = styled(Button)`
+const StyledButton = styled(Button)`
   height: 40px;
-  border-radius: 0;
-  background: ${TmColors.BLACK} !important;
+  background: ${props => props.theme.subBg} !important;
+  box-shadow: none !important;
 `
+
+const StyledSelect = styled(Select)`
+  .bp3-popover-content,
+  li {
+    background: ${props => props.theme.inputBackground} !important;
+  }
+`
+
+export default TokenSelectRenderer

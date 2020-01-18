@@ -4,6 +4,7 @@ import {
   getAccountDomain,
   getTokenDomain,
   getTransferTokensFormDomain,
+  getSettingsDomain,
 } from '../domains'
 
 import * as actionCreators from '../actions/walletPage'
@@ -23,6 +24,7 @@ export default function walletPageSelector(state: State) {
     .symbols()
     .filter(symbol => quoteTokens.indexOf(symbol) !== -1)
   const tokenData = accountBalancesDomain.getBalancesAndAllowances(tokens)
+  const mode = getSettingsDomain(state).getMode()
 
   return {
     tomoBalance: accountBalancesDomain.formattedTomoBalance(),
@@ -33,10 +35,10 @@ export default function walletPageSelector(state: State) {
     accountAddress: accountDomain.address(),
     authenticated: accountDomain.authenticated(),
     currentBlock: accountDomain.currentBlock(),
-    showHelpModal: accountDomain.showHelpModal(),
     connected: true,
     gas: transferTokensFormDomain.getGas(),
     gasPrice: transferTokensFormDomain.getGasPrice(),
+    mode,
   }
 }
 
