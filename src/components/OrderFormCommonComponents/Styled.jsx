@@ -11,7 +11,8 @@ export const InputGroupWrapper = styled(InputGroup).attrs({
   }
 
   .bp3-input {
-    font-size: ${Theme.FONT_SIZE_MD};
+    font-family: 'Ubuntu', sans-serif;
+    font-size: ${Theme.FONT_SIZE_SM};
     padding-right: 50px !important;
 
     &:focus {
