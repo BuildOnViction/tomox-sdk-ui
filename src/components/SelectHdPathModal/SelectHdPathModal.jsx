@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, Dialog, MenuItem, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { SmallText, TmColors, ButtonLogin } from '../../components/Common'
+import { SmallText, TmColors, ButtonLogin, DarkMode } from '../../components/Common'
 
 class SelectHdPathModal extends React.PureComponent {
 
@@ -24,7 +24,7 @@ class SelectHdPathModal extends React.PureComponent {
       } = this.props
   
       return (
-        <Dialog
+        <StyledDialog
           className="dark-dialog"
           onClose={onClose}
           title={<FormattedMessage id="unlockWalletPage.chooseHdPathModal.title" />}
@@ -40,7 +40,10 @@ class SelectHdPathModal extends React.PureComponent {
             noResults={<MenuItem disabled text="No results." />}
             filterable={false}
             onActiveItemChange={onHdPathChange}>
-              <Button text={`${hdPaths[indexActive].rank}. ${hdPaths[indexActive].path} - ${hdPaths[indexActive].type}`} rightIcon="caret-down" />
+              <StyledButton 
+                text={`${hdPaths[indexActive].rank}. ${hdPaths[indexActive].path} - ${hdPaths[indexActive].type}`} 
+                rightIcon="caret-down" 
+                fill={true}/>
           </SelectHdPath>
 
           {instructionId && <Instruction><FormattedHTMLMessage id={instructionId} /></Instruction>}
@@ -52,7 +55,7 @@ class SelectHdPathModal extends React.PureComponent {
           )}
 
           <ButtonLogin width="30%" onClick={connect}>Next {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}</ButtonLogin>
-        </Dialog>
+        </StyledDialog>
       )
     }
 }
@@ -72,6 +75,23 @@ const renderHdPath = (hdPath, { handleClick, modifiers, query }) => {
     )
 }
 
+const StyledDialog = styled(Dialog)`
+  color: ${DarkMode.modalColor};
+
+  .bp3-heading {
+    color: ${DarkMode.modalColor};
+    font-weight: 300;
+  }
+
+  button.bp3-dialog-close-button,
+  button.bp3-dialog-close-button:hover {
+    background: none;
+  }
+
+  button.bp3-dialog-close-button:hover .bp3-icon.bp3-icon-small-cross {
+    color: ${TmColors.RED};
+  }
+`
 
 const SubTitle = styled.div`
   margin: 0 0 12px;
@@ -93,12 +113,12 @@ const SelectHdPath = styled(Select)`
   .bp3-popover-target {
     width: 100%;
   }
+`
 
-  .bp3-button {
-    height: 40px;
-    width: 100%;
-    border-radius: 0;
-  }
+const StyledButton = styled(Button)`
+  height: 40px;
+  color: ${DarkMode.inputColor} !important;
+  box-shadow: none !important;
 `
 
 const ErrorMessage = styled.div`
