@@ -54,7 +54,7 @@ class NotificationsRenderer extends React.PureComponent {
     } = this.props
 
     return (
-      <React.Fragment>
+      <Wrapper>
         <NotificationTitle>
           <FormattedMessage id="notifications.title" />
           <MarkReadAll onClick={() => markAllNotificationsRead(address)}><FormattedMessage id="notifications.markAllAsRead" /></MarkReadAll>
@@ -83,12 +83,17 @@ class NotificationsRenderer extends React.PureComponent {
           }
         </NotificationList>
         { loading  && <Loading><Spinner size={30} intent={Intent.PRIMARY} /></Loading> }
-      </React.Fragment>
+      </Wrapper>
     )
   }
 }
 
 export default injectIntl(NotificationsRenderer)
+
+const Wrapper = styled.div`
+  border: 1px solid ${props => props.theme.border};
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, .1);
+`
 
 const NotificationList = styled.div`
   position: relative;
@@ -96,8 +101,6 @@ const NotificationList = styled.div`
   width: 300px;
   overflow-x: hidden;
   color: ${props => props.theme.menuColor};
-  background-color: ${props => props.theme.menuBg};
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
 `
 
 const NotificationTitle = styled.div`

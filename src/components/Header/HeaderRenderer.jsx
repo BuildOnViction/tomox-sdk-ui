@@ -481,7 +481,8 @@ const Header = styled.header.attrs({
       width: 320px;
       color: ${props => props.theme.menuColor};
       background-color: ${props => props.theme.menuBg};
-      box-shadow: 0 10px 10px 0 rgba(0, 0, 0, .5);
+      border: 1px solid ${props => props.theme.border};
+      box-shadow: 0 5px 5px 0 rgba(0, 0, 0, .1);
       overflow: hidden;
       margin-top: 10px;
     }
