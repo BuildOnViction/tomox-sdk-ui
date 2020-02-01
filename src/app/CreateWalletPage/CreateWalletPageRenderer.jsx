@@ -359,7 +359,7 @@ const DialogPrivateKey = (props) => {
     <StyledModal
       className="dark-dialog sm"
       onClose={onClose}
-      title="Your Private Key"
+      title={<FormattedMessage id="createWalletPage.modalPrivateKey.title" />}
       isOpen={isOpenPrivateKeyDialog}
       >
       <Paragraph><FormattedMessage id="createWalletPage.privateKeyBackupInstruction" /></Paragraph>
@@ -537,7 +537,7 @@ const MnemonicTag = styled.span`
 const PrivateKeyBox = styled.div`
   word-break: break-all;
   font-family: 'Ubuntu', sans-serif;
-  font-size: ${Theme.FONT_SIZE_MD};
+  font-size: ${Theme.FONT_SIZE_LG};
   line-height: 24px;
   color: ${TmColors.LIGHT_GRAY};
   border: 2px dashed ${TmColors.LIGHT_GRAY};

@@ -94,6 +94,7 @@
   "createWalletPage.confirmMnemonic.notePart2": "back to previous step",
   "createWalletPage.confirmMnemonic.confirm": "Confirm",
   "createWalletPage.privateKeyBackupInstruction": "Back up your private key on paper and keep it somewhere secret and safe.",
+  "createWalletPage.modalPrivateKey.title": "Your Private Key",
   "marketsPage.favorites": "Favorites",
   "marketsPage.all": "All",
   "marketsPage.search": "Search",
