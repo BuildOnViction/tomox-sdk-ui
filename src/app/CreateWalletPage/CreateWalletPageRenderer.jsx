@@ -356,7 +356,7 @@ const DialogPrivateKey = (props) => {
   const { privateKey, isOpenPrivateKeyDialog, onClose } = props
 
   return (
-    <Modal
+    <StyledModal
       className="dark-dialog sm"
       onClose={onClose}
       title="Your Private Key"
@@ -364,7 +364,7 @@ const DialogPrivateKey = (props) => {
       >
       <Paragraph><FormattedMessage id="createWalletPage.privateKeyBackupInstruction" /></Paragraph>
       <PrivateKeyBox>{privateKey}</PrivateKeyBox>
-    </Modal>
+    </StyledModal>
   )
 }
 
@@ -502,6 +502,7 @@ const LinkWrapper = styled(Link)`
 const Paragraph = styled.p`
   text-align: ${props => props.textAlign? props.textAlign : 'left'};
   margin-bottom: 20px;
+  color: #9ca4ba;
 `
 
 const ConfirmMnemonicWrapper = styled.div`
@@ -556,6 +557,13 @@ const Highlight = styled.span`
 
   &:hover {
     color: ${TmColors.DARK_ORANGE};
+  }
+`
+
+const StyledModal = styled(Modal)`
+  .bp3-heading,
+  .bp3-input {
+    color: #6e7793;
   }
 `
 

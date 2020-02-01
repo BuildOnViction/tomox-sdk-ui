@@ -1,7 +1,7 @@
 // @flow
 import type { Node } from 'react'
 import React from 'react'
-import styled, { ThemeProvider } from 'styled-components'
+import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import {
   Alignment,
@@ -25,7 +25,6 @@ import {
   Theme,
   DarkMode,
   TmColors,
-  LightMode,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -49,13 +48,6 @@ export type Props = {
   changeLocale?: string => {},
 }
 
-export type State = {}
-
-const theme = {
-  dark: DarkMode,
-  light: LightMode,
-}
-
 class Layout extends React.PureComponent<Props, State> {
 
   isCreateImportWalletPage = (pathname: string) => {
@@ -71,21 +63,13 @@ class Layout extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { pathname, mode } = this.props
+    const { pathname } = this.props
 
     if (this.isCreateImportWalletPage(pathname)) {
-      return (
-        <ThemeProvider theme={theme[mode]}>
-          <CreateImportWallet {...this.props} />
-        </ThemeProvider>
-      )
+      return (<CreateImportWallet {...this.props} />)
     }
 
-    return (
-      <ThemeProvider theme={theme[mode]}>
-        <Default {...this.props} />
-      </ThemeProvider>
-    )
+    return (<Default {...this.props} />)
   }
 }
 
@@ -384,7 +368,9 @@ const Wrapper = styled.div.attrs({
   background: ${props => props.theme.mainBg};
 `
 
-const CreateImportWrapper = styled(Wrapper)``
+const CreateImportWrapper = styled(Wrapper)`
+  background: ${DarkMode.mainBg};
+`
 
 const CreateImportHeader = styled.header`
   position: relative;

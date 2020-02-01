@@ -1,9 +1,17 @@
 import React from 'react'
 import { Spinner } from '@blueprintjs/core'
+import styled from 'styled-components'
+
 const Loading = ({ height }) => (
-  <div className="loading-overlay">
+  <Overlay>
     <Spinner intent="primary" />
-  </div>
+  </Overlay>
 )
+
+const Overlay = styled.div.attrs({
+  className: 'loading-overlay',
+})`
+  background: ${props => props.theme.mainBg};
+`
 
 export default Loading
