@@ -113,8 +113,6 @@ const TxNotificationBox = styled.div`
 const InputGroupWrapper = styled(InputGroup)`
   .bp3-input {
     height: 40px;
-    color: ${TmColors.LIGHT_GRAY};
-    background: ${TmColors.BLACK};
   }
 `
 
@@ -123,8 +121,6 @@ const ButtonWrapper = styled(Button)`
   margin: 35px auto 0;
   min-width: 180px;
   text-align: center;
-  color: ${TmColors.BLACK} !important;
-  border-radius: 0;
   background-color: ${TmColors.ORANGE} !important;
   box-shadow: none !important;
   background-image: none !important;

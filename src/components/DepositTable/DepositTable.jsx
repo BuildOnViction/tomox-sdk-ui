@@ -105,6 +105,7 @@ class DepositTable extends React.PureComponent<Props, State> {
         baseTokens,
         redirectToTradingPage,
         accountAddress,
+        mode,
       },
       state: {
         isSendModalOpen,
@@ -161,12 +162,14 @@ class DepositTable extends React.PureComponent<Props, State> {
           isOpen={isSendModalOpen}
           handleClose={this.closeSendModal}
           token={selectedToken}
+          mode={mode}
         />
         <ReceiveTokensModal
           notifyCopiedSuccess={notifyCopiedSuccess}
           accountAddress={accountAddress}
           isOpen={isOpenReceiveDialog} 
-          onClose={closeReceiveDialog} />
+          onClose={closeReceiveDialog}
+          mode={mode} />
       </Wrapper>
     )
   }

@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import Modal from '../Modal'
 import TransferTokensFormContainer from '../TransferTokensForm'
 import type { Token } from '../../types/tokens'
@@ -13,15 +15,21 @@ type Props = {
 }
 
 const TransferTokensModal = (props: Props) => (
-  <Modal
+  <ModalWrapper
     title={<FormattedMessage id="portfolioPage.transferTokensModal.title" />}
     icon="info-sign"
     isOpen={props.isOpen}
     onClose={props.handleClose}
-    className="dark-dialog sm"
+    className={`${props.mode}-dialog sm`}
   >
     <TransferTokensFormContainer token={props.token} tokens={props.tokens} />
-  </Modal>
+  </ModalWrapper>
 )
+
+const ModalWrapper = styled(Modal)`
+  .bp3-dialog-body {
+    margin: 0;
+  }
+`
 
 export default TransferTokensModal

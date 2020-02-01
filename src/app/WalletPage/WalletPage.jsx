@@ -5,8 +5,6 @@ import { Redirect } from 'react-router-dom'
 
 import type { TokenData } from '../../types/tokens'
 
-import { loadShowHelpModalSetting } from '../../store/services/storage'
-
 type Props = {
   connected: boolean,
   accountAddress: string,
@@ -16,32 +14,14 @@ type Props = {
   authenticated: boolean,
   redirectToTradingPage: string => void,
   openConnection: void => void,
-  toggleAllowance: string => void,
   tokenData: Array<TokenData>,
   baseTokens: Array<string>,
   quoteTokens: Array<string>,
-  showHelpModal: boolean,
-  closeHelpModal: void => void,
   balancesLoading: boolean,
+  mode: String,
 }
 
 class WalletPage extends React.PureComponent<Props> {
-
-  checkOpenHelpModal = () => {
-    const showHelpModalSetting = loadShowHelpModalSetting()
-    const {
-      authenticated,
-      showHelpModal,
-      balancesLoading,
-    } = this.props
-
-    if (!showHelpModalSetting) return false
-    if (!authenticated) return false
-    if (!showHelpModal) return false
-    if (balancesLoading) return false
-
-    return true
-  };
 
   render() {
     const {
@@ -51,14 +31,13 @@ class WalletPage extends React.PureComponent<Props> {
       tomoBalance,
       gasPrice,
       gas,
-      toggleAllowance,
       redirectToTradingPage,
       tokenData,
       quoteTokens,
       baseTokens,
-      closeHelpModal,
       balancesLoading,
       copyDataSuccess,
+      mode,
     } = this.props
 
     if (!authenticated) return <Redirect to="/unlock" />
@@ -75,12 +54,11 @@ class WalletPage extends React.PureComponent<Props> {
         quoteTokens={quoteTokens}
         connected={connected}
         accountAddress={accountAddress}
-        toggleAllowance={toggleAllowance}
         balancesLoading={balancesLoading}
         redirectToTradingPage={redirectToTradingPage}
         isHelpModalOpen={isHelpModalOpen}
-        closeHelpModal={closeHelpModal}
         copyDataSuccess={copyDataSuccess}
+        mode={mode}
       />
     )
   }

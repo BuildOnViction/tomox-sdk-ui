@@ -3,12 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Dialog, Icon } from '@blueprintjs/core'
+import { Icon } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
   TmColors,
 } from '../Common'
+import Modal from '../Modal'
 
 type Props = {
   isOpen: boolean,  
@@ -24,32 +25,33 @@ const ReceiveTokensModal = (props: Props) => {
     onClose,
     isOpen,
     intl,
-  } = props
+    mode,
+  } = props  
 
   return (
-    <Dialog
-      className="dark-dialog sm"
+    <Modal
+      className={`${mode}-dialog sm`}
       onClose={onClose}
       title={<FormattedMessage id="portfolioPage.receiveModal.title" />}
-      canOutsideClickClose={false}
-      isOpen={isOpen}
-      >
-        <Title><FormattedMessage id="portfolioPage.receiveModal.copyAddress" />:</Title>
+      isOpen={isOpen}>
+        <ModalContent>
+          <Title><FormattedMessage id="portfolioPage.receiveModal.copyAddress" />:</Title>
 
-        <AddressWrapper>
-          <AddressText>{accountAddress}</AddressText>
-          <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
-            <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}><Icon icon="applications" /></CopyIconBox> 
-          </CopyToClipboard>
-        </AddressWrapper>
+          <AddressWrapper>
+            <AddressText>{accountAddress}</AddressText>
+            <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
+              <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}><Icon icon="applications" /></CopyIconBox> 
+            </CopyToClipboard>
+          </AddressWrapper>
 
-        <ScanQRTitle><FormattedMessage id="portfolioPage.receiveModal.qrCode" /></ScanQRTitle>
-        <QRImage><QRCode value={accountAddress} size={180} includeMargin={true} /></QRImage>  
-    </Dialog>
+          <ScanQRTitle><FormattedMessage id="portfolioPage.receiveModal.qrCode" /></ScanQRTitle>
+          <QRImage><QRCode value={accountAddress} size={180} includeMargin={true} /></QRImage>  
+        </ModalContent>
+    </Modal>
   )
 }
 
-export default injectIntl(ReceiveTokensModal)
+const ModalContent = styled.div``
 
 const Title = styled.div`
   margin-bottom: 7px;
@@ -60,10 +62,6 @@ const AddressWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  &:hover div {
-    color: ${TmColors.ORANGE};
-  }
 `
 
 const AddressText = styled.div``
@@ -72,14 +70,15 @@ const CopyIconBox = styled.span`
   cursor: pointer;
   padding: 5px;
 
-  &:hover {
-    background-color: ${TmColors.LIGHT_BLUE};
+  &:hover .bp3-icon.bp3-icon-applications {
+    color: ${props => props.theme.mainColorHover};
   }
 `
 
 const ScanQRTitle = styled(Title)`
   margin: 30px auto 35px;
   position: relative;
+  text-align: center;
 
   :before,
   :after {
@@ -92,11 +91,11 @@ const ScanQRTitle = styled(Title)`
   }
 
   :before {
-    right: 110%;
+    left: 0;
   }
 
   :after {
-    left: 110%;
+    right: 0;
   }
 `
 
@@ -104,4 +103,6 @@ const QRImage = styled.div`
   text-align: center;
   margin-bottom: 30px;
 `
+
+export default injectIntl(ReceiveTokensModal)
 

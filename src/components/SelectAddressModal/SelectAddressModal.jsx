@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Dialog } from '@blueprintjs/core'
 
-import { TmColors, ButtonLogin} from '../../components/Common'
+import { TmColors, ButtonLogin, DarkMode } from '../../components/Common'
 
 const SelectAddressModal = props => {
 
@@ -19,29 +19,29 @@ const SelectAddressModal = props => {
     } = props
 
     return (
-        <Dialog
-            className="dark-dialog"
-            onClose={onClose}
-            title={<FormattedMessage id="unlockWalletPage.chooseAddressModal.title" />}
-            canOutsideClickClose={false}
-            isOpen={isOpenAddressesDialog}>
+      <StyledDialog
+        className="dark-dialog"
+        onClose={onClose}
+        title={<FormattedMessage id="unlockWalletPage.chooseAddressModal.title" />}
+        canOutsideClickClose={false}
+        isOpen={isOpenAddressesDialog}>
 
-            {(addresses.length > 0) && (
-            <React.Fragment>
-                <Wrapper>
-                    <div><FormattedMessage id="unlockWalletPage.chooseAddressModal.subTitle" /></div>
-                    <ListBox addressActive={addressActive} addresses={addresses} chooseAddress={chooseAddress} />
-                </Wrapper>
+        {(addresses.length > 0) && (
+          <React.Fragment>
+              <Wrapper>
+                  <div><FormattedMessage id="unlockWalletPage.chooseAddressModal.subTitle" /></div>
+                  <ListBox addressActive={addressActive} addresses={addresses} chooseAddress={chooseAddress} />
+              </Wrapper>
 
-                <NavigatorBox>
-                    <NavigatorItem onClick={prevAddresses}>&lt; <FormattedMessage id="unlockWalletPage.chooseAddressModal.previous" /></NavigatorItem> 
-                    <NavigatorItem onClick={nextAddresses}><FormattedMessage id="unlockWalletPage.chooseAddressModal.next" /> &gt;</NavigatorItem>
-                </NavigatorBox>
+              <NavigatorBox>
+                  <NavigatorItem onClick={prevAddresses}>&lt; <FormattedMessage id="unlockWalletPage.chooseAddressModal.previous" /></NavigatorItem> 
+                  <NavigatorItem onClick={nextAddresses}><FormattedMessage id="unlockWalletPage.chooseAddressModal.next" /> &gt;</NavigatorItem>
+              </NavigatorBox>
 
-                <ButtonLogin disabled={!addressActive} onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
-            </React.Fragment>
-            )}      
-        </Dialog>
+              <ButtonLogin disabled={!addressActive} onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
+          </React.Fragment>
+        )}      
+      </StyledDialog>
     )
 }
 
@@ -75,6 +75,24 @@ const ListBox = (props) => {
       </List>
     )
 }
+
+const StyledDialog = styled(Dialog)`
+  color: ${DarkMode.modalColor};
+
+  .bp3-heading {
+    color: ${DarkMode.modalColor};
+    font-weight: 300;
+  }
+
+  button.bp3-dialog-close-button,
+  button.bp3-dialog-close-button:hover {
+    background: none;
+  }
+
+  button.bp3-dialog-close-button:hover .bp3-icon.bp3-icon-small-cross {
+    color: ${TmColors.RED};
+  }
+`
 
 const Wrapper = styled.div``
 

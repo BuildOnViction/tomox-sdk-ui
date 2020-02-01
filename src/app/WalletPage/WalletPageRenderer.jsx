@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import CenteredSpinner from '../../components/Common/CenteredSpinner'
 import DepositTable from '../../components/DepositTable'
-import GetStartedModal from '../../components/GetStartedModal'
 import type { TokenData } from '../../types/tokens'
 
 type Props = {
@@ -15,10 +14,7 @@ type Props = {
   quoteTokens: Array<string>,
   connected: boolean,
   accountAddress: string,
-  toggleAllowance: string => void,
   redirectToTradingPage: string => void,
-  isHelpModalOpen: boolean,
-  closeHelpModal: void => void,
   balancesLoading: boolean
 };
 
@@ -28,14 +24,12 @@ const WalletPageRenderer = (props: Props) => {
     baseTokens,
     quoteTokens,
     connected,
-    toggleAllowance,
     redirectToTradingPage,
-    isHelpModalOpen,
-    closeHelpModal,
     balancesLoading,
     accountAddress,
     copyDataSuccess,
-  } = props
+    mode,
+  } = props  
 
   return (
     <WalletPageBox>
@@ -48,18 +42,13 @@ const WalletPageRenderer = (props: Props) => {
             tokenData={tokenData}
             baseTokens={baseTokens}
             quoteTokens={quoteTokens}
-            toggleAllowance={toggleAllowance}
             redirectToTradingPage={redirectToTradingPage}
             accountAddress={accountAddress}
             copyDataSuccess={copyDataSuccess}
+            mode={mode}
           />
         )}
       </WalletPageContentBox>
-
-      <GetStartedModal
-        isOpen={isHelpModalOpen}
-        closeHelpModal={closeHelpModal}
-      />
     </WalletPageBox>
   )
 }

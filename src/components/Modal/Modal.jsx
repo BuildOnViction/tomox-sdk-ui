@@ -3,6 +3,7 @@ import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
 import { Dialog } from '@blueprintjs/core'
+import { TmColors, Theme } from '../Common'
 
 type Props = {
   title: string,
@@ -15,25 +16,47 @@ type Props = {
 // disable enforceFocus so that we can type something on modal over modals
 const Modal = (props: Props): Node => {
   return (
-    <Dialog
+    <StyledDialog
       title={props.title}
       isOpen={props.isOpen}
       enforceFocus={false}
       usePortal={false}
       onClose={props.onClose}
-      // style={{ width: '800px' }}
       className={props.className}
       canOutsideClickClose={false}
     >
-      <BodyDialog>{props.children}</BodyDialog>
-    </Dialog>
+      <DialogContent>{props.children}</DialogContent>
+    </StyledDialog>
   )
 }
 
-export default Modal
+const StyledDialog = styled(Dialog)`
+  color: ${props => props.theme.modalColor};
 
-const BodyDialog = styled.div.attrs({
-  className: 'bp3-dialog-body',
+  button.bp3-dialog-close-button,
+  button.bp3-dialog-close-button:hover {
+    background: none;
+  }
+
+  button.bp3-dialog-close-button:hover .bp3-icon.bp3-icon-small-cross {
+    color: ${TmColors.RED};
+  }
+
+  .bp3-heading,
+  .bp3-input {
+    color: ${props => props.theme.modalColor};
+  }
+
+  .bp3-heading {
+    font-size: ${Theme.FONT_SIZE_H4};
+    font-weight: 300;
+  }
+`
+
+const DialogContent = styled.div.attrs({
+  className: "tm-dialog-body",
 })`
   margin: 0;
 `
+
+export default Modal

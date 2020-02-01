@@ -17,10 +17,10 @@ const SessionPasswordModal = (props: Props) => (
         icon="info-sign"
         isOpen={props.isOpen}
         onClose={props.handleClose}
-        className="dark-dialog sm"
+        className={`${props.mode}-dialog sm`}
     >
         <LabelWrapper>
-            <InputGroupWrapper 
+            <StyledInput 
                 type="password" 
                 value={props.password} 
                 isInvalid={props.passwordStatus === 'incorrect'} 
@@ -29,7 +29,6 @@ const SessionPasswordModal = (props: Props) => (
                 marginBottom="5px" />
         </LabelWrapper>     
         {(props.passwordStatus === 'incorrect') && <ErrorMessage><FormattedMessage id="unlockWalletPage.wrongPassword" /></ErrorMessage>}
-        {/* <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText> */}
 
         <ButtonWrapper onClick={props.unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonWrapper>
     </Modal>
@@ -72,14 +71,14 @@ const ButtonWrapper = styled(Button)`
     }
 `
 
-const InputGroupWrapper = styled.input`
+const StyledInput = styled.input`
     height: 50px;
-    color: ${TmColors.WHITE};
+    color: ${props => props.theme.inputColor};
     font-size: ${Theme.FONT_SIZE_LG};
     padding: 15px;
     margin-top: 0 !important;
     margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-    background: ${TmColors.BLACK};
+    background: ${props => props.theme.subBg};
     border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
     width: 100%;
 

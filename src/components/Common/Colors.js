@@ -279,6 +279,11 @@ export const DarkMode = {
   tokenSearcherSearchResultItemHover: '#394362',
   notificationUnreadBg: '#6e7793',
   linkText: '#fff',
+  inputBackground: '#fff',
+  inputColor: '#9ca4ba',
+  modalColor: '#6e7793',
+  mainColor: '#6e7793',
+  mainColorHover: '#5c6583',
 }
 
 export const LightMode = {
@@ -286,14 +291,14 @@ export const LightMode = {
   mainBg: '#fff',
   subBg: '#f4f6f8',
   secondSubBg: '#dedede',
-  menuBg: '#e3e5e6',
-  menuBgHover: '#dedede',
+  menuBg: '#fff',
+  menuBgHover: '#f7f7f7',
   menuColor: '#040404',
   menuColorHover: '#ff9a4d',
   border: '#ccc',
   menuBorder: '#ccc',
   active: '#ff9a4d',
-  link: '#999',
+  link: '#666',
   activeLink: '#040404',
   textSmallChart: '#3e3e3e',
   textTable: '#303030',
@@ -311,6 +316,11 @@ export const LightMode = {
   tokenSearcherSearchResultItemHover: '#fff',
   notificationUnreadBg: '#6e7793',
   linkText: '#303030',
+  inputBackground: '#f4f6f8',
+  inputColor: '#1f2538',
+  modalColor: '#1f2538',
+  mainColor: '#1f2538',
+  mainColorHover: '#3f4a6f',
 }
 
 export const Theme = {
@@ -323,4 +333,5 @@ export const Theme = {
   FONT_SIZE_MD: '14px',
   FONT_SIZE_SM: '12px',
   FONT_SIZE_XS: '10px',
+  FONT_SIZE_H4: '18px',
 }

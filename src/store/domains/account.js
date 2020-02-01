@@ -19,7 +19,7 @@ export const initialized = () => {
 export const accountUpdated = (address: string, privateKey: string) => {
   const event = (state: AccountState) => ({
     ...state,
-    address,
+    address: address.toLowerCase(),
     privateKey,
   })
   return event
@@ -103,7 +103,6 @@ export default function accountDomain(state: AccountState) {
     privateKey: () => state.privateKey,
     currentBlock: () => state.currentBlock,
     authenticated: () => state.address !== null,
-    showHelpModal: () => state.showHelpModal,
     showSessionPasswordModal: () => state.showSessionPasswordModal,
     exchangeAddress: () => state.exchangeAddress,
     referenceCurrency: () => state.referenceCurrency,
