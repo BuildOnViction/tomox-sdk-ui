@@ -3,19 +3,16 @@ import React from 'react'
 import styled from 'styled-components'
 import {
   Button,
-  // Checkbox,
   Icon,
   Label,
-  Dialog,
-  Classes,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Link } from "react-router-dom"
 
+import Modal from '../../components/Modal'
 import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
 import { TmColors, Theme } from '../../components/Common'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
-import { Link } from "react-router-dom"
-// import tickUrl from '../../assets/images/tick.svg'
 import backupWalletUrl from '../../assets/images/backup_wallet.svg'
 
 type Props = {
@@ -157,8 +154,6 @@ const WalletCreateStep = props => {
             </CopyToClipboard>
           </AddressBox>
         </AddressWrapper>
-
-        {/* <CheckboxWrapper checked={storeAccount} label={<FormattedMessage id="createWalletPage.checkboxTitleKeepAccount" />} onChange={handleChangeStoreAccount} />    */}
 
         <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
       </Content>
@@ -361,17 +356,15 @@ const DialogPrivateKey = (props) => {
   const { privateKey, isOpenPrivateKeyDialog, onClose } = props
 
   return (
-    <Dialog
+    <Modal
       className="dark-dialog sm"
       onClose={onClose}
       title="Your Private Key"
       isOpen={isOpenPrivateKeyDialog}
       >
-      <DialogBody>
-        <Paragraph><FormattedMessage id="createWalletPage.privateKeyBackupInstruction" /></Paragraph>
-        <PrivateKeyBox>{privateKey}</PrivateKeyBox>
-      </DialogBody>
-    </Dialog>
+      <Paragraph><FormattedMessage id="createWalletPage.privateKeyBackupInstruction" /></Paragraph>
+      <PrivateKeyBox>{privateKey}</PrivateKeyBox>
+    </Modal>
   )
 }
 
@@ -394,6 +387,8 @@ const Header = styled.header`
 `
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: ${props => props.padding === 'sm' ? '40px 70px 45px' : '40px 110px 45px'};
 `
 
@@ -479,7 +474,7 @@ const ImageWrapper = styled.div`
 const ButtonWrapper = styled(Button)`
   display: block;
   margin: 35px auto 0;
-  min-width: 180px;
+  min-width: 180px !important;
   text-align: center;
   color: ${TmColors.BLACK} !important;
   border-radius: 0;
@@ -497,26 +492,6 @@ const ButtonWrapper = styled(Button)`
   }
 `
 
-// const CheckboxWrapper = styled(Checkbox)`
-//   font-size: 12px;
-//   text-align: center;
-//   margin-bottom: 45px;
-//   margin-top: 10px;
-
-//   .bp3-control-indicator {
-//     box-shadow: none !important;
-//     background-image: none !important;
-//   }
-
-//   input:checked ~ .bp3-control-indicator {
-//     background-color: ${TmColors.ORANGE} !important;
-//   }
-
-//   input:checked ~ .bp3-control-indicator::before {
-//     background: url(${tickUrl}) no-repeat center center !important;
-//   }
-// `
-
 const LinkWrapper = styled(Link)`
   color: ${TmColors.ORANGE};
   &:hover {
@@ -526,7 +501,7 @@ const LinkWrapper = styled(Link)`
 
 const Paragraph = styled.p`
   text-align: ${props => props.textAlign? props.textAlign : 'left'};
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `
 
 const ConfirmMnemonicWrapper = styled.div`
@@ -555,23 +530,18 @@ const MnemonicTag = styled.span`
   cursor: ${props => props.cursor ? props.cursor : 'initial'};
   &:hover {
     background-color: ${TmColors.ORANGE} !important;
-  }import PasswordStrengMeter from '../../components/PasswordStrengthMeter/index';
-
-`
-
-const DialogBody = styled.div.attrs({
-  className: Classes.DIALOG_BODY,
-})`
-  margin: 0;
+  }
 `
 
 const PrivateKeyBox = styled.div`
   word-break: break-all;
-  font-size: ${Theme.FONT_SIZE_LG};
-  font-weight: 600;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: ${Theme.FONT_SIZE_MD};
+  line-height: 24px;
   color: ${TmColors.LIGHT_GRAY};
-  border: 1px dashed ${TmColors.LIGHT_GRAY};
+  border: 2px dashed ${TmColors.LIGHT_GRAY};
   padding: 25px;
+  margin-top: 35px;
 `
 
 const ErrorMessage = styled.div`

@@ -74,7 +74,11 @@ class Layout extends React.PureComponent<Props, State> {
     const { pathname, mode } = this.props
 
     if (this.isCreateImportWalletPage(pathname)) {
-      return (<CreateImportWallet {...this.props} />)
+      return (
+        <ThemeProvider theme={theme[mode]}>
+          <CreateImportWallet {...this.props} />
+        </ThemeProvider>
+      )
     }
 
     return (
