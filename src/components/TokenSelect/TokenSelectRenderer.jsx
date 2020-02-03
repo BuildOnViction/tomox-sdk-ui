@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
 import styled from 'styled-components'
-import { Button, MenuItem } from '@blueprintjs/core'
+import { Button, MenuItem, PopoverPosition } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import HighlightText from '../Common/HighlightText'
 
@@ -11,7 +11,7 @@ type Props = {
   onChange: (SyntheticEvent<>) => void
 }
 
-const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
+const TokenSelectRenderer = ({ item, items, onChange }: Props) => {  
   return (
     <StyledSelect
       items={items}
@@ -20,7 +20,7 @@ const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
       itemPredicate={filterItem}
       noResults={<StyledMenuItem disabled text="No results." />}
       onItemSelect={onChange}
-      popoverProps={{ minimal: true, usePortal: false }}
+      popoverProps={{ minimal: true, usePortal: false, position: PopoverPosition.BOTTOM }}
     >
       <StyledButton
         text={item ? `${item.symbol}` : '(No selection)'}
@@ -38,7 +38,7 @@ const filterItem = (query, item) => {
 const renderItem = (item, { handleClick, modifiers, query }) => {
   if (!modifiers.matchesPredicate) {
     return null
-  }
+  }  
   
   const text = `${item.rank}. ${item.symbol}`
   return (
@@ -78,6 +78,11 @@ const StyledSelect = styled(Select)`
 
   .bp3-input-action .bp3-button {
     margin: 8px;
+  }
+
+  .bp3-menu {
+    max-height: 320px;
+    overflow: auto;
   }
 `
 
