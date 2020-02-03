@@ -35,17 +35,11 @@ class LoginPage extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Wrapper>
-        <LoginPageRenderer
-          selectedTabId={selectedTabId}
-          handleTabChange={handleTabChange} />
-      </Wrapper>
+      <LoginPageRenderer
+        selectedTabId={selectedTabId}
+        handleTabChange={handleTabChange} />
     )
   }
 }
-
-const Wrapper = styled.div`
-  height: 100%;
-`
 
 export default LoginPage

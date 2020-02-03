@@ -59,6 +59,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
 
 const Wrapper = styled.div`
   margin-top: 50px;
+  margin-bottom: 55px;
 `
 
 const TabsWrapper = styled(Tabs)`
