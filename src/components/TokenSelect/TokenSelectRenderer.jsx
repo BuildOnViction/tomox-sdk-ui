@@ -18,7 +18,7 @@ const TokenSelectRenderer = ({ item, items, onChange }: Props) => {
       filterable={true}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
-      noResults={<MenuItem disabled text="No results." />}
+      noResults={<StyledMenuItem disabled text="No results." />}
       onItemSelect={onChange}
       popoverProps={{ minimal: true, usePortal: false }}
     >
@@ -39,14 +39,16 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
   if (!modifiers.matchesPredicate) {
     return null
   }
+  
   const text = `${item.rank}. ${item.symbol}`
   return (
-    <MenuItem
+    <StyledMenuItem
       active={modifiers.active}
       disabled={modifiers.disabled}
       label={item.address}
       key={item.rank}
       onClick={handleClick}
+      title={item.address}
       text={<HighlightText text={text} query={query} />}
     />
   )
@@ -54,14 +56,61 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
 
 const StyledButton = styled(Button)`
   height: 40px;
-  background: ${props => props.theme.subBg} !important;
+  background: ${props => props.theme.inputBackground} !important;
   box-shadow: none !important;
 `
 
 const StyledSelect = styled(Select)`
-  .bp3-popover-content,
-  li {
+  .bp3-popover-content {
     background: ${props => props.theme.inputBackground} !important;
+    width: 450px;
+  }
+
+  .bp3-input-group input {
+    height: 40px;
+    background: ${props => props.theme.inputBackground2} !important;
+    border: 1px solid ${props => props.theme.selectTokenSearchBorder};
+  }
+
+  .bp3-input-group > .bp3-icon:first-child {
+    margin: 12px 7px !important;
+  }
+
+  .bp3-input-action .bp3-button {
+    margin: 8px;
+  }
+`
+
+const StyledMenuItem = styled(MenuItem)`
+  border-radius: 0 !important;
+  align-items: center !important;
+  height: 35px;
+  background: ${props => props.theme.inputBackground} !important;
+
+  &:hover {
+    background: ${props => props.theme.inputBackground2} !important;
+  }
+
+  &.bp3-menu-item.bp3-disabled {
+    background-color: ${props => props.theme.inputBackground} !important;
+  }
+
+  &.bp3-menu-item > .bp3-fill {
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    width: 100px;
+    margin-right: 0
+    padding-right: 5px;
+    color: ${props => props.theme.inputColor} !important;
+  }
+
+  .bp3-menu-item-label {
+    font-family: 'monospace', san-serif;
+    color: ${props => props.theme.inputColor} !important;
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 

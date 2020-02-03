@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Button, InputGroup, Label } from '@blueprintjs/core'
+import { Button, InputGroup, Label, FormGroup } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import TokenSelect from '../TokenSelect'
 import GasSettings from '../GasSettings'
@@ -46,15 +46,15 @@ const TransferTokensFormRenderer = (props: Props) => {
 
   return (
     <div>
-      <Label helpertext="(in ether or in token decimals)" text="Amount to Send">
-        <FormattedMessage id="portfolioPage.transferTokensModal.select" />
+      <StyledFormGroup>
+        <Label><FormattedMessage id="portfolioPage.transferTokensModal.select" /></Label>
         <TokenSelect
           token={token}
           tokens={tokens}
           onChange={handleTokenChange}
         />
-      </Label>
-
+      </StyledFormGroup>
+      
       <Label helpertext="(in ether or in token decimals)" text="Amount to Send"> 
         <FormattedMessage id="portfolioPage.transferTokensModal.amount" />         
         <InputGroupWrapper
@@ -110,9 +110,17 @@ const TxNotificationBox = styled.div`
   margin-bottom: 20px;
 `
 
+const StyledFormGroup = styled(FormGroup)`
+  .bp3-popover-wrapper,
+  .bp3-popover-target {
+    display: block;
+  }
+`
+
 const InputGroupWrapper = styled(InputGroup)`
   .bp3-input {
     height: 40px;
+    background: ${props => props.theme.inputBackground} !important;
   }
 `
 
@@ -125,6 +133,7 @@ const ButtonWrapper = styled(Button)`
   box-shadow: none !important;
   background-image: none !important;
   height: 40px;
+  
   &:hover {
     background-color: ${TmColors.DARK_ORANGE} !important;
   }

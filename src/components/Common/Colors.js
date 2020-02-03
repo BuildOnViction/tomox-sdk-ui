@@ -279,11 +279,13 @@ export const DarkMode = {
   tokenSearcherSearchResultItemHover: '#394362',
   notificationUnreadBg: '#6e7793',
   linkText: '#fff',
-  inputBackground: '#fff',
+  inputBackground: '#1f2538',
+  inputBackground2: '#272f48',
   inputColor: '#9ca4ba',
   modalColor: '#6e7793',
   mainColor: '#6e7793',
   mainColorHover: '#5c6583',
+  selectTokenSearchBorder: '#384058',
 }
 
 export const LightMode = {
@@ -316,11 +318,13 @@ export const LightMode = {
   tokenSearcherSearchResultItemHover: '#fff',
   notificationUnreadBg: '#6e7793',
   linkText: '#303030',
-  inputBackground: '#f4f6f8',
+  inputBackground: '#e4ecf3',
+  inputBackground2: '#cad9e6',
   inputColor: '#1f2538',
   modalColor: '#1f2538',
   mainColor: '#1f2538',
   mainColorHover: '#3f4a6f',
+  selectTokenSearchBorder: '#b3c9dc',
 }
 
 export const Theme = {
