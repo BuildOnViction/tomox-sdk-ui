@@ -6,6 +6,10 @@ it('renders without crashing', () => {
   const props = {
     bids: [],
     asks: [],
+    currentPair: {
+      baseTokenSymbol: "TOMO",
+      quoteTokenSymbol: "BTC",
+    },
   }
 
   shallow(<OrderBook {...props} />)
