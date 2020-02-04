@@ -286,7 +286,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     if (side === 'SELL') {
       const { sellPrice } = this.state
-      if (!sellPrice) return
+      if (!sellPrice || Number(sellPrice) === 0) return
 
       const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
       const bigSellTotal = BigNumber(sellPrice).times(bigSellAmount)
@@ -300,7 +300,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       })
     } else {
       const { buyPrice } = this.state
-      if (!buyPrice) return
+      if (!buyPrice || Number(buyPrice) === 0) return
 
       let bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
       let bigBuyAmount = ''
