@@ -68,6 +68,7 @@ class OrderBook extends React.Component<Props, State> {
     }
     = this
 
+    const reversedAsks = asks.slice().reverse()
     const pricePrecisionsList = []
     for (let i = 0; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
@@ -76,7 +77,7 @@ class OrderBook extends React.Component<Props, State> {
     return (
       <OrderListRenderer 
         bids={bids} 
-        asks={asks.reverse()} 
+        asks={reversedAsks} 
         onSelect={select}
         pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
