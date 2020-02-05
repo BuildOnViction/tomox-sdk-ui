@@ -536,6 +536,7 @@ const MainContent = styled.main.attrs({
 })`
   flex: 1;
   height: calc(100vh - ${Theme.HEADER_HEIGHT_LG});
+  min-height: 690px; //410px(Charting) + 250px(Order table) + 10px(Gap) + 20px(Padding bottom)
 
   @media only screen and (max-width: 1280px) {
     height: calc(100vh - ${Theme.HEADER_HEIGHT_MD});
