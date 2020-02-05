@@ -254,7 +254,7 @@ class Default extends React.PureComponent<Props, State> {
               alignIndicator={Alignment.RIGHT} 
               onChange={this.handleThemeChange} />
           </Sidebar>
-          <MainContent className="main-content">{children}</MainContent>
+          <MainContent>{children}</MainContent>
         </MainContainer>
 
         <SessionPasswordModal 
@@ -366,6 +366,10 @@ const Wrapper = styled.div.attrs({
   display: flex;
   flex-direction: column;
   background: ${props => props.theme.mainBg};
+
+  &.tomo-wallet .main-content {
+    height: fit-content !important;
+  }
 `
 
 const CreateImportWrapper = styled(Wrapper)`
@@ -527,7 +531,9 @@ const SidebarItemTitle = styled.span.attrs({
   padding-top: 1px;
 `
 
-const MainContent = styled.main`
+const MainContent = styled.main.attrs({
+  className: "main-content",
+})`
   flex: 1;
   height: calc(100vh - ${Theme.HEADER_HEIGHT_LG});
 
