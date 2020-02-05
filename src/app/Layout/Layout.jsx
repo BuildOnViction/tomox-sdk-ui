@@ -192,7 +192,8 @@ class Default extends React.PureComponent<Props, State> {
           changeLocale={changeLocale}
           newNotifications={newNotifications}
           pathname={pathname}
-          isTradingPage={this.isTradingPage} />
+          isTradingPage={this.isTradingPage}
+          toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
 
         <MainContainer>
           <Sidebar> 

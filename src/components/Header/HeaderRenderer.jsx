@@ -43,6 +43,7 @@ const HeaderRenderer = (props) => {
         locale,
         changeLocale,
         isTradingPage,
+        toggleTokenSearcherMobile,
     } = props
 
     return (
@@ -71,18 +72,18 @@ const HeaderRenderer = (props) => {
                         content={<TokenSearcher />}
                         position={Position.BOTTOM_LEFT}
                         minimal>
-                        <TokenPaisDropDown>
+                        <TokenPairsDropDown>
                         <span>{currentPair.pair}</span> 
                         <i className="arrow"></i>
-                        </TokenPaisDropDown>
+                        </TokenPairsDropDown>
                     </TokenSearcherPopover>
 
                     {/* For mobile */}
                     {!isShowTokenSearcher && (
-                        <TokenPaisDropDownMobile onClick={() => this.toggleTokenSearcherMobile(true)}>
+                        <TokenPairsDropDownMobile onClick={() => toggleTokenSearcherMobile(true)}>
                         <span>{currentPair.pair}</span> 
                         <i className="arrow"></i>
-                        </TokenPaisDropDownMobile>
+                        </TokenPairsDropDownMobile>
                     )}
                     </React.Fragment>
                 )}
@@ -268,7 +269,7 @@ const Header = styled.header.attrs({
     }
   `
   
-  const TokenPaisDropDown = styled.div.attrs({
+  const TokenPairsDropDown = styled.div.attrs({
     className: 'tokens-dropdown',
   })`
     color: ${props => props.theme.labelTokensDropdown};
@@ -279,7 +280,7 @@ const Header = styled.header.attrs({
     }
   `
   
-  const TokenPaisDropDownMobile = styled(TokenPaisDropDown)`
+  const TokenPairsDropDownMobile = styled(TokenPairsDropDown)`
     display: none;
     @media only screen and (max-width: 680px) {
       .tomo-wallet & {
