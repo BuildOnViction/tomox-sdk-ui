@@ -94,6 +94,7 @@ const DepthChartRenderer = (props: ChartProps) => {
             gridAlpha: 0.4,
             color: '#6e7793',
           }],
+          pathToImages: '/amcharts/',
         }}
       />
   )
