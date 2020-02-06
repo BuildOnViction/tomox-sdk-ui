@@ -2,6 +2,9 @@
 import React from 'react'
 import OrderListRenderer from './OrderBookRenderer'
 import type { TokenPair, Trade } from '../../types/tokens'
+import BigNumber from 'bignumber.js'
+
+BigNumber.config({ ROUNDING_MODE: 1 })
 
 type BidOrAsk = {
   price: number,
@@ -19,6 +22,12 @@ type Props = {
 
 type State = {
   pricePrecision: number
+}
+
+const filterZeroAmount = (list, amountPrecision) => {
+  return list.filter(item => {
+    return Number(BigNumber(item.amount).toFixed(amountPrecision)) > 0
+  })
 }
 
 class OrderBook extends React.Component<Props, State> {
@@ -69,6 +78,9 @@ class OrderBook extends React.Component<Props, State> {
     = this
 
     const reversedAsks = asks.slice().reverse()
+    const asksFilteredZeroAmount = filterZeroAmount(reversedAsks, amountPrecision)
+    const bidsFilteredZeroAmount = filterZeroAmount(bids, amountPrecision)
+
     const pricePrecisionsList = []
     for (let i = 0; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
@@ -76,8 +88,8 @@ class OrderBook extends React.Component<Props, State> {
 
     return (
       <OrderListRenderer 
-        bids={bids} 
-        asks={reversedAsks} 
+        bids={bidsFilteredZeroAmount} 
+        asks={asksFilteredZeroAmount} 
         onSelect={select}
         pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
