@@ -73,7 +73,9 @@ const DepthChartRenderer = (props: ChartProps) => {
             },
           ],
           categoryField: 'price',
-          chartCursor: {},
+          chartCursor: {
+            cursorColor: '#131725',
+          },
           balloon: {
             textAlign: 'left',
           },
