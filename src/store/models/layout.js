@@ -65,7 +65,7 @@ export default function createSelector(state: State) {
 export function queryAppData(): ThunkAction {
   return async (dispatch, getState, { socket, api }) => {
     const state = getState()
-    const { pair } = getTokenPairsDomain(state).getCurrentPair()
+    const { pair } = getTokenPairsDomain(state).getCurrentPair() || {}
     const { router: { location: { pathname }}} = state
     const pairParam = pathname.match(/.*\/(trade|dapp)\/?(.*)$/i)
     let currentPair = (pairParam && pairParam[2]) ? pairParam[2].replace('-', '/').toUpperCase() : pair ? pair : ''
