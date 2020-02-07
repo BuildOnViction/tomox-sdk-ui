@@ -226,7 +226,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsData: () => state.data,
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
-    getCurrentPair: (): TokenPair => state.byPair[state.currentPair],
+    getCurrentPair: (): TokenPair => state.byPair[state.currentPair] || {},
     getCurrentPairData: () => state.currentPairData,
 
     //Merge token pair properties and data
