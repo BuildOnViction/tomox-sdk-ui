@@ -210,7 +210,7 @@ class Default extends React.PureComponent<Props, State> {
               </SidebarItemBox>
             </MarketsLink>
 
-            <ExchangeLink to={`/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}`}>
+            <ExchangeLink to={currentPair ? `/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}` : "/404"}>
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
