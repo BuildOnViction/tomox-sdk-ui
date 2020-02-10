@@ -161,13 +161,13 @@ const HeaderRenderer = (props) => {
                     </NavbarLink>
                 ) : (
                     <React.Fragment>
-                    <Popover
+                      <Popover
                         content={<MenuWallet address={address} copyDataSuccess={copyDataSuccess} />}
                         position={Position.BOTTOM_RIGHT}
                         minimal
-                    >
+                      >
                         <UserIcon icon="user" iconSize={20} />
-                    </Popover>
+                      </Popover>
                     </React.Fragment>
                 )}
                 </UserItem>

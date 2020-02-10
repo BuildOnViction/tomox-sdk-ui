@@ -101,6 +101,7 @@ const NotificationList = styled.div`
   width: 300px;
   overflow-x: hidden;
   color: ${props => props.theme.menuColor};
+  background: ${props => props.theme.notificationBg};
 `
 
 const NotificationTitle = styled.div`
