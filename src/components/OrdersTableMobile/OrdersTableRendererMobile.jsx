@@ -167,15 +167,15 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                   <Cell width="70%">
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.filledAmount" /></FieldTitle>
-                      <FieldValue>{order.filled ? BigNumber(order.filled).toFormat(amountPrecision) : "--"}</FieldValue>
+                      <FieldValue>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</FieldValue>
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.amount" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.amount).toFormat(amountPrecision)}</FieldValue>
+                      <FieldValue>{BigNumber(order.amount).toFormat()}</FieldValue>
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.price).toFormat(pricePrecision)}</FieldValue>
+                      <FieldValue>{BigNumber(order.price).toFormat()}</FieldValue>
                     </div>
                   </Cell>
                   <Cell width="30%">
@@ -213,11 +213,11 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
               <Cell width={"35%"} title={order.price} muted>
-                {BigNumber(order.price).toFormat(pricePrecision)}
+                {BigNumber(order.price).toFormat()}
               </Cell>
               <AmountCell textAlign="right" width={"30%"} muted>
-                <span>{order.filled ? BigNumber(order.filled).toFormat(amountPrecision) : "--"}</span>
-                <span>{BigNumber(order.amount).toFormat(amountPrecision)}</span>
+                <span>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</span>
+                <span>{BigNumber(order.amount).toFormat()}</span>
               </AmountCell>
             </Row>
           ))}
