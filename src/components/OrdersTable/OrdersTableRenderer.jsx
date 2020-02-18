@@ -247,13 +247,13 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumns[4]} title={order.price} muted>
-          {BigNumber(order.price).toFormat(pricePrecision)}
+          {BigNumber(order.price).toFormat()}
         </Cell>
         <Cell width={widthColumns[5]} muted>
-          {BigNumber(order.amount).toFormat(amountPrecision)}
+          {BigNumber(order.amount).toFormat()}
         </Cell>
         <Cell width={widthColumns[6]} muted>
-          {BigNumber(order.total).toFormat(pricePrecision)}
+          {BigNumber(order.total).toFormat()}
         </Cell>
         <Cell width={widthColumns[7]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
@@ -327,13 +327,13 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
-          {BigNumber(order.price).toFormat(pricePrecision)}
+          {BigNumber(order.price).toFormat()}
         </Cell>
         <Cell width={widthColumnsOrderHistory[5]} muted>
-          {BigNumber(order.amount).toFormat(amountPrecision)}
+          {BigNumber(order.amount).toFormat()}
         </Cell>
         <Cell width={widthColumnsOrderHistory[6]} muted>
-          {BigNumber(order.total).toFormat(pricePrecision)}
+          {BigNumber(order.total).toFormat()}
         </Cell>
         <Cell width={widthColumnsOrderHistory[7]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
@@ -408,13 +408,13 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {BigNumber(order.price).toFormat(pricePrecision)}
+          {BigNumber(order.price).toFormat()}
         </Cell>
         <Cell width={widthColumnsTradeHistory[4]} muted>
-          {BigNumber(order.amount).toFormat(amountPrecision)}
+          {BigNumber(order.amount).toFormat()}
         </Cell>
         <Cell width={widthColumnsTradeHistory[5]} muted>
-          {BigNumber(order.total).toFormat(pricePrecision)}
+          {BigNumber(order.total).toFormat()}
         </Cell>
       </Row>
     )

@@ -138,9 +138,9 @@ export default function tradesDomain(state: TradesState) {
       trades = trades.map(trade => {
         return {
           ...trade,
-          amount: BigNumber(trade.amount).toFormat(amountPrecision),
-          price: BigNumber(trade.price).toFormat(pricePrecision),
-          total: BigNumber(trade.price).times(trade.amount).toFormat(pricePrecision),
+          amount: trade.amount,
+          price: trade.price,
+          total: BigNumber(trade.price).times(trade.amount).toFormat(),
         }
       })
 
