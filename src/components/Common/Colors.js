@@ -287,6 +287,10 @@ export const DarkMode = {
   mainColor: '#6e7793',
   mainColorHover: '#5c6583',
   selectTokenSearchBorder: '#384058',
+
+  decimalsMenuBg: '#1f2538',
+  decimalsMenuHoverBg: '#394362',
+  decimalsMenuBoder: '#394362',
 }
 
 export const LightMode = {
@@ -327,6 +331,10 @@ export const LightMode = {
   mainColor: '#1f2538',
   mainColorHover: '#3f4a6f',
   selectTokenSearchBorder: '#b3c9dc',
+
+  decimalsMenuBg: '#fff',
+  decimalsMenuHoverBg: '#dedede',
+  decimalsMenuBoder: '#ccc',
 }
 
 export const Theme = {

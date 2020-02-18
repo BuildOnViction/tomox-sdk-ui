@@ -242,19 +242,19 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
   const selectedItem = items.find(item => item.value === currentPricePrecision)
 
   return (
-    <Select
+    <DecimalsSelect
       items={items}
       activeItem={selectedItem}
       itemRenderer={renderPricePrecisionItem}
       onItemSelect={onChangePricePrecision}
       filterable={false}
-      popoverProps={{ minimal: true, popoverClassName: 'precision-menu', position: PopoverPosition.BOTTOM_RIGHT }}
+      popoverProps={{ minimal: true, popoverClassName: 'precision-menu', position: PopoverPosition.BOTTOM_RIGHT, usePortal: false }}
     >
       <PrecisionButton>
         <span>{selectedItem.title}</span> 
         <span className="arrow-down"></span>
       </PrecisionButton>
-    </Select>
+    </DecimalsSelect>
   )
 }
 
@@ -264,9 +264,21 @@ const renderPricePrecisionItem = (item, { handleClick, modifiers }) => {
   )
 }
 
+const DecimalsSelect = styled(Select)`
+  .bp3-menu {
+    font-size: ${props => Theme.FONT_SIZE_SM};
+    width: 100px;
+    min-width: 100px;
+    background: ${props => props.theme.decimalsMenuBg} !important;
+    border: 1px solid ${props => props.theme.decimalsMenuBoder};
+  }
+`
+
 const PrecisionButton = styled.div.attrs({
   className: "decimals-dropdown",
 })`
+  display: flex;
+  align-items: center;
   color: ${TmColors.GRAY};
   cursor: pointer;
 `
@@ -275,10 +287,10 @@ const PrecisionMenuItem = styled.li`
   padding: 3px 10px;
   color: ${TmColors.GRAY};
   cursor: pointer;
-  background: ${({active}) => active ? TmColors.LIGHT_BLUE : 'initial'};
+  background: ${({active, theme}) => active ? theme.decimalsMenuHoverBg : 'initial'};
 
   &:hover {
-    background: ${TmColors.LIGHT_BLUE};
+    background: ${props => props.theme.decimalsMenuHoverBg} !important;
   }
 `
 
