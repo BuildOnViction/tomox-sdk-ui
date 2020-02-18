@@ -137,12 +137,7 @@ const OrderFormCell = styled(Cell).attrs({
     flex-direction: row;
     justify-content: space-between;
     position: relative;
-
-    label.bp3-label {
-      margin-top: -5px;
-      margin-bottom: 0;
-    }
-
+    
     &:after {
       content: "";
       position: absolute;

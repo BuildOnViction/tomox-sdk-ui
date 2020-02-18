@@ -82,7 +82,7 @@ const BuyLimitOrderForm = props => {
         />
       </InputBox>
 
-      <InputBox>
+      <InputBox mb="0px">
         <InputLabel>
           <FormattedMessage id="exchangePage.amount" />:
         </InputLabel>

@@ -63,7 +63,7 @@ const SellLimitOrderForm = props => {
         <TokenName>{quoteTokenSymbol}</TokenName>
       </InputBox>
 
-      <InputBox>
+      <InputBox mb="0px">
         <InputLabel>
           <FormattedMessage id="exchangePage.amount" />:
         </InputLabel>

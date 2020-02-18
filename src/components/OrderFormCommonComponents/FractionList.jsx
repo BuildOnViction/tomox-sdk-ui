@@ -69,30 +69,41 @@ const RadioButtonsWrapper = styled.div`
 `
 
 const RadioButtonBox = styled(Label)`
+  display: flex !important;
+  align-content: center;
   min-width: 35px;
   width: 15%;
   padding: 5px 0;
   text-align: center;
   cursor: pointer;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+
   input.bp3-input {
     opacity: 0;
     width: 0px;
     height: 0;
     margin: 0px;
   }
+
   .bp3-input-group {
     width: 0px;
     height: 0;
   }
+
   &:first-child {
     text-align: left;
   }
+
   &:last-child {
     text-align: right;
   }
+
   span {
     height: 17px;
+    line-height: 17px;
   }
+
   &:hover span {
     color: ${props => props.theme.linkText};
   }

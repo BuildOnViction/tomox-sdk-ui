@@ -45,8 +45,8 @@ export const TokenName = styled.span`
 export const InputBox = styled.div`
   display: flex;
   position: relative;
-  margin-bottom: ${props => props.mb || '10px'};
-  margin-top: ${props => props.mt || '0'};
+  margin-bottom: ${props => props.mb ? props.mb : '10px'};
+  margin-top: ${props => props.mt ? props.mt : '0'};
 
   &:hover {
     .increase-decrease-box {
