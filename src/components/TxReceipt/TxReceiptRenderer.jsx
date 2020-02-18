@@ -32,9 +32,10 @@ const TxReceiptRenderer = (props: Props) => {
 
 const ButtonReceipt = styled(Button)`
   &.bp3-button {
-    background-color: ${TmColors.BLACK} !important;
+    background-color: ${props => props.theme.inputBackground2} !important;
+
     &:hover {
-      color: ${TmColors.WHITE} !important;
+      color: ${props => props.theme.inputColor} !important;
     }
   }
 `
