@@ -39,8 +39,8 @@ const LedgerWalletRenderer = (props) => {
             </LedgerImageBox>
     
             <InstructionBox>
-                <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
-                <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
+                <ExternalLink href="https://support.ledger.com/hc/en-us/articles/115005165269-Fix-connection-issues" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
+                <ExternalLink href="https://www.ledger.com/start" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
             </InstructionBox>
     
             <ButtonLogin onClick={() => toggleSelectHdPathModal('open')}><FormattedMessage id="unlockWalletPage.ledger.buttonTitle" /></ButtonLogin>
