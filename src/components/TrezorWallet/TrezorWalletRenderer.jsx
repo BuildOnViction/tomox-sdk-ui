@@ -15,8 +15,8 @@ const TrezorWalletRenderer = (props) => {
         <Trezor size={80} />
   
         <InstructionBox>
-            <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
-            <ExternalLink href="https://docs.tomochain.com/" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
+            <ExternalLink href="https://trezor.io/support/technical" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.connectionIssues" /></ExternalLink>
+            <ExternalLink href="https://wiki.trezor.io/User_manual" target="_blank" color={TmColors.ORANGE}><FormattedMessage id="unlockWalletPage.instructions" /></ExternalLink>
         </InstructionBox>
   
         <ButtonLogin onClick={() => toggleSelectHdPathModal('open')}><FormattedMessage id="unlockWalletPage.trezor.buttonTitle" /></ButtonLogin>
