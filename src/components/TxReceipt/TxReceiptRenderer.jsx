@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, Collapse } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
-import { TmColors } from '../Common'
 
 type Props = {
   visible: boolean,

@@ -399,6 +399,7 @@ const CheckboxWrapper = styled(Checkbox)`
   .bp3-control-indicator {
     box-shadow: none !important;
     background-image: none !important;
+    background-color: ${props => props.theme.checkboxBg} !important;
   }
 
   input:checked ~ .bp3-control-indicator {

@@ -291,6 +291,8 @@ export const DarkMode = {
   decimalsMenuBg: '#1f2538',
   decimalsMenuHoverBg: '#394362',
   decimalsMenuBoder: '#394362',
+
+  checkboxBg: '#fff',
 }
 
 export const LightMode = {
@@ -335,6 +337,8 @@ export const LightMode = {
   decimalsMenuBg: '#fff',
   decimalsMenuHoverBg: '#dedede',
   decimalsMenuBoder: '#ccc',
+
+  checkboxBg: '#cad9e6',
 }
 
 export const Theme = {

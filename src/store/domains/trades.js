@@ -1,7 +1,6 @@
 // @flow
 import BigNumber from 'bignumber.js'
 import { sortTable } from '../../utils/helpers'
-import { amountPrecision, pricePrecision } from '../../config/tokens'
 
 import type { Trade, Trades, TradesState } from '../../types/trades'
 
