@@ -53,7 +53,7 @@
   "unlockWalletPage.chooseHdPathModalTrezor.subTitle": "Please choose HD path corresponding:",
   "unlockWalletPage.chooseHdPathModal.instruction": "Choose paths <strong>m/44'/60'/0'</strong> or <strong>m/44'/60'/0'/0</strong> with Ethereum App, or try path <strong>m/44'/889'/0'/0</strong> with TomoChain App.",
   "unlockWalletPage.chooseHdPathModal.errorContract": "Check to make sure \"Contract data\" in the settings of the App is active?",
-  "unlockWalletPage.metaMaskNote": "Please install & login {link} then connect it to Tomochain Mainnet or Testnet.",
+  "unlockWalletPage.metaMaskNote": "Please install & login {metamaskLink} then connect it to {mainnetLink} or {testnetLink}.",
   "unlockWalletPage.metaMaskError1": "Have you installed MetaMask extension?",
   "unlockWalletPage.metaMaskError2": "Make sure your MetaMask is configured correctly.",
   "unlockWalletPage.notRecommended": "Note: this is not a recommended way to unlock your wallet.",

@@ -19,11 +19,17 @@ const MetaMaskRenderer = (props: Props) => {
     return (
       <Wrapper>
         <Centered><Metamask size={80} /></Centered>
-        {!error && (<Note>
-            <FormattedMessage 
-                id="unlockWalletPage.metaMaskNote"
-                values={{link: (<a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">Metamask Extension</a>)}} />
-        </Note>)}
+        {!error && (
+            <Note>
+                <FormattedMessage 
+                    id="unlockWalletPage.metaMaskNote"
+                    values={{
+                        metamaskLink: (<a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">Metamask Extension</a>),
+                        mainnetLink: (<a href="https://docs.tomochain.com/get-started/wallet/#metamask" target="_blank" rel="noopener noreferrer">Tomochain Mainnet</a>),
+                        testnetLink: (<a href="https://docs.tomochain.com/get-started/wallet/#metamask" target="_blank" rel="noopener noreferrer">Testnet</a>),
+                    }} />
+            </Note>
+        )}
 
         {error && (
             <React.Fragment>
@@ -52,6 +58,8 @@ const Centered = styled.div`
 `
 
 const Note = styled(SmallText)`
+    line-height: 20px;
+
     a {
         color: ${TmColors.ORANGE};
         &:hover {
