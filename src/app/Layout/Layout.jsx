@@ -2,7 +2,7 @@
 import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -306,7 +306,9 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
         <CreateImportHeader>
           <Navbar>
             <LogoWrapper>
-              <TomoXLogo src={DEX_LOGO} height={40} width={40} />
+              <Link to="/">
+                <TomoXLogo src={DEX_LOGO} height={40} width={40} />
+              </Link>
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>

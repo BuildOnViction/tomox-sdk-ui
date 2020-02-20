@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -50,7 +50,7 @@ const HeaderRenderer = (props) => {
         <Header>
             <Navbar>
             <MainLogoWrapper>
-                <TomoXLogo src={DEX_LOGO} height={40} width={40} />
+              <Link to="/"><TomoXLogo src={DEX_LOGO} height={40} width={40} /></Link>
             </MainLogoWrapper>
 
             <LeftNavbarGroup align={Alignment.LEFT}>
