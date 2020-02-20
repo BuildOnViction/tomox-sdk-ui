@@ -34,13 +34,30 @@ const PrivateKeyWalletRenderer = (props: Props) => {
         <WalletWrapper>
             <LabelWrapper>
                 <LabelTitle><FormattedMessage id="unlockWalletPage.privateKey.labelPrivateKey" /></LabelTitle> 
-                <InputGroupWrapper marginBottom="5px" type="text" value={privateKey} isInvalid={privateKeyStatus === 'invalid'} onChange={handlePrivateKeyChange} />
+                <InputGroupWrapper 
+                    marginBottom="5px" 
+                    type="text" 
+                    value={privateKey} 
+                    isInvalid={privateKeyStatus === 'invalid'} 
+                    onChange={handlePrivateKeyChange}
+                    autoComplete="off" 
+                    readOnly 
+                    onFocus={(event) => event.target.removeAttribute('readonly')} />
             </LabelWrapper>
             {(privateKeyStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.privateKey.invalid" /></ErrorMessage>)}
     
             <LabelWrapper>
                 <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-                <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} onKeyPress={unlockWalletByKeyPress} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
+                <InputGroupWrapper 
+                    type="password" 
+                    value={password} 
+                    onChange={handlePasswordChange} 
+                    onKeyPress={unlockWalletByKeyPress} 
+                    isInvalid={passwordStatus === 'invalid'} 
+                    marginBottom="5px"
+                    autoComplete="off" 
+                    readOnly 
+                    onFocus={(event) => event.target.removeAttribute('readonly')} />
             </LabelWrapper>          
             <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>          
     
