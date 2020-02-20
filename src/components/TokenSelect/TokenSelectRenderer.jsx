@@ -83,6 +83,7 @@ const StyledSelect = styled(Select)`
   .bp3-menu {
     max-height: 320px;
     overflow: auto;
+    background: ${props => props.theme.inputBackground} !important;
   }
 `
 
