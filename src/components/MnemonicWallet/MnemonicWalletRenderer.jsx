@@ -21,13 +21,25 @@ const MnemonicWalletRenderer = (props) => {
       <WalletWrapper>
         <LabelWrapper>
           <LabelTitle><FormattedMessage id="unlockWalletPage.mnemonic.labelMnemonic" /></LabelTitle> 
-          <TextAreaWrapper value={mnemonic} isInvalid={mnemonicStatus === 'invalid'} onChange={handleMnemonicChange} />
+          <TextAreaWrapper 
+            value={mnemonic} 
+            isInvalid={mnemonicStatus === 'invalid'} 
+            onChange={handleMnemonicChange}
+            autoComplete="off" 
+            readOnly 
+            onFocus={(event) => event.target.removeAttribute('readonly')} />
         </LabelWrapper>
         {(mnemonicStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.mnemonic.invalid" /></ErrorMessage>)}
   
         <LabelWrapper>
           <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-          <InputGroupWrapper type="password" value={password} onChange={handlePasswordChange} isInvalid={passwordStatus === 'invalid'} marginBottom="5px" />
+          <InputGroupWrapper 
+            type="password" value={password} 
+            onChange={handlePasswordChange} 
+            isInvalid={passwordStatus === 'invalid'} 
+            marginBottom="5px"autoComplete="off" 
+            readOnly 
+            onFocus={(event) => event.target.removeAttribute('readonly')} />
         </LabelWrapper>          
         <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>  
   
