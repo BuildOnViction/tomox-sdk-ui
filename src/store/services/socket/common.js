@@ -54,7 +54,7 @@ export const sendMessage = async (message: any, timeout: number = 10000) => {
       },
       timeout,
       0,
-      1000,
+      30000,
     )
   })
 }
