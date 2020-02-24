@@ -2,7 +2,7 @@
 import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -172,7 +172,7 @@ class Default extends React.PureComponent<Props, State> {
     } = this.props
 
     const { isShowTokenSearcher } = this.state
-
+    
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
         <Helmet>
@@ -306,9 +306,9 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
         <CreateImportHeader>
           <Navbar>
             <LogoWrapper>
-              <Link to="/">
+              <ExternalLink href={window.location.origin}>
                 <TomoXLogo src={DEX_LOGO} height={40} width={40} />
-              </Link>
+              </ExternalLink>
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
@@ -559,6 +559,8 @@ const NavbarLink = styled(NavLink)`
 const PageLink = styled(NavbarLink)`
   margin-right: 35px;
 `
+
+const ExternalLink = styled.a``
 
 const NavExternalLink = styled.a.attrs({
   className: 'sidebar-item docs-faq-link',

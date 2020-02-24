@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -45,12 +45,12 @@ const HeaderRenderer = (props) => {
         isTradingPage,
         toggleTokenSearcherMobile,
     } = props
-
+    
     return (
         <Header>
             <Navbar>
             <MainLogoWrapper>
-              <Link to="/"><TomoXLogo src={DEX_LOGO} height={40} width={40} /></Link>
+              <ExternalLink href={window.location.origin}><TomoXLogo src={DEX_LOGO} height={40} width={40} /></ExternalLink>
             </MainLogoWrapper>
 
             <LeftNavbarGroup align={Alignment.LEFT}>
@@ -469,6 +469,8 @@ const Header = styled.header.attrs({
   
   const UserItem = styled.div``
   
+  const ExternalLink = styled.a``
+
   const NavbarLink = styled(NavLink)`
     color: ${TmColors.GRAY};
   
