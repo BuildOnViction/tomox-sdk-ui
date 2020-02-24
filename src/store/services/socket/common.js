@@ -22,10 +22,10 @@ export const isOpen = () => {
   return window.socket.readyState === window.socket.OPEN
 }
 
-export const waitForConnection = (callback: Callback, timeout: number, tick: number, interval: number) => {
+export const waitForConnection = (callback: Callback, timeout: number = 30000, tick: number, interval: number) => {
   if (!window.socket)
     return callback(new Error('Socket connection not established'))
-  if (tick > interval)
+  if (tick > timeout)
     return callback(new Error('Waiting for socket is timeout'))
   if (isOpen()) {
     callback()
@@ -37,7 +37,7 @@ export const waitForConnection = (callback: Callback, timeout: number, tick: num
   }
 }
 
-export const sendMessage = async (message: any, timeout: number = 10000) => {
+export const sendMessage = async (message: any, timeout: number) => {
   return new Promise((resolve, reject) => {
     waitForConnection(
       err => {
@@ -54,7 +54,7 @@ export const sendMessage = async (message: any, timeout: number = 10000) => {
       },
       timeout,
       0,
-      30000,
+      1000,
     )
   })
 }
