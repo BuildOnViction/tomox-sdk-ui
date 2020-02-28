@@ -125,6 +125,10 @@ export default class TVChartRenderer extends React.PureComponent {
 				window.tvWidget.save(data => {
 					// This is a workaround detail see the issue #171
 					delete data.charts[0].chartProperties.paneProperties.background
+					data.charts[0].timeScale = {
+						m_barSpacing: 6,
+						m_rightOffset: 10,
+					}
 
 					localStorage.setItem(
 						`savedChart.${this.props.currentPair.pair}`, 
