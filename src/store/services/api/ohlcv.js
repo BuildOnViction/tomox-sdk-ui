@@ -5,9 +5,10 @@ import {
 import {
   timeParse,
 } from 'd3-time-format'
+import { ENGINE_HTTP_URL } from '../../../config/environment'
 
 const request = (endpoint: string, options: Object) => {
-  return fetch(`https://localhost${endpoint}`, {
+  return fetch(`${ENGINE_HTTP_URL}/${endpoint}`, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
@@ -23,30 +24,17 @@ export const fetchOHLCV = async (
   quoteToken: string,
   from: number,
   to: number,
-  duration: number,
-  units: string
+  timeInterval: string,
 ) => {
-  const response = await request(`/trades/ticks`, {
-    body: JSON.stringify({
-      pair: [{
-        baseToken,
-        quoteToken,
-      }],
-      from,
-      to,
-      duration,
-      units,
-    }),
-    method: 'POST',
-  })
+
+  const url = `ohlcv?baseToken=${baseToken}&quoteToken=${quoteToken}&timeInterval=${timeInterval}&from=${from}&to=${to}`
+  const response = await request(url)
 
   if (response.status !== 200) {
     throw new Error('Error')
   }
 
-  const {
-    data,
-  } = await response.json()
+  const { data } = await response.json()
   return data
 }
 

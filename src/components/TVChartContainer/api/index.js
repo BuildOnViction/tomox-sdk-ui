@@ -2,6 +2,9 @@
 import { socket } from '../../../store/services'
 import { timeSpans, getDurationByTimeSpan } from '../../../store/models/ohlcv'
 
+import { fetchOHLCV } from '../../../store/services/api/ohlcv'
+import { parseOHLCV } from '../../../utils/parsers'
+
 const supportedResolutions = ["1", "5", "15", "30", "60", "120", "240", "D", "1W", "1M"]
 
 const config = {
@@ -47,14 +50,14 @@ export default {
 		// onResolveErrorCallback('Not feeling it today')
 
 	},
-	getBars: function(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
+	getBars: async function(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
 		// console.log('=====getBars running')
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-		
+		const [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals] = symbolInfo.name.split('-')
+		const { interval } = window.tvWidget.symbolInterval()
+
 		if (firstDataRequest) {
-			const [pair, baseTokenAddress, quoteTokenAddress] = symbolInfo.name.split('-')
-			const { interval } = window.tvWidget.symbolInterval()
 			const currentTimeSpan = timeSpans.find(timeSpan => timeSpan.value === interval)
 			const currentDuration = getDurationByTimeSpan(currentTimeSpan)
 
@@ -69,7 +72,26 @@ export default {
 				currentDuration.label,
 			)
 		} else {
-			onHistoryCallback([], {noData: true})
+			const intervals = {
+				1: '1m',
+				5: '5m',
+				15: '15m',
+				30: '30m',
+				60: '1h',
+				120: '2h',
+				240: '4h',
+				'1D': '1d',
+				'1W': '1w',
+				'1M': '1mo',
+			}
+
+			const ohlcv = await fetchOHLCV(baseTokenAddress, quoteTokenAddress, from, to, intervals[interval])
+			if (ohlcv.length > 0) {
+				const ohlcvParsed  = parseOHLCV(ohlcv, {baseTokenDecimals, quoteTokenDecimals})
+				window.onHistoryCallback(ohlcvParsed, {noData: false})
+			} else {
+				onHistoryCallback([], {noData: true})
+			}
 		}
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
