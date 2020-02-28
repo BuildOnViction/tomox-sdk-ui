@@ -107,24 +107,24 @@ function byDuration(duration) {
 export function getDurationByTimeSpan(timeSpan) {
   switch (timeSpan.label) {
     case '1m':
-    case '5m':
       return { name: '1 Day', label: '1d' }
+    case '5m':
+      return { name: '5 Day', label: '5d' }
     case '15m':
-      return { name: '2 Day', label: '2d' }
+      return { name: '15 Day', label: '15d' }
     case '30m':
-      return { name: '3 Day', label: '3d' }
+      return { name: '30 Day', label: '30d' }
     case '1h': 
       return { name: '2 Month', label: '2M' }
     case '2h':
       return { name: '4 Month', label: '4M' }
     case '4h':
-      return { name: '9 Month', label: '9M' }
+      return { name: '8 Month', label: '8M' }
     case '1d':
     case '1D':
-      return { name: '1 Year', label: '1Y' }
+      return { name: '4 Year', label: '4Y' }
     case '7d':
     case '1W': 
-      return { name: '7 Year', label: '7Y' }
     default:
       return { name: 'Full', label: 'Full' }
   }
