@@ -54,7 +54,7 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals].join('-'),
+			symbol: [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals, pricePrecision].join('-'),
 			datafeed: Datafeed,
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
@@ -83,9 +83,9 @@ export default class TVChartRenderer extends React.PureComponent {
 			overrides: {
 				...modes[mode],
 				'mainSeriesProperties.minTick': `${Math.pow(10, pricePrecision)},1,false`,
-				'paneProperties.legendProperties.showSeriesOHLC': true,
-				'paneProperties.legendProperties.showLegend': false,
-				'paneProperties.legendProperties.showBarChange': true,
+				"mainSeriesProperties.visible": true,
+				"mainSeriesProperties.showPriceLine": true,
+
 				'mainSeriesProperties.candleStyle.upColor': "#00c38c",
 				'mainSeriesProperties.candleStyle.downColor': "#f94d5c",
 				'mainSeriesProperties.candleStyle.drawWick': true,
@@ -93,11 +93,17 @@ export default class TVChartRenderer extends React.PureComponent {
 				'mainSeriesProperties.candleStyle.wickDownColor': "#f94d5c",
 				'mainSeriesProperties.candleStyle.drawBorder': true,
 				'mainSeriesProperties.candleStyle.borderUpColor': "#00c38c",
-				'mainSeriesProperties.candleStyle.borderDownColor': "#f94d5c",			
+				'mainSeriesProperties.candleStyle.borderDownColor': "#f94d5c",
+
+				'paneProperties.legendProperties.showSeriesOHLC': true,
+				'paneProperties.legendProperties.showLegend': false,
+				'paneProperties.legendProperties.showBarChange': true,
+				"paneProperties.legendProperties.showSeriesTitle": false,
+
 				'scalesProperties.fontSize': 12,
 				'scalesProperties.textColor' : "#6e7793",
-				"paneProperties.legendProperties.showSeriesTitle": false,
 				"scalesProperties.lineColor": "#394362",
+
 				"timeScale.rightOffset": 5,
 				"volumePaneSize": "medium",
 			},

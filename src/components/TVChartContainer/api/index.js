@@ -23,22 +23,28 @@ export default {
 	resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
 		// expects a symbolInfo object in response
 		// console.log('======resolveSymbol running')
-		// console.log('resolveSymbol:',{symbolName})
+		// console.log('resolveSymbol:', symbolName)
+		const [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals, pricePrecision] = symbolName.split('-')
+		
 		var symbol_stub = {
 			name: symbolName,
 			description: '',
 			type: 'crypto',
 			session: '24x7',
 			timezone: 'Etc/UTC',
-			ticker: symbolName,
-			exchange: '',
+			ticker: pair,
+			exchange: 'TomoDex',
 			minmov: 1,
-			pricescale: Math.pow(10, 4),
+			pricescale: Math.pow(10, pricePrecision),
 			has_intraday: true,
 			intraday_multipliers: supportedResolutions,
 			supported_resolution:  supportedResolutions,
 			volume_precision: 8,
 			data_status: 'streaming',
+			baseTokenAddress,
+			quoteTokenAddress,
+			baseTokenDecimals,
+			quoteTokenDecimals,
 		}
 
 		setTimeout(function() {
@@ -54,7 +60,7 @@ export default {
 		// console.log('=====getBars running')
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-		const [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals] = symbolInfo.name.split('-')
+		const { pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = symbolInfo
 		const { interval } = window.tvWidget.symbolInterval()
 
 		if (firstDataRequest) {
@@ -88,7 +94,7 @@ export default {
 			const ohlcv = await fetchOHLCV(baseTokenAddress, quoteTokenAddress, from, to, intervals[interval])
 			if (ohlcv.length > 0) {
 				const ohlcvParsed  = parseOHLCV(ohlcv, {baseTokenDecimals, quoteTokenDecimals})
-				window.onHistoryCallback(ohlcvParsed, {noData: false})
+				onHistoryCallback(ohlcvParsed, {noData: false})
 			} else {
 				onHistoryCallback([], {noData: true})
 			}
