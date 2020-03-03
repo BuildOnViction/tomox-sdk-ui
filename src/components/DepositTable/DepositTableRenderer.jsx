@@ -119,13 +119,13 @@ const TOMORow = (props: Props) => {
 
   if (!TOMOTokenData) return null
 
-  const { symbol, balance, inOrders, availableBalance } = TOMOTokenData
+  const { address, symbol, balance, inOrders, availableBalance } = TOMOTokenData  
 
   return (
     <Row key="TOMO">
       <Cell width="18%">
         <TokenNameWrapper>
-          <ColoredCryptoIcon size={30} color={Colors.BLUE5} name={symbol} />
+          <TokenImage tokenAddress={address} size={30} />
           <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="_blank">{symbol}</Link>
         </TokenNameWrapper>
       </Cell>
