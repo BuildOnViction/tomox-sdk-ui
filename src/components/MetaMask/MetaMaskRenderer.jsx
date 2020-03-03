@@ -24,9 +24,9 @@ const MetaMaskRenderer = (props: Props) => {
                 <FormattedMessage 
                     id="unlockWalletPage.metaMaskNote"
                     values={{
-                        metamaskLink: (<a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">Metamask Extension</a>),
-                        mainnetLink: (<a href="https://docs.tomochain.com/get-started/wallet/#metamask" target="_blank" rel="noopener noreferrer">Tomochain Mainnet</a>),
-                        testnetLink: (<a href="https://docs.tomochain.com/get-started/wallet/#metamask" target="_blank" rel="noopener noreferrer">Testnet</a>),
+                        metamaskLink: (<a href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask" target="_blank" rel="noopener noreferrer">Metamask Extension</a>),
+                        mainnetLink: (<a href="https://docs.tomochain.com/developer-guide/working-with-tomochain/tomochain-mainnet" target="_blank" rel="noopener noreferrer">Tomochain Mainnet</a>),
+                        testnetLink: (<a href="https://docs.tomochain.com/developer-guide/working-with-tomochain/tomochain-testnet" target="_blank" rel="noopener noreferrer">Testnet</a>),
                     }} />
             </Note>
         )}
