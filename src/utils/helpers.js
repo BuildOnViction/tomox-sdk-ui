@@ -297,10 +297,9 @@ export const isTomoWallet = () => {
 
 export const calcPrecision = (price: number) => {
   const totalPrecision = 8
-  let pricePrecision = 4
-  let amountPrecision = totalPrecision - pricePrecision
+  let pricePrecision, amountPrecision
 
-  if (!price) return {totalPrecision}
+  if (!price) return { pricePrecision: totalPrecision, amountPrecision: totalPrecision }
 
   switch (true) {
     case (price >= 50):
