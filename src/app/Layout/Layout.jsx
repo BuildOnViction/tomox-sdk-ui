@@ -178,6 +178,9 @@ class Default extends React.PureComponent<Props, State> {
         <Helmet>
           <meta property="og:url" content={window.location.origin} />
           <meta property="og:site_name" content={DEX_TITLE} />
+          <meta property="og:title" content={DEX_TITLE} />
+          <meta name="twitter:title" content={DEX_TITLE} />
+
           <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
           <title>{DEX_TITLE}</title>
         </Helmet>
