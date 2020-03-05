@@ -3,9 +3,7 @@ import React from 'react'
 import { Checkbox, InputGroup } from '@blueprintjs/core'
 import {
   RowSpaceBetween,
-  ColoredCryptoIcon,
   TokenImage,
-  Colors,
   MutedText,
   Theme,
   TmColors,
