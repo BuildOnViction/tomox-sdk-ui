@@ -35,7 +35,7 @@ if (env) {
   DEFAULT_NETWORK_ID = env.REACT_APP_DEFAULT_NETWORK_ID || 'default'
   LOCALE = env.REACT_APP_LOCALE || 'en'
   REACT_APP_DEX_VERSION = env.REACT_APP_DEX_VERSION || 'ALPHA'
-  DEX_TITLE = env.REACT_APP_TITLE || 'TomoX | Decentralized Exchange'
+  DEX_TITLE = env.REACT_APP_TITLE || 'TomoDEX | Decentralized Exchange'
   DEX_LOGO = env.REACT_APP_LOGO
   DEX_FAVICON = env.REACT_APP_FAVICON
 }
