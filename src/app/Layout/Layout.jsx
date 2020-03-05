@@ -176,6 +176,8 @@ class Default extends React.PureComponent<Props, State> {
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
         <Helmet>
+          <meta property="og:url" content={window.location.origin} />
+          <meta property="og:site_name" content={DEX_TITLE} />
           <link rel="shortcut icon" href={DEX_FAVICON || favicon} />
           <title>{DEX_TITLE}</title>
         </Helmet>
