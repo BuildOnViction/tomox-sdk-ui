@@ -15,12 +15,14 @@ jobs:
         - npm run test
     - stage: Release application
       script:
-        - npm run build
+        - cp .env.testnet .env && npm run build
+        - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.testnettar.gz ./build
+        - cp .env.mainnet .env && npm run build
         - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.tar.gz ./build
       deploy:
         provider: releases
         api_key: $GH_TOKEN
-        file: tomox-sdk-ui.$TRAVIS_TAG.tar.gz
+        file: tomox-sdk-ui.*.tar.gz
         skip_cleanup: true
         overwrite: true
         on:
