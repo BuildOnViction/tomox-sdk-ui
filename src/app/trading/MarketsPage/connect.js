@@ -1,8 +1,8 @@
 // @flow
 import { connect } from 'react-redux'
-import getMarketsPageSelector from '../../store/models/marketsPage'
+import getMarketsPageSelector from '../../../store/models/marketsPage'
 
-import type { State } from '../../types'
+import type { State } from '../../../types'
 
 
 export function mapStateToProps(state: State) {

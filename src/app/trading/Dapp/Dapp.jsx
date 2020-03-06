@@ -10,13 +10,13 @@ import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link } from "react-router-dom"
 
-import { isTomoWallet } from '../../utils/helpers'
-import TradesTable from '../../components/TradesTable'
-import OrderBook from '../../components/OrderBook'
-import TVChartRenderer from '../../components/TVChartContainer'
-import DepthChart from '../../components/DepthChart'
-import { Theme, TmColors } from '../../components/Common'
-import arrowDownOrangeUrl from '../../assets/images/arrow_down_orange.svg'
+import { isTomoWallet } from '../../../utils/helpers'
+import TradesTable from '../../../components/TradesTable'
+import OrderBook from '../../../components/OrderBook'
+import TVChartRenderer from '../../../components/TVChartContainer'
+import DepthChart from '../../../components/DepthChart'
+import { Theme, TmColors } from '../../../components/Common'
+import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
 type State = {
   chartTadId: string,

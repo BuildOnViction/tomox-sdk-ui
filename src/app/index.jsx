@@ -12,14 +12,15 @@ import { Centered, Loading, DarkMode, LightMode } from '../components/Common'
 
 const Layout = lazy(_ => import('./Layout'))
 const LoginPage = lazy(_ => import('./LoginPage'))
+const LogoutPage = lazy(_ => import('./LogoutPage'))
 const CreateWalletPage = lazy(_ => import('./CreateWalletPage'))
 const WalletPage = lazy(_ => import('./WalletPage'))
-const LogoutPage = lazy(_ => import('./LogoutPage'))
-const TradingPage = lazy(_ => import('./TradingPage'))
-const MarketsPage = lazy(_ => import('./MarketsPage'))
-const Dapp = lazy(_ => import('./Dapp'))
-const DappTrade = lazy(_ => import('./DappTrade'))
-const DappOrders = lazy(_ => import('./DappOrders'))
+
+const TradingPage = lazy(_ => import('./trading/TradingPage'))
+const MarketsPage = lazy(_ => import('./trading/MarketsPage'))
+const Dapp = lazy(_ => import('./trading/Dapp'))
+const DappTrade = lazy(_ => import('./trading/DappTrade'))
+const DappOrders = lazy(_ => import('./trading/DappOrders'))
 
 const theme = {
   dark: DarkMode,

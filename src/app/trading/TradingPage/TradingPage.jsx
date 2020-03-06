@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import { Tabs, Tab } from '@blueprintjs/core'
 
-import OrdersTable from '../../components/OrdersTable'
-import OrderForm from '../../components/OrderForm'
-import TradesTable from '../../components/TradesTable'
-import OrderBook from '../../components/OrderBook'
-import TVChartContainer from '../../components/TVChartContainer'
-import DepthChart from '../../components/DepthChart'
-import { Theme } from '../../components/Common'
-import arrowDownOrangeUrl from '../../assets/images/arrow_down_orange.svg'
+import OrdersTable from '../../../components/OrdersTable'
+import OrderForm from '../../../components/OrderForm'
+import TradesTable from '../../../components/TradesTable'
+import OrderBook from '../../../components/OrderBook'
+import TVChartContainer from '../../../components/TVChartContainer'
+import DepthChart from '../../../components/DepthChart'
+import { Theme } from '../../../components/Common'
+import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 type Props = {
   authenticated: boolean,
   isConnected: boolean,

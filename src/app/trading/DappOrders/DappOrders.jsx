@@ -6,9 +6,9 @@ import 'rc-tabs/assets/index.css'
 import { Link, Redirect } from "react-router-dom"
 import { Icon } from '@blueprintjs/core'
 
-import { isTomoWallet } from '../../utils/helpers'
-import { Theme, TmColors } from '../../components/Common'
-import OrdersTableMobile from '../../components/OrdersTableMobile'
+import { isTomoWallet } from '../../../utils/helpers'
+import { Theme, TmColors } from '../../../components/Common'
+import OrdersTableMobile from '../../../components/OrdersTableMobile'
 
 type State = {
   chartTadId: string,

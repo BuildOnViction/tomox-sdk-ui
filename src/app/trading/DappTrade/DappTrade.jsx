@@ -9,11 +9,11 @@ import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link, Redirect } from "react-router-dom"
 
-import { isTomoWallet } from '../../utils/helpers'
-import { Theme, TmColors } from '../../components/Common'
-import OrderForm from '../../components/OrderForm'
-import TradesTable from '../../components/TradesTable'
-import OrderBook from '../../components/OrderBook'
+import { isTomoWallet } from '../../../utils/helpers'
+import { Theme, TmColors } from '../../../components/Common'
+import OrderForm from '../../../components/OrderForm'
+import TradesTable from '../../../components/TradesTable'
+import OrderBook from '../../../components/OrderBook'
 
 type State = {
   chartTadId: string,

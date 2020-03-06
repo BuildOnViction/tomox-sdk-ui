@@ -3,9 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { injectIntl, FormattedMessage } from "react-intl"
-import MarketsTable from '../../components/MarketsTable'
-import LineChart from '../../components/LineChart/LineChart'
-import { SmallText, TmColors, Theme } from '../../components/Common'
+import MarketsTable from '../../../components/MarketsTable'
+import LineChart from '../../../components/LineChart/LineChart'
+import { SmallText, TmColors, Theme } from '../../../components/Common'
 
 type Props = {
   loading: boolean,
