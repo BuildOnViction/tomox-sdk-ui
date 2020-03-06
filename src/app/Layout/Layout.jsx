@@ -25,6 +25,7 @@ import {
   Theme,
   DarkMode,
   TmColors,
+  UtilityIcon,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -202,31 +203,31 @@ class Default extends React.PureComponent<Props, State> {
 
         <MainContainer>
           <Sidebar> 
-            <MarketsLink to="/markets">
+            <MarketsLink to="/markets/trading">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
-                  content="Markets" 
+                  content={<FormattedMessage id="mainMenuPage.trading" />} 
                   position={Position.RIGHT}
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.trading" /></SidebarItemTitle>
               </SidebarItemBox>
             </MarketsLink>
 
-            <ExchangeLink to={currentPair ? `/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}` : "/404"}>
+            <LendingMarketsLink to="/markets/lending">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
-                  content="Exchange" 
+                  content={<FormattedMessage id="mainMenuPage.lending" />} 
                   position={Position.RIGHT}
                   transitionDuration={0}>
-                  <i></i> 
+                  <UtilityIcon name="lending" />
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenuPage.exchange" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.lending" /></SidebarItemTitle>
               </SidebarItemBox>
-            </ExchangeLink> 
+            </LendingMarketsLink>
 
             <PortfolioLink to="/wallet">
               <SidebarItemBox>
@@ -498,12 +499,21 @@ const SidebarItem = styled(NavLink).attrs({
 `
 
 const MarketsLink = styled(SidebarItem).attrs({
-  className: 'markets-link',
-})``
-
-const ExchangeLink = styled(SidebarItem).attrs({
   className: 'exchange-link',
 })``
+
+const LendingMarketsLink = styled(SidebarItem).attrs({
+  className: 'markets-link',
+})`
+  svg {
+    margin-right: 10px;
+  }
+
+  &:hover svg path,
+  &.active svg path {
+    fill: #fff;
+  }
+`
 
 const PortfolioLink = styled(SidebarItem).attrs({
   className: 'portfolio-link',
@@ -574,6 +584,7 @@ const NavExternalLink = styled.a.attrs({
 
   &:hover .sidebar-item-box {
     color: ${props => props.theme.activeLink};
+    box-shadow: -2px 0 0 0 ${props => props.theme.active};
   }
 `
 

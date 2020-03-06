@@ -22,6 +22,9 @@ const Dapp = lazy(_ => import('./trading/Dapp'))
 const DappTrade = lazy(_ => import('./trading/DappTrade'))
 const DappOrders = lazy(_ => import('./trading/DappOrders'))
 
+const LendingTradingPage = lazy(_ => import('./lending/TradingPage'))
+const LendingMarketsPage = lazy(_ => import('./lending/MarketsPage'))
+
 const theme = {
   dark: DarkMode,
   light: LightMode,
@@ -38,15 +41,20 @@ class App extends React.PureComponent {
             <Layout>          
               <Switch>
                 <Route exact path="/unlock" component={LoginPage} />
-                <Route exact path="/wallet" component={WalletPage} />
-                <Route exact path="/markets" component={MarketsPage} />
-                <Route exact path="/trade/:pair?" component={TradingPage} />                    
                 <Route exact path="/logout" component={LogoutPage} />
                 <Route exact path="/create" component={CreateWalletPage} />
+                <Route exact path="/wallet" component={WalletPage} />
+
+                <Route exact path="/markets/trading" component={MarketsPage} />
+                <Route exact path="/trade/:pair?" component={TradingPage} />  
+
+                <Route exact path="/markets/lending" component={LendingMarketsPage} /> 
+                <Route exact path="/lending/:pair?" component={LendingTradingPage} />                 
+                
                 <Route exact path="/dapp/orders" component={DappOrders} />
                 <Route exact path="/dapp/:pair?" component={Dapp} />               
                 <Route exact path="/dapp/trade/:pair?" component={DappTrade} />  
-                <Route render={() => <Redirect to="/markets" />} />
+                <Route render={() => <Redirect to="/markets/trading" />} />
               </Switch>          
             </Layout>
           </Suspense>
