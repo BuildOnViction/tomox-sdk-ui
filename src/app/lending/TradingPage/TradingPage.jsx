@@ -73,14 +73,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           gap="10px" 
           height="100%">
           <ChartsCell>
-            <ChartTabs
-              id="tabs-chart"
-              onChange={this.handleTabsChartChange}
-              selectedTabId={this.state.chartTadId}
-            >
-              <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartContainer />} />
-              <Tab id="depth" title="Depth" panel={<DepthChart />} />
-            </ChartTabs>
+            {quoteTokenSymbol && <TVChartContainer />}
           </ChartsCell>
           <OrdersTableCell>
             <OrdersTable />            
