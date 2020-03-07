@@ -22,7 +22,7 @@ type Props = {
   searchInput: string,
   pairs: Array<Object>,
   handleSearchInputChange: (SyntheticInputEvent<>) => void,
-  redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+  redirectToLendingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   selectedTab: string,
   handleChangeTab: string => void,
   tabs: Array<string>,
@@ -36,7 +36,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
   rowRenderer = ({ key, index, style }: *) => {
     const {
       pairs,
-      redirectToTradingPage,
+      redirectToLendingPage,
       currentReferenceCurrency,
       updateFavorite,
     } = this.props
@@ -59,7 +59,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} style={style} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
+      <Row key={key} style={style} onClick={() => redirectToLendingPage(baseTokenSymbol, quoteTokenSymbol)}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>

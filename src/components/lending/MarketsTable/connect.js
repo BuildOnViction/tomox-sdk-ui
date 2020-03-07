@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { updateFavorite } from '../../../store/actions/marketsTable'
-import getMarketTableSelector, { redirectToTradingPage, toggleAllowance } from '../../../store/models/marketsTable'
+import getMarketTableSelector, { redirectToLendingPage } from '../../../store/models/lending/marketsTable'
 
 import type { State } from '../../../types'
 
@@ -13,8 +13,7 @@ export function mapStateToProps(state: State) {
 }
 
 export const mapDispatchToProps = {
-  redirectToTradingPage,
-  toggleAllowance,
+  redirectToLendingPage,
   updateFavorite,
 }
 

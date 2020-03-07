@@ -9,7 +9,7 @@ import { sortTable } from '../../../utils/helpers'
 type Props = {
   pairs: Array<TokenPair>,
   quoteTokens: Array<string>,
-  redirectToTradingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
+  redirectToLendingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   currentReferenceCurrency: string,
   loading: Boolean,
 };
@@ -79,7 +79,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
   render() {
     const {
       pairs,
-      redirectToTradingPage,
+      redirectToLendingPage,
       quoteTokens,
       currentReferenceCurrency,
       loading,
@@ -100,7 +100,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
         pairs={filteredPairs}
         searchInput={searchInput}
         handleSearchInputChange={this.handleSearchInputChange}
-        redirectToTradingPage={redirectToTradingPage}
+        redirectToLendingPage={redirectToLendingPage}
         quoteTokens={quoteTokens}
         tabs={tabs}
         selectedTab={selectedTab}
