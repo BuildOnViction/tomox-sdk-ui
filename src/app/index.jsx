@@ -53,7 +53,7 @@ class App extends React.PureComponent {
                 
                 <Route exact path="/dapp/orders" component={DappOrders} />
                 <Route exact path="/dapp/:pair?" component={Dapp} />               
-                <Route exact path="/dapp/trade/:pair?" component={DappTrade} />  
+                <Route exact path="/dapp/trade/:pair?" component={DappTrade} />
                 <Route render={() => <Redirect to="/markets/trading" />} />
               </Switch>          
             </Layout>
