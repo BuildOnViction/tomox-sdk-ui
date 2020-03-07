@@ -2,16 +2,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Tabs, Tab } from '@blueprintjs/core'
+
+import { Theme } from '../../../components/Common'
+import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
 import OrdersTable from '../../../components/OrdersTable'
 import OrderForm from '../../../components/OrderForm'
 import TradesTable from '../../../components/TradesTable'
-import OrderBook from '../../../components/OrderBook'
+import OrderBook from '../../../components/lending/OrderBook'
 import TVChartContainer from '../../../components/TVChartContainer'
-import DepthChart from '../../../components/DepthChart'
-import { Theme } from '../../../components/Common'
-import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
+
 type Props = {
   authenticated: boolean,
   isConnected: boolean,
@@ -19,16 +19,12 @@ type Props = {
   balancesLoading: boolean,
   baseTokenBalance: string,
   quoteTokenBalance: string,
-  baseTokenAllowance: string,
-  quoteTokenAllowance: string,
   baseTokenSymbol: string,
   quoteTokenSymbol: string,
-  pairIsAllowed: boolean,
   pairName: string,
   queryTradingPageData: () => void,
   makeFee: string,
   takeFee: string,
-  toggleAllowances: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   ohlcvData: Array<Object>,
 }
 
@@ -276,13 +272,6 @@ const OrderFormCell = styled(Cell).attrs({
         font-size: ${Theme.FONT_SIZE_MD};
       }
     }
-  }
-`
-
-const ChartTabs = styled(Tabs)`
-  .bp3-tab-list {
-    position: absolute;
-    right: 0;
   }
 `
 

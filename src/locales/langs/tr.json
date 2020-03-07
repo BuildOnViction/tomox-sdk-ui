@@ -143,6 +143,7 @@
   "exchangePage.cancelled": "İptal Edildi",
   "exchangePage.filledStatus": "Dolan",
   "exchangePage.rejected": "Reddedildi",
+  "lendingPage.orderbook.interest": "Interest(APR)",
   "portfolioPage.send": "Gönder",
   "portfolioPage.receive": "Al",
   "portfolioPage.hideZeroAmounts": "Sıfır tutarları gizle",
