@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { injectIntl, FormattedMessage } from "react-intl"
-import MarketsTable from '../../../components/MarketsTable'
+import MarketsTable from '../../../components/lending/MarketsTable'
 import LineChart from '../../../components/LineChart/LineChart'
 import { SmallText, TmColors, Theme } from '../../../components/Common'
 

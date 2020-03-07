@@ -32,6 +32,7 @@ class WalletPage extends React.PureComponent<Props> {
       gasPrice,
       gas,
       redirectToTradingPage,
+      redirectToLendingPage,
       tokenData,
       quoteTokens,
       baseTokens,
@@ -56,6 +57,7 @@ class WalletPage extends React.PureComponent<Props> {
         accountAddress={accountAddress}
         balancesLoading={balancesLoading}
         redirectToTradingPage={redirectToTradingPage}
+        redirectToLendingPage={redirectToLendingPage}
         isHelpModalOpen={isHelpModalOpen}
         copyDataSuccess={copyDataSuccess}
         mode={mode}

@@ -25,6 +25,7 @@ const WalletPageRenderer = (props: Props) => {
     quoteTokens,
     connected,
     redirectToTradingPage,
+    redirectToLendingPage,
     balancesLoading,
     accountAddress,
     copyDataSuccess,
@@ -43,6 +44,7 @@ const WalletPageRenderer = (props: Props) => {
             baseTokens={baseTokens}
             quoteTokens={quoteTokens}
             redirectToTradingPage={redirectToTradingPage}
+            redirectToLendingPage={redirectToLendingPage}
             accountAddress={accountAddress}
             copyDataSuccess={copyDataSuccess}
             mode={mode}

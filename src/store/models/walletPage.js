@@ -61,3 +61,9 @@ export function redirectToTradingPage(symbol: string): ThunkAction {
     dispatch(push('/trade'))
   }
 }
+
+export function redirectToLendingPage(): ThunkAction {
+  return async (dispatch, getState) => {
+    dispatch(push('/lending'))
+  }
+}

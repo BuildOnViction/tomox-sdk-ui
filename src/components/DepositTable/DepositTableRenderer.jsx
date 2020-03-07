@@ -16,6 +16,8 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
+import { lendingTokens, collaterralTokens } from '../../config/tokens'
+
 import { TOMOSCAN_URL } from '../../config/environment'
 import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
@@ -113,6 +115,7 @@ const TOMORow = (props: Props) => {
     accountAddress,
     TOMOTokenData,
     redirectToTradingPage,
+    redirectToLendingPage,
   } = props
 
   if (!TOMOTokenData) return null
@@ -138,9 +141,27 @@ const TOMORow = (props: Props) => {
       </Cell>
       <Cell width="25%">
         <ButtonWrapper>
-          <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-            <FormattedMessage id="portfolioPage.trade" />
-          </OperationButton>
+          <OperationsBox>
+            <OperationButton onClick={() => redirectToTradingPage(symbol)}>
+              <FormattedMessage id="portfolioPage.trade" />
+            </OperationButton>
+
+            {
+              (lendingTokens.includes(symbol)) && (
+                <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                  <FormattedMessage id="portfolioPage.lend" />
+                </OperationButton>
+              )
+            }
+
+            {
+              (collaterralTokens.includes(symbol)) && (
+                <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                  <FormattedMessage id="portfolioPage.borrow" />
+                </OperationButton>
+              )
+            }
+          </OperationsBox>
         </ButtonWrapper>
       </Cell>
     </Row>
@@ -152,6 +173,7 @@ const QuoteTokenRows = (props: Props) => {
     accountAddress,
     quoteTokensData,
     redirectToTradingPage,
+    redirectToLendingPage,
   } = props
 
   if (!quoteTokensData) return null
@@ -177,21 +199,35 @@ const QuoteTokenRows = (props: Props) => {
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
-              <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                <FormattedMessage id="portfolioPage.trade" />
-              </OperationButton>
+              <OperationsBox>
+                <OperationButton onClick={() => redirectToTradingPage(symbol)}>
+                  <FormattedMessage id="portfolioPage.trade" />
+                </OperationButton>
 
-              {verified && (
-                <React.Fragment>
-                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                    <FormattedMessage id="portfolioPage.deposit" />
-                  </ExternalLink>
+                {
+                  (lendingTokens.includes(symbol)) && (
+                    <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                      <FormattedMessage id="portfolioPage.lend" />
+                    </OperationButton>
+                  )
+                }
 
-                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                    <FormattedMessage id="portfolioPage.withdrawal" />
-                  </ExternalLink>
-                </React.Fragment>
-              )}              
+                {
+                  (collaterralTokens.includes(symbol)) && (
+                    <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                      <FormattedMessage id="portfolioPage.borrow" />
+                    </OperationButton>
+                  )
+                }
+              </OperationsBox>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                <FormattedMessage id="portfolioPage.deposit" />
+              </ExternalLink>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                <FormattedMessage id="portfolioPage.withdrawal" />
+              </ExternalLink>
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -205,6 +241,7 @@ const BaseTokenRows = (props: Props) => {
     accountAddress,
     baseTokensData,
     redirectToTradingPage,
+    redirectToLendingPage,
   } = props
 
   if (!baseTokensData) return null
@@ -230,20 +267,35 @@ const BaseTokenRows = (props: Props) => {
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
-              <OperationButton onClick={() => redirectToTradingPage(symbol)}>
-                <FormattedMessage id="portfolioPage.trade" />
-              </OperationButton>
-              {verified && (
-                <React.Fragment>
-                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                    <FormattedMessage id="portfolioPage.deposit" />
-                  </ExternalLink>
+              <OperationsBox>
+                <OperationButton onClick={() => redirectToTradingPage(symbol)}>
+                  <FormattedMessage id="portfolioPage.trade" />
+                </OperationButton>
 
-                  <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
-                    <FormattedMessage id="portfolioPage.withdrawal" />
-                  </ExternalLink>
-                </React.Fragment>
-              )}              
+                {
+                  (lendingTokens.includes(symbol)) && (
+                    <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                      <FormattedMessage id="portfolioPage.lend" />
+                    </OperationButton>
+                  )
+                }
+
+                {
+                  (collaterralTokens.includes(symbol)) && (
+                    <OperationButton onClick={() => redirectToLendingPage(symbol)}>
+                      <FormattedMessage id="portfolioPage.borrow" />
+                    </OperationButton>
+                  )
+                }
+              </OperationsBox>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                <FormattedMessage id="portfolioPage.deposit" />
+              </ExternalLink>
+
+              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+                <FormattedMessage id="portfolioPage.withdrawal" />
+              </ExternalLink>             
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -339,6 +391,12 @@ const ButtonWrapper = styled.div`
   justify-content: space-between;
 `
 
+const OperationsBox = styled.div`
+  min-width: 35%;
+  display: flex;
+  justify-content: space-between;
+`
+
 const OperationButton = styled.button.attrs(({ disabled }) => ({
   disabled,
 }))`
@@ -352,6 +410,7 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   &[disabled] {
     cursor: default;
   }
+  
   &:hover {
     color: ${TmColors.ORANGE};
   }
