@@ -7,7 +7,7 @@ import { Theme } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
 import OrdersTable from '../../../components/OrdersTable'
-import OrderForm from '../../../components/OrderForm'
+import OrderForm from '../../../components/lending/OrderForm'
 import TradesTable from '../../../components/TradesTable'
 import OrderBook from '../../../components/lending/OrderBook'
 import TVChartContainer from '../../../components/TVChartContainer'
