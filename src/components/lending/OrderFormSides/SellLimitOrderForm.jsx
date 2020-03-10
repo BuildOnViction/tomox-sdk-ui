@@ -10,15 +10,17 @@ import {
   InputBox,
   InputLabel,
   SmallText,
-  Value,
-  SellLimitOrderContainer,
+  InputValue,
   HeaderRow,
   BaseToken,
   SellButton,
   MaxAmountInfo,
   ErrorMessage,
+  Wrapper,
   Row,
-} from "../../OrderFormCommonComponents"
+  Title,
+  Value,
+} from "../OrderFormCommon"
 import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
@@ -51,13 +53,13 @@ const SellLimitOrderForm = props => {
   } = props
 
   return (
-    <SellLimitOrderContainer>
+    <Wrapper>
       <HeaderRow>
-        <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {baseTokenSymbol}</BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>
-          <FormattedMessage id="exchangePage.price" />:
+          <FormattedMessage id="exchangeLendingPage.orderPlace.interest" />:
         </InputLabel>
 
         <InputGroupWrapper
@@ -78,7 +80,7 @@ const SellLimitOrderForm = props => {
           onIncreasePrice={e => handleIncreasePrice(e, "SELL")}
         />
 
-        <TokenName>{quoteTokenSymbol}</TokenName>
+        <TokenName>%</TokenName>
       </InputBox>
 
       <InputBox mb="0px">
@@ -119,33 +121,27 @@ const SellLimitOrderForm = props => {
         onInputChange={onInputChange}
       />
 
-
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.total" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="total"
-          onChange={(e) => onInputChange('SELL', e)}
-          value={sellTotal}
-          autoComplete="off"
-        />
-        <TokenName>{quoteTokenSymbol}</TokenName>
-      </InputBox>
-
       <Row><ErrorMessage>{errorSell && errorSell.message}</ErrorMessage></Row>
+
+      <Row mb="15px">
+        <Title><FormattedMessage id="exchangeLendingPage.orderPlace.estimatedProfit" />:</Title>
+        <Value title={`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}>
+          <SmallText>{`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}</SmallText>
+        </Value>
+      </Row>
 
       {authenticated && (
         <React.Fragment>
-          <InputBox mb="15px">
-            <InputLabel><FormattedMessage id="portfolioPage.available" />:</InputLabel>
+          <Row mb="15px">
+            <Title><FormattedMessage id="portfolioPage.available" />:</Title>
             <Value title={`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}>
               <SmallText>{`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}</SmallText>
             </Value>
-          </InputBox>
+          </Row>
+         
           <SellButton
             intent="danger"
-            text={<FormattedMessage id="exchangePage.sell" />}
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> }
             name="order"
             onClick={() => handleSendOrder("SELL")}
             fill
@@ -162,7 +158,7 @@ const SellLimitOrderForm = props => {
           fill
         />
       )}
-    </SellLimitOrderContainer>
+    </Wrapper>
   )
 }
 

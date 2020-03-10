@@ -1,22 +1,13 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import {
-  Button,
-  InputGroup,
-  Colors,
-} from '@blueprintjs/core'
-import { utils } from 'ethers'
 import { FormattedMessage } from 'react-intl'
 
 import type { Side, OrderType } from '../../../types/orders'
 import {
-  MutedText,
-  Theme,
-  TmColors,
   SpinnerContainer,
 } from '../../Common'
-import { BuyLimitOrderForm, SellLimitOrderForm } from '../LimitOrderForms'
+import { BorrowOrderForm, SellLimitOrderForm } from '../OrderFormSides'
 
 type Props = {
   selectedTabId: OrderType,
@@ -147,95 +138,11 @@ const OrderFormRenderer = (props: Props) => {
 const LimitOrderPanel = props => {
   return (
     <OrderWrapper>
-      <BuyLimitOrderForm {...props} />
+      <BorrowOrderForm {...props} />
       <SellLimitOrderForm {...props} />
     </OrderWrapper>
   )
 }
-
-//eslint-disable-next-line
-const StopLimitOrderPanel = (props: *) => {
-  const {
-    stopPrice,
-    side,
-    amount,
-    maxAmount,
-    total,
-    makeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    quoteTokenDecimals,
-    insufficientBalance,
-    pairIsAllowed,
-    onInputChange,
-    handleUnlockPair,
-    handleSendOrder,
-  } = props
-
-  return (
-    <React.Fragment>
-      <InputBox>
-        <InputLabel>
-          Stop Price <MutedText>({quoteTokenSymbol})</MutedText>
-        </InputLabel>
-        <InputGroupWrapper
-          name="stopPrice"
-          onChange={onInputChange}
-          value={stopPrice}
-          placeholder="Stop Price"
-        />
-      </InputBox>
-      <InputBox>
-        <InputLabel>
-          Limit Price <MutedText>({quoteTokenSymbol})</MutedText>
-        </InputLabel>
-        <InputGroupWrapper
-          name="limitPrice"
-          onChange={onInputChange}
-          value={amount}
-          placeholder="Limit Price"
-          rightElement={
-            <Total>
-              Total: ~{total} {baseTokenSymbol}
-            </Total>
-          }
-        />
-      </InputBox>
-      <InputBox>
-        <InputLabel>
-          Amount <MutedText>({baseTokenSymbol})</MutedText>
-        </InputLabel>
-        <InputGroupWrapper
-          name="amount"
-          onChange={onInputChange}
-          value={amount}
-          placeholder="Amount"
-          rightElement={
-            <Total>
-              Total: ~{total} {quoteTokenSymbol}
-            </Total>
-          }
-        />
-      </InputBox>
-
-      <MaxAmount>Total: ~{total} {quoteTokenSymbol}</MaxAmount>
-      <MaxAmount>Max: ~{maxAmount} {baseTokenSymbol}</MaxAmount>
-      {makeFee && <MaxAmount>Fee: {makeFee} {utils.formatUnits(makeFee, quoteTokenDecimals)} {quoteTokenSymbol} </MaxAmount>}
-
-      <Button
-        intent={side === 'BUY' ? 'success' : 'danger'}
-        text={side}
-        name="order"
-        onClick={pairIsAllowed ? handleSendOrder : handleUnlockPair}
-        disabled={insufficientBalance}
-        fill
-      />
-
-    </React.Fragment>
-  )
-}
-
-export default OrderFormRenderer
 
 const Container = styled.div`
   position: relative;
@@ -252,67 +159,8 @@ const Container = styled.div`
   }
 `
 
-const InputGroupWrapper = styled(InputGroup).attrs({
-  className: "bp3-fill",
-})`
-  &.has-error .bp3-input {
-    box-shadow: 0 0 0 1px ${TmColors.RED};
-  }
-
-  .bp3-input {
-    font-size: ${Theme.FONT_SIZE_MD};
-    padding-right: 50px !important; 
-
-    &:focus {
-      box-shadow: 0 0 0 1px ${TmColors.ORANGE};
-    }
-  }
-`
-
-const InputBox = styled.div`
-  display: flex;
-  position: relative;
-  margin-bottom: 10px;
-
-  &:hover {
-    .increase-decrease-box {
-      display: flex !important;
-    }
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  .bp3-input-group.bp3-fill {
-    width: calc(100% - 60px);
-  }
-`
-
-const InputLabel = styled.div`
-  height: 100%;
-  width: 60px;
-  margin: auto;
-  margin-right: 10px;
-  user-select: none;
-`
-
-const Total = styled.div`
-  color: ${Colors.GRAY3};
-  margin: auto;
-  height: 100%;
-  padding-top: 8px;
-  padding-right: 4px;
-`
-
-const MaxAmount = styled.div`
-  display: flex;
-  color: ${Colors.GRAY3}
-  font-size: 11px;
-  justify-content: flex-end;
-  padding-bottom: 5px;
-  `
-
 const OrderWrapper = styled.div.attrs({
   className: 'order-wrapper',
 })``
+
+export default OrderFormRenderer

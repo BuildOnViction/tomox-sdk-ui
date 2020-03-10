@@ -293,6 +293,9 @@ export const DarkMode = {
   decimalsMenuBoder: '#394362',
 
   checkboxBg: '#fff',
+
+  selectBackground: '#1f2538',
+  selectColor: '#fff',
 }
 
 export const LightMode = {
@@ -339,6 +342,9 @@ export const LightMode = {
   decimalsMenuBoder: '#ccc',
 
   checkboxBg: '#cad9e6',
+
+  selectBackground: '#e4ecf3',
+  selectColor: '#1f2538',
 }
 
 export const Theme = {

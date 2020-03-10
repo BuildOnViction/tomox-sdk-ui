@@ -125,7 +125,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             <ListHeading>
               <HeaderRow>
                 <HeaderCell width={widthColumns[0]} className="header-cell">
-                  <FormattedMessage id="lendingPage.orderbook.interest" />
+                  <FormattedMessage id="exchangeLendingPage.orderbook.interest" />
                 </HeaderCell>
                 <AmountHeader width={widthColumns[1]} className="header-cell text-right">
                   <FormattedMessage 

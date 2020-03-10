@@ -10,19 +10,24 @@ import {
   InputBox,
   InputLabel,
   SmallText,
-  Value,
-  BuyLimitOrderContainer,
+  InputValue,
   HeaderRow,
   BaseToken,
   BuyButton,
   MaxAmountInfo,
   ErrorMessage,
+  Wrapper,
   Row,
-} from "../../OrderFormCommonComponents"
+  Title,
+  Value,
+  SelectCollaterals,
+} from "../OrderFormCommon"
 import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
-const BuyLimitOrderForm = props => {
+const collaterals = [{symbol: 'BTC', address: 'btc'}, {symbol: 'ETH', address: 'eth'}, {symbol: 'TOMO', address: 'tomo'}]
+
+const BorrowOrderForm = props => {
   const {
     buyPrice,
     buyAmount,
@@ -51,14 +56,14 @@ const BuyLimitOrderForm = props => {
   } = props
 
   return (
-    <BuyLimitOrderContainer>
+    <Wrapper>
       <HeaderRow>
-        <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {baseTokenSymbol}</BaseToken>
       </HeaderRow>
 
       <InputBox>
         <InputLabel>
-          <FormattedMessage id="exchangePage.price" />:
+          <FormattedMessage id="exchangeLendingPage.orderPlace.interest" />:
         </InputLabel>
 
         <InputGroupWrapper
@@ -73,7 +78,7 @@ const BuyLimitOrderForm = props => {
           className={errorBuy && errorBuy.type === "price" ? "has-error" : ""}
         />
 
-        <TokenName>{quoteTokenSymbol}</TokenName>
+        <TokenName>%</TokenName>
 
         <IncreaseAndDecreaseGroup
           type="price"
@@ -82,7 +87,7 @@ const BuyLimitOrderForm = props => {
         />
       </InputBox>
 
-      <InputBox mb="0px">
+      <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangePage.amount" />:
         </InputLabel>
@@ -114,40 +119,44 @@ const BuyLimitOrderForm = props => {
         )}
       </InputBox>
 
+      <InputBox mb="0">
+        <InputLabel>
+          <FormattedMessage id="exchangeLendingPage.orderPlace.selectCollateral" />:
+        </InputLabel>
+
+        <InputValue>
+          <SelectCollaterals items={collaterals} activeItem={collaterals[0]} />
+        </InputValue>
+      </InputBox>
+
       <FractionList
         side="BUY"
         fraction={fraction}
         onInputChange={onInputChange}
       />
 
-      <InputBox>
-        <InputLabel>
-          <FormattedMessage id="exchangePage.total" />:
-        </InputLabel>
-        <InputGroupWrapper
-          name="total"
-          onChange={(e) => onInputChange('BUY', e)}
-          value={buyTotal}
-          autoComplete="off"
-        />
-        <TokenName>{quoteTokenSymbol}</TokenName>
-      </InputBox>
-
       <Row>
         <ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage>
       </Row>
 
+      <Row mb="15px">
+        <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
+        <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
+          <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
+        </Value>
+      </Row>
+
       {authenticated && (
         <React.Fragment>
-          <InputBox mb="15px">
-            <InputLabel><FormattedMessage id="portfolioPage.available" />:</InputLabel>
+          <Row mb="15px">
+            <Title><FormattedMessage id="portfolioPage.available" />:</Title>
             <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
               <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
             </Value>
-          </InputBox>
+          </Row>
           <BuyButton
             intent="success"
-            text={<FormattedMessage id="exchangePage.buy" />}
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.borrow" />}
             name="order"
             onClick={() => handleSendOrder("BUY")}
             fill
@@ -164,8 +173,8 @@ const BuyLimitOrderForm = props => {
           fill
         />
       )}
-    </BuyLimitOrderContainer>
+    </Wrapper>
   )
 }
 
-export default BuyLimitOrderForm
+export default BorrowOrderForm
