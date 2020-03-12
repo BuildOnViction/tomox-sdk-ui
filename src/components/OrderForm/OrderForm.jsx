@@ -101,6 +101,15 @@ class OrderForm extends React.PureComponent<Props, State> {
       })
     }
 
+    if (prevProps.loading && !this.props.loading) {
+      return this.setState({ 
+        buyAmount: '',
+        sellAmount: '',
+        buyTotal: '',
+        sellTotal: '',
+      })
+    }
+
     // currentPair and currentPairData changed and ready at different times
     // so we use dirtyPriceForm to indicate token pair changed & order form is refresh
     // and when currenPairData ready we will add price to form
@@ -276,7 +285,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       this.props.sendNewOrder(side, selectedTabId, unformat(buyAmount), unformat(buyPrice))
     } else {
       this.props.sendNewOrder(side, selectedTabId, unformat(sellAmount), unformat(sellPrice))
-    }                    
+    }
   }
 
   handleUpdateAmountFraction = (fraction: string, side: SIDE) => {

@@ -86,7 +86,8 @@ export const parseBalance = (balance, decimals: Number, precision: Number = pric
   const precisionMultiplier = BigNumber(10).pow(18)
   const multiplier = BigNumber(10).pow(decimals)
   const bigBalance = BigNumber(balance).times(precisionMultiplier)
-  const userBalance = ((bigBalance.div(multiplier)).div(precisionMultiplier)).toFixed(precision)
+  let userBalance = ((bigBalance.div(multiplier)).div(precisionMultiplier)).toFixed(precision)
+  userBalance = (Number(userBalance) <= 0) ? 0 : userBalance
 
   return userBalance
 }
