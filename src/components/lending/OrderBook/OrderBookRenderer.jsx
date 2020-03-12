@@ -129,13 +129,13 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 </HeaderCell>
                 <AmountHeader width={widthColumns[1]} className="header-cell text-right">
                   <FormattedMessage 
-                    id="exchangePage.orderbook.amount"
-                    values={{baseTokenSymbol}} />
+                    id="exchangeLendingPage.orderbook.amount"
+                    values={{symbol: quoteTokenSymbol}} />
                 </AmountHeader>
                 <HeaderCell width={widthColumns[2]} className="header-cell text-right">
                   <FormattedMessage 
-                    id="exchangePage.orderbook.total"
-                    values={{baseTokenSymbol}} />
+                    id="exchangeLendingPage.orderbook.totalAmount"
+                    values={{symbol: quoteTokenSymbol}} />
                 </HeaderCell>
               </HeaderRow>
             </ListHeading>

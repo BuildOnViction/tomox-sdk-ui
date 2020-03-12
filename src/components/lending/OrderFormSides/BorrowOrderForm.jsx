@@ -58,7 +58,7 @@ const BorrowOrderForm = props => {
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {baseTokenSymbol}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {quoteTokenSymbol} / 7 days</BaseToken>
       </HeaderRow>
 
       <InputBox>
@@ -135,11 +135,7 @@ const BorrowOrderForm = props => {
         onInputChange={onInputChange}
       />
 
-      <Row>
-        <ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage>
-      </Row>
-
-      <Row mb="15px">
+      <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
         <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
           <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
@@ -148,12 +144,15 @@ const BorrowOrderForm = props => {
 
       {authenticated && (
         <React.Fragment>
-          <Row mb="15px">
+          <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
             <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
               <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
             </Value>
           </Row>
+
+          <Row><ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage></Row>
+
           <BuyButton
             intent="success"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.borrow" />}

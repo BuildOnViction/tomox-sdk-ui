@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   width: calc(50% - 12px);
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 
 export const InputGroupWrapper = styled(InputGroup).attrs({
@@ -183,11 +184,7 @@ export const Value = styled.div`
 export const ErrorMessage = styled.div`
   min-height: 17px;
   line-height: 17px;
-  width: calc(100% - 100px);
   color: ${TmColors.RED};
-  margin-left: auto;
-  margin-top: -7px;
-  margin-bottom: 3px;
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {

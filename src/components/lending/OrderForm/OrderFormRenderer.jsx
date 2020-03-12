@@ -147,6 +147,7 @@ const LimitOrderPanel = props => {
 const Container = styled.div`
   position: relative;
   padding: 10px;
+  height: 100%;
 
   .spinner-container {
     position: absolute;
@@ -161,6 +162,8 @@ const Container = styled.div`
 
 const OrderWrapper = styled.div.attrs({
   className: 'order-wrapper',
-})``
+})`
+  height: 100%;
+`
 
 export default OrderFormRenderer

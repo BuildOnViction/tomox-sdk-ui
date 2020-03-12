@@ -150,6 +150,8 @@
   "exchangeLendingPage.orderPlace.estimatedProfit": "Estimated profit",
   "exchangeLendingPage.orderPlace.collateralRequired": "Collateral required",
   "exchangeLendingPage.orderbook.interest": "Interest(APR)",
+  "exchangeLendingPage.orderbook.amount": "Amount({symbol})",
+  "exchangeLendingPage.orderbook.totalAmount": "Total({symbol})",
   "portfolioPage.send": "Gönder",
   "portfolioPage.receive": "Al",
   "portfolioPage.hideZeroAmounts": "Sıfır tutarları gizle",
