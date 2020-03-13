@@ -13,6 +13,7 @@ import {
   getAccountDomain,
   getTokenPairsDomain,
   getWebsocketDomain,
+  getTokenDomain,
 } from '../domains'
 
 // import { queryBalances } from './depositForm'
@@ -27,6 +28,7 @@ import {
   parseOHLCV,
   parsePriceBoardData,
   parseTokenPairsData,
+  parseLendingOrderBookData,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -83,6 +85,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
           return handleMarketsMessage(dispatch, event, getState)
+        case 'lending_orderbook':
+          return dispatch(handleLendingOrderBookMessage(event))
         default:
           console.log(channel, event)
           break
@@ -617,4 +621,42 @@ const handleMarketsMessage = (
   dispatch(actionCreators.updateTokenPairData(pairData))
   dispatch(actionCreators.updateSmallChartsData(smallChartsData))
   dispatch(actionCreators.updateLoadingTokenPair(false))
+}
+
+const handleLendingOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+
+    if (event.type === 'ERROR' || !event.payload) return
+
+    const tokenAddress = event.payload.name.split('::').pop()
+    const state = getState()
+    const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
+    const decimals = token ? token.decimals : 18
+
+    let bids, asks, lendingOrderBookData
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          lendingOrderBookData = parseLendingOrderBookData(event.payload, decimals)
+          bids = lendingOrderBookData.bids
+          asks = lendingOrderBookData.asks
+          dispatch(actionCreators.initLendingOrderBook(bids, asks))
+          break
+
+        case 'UPDATE':
+          lendingOrderBookData = parseLendingOrderBookData(event.payload, decimals)
+          bids = lendingOrderBookData.bids
+          asks = lendingOrderBookData.asks
+          dispatch(actionCreators.updateLendingOrderBook(bids, asks))
+          break
+
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
+    }
+  }
 }

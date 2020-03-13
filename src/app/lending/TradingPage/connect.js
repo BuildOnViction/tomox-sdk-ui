@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
-import tradingPageSelector, { queryTradingPageData, releaseResources } from '../../../store/models/lending/tradingPage'
+import tradingPageSelector, { queryTradingPageData, releaseResources } from '../../../store/models/lending/lendingTradingPage'
 
 import type { State } from '../../../types'
 

@@ -55,6 +55,9 @@ const actionTypes = {
   updateLoadingTokenPair: 'socketController/UPDATE_LOADING_TOKEN_PAIR',
 
   updateNewNotifications: 'socketController/UPDATE_NEW_NOTIFICATIONS',
+
+  initLendingOrderBook: 'socketController/INIT_LENDING_ORDERBOOK',
+  updateLendingOrderBook: 'socketController/UPDATE_LENDING_ORDERBOOK',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -233,6 +236,20 @@ export function updateLoadingTokenPair(loading: Boolean) {
 export function updateNewNotifications() {
   return {
     type: actionTypes.updateNewNotifications,
+  }
+}
+
+export function initLendingOrderBook(bids: Array<Object>, asks: Array<Object>) {
+  return {
+    type: actionTypes.initLendingOrderBook,
+    payload: { bids, asks },
+  }
+}
+
+export function updateLendingOrderBook(bids: Array<Object>, asks: Array<Object>) {
+  return {
+    type: actionTypes.updateLendingOrderBook,
+    payload: { bids, asks },
   }
 }
 

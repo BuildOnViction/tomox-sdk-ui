@@ -46,6 +46,7 @@ import * as signerEvents from './domains/signer'
 import * as walletsEvents from './domains/wallets'
 import * as notificationEvents from './domains/notifications'
 import * as connectionEvents from './domains/connection'
+import * as lendingOrderBookEvents from './domains/lending/lendingOrderBook'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -493,5 +494,15 @@ export const connection = createReducer(({ type }) => {
       return connectionEvents.opened()
     default:
       return connectionEvents.initialized()
+  }
+})
+
+export const lendingOrderBook = createReducer(({ type, payload }) => {
+ 
+  switch (type) {
+    case socketControllerActionTypes.initLendingOrderBook:
+      return lendingOrderBookEvents.orderBookInitialized(payload.bids, payload.asks)
+    default:
+      return lendingOrderBookEvents.initialized()
   }
 })

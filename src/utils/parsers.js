@@ -347,4 +347,34 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   return parsed
 }
 
+export const parseInterest = (interest, decimals = 8) => {
+  const interestMultiplier = BigNumber(10).pow(decimals)
+  const bigInterest = BigNumber(interest).div(interestMultiplier)
+  
+  return Number(bigInterest.toFixed(2))
+}
+
+export const parseLendingAmount = (amount, decimals = 8) => {
+  const amounttMultiplier = BigNumber(10).pow(decimals)
+  const bigAmount = BigNumber(amount).div(amounttMultiplier)
+  
+  return Number(bigAmount.toFixed(8))
+}
+
+export const parseLendingOrderBookData = (data, decimals) => {
+  let asks, bids
+  const { borrow, lend } = data
+
+  asks = lend.map(ask => ({
+    interest: parseInterest(ask.interest),
+    amount: parseLendingAmount(ask.amount, decimals),
+  }))
+  
+  bids = borrow.map(bid => ({
+    interest: parseInterest(bid.interest),
+    amount: parseLendingAmount(bid.amount, decimals),
+  }))
+
+  return { asks, bids }
+}
 

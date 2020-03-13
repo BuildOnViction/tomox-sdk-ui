@@ -19,6 +19,7 @@ import tradesDomain from './trades'
 import ordersDomain from './orders'
 import depositDomain from './deposit'
 import connectionDomain from './connection'
+import lendingOrderBookDomain from './lending/lendingOrderBook'
 
 export const getAccountDomain = state => accountDomain(state.account)
 export const getAccountBalancesDomain = state =>
@@ -47,3 +48,4 @@ export const getWalletsDomain = state => walletsDomain(state.wallets)
 export const getNotificationsDomain = state =>
   notificationsDomain(state.notifications)
 export const getConnectionDomain = state => connectionDomain(state.connection)
+export const getLendingOrderBookDomain = state => lendingOrderBookDomain(state.lendingOrderBook)

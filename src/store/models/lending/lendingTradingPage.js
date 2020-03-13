@@ -4,7 +4,6 @@ import { push } from 'connected-react-router'
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  getTokenDomain,
   getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
@@ -61,7 +60,7 @@ export const queryTradingPageData = (): ThunkAction => {
 
       // Unsubscribe socket when change current pair
       socket.unSubscribePrice()
-      socket.unsubscribeOrderBook()
+      socket.unsubscribeLendingOrderBook()
       socket.unsubscribeTrades()      
 
       const state = getState()
@@ -99,7 +98,8 @@ export const queryTradingPageData = (): ThunkAction => {
 
       socket.subscribePrice(currentPair)
       socket.subscribeTrades(currentPair)
-      socket.subscribeOrderBook(currentPair)
+      // TODO: remove hardcode
+      socket.subscribeLendingOrderBook({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))

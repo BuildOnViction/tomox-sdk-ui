@@ -10,7 +10,7 @@ import { Loading, Colors, TmColors, Centered, UtilityIcon, Text, Theme } from '.
 import { getChangePercentText } from '../../../utils/helpers'
 
 type BidOrAsk = {
-  price: number,
+  interest: number,
   amount: number,
   total: number
 };
@@ -88,9 +88,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onChangePricePrecision,
       currentPairData,
       referenceCurrency,
-      baseTokenSymbol,
-      quoteTokenSymbol,
-    } = this.props
+    } = this.props    
 
     const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
 
@@ -130,12 +128,12 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 <AmountHeader width={widthColumns[1]} className="header-cell text-right">
                   <FormattedMessage 
                     id="exchangeLendingPage.orderbook.amount"
-                    values={{symbol: quoteTokenSymbol}} />
+                    values={{symbol: 'USDT'}} />
                 </AmountHeader>
                 <HeaderCell width={widthColumns[2]} className="header-cell text-right">
                   <FormattedMessage 
                     id="exchangeLendingPage.orderbook.totalAmount"
-                    values={{symbol: quoteTokenSymbol}} />
+                    values={{symbol: 'USDT'}} />
                 </HeaderCell>
               </HeaderRow>
             </ListHeading>
@@ -203,25 +201,25 @@ export type SingleOrderProps = {
 };
 
 const BuyOrder = (props: SingleOrderProps) => {
-  const { order, currentPricePrecision, amountPrecision, onClick } = props
+  const { order, onClick } = props
   return (
     <Row update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell> 
+      <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> 
     </Row>
   )
 }
 
 const SellOrder = (props: SingleOrderProps) => {
-  const { order, currentPricePrecision, amountPrecision, onClick } = props
+  const { order, onClick } = props
   return (
     <Row update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell>
+      <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>
     </Row>
   )
 }

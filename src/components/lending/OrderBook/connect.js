@@ -1,12 +1,12 @@
 // @flow
 import { connect } from 'react-redux'
-import orderBookSelector from '../../../store/models/orderBook'
+import lendinOrderBookSelector from '../../../store/models/lending/lendingOrderBook'
 import { select } from '../../../store/actions/orderBook'
 
 import type { State } from '../../../types'
 
 export const mapStateToProps = (state: State) => {
-  const { bids, asks, currentPair, currentPairData, referenceCurrency } = orderBookSelector(state)
+  const { bids, asks, currentPair, currentPairData, referenceCurrency } = lendinOrderBookSelector(state)
   return { bids, asks, currentPair, currentPairData, referenceCurrency }
 }
 

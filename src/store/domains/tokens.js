@@ -5,7 +5,7 @@ import {
   arrayWithoutElement,
   objectWithoutKey,
 } from '../../helpers/utils'
-import { tokensBySymbol, tokenSymbols } from '../../config/tokens'
+import { tokensBySymbol, tokenSymbols, tokensByAddress } from '../../config/tokens'
 
 import type { TokenState, Token, TokenImage, Symbol } from '../../types/tokens'
 
@@ -13,6 +13,7 @@ export const initialized = () => {
   const initialState = {
     symbols: tokenSymbols,
     bySymbol: tokensBySymbol,
+    byAddress: tokensByAddress,
   }
   const event = (state: TokenState = initialState) => state
   return event
@@ -66,5 +67,6 @@ export default function getTokenDomain(state: TokenState) {
         ...m,
         rank: index + 1,
       })),
+    getTokenByAddress: (address) => state.byAddress[address],
   }
 }
