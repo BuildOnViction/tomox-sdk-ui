@@ -61,7 +61,7 @@ export const queryTradingPageData = (): ThunkAction => {
       // Unsubscribe socket when change current pair
       socket.unSubscribePrice()
       socket.unsubscribeLendingOrderBook()
-      socket.unsubscribeTrades()      
+      socket.unsubscribeLendingTrades()      
 
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
@@ -97,8 +97,8 @@ export const queryTradingPageData = (): ThunkAction => {
       }
 
       socket.subscribePrice(currentPair)
-      socket.subscribeTrades(currentPair)
       // TODO: remove hardcode
+      socket.subscribeLendingTrades({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
       socket.subscribeLendingOrderBook({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
     } catch (e) {
       console.log(e)

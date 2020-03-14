@@ -378,3 +378,21 @@ export const parseLendingOrderBookData = (data, decimals) => {
   return { asks, bids }
 }
 
+export const parseLendingTrades = (trades: Trades, decimals) => {
+  
+  const parsed = (trades: any).map(trade => ({
+    time: trade.createdAt,
+    interest: parseInterest(trade.interest),
+    amount: parseLendingAmount(trade.amount, decimals),
+    hash: trade.hash,
+    orderHash: trade.investingOrderHash,
+    type: trade.takerOrderType,
+    side: trade.takerOrderSide,
+    status: trade.status,
+    borrower: trade.borrower,
+    investor: trade.investor,
+  }))
+
+  return parsed
+}
+

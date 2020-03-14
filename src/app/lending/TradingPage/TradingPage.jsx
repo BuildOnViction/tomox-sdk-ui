@@ -8,7 +8,7 @@ import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
 import OrdersTable from '../../../components/OrdersTable'
 import OrderForm from '../../../components/lending/OrderForm'
-import TradesTable from '../../../components/TradesTable'
+import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import OrderBook from '../../../components/lending/OrderBook'
 import TVChartContainer from '../../../components/TVChartContainer'
 
@@ -83,7 +83,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           height="100%">
           <OrderbooxTradesGrid columns={2} height="100%" gap="15px">
               <Cell width={1}><OrderBook /></Cell>
-              <Cell width={1}><TradesTable /></Cell>
+              <Cell width={1}><LendingTradesTable /></Cell>
           </OrderbooxTradesGrid>
           <OrderFormCell><OrderForm /></OrderFormCell>
         </Grid>

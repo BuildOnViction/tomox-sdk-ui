@@ -29,6 +29,7 @@ import {
   parsePriceBoardData,
   parseTokenPairsData,
   parseLendingOrderBookData,
+  parseLendingTrades,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -87,6 +88,8 @@ export function openConnection(): ThunkAction {
           return handleMarketsMessage(dispatch, event, getState)
         case 'lending_orderbook':
           return dispatch(handleLendingOrderBookMessage(event))
+        case 'lending_trades':
+          return dispatch(handleLendingTradesMessage(event))
         default:
           console.log(channel, event)
           break
@@ -651,6 +654,37 @@ const handleLendingOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
           dispatch(actionCreators.updateLendingOrderBook(bids, asks))
           break
 
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
+    }
+  }
+}
+
+const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    if (event.type === 'ERROR' || !event.payload) return
+
+    const tokenAddress = event.payload[0].lendingToken.toLowerCase()
+    const state = getState()
+    const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
+    const decimals = token ? token.decimals : 18
+
+    let lendingTrades = event.payload
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          lendingTrades = parseLendingTrades(lendingTrades, decimals)
+          dispatch(actionCreators.initLendingTradesTable(lendingTrades))
+          break
+        case 'UPDATE':
+          lendingTrades = parseLendingTrades(lendingTrades, decimals)
+          dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
+          break
         default:
           return
       }
