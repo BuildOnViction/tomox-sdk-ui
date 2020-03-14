@@ -2,8 +2,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { PopoverPosition } from "@blueprintjs/core"
-import { Select } from "@blueprintjs/select"
 import BigNumber from 'bignumber.js'
 
 import { Loading, Colors, TmColors, Centered, UtilityIcon, Text, Theme } from '../../Common'
@@ -19,12 +17,6 @@ type Props = {
   bids: Array<BidOrAsk>,
   asks: Array<BidOrAsk>
 };
-
-type PricePrecision = {
-  title: string,
-  value: number,
-  rank: number,
-}
 
 const widthColumns = ['32%', '32%', '36%']
 
@@ -82,10 +74,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       bids, 
       asks, 
       onSelect,
-      pricePrecisionsList,
       currentPricePrecision,
       amountPrecision,
-      onChangePricePrecision,
       currentPairData,
       referenceCurrency,
     } = this.props    
@@ -96,15 +86,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       <Wrapper className={ this.getOrderBookClass() }>
         <OrderBookHeader className="order-book-header">
           <Title><FormattedMessage id="exchangePage.orderbook" /></Title>
-
-          {
-            (pricePrecisionsList.length > 0) && (
-              <PricePrecisionsDropdown 
-                pricePrecisionsList={pricePrecisionsList}
-                onChangePricePrecision={onChangePricePrecision}
-                currentPricePrecision={currentPricePrecision}
-                />)
-          }
 
           <FilterList>
             <FilterSell onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
@@ -223,72 +204,6 @@ const SellOrder = (props: SingleOrderProps) => {
     </Row>
   )
 }
-
-const PricePrecisionsDropdown = (props: Array<number>) => {
-  const { currentPricePrecision, pricePrecisionsList, onChangePricePrecision } = props
-
-  const items: Array<PricePrecision> = pricePrecisionsList.map((precision, index) => {
-    return {
-      title: `${precision} decimals`,
-      value: precision,
-      rank: index + 1,
-    }
-  })
-
-  const selectedItem = items.find(item => item.value === currentPricePrecision)
-
-  return (
-    <DecimalsSelect
-      items={items}
-      activeItem={selectedItem}
-      itemRenderer={renderPricePrecisionItem}
-      onItemSelect={onChangePricePrecision}
-      filterable={false}
-      popoverProps={{ minimal: true, popoverClassName: 'precision-menu', position: PopoverPosition.BOTTOM_RIGHT, usePortal: false }}
-    >
-      <PrecisionButton>
-        <span>{selectedItem.title}</span> 
-        <span className="arrow-down"></span>
-      </PrecisionButton>
-    </DecimalsSelect>
-  )
-}
-
-const renderPricePrecisionItem = (item, { handleClick, modifiers }) => {
-  return(
-    <PrecisionMenuItem key={item.rank} active={modifiers.active} onClick={handleClick}>{item.title}</PrecisionMenuItem>
-  )
-}
-
-const DecimalsSelect = styled(Select)`
-  .bp3-menu {
-    font-size: ${props => Theme.FONT_SIZE_SM};
-    width: 100px;
-    min-width: 100px;
-    background: ${props => props.theme.decimalsMenuBg} !important;
-    border: 1px solid ${props => props.theme.decimalsMenuBoder};
-  }
-`
-
-const PrecisionButton = styled.div.attrs({
-  className: "decimals-dropdown",
-})`
-  display: flex;
-  align-items: center;
-  color: ${TmColors.GRAY};
-  cursor: pointer;
-`
-
-const PrecisionMenuItem = styled.li`
-  padding: 3px 10px;
-  color: ${TmColors.GRAY};
-  cursor: pointer;
-  background: ${({active, theme}) => active ? theme.decimalsMenuHoverBg : 'initial'};
-
-  &:hover {
-    background: ${props => props.theme.decimalsMenuHoverBg} !important;
-  }
-`
 
 const Wrapper = styled.div`
   height: 100%;

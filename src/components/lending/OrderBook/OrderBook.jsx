@@ -49,12 +49,6 @@ class OrderBook extends React.Component<Props, State> {
     }
   }
 
-  handleChangePricePrecision = (precision) => {
-    this.setState({
-      currentPricePrecision: precision.value,
-    })
-  }
-
   render() {
     const {
       props: { 
@@ -81,17 +75,11 @@ class OrderBook extends React.Component<Props, State> {
     const asksFilteredZeroAmount = filterZeroAmount(reversedAsks, amountPrecision)
     const bidsFilteredZeroAmount = filterZeroAmount(bids, amountPrecision)
 
-    const pricePrecisionsList = []
-    for (let i = 0; i <= pricePrecision; i++) {
-      pricePrecisionsList.push(i)
-    }
-
     return (
       <OrderListRenderer 
         bids={bidsFilteredZeroAmount} 
         asks={asksFilteredZeroAmount} 
         onSelect={select}
-        pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
         currentPricePrecision={currentPricePrecision}
         amountPrecision={amountPrecision}
