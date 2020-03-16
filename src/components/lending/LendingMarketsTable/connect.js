@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 import { updateFavorite } from '../../../store/actions/marketsTable'
-import getMarketTableSelector, { redirectToLendingPage } from '../../../store/models/lending/marketsTable'
+import lendingMarketTableSelector, { redirectToLendingPage } from '../../../store/models/lending/lendingMarketsTable'
 
 import type { State } from '../../../types'
 
 export function mapStateToProps(state: State) {
-  const marketTableSelector = getMarketTableSelector(state)
+  const marketTableSelector = lendingMarketTableSelector(state)
 
   return {
     ...marketTableSelector,

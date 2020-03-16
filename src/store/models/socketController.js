@@ -30,6 +30,7 @@ import {
   parseTokenPairsData,
   parseLendingOrderBookData,
   parseLendingTrades,
+  parseLendingPairsData,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -90,6 +91,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handleLendingOrderBookMessage(event))
         case 'lending_trades':
           return dispatch(handleLendingTradesMessage(event))
+        case 'lending_markets':
+          return dispatch(handleLendingMarketsMessage(event))
         default:
           console.log(channel, event)
           break
@@ -692,5 +695,15 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
       console.log(e)
     }
+  }
+}
+
+const handleLendingMarketsMessage = (event: WebsocketEvent) => {
+  return async (dispatch, getState) => {
+    let { payload: { pairData }} = event
+
+    pairData = parseLendingPairsData(pairData)
+
+    dispatch(actionCreators.updateLendingPairsData(pairData))
   }
 }

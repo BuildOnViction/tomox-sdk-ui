@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { injectIntl, FormattedMessage } from "react-intl"
-import MarketsTable from '../../../components/lending/MarketsTable'
+import LendingMarketsTable from '../../../components/lending/LendingMarketsTable'
 import LineChart from '../../../components/LineChart/LineChart'
 import { SmallText, TmColors, Theme } from '../../../components/Common'
 
@@ -30,7 +30,7 @@ const MarketsPageRenderer = (props: Props) => {
           }
         </StatsWrapper>
         
-        <MarketsTable />
+        <LendingMarketsTable />
       </React.Fragment>
     </WalletPageBox>
   )

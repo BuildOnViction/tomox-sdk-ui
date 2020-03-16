@@ -13,7 +13,7 @@ import {
   Centered,
   Text,
   SmallText,
-  TokenImage,
+  // TokenImage,
 } from '../../Common'
 import { getChangePercentText } from '../../../utils/helpers'
 import CenteredSpinner from '../../../components/Common/CenteredSpinner'
@@ -37,45 +37,34 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
     const {
       pairs,
       redirectToLendingPage,
-      currentReferenceCurrency,
       updateFavorite,
     } = this.props
 
     const {
-      pair,
-      baseTokenSymbol,
+      name,
       baseTokenAddress,
-      quoteTokenSymbol,
-      lastPrice,
-      priceUsd,
+      close,
       high,
       low,
       change,
       volume,
       favorited,
       pricePrecision,
-      pricePrecisionUsd,
     } = pairs[index]
 
 
     return (
-      <Row key={key} style={style} onClick={() => redirectToLendingPage(baseTokenSymbol, quoteTokenSymbol)}>
-        <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
+      <Row key={key} style={style} onClick={() => redirectToLendingPage()}>
+        <Cell width="25px" onClick={(e) => updateFavorite(e, name, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
         <Cell>
-          <TokenImage tokenAddress={baseTokenAddress} size={25} />
-          <PairTitle>{pair}</PairTitle>
+          {/* <TokenImage tokenAddress={baseTokenAddress} size={25} /> */}
+          <PairTitle>{name}</PairTitle>
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{(lastPrice !== null) ? BigNumber(lastPrice).toFormat(pricePrecision) : "N.A"}</ChangeCell>
-          </PriceNumber>
-          <PriceNumber>
-            <SmallText muted>
-              {priceUsd && currentReferenceCurrency}
-              {priceUsd ? BigNumber(priceUsd).toFormat(pricePrecisionUsd) : "0"} 
-            </SmallText>
+            <ChangeCell change={change}>{(close !== null) ? BigNumber(close).toFormat(pricePrecision) : "N.A"}%</ChangeCell>
           </PriceNumber>
         </Cell>
         <Cell>
@@ -159,7 +148,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             )}
           </TableHeaderCell>
           <TableHeaderCell onClick={() => onChangeFilter("lastPrice")} width="25%">
-            <SmallText muted>{<FormattedMessage id="marketsPage.lastPrice" />}</SmallText>
+            <SmallText muted>{<FormattedMessage id="lendingMarketsPage.lastMatch" />}</SmallText>
             {filter === 'lastPrice' && (
               <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
             )}

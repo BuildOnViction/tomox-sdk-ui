@@ -333,3 +333,15 @@ export const calcPercent = (a: string, b: string, precision: number) => {
 
   return BigNumber(aFormated).times(100).div(bFormated).toNumber()
 }
+
+export function getLendingPairName(lendingPair) {
+  const [term, lendingToken] = lendingPair.split('::')
+  const days = (Number(term)/60/60/24)
+
+  switch (true) {
+    case (days <= 30):
+      return `${days.toFixed()} Days/${lendingToken}`
+    default:
+      return `${(days/30).toFixed()} Months / ${lendingToken}`
+  }
+}

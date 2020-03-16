@@ -75,6 +75,7 @@ export function queryAppData(): ThunkAction {
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
       socket.subscribeMarkets()
+      socket.subscribeLendingMarkets()
       dispatch(layoutCreators.updateLoadingTokenPair(true))
 
       let tokens = getTokenDomain(state).tokens() // eslint-disable-line
@@ -210,6 +211,7 @@ export function unlockWalletWithSessionPassword(password): ThunkAction {
 export function releaseResource(): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     socket.unSubscribeMarkets()
+    socket.unSubscribeLendingMarkets()
     if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
   }
 }

@@ -2,7 +2,7 @@
 import { utils } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
-import { isFloat, isInteger, round, computeChange, calcPrecision } from './helpers'
+import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName } from './helpers'
 
 import {
   pricePrecision,
@@ -391,6 +391,22 @@ export const parseLendingTrades = (trades: Trades, decimals) => {
     status: trade.status,
     borrower: trade.borrower,
     investor: trade.investor,
+  }))
+
+  return parsed
+}
+
+export const parseLendingPairsData = (pairsData, decimals) => {
+  
+  const parsed = (pairsData: any).map(item => ({
+    open: parseInterest(item.open),
+    close: parseInterest(item.close),
+    high: parseInterest(item.high),
+    low: parseInterest(item.low),
+    name: getLendingPairName(item.lendingID.name),
+    lendingTokenAddress: item.lendingID.lendingToken,
+    term: item.lendingID.tern,
+    volume: item.volume ? item.volume : 0,
   }))
 
   return parsed

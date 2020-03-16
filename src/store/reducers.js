@@ -48,6 +48,7 @@ import * as notificationEvents from './domains/notifications'
 import * as connectionEvents from './domains/connection'
 import * as lendingOrderBookEvents from './domains/lending/lendingOrderBook'
 import * as lendingTradeEvents from './domains/lending/lendingTrades'
+import * as lendingPairsEvents from './domains/lending/lendingPairs'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -516,6 +517,29 @@ export const lendingTrades = createReducer(action => {
     case socketControllerActionTypes.initLendingTradesTable:
       return lendingTradeEvents.tradesInitialized(payload.trades)
     default:
-      return tradeEvents.initialized()
+      return lendingTradeEvents.initialized()
+  }
+})
+
+export const lendingPairs = createReducerPersist({
+  key: 'lendingPairs',
+  keyPrefix: 'tomo:',
+  storage,
+  whitelist: ['favorites', 'currentLendingPair'],
+}, action => {
+  const { type, payload } = action
+  switch (type) {
+    case tradingPageActionTypes.updateCurrentPair:
+      return tokenPairsEvents.currentPairUpdated(payload.pair)
+    case tokenSearcherActionTypes.updateFavorite:
+    case marketsTableActionTypes.updateFavorite:
+      return tokenPairsEvents.tokenPairFavorited(
+        payload.code,
+        payload.favorite
+      )
+    case socketControllerActionTypes.updateLendingPairsData:
+      return lendingPairsEvents.lendingPairsDataUpdated(payload.lendingPairsData)
+    default:
+      return lendingPairsEvents.initialized()
   }
 })

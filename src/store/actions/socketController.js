@@ -56,11 +56,14 @@ const actionTypes = {
 
   updateNewNotifications: 'socketController/UPDATE_NEW_NOTIFICATIONS',
 
+  // LENDING
   initLendingOrderBook: 'socketController/INIT_LENDING_ORDERBOOK',
   updateLendingOrderBook: 'socketController/UPDATE_LENDING_ORDERBOOK',
 
   initLendingTradesTable: 'socketController/INIT_LENDING_TRADES_TABLE',
   updateLendingTradesTable: 'socketController/UPDATE_LENDING_TRADES_TABLE',
+
+  updateLendingPairsData: 'socketController/UPDATE_LENDING_PAIRS_DATA',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -270,6 +273,15 @@ export function updateLendingTradesTable(trades) {
     type: actionTypes.updateLendingTradesTable,
     payload: {
       trades,
+    },
+  }
+}
+
+export function updateLendingPairsData(lendingPairsData) {
+  return {
+    type: actionTypes.updateLendingPairsData,
+    payload: {
+      lendingPairsData,
     },
   }
 }

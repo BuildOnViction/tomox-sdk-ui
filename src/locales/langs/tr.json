@@ -107,6 +107,7 @@
   "marketsPage.24hLow": "24s En Düşük",
   "marketsPage.24hVolume": "24s Hacim",
   "marketsPage.pairs.notFound": "Çift bulunamadı",
+  "lendingMarketsPage.lastMatch": "Last match",
   "exchangePage.openOrders": "Açık Emirler({numberOfOrders})",
   "exchangePage.orderHistory": "İşlem Geçmişi",
   "exchangePage.tradeHistory": "Al-Sat Geçmişi",

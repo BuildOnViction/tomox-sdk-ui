@@ -39,17 +39,17 @@ class MarketsTable extends React.PureComponent<Props, State> {
     this.setState({ selectedTab })
   }
 
-  filterTokens = (pairs: Array<TokenPair>) => {
-    const { searchInput, selectedTab, filter, order } = this.state
+  filterTokens = (pairs) => {
+    // const { searchInput, selectedTab, filter, order } = this.state
 
-    if (selectedTab.toLowerCase() !== 'all'
-      && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+    // if (selectedTab.toLowerCase() !== 'all'
+    //   && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
 
-    if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
+    // if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
     
-    pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
+    // pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
 
-    if (filter) pairs = sortTable(pairs, filter, order)
+    // if (filter) pairs = sortTable(pairs, filter, order)
 
     return pairs
   }
@@ -91,7 +91,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
       filter,
       order,
     } = this.state
-
+             
     const filteredPairs = this.filterTokens(pairs)
     const tabs = ['Favorites', ...quoteTokens, 'All']
 
