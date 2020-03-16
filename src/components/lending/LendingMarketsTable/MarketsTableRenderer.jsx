@@ -54,17 +54,16 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} style={style} onClick={() => redirectToLendingPage()}>
+      <Row key={key} style={style} onClick={() => redirectToLendingPage(name)}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, name, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
         <Cell>
-          {/* <TokenImage tokenAddress={baseTokenAddress} size={25} /> */}
           <PairTitle>{name}</PairTitle>
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{(close !== null) ? BigNumber(close).toFormat(pricePrecision) : "N.A"}%</ChangeCell>
+            <ChangeCell change={change}>{(close !== null) ? BigNumber(close).toFormat(pricePrecision) : "N.A"}&#37;</ChangeCell>
           </PriceNumber>
         </Cell>
         <Cell>
@@ -73,10 +72,10 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             </ChangeCell>
         </Cell>
         <Cell>
-            {(high !== null) ? BigNumber(high).toFormat(pricePrecision): "N.A"}
+            {(high !== null) ? BigNumber(high).toFormat(pricePrecision): "N.A"}&#37;
         </Cell>
         <Cell>
-          {(low !== null) ? BigNumber(low).toFormat(pricePrecision) : "N.A"}
+          {(low !== null) ? BigNumber(low).toFormat(pricePrecision) : "N.A"}&#37;
         </Cell>
         <Cell align="flex-end" flexGrow={2}>
           {(volume !== null) ? BigNumber(volume).toFormat(2) : 'N.A'}

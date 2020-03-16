@@ -39,12 +39,10 @@ export default function marketsTableSelector(state: State) {
   }
 }
 
-export function redirectToLendingPage(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
+export function redirectToLendingPage(lendingPair): ThunkAction {
   return async (dispatch, getState) => {
-    const param = `${baseTokenSymbol}-${quoteTokenSymbol}`
-    const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
-
-    dispatch(actionCreators.updateCurrentPair(pair))
+    const param = lendingPair.replace(' ').replace('/', '-')
+    // dispatch(actionCreators.updateCurrentPair(pair))
     dispatch(push(`/lending/${param}`))
   }
 }

@@ -633,6 +633,7 @@ const handleLendingOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
 
     if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
 
     const tokenAddress = event.payload.name.split('::').pop()
     const state = getState()
@@ -670,6 +671,7 @@ const handleLendingOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
 const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
 
     const tokenAddress = event.payload[0].lendingToken.toLowerCase()
     const state = getState()

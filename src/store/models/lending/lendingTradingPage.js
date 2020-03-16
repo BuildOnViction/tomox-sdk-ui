@@ -59,7 +59,7 @@ export const queryTradingPageData = (): ThunkAction => {
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
       // Unsubscribe socket when change current pair
-      socket.unSubscribePrice()
+      // socket.unSubscribePrice()
       socket.unsubscribeLendingOrderBook()
       socket.unsubscribeLendingTrades()      
 
@@ -96,7 +96,7 @@ export const queryTradingPageData = (): ThunkAction => {
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       }
 
-      socket.subscribePrice(currentPair)
+      // socket.subscribePrice(currentPair)
       // TODO: remove hardcode
       socket.subscribeLendingTrades({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
       socket.subscribeLendingOrderBook({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
