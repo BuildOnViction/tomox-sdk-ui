@@ -32,21 +32,8 @@ const filterZeroAmount = (list, amountPrecision) => {
 
 class OrderBook extends React.Component<Props, State> {
   state = {
-    pricePrecision: 4,
-    amountPrecision: 4,
-    currentPricePrecision: 4,
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.currentPairData && (
-      this.props.currentPairData.pricePrecision !== this.state.pricePrecision
-      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
-      this.setState({
-        pricePrecision: this.props.currentPairData.pricePrecision,
-        amountPrecision: this.props.currentPairData.amountPrecision,
-        currentPricePrecision: this.props.currentPairData.pricePrecision,
-      })
-    }
+    pricePrecision: 2,
+    amountPrecision: 2,
   }
 
   render() {
@@ -65,9 +52,7 @@ class OrderBook extends React.Component<Props, State> {
       state: { 
         pricePrecision,
         amountPrecision,
-        currentPricePrecision,
       },
-      handleChangePricePrecision,
     }
     = this
 
@@ -81,9 +66,7 @@ class OrderBook extends React.Component<Props, State> {
         asks={asksFilteredZeroAmount} 
         onSelect={select}
         pricePrecision={pricePrecision}
-        currentPricePrecision={currentPricePrecision}
         amountPrecision={amountPrecision}
-        onChangePricePrecision={handleChangePricePrecision}
         currentPairData={currentPairData}
         referenceCurrency={referenceCurrency}
         baseTokenSymbol={baseTokenSymbol}

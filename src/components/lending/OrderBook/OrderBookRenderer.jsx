@@ -74,7 +74,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       bids, 
       asks, 
       onSelect,
-      currentPricePrecision,
       amountPrecision,
       currentPairData,
       referenceCurrency,
@@ -126,7 +125,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                     <SellOrder 
                       key={index} 
                       order={order}
-                      currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision} 
                       onClick={onSelect} />
                   ))}
@@ -162,7 +160,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                     <BuyOrder 
                       key={index} 
                       order={order} 
-                      currentPricePrecision={currentPricePrecision}
                       amountPrecision={amountPrecision}
                       onClick={onSelect}/>
                   ))}

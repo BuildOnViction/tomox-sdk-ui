@@ -76,26 +76,26 @@ export const orderBookUpdated = (bids: Array<Object>, asks: Array<Object>) => {
     const newSortedAsks = new SortedArray(state.sortedAsks, (a, b) => a - b)
 
     const oldBids = {}
-    for (const price of state.sortedBids) {
-      oldBids[price] = {...state.bids[price], update: false}
+    for (const interest of state.sortedBids) {
+      oldBids[interest] = {...state.bids[interest], update: false}
     }
 
     const oldAsks = {}
-    for (const price of state.sortedAsks) {
-      oldAsks[price] = {...state.asks[price], update: false}
+    for (const interest of state.sortedAsks) {
+      oldAsks[interest] = {...state.asks[interest], update: false}
     }
 
     const newBids = bids.reduce((result, item) => {
       if (item.amount > 0) {
         item.update = true
-        result[item.price] = item
-        if (newSortedBids.search(item.price) === -1)
-          newSortedBids.insert(item.price)
+        result[item.interest] = item
+        if (newSortedBids.search(item.interest) === -1)
+          newSortedBids.insert(item.interest)
       }
 
       if (item.amount <= 0) {
-        delete result[item.price]
-        newSortedBids.remove(item.price)
+        delete result[item.interest]
+        newSortedBids.remove(item.interest)
       }
 
       return result
@@ -104,14 +104,14 @@ export const orderBookUpdated = (bids: Array<Object>, asks: Array<Object>) => {
     const newAsks = asks.reduce((result, item) => {
       if (item.amount > 0) {
         item.update = true
-        result[item.price] = item
-        if (newSortedAsks.search(item.price) === -1)
-          newSortedAsks.insert(item.price)
+        result[item.interest] = item
+        if (newSortedAsks.search(item.interest) === -1)
+          newSortedAsks.insert(item.interest)
       }
 
       if (item.amount <= 0) {
-        delete result[item.price]
-        newSortedAsks.remove(item.price)
+        delete result[item.interest]
+        newSortedAsks.remove(item.interest)
       }
 
       return result

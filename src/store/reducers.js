@@ -504,6 +504,8 @@ export const lendingOrderBook = createReducer(({ type, payload }) => {
   switch (type) {
     case socketControllerActionTypes.initLendingOrderBook:
       return lendingOrderBookEvents.orderBookInitialized(payload.bids, payload.asks)
+    case socketControllerActionTypes.updateLendingOrderBook:
+      return lendingOrderBookEvents.orderBookUpdated(payload.bids, payload.asks)
     default:
       return lendingOrderBookEvents.initialized()
   }
