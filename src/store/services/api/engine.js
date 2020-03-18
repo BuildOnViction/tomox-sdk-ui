@@ -575,3 +575,19 @@ export const getTokensAndPairs = async () => {
     return ({ err })
   }
 }
+
+export const getLendingOrderNonce = async (address: string): Promise<number> => {
+  const response = await request(`/lending/nonce?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}

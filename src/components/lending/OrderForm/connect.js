@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
-import orderFormSelector, { sendNewOrder, redirectToLoginPage } from '../../../store/models/orderForm'
+import orderFormSelector, { sendNewLendingOrder, redirectToLoginPage } from '../../../store/models/lending/lendingOrderForm'
 import type { State } from '../../../types'
 
 export const mapStateToProps = (state: State) => {
@@ -8,7 +8,7 @@ export const mapStateToProps = (state: State) => {
 }
 
 export const mapDispatchToProps = {
-  sendNewOrder,
+  sendNewLendingOrder,
   redirectToLoginPage,
 }
 

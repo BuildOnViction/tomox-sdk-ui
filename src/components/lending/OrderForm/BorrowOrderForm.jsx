@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl"
 import BigNumber from 'bignumber.js'
 
 import { 
-  FractionList, 
+  // FractionList, 
   IncreaseAndDecreaseGroup,
   InputGroupWrapper,
   TokenName,
@@ -14,7 +14,7 @@ import {
   HeaderRow,
   BaseToken,
   BuyButton,
-  MaxAmountInfo,
+  // MaxAmountInfo,
   ErrorMessage,
   Wrapper,
   Row,
@@ -29,11 +29,10 @@ const collaterals = [{symbol: 'BTC', address: 'btc'}, {symbol: 'ETH', address: '
 
 const BorrowOrderForm = props => {
   const {
-    buyPrice,
-    buyAmount,
-    buyMaxAmount,
-    fraction,
-    buyTotal,
+    borrowInterest,
+    borrowAmount,
+    // buyMaxAmount,
+    // fraction,
     baseTokenSymbol,
     quoteTokenSymbol,
     quoteTokenBalance,
@@ -47,18 +46,17 @@ const BorrowOrderForm = props => {
     handleDecreaseAmount,
     handleIncreaseAmount,
     errorBuy,
-    isShowBuyMaxAmount,
+    // isShowBuyMaxAmount,
     buyPriceInput,
     buyAmountInput,
     authenticated,
     redirectToLoginPage,
-    amountPrecision,
   } = props
 
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {quoteTokenSymbol} / 7 days</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> 7 Days/{quoteTokenSymbol}</BaseToken>
       </HeaderRow>
 
       <InputBox>
@@ -67,23 +65,23 @@ const BorrowOrderForm = props => {
         </InputLabel>
 
         <InputGroupWrapper
-          name="price"
-          onChange={e => onInputChange("BUY", e)}
-          onFocus={e => onInputFocus("BUY", e)}
-          onBlur={e => onInputBlur("BUY", e)}
-          value={buyPrice}
-          title={buyPrice}
+          name="interest"
+          onChange={e => onInputChange("BORROW", e)}
+          onFocus={e => onInputFocus("BORROW", e)}
+          onBlur={e => onInputBlur("BORROW", e)}
+          value={borrowInterest}
+          title={borrowInterest}
           autoComplete="off"
           inputRef={buyPriceInput}
-          className={errorBuy && errorBuy.type === "price" ? "has-error" : ""}
+          className={errorBuy && errorBuy.type === "interest" ? "has-error" : ""}
         />
 
         <TokenName>%</TokenName>
 
         <IncreaseAndDecreaseGroup
           type="price"
-          onDecreasePrice={e => handleDecreasePrice(e, "BUY")}
-          onIncreasePrice={e => handleIncreasePrice(e, "BUY")}
+          onDecreasePrice={e => handleDecreasePrice(e, "BORROW")}
+          onIncreasePrice={e => handleIncreasePrice(e, "BORROW")}
         />
       </InputBox>
 
@@ -94,11 +92,11 @@ const BorrowOrderForm = props => {
 
         <InputGroupWrapper
           name="amount"
-          onChange={e => onInputChange("BUY", e)}
-          onFocus={e => onInputFocus("BUY", e)}
-          onBlur={e => onInputBlur("BUY", e)}
-          value={buyAmount}
-          title={buyAmount}
+          onChange={e => onInputChange("BORROW", e)}
+          onFocus={e => onInputFocus("BORROW", e)}
+          onBlur={e => onInputBlur("BORROW", e)}
+          value={borrowAmount}
+          title={borrowAmount}
           autoComplete="off"
           inputRef={buyAmountInput}
           className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
@@ -108,18 +106,18 @@ const BorrowOrderForm = props => {
 
         <IncreaseAndDecreaseGroup
           type="amount"
-          onDecreaseAmount={e => handleDecreaseAmount(e, "BUY")}
-          onIncreaseAmount={e => handleIncreaseAmount(e, "BUY")}
+          onDecreaseAmount={e => handleDecreaseAmount(e, "BORROW")}
+          onIncreaseAmount={e => handleIncreaseAmount(e, "BORROW")}
         />
 
-        {isShowBuyMaxAmount && (
+        {/* {isShowBuyMaxAmount && (
           <MaxAmountInfo title={buyMaxAmount}>
-            Max: {BigNumber(buyMaxAmount).toFormat(amountPrecision)}
+            Max: {BigNumber(buyMaxAmount).toFormat(2)}
           </MaxAmountInfo>
-        )}
+        )} */}
       </InputBox>
 
-      <InputBox mb="0">
+      <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangeLendingPage.orderPlace.selectCollateral" />:
         </InputLabel>
@@ -129,11 +127,11 @@ const BorrowOrderForm = props => {
         </InputValue>
       </InputBox>
 
-      <FractionList
-        side="BUY"
+      {/* <FractionList
+        side="BORROW"
         fraction={fraction}
         onInputChange={onInputChange}
-      />
+      /> */}
 
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
@@ -157,7 +155,7 @@ const BorrowOrderForm = props => {
             intent="success"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.borrow" />}
             name="order"
-            onClick={() => handleSendOrder("BUY")}
+            onClick={() => handleSendOrder("BORROW")}
             fill
           />
         </React.Fragment>

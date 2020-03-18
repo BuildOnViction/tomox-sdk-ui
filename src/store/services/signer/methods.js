@@ -11,14 +11,6 @@ import type {
 import type { Trade } from '../../../types/trades'
 import { amountPrecision, pricePrecision } from '../../../config/tokens'
 
-// The amountPrecisionMultiplier and pricePrecisionMultiplier are temporary multipliers
-// that are used to turn decimal values into rounded integers that can be converted into
-// big numbers that can be used to compute large amounts (ex: in wei) with the amountMultiplier
-// and priceMultiplier. After multiplying with amountMultiplier and priceMultiplier, the result
-// numbers are divided by the precision multipliers.
-// So in the end we have:
-// amountPoints ~ amount * amountMultiplier ~ amount * 1e18
-// pricePoints ~ price * priceMultiplier ~ price * 1e6
 export const createRawOrder = async function (params: any) {
   const order = {}
   const { userAddress, exchangeAddress, side, type, status, pair, amount, price, orderNonce } = params
@@ -87,22 +79,30 @@ export const createOrderCancel = async function (
   return orderCancel
 }
 
-export const signOrder = async function (order: RawOrder): Promise<RawOrder> {
-  order.hash = getOrderHash(order)
+// export const signOrder = async function (order: RawOrder): Promise<RawOrder> {
+//   order.hash = getOrderHash(order)
 
+//   const signature = await this.signMessage(utils.arrayify(order.hash))
+//   const { r, s, v } = utils.splitSignature(signature)
+
+//   order.signature = { r, s, v }
+//   return order
+// }
+
+// export const signTrade = async function (trade: Trade): Promise<Trade> {
+//   trade.hash = getTradeHash(trade)
+
+//   const signature = await this.signMessage(utils.arrayify(trade.hash))
+//   const { r, s, v } = utils.splitSignature(signature)
+
+//   trade.signature = { r, s, v }
+//   return trade
+// }
+
+export const signNewLendingOrder = async function(order) {
   const signature = await this.signMessage(utils.arrayify(order.hash))
   const { r, s, v } = utils.splitSignature(signature)
 
-  order.signature = { r, s, v }
+  order.signature = { R: r, S: s, V: v }
   return order
-}
-
-export const signTrade = async function (trade: Trade): Promise<Trade> {
-  trade.hash = getTradeHash(trade)
-
-  const signature = await this.signMessage(utils.arrayify(trade.hash))
-  const { r, s, v } = utils.splitSignature(signature)
-
-  trade.signature = { r, s, v }
-  return trade
 }

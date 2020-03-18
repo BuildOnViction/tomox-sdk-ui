@@ -4,9 +4,8 @@ import { unformat } from 'accounting-js'
 import BigNumber from 'bignumber.js'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
 
-import type { Side, OrderType } from '../../../types/orders'
+import type { Side } from '../../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { pricePrecision as defaultPricePrecision, amountPrecision as defaultAmountPrecision } from '../../../config/tokens'
 import { isTomoWallet, isMobile } from '../../../utils/helpers'
 
 type Props = {
@@ -26,19 +25,12 @@ type Props = {
 
 type State = {
   side: SIDE,
-  selectedTabId: OrderType,
   fraction: number,
   priceType: string,
-  selectedTabId: string,
-  buyPrice: string,
-  sellPrice: string,
-  stopPrice: string,
-  limitPrice: string,
-  buyAmount: string,
-  sellAmount: string,
-  buyTotal: string,
-  sellTotal: string,
-  isOpen: boolean,
+  borrowInterest: string,
+  lendInterest: string,
+  borrowAmount: string,
+  lendAmount: string,
 }
 
 class OrderForm extends React.PureComponent<Props, State> {
@@ -51,23 +43,15 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   state = {
-    side: 'BUY',
+    side: 'BORROW',
     fraction: 0,
-    isOpen: true,
     priceType: 'null',
-    selectedTabId: 'LO',
-    buyPrice: '',
-    sellPrice: '',
-    stopPrice: '',
-    limitPrice: '',
-    buyAmount: '',
-    sellAmount: '',
-    buyTotal: '',
-    sellTotal: '',
-    pricePrecision: defaultPricePrecision,
-    amountPrecision: defaultAmountPrecision,
-    priceStep: toDecimalFormString(1/Math.pow(10, defaultPricePrecision)),
-    amountStep: toDecimalFormString(1/Math.pow(10, defaultAmountPrecision)),
+    borrowInterest: '',
+    lendInterest: '',
+    borrowAmount: '',
+    lendAmount: '',
+    interestStep: toDecimalFormString(1/Math.pow(10, 2)),
+    amountStep: toDecimalFormString(1/Math.pow(10, 0)),
     errorBuy: null,
     errorSell: null,
     isShowBuyMaxAmount: false,
@@ -96,7 +80,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       this.setState({
         pricePrecision,
         amountPrecision,
-        priceStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
+        interestStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
         amountStep: toDecimalFormString(1/Math.pow(10, amountPrecision)),
       })
     }
@@ -113,10 +97,10 @@ class OrderForm extends React.PureComponent<Props, State> {
       const priceFormated = BigNumber(price).toFixed(pricePrecision)
 
       return this.setState({ 
-        buyPrice: priceFormated, 
-        sellPrice: priceFormated,
-        buyAmount: '',
-        sellAmount: '',
+        borrowInterest: priceFormated, 
+        lendInterest: priceFormated,
+        borrowAmount: '',
+        lendAmount: '',
         buyTotal: '',
         sellTotal: '',
         dirtyPriceForm: true,
@@ -136,23 +120,22 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   setOrderByChoose(order) {    
-    const { pricePrecision, amountPrecision, selectedTabId } = this.state
-    if (selectedTabId === 'MO') return 
+    const { pricePrecision, amountPrecision } = this.state
 
     this.resetErrorObject()
     const { authenticated } = this.props
     let { type, price, total, side } = order
-    const oppositeSide = (side === 'BUY') ? 'SELL' : 'BUY'
+    const oppositeSide = (side === 'BORROW') ? 'LEND' : 'BORROW'
 
     const priceFormated = BigNumber(price).toFixed(pricePrecision)
 
     if (type === 'amount') {
       if (isTomoWallet() || isMobile()) return
-      if (side === 'BUY') {
+      if (side === 'BORROW') {
         this.setState({
-          buyPrice: priceFormated, 
-          sellPrice: priceFormated,
-          buyAmount: '',
+          borrowInterest: priceFormated, 
+          lendInterest: priceFormated,
+          borrowAmount: '',
           buyTotal: '',
         }, _ => {
           let amountFormated = BigNumber(total).toFixed(amountPrecision)
@@ -167,9 +150,9 @@ class OrderForm extends React.PureComponent<Props, State> {
         })
       } else {
         this.setState({
-          buyPrice: priceFormated, 
-          sellPrice: priceFormated,
-          sellAmount: '',
+          borrowInterest: priceFormated, 
+          lendInterest: priceFormated,
+          lendAmount: '',
           sellTotal: '',
         }, _ => {
           let amountFormated = BigNumber(total).toFixed(amountPrecision)
@@ -185,49 +168,50 @@ class OrderForm extends React.PureComponent<Props, State> {
       }
     } else {      
       // eslint-disable-next-line no-lonely-if
-      if (side === 'BUY') {
+      if (side === 'BORROW') {
         this.setState({
-          buyPrice: priceFormated, 
-          sellPrice: priceFormated,
-          buyAmount: '',
+          borrowInterest: priceFormated, 
+          lendInterest: priceFormated,
+          borrowAmount: '',
           buyTotal: '',
         }, _ => {
-          if (authenticated && this.state.sellAmount) {
-            let sellAmountFormated = BigNumber(this.state.sellAmount).toFixed(amountPrecision)
+          if (authenticated && this.state.lendAmount) {
+            let sellAmountFormated = BigNumber(this.state.lendAmount).toFixed(amountPrecision)
             let { sellMaxAmount } = this.calcMaxAmount(priceFormated)
             sellMaxAmount = BigNumber(sellMaxAmount).gt(0) ? sellMaxAmount : ''
             sellAmountFormated = BigNumber(sellAmountFormated).lte(sellMaxAmount) ? sellAmountFormated : sellMaxAmount
             
             this.handleAmountChange(sellAmountFormated, oppositeSide)
           } else {
-            this.handlePriceChange(priceFormated, oppositeSide)
+            this.handleInterestChange(priceFormated, oppositeSide)
           }          
         })
       } else {
         this.setState({
-          buyPrice: priceFormated, 
-          sellPrice: priceFormated,
-          sellAmount: '',
+          borrowInterest: priceFormated, 
+          lendInterest: priceFormated,
+          lendAmount: '',
           sellTotal: '',
         }, _ => {
-          if (authenticated && this.state.buyAmount) {
-            let buyAmountFormated = BigNumber(this.state.buyAmount).toFixed(amountPrecision)
+          if (authenticated && this.state.borrowAmount) {
+            let buyAmountFormated = BigNumber(this.state.borrowAmount).toFixed(amountPrecision)
             let { buyMaxAmount } = this.calcMaxAmount(priceFormated)
             buyMaxAmount = BigNumber(buyMaxAmount).gt(0) ? buyMaxAmount : ''
             buyAmountFormated = BigNumber(buyAmountFormated).lte(buyMaxAmount) ? buyAmountFormated : buyMaxAmount
             
             this.handleAmountChange(buyAmountFormated, oppositeSide)
           } else {
-            this.handlePriceChange(priceFormated, oppositeSide)
+            this.handleInterestChange(priceFormated, oppositeSide)
           } 
         })
       }
     }
   }
 
-  onInputChange = (side: SIDE = 'BUY', { target }: Object) => {
+  onInputChange = (side: SIDE = 'BORROW', { target }: Object) => {
     const { authenticated } = this.props
-    const { pricePrecision, amountPrecision } = this.state
+    const interestPrecision = 2
+    const amountPrecision = 2
     let { value } = target
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
@@ -236,13 +220,10 @@ class OrderForm extends React.PureComponent<Props, State> {
     value = value.match(/^[0-9]*\.[0-9]*\.$/g) ? value.replace(/.$/, '') : value
 
     switch (target.name) {
-      // case 'stopPrice':
-      //   this.handleStopPriceChange(value)
-      //   break
-      case 'price':
-        const pricePattern = new RegExp(`^[0-9]*\\.[0-9]{${pricePrecision + 1},}$`, 'g')
-        if (pricePattern.test(value)) return
-        this.handlePriceChange(value, side)
+      case 'interest':        
+        const interestPattern = new RegExp(`^[0-9]*\\.[0-9]{${interestPrecision + 1},}$`, 'g')
+        if (interestPattern.test(value)) return
+        this.handleInterestChange(value, side)
         break      
       case 'amount':
         const amountPattern = new RegExp(`^[0-9]*\\.[0-9]{${amountPrecision + 1},}$`, 'g')
@@ -252,30 +233,58 @@ class OrderForm extends React.PureComponent<Props, State> {
       case 'fraction':
         authenticated && this.handleUpdateAmountFraction(value, side)
         break
-      case 'total':
-        const totalPattern = new RegExp(`^[0-9]*\\.[0-9]{${defaultPricePrecision + 1},}$`, 'g')
-        if (totalPattern.test(value)) return
-        this.handleTotalChange(value, side)
-        break
       default:
         break
     }
   }
 
-  handleSendOrder = (side: SIDE) => {
-    const { selectedTabId } = this.state
-    const error = this.isInvalidInput(side)
-    if (error) {
-      (side === 'BUY') ? this.setState({ errorBuy: error }) : this.setState({ errorSell: error })
-      return
-    }
+  handleInterestChange = (interest, side) => {
+    this.resetErrorObject(side)
 
-    const { buyPrice, sellPrice, buyAmount, sellAmount } = this.state
+    if (side === 'BORROW') {
+      this.setState({ borrowInterest: interest })
+    } else {      
+      this.setState({ lendInterest: interest })
+    }    
+  }
 
-    if (side === 'BUY'){
-      this.props.sendNewOrder(side, selectedTabId, unformat(buyAmount), unformat(buyPrice))
+  handleAmountChange = (amount, side) => {
+    this.resetErrorObject(side)
+
+    if (side === 'BORROW') {
+      this.setState({ borrowAmount: amount })
     } else {
-      this.props.sendNewOrder(side, selectedTabId, unformat(sellAmount), unformat(sellPrice))
+      this.setState({ lendAmount: amount })
+    }
+  }
+
+  handleSendOrder = (side: SIDE) => {
+
+    // const error = this.isInvalidInput(side)
+    // if (error) {
+    //   (side === 'BORROW') ? this.setState({ errorBuy: error }) : this.setState({ errorSell: error })
+    //   return
+    // }
+
+    const { borrowInterest, lendInterest, borrowAmount, lendAmount } = this.state
+    const { sendNewLendingOrder } = this.props
+
+    if (side === 'BORROW'){
+      const order = {
+        side, 
+        amount: borrowAmount, 
+        interest: borrowInterest,
+      }
+
+      sendNewLendingOrder(order)
+    } else {
+      const order = {
+        side, 
+        amount: lendAmount, 
+        interest: lendInterest,
+      }
+
+      sendNewLendingOrder(order)
     }                    
   }
 
@@ -284,23 +293,23 @@ class OrderForm extends React.PureComponent<Props, State> {
     const { quoteTokenBalance, baseTokenBalance, authenticated, fee } = this.props
     if (!authenticated) return
 
-    if (side === 'SELL') {
-      const { sellPrice } = this.state
-      if (!sellPrice || Number(sellPrice) === 0) return
+    if (side === 'LEND') {
+      const { lendInterest } = this.state
+      if (!lendInterest || Number(lendInterest) === 0) return
 
       const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
-      const bigSellTotal = BigNumber(sellPrice).times(bigSellAmount)
+      const bigSellTotal = BigNumber(lendInterest).times(bigSellAmount)
 
       this.setState({
         fraction,
-        sellAmount: bigSellAmount.toFixed(amountPrecision),
+        lendAmount: bigSellAmount.toFixed(amountPrecision),
         sellTotal: bigSellTotal.toFixed(pricePrecision),
         errorBuy: null,
         errorSell: null,
       })
     } else {
-      const { buyPrice } = this.state
-      if (!buyPrice || Number(buyPrice) === 0) return
+      const { borrowInterest } = this.state
+      if (!borrowInterest || Number(borrowInterest) === 0) return
 
       let bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
       let bigBuyAmount = ''
@@ -308,16 +317,16 @@ class OrderForm extends React.PureComponent<Props, State> {
       if (+fraction === 100) {
         const multiplier = Math.pow(10, 18)
         const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
-        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(buyPrice)
+        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(borrowInterest)
         bigBuyTotal = bigBuyTotalMultiplier.div(multiplier)      
         bigBuyAmount = bigBuyAmountMultiplier.div(multiplier)
       } else {
-        bigBuyAmount = bigBuyTotal.div(buyPrice)
+        bigBuyAmount = bigBuyTotal.div(borrowInterest)
       }
 
       this.setState({
         fraction,
-        buyAmount: bigBuyAmount.toFixed(amountPrecision),
+        borrowAmount: bigBuyAmount.toFixed(amountPrecision),
         buyTotal: bigBuyTotal.toFixed(pricePrecision),
         errorBuy: null,
         errorSell: null,
@@ -325,213 +334,59 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  handlePriceChange = (price: string, side: SIDE) => {
-    this.resetErrorObject(side)
-
-    if (side === 'BUY') {
-      const { buyAmount } = this.state
-
-      if (price && buyAmount) {
-        const bigBuyTotal = BigNumber(buyAmount).times(BigNumber(price))
-
-        this.setState({
-          buyTotal: bigBuyTotal.toFixed(defaultPricePrecision),
-          buyPrice: price,
-        })
-      } else {
-        this.setState({
-          buyTotal: '',
-          buyPrice: price,
-        })
-      }
-    } else {      
-      const { sellAmount } = this.state
-
-      if (price && sellAmount) {
-        const bigSellTotal = BigNumber(sellAmount).times(BigNumber(price))
-
-        this.setState({
-          sellTotal: bigSellTotal.toFixed(defaultPricePrecision),
-          sellPrice: price,
-        })
-      } else {
-        this.setState({
-          sellTotal: '',
-          sellPrice: price,
-        })
-      }
-    }    
-  }
-
-  handleStopPriceChange = (stopPrice: string) => {
-    let { amount } = this.state
-
-    amount = unformat(amount)
-    const total = amount * unformat(stopPrice)
-
-    this.setState({
-      total,
-      amount,
-      stopPrice,
-    })
-  }
-
-  handleAmountChange = (amount: string, side: SIDE) => {
-    this.resetErrorObject(side)
-    const { selectedTabId } = this.state
-
-    if (side === 'BUY') {
-      const { buyPrice, stopPrice } = this.state
-
-      if (amount && buyPrice) {
-        let bigBuyTotal
-
-        selectedTabId === 'stop'
-          ? bigBuyTotal = BigNumber(stopPrice).times(BigNumber(amount))
-          : bigBuyTotal = BigNumber(buyPrice).times(BigNumber(amount))
-
-        this.setState({
-          buyTotal: bigBuyTotal.toFixed(defaultPricePrecision),
-          buyAmount: amount,
-          // isShowBuyMaxAmount: true,
-        })
-      } else {
-        this.setState({
-          buyAmount: amount,
-          buyTotal: '',
-        })
-      }
-    } else {
-      const { sellPrice, stopPrice } = this.state
-
-      if (amount && sellPrice) {
-        let bigSellTotal
-
-        selectedTabId === 'stop'
-          ? bigSellTotal = BigNumber(stopPrice).times(BigNumber(amount))
-          : bigSellTotal = BigNumber(sellPrice).times(BigNumber(amount))
-
-        this.setState({
-          sellTotal: bigSellTotal.toFixed(defaultPricePrecision),
-          sellAmount: amount,
-          // isShowSellMaxAmount: true,
-        })
-      } else {
-        this.setState({
-          sellAmount: amount,
-          sellTotal: '',
-        })
-      }
-    }
-  }
-
-  handleTotalChange = (total: string, side: SIDE) => {
-    this.resetErrorObject(side)
-    const { sellPrice, buyPrice, amountPrecision } = this.state
-
-    if (side === 'BUY') {
-      let bigBuyTotal = BigNumber(total)
-      let bigBuyPrice = BigNumber(buyPrice)
-
-      if (buyPrice && total) {
-        const bigBuyAmount = bigBuyTotal.div(bigBuyPrice)
-
-        this.setState({
-          buyTotal: total,
-          buyAmount: bigBuyAmount.toFixed(amountPrecision),
-        })
-      } else {
-        this.setState({
-          buyTotal: total,
-          buyAmount: '',
-        })
-      }
-    } else {
-      let bigSellTotal = BigNumber(total)
-      let bigSellPrice = BigNumber(sellPrice)
-
-      if (sellPrice && total) {
-        const bigSellAmount = bigSellTotal.div(bigSellPrice)
-
-        this.setState({
-          sellTotal: total,
-          sellAmount: bigSellAmount.toFixed(amountPrecision),
-        })
-      } else {
-        this.setState({
-          sellTotal: total,
-          sellAmount: '',
-        })
-      }
-    }
-  }
-
-  handleChangeOrderType = (tabId: string) => {
-    this.setState({
-      selectedTabId: tabId,
-      fraction: 0,
-      buyAmount: '',
-      sellAmount: '',
-      buyTotal: '',
-      sellTotal: '',
-      errorBuy: null,
-      errorSell: null,
-    })
-  }
-
   handleDecreasePrice = (event, side: SIDE) => {
     event.preventDefault()
 
     let {
       state: {
-        buyPrice, 
-        sellPrice, 
-        buyAmount, 
-        sellAmount, 
-        priceStep,
+        borrowInterest, 
+        lendInterest, 
+        borrowAmount, 
+        lendAmount, 
+        interestStep,
         pricePrecision,
       },
       buyPriceInput,
       sellPriceInput,
     } = this
 
-    if (side === 'BUY') {
+    if (side === 'BORROW') {
       buyPriceInput.current.focus()
 
-      buyPrice = buyPrice ? buyPrice : 0
-      let bigBuyPrice = BigNumber(buyPrice).minus(BigNumber(priceStep))
-      bigBuyPrice = bigBuyPrice.gt(BigNumber(priceStep)) ? bigBuyPrice : BigNumber(priceStep)
+      borrowInterest = borrowInterest ? borrowInterest : 0
+      let bigBuyPrice = BigNumber(borrowInterest).minus(BigNumber(interestStep))
+      bigBuyPrice = bigBuyPrice.gt(BigNumber(interestStep)) ? bigBuyPrice : BigNumber(interestStep)
 
-      if (buyPrice && buyAmount) {
-        const bigBuyTotal = bigBuyPrice.times(buyAmount)
+      if (borrowInterest && borrowAmount) {
+        const bigBuyTotal = bigBuyPrice.times(borrowAmount)
 
         this.setState({
-          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          borrowInterest: bigBuyPrice.toFixed(pricePrecision),
           buyTotal: bigBuyTotal.toFixed(pricePrecision),
         })
       } else {
         this.setState({
-          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          borrowInterest: bigBuyPrice.toFixed(pricePrecision),
           buyTotal: '',
         })
       }
     } else {
       sellPriceInput.current.focus()
 
-      sellPrice = sellPrice ? sellPrice : 0
-      let bigSellPrice = BigNumber(sellPrice).minus(BigNumber(priceStep))
-      bigSellPrice = bigSellPrice.gt(BigNumber(priceStep)) ? bigSellPrice : BigNumber(priceStep)
+      lendInterest = lendInterest ? lendInterest : 0
+      let bigSellPrice = BigNumber(lendInterest).minus(BigNumber(interestStep))
+      bigSellPrice = bigSellPrice.gt(BigNumber(interestStep)) ? bigSellPrice : BigNumber(interestStep)
 
-      if (sellPrice && sellAmount) {
-        const bigSellTotal = bigSellPrice.times(BigNumber(sellAmount))
+      if (lendInterest && lendAmount) {
+        const bigSellTotal = bigSellPrice.times(BigNumber(lendAmount))
 
         this.setState({
-          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          lendInterest: bigSellPrice.toFixed(pricePrecision),
           sellTotal: bigSellTotal.toFixed(pricePrecision),
         })
       } else {
         this.setState({
-          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          lendInterest: bigSellPrice.toFixed(pricePrecision),
           sellTotal: '',
         })
       }
@@ -543,52 +398,52 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     let {
       state: {
-        buyPrice, 
-        sellPrice, 
-        buyAmount, 
-        sellAmount, 
-        priceStep,
+        borrowInterest, 
+        lendInterest, 
+        borrowAmount, 
+        lendAmount, 
+        interestStep,
         pricePrecision,
       },
       buyPriceInput,
       sellPriceInput,
     } = this
 
-    if (side === 'BUY') {
+    if (side === 'BORROW') {
       buyPriceInput.current.focus()
 
-      buyPrice = buyPrice ? buyPrice : 0
-      const bigBuyPrice = BigNumber(buyPrice).plus(BigNumber(priceStep))
+      borrowInterest = borrowInterest ? borrowInterest : 0
+      const bigBuyPrice = BigNumber(borrowInterest).plus(BigNumber(interestStep))
 
-      if (buyPrice && buyAmount) {
-        const bigBuyTotal = bigBuyPrice.times(BigNumber(buyAmount))
+      if (borrowInterest && borrowAmount) {
+        const bigBuyTotal = bigBuyPrice.times(BigNumber(borrowAmount))
 
         this.setState({
-          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          borrowInterest: bigBuyPrice.toFixed(pricePrecision),
           buyTotal: bigBuyTotal.toFixed(pricePrecision),
         })
       } else {
         this.setState({
-          buyPrice: bigBuyPrice.toFixed(pricePrecision),
+          borrowInterest: bigBuyPrice.toFixed(pricePrecision),
           buyTotal: '',
         })
       }
     } else {
       sellPriceInput.current.focus()
 
-      sellPrice = sellPrice ? sellPrice : 0
-      const bigSellPrice = BigNumber(sellPrice).plus(BigNumber(priceStep))
+      lendInterest = lendInterest ? lendInterest : 0
+      const bigSellPrice = BigNumber(lendInterest).plus(BigNumber(interestStep))
 
-      if (sellPrice && sellAmount) {
-        const bigSellTotal = bigSellPrice.times(BigNumber(sellAmount))
+      if (lendInterest && lendAmount) {
+        const bigSellTotal = bigSellPrice.times(BigNumber(lendAmount))
 
         this.setState({
-          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          lendInterest: bigSellPrice.toFixed(pricePrecision),
           sellTotal: bigSellTotal.toFixed(pricePrecision),
         })
       } else {
         this.setState({
-          sellPrice: bigSellPrice.toFixed(pricePrecision),
+          lendInterest: bigSellPrice.toFixed(pricePrecision),
           sellTotal: '',
         })
       }
@@ -600,10 +455,10 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     let {
       state: {
-        buyAmount, 
-        sellAmount, 
-        buyPrice, 
-        sellPrice, 
+        borrowAmount, 
+        lendAmount, 
+        borrowInterest, 
+        lendInterest, 
         amountStep,
         amountPrecision,
       },
@@ -611,43 +466,43 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput,
     } = this
 
-    if (side === 'BUY') {
+    if (side === 'BORROW') {
       buyAmountInput.current.focus()
 
-      buyAmount = buyAmount ? buyAmount : 0
-      let bigBuyAmount = BigNumber(buyAmount).minus(BigNumber(amountStep)) 
+      borrowAmount = borrowAmount ? borrowAmount : 0
+      let bigBuyAmount = BigNumber(borrowAmount).minus(BigNumber(amountStep)) 
       bigBuyAmount = bigBuyAmount.gt(BigNumber(amountStep)) ? bigBuyAmount : BigNumber(amountStep)
 
-      if (buyAmount && buyPrice) {
-        const bigBuyTotal = bigBuyAmount.times(BigNumber(buyPrice))
+      if (borrowAmount && borrowInterest) {
+        const bigBuyTotal = bigBuyAmount.times(BigNumber(borrowInterest))
 
         this.setState({
-          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          borrowAmount: bigBuyAmount.toFixed(amountPrecision),
           buyTotal: bigBuyTotal.toFixed(amountPrecision),
         })
       } else {
         this.setState({
-          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          borrowAmount: bigBuyAmount.toFixed(amountPrecision),
           buyTotal: '',
         })
       }
     } else {
       sellAmountInput.current.focus()
 
-      sellAmount = sellAmount ? sellAmount : 0
-      let bigSellAmount = BigNumber(sellAmount).minus(BigNumber(amountStep))
+      lendAmount = lendAmount ? lendAmount : 0
+      let bigSellAmount = BigNumber(lendAmount).minus(BigNumber(amountStep))
       bigSellAmount = bigSellAmount.gt(BigNumber(amountStep)) ? bigSellAmount : BigNumber(amountStep)
 
-      if (sellAmount && sellPrice) {
-        const bigSellTotal = bigSellAmount.times(BigNumber(sellPrice))
+      if (lendAmount && lendInterest) {
+        const bigSellTotal = bigSellAmount.times(BigNumber(lendInterest))
         
         this.setState({
-          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          lendAmount: bigSellAmount.toFixed(amountPrecision),
           sellTotal: bigSellTotal.toFixed(amountPrecision),
         })
       } else {
         this.setState({
-          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          lendAmount: bigSellAmount.toFixed(amountPrecision),
           sellTotal: '',
         })
       }
@@ -659,10 +514,10 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     let {
       state: {
-        buyAmount, 
-        sellAmount, 
-        buyPrice, 
-        sellPrice, 
+        borrowAmount, 
+        lendAmount, 
+        borrowInterest, 
+        lendInterest, 
         amountStep,
         amountPrecision,
       }, 
@@ -670,46 +525,46 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput,
     } = this
 
-    buyPrice = buyPrice ? buyPrice : 0
-    sellPrice = sellPrice ? sellPrice : 0
-    buyAmount = buyAmount ? buyAmount : 0
-    sellAmount = sellAmount ? sellAmount : 0 
+    borrowInterest = borrowInterest ? borrowInterest : 0
+    lendInterest = lendInterest ? lendInterest : 0
+    borrowAmount = borrowAmount ? borrowAmount : 0
+    lendAmount = lendAmount ? lendAmount : 0 
 
-    if (side === 'BUY') {
+    if (side === 'BORROW') {
       buyAmountInput.current.focus()
 
-      buyAmount = buyAmount ? buyAmount : 0
-      const bigBuyAmount = BigNumber(buyAmount).plus(BigNumber(amountStep))
+      borrowAmount = borrowAmount ? borrowAmount : 0
+      const bigBuyAmount = BigNumber(borrowAmount).plus(BigNumber(amountStep))
 
-      if (buyAmount && buyPrice) {
-        const bigBuyTotal = bigBuyAmount.times(BigNumber(buyPrice))
+      if (borrowAmount && borrowInterest) {
+        const bigBuyTotal = bigBuyAmount.times(BigNumber(borrowInterest))
 
         this.setState({
-          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          borrowAmount: bigBuyAmount.toFixed(amountPrecision),
           buyTotal: bigBuyTotal.toFixed(amountPrecision),
         })
       } else {
         this.setState({
-          buyAmount: bigBuyAmount.toFixed(amountPrecision),
+          borrowAmount: bigBuyAmount.toFixed(amountPrecision),
           buyTotal: '',
         })
       }
     } else {
       sellAmountInput.current.focus()
 
-      sellAmount = sellAmount ? sellAmount : 0 
-      const bigSellAmount = BigNumber(sellAmount).plus(BigNumber(amountStep))
+      lendAmount = lendAmount ? lendAmount : 0 
+      const bigSellAmount = BigNumber(lendAmount).plus(BigNumber(amountStep))
 
-      if (sellAmount && sellPrice) {
-        const bigSellTotal = bigSellAmount.times(BigNumber(sellPrice))
+      if (lendAmount && lendInterest) {
+        const bigSellTotal = bigSellAmount.times(BigNumber(lendInterest))
 
         this.setState({
-          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          lendAmount: bigSellAmount.toFixed(amountPrecision),
           sellTotal: bigSellTotal.toFixed(amountPrecision),
         })
       } else {
         this.setState({
-          sellAmount: bigSellAmount.toFixed(amountPrecision),
+          lendAmount: bigSellAmount.toFixed(amountPrecision),
           sellTotal: '',
         })
       }
@@ -718,10 +573,10 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   isInvalidInput(side: SIDE) {
     const { 
-      buyPrice, 
-      sellPrice, 
-      buyAmount, 
-      sellAmount, 
+      borrowInterest, 
+      lendInterest, 
+      borrowAmount, 
+      lendAmount, 
     } = this.state
 
     const {
@@ -730,20 +585,20 @@ class OrderForm extends React.PureComponent<Props, State> {
       baseTokenBalance,
     } = this.props
 
-    const buyTotal = BigNumber(buyPrice).times(buyAmount)
+    const buyTotal = BigNumber(borrowInterest).times(borrowAmount)
     const buyFee = buyTotal.times(fee)
     const buyTotalWithFee = buyTotal.plus(buyFee)
     const sellMaxAmount = BigNumber(baseTokenBalance)
 
-    if (side === 'BUY') { 
+    if (side === 'BORROW') { 
       switch (true) {
-        case (!buyPrice || BigNumber(buyPrice).eq(0)):
+        case (!borrowInterest || BigNumber(borrowInterest).eq(0)):
           return {
             type: 'price',
             message: 'Please input price',
           }
 
-        case (!buyAmount || BigNumber(buyAmount).eq(0)):
+        case (!borrowAmount || BigNumber(borrowAmount).eq(0)):
           return {
             type: 'amount',
             message: 'Please input amount',
@@ -758,17 +613,17 @@ class OrderForm extends React.PureComponent<Props, State> {
       }
     } else {
       switch(true) {
-        case (!sellPrice || BigNumber(sellPrice).eq(0)):
+        case (!lendInterest || BigNumber(lendInterest).eq(0)):
           return {
             type: 'price',
             message: 'Please input price',
           }
-        case (!sellAmount || BigNumber(sellAmount).eq(0)):
+        case (!lendAmount || BigNumber(lendAmount).eq(0)):
           return {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (BigNumber(sellAmount).gt(sellMaxAmount)):
+        case (BigNumber(lendAmount).gt(sellMaxAmount)):
           return {
             type: 'total',
             message: 'Your balance is not enough',
@@ -781,13 +636,13 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   resetErrorObject = (side: SIDE) => {
     switch (side) {
-      case 'BUY':
+      case 'BORROW':
         this.setState({
           errorBuy: null,
         })
 
         break
-      case 'SELL':
+      case 'LEND':
         this.setState({
           errorSell: null,
         })
@@ -803,27 +658,27 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   onInputFocus = (side: SIDE, { target }: Object) => {
     if (target.name === 'amount') {
-      (side === 'BUY') ? this.setState({ isShowBuyMaxAmount: true }) : this.setState({ isShowSellMaxAmount: true })
+      (side === 'BORROW') ? this.setState({ isShowBuyMaxAmount: true }) : this.setState({ isShowSellMaxAmount: true })
     }
   }
 
   onInputBlur = (side: SIDE, { target }: Object) => {
     if (target.name === 'amount') {
-      (side === 'BUY') ? this.setState({ isShowBuyMaxAmount: false }) : this.setState({ isShowSellMaxAmount: false })
+      (side === 'BORROW') ? this.setState({ isShowBuyMaxAmount: false }) : this.setState({ isShowSellMaxAmount: false })
     }
   }
 
-  calcMaxAmount = (buyPrice) => {
+  calcMaxAmount = (borrowInterest) => {
     let buyMaxAmount = 0
     let sellMaxAmount = 0
     const { authenticated, quoteTokenBalance, baseTokenBalance, fee } = this.props
     const { amountPrecision } = this.state
 
     if (authenticated) {
-      if (unformat(buyPrice) && quoteTokenBalance) {
+      if (unformat(borrowInterest) && quoteTokenBalance) {
         const multiplier = Math.pow(10, 18)
         const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
-        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(buyPrice)
+        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(borrowInterest)
         buyMaxAmount = bigBuyAmountMultiplier.div(multiplier).toFixed(amountPrecision)
       }
 
@@ -837,30 +692,22 @@ class OrderForm extends React.PureComponent<Props, State> {
     const {
       state: {
         side,
-        selectedTabId,
         fraction,
         priceType,
-        buyPrice,
-        sellPrice,
-        isOpen,
-        stopPrice,
-        limitPrice,
-        buyAmount,
-        sellAmount,
-        buyTotal,
-        sellTotal,
+        borrowInterest,
+        lendInterest,
+        borrowAmount,
+        lendAmount,
         errorBuy,
         errorSell,
         isShowBuyMaxAmount,
         isShowSellMaxAmount,
-        amountPrecision,
       },
       props: {
         baseTokenSymbol,
         quoteTokenSymbol,
         baseTokenDecimals,
         quoteTokenDecimals,
-        fee,
         baseTokenBalance,
         quoteTokenBalance,
         authenticated,
@@ -882,26 +729,19 @@ class OrderForm extends React.PureComponent<Props, State> {
       sellAmountInput,
     } = this
 
-    const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(buyPrice)
+    const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(borrowInterest)
 
     return (
       <OrderFormRenderer
-        selectedTabId={selectedTabId}
         side={side}
         fraction={fraction}
         priceType={priceType}
-        buyPrice={buyPrice}
-        sellPrice={sellPrice}
-        stopPrice={stopPrice}
-        limitPrice={limitPrice}
-        buyAmount={buyAmount}
-        sellAmount={sellAmount}
+        borrowInterest={borrowInterest}
+        lendInterest={lendInterest}
+        borrowAmount={borrowAmount}
+        lendAmount={lendAmount}
         buyMaxAmount={buyMaxAmount}
         sellMaxAmount={sellMaxAmount}
-        buyTotal={buyTotal}
-        sellTotal={sellTotal}
-        isOpen={isOpen}
-        fee={fee}
         baseTokenSymbol={baseTokenSymbol}
         quoteTokenSymbol={quoteTokenSymbol}
         baseTokenDecimals={baseTokenDecimals}
@@ -928,7 +768,6 @@ class OrderForm extends React.PureComponent<Props, State> {
         authenticated={authenticated}
         redirectToLoginPage={redirectToLoginPage}
         loading={loading}
-        amountPrecision={amountPrecision}
       />
     )
   }

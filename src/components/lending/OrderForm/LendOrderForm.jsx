@@ -24,10 +24,10 @@ import {
 import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
-const SellLimitOrderForm = props => {
+const LendOrderForm = props => {
   const {
-    sellPrice,
-    sellAmount,
+    lendInterest,
+    lendAmount,
     sellMaxAmount,
     fraction,
     sellTotal,
@@ -49,13 +49,12 @@ const SellLimitOrderForm = props => {
     sellAmountInput,
     authenticated,
     redirectToLoginPage,
-    amountPrecision,
   } = props
 
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {quoteTokenSymbol} / 7 days</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> 7 Days/{quoteTokenSymbol}</BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -63,21 +62,21 @@ const SellLimitOrderForm = props => {
         </InputLabel>
 
         <InputGroupWrapper
-          name="price"
-          onChange={e => onInputChange("SELL", e)}
-          onMouseDown={e => onInputFocus("SELL", e)}
-          onBlur={e => onInputBlur("SELL", e)}
-          value={sellPrice}
-          title={sellPrice}
+          name="interest"
+          onChange={e => onInputChange("INVEST", e)}
+          onMouseDown={e => onInputFocus("INVEST", e)}
+          onBlur={e => onInputBlur("INVEST", e)}
+          value={lendInterest}
+          title={lendInterest}
           autoComplete="off"
           inputRef={sellPriceInput}
-          className={errorSell && errorSell.type === "price" ? "has-error" : ""}
+          className={errorSell && errorSell.type === "interest" ? "has-error" : ""}
         />
 
         <IncreaseAndDecreaseGroup
           type="price"
-          onDecreasePrice={e => handleDecreasePrice(e, "SELL")}
-          onIncreasePrice={e => handleIncreasePrice(e, "SELL")}
+          onDecreasePrice={e => handleDecreasePrice(e, "INVEST")}
+          onIncreasePrice={e => handleIncreasePrice(e, "INVEST")}
         />
 
         <TokenName>%</TokenName>
@@ -89,11 +88,11 @@ const SellLimitOrderForm = props => {
         </InputLabel>
         <InputGroupWrapper
           name="amount"
-          onChange={e => onInputChange("SELL", e)}
-          onFocus={e => onInputFocus("SELL", e)}
-          onBlur={e => onInputBlur("SELL", e)}
-          value={sellAmount}
-          title={sellAmount}
+          onChange={e => onInputChange("INVEST", e)}
+          onFocus={e => onInputFocus("INVEST", e)}
+          onBlur={e => onInputBlur("INVEST", e)}
+          value={lendAmount}
+          title={lendAmount}
           autoComplete="off"
           inputRef={sellAmountInput}
           className={
@@ -103,20 +102,21 @@ const SellLimitOrderForm = props => {
 
         <IncreaseAndDecreaseGroup
           type="amount"
-          onDecreaseAmount={e => handleDecreaseAmount(e, "SELL")}
-          onIncreaseAmount={e => handleIncreaseAmount(e, "SELL")}
+          onDecreaseAmount={e => handleDecreaseAmount(e, "INVEST")}
+          onIncreaseAmount={e => handleIncreaseAmount(e, "INVEST")}
         />
 
         <TokenName>{baseTokenSymbol}</TokenName>
-        {isShowSellMaxAmount && (
+
+        {/* {isShowSellMaxAmount && (
           <MaxAmountInfo title={sellMaxAmount}>
-            Max: {BigNumber(sellMaxAmount).toFormat(amountPrecision)}
+            Max: {BigNumber(sellMaxAmount).toFormat(2)}
           </MaxAmountInfo>
-        )}
+        )} */}
       </InputBox>
 
       <FractionList
-        side="SELL"
+        side="INVEST"
         fraction={fraction}
         onInputChange={onInputChange}
       />
@@ -143,7 +143,7 @@ const SellLimitOrderForm = props => {
             intent="danger"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> }
             name="order"
-            onClick={() => handleSendOrder("SELL")}
+            onClick={() => handleSendOrder("INVEST")}
             fill
           />
         </React.Fragment>
@@ -162,6 +162,6 @@ const SellLimitOrderForm = props => {
   )
 }
 
-export default SellLimitOrderForm
+export default LendOrderForm
 
 
