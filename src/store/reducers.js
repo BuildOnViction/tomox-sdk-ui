@@ -27,6 +27,7 @@ import orderBookActionTypes from './actions/orderBook'
 import tokenPairsActionsTypes from './actions/tokenPairs'
 import orderActionsTypes from './actions/orders'
 import lendingTokensActionTypes from './actions/lending/lendingTokens'
+import lendingOrdersActionTypes from './actions/lending/lendingOrders'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -51,6 +52,7 @@ import * as lendingOrderBookEvents from './domains/lending/lendingOrderBook'
 import * as lendingTradeEvents from './domains/lending/lendingTrades'
 import * as lendingPairsEvents from './domains/lending/lendingPairs'
 import * as lendingTokensEvents from './domains/lending/lendingTokens'
+import * as lendingOrdersEvents from './domains/lending/lendingOrders'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -560,5 +562,16 @@ export const lendingTokens = createReducer(action => {
       return lendingTokensEvents.updateLendingTerms(payload)
     default:
       return lendingTokensEvents.initialized()
+  }
+})
+
+export const lendingOrders = createReducer(action => {
+  const { type, payload } = action
+
+  switch (type) {
+    case lendingOrdersActionTypes.lendingOrdersUpdateLoading:
+      return lendingOrdersEvents.lendingOrdersUpdateLoading(payload)
+    default:
+      return lendingOrdersEvents.initialized()
   }
 })

@@ -120,7 +120,6 @@ export const getNewLendingOrderHash = order => {
       'bytes',
       'bytes',
       'bytes',
-      'bytes',
       'uint256',
       'uint256',
       'uint256',
@@ -132,7 +131,6 @@ export const getNewLendingOrderHash = order => {
     [
       order.relayerAddress,
       order.userAddress,
-      order.collateralToken,
       order.lendingToken,
       order.quantity,
       order.term,
@@ -142,5 +140,76 @@ export const getNewLendingOrderHash = order => {
       order.type,
       order.nonce,
     ],
+  )
+}
+
+export const getLendingCancelHash = (order) => {
+  return utils.solidityKeccak256(
+      [
+          'uint256',
+          'string',
+          'bytes',
+          'bytes',
+          'bytes',
+          'uint256',
+          'uint256',
+      ],
+      [
+          order.nonce,
+          order.status,
+          order.relayerAddress,
+          order.userAddress,
+          order.lendingToken,
+          order.term,
+          order.lendingId,
+      ],
+  )
+}
+
+export const getRepayLendingHash = (order) => {
+  return utils.solidityKeccak256(
+      [
+          'uint256',
+          'string',
+          'bytes',
+          'bytes',
+          'bytes',
+          'uint256',
+          'uint256',
+      ],
+      [
+          order.nonce,
+          order.status,
+          order.relayerAddress,
+          order.userAddress,
+          order.lendingToken,
+          order.term,
+          order.tradeId,
+      ],
+  )
+}
+
+export const getTopupLendingHash = (order) => {
+  return utils.solidityKeccak256(
+      [
+          'uint256',
+          'string',
+          'bytes',
+          'bytes',
+          'bytes',
+          'uint256',
+          'uint256',
+          'uint256'
+      ],
+      [
+          order.nonce,
+          order.status,
+          order.relayerAddress,
+          order.userAddress,
+          order.lendingToken,
+          order.term,
+          order.tradeId,
+          order.quantity,
+      ],
   )
 }

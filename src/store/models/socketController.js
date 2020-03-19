@@ -8,6 +8,7 @@ import * as tokenActionCreators from '../actions/tokens'
 import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
 import * as orderActionsCreators from '../actions/orders'
+import * as lendingOrdersActionsCreators from '../actions/lending/lendingOrders'
 
 import {
   getAccountDomain,
@@ -93,6 +94,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handleLendingTradesMessage(event))
         case 'lending_markets':
           return dispatch(handleLendingMarketsMessage(event))
+        case 'lending_orders':
+          return handleLendingOrderMessage(dispatch, event, getState)
         default:
           console.log(channel, event)
           break
@@ -708,4 +711,32 @@ const handleLendingMarketsMessage = (event: WebsocketEvent) => {
 
     dispatch(actionCreators.updateLendingPairsData(pairData))
   }
+}
+
+const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
+  const { type } = event
+
+  if (type !== 'ORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
+  // dispatch(actionCreators.updateNewNotifications()) 
+  // dispatch(queryAccountBalance()) // Get the balance of tokens
+
+  // switch (type) {
+  //   case 'ORDER_ADDED':
+  //     return dispatch(handleOrderAdded(event))
+  //   case 'ORDER_CANCELLED':
+  //     return dispatch(handleOrderCancelled(event))
+  //   case 'ORDER_REJECTED':
+  //     return dispatch(handleOrderRejected(event))
+  //   case 'ORDER_MATCHED':
+  //     return dispatch(handleOrderMatched(event))
+  //   case 'ORDER_SUCCESS':
+  //     return dispatch(handleOrderSuccess(event))
+  //   case 'ORDER_PENDING':
+  //     return dispatch(handleOrderPending(event))
+  //   case 'ERROR':
+  //     return dispatch(handleOrderError(event))
+  //   default:
+  //     console.log('Unknown', event)
+  //     return
+  // }
 }

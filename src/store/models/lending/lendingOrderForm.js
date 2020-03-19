@@ -7,21 +7,21 @@ import { parseNewOrderError } from '../../../config/errors'
 import { getNewLendingOrderHash } from '../../../utils/crypto'
 
 import * as notifierActionCreators from '../../actions/app'
-import * as ordersActionCreators from '../../actions/orders'
+import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 
 import {
   getTokenPairsDomain,
   getOrderBookDomain,
   getAccountBalancesDomain,
   getAccountDomain,
-  getOrdersDomain,
+  getLendingOrdersDomain,
   getLendingTokensDomain,
 } from '../../domains/'
 
 export default function getOrderFormSelector(state: State) {
   const tokenPairsDomain = getTokenPairsDomain(state)
   const orderBookDomain = getOrderBookDomain(state)
-  const orderDomain = getOrdersDomain(state)
+  const lendingOrderDomain = getLendingOrdersDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const accountDomain = getAccountDomain(state)
   const currentPair = tokenPairsDomain.getCurrentPair()
@@ -40,7 +40,7 @@ export default function getOrderFormSelector(state: State) {
 
   const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
   const authenticated = accountDomain.authenticated()
-  const loading = orderDomain.loading()
+  const loading = lendingOrderDomain.loading()
   const baseTokenBalance = baseToken.availableBalance || 0
   const quoteTokenBalance = quoteToken.availableBalance || 0
   const fee = accountDomain.fee()
@@ -65,7 +65,7 @@ export default function getOrderFormSelector(state: State) {
 export const sendNewLendingOrder = (order): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
     try {
-      // dispatch(ordersActionCreators.loading(true))
+      dispatch(lendingOrdersActionCreators.lendingOrdersUpdateLoading(true))
       const state = getState()
       const accountDomain = getAccountDomain(state)
       const userAddress = accountDomain.address()
@@ -97,7 +97,7 @@ export const sendNewLendingOrder = (order): ThunkAction => {
       socket.sendNewLendingOrderMessage(orderSigned)
     } catch (e) {
       console.log(e)
-      // dispatch(ordersActionCreators.loading(false))
+      dispatch(lendingOrdersActionCreators.lendingOrdersUpdateLoading(false))
       const message = parseNewOrderError(e)
       return dispatch(notifierActionCreators.addErrorNotification({ message }))
     }
