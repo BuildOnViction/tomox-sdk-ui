@@ -16,7 +16,6 @@ const renderCollateral = (collateral, { handleClick, modifiers }) => {
         <MenuItem
             active={modifiers.active}
             key={collateral.address}
-            label={collateral.address}
             onClick={handleClick}
             text={collateral.symbol}
         />
@@ -24,7 +23,7 @@ const renderCollateral = (collateral, { handleClick, modifiers }) => {
 }
 
 function SelectCollaterals(props) {
-    const { activeItem, items, onItemSlect } = props
+    const { activeItem, items, onItemSelect } = props
 
     if (!items) return <Button text="No collaterals" />
 
@@ -33,7 +32,7 @@ function SelectCollaterals(props) {
             itemPredicate={filterFilm} 
             itemRenderer={renderCollateral} 
             items={items} 
-            onItemSelect={onItemSlect}
+            onItemSelect={onItemSelect}
             filterable={false}
             popoverProps={{minimal: true}}>
 

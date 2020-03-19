@@ -26,6 +26,7 @@ import marketsTableActionTypes from './actions/marketsTable'
 import orderBookActionTypes from './actions/orderBook'
 import tokenPairsActionsTypes from './actions/tokenPairs'
 import orderActionsTypes from './actions/orders'
+import lendingTokensActionTypes from './actions/lending/lendingTokens'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -49,6 +50,7 @@ import * as connectionEvents from './domains/connection'
 import * as lendingOrderBookEvents from './domains/lending/lendingOrderBook'
 import * as lendingTradeEvents from './domains/lending/lendingTrades'
 import * as lendingPairsEvents from './domains/lending/lendingPairs'
+import * as lendingTokensEvents from './domains/lending/lendingTokens'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -514,10 +516,10 @@ export const lendingOrderBook = createReducer(({ type, payload }) => {
 export const lendingTrades = createReducer(action => {
   const { type, payload } = action
   switch (type) {
-    case socketControllerActionTypes.updateLendingTradesTable:
-      return lendingTradeEvents.tradesUpdated(payload.trades)
     case socketControllerActionTypes.initLendingTradesTable:
       return lendingTradeEvents.tradesInitialized(payload.trades)
+    case socketControllerActionTypes.updateLendingTradesTable:
+      return lendingTradeEvents.tradesUpdated(payload.trades)
     default:
       return lendingTradeEvents.initialized()
   }
@@ -543,5 +545,20 @@ export const lendingPairs = createReducerPersist({
       return lendingPairsEvents.lendingPairsDataUpdated(payload.lendingPairsData)
     default:
       return lendingPairsEvents.initialized()
+  }
+})
+
+export const lendingTokens = createReducer(action => {
+  const { type, payload } = action
+
+  switch (type) {
+    case lendingTokensActionTypes.updateLendingTokens:
+      return lendingTokensEvents.updateLendingTokens(payload)
+    case lendingTokensActionTypes.updateLendingCollaterals:
+      return lendingTokensEvents.updateLendingCollaterals(payload)
+    case lendingTokensActionTypes.updateLendingTerms:
+      return lendingTokensEvents.updateLendingTerms(payload)
+    default:
+      return lendingTokensEvents.initialized()
   }
 })

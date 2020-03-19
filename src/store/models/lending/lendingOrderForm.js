@@ -15,6 +15,7 @@ import {
   getAccountBalancesDomain,
   getAccountDomain,
   getOrdersDomain,
+  getLendingTokensDomain,
 } from '../../domains/'
 
 export default function getOrderFormSelector(state: State) {
@@ -25,6 +26,8 @@ export default function getOrderFormSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const currentPair = tokenPairsDomain.getCurrentPair()
   const currentPairData = tokenPairsDomain.getCurrentPairData()
+  const lendingTokensDomain = getLendingTokensDomain(state)
+  const collateralTokens = lendingTokensDomain.collaterals()
 
   const {
     baseTokenSymbol,
@@ -55,6 +58,7 @@ export default function getOrderFormSelector(state: State) {
     authenticated,
     loading,
     fee,
+    collateralTokens,
   }
 }
 
@@ -75,7 +79,7 @@ export const sendNewLendingOrder = (order): ThunkAction => {
       const params = {
         userAddress,
         relayerAddress: exchangeAddress,
-        collateralToken: order.collateralToken || '0xc2fa1ba90b15e3612e0067a0020192938784d9c5',
+        collateralToken: order.collateralToken,
         lendingToken: order.lendingToken || '0x45c25041b8e6cbd5c963e7943007187c3673c7c9',
         term: order.term || '60',
         interest,

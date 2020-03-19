@@ -49,6 +49,7 @@ const LendOrderForm = props => {
     sellAmountInput,
     authenticated,
     redirectToLoginPage,
+    profit,
   } = props
 
   return (
@@ -106,7 +107,7 @@ const LendOrderForm = props => {
           onIncreaseAmount={e => handleIncreaseAmount(e, "INVEST")}
         />
 
-        <TokenName>{baseTokenSymbol}</TokenName>
+        <TokenName>USDT</TokenName>
 
         {/* {isShowSellMaxAmount && (
           <MaxAmountInfo title={sellMaxAmount}>
@@ -123,8 +124,8 @@ const LendOrderForm = props => {
 
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.estimatedProfit" />:</Title>
-        <Value title={`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}>
-          <SmallText>{`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}</SmallText>
+        <Value>
+        <SmallText>{profit ? profit : '--'} USDT</SmallText>
         </Value>
       </Row>
 

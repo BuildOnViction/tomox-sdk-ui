@@ -25,8 +25,6 @@ import {
 import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
-const collaterals = [{symbol: 'BTC', address: 'btc'}, {symbol: 'ETH', address: 'eth'}, {symbol: 'TOMO', address: 'tomo'}]
-
 const BorrowOrderForm = props => {
   const {
     borrowInterest,
@@ -51,6 +49,9 @@ const BorrowOrderForm = props => {
     buyAmountInput,
     authenticated,
     redirectToLoginPage,
+    collateralTokens,
+    collateralTokenSelected,
+    onCollateralSelect,
   } = props
 
   return (
@@ -102,7 +103,7 @@ const BorrowOrderForm = props => {
           className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
         />
 
-        <TokenName>{baseTokenSymbol}</TokenName>
+        <TokenName>USDT</TokenName>
 
         <IncreaseAndDecreaseGroup
           type="amount"
@@ -123,7 +124,11 @@ const BorrowOrderForm = props => {
         </InputLabel>
 
         <InputValue>
-          <SelectCollaterals items={collaterals} activeItem={collaterals[0]} />
+          <SelectCollaterals 
+            items={collateralTokens} 
+            activeItem={collateralTokenSelected}
+            onItemSelect={onCollateralSelect} 
+          />
         </InputValue>
       </InputBox>
 
@@ -135,8 +140,8 @@ const BorrowOrderForm = props => {
 
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
-        <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
-          <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
+        <Value>
+          <SmallText>USDT</SmallText>
         </Value>
       </Row>
 

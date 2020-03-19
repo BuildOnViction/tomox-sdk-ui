@@ -576,6 +576,70 @@ export const getTokensAndPairs = async () => {
   }
 }
 
+export const fetchLendingTokens = async _ => {
+  const response = await request('/lending/lendingtoken')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingCollaterals = async _ => {
+  const response = await request('/lending/collateraltoken')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingPairs = async _ => {
+  const response = await request('/lending/pairs')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+} 
+
+export const fetchLendingTerms = async _ => {
+  const response = await request('/lending/terms')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+} 
+
 export const getLendingOrderNonce = async (address: string): Promise<number> => {
   const response = await request(`/lending/nonce?address=${address}`)
 
