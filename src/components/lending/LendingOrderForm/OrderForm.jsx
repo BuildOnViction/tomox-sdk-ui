@@ -57,7 +57,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     isShowBuyMaxAmount: false,
     isShowSellMaxAmount: false,
     dirtyPriceForm: false,
-    collateralTokenSelected: null,
+    collateralSelected: this.props.collateralTokens ? this.props.collateralTokens[0] : null,
     profit: '',
   }
 
@@ -70,7 +70,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     if (!prevProps.collateralTokens
       && this.props.collateralTokens) {
       this.setState({
-        collateralTokenSelected: this.props.collateralTokens[0],
+        collateralSelected: this.props.collateralTokens[0],
       })
     }
 
@@ -303,7 +303,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     //   return
     // }
 
-    const { borrowInterest, lendInterest, borrowAmount, lendAmount, collateralTokenSelected } = this.state
+    const { borrowInterest, lendInterest, borrowAmount, lendAmount, collateralSelected } = this.state
     const { sendNewLendingOrder } = this.props
 
     if (side === 'BORROW'){
@@ -311,7 +311,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         side, 
         amount: borrowAmount, 
         interest: borrowInterest,
-        collateralToken: collateralTokenSelected.address,
+        collateralToken: collateralSelected.address,
       }
 
       sendNewLendingOrder(order)
@@ -320,7 +320,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         side, 
         amount: lendAmount, 
         interest: lendInterest,
-        collateralToken: collateralTokenSelected.address, //TODO: remove collateral token when update
+        collateralToken: collateralSelected.address, //TODO: remove collateral token when update
       }
 
       sendNewLendingOrder(order)
@@ -375,7 +375,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleCollateralSelect = (collateralToken) => {    
     this.setState({
-      collateralTokenSelected: collateralToken,
+      collateralSelected: collateralToken,
     })
   }
 
@@ -747,7 +747,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         errorSell,
         isShowBuyMaxAmount,
         isShowSellMaxAmount,
-        collateralTokenSelected,
+        collateralSelected,
         profit,
       },
       props: {
@@ -818,7 +818,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         redirectToLoginPage={redirectToLoginPage}
         loading={loading}
         collateralTokens={collateralTokens}
-        collateralTokenSelected={collateralTokenSelected}
+        collateralSelected={collateralSelected}
         onCollateralSelect={handleCollateralSelect}
         profit={profit}
       />

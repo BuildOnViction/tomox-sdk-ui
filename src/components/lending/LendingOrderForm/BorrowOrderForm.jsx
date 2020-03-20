@@ -50,7 +50,7 @@ const BorrowOrderForm = props => {
     authenticated,
     redirectToLoginPage,
     collateralTokens,
-    collateralTokenSelected,
+    collateralSelected,
     onCollateralSelect,
   } = props
 
@@ -123,13 +123,32 @@ const BorrowOrderForm = props => {
           <FormattedMessage id="exchangeLendingPage.orderPlace.selectCollateral" />:
         </InputLabel>
 
-        <InputValue>
+        <InputGroupWrapper
+          name="amount"
+          onChange={e => onInputChange("BORROW", e)}
+          onFocus={e => onInputFocus("BORROW", e)}
+          onBlur={e => onInputBlur("BORROW", e)}
+          value={borrowAmount}
+          title={borrowAmount}
+          autoComplete="off"
+          inputRef={buyAmountInput}
+          className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
+          rightElement={
+            <SelectCollaterals 
+              items={collateralTokens} 
+              activeItem={collateralSelected}
+              onItemSelect={onCollateralSelect} 
+            />
+          }
+        />
+
+        {/* <InputValue>
           <SelectCollaterals 
             items={collateralTokens} 
-            activeItem={collateralTokenSelected}
+            activeItem={collateralSelected}
             onItemSelect={onCollateralSelect} 
           />
-        </InputValue>
+        </InputValue> */}
       </InputBox>
 
       {/* <FractionList

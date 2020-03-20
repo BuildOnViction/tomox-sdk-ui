@@ -7,7 +7,7 @@ import { Theme } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
 import OrdersTable from '../../../components/OrdersTable'
-import OrderForm from '../../../components/lending/OrderForm'
+import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import OrderBook from '../../../components/lending/OrderBook'
 import TVChartContainer from '../../../components/TVChartContainer'
@@ -85,7 +85,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               <Cell width={1}><OrderBook /></Cell>
               <Cell width={1}><LendingTradesTable /></Cell>
           </OrderbooxTradesGrid>
-          <OrderFormCell><OrderForm /></OrderFormCell>
+          <OrderFormCell><LendingOrderForm /></OrderFormCell>
         </Grid>
       </Container>  
     )

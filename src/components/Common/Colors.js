@@ -296,6 +296,7 @@ export const DarkMode = {
 
   selectBackground: '#1f2538',
   selectColor: '#fff',
+  selectSecondColor: '#6e7793',
 }
 
 export const LightMode = {
@@ -345,6 +346,7 @@ export const LightMode = {
 
   selectBackground: '#e4ecf3',
   selectColor: '#1f2538',
+  selectSecondColor: '#6e7793',
 }
 
 export const Theme = {

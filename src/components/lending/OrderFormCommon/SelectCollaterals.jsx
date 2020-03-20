@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MenuItem, Button } from "@blueprintjs/core"
+import { MenuItem, Button, Position } from "@blueprintjs/core"
 import { Select } from "@blueprintjs/select"
   
 const filterFilm = (query, collateral) => {
@@ -34,7 +34,7 @@ function SelectCollaterals(props) {
             items={items} 
             onItemSelect={onItemSelect}
             filterable={false}
-            popoverProps={{minimal: true}}>
+            popoverProps={{minimal: true, usePortal: false, position: Position.BOTTOM_RIGHT}}>
 
             <StyledButton 
                 rightIcon="caret-down"
@@ -48,15 +48,20 @@ const StyledSelect = styled(Select)`
     .bp3-popover-target {
         display: block;
         width: 100%;
-    } 
+    }
+
+    .bp3-menu {
+        color: ${props => props.theme.selectColor};
+        background-color: ${props => props.theme.selectBackground} !important;
+    }
 `
 
 const StyledButton = styled(Button)`
     &.bp3-button {
-        width: 100%;
+        width: 40%;
         display: flex;
         justify-content: space-between;
-        color: ${props => props.theme.selectColor} !important;
+        color: ${props => props.theme.selectSecondColor} !important;
         box-shadow: none !important;
         background-image: none !important;
         background-color: ${props => props.theme.selectBackground} !important;
