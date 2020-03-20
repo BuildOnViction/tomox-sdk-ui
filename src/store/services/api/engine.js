@@ -655,3 +655,69 @@ export const getLendingOrderNonce = async (address: string): Promise<number> => 
   const { data } = await response.json()
   return data
 }
+
+export const cancelLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/cancel',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const topUpLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/topup',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const repayLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/topup',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
