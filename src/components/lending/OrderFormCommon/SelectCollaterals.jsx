@@ -25,7 +25,7 @@ const renderCollateral = (collateral, { handleClick, modifiers }) => {
 function SelectCollaterals(props) {
     const { activeItem, items, onItemSelect } = props
 
-    if (!items) return <Button text="No collaterals" />
+    if (!items) return <StyledButton text="Loading..." />
 
     return (
         <StyledSelect 
