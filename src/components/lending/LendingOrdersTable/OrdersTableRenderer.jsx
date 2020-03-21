@@ -6,6 +6,11 @@ import {
   Icon,
   Tabs,
   Checkbox,
+  Popover,
+  Button,
+  Position,
+  Menu,
+  MenuItem,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
@@ -49,6 +54,7 @@ const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
+const columnsOpenTrades = ['17%', '20%', '10%', '22%', '15%', '20%']
 
 const OrdersTableRenderer = (props: Props) => {
   const hasScrollBar = (orders) => {
@@ -431,24 +437,26 @@ const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHid
     
     return (
       <Row key={index} style={style}>
-        <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsOpenTrades[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
+        <Cell width={columnsOpenTrades[1]} title={order.pair} muted>
           <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
         </Cell>
-        <Cell width={widthColumnsTradeHistory[2]} muted>
+        <Cell width={columnsOpenTrades[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+        <Cell width={columnsOpenTrades[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={widthColumnsTradeHistory[4]} muted>
+        <Cell width={columnsOpenTrades[4]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        {/* <Cell width={widthColumnsTradeHistory[5]} muted>
-          {BigNumber(order.total).toFormat()}
-        </Cell> */}
+        <Cell width={columnsOpenTrades[5]} muted>
+          <Popover content={<ActionsMenu />} position={Position.TOP}>
+              <MoreButton icon="more" />
+          </Popover>
+        </Cell>
       </Row>
     )
   }  
@@ -458,12 +466,12 @@ const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHid
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
+        <HeaderCell width={columnsOpenTrades[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -485,6 +493,15 @@ const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHid
         )}
       </ListBodyWrapper>
     </ListContainer>
+  )
+}
+
+const ActionsMenu = () => {
+  return (
+    <Menu>
+      <MenuItem text="Top up" />
+      <MenuItem text="Repay" />
+    </Menu>
   )
 }
 
@@ -600,6 +617,11 @@ const LoginLink = styled(InternalLink)`
   &:hover {
       color: ${TmColors.DARK_ORANGE};
   }
+`
+
+const MoreButton = styled(Icon)`
+  padding: 7px;
+  cursor: pointer;
 `
 
 export default OrdersTableRenderer

@@ -283,7 +283,10 @@ export const DarkMode = {
   inputBackground: '#1f2538',
   inputBackground2: '#272f48',
   inputColor: '#9ca4ba',
+
   modalColor: '#6e7793',
+  modalBackground: '#252C40',
+
   mainColor: '#6e7793',
   mainColorHover: '#5c6583',
   selectTokenSearchBorder: '#384058',
@@ -333,7 +336,10 @@ export const LightMode = {
   inputBackground: '#e4ecf3',
   inputBackground2: '#cad9e6',
   inputColor: '#1f2538',
+  
   modalColor: '#1f2538',
+  modalBackground: '#fff',
+
   mainColor: '#1f2538',
   mainColorHover: '#3f4a6f',
   selectTokenSearchBorder: '#b3c9dc',

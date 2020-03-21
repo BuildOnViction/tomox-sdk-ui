@@ -1,7 +1,10 @@
 //@flow
 import React from 'react'
-import OrdersTableRenderer from './OrdersTableRenderer'
+
 import { sortTable } from '../../../utils/helpers'
+
+import OrdersTableRenderer from './OrdersTableRenderer'
+import RepayModal from './RepayModal'
 
 type Props = {
   orders: Array<Order>,
@@ -111,23 +114,28 @@ class OrdersTable extends React.PureComponent<Props, State> {
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
-
-    console.log(filteredOrders, '================================================')
         
     return (
-      <OrdersTableRenderer
-        loading={loading}
-        selectedTabId={selectedTabId}
-        onChange={this.changeTab}
-        authenticated={authenticated}
-        cancelOrder={cancelOrder}
-        orders={filteredOrders}
-        trades={filteredTrades}
-        isHideOtherPairs={isHideOtherPairs}
-        handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
-        pricePrecision={pricePrecision}
-        amountPrecision={amountPrecision}
-      />
+      <>
+        <OrdersTableRenderer
+          loading={loading}
+          selectedTabId={selectedTabId}
+          onChange={this.changeTab}
+          authenticated={authenticated}
+          cancelOrder={cancelOrder}
+          orders={filteredOrders}
+          trades={filteredTrades}
+          isHideOtherPairs={isHideOtherPairs}
+          handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
+          pricePrecision={pricePrecision}
+          amountPrecision={amountPrecision}
+        />
+
+        <RepayModal 
+          title="Repay your borrowing"
+          isOpen={false}
+          size='sm' />
+      </>
     )
   }
 }

@@ -22,7 +22,7 @@ const Modal = (props: Props): Node => {
       enforceFocus={false}
       usePortal={false}
       onClose={props.onClose}
-      className={props.className}
+      className={props.size}
       canOutsideClickClose={false}
     >
       <DialogContent>{props.children}</DialogContent>
@@ -32,6 +32,11 @@ const Modal = (props: Props): Node => {
 
 const StyledDialog = styled(Dialog)`
   color: ${props => props.theme.modalColor};
+
+  &,
+  .bp3-dialog-header {
+    background-color: ${props => props.theme.modalBackground} !important;
+  }
 
   button.bp3-dialog-close-button,
   button.bp3-dialog-close-button:hover {
