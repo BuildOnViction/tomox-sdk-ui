@@ -427,13 +427,14 @@ export const parseLendingOrders = (orders) => {
       lendingToken: order.lendingToken,
       nonce: order.nonce,
       amount: parseLendingAmount(order.quantity),
-      side: order.side,
+      side: (order.side.toLowerCase() === 'invest') ? 'Lend' : order.side,
       status: order.status,
       term: order.term,
       tradeId: order.tradeId,
       type: order.type,
       updatedAt: order.updatedAt,
       userAddress: order.userAddress,
+      time: order.updatedAt,
     }
   })
   

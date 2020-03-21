@@ -1,131 +1,131 @@
 // @flow
 import BigNumber from 'bignumber.js'
 
-const initialState = {
-  loading: false,
-  byHash: {},
-}
+import * as appActionCreators from '../../actions/app'
+import { getLendingOrdersDomain, getTradesDomain, getAccountDomain, getTokenPairsDomain } from '../../domains'
+import type { State, ThunkAction } from '../../types'
 
-export const initialized = () => {
-  const event = (state = initialState) => state
-  return event
-}
+import { 
+  getTopupLendingHash,
+  getRepayLendingHash,
+} from '../../../utils/crypto'
+import { parseCancelOrderError } from '../../../config/errors'
+import { getSigner } from '../../services/signer'
 
-export function ordersInitialized(orders: Orders) {
-  const event = (state: OrdersState) => {
-    const newState = orders.reduce((result, item) => {
-      result[item.hash] = {
-        ...state[item.hash],
-        ...item,
-      }
-      return result
-    }, {})
+export default function ordersTableSelector(state: State) {
+  const accountDomain = getAccountDomain(state)
+  const address = accountDomain.address()
+  const authenticated = accountDomain.authenticated()
+  const orders = getLendingOrdersDomain(state).lastOrders(100)
+  const trades = getTradesDomain(state).userTrades(address)
+  const currentPair = getTokenPairsDomain(state).getCurrentPair()
+  const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
 
-    return { 
-      ...state,
-      byHash: newState,
-    }
-  }
-
-  return event
-}
-
-export function ordersUpdated(orders: Orders) {
-  const event = (state: OrdersState) => {
-    const newState = orders.reduce((result, item) => {
-      result[item.hash] = {
-        ...state[item.hash],
-        ...item,
-      }
-      return result
-    }, {})
-
-    return {
-      ...state,
-      byHash: {
-        ...state.byHash,
-        ...newState,
-      },
-    }
-  }
-
-  return event
-}
-
-export function lendingOrdersUpdateLoading(loading: Boolean) {
-  const event = (state: OrdersState) => {
-    return {
-      ...state,
-      loading,
-    }
-  }
-
-  return event
-}
-
-export const ordersDeleted = (hashes: Array<number>) => {
-  const event = (state: OrdersState) => ({
-    ...state,
-    byHash: Object.keys(state.byHash)
-      .filter(key => hashes.indexOf(key) === -1)
-      .reduce((result, current) => {
-        result[current] = state.byHash[current]
-        return result
-      }, {}),
-  })
-
-  return event
-}
-
-export const ordersReset = () => {
-  const event = _ => initialState
-  return event
-}
-
-const getOrders = (state: OrdersState): Orders => {
-  const orders = Object.keys(state.byHash).map(key => state.byHash[key])
-  return JSON.parse(JSON.stringify(orders))
-}
-
-export default function ordersDomain(state: OrdersState) {
   return {
-    byHash: () => state.byHash,
-    all: () => getOrders(state),
-    loading: () => state.loading,
+    orders,
+    trades,
+    currentPair,
+    currentPairData,
+    authenticated,
+  }
+}
 
-    lastOrders: (n: number): Orders => {
-      let orders: Orders = getOrders(state)
-      orders = orders.slice(Math.max(orders.length - n, 0))
-      orders = orders.map(order => {
-        const filledPercent = order.filled ? BigNumber(order.filled).times(100).div(order.amount) : 0
-        const total = BigNumber(order.price).times(order.amount).toNumber()
-        const filled = order.filled
-        const amount = order.amount
-        const price = order.price
-        const cancelAble = (order.status === 'OPEN' || order.status === 'PARTIAL_FILLED') && (order.orderID !== '0')
-        return { ...order, filledPercent, total, filled, amount, price, cancelAble }
-      })
+export const cancelLendingOrder = (hash): ThunkAction => {
+  return async (dispatch, getState, { socket, api }) => {
+    try {
+      const state = getState()
+      const order = getLendingOrdersDomain(state).getOrderByHash(hash)
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
+      const nonce = await api.getLendingOrderNonce(userAddress)
 
-      return orders
-    },
+      let params = {
+        userAddress,
+        relayerAddress: exchangeAddress,
+        lendingToken: order.lendingToken,
+        term: order.term,
+        lendingId: order.lendingId,
+        status: 'CANCELLED',
+        hash: order.hash,
+        nonce,
+      }
 
-    history: (): Orders => {
-      const orders: Orders = getOrders(state)
-      const history = orders.filter(
-        order =>
-          ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) ===
-          -1,
-      )
-      return history
-    },
+      const orderSigned = await getSigner().signCancelLendingOrder(params)
 
-    current: (): Orders => {
-      const orders: Orders = getOrders(state)
-      const current = orders.filter(
-        order => ['NEW', 'OPEN'].indexOf(order.status) === -1,
-      )
-      return current
-    },
-    getOrderByHash: (hash) => state.byHash[hash],
+      api.cancelLendingOrder(orderSigned)
+      dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling lending order...` }))
+    } catch (error) {
+      const message = parseCancelOrderError(error)
+      return dispatch(appActionCreators.addErrorNotification({ message }))
+    }
+  }
+}
+
+export const topUpLendingOrder = ({hash, collateralToken}): ThunkAction => {
+  return async (dispatch, getState, { socket, api }) => {
+    try {
+      const state = getState()
+      const order = getLendingOrdersDomain(state).getOrderByHash(hash)
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
+      const nonce = await api.getLendingOrderNonce(userAddress)
+
+      let params = {
+        userAddress,
+        relayerAddress: exchangeAddress,
+        lendingToken: order.lendingToken,
+        term: order.term,
+        quantity: order.quantity,
+        tradeId: order.tradeId,
+        status: 'TOPUP',
+      }
+
+      params.quantity = BigNumber(collateralToken.amount)
+                    .multipliedBy(10 ** collateralToken.decimals).toString(10)
+
+      params.nonce = String(nonce)
+      params.hash = getTopupLendingHash(params)
+      const orderSigned = await getSigner().signTopUpLendingOrder(params)
+
+      api.topUpLendingOrder(orderSigned)
+      dispatch(appActionCreators.addSuccessNotification({ message: `Top up lending order...` }))
+    } catch (error) {
+      const message = parseCancelOrderError(error)
+      return dispatch(appActionCreators.addErrorNotification({ message }))
+    }
+  }
+}
+
+export const repayLendingOrder = (hash): ThunkAction => {
+  return async (dispatch, getState, { socket, api }) => {
+    try {
+      const state = getState()
+      const order = getLendingOrdersDomain(state).getOrderByHash(hash)
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
+      const nonce = await api.getLendingOrderNonce(userAddress)
+
+      let params = {
+        userAddress,
+        relayerAddress: exchangeAddress,
+        lendingToken: order.lendingToken,
+        term: order.term,
+        tradeId: order.tradeId,
+        status: 'REPAY',
+      }
+
+      params.nonce = String(nonce)
+      params.hash = getRepayLendingHash(params)
+      const orderSigned = await getSigner().signRepayLendingOrder(params)
+
+      api.repayLendingOrder(orderSigned)
+      dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
+    } catch (error) {
+      const message = parseCancelOrderError(error)
+      return dispatch(appActionCreators.addErrorNotification({ message }))
+    }
   }
 }

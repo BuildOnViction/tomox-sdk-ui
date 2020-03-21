@@ -6,7 +6,7 @@ import { Grid, Cell } from 'styled-css-grid'
 import { Theme } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
-import OrdersTable from '../../../components/OrdersTable'
+import LendingOrdersTable from '../../../components/lending/LendingOrdersTable'
 import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import OrderBook from '../../../components/lending/OrderBook'
@@ -72,7 +72,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
             {quoteTokenSymbol && <TVChartContainer />}
           </ChartsCell>
           <OrdersTableCell>
-            <OrdersTable />            
+            <LendingOrdersTable />            
           </OrdersTableCell>
         </Grid>
 
