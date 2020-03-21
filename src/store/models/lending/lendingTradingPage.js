@@ -10,10 +10,13 @@ import {
 } from '../../domains'
 
 import * as actionCreators from '../../actions/tradingPage'
+import * as lendingActionCreators from '../../actions/lending/lendingOrders'
 import * as notifierActionCreators from '../../actions/app'
 
 import type { State, ThunkAction } from '../../types'
 import {
+  parseLendingOrders,
+  parseLendingTradesByAddress,
   parseTradesByAddress,
   parseOrders,
 } from '../../../utils/parsers'
@@ -81,19 +84,19 @@ export const queryTradingPageData = (): ThunkAction => {
       if (authenticated) {
         const userAddress = accountDomain.address()
 
-        let [
-          orders,
-          tradesByAddress, // For trade history in OrderTable
+        const [
+          ordersResult,
+          tradesByAddressResult,
         ] = await Promise.all([
-          api.fetchOrders(userAddress),
-          api.fetchAddressTrades(userAddress), 
+          api.fetchLendingOrders(userAddress),
+          api.fetchLendingAddressTrades(userAddress), 
         ])
 
-        orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        const lendingOrders = parseLendingOrders(ordersResult.lendings, pairs)
+        const lendingTradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
 
-        dispatch(actionCreators.initOrdersTable(orders))
-        dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+        dispatch(lendingActionCreators.lendingOrdersInitialized(lendingOrders))
+        // dispatch(actionCreators.updateTradesByAddress(lendingTradesByAddress))
       }
 
       // socket.subscribePrice(currentPair)

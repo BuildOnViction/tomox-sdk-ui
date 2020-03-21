@@ -640,6 +640,39 @@ export const fetchLendingTerms = async _ => {
   return data
 } 
 
+
+export const fetchLendingOrders = async (address) => {
+  const response = await request(`/lending/orders?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingAddressTrades = async (address) => {
+  const response = await request('/lending/trades')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+} 
+
 export const getLendingOrderNonce = async (address: string): Promise<number> => {
   const response = await request(`/lending/nonce?address=${address}`)
 

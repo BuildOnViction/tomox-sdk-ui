@@ -571,6 +571,8 @@ export const lendingOrders = createReducer(action => {
   switch (type) {
     case lendingOrdersActionTypes.lendingOrdersUpdateLoading:
       return lendingOrdersEvents.lendingOrdersUpdateLoading(payload)
+    case lendingOrdersActionTypes.lendingOrdersInitialized:
+      return lendingOrdersEvents.lendingOrdersInitialized(payload)
     default:
       return lendingOrdersEvents.initialized()
   }

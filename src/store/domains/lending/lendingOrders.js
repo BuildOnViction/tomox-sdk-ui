@@ -1,8 +1,6 @@
 // @flow
 import BigNumber from 'bignumber.js'
 
-import type { Orders, OrdersState } from '../../types/orders'
-
 const initialState = {
   loading: false,
   byHash: {},
@@ -13,8 +11,8 @@ export const initialized = () => {
   return event
 }
 
-export function ordersInitialized(orders: Orders) {
-  const event = (state: OrdersState) => {
+export function lendingOrdersInitialized(orders) {
+  const event = (state) => {
     const newState = orders.reduce((result, item) => {
       result[item.hash] = {
         ...state[item.hash],
