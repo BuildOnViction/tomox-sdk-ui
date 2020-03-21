@@ -129,8 +129,8 @@ export default function tradesDomain(state: TradesState) {
     userTrades: (address: string) => {
       let trades = getTrades(state, 'address')
       const isUserTrade = (trade: Trade) =>
-        trade.taker.toLowerCase() === address.toLowerCase() 
-        || trade.maker.toLowerCase() === address.toLowerCase()
+        trade.borrower.toLowerCase() === address.toLowerCase() 
+        || trade.investor.toLowerCase() === address.toLowerCase()
 
       trades = trades.filter(trade => isUserTrade(trade))
       trades = sortTable(trades, 'time', 'desc')

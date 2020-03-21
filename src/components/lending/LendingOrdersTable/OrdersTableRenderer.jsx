@@ -48,7 +48,7 @@ const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
-const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
+const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
 
 const OrdersTableRenderer = (props: Props) => {
   const hasScrollBar = (orders) => {
@@ -77,9 +77,7 @@ const OrdersTableRenderer = (props: Props) => {
       <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
-          title={<FormattedMessage 
-            id="exchangePage.openOrders"
-            values={{numberOfOrders: orders['processing'].length}} />}
+          title={`Open(${orders['processing'].length})`}
           panel={
             <OrdersTablePanel
               loading={loading}
@@ -114,12 +112,30 @@ const OrdersTableRenderer = (props: Props) => {
           }
         />
         <Tab
+          id="open-trades"
+          title="Matched"
+          panel={
+            <OpenTradesTable
+              loading={loading}
+              orders={trades['processing']}
+              cancelOrder={cancelOrder}
+              selectedTabId={selectedTabId}
+              isHideOtherPairs={isHideOtherPairs}
+              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              hasScrollBar={hasScrollBar(trades)}
+              authenticated={authenticated}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
+            />
+          }
+        />
+        <Tab
           id="trade-history"
           title={<FormattedMessage id="exchangePage.tradeHistory" />}
           panel={
             <OrdersTablePanel
               loading={loading}
-              orders={trades}
+              orders={trades['finished']}
               cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
               isHideOtherPairs={isHideOtherPairs}
@@ -143,62 +159,18 @@ const OrdersTableRenderer = (props: Props) => {
   )
 }
 
-const OrdersTablePanel = (props: {
-  loading: boolean,
-  orders: Array<Order>,
-  cancelOrder: string => void,
-  selectedTabId: String,
-  isHideOtherPairs: String,
-  handleChangeHideOtherPairs: string => void,
-  hasScrollBar: Boolean,
-  authenticated: Boolean,
-}) => {
-  const { 
-    loading, 
-    orders, 
-    cancelOrder, 
-    selectedTabId, 
-    isHideOtherPairs, 
-    handleChangeHideOtherPairs, 
-    hasScrollBar,
-    authenticated,
-    pricePrecision,
-    amountPrecision,
-  } = props
-  
+const OrdersTablePanel = ({loading, selectedTabId, ...rest}) => {
   if (loading) return <Loading />
 
   switch(selectedTabId) {
     case 'open-orders':
-      return (<OpenOrderTable 
-                orders={orders} 
-                cancelOrder={cancelOrder} 
-                isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar}
-                authenticated={authenticated}
-                pricePrecision={pricePrecision}
-                amountPrecision={amountPrecision} />)
+      return (<OpenOrderTable {...rest} />)
     case 'order-history':
-      return (<OrderHistoryTable 
-                orders={orders} 
-                cancelOrder={cancelOrder}
-                isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar}
-                authenticated={authenticated}
-                pricePrecision={pricePrecision}
-                amountPrecision={amountPrecision} />)
+      return (<OrderHistoryTable {...rest} />)
+    case 'open-trades':
+      return (<OpenTradesTable {...rest} />)
     case 'trade-history':
-      return (<TradeHistoryTable 
-                orders={orders} 
-                cancelOrder={cancelOrder}
-                isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                hasScrollBar={hasScrollBar}
-                authenticated={authenticated}
-                pricePrecision={pricePrecision}
-                amountPrecision={amountPrecision} />)
+      return (<TradeHistoryTable {...rest} />)
     default:
       return (<div></div>)
   }
@@ -405,15 +377,15 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsTradeHistory[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {BigNumber(order.price).toFormat()}
+        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+          {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
         <Cell width={widthColumnsTradeHistory[4]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[5]} muted>
+        {/* <Cell width={widthColumnsTradeHistory[5]} muted>
           {BigNumber(order.total).toFormat()}
-        </Cell>
+        </Cell> */}
       </Row>
     )
   }  
@@ -428,7 +400,70 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
+        {/* <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
+      </ListHeader>
+
+      <ListBodyWrapper>
+        {!authenticated && <LoginMessage />}
+        {authenticated && (
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                width={width}
+                height={height}
+                rowCount={orders.length}
+                rowHeight={rowHeight}
+                rowRenderer={_rowRenderer}
+                noRowsRenderer={_noTradeRowsRenderer}
+                overscanRowCount={overscanRowCount}
+              />
+            )}
+          </AutoSizer>
+        )}
+      </ListBodyWrapper>
+    </ListContainer>
+  )
+}
+
+const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
+  const _rowRenderer = ({index, key, style}: *) => {
+    const order = orders[index]
+    
+    return (
+      <Row key={index} style={style}>
+        <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
+          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[2]} muted>
+          {ORDERTYPES[order.type]}
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+          {BigNumber(order.interest).toFormat(2)}&#37;
+        </Cell>
+        <Cell width={widthColumnsTradeHistory[4]} muted>
+          {BigNumber(order.amount).toFormat()}
+        </Cell>
+        {/* <Cell width={widthColumnsTradeHistory[5]} muted>
+          {BigNumber(order.total).toFormat()}
+        </Cell> */}
+      </Row>
+    )
+  }  
+
+  return (
+    <ListContainer>
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
+      <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
+        <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
+        {/* <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
       </ListHeader>
 
       <ListBodyWrapper>

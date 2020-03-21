@@ -77,10 +77,28 @@ class OrdersTable extends React.PureComponent<Props, State> {
   filterTrades = () => {
     const { trades, currentPair: { pair }} = this.props
     const { isHideOtherPairs } = this.state
-    let result = trades
+    const result = {}
+
+    result['finished'] = trades.filter(trade => {
+      return (trade.status !== 'OPEN')
+    })
+
+    result['processing'] = trades.filter(trade => {
+      return (trade.status === 'OPEN')
+    })
+
+    for (const property in result) {
+      result[property] = sortTable(result[property], 'time', (a, b) => {
+        // sort by DESC
+        return a < b ? 1 : -1
+      })
+    }
 
     if (isHideOtherPairs) {
-      result = result.filter(trade => trade.pair === pair)
+      for (const property in result) {
+        result[property] = result[property].filter(order => order.pair === pair)
+      }
+
       return result
     }
 
