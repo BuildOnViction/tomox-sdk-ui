@@ -28,6 +28,7 @@ import tokenPairsActionsTypes from './actions/tokenPairs'
 import orderActionsTypes from './actions/orders'
 import lendingTokensActionTypes from './actions/lending/lendingTokens'
 import lendingOrdersActionTypes from './actions/lending/lendingOrders'
+import lendingTradesActionTypes from './actions/lending/lendingTrades'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -522,6 +523,8 @@ export const lendingTrades = createReducer(action => {
       return lendingTradeEvents.tradesInitialized(payload.trades)
     case socketControllerActionTypes.updateLendingTradesTable:
       return lendingTradeEvents.tradesUpdated(payload.trades)
+    case lendingTradesActionTypes.tradesByAddressInitialized:
+      return lendingTradeEvents.tradesByAddressUpdated(payload)
     default:
       return lendingTradeEvents.initialized()
   }
@@ -571,8 +574,8 @@ export const lendingOrders = createReducer(action => {
   switch (type) {
     case lendingOrdersActionTypes.lendingOrdersUpdateLoading:
       return lendingOrdersEvents.lendingOrdersUpdateLoading(payload)
-    case lendingOrdersActionTypes.lendingOrdersInitialized:
-      return lendingOrdersEvents.lendingOrdersInitialized(payload)
+    case lendingOrdersActionTypes.ordersInitialized:
+      return lendingOrdersEvents.ordersInitialized(payload)
     default:
       return lendingOrdersEvents.initialized()
   }

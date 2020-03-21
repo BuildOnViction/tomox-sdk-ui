@@ -10,7 +10,8 @@ import {
 } from '../../domains'
 
 import * as actionCreators from '../../actions/tradingPage'
-import * as lendingActionCreators from '../../actions/lending/lendingOrders'
+import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
+import * as lendingTradesActionCreators from '../../actions/lending/lendingTrades'
 import * as notifierActionCreators from '../../actions/app'
 
 import type { State, ThunkAction } from '../../types'
@@ -92,11 +93,11 @@ export const queryTradingPageData = (): ThunkAction => {
           api.fetchLendingAddressTrades(userAddress), 
         ])
 
-        const lendingOrders = parseLendingOrders(ordersResult.lendings, pairs)
-        const lendingTradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
+        const orders = parseLendingOrders(ordersResult.lendings)
+        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades)
 
-        dispatch(lendingActionCreators.lendingOrdersInitialized(lendingOrders))
-        // dispatch(actionCreators.updateTradesByAddress(lendingTradesByAddress))
+        dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
+        dispatch(lendingTradesActionCreators.tradesByAddressInitialized(tradesByAddress))
       }
 
       // socket.subscribePrice(currentPair)

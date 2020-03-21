@@ -442,5 +442,34 @@ export const parseLendingOrders = (orders) => {
 
 export const parseLendingTradesByAddress = (userAddress, trades) => {
 
+  const parsed = trades.map(trade => {
+    return {
+      amount: parseLendingAmount(trade.amount),
+      borrower: trade.borrower,
+      borrowingFee: trade.borrowingFee,
+      borrowingOrderHash: trade.borrowingOrderHash,
+      borrowRelayer: trade.borrowRelayer,
+      collateralPrice: trade.collateralPrice,
+      collateralToken: trade.collateralToken,
+      createdAt: trade.createdAt,
+      depositRate: trade.depositRate,
+      hash: trade.hash,
+      interest: parseInterest(trade.interest),
+      investingFee: trade.investingFee,
+      investingOrderHash: trades.investingOrderHash,
+      investingRelayer: trades.investingRelayer,
+      investor: trade.investor,
+      lendingToken: trade.lendingToken,
+      liquidationPrice: trade.liquidationPrice,
+      liquidationTime: trade.liquidationTime,
+      status: trade.status,
+      takerOrderSide: trade.takerOrderSide,
+      takerOrderType: trade.takerOrderType,
+      term: trade.term,
+      updatedAt: trade.updatedAt,
+    }
+  })
+
+  return parsed
 }
 

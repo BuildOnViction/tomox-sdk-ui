@@ -11,7 +11,7 @@ export const initialized = () => {
   return event
 }
 
-export function lendingOrdersInitialized(orders) {
+export function ordersInitialized(orders) {
   const event = (state) => {
     const newState = orders.reduce((result, item) => {
       result[item.hash] = {

@@ -1,11 +1,11 @@
 const actionTypes = {
-  lendingOrdersInitialized: 'lendingOrders/LENDING_ORDERS_INITIALIZED',
+  ordersInitialized: 'lendingOrders/ORDERS_INITIALIZED',
   lendingOrdersUpdateLoading: 'lendingOrders/LENDING_ORDERS_UPDATE_LOADING',
 }
 
-export function lendingOrdersInitialized(orders) {
+export function ordersInitialized(orders) {
   return {
-    type: actionTypes.lendingOrdersInitialized,
+    type: actionTypes.ordersInitialized,
     payload: orders,
   }
 }
