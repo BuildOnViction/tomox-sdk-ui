@@ -100,31 +100,32 @@ export const topUpLendingOrder = ({hash, collateralToken}): ThunkAction => {
 
 export const repayLendingOrder = (hash): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
-    try {
+    try {      
       const state = getState()
-      const order = getLendingOrdersDomain(state).getOrderByHash(hash)
       const accountDomain = getAccountDomain(state)
-      const userAddress = accountDomain.address()
       const exchangeAddress = accountDomain.exchangeAddress()
-      const nonce = await api.getLendingOrderNonce(userAddress)
+      const userAddress = accountDomain.address()
+      const trade = getLendingTradesDomain(state).byAddress()[hash]
+      const nonce = await api.getLendingOrderNonce(userAddress)      
 
       let params = {
         userAddress,
         relayerAddress: exchangeAddress,
-        lendingToken: order.lendingToken,
-        term: order.term,
-        tradeId: order.tradeId,
+        lendingToken: trade.lendingToken,
+        term: trade.term,
+        tradeId: trade.tradeId,
         status: 'REPAY',
       }
 
-      params.nonce = String(nonce)
+      params.nonce = String(nonce)      
       params.hash = getRepayLendingHash(params)
-      const orderSigned = await getSigner().signRepayLendingOrder(params)
+      // const orderSigned = await getSigner().signRepayLendingOrder(params)
 
-      api.repayLendingOrder(orderSigned)
-      dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
-    } catch (error) {
-      const message = parseCancelOrderError(error)
+      // await api.repayLendingOrder(orderSigned)
+      // dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
+    } catch (e) {
+      console.log(e)
+      const message = parseCancelOrderError(e)
       return dispatch(appActionCreators.addErrorNotification({ message }))
     }
   }

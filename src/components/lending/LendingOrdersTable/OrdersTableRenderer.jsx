@@ -56,27 +56,13 @@ const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%'
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
 const columnsOpenTrades = ['17%', '20%', '10%', '22%', '15%', '20%']
 
-const OrdersTableRenderer = (props: Props) => {
+const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest }) => {
   const hasScrollBar = (orders) => {
     const tableBodyElm = document.querySelector('.bp3-tab-panel[aria-hidden="false"] .order-table-body')
     const tableBodyHeight = tableBodyElm ? tableBodyElm.scrollHeight : 0
     const contentHeight = orders.length * rowHeight
     return contentHeight > tableBodyHeight
   }
-
-  const {
-    loading,
-    selectedTabId,
-    onChange,
-    cancelOrder,
-    orders,
-    trades,
-    isHideOtherPairs,
-    handleChangeHideOtherPairs,
-    authenticated,
-    pricePrecision,
-    amountPrecision,
-  } = props
 
   return (
     <React.Fragment>
@@ -86,16 +72,10 @@ const OrdersTableRenderer = (props: Props) => {
           title={`Open(${orders['processing'].length})`}
           panel={
             <OrdersTablePanel
-              loading={loading}
               orders={orders['processing']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['processing'])}
-              authenticated={authenticated}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -104,16 +84,10 @@ const OrdersTableRenderer = (props: Props) => {
           title={<FormattedMessage id="exchangePage.orderHistory" />}
           panel={
             <OrdersTablePanel
-              loading={loading}
               orders={orders['finished']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(orders['finished'])}
-              authenticated={authenticated}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -122,16 +96,10 @@ const OrdersTableRenderer = (props: Props) => {
           title="Matched"
           panel={
             <OpenTradesTable
-              loading={loading}
               orders={trades['processing']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(trades)}
-              authenticated={authenticated}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -140,16 +108,10 @@ const OrdersTableRenderer = (props: Props) => {
           title={<FormattedMessage id="exchangePage.tradeHistory" />}
           panel={
             <OrdersTablePanel
-              loading={loading}
               orders={trades['finished']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
               hasScrollBar={hasScrollBar(trades)}
-              authenticated={authenticated}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -299,7 +261,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsOrderHistory[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+        <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumnsOrderHistory[4]} muted>
@@ -383,7 +345,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsTradeHistory[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
         <Cell width={widthColumnsTradeHistory[4]} muted>
@@ -431,12 +393,20 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
-const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
+const OpenTradesTable = ({
+  orders, 
+  isHideOtherPairs, 
+  handleChangeHideOtherPairs, 
+  hasScrollBar, 
+  authenticated, 
+  onSelectTrade,
+  toggleRepayModal,
+}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
     
     return (
-      <Row key={index} style={style}>
+      <Row key={index} style={style} onClick={() => onSelectTrade(order.hash)}>
         <Cell width={columnsOpenTrades[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
@@ -446,14 +416,14 @@ const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHid
         <Cell width={columnsOpenTrades[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={columnsOpenTrades[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+        <Cell width={columnsOpenTrades[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
         <Cell width={columnsOpenTrades[4]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
         <Cell width={columnsOpenTrades[5]} muted>
-          <Popover content={<ActionsMenu />} position={Position.TOP}>
+          <Popover content={<ActionsMenu toggleRepayModal={toggleRepayModal} />} position={Position.TOP}>
               <MoreButton icon="more" />
           </Popover>
         </Cell>
@@ -496,11 +466,12 @@ const OpenTradesTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHid
   )
 }
 
-const ActionsMenu = () => {
+const ActionsMenu = ({ toggleRepayModal }) => {
+  
   return (
     <Menu>
       <MenuItem text="Top up" />
-      <MenuItem text="Repay" />
+      <MenuItem onClick={() => toggleRepayModal(true)} text="Repay" />
     </Menu>
   )
 }

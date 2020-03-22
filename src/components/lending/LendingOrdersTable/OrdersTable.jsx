@@ -21,8 +21,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
   state = {
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
-    pricePrecision: 4,
-    amountPrecision: 4,
+    isOpenRepay: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -108,12 +107,25 @@ class OrdersTable extends React.PureComponent<Props, State> {
     return result
   }
 
+  handleSelectTrade = (hash) => {
+    this.setState({
+      tradeSelected: hash,
+    })
+  }
+
+  toggleRepayModal = status => {
+
+    this.setState({
+      isOpenRepay: status,
+    })
+  }
+
   render() {
-    const { authenticated, orders, cancelOrder } = this.props
-    const { selectedTabId, isHideOtherPairs, pricePrecision, amountPrecision } = this.state
+    const { authenticated, orders, cancelOrder, repayLendingOrder } = this.props
+    const { selectedTabId, isHideOtherPairs, tradeSelected, isOpenRepay } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
-    const loading = !orders
+    const loading = !orders     
         
     return (
       <>
@@ -127,14 +139,16 @@ class OrdersTable extends React.PureComponent<Props, State> {
           trades={filteredTrades}
           isHideOtherPairs={isHideOtherPairs}
           handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
-          pricePrecision={pricePrecision}
-          amountPrecision={amountPrecision}
+          onSelectTrade={this.handleSelectTrade}
+          toggleRepayModal={this.toggleRepayModal}
         />
 
-        <RepayModal 
+        <RepayModal
+          size="sm"
           title="Repay your borrowing"
-          isOpen={false}
-          size='sm' />
+          isOpen={isOpenRepay}
+          hash={tradeSelected}
+          onRepay={repayLendingOrder} />
       </>
     )
   }

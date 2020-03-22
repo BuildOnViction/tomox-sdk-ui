@@ -280,6 +280,7 @@ export const DarkMode = {
   notificationBg: '#394362',
   notificationUnreadBg: '#6e7793',
   linkText: '#fff',
+  
   inputBackground: '#1f2538',
   inputBackground2: '#272f48',
   inputColor: '#9ca4ba',

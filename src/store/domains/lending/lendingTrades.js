@@ -124,6 +124,7 @@ const getTrades = (state: TradesState, type: string): Trades => {
 export default function tradesDomain(state: TradesState) {
   return {
     byHash: () => state.byHash,
+    byAddress: () => state.byAddress,
     all: () => getTrades(state),
 
     userTrades: (address: string) => {
