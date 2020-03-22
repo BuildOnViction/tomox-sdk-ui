@@ -658,7 +658,7 @@ export const fetchLendingOrders = async (address) => {
 }
 
 export const fetchLendingAddressTrades = async (address) => {
-  const response = await request(`/lending/trades/history?address=${address}&term=60&lendingToken=0x45c25041b8e6cbd5c963e7943007187c3673c7c9`) //TODO: remove hard code term & lendingToken after @Nghiatt updat this api
+  const response = await request(`/lending/trades/history?address=${address}`)
 
   if (response.status === 400) {
     const { error } = await response.json()
