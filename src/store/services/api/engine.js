@@ -636,8 +636,8 @@ export const fetchLendingTerms = async _ => {
     throw new Error('Server error')
   }
 
-  const { data } = await response.json()
-  return data
+  const { data: { terms }} = await response.json()
+  return terms
 } 
 
 

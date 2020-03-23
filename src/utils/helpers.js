@@ -334,16 +334,29 @@ export const calcPercent = (a: string, b: string, precision: number) => {
   return BigNumber(aFormated).times(100).div(bFormated).toNumber()
 }
 
-export function getLendingPairName(lendingPair) {
-  const [term, lendingToken] = lendingPair.split('::')
+export const getTermSymbol = (term) => {
   const days = (Number(term)/60/60/24)
 
   switch (true) {
     case (days === 1):
-      return `${days.toFixed()} Day/${lendingToken}`
+      return `${days.toFixed()} Day`
     case (days <= 30):
-      return `${days.toFixed()} Days/${lendingToken}`
+      return `${days.toFixed()} Days`
     default:
-      return `${(days/30).toFixed()} Months / ${lendingToken}`
+      return `${(days/30).toFixed()} Months`
   }
+}
+
+export const getLendingPairName = (lendingPair) => {
+  const [term, lendingToken] = lendingPair.split('::')
+  const termSymbol = getTermSymbol(term)
+
+  return `${termSymbol}/${lendingToken}`
+}
+
+export const convertTermsToObjects = (terms: Array<term>) => {
+  return terms.map(term => ({
+    symbol: getTermSymbol(term),
+    term,
+  }))
 }

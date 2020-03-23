@@ -1,8 +1,13 @@
 //@flow
 import aes from 'crypto-js/aes'
 import CryptoJS from 'crypto-js'
+
 import { DEFAULT_NETWORK_ID } from '../../config/environment'
 import { createLocalWalletSigner } from '../services/signer'
+import { quoteTokens } from '../../config/quotes'
+import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
+import { convertTermsToObjects } from '../../utils/helpers'
+
 import {
   getAccountDomain,
   getAccountBalancesDomain,
@@ -11,9 +16,6 @@ import {
   getTokenPairsDomain,
   getNotificationsDomain,
 } from '../domains'
-
-import { quoteTokens } from '../../config/quotes'
-import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
 
 import * as actionCreators from '../actions/walletPage'
 import * as notifierActionCreators from '../actions/app'
@@ -104,9 +106,9 @@ export function queryAppData(): ThunkAction {
       const lendingCollaterals = await api.fetchLendingCollaterals()
       dispatch(lendingTokensCreators.updateLendingCollaterals(lendingCollaterals))
 
-      // TODO: waiting terms api form @Nghiatt
-      // const lendingTerms = await api.fetchLendingTerms()
-      // dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
+      let lendingTerms = await api.fetchLendingTerms()
+      lendingTerms = convertTermsToObjects(lendingTerms)
+      dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
 
       const lendingPairs = await api.fetchLendingPairs()
       dispatch(lendingPairsCreators.updateLendingPairs(lendingPairs))

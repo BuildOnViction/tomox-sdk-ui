@@ -65,12 +65,28 @@ export const updateLendingCollaterals = (collaterals) => {
 }
 
 export const updateLendingTerms = (terms) => {
-    const event = (state) => ({
-        ...state,
-        terms,
-    })
+  const symbols = terms.map(token => token.symbol)
 
-    return event
+  const bySymbol = terms.reduce((result, term) => {
+    result[term.symbol] = term
+    return result
+  }, {})
+
+  const byTerm = terms.reduce((result, term) => {
+    result[term.term] = term
+    return result
+  }, {})
+
+  const event = (state) => ({
+    ...state,
+    terms: {
+      symbols,
+      bySymbol,
+      byTerm,
+    },
+  })
+
+  return event
 }
 
 export default function getLendingTokensDomain(state: TokenState) {
