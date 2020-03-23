@@ -87,7 +87,7 @@ export const topUpLendingOrder = ({hash, collateralToken}): ThunkAction => {
 
       params.nonce = String(nonce)
       params.hash = getTopupLendingHash(params)
-      const orderSigned = await getSigner().signTopUpLendingOrder(params)
+      const orderSigned = await getSigner().signLendingOrder(params)
 
       api.topUpLendingOrder(orderSigned)
       dispatch(appActionCreators.addSuccessNotification({ message: `Top up lending order...` }))
@@ -113,16 +113,16 @@ export const repayLendingOrder = (hash): ThunkAction => {
         relayerAddress: exchangeAddress,
         lendingToken: trade.lendingToken,
         term: trade.term,
-        tradeId: trade.tradeId,
+        tradeId: trade.tradeID,
         status: 'REPAY',
       }
 
-      params.nonce = String(nonce)      
+      params.nonce = String(nonce)    
       params.hash = getRepayLendingHash(params)
-      // const orderSigned = await getSigner().signRepayLendingOrder(params)
+      const orderSigned = await getSigner().signLendingOrder(params)
 
-      // await api.repayLendingOrder(orderSigned)
-      // dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
+      await api.repayLendingOrder(orderSigned)
+      dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
     } catch (e) {
       console.log(e)
       const message = parseCancelOrderError(e)

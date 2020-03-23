@@ -93,7 +93,7 @@ export const sendNewLendingOrder = (order): ThunkAction => {
       params.nonce = String(nonce)
       params.hash = getNewLendingOrderHash(params)
 
-      const orderSigned = await signer.signNewLendingOrder(params)
+      const orderSigned = await signer.signLendingOrder(params)
       socket.sendNewLendingOrderMessage(orderSigned)
     } catch (e) {
       console.log(e)

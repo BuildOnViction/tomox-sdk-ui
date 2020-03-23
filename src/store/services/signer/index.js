@@ -5,7 +5,7 @@ import {
   // signTrade,
   createRawOrder,
   createOrderCancel,
-  signNewLendingOrder,
+  signLendingOrder,
 } from './methods'
 import { createProvider } from '../../../utils/provider'
 import {
@@ -86,7 +86,7 @@ export const addMethodsToSigner = (signer: Signer) => {
   // the first param by default is this signer
   signer.createRawOrder = createRawOrder
   signer.createOrderCancel = createOrderCancel
-  signer.signNewLendingOrder = signNewLendingOrder
+  signer.signLendingOrder = signLendingOrder
 }
 
 export const createMetamaskSigner = async () => {

@@ -735,7 +735,7 @@ export const topUpLendingOrder = async (payload) => {
 
 export const repayLendingOrder = async (payload) => {
   const response = await request(
-    '/lending/topup',
+    '/lending/repay',
     {
       method: 'POST',
       body: JSON.stringify(payload),

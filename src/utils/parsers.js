@@ -467,6 +467,7 @@ export const parseLendingTradesByAddress = (userAddress, trades) => {
       takerOrderSide: trade.takerOrderSide,
       takerOrderType: trade.takerOrderType,
       term: trade.term,
+      tradeID: trade.tradeID,
       updatedAt: trade.updatedAt,
       time: trade.updatedAt,
       type: trade.type || 'LO',

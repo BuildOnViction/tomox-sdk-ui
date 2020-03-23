@@ -107,21 +107,25 @@ class OrdersTable extends React.PureComponent<Props, State> {
     return result
   }
 
-  handleSelectTrade = (hash) => {
+  handleSelectTrade = (hash: String) => {
     this.setState({
       tradeSelected: hash,
     })
   }
 
-  toggleRepayModal = status => {
-
+  toggleRepayModal = (status: Boolean) => {
     this.setState({
       isOpenRepay: status,
     })
   }
 
+  handleRepay = (hash: String) => {
+    this.props.repayLendingOrder(hash)
+    this.toggleRepayModal(false)
+  }
+
   render() {
-    const { authenticated, orders, cancelOrder, repayLendingOrder } = this.props
+    const { authenticated, orders, cancelOrder } = this.props
     const { selectedTabId, isHideOtherPairs, tradeSelected, isOpenRepay } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
@@ -148,7 +152,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
           title="Repay your borrowing"
           isOpen={isOpenRepay}
           hash={tradeSelected}
-          onRepay={repayLendingOrder} />
+          onRepay={this.handleRepay}
+          onClose={this.toggleRepayModal}
+        />
       </>
     )
   }

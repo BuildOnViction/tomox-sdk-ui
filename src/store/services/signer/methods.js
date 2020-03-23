@@ -79,27 +79,7 @@ export const createOrderCancel = async function (
   return orderCancel
 }
 
-// export const signOrder = async function (order: RawOrder): Promise<RawOrder> {
-//   order.hash = getOrderHash(order)
-
-//   const signature = await this.signMessage(utils.arrayify(order.hash))
-//   const { r, s, v } = utils.splitSignature(signature)
-
-//   order.signature = { r, s, v }
-//   return order
-// }
-
-// export const signTrade = async function (trade: Trade): Promise<Trade> {
-//   trade.hash = getTradeHash(trade)
-
-//   const signature = await this.signMessage(utils.arrayify(trade.hash))
-//   const { r, s, v } = utils.splitSignature(signature)
-
-//   trade.signature = { r, s, v }
-//   return trade
-// }
-
-export const signNewLendingOrder = async function(order) {
+export const signLendingOrder = async function(order) {
   const signature = await this.signMessage(utils.arrayify(order.hash))
   const { r, s, v } = utils.splitSignature(signature)
 
