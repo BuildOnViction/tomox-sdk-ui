@@ -30,7 +30,7 @@ export function ordersInitialized(orders) {
   return event
 }
 
-export function ordersUpdated(orders: Orders) {
+export function updateOrders(orders: Orders) {
   const event = (state: OrdersState) => {
     const newState = orders.reduce((result, item) => {
       result[item.hash] = {

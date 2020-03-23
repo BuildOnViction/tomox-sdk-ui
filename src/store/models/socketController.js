@@ -15,9 +15,9 @@ import {
   getTokenPairsDomain,
   getWebsocketDomain,
   getTokenDomain,
+  getLendingOrdersDomain,
 } from '../domains'
 
-// import { queryBalances } from './depositForm'
 import { getSigner } from '../services/signer'
 import {
   parseOrder,
@@ -32,6 +32,7 @@ import {
   parseLendingOrderBookData,
   parseLendingTrades,
   parseLendingPairsData,
+  parseLendingOrders,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -716,27 +717,47 @@ const handleLendingMarketsMessage = (event: WebsocketEvent) => {
 const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
   const { type } = event
 
-  if (type !== 'ORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
-  // dispatch(actionCreators.updateNewNotifications()) 
-  // dispatch(queryAccountBalance()) // Get the balance of tokens
+  if (type !== 'LENDINGORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
+  dispatch(actionCreators.updateNewNotifications()) 
+  dispatch(queryAccountBalance()) // Get the balance of tokens
 
-  // switch (type) {
-  //   case 'ORDER_ADDED':
-  //     return dispatch(handleOrderAdded(event))
-  //   case 'ORDER_CANCELLED':
-  //     return dispatch(handleOrderCancelled(event))
-  //   case 'ORDER_REJECTED':
-  //     return dispatch(handleOrderRejected(event))
-  //   case 'ORDER_MATCHED':
-  //     return dispatch(handleOrderMatched(event))
-  //   case 'ORDER_SUCCESS':
-  //     return dispatch(handleOrderSuccess(event))
-  //   case 'ORDER_PENDING':
-  //     return dispatch(handleOrderPending(event))
-  //   case 'ERROR':
-  //     return dispatch(handleOrderError(event))
-  //   default:
-  //     console.log('Unknown', event)
-  //     return
-  // }
+  switch (type) {
+    case 'LENDINNG_ORDER_ADDED':
+      return dispatch(handleLendingOrderAdded(event))
+    // case 'LENDING_ORDER_CANCELLED':
+    //   return dispatch(handleOrderCancelled(event))
+    // case 'LENDING_ORDER_REJECTED':
+    //   return dispatch(handleOrderRejected(event))
+    // case 'LENDING_ORDER_MATCHED':
+    //   return dispatch(handleOrderMatched(event))
+    // case 'LENDING_ORDER_SUCCESS':
+    //   return dispatch(handleOrderSuccess(event))
+    // case 'LENDING_ORDER_PENDING':
+    //   return dispatch(handleOrderPending(event))
+    case 'ERROR':
+      return dispatch(handleOrderError(event))
+    default:
+      console.log('Unknown', event)
+      return
+  }
 }
+
+function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const byHash = getLendingOrdersDomain(state).byHash()
+      const order: Array<Object> = parseLendingOrders([event.payload])
+
+      dispatch(actionCreators.updateLendingOrders(order))
+      
+      if (!byHash[order.hash]) {
+        dispatch(appActionCreators.addOrderAddedNotification())
+      }
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+
+  }
+} 

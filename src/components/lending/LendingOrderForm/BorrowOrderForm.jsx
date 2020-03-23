@@ -124,12 +124,11 @@ const BorrowOrderForm = props => {
         </InputLabel>
 
         <InputGroupWrapper
-          name="amount"
+          name="amount-collateral"
           onChange={e => onInputChange("BORROW", e)}
           onFocus={e => onInputFocus("BORROW", e)}
           onBlur={e => onInputBlur("BORROW", e)}
-          value={borrowAmount}
-          title={borrowAmount}
+          value=''
           autoComplete="off"
           inputRef={buyAmountInput}
           className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
