@@ -9,6 +9,8 @@ const actionTypes = {
   updateLoadingTokenPair: 'layout/UPDATE_LOADING_TOKEN_PAIR',
   updateExchangeAddress: 'layout/UPDATE_EXCHANGE_ADDRESS',
   updateExchangeFee: 'layout/UPDATE_EXCHANGE_FEE',
+
+  updateLendingPairs: 'layout/UPDATE_LENDING_PAIRS',
 }
 
 export function updateTokenPairs(pairs: TokenPairs): UpdateTokenPairsAction {
@@ -54,6 +56,13 @@ export function updateExchangeFee(
   return {
     type: actionTypes.updateExchangeFee,
     payload: { exchangeFee },
+  }
+}
+
+export function updateLendingPairs(pairs) {
+  return {
+    type: actionTypes.updateLendingPairs,
+    payload: pairs,
   }
 }
 

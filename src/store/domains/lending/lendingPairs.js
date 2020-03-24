@@ -5,6 +5,7 @@ import {
   generateTokenPairs,
   getPairSymbol,
 } from '../../../utils/tokens'
+import { getTermSymbol } from '../../../utils/helpers'
 
 import type {
   TokenPair,
@@ -19,7 +20,7 @@ export const initialized = (customInitialState?: TokenPairState) => {
   const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
   const defaultTokenPair = Object.values(defaultTokenPairs)[0]
   const defaultInitialState: TokenPairState = {
-    byPair: defaultTokenPairs,
+    byPair: {},
     data: {},
     favorites: [],
     currentPair: (defaultTokenPair: any).pair,
@@ -41,21 +42,19 @@ export const currentPairUpdated = (pair: string) => {
   return event
 }
 
-export const tokenPairsUpdated = (pairs: TokenPairs) => {
-  const event = (state: TokenPairState) => {
+export const updatePairs = (pairs) => {
+  const event = (state) => {
     const byPair = pairs.reduce(
       (result, pair) => {
-        const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
+        const termSymbol = getTermSymbol(pair.term)
+        const pairSymbol = `${termSymbol}/${pair.lendingTokenSymbol}`
+
         result[pairSymbol] = {
-          pair: pairSymbol,
-          baseTokenSymbol: pair.baseTokenSymbol,
-          quoteTokenSymbol: pair.quoteTokenSymbol,
-          baseTokenAddress: pair.baseTokenAddress,
-          quoteTokenAddress: pair.quoteTokenAddress,
-          baseTokenDecimals: pair.baseTokenDecimals,
-          quoteTokenDecimals: pair.quoteTokenDecimals,
-          active: pair.active,
-          rank: pair.rank,
+          lendingTokenAddress: pair.lendingTokenAddress,
+          lendingTokenDecimals: pair.lendingTokenDecimals,
+          lendingTokenSymbol: pair.lendingTokenSymbol,
+          termValue: pair.term,
+          termSymbol,
         }
 
         return result
@@ -64,8 +63,8 @@ export const tokenPairsUpdated = (pairs: TokenPairs) => {
     )
 
     const sortedPairs = pairs.map(pair => {
-      const pairSymbol = getPairSymbol(pair.baseTokenSymbol, pair.quoteTokenSymbol)
-      return pairSymbol
+      const termSymbol = getTermSymbol(pair.term)
+      return `${termSymbol}/${pair.lendingTokenSymbol}`
     })
 
     return {
@@ -231,56 +230,19 @@ export default function getLendingPairsDomain(state: TokenPairState) {
     },
 
     getTokenPairsWithDataArray: () => {
-      // const tokenPairData = []
-      // const symbols = state.sortedPairs
+      const tokenPairData = []
+      const symbols = state.sortedPairs
 
-      // symbols.forEach(symbol => {
-      //   if (state.data[symbol] && state.byPair[symbol]) {
-      //     tokenPairData.push({
-      //       ...state.data[symbol],
-      //       ...state.byPair[symbol],
-      //     })
-      //   }
-      // })
-
-      // return tokenPairData
-
-      const pairs = []
-
-      for (const pro in state.data) {
-        pairs.push(state.data[pro])
-      }
-
-      return pairs
-    },
-
-    getSmallChartsData: () => {
-      const { smallChartsData } = state
-      if (!smallChartsData) return null
-
-      const coins = Object.keys(smallChartsData)
-      const newSmallChartsData = []
-
-      for (let i = 0; i < coins.length; i++) {
-        if (!smallChartsData[coins[i]] || smallChartsData[coins[i]].length === 0) return null
-        const lengthPriceArray = smallChartsData[coins[i]].length
-        const volume = +smallChartsData[coins[i]][0].totalVolume
-        const closePrice = +smallChartsData[coins[i]][0].price
-        const openPrice = +smallChartsData[coins[i]][lengthPriceArray - 1].price
-
-        coins[i] = {
-          data: JSON.parse(JSON.stringify(smallChartsData[coins[i]])).reverse(),
-          price: smallChartsData[coins[i]][0].price,
-          change: (closePrice - openPrice)*100/openPrice,
-          volume,
-          code: coins[i],
-          fiatCurrency: smallChartsData[coins[i]][0].fiatCurrency,
+      symbols.forEach(symbol => {
+        if (state.data[symbol] && state.byPair[symbol]) {
+          tokenPairData.push({
+            ...state.data[symbol],
+            ...state.byPair[symbol],
+          })
         }
+      })
 
-        newSmallChartsData.push(coins[i])
-      }
-
-      return newSmallChartsData
+      return tokenPairData
     },
   }
 }

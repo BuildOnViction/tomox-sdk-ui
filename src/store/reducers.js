@@ -538,6 +538,8 @@ export const lendingPairs = createReducerPersist({
 }, action => {
   const { type, payload } = action
   switch (type) {
+    case layoutActionTypes.updateLendingPairs:
+      return lendingPairsEvents.updatePairs(payload)
     case tradingPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case tokenSearcherActionTypes.updateFavorite:

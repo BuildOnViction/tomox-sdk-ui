@@ -26,7 +26,7 @@ type Props = {
   selectedTab: string,
   handleChangeTab: string => void,
   tabs: Array<string>,
-  quoteTokens: Array<string>,
+  // quoteTokens: Array<string>,
   currentReferenceCurrency: string,
   onChangeFilter: Function,
 };

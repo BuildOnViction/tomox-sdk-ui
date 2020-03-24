@@ -5,6 +5,7 @@ import {
   getAccountDomain,
   getTokenPairsDomain,
   getLendingPairsDomain,
+  getLendingTokensDomain,
 } from '../../domains'
 
 import * as actionCreators from '../../actions/lending/lendingMarkets'
@@ -12,9 +13,6 @@ import * as actionCreators from '../../actions/lending/lendingMarkets'
 // import { quoteTokenSymbols as quoteTokens } from '../../../config/quotes'
 
 import type { State, ThunkAction } from '../../../types'
-
-//TODO: remove hardcode && rename to lendingTokens
-const quoteTokens = ['USDT']
 
 export default function marketsTableSelector(state: State) {
   const accountDomain = getAccountDomain(state)
@@ -29,11 +27,13 @@ export default function marketsTableSelector(state: State) {
   //   return tokenPair
   // })
   const pairs = getLendingPairsDomain(state).getTokenPairsWithDataArray()
+  const lendingTokensDomain = getLendingTokensDomain(state)
+  const lendingTokens = lendingTokensDomain.tokenSymbols()
 
   return {
     // loading,
     pairs,
-    quoteTokens,
+    lendingTokens,
     authenticated: accountDomain.authenticated(),
     currentReferenceCurrency: referenceCurrency ? referenceCurrency.symbol : '$',
   }

@@ -8,7 +8,7 @@ import { sortTable } from '../../../utils/helpers'
 
 type Props = {
   pairs: Array<TokenPair>,
-  quoteTokens: Array<string>,
+  lendingTokens: Array<string>,
   redirectToLendingPage: (baseTokenSymbol: string, quoteTokenSymbol: string) => void,
   currentReferenceCurrency: string,
   loading: Boolean,
@@ -32,7 +32,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
   };
 
   handleSearchInputChange = (e: SyntheticInputEvent<>) => {
-    this.setState({ searchInput: e.target.value.trim() })
+    this.setState({ searchInput: e.target.value })
   };
 
   handleChangeTab = (selectedTab: string) => {
@@ -40,16 +40,16 @@ class MarketsTable extends React.PureComponent<Props, State> {
   }
 
   filterTokens = (pairs) => {
-    // const { searchInput, selectedTab, filter, order } = this.state
+    const { searchInput, selectedTab, filter, order } = this.state
 
-    // if (selectedTab.toLowerCase() !== 'all'
-    //   && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.quoteTokenSymbol === selectedTab)
+    if (selectedTab.toLowerCase() !== 'all'
+      && selectedTab.toLowerCase() !== 'favorites') pairs = pairs.filter(pair => pair.lendingTokenSymbol === selectedTab)
 
-    // if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
+    if (selectedTab.toLowerCase() === 'favorites') pairs = pairs.filter(pair => pair.favorited)
     
-    // pairs = searchInput ? pairs.filter(pair => pair.baseTokenSymbol.indexOf(searchInput.toUpperCase()) > -1) : pairs
+    pairs = searchInput ? pairs.filter(pair => pair.termSymbol.toLowerCase().includes(searchInput.toLowerCase())) : pairs
 
-    // if (filter) pairs = sortTable(pairs, filter, order)
+    if (filter) pairs = sortTable(pairs, filter, order)
 
     return pairs
   }
@@ -80,7 +80,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
     const {
       pairs,
       redirectToLendingPage,
-      quoteTokens,
+      lendingTokens,
       currentReferenceCurrency,
       loading,
     } = this.props
@@ -93,7 +93,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
     } = this.state
              
     const filteredPairs = this.filterTokens(pairs)
-    const tabs = ['Favorites', ...quoteTokens, 'All']
+    const tabs = ['Favorites', ...lendingTokens, 'All']
 
     return (
       <MarketsTableRenderer
@@ -101,7 +101,6 @@ class MarketsTable extends React.PureComponent<Props, State> {
         searchInput={searchInput}
         handleSearchInputChange={this.handleSearchInputChange}
         redirectToLendingPage={redirectToLendingPage}
-        quoteTokens={quoteTokens}
         tabs={tabs}
         selectedTab={selectedTab}
         handleChangeTab={this.handleChangeTab}

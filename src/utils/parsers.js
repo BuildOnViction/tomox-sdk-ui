@@ -404,7 +404,7 @@ export const parseLendingPairsData = (pairsData, decimals) => {
     high: parseInterest(item.high),
     low: parseInterest(item.low),
     name: getLendingPairName(item.lendingID.name),
-    lendingTokenAddress: item.lendingID.lendingToken,
+    lendingToken: item.lendingID.lendingToken,
     term: item.lendingID.tern,
     volume: item.volume ? item.volume : 0,
   }))

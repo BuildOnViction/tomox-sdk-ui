@@ -23,7 +23,6 @@ import * as settingsActionCreators from '../actions/settings'
 import * as accountBalancesCreators from '../actions/accountBalances'
 import * as layoutCreators from '../actions/layout'
 import * as lendingTokensCreators from '../actions/lending/lendingTokens'
-import * as lendingPairsCreators from '../actions/lending/lendingPairs'
 
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
@@ -111,7 +110,7 @@ export function queryAppData(): ThunkAction {
       dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
 
       const lendingPairs = await api.fetchLendingPairs()
-      dispatch(lendingPairsCreators.updateLendingPairs(lendingPairs))
+      dispatch(layoutCreators.updateLendingPairs(lendingPairs))
     } catch (e) {
       const message = e.message ? e.message : "Could not connect to Tomochain network"
 
