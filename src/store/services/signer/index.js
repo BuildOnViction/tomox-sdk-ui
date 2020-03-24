@@ -1,11 +1,10 @@
 // @flow
 import { Wallet, utils } from 'ethers'
 import {
-  // signOrder,
-  // signTrade,
   createRawOrder,
   createOrderCancel,
   signLendingOrder,
+  signLendingCancelOrder,
 } from './methods'
 import { createProvider } from '../../../utils/provider'
 import {
@@ -81,12 +80,10 @@ export const createSigner = async (params: UpdateSignerParams): any => {
 
 // this method add extension methods to the current signer
 export const addMethodsToSigner = (signer: Signer) => {
-  // signer.signOrder = signOrder
-  // signer.signTrade = signTrade
-  // the first param by default is this signer
   signer.createRawOrder = createRawOrder
   signer.createOrderCancel = createOrderCancel
   signer.signLendingOrder = signLendingOrder
+  signer.signLendingCancelOrder = signLendingCancelOrder
 }
 
 export const createMetamaskSigner = async () => {

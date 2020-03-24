@@ -166,7 +166,15 @@ const _noOrderRowsRenderer = () => {
   )
 }
 
-const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, hasScrollBar, authenticated, pricePrecision, amountPrecision}) => {
+const OpenOrderTable = ({
+  orders, 
+  cancelOrder, 
+  isHideOtherPairs, 
+  handleChangeHideOtherPairs, 
+  hasScrollBar, 
+  authenticated,
+  cancelLendingOrder,
+}) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
 
@@ -181,7 +189,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
         <Cell width={widthColumns[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+        <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
         <Cell width={widthColumns[4]} muted>
@@ -201,7 +209,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
             <CancelIcon 
               icon="cross" 
               intent="danger" 
-              onClick={() => cancelOrder(order.hash)} />
+              onClick={() => cancelLendingOrder(order.hash)} />
           )}
         </Cell>
       </Row>

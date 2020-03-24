@@ -125,7 +125,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { authenticated, orders, cancelOrder } = this.props
+    const { authenticated, orders, cancelLendingOrder } = this.props
     const { selectedTabId, isHideOtherPairs, tradeSelected, isOpenRepay } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
@@ -138,7 +138,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           selectedTabId={selectedTabId}
           onChange={this.changeTab}
           authenticated={authenticated}
-          cancelOrder={cancelOrder}
+          cancelLendingOrder={cancelLendingOrder}
           orders={filteredOrders}
           trades={filteredTrades}
           isHideOtherPairs={isHideOtherPairs}

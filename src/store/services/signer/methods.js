@@ -86,3 +86,10 @@ export const signLendingOrder = async function(order) {
   order.signature = { R: r, S: s, V: v }
   return order
 }
+
+export const signLendingCancelOrder = async function(orderHashed) {
+  const signature = await this.signMessage(utils.arrayify(orderHashed))
+  const { r, s, v } = utils.splitSignature(signature)
+
+  return { R: r, S: s, V: v }
+}

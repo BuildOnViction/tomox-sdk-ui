@@ -8,6 +8,7 @@ import type { State, ThunkAction } from '../../types'
 import { 
   getTopupLendingHash,
   getRepayLendingHash,
+  getLendingCancelHash,
 } from '../../../utils/crypto'
 import { parseCancelOrderError } from '../../../config/errors'
 import { getSigner } from '../../services/signer'
@@ -48,12 +49,13 @@ export const cancelLendingOrder = (hash): ThunkAction => {
         lendingId: order.lendingId,
         status: 'CANCELLED',
         hash: order.hash,
-        nonce,
       }
 
-      const orderSigned = await getSigner().signCancelLendingOrder(params)
+      params.nonce = String(nonce)
+      const orderHashed = getLendingCancelHash(params)
+      params.signature = await getSigner().signLendingCancelOrder(orderHashed)
 
-      api.cancelLendingOrder(orderSigned)
+      api.cancelLendingOrder(params)
       dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling lending order...` }))
     } catch (error) {
       const message = parseCancelOrderError(error)
