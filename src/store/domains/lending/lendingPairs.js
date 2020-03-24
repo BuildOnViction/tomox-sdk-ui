@@ -33,7 +33,7 @@ export const initialized = (customInitialState?: TokenPairState) => {
   return event
 }
 
-export const currentPairUpdated = (pair: string) => {
+export const updateCurrentPair = (pair: string) => {
   const event = (state: TokenPairState) => ({
     ...state,
     currentPair: pair,
