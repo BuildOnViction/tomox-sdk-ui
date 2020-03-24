@@ -35,7 +35,6 @@ export const initialized = (customInitialState?: TokenPairState) => {
 export const currentPairUpdated = (pair: string) => {
   const event = (state: TokenPairState) => ({
     ...state,
-    currentPairData: (state.currentPair !== pair) ? null : state.currentPairData,
     currentPair: pair,
   })
 

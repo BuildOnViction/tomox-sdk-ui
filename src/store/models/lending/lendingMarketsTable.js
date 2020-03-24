@@ -7,7 +7,7 @@ import {
   getLendingPairsDomain,
 } from '../../domains'
 
-import * as actionCreators from '../../actions/marketsTable'
+import * as actionCreators from '../../actions/lending/lendingMarkets'
 
 // import { quoteTokenSymbols as quoteTokens } from '../../../config/quotes'
 
@@ -41,8 +41,8 @@ export default function marketsTableSelector(state: State) {
 
 export function redirectToLendingPage(lendingPair): ThunkAction {
   return async (dispatch, getState) => {
-    const param = lendingPair.replace(/\s+/g, '').replace('/', '-').toUpperCase()
-    // dispatch(actionCreators.updateCurrentPair(pair))
+    const param = lendingPair.replace(/\s+/g, '_').replace('/', '-').toUpperCase()
+    dispatch(actionCreators.updateCurrentPair(lendingPair))
     dispatch(push(`/lending/${param}`))
   }
 }
