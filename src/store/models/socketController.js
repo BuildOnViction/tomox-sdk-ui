@@ -701,7 +701,7 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
           dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
           if (userTrades.length > 0) {
             userTrades = parseLendingTradesByAddress(userAddress, userTrades)
-            dispatch(actionCreators.updateLendingTradesByAddress(lendingTrades))
+            dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
           }
           break
         default:

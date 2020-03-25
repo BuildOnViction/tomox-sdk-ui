@@ -115,10 +115,10 @@ export const tradesReset = () => {
 
 const getTrades = (state: TradesState, type: string): Trades => {
   if (type === 'address') {
-    return Object.keys(state.byAddress).map(key => state.byAddress[key])
+    return Object.values(state.byAddress)
   }
 
-  return Object.keys(state.byHash).map(key => state.byHash[key])
+  return Object.values(state.byHash)
 }
 
 export default function tradesDomain(state: TradesState) {
