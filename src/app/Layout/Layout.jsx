@@ -211,12 +211,12 @@ class Default extends React.PureComponent<Props, State> {
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
-                  content={<FormattedMessage id="mainMenuPage.trading" />} 
+                  content={<FormattedMessage id="mainMenuPage.spot" />} 
                   position={Position.RIGHT}
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenuPage.trading" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.spot" /></SidebarItemTitle>
               </SidebarItemBox>
             </MarketsLink>
 
