@@ -75,11 +75,11 @@ export const cancelLendingOrder = (hash): ThunkAction => {
   }
 }
 
-export const topUpLendingOrder = ({hash, collateralToken}): ThunkAction => {
+export const topUpLendingOrder = ({hash, collateral}): ThunkAction => {
   return async (dispatch, getState, { socket, api }) => {
     try {
       const state = getState()
-      const order = getLendingOrdersDomain(state).getOrderByHash(hash)
+      const trade = getLendingTradesDomain(state).byAddress()[hash]
       const accountDomain = getAccountDomain(state)
       const userAddress = accountDomain.address()
       const exchangeAddress = accountDomain.exchangeAddress()
@@ -88,23 +88,24 @@ export const topUpLendingOrder = ({hash, collateralToken}): ThunkAction => {
       let params = {
         userAddress,
         relayerAddress: exchangeAddress,
-        lendingToken: order.lendingToken,
-        term: order.term,
-        quantity: order.quantity,
-        tradeId: order.tradeId,
+        lendingToken: trade.lendingToken,
+        term: trade.term,
+        tradeId: trade.tradeID,
         status: 'TOPUP',
       }
 
-      params.quantity = BigNumber(collateralToken.amount)
-                    .multipliedBy(10 ** collateralToken.decimals).toString(10)
+      params.quantity = BigNumber(collateral.amount)
+                    .multipliedBy(10 ** collateral.decimals).toString(10)
 
       params.nonce = String(nonce)
+
       params.hash = getTopupLendingHash(params)
       const orderSigned = await getSigner().signLendingOrder(params)
 
-      api.topUpLendingOrder(orderSigned)
       dispatch(appActionCreators.addSuccessNotification({ message: `Top up lending order...` }))
+      await api.topUpLendingOrder(orderSigned)
     } catch (error) {
+      console.log(error)
       const message = parseCancelOrderError(error)
       return dispatch(appActionCreators.addErrorNotification({ message }))
     }
@@ -134,8 +135,8 @@ export const repayLendingOrder = (hash): ThunkAction => {
       params.hash = getRepayLendingHash(params)
       const orderSigned = await getSigner().signLendingOrder(params)
 
-      await api.repayLendingOrder(orderSigned)
       dispatch(appActionCreators.addSuccessNotification({ message: `Repaying lending order...` }))
+      await api.repayLendingOrder(orderSigned)
     } catch (e) {
       console.log(e)
       const message = parseCancelOrderError(e)

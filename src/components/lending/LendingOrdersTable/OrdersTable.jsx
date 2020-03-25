@@ -134,11 +134,6 @@ class OrdersTable extends React.PureComponent<Props, State> {
     })
   }
 
-  handleTopUp = (hash: String) => {
-    this.props.topUpLendingOrder(hash)
-    this.toggleTopUpModal(false)
-  }
-
   handleSelectCollateral = (collateral) => {
     this.setState({
       collateralSelected: collateral,
@@ -149,6 +144,13 @@ class OrdersTable extends React.PureComponent<Props, State> {
     this.setState({
       topUpAmount: e.target.value,
     })
+  }
+
+  handleTopUp = (hash: String) => {
+    const { collateralSelected, topUpAmount } = this.state
+    const collateral = {...collateralSelected, amount: topUpAmount}
+    this.props.topUpLendingOrder({hash, collateral})
+    this.toggleTopUpModal(false)
   }
 
   render() {
