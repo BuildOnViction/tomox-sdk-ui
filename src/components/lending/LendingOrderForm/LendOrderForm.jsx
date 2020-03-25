@@ -50,12 +50,13 @@ const LendOrderForm = props => {
     authenticated,
     redirectToLoginPage,
     profit,
+    currentPair,
   } = props
 
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> 7 Days/{quoteTokenSymbol}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.pairSymbol}</BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -80,7 +81,7 @@ const LendOrderForm = props => {
           onIncreasePrice={e => handleIncreasePrice(e, "INVEST")}
         />
 
-        <TokenName>%</TokenName>
+        <TokenName>&#37;</TokenName>
       </InputBox>
 
       <InputBox mb="0px">
@@ -107,7 +108,7 @@ const LendOrderForm = props => {
           onIncreaseAmount={e => handleIncreaseAmount(e, "INVEST")}
         />
 
-        <TokenName>USDT</TokenName>
+        <TokenName>{currentPair.lendingTokenSymbol}</TokenName>
 
         {/* {isShowSellMaxAmount && (
           <MaxAmountInfo title={sellMaxAmount}>
@@ -125,7 +126,7 @@ const LendOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.estimatedProfit" />:</Title>
         <Value>
-        <SmallText>{profit ? profit : '--'} USDT</SmallText>
+        <SmallText>{profit} USDT</SmallText>
         </Value>
       </Row>
 
@@ -133,8 +134,8 @@ const LendOrderForm = props => {
         <React.Fragment>
           <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
-            <Value title={`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}>
-              <SmallText>{`${truncateZeroDecimal(BigNumber(baseTokenBalance).toFormat(pricePrecision))} ${baseTokenSymbol}`}</SmallText>
+            <Value title={`${truncateZeroDecimal(currentPair.lendingTokenBalance.availableBalance)} ${currentPair.lendingTokenSymbol}`}>
+              <SmallText>{`${truncateZeroDecimal(currentPair.lendingTokenBalance.availableBalance)} ${currentPair.lendingTokenSymbol}`}</SmallText>
             </Value>
           </Row>
 

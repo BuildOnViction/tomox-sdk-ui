@@ -35,7 +35,7 @@ export default function marketsTableSelector(state: State) {
 
 export function redirectToLendingPage(lendingPair): ThunkAction {
   return async (dispatch, getState) => {
-    const param = lendingPair.replace(/\s+/g, '_').replace('/', '-').toUpperCase()
+    const param = lendingPair.replace(/\s+/g, '_').replace('/', '-')
     dispatch(actionCreators.updateCurrentPair(lendingPair))
     dispatch(push(`/lending/${param}`))
   }

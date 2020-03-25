@@ -36,16 +36,20 @@ type State = {
 export default class TradingPage extends React.PureComponent<Props, State> {
   state = {chartTadId: 'tvchart'}
 
-  componentDidMount() {
+  componentDidMount() {    
     if (this.props.isConnected) {
-      this.props.queryTradingPageData()
+      const {queryTradingPageData, match: {params: {pair}}} = this.props      
+      queryTradingPageData(pair)
     }
   }
 
   componentDidUpdate(prevProps: Props) {
+    console.log(this.props.currenPair, prevProps.currenPair, '===============================================')
+    
     if ((!prevProps.isConnected && this.props.isConnected)
-      || (this.props.currentPairName !== prevProps.currentPairName)) {
-      this.props.queryTradingPageData()
+      || (this.props.currenPair !== prevProps.currenPair)) {        
+      const {queryTradingPageData, match: {params: {pair}}} = this.props
+      queryTradingPageData(pair)
     }
   }
 

@@ -111,7 +111,23 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         : null
     },
     tokenBalance(symbol: string): ?string {
-      return state[symbol] ? state[symbol].balance : null
+      if (!state[symbol]) {
+        return {
+          balance: null,
+          inOrders: null,
+          availableBalance: null,
+        }
+      }
+
+      const balance = BigNumber(state[symbol].balance).toFormat(pricePrecision)
+      const inOrders = BigNumber(state[symbol].inOrders).toFormat(pricePrecision)
+      const availableBalance = BigNumber(state[symbol].availableBalance).toFormat(pricePrecision)
+
+      return {
+        balance,
+        inOrders,
+        availableBalance,
+      }
     },
     numericTokenBalance(symbol: string): ?number {
       return state[symbol] ? Number(state[symbol].balance) : null
@@ -143,6 +159,8 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
       return state[symbol] ? state[symbol].subscribed : false
     },
     getBalancesAndAllowances(tokens: Array<Object>) {
+      if (!tokens) return tokens
+
       return (tokens: any).map(token => {
         return {
           ...token,

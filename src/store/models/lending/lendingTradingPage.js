@@ -1,5 +1,5 @@
 // @flow
-import { push } from 'connected-react-router'
+import { push, useParams } from 'connected-react-router'
 
 import {
   getTokenPairsDomain,
@@ -7,9 +7,11 @@ import {
   getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
+  getLendingPairsDomain,
 } from '../../domains'
 
 import * as actionCreators from '../../actions/tradingPage'
+import * as lendingActionCreators from '../../actions/lending/lendingTradePage'
 import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 import * as lendingTradesActionCreators from '../../actions/lending/lendingTrades'
 import * as notifierActionCreators from '../../actions/app'
@@ -56,11 +58,12 @@ export default function tradingPageSelector(state: State) {
   }
 }
 
-export const queryTradingPageData = (): ThunkAction => {
+export const queryTradingPageData = (pair): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
+
 
       // Unsubscribe socket when change current pair
       // socket.unSubscribePrice()
@@ -68,17 +71,15 @@ export const queryTradingPageData = (): ThunkAction => {
       socket.unsubscribeLendingTrades()      
 
       const state = getState()
-      const pairDomain = getTokenPairsDomain(state)
-      const currentPair = pairDomain.getCurrentPair()
+      const lendingPairsDomain = getLendingPairsDomain(state)
+      const currentPair = lendingPairsDomain.getCurrentPair()
+      const pairName = pair.replace('_', ' ').replace('-', '/')
 
-      let { router: { location: { pathname }}} = state
-      const pairParam = pathname.match(/.*\/(lending|dapp)\/?(.*)$/i)
-      let pairName = (pairParam && pairParam[2]) ? pairParam[2].toUpperCase() : (currentPair.pair ? currentPair.pair : '')
+      //TODO: need to check pairName exist or not
+      if (!currentPair.pairSymbol || pairName.toLowerCase() !== currentPair.pairSymbol.toLowerCase()) {
+        return dispatch(lendingActionCreators.updateCurrentPair(pairName))
+      }
 
-      pathname = pathname.includes('dapp') ? 'dapp' : 'lending'
-      dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
-
-      const pairs = pairDomain.getPairsByCode()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
 
@@ -101,9 +102,12 @@ export const queryTradingPageData = (): ThunkAction => {
       }
 
       // socket.subscribePrice(currentPair)
-      // TODO: remove hardcode
-      socket.subscribeLendingTrades({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
-      socket.subscribeLendingOrderBook({ term: 60, lendingToken: '0x45c25041b8e6CBD5c963E7943007187C3673C7c9' })
+      const subscribeData = {
+        term: Number(currentPair.termValue), 
+        lendingToken: currentPair.lendingTokenAddress,
+      }
+      socket.subscribeLendingTrades(subscribeData)
+      socket.subscribeLendingOrderBook(subscribeData)
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))

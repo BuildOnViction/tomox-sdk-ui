@@ -52,6 +52,7 @@ export const getWalletsDomain = state => walletsDomain(state.wallets)
 export const getNotificationsDomain = state =>
   notificationsDomain(state.notifications)
 export const getConnectionDomain = state => connectionDomain(state.connection)
+
 export const getLendingOrderBookDomain = state => lendingOrderBookDomain(state.lendingOrderBook)
 export const getLendingTradesDomain = state => lendingTradesDomain(state.lendingTrades)
 export const getLendingPairsDomain = state => lendingPairsDomain(state.lendingPairs)

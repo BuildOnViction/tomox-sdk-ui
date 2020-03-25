@@ -98,6 +98,9 @@ export function queryAppData(): ThunkAction {
       const {pairs: pairNames} = addresses
       currentPair = (currentPair && pairNames.includes(currentPair)) ? currentPair : pairNames[0]
       dispatch(actionCreators.updateCurrentPair(currentPair))
+      
+      const lendingPairs = await api.fetchLendingPairs()
+      dispatch(layoutCreators.updateLendingPairs(lendingPairs))
 
       const lendingTokens = await api.fetchLendingTokens()
       dispatch(lendingTokensCreators.updateLendingTokens(lendingTokens))
@@ -108,9 +111,6 @@ export function queryAppData(): ThunkAction {
       let lendingTerms = await api.fetchLendingTerms()
       lendingTerms = convertTermsToObjects(lendingTerms)
       dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
-
-      const lendingPairs = await api.fetchLendingPairs()
-      dispatch(layoutCreators.updateLendingPairs(lendingPairs))
     } catch (e) {
       const message = e.message ? e.message : "Could not connect to Tomochain network"
 

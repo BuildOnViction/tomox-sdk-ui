@@ -11,19 +11,19 @@ import type {
   TokenPair,
   TokenPairs,
   TokenPairState,
-  TokenPairData,
-  TokenPairDataMap,
+  // TokenPairData,
+  // TokenPairDataMap,
   CurrentTokenPairData,
 } from '../../../types/tokens'
 
 export const initialized = (customInitialState?: TokenPairState) => {
-  const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
-  const defaultTokenPair = Object.values(defaultTokenPairs)[0]
+  // const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
+  // const defaultTokenPair = Object.values(defaultTokenPairs)[0]
   const defaultInitialState: TokenPairState = {
     byPair: {},
     data: {},
     favorites: [],
-    currentPair: (defaultTokenPair: any).pair,
+    currentPair: '',
     sortedPairs: [],
     loading: false,
   }
@@ -55,6 +55,7 @@ export const updatePairs = (pairs) => {
           lendingTokenSymbol: pair.lendingTokenSymbol,
           termValue: pair.term,
           termSymbol,
+          pairSymbol,
         }
 
         return result

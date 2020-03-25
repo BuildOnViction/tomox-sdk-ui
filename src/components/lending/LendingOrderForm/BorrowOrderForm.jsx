@@ -52,12 +52,15 @@ const BorrowOrderForm = props => {
     collateralTokens,
     collateralSelected,
     onCollateralSelect,
+    currentPair,
   } = props
 
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> 7 Days/{quoteTokenSymbol}</BaseToken>
+        <BaseToken>
+          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.pairSymbol}
+        </BaseToken>
       </HeaderRow>
 
       <InputBox>
@@ -77,7 +80,7 @@ const BorrowOrderForm = props => {
           className={errorBuy && errorBuy.type === "interest" ? "has-error" : ""}
         />
 
-        <TokenName>%</TokenName>
+        <TokenName>&#37;</TokenName>
 
         <IncreaseAndDecreaseGroup
           type="price"
@@ -103,7 +106,7 @@ const BorrowOrderForm = props => {
           className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
         />
 
-        <TokenName>USDT</TokenName>
+        <TokenName>{currentPair.lendingTokenSymbol}</TokenName>
 
         <IncreaseAndDecreaseGroup
           type="amount"
@@ -159,7 +162,7 @@ const BorrowOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
         <Value>
-          <SmallText>USDT</SmallText>
+          <SmallText>{collateralSelected.symbol}</SmallText>
         </Value>
       </Row>
 
@@ -167,8 +170,8 @@ const BorrowOrderForm = props => {
         <React.Fragment>
           <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
-            <Value title={`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}>
-              <SmallText>{`${truncateZeroDecimal(BigNumber(quoteTokenBalance).toFormat(pricePrecision))} ${quoteTokenSymbol}`}</SmallText>
+            <Value title={`${truncateZeroDecimal(collateralSelected.availableBalance)} ${collateralSelected.symbol}`}>
+              <SmallText>{`${truncateZeroDecimal(collateralSelected.availableBalance)} ${collateralSelected.symbol}`}</SmallText>
             </Value>
           </Row>
 

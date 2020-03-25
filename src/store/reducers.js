@@ -30,6 +30,7 @@ import lendingTokensActionTypes from './actions/lending/lendingTokens'
 import lendingOrdersActionTypes from './actions/lending/lendingOrders'
 import lendingTradesActionTypes from './actions/lending/lendingTrades'
 import lendingMarketsActionTypes from './actions/lending/lendingMarkets'
+import lendingTradePageActionTypes from './actions/lending/lendingTradePage'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -542,6 +543,7 @@ export const lendingPairs = createReducerPersist({
     case layoutActionTypes.updateLendingPairs:
       return lendingPairsEvents.updatePairs(payload)
     case lendingMarketsActionTypes.updateCurrentPair:
+    case lendingTradePageActionTypes.updateCurrentPair:
       return lendingPairsEvents.updateCurrentPair(payload)
     case tokenSearcherActionTypes.updateFavorite:
     case marketsTableActionTypes.updateFavorite:

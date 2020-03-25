@@ -16,45 +16,32 @@ import {
   getAccountDomain,
   getLendingOrdersDomain,
   getLendingTokensDomain,
+  getLendingPairsDomain,
 } from '../../domains/'
 
 export default function getOrderFormSelector(state: State) {
-  const tokenPairsDomain = getTokenPairsDomain(state)
+  // const tokenPairsDomain = getTokenPairsDomain(state)
   const orderBookDomain = getOrderBookDomain(state)
   const lendingOrderDomain = getLendingOrdersDomain(state)
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const accountDomain = getAccountDomain(state)
-  const currentPair = tokenPairsDomain.getCurrentPair()
-  const currentPairData = tokenPairsDomain.getCurrentPairData()
+  const currentPair = getLendingPairsDomain(state).getCurrentPair()
+  currentPair.lendingTokenBalance = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
+  // const currentPairData = tokenPairsDomain.getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
-  const collateralTokens = lendingTokensDomain.collaterals()
-
-  const {
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    baseTokenDecimals,
-    quoteTokenDecimals,
-  } = currentPair
+  let collateralTokens = lendingTokensDomain.collaterals()
+  collateralTokens = accountBalancesDomain.getBalancesAndAllowances(collateralTokens)
 
   const selectedOrder = orderBookDomain.getSelectedOrder()
 
-  const [baseToken, quoteToken] = accountBalancesDomain.getBalancesAndAllowancesBySymbol([baseTokenSymbol, quoteTokenSymbol])
   const authenticated = accountDomain.authenticated()
   const loading = lendingOrderDomain.loading()
-  const baseTokenBalance = baseToken.availableBalance || 0
-  const quoteTokenBalance = quoteToken.availableBalance || 0
   const fee = accountDomain.fee()
-
+  console.log(currentPair, '=================================================')
   return {
     selectedOrder,
     currentPair,
-    currentPairData,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    baseTokenBalance,
-    quoteTokenBalance,
-    baseTokenDecimals,
-    quoteTokenDecimals,
+    // currentPairData,
     authenticated,
     loading,
     fee,
@@ -80,8 +67,8 @@ export const sendNewLendingOrder = (order): ThunkAction => {
         userAddress,
         relayerAddress: exchangeAddress,
         collateralToken: order.collateralToken,
-        lendingToken: order.lendingToken || '0x45c25041b8e6cbd5c963e7943007187c3673c7c9',
-        term: order.term || '60',
+        lendingToken: order.lendingToken,
+        term: order.term,
         interest,
         side: order.side || 'BORROW',
         type: order.type || 'LO',

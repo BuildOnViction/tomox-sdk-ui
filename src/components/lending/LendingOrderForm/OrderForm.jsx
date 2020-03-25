@@ -57,7 +57,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     isShowBuyMaxAmount: false,
     isShowSellMaxAmount: false,
     dirtyPriceForm: false,
-    collateralSelected: this.props.collateralTokens ? this.props.collateralTokens[0] : null,
+    collateralSelected: this.props.collateralTokens ? this.props.collateralTokens[0] : {},
     profit: '',
   }
 
@@ -304,7 +304,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     // }
 
     const { borrowInterest, lendInterest, borrowAmount, lendAmount, collateralSelected } = this.state
-    const { sendNewLendingOrder } = this.props
+    const { currentPair, sendNewLendingOrder } = this.props    
 
     if (side === 'BORROW'){
       const order = {
@@ -312,6 +312,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         amount: borrowAmount, 
         interest: borrowInterest,
         collateralToken: collateralSelected.address,
+        term: currentPair.termValue,
+        lendingToken: currentPair.lendingTokenAddress,
       }
 
       sendNewLendingOrder(order)
@@ -320,7 +322,8 @@ class OrderForm extends React.PureComponent<Props, State> {
         side, 
         amount: lendAmount, 
         interest: lendInterest,
-        collateralToken: collateralSelected.address, //TODO: remove collateral token when update
+        term: currentPair.termValue,
+        lendingToken: currentPair.lendingTokenAddress,
       }
 
       sendNewLendingOrder(order)
@@ -751,6 +754,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         profit,
       },
       props: {
+        currentPair,
         baseTokenSymbol,
         quoteTokenSymbol,
         baseTokenDecimals,
@@ -821,6 +825,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         collateralSelected={collateralSelected}
         onCollateralSelect={handleCollateralSelect}
         profit={profit}
+        currentPair={currentPair}
       />
     )
   }
