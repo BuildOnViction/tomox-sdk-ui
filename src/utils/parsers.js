@@ -447,6 +447,7 @@ export const parseLendingTradesByAddress = (userAddress, trades) => {
     return {
       amount: parseLendingAmount(trade.amount),
       borrower: trade.borrower.toLowerCase(),
+      isBorrower: trade.borrower.toLowerCase() === userAddress.toLowerCase(),
       borrowingFee: trade.borrowingFee,
       borrowingOrderHash: trade.borrowingOrderHash,
       borrowRelayer: trade.borrowRelayer,

@@ -409,6 +409,7 @@ const OpenTradesTable = ({
   authenticated, 
   onSelectTrade,
   toggleRepayModal,
+  toggleTopUpModal,
 }) => {
   const _rowRenderer = ({index, key, style}: *) => {
     const order = orders[index]
@@ -431,9 +432,21 @@ const OpenTradesTable = ({
           {BigNumber(order.amount).toFormat()}
         </Cell>
         <Cell width={columnsOpenTrades[5]} muted>
-          <Popover content={<ActionsMenu toggleRepayModal={toggleRepayModal} />} position={Position.TOP}>
-              <MoreButton icon="more" />
-          </Popover>
+          {
+            order.isBorrower && (
+              <Popover 
+                content={
+                  <ActionsMenu 
+                    toggleRepayModal={toggleRepayModal}
+                    toggleTopUpModal={toggleTopUpModal}
+                  />
+                } 
+                position={Position.TOP}>
+                <MoreButton icon="more" />
+              </Popover>
+            )
+          }
+          
         </Cell>
       </Row>
     )
@@ -474,12 +487,12 @@ const OpenTradesTable = ({
   )
 }
 
-const ActionsMenu = ({ toggleRepayModal }) => {
+const ActionsMenu = ({ toggleRepayModal, toggleTopUpModal }) => {
   
   return (
     <Menu>
-      <MenuItem text="Top up" />
-      <MenuItem onClick={() => toggleRepayModal(true)} text="Repay" />
+      <MenuItem text="Top up" onClick={() => toggleTopUpModal(true)} />
+      <MenuItem text="Repay" onClick={() => toggleRepayModal(true)} />
     </Menu>
   )
 }

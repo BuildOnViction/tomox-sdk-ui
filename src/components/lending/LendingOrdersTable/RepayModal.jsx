@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from '@blueprintjs/core'
 import styled from 'styled-components'
 
+import { ButtonGroup, CancelButton, AcceptButton } from '../../Common'
 import Modal from '../../Modal'
 
 export default function RepayModal({ 
@@ -16,10 +16,12 @@ export default function RepayModal({
             <Typo>Total repay amount: __ USDT</Typo>
             <ButtonGroup>
                 <CancelButton 
+                    width="47%"
                     text="No, let me pay later"
                     onClick={() => onClose(false)}
                 />
-                <RepayButton 
+                <AcceptButton 
+                    width="47%"
                     onClick={() => onRepay(hash)} 
                     text="Yes, I want to repay you" 
                 />
@@ -27,35 +29,6 @@ export default function RepayModal({
         </Modal>
     )
 }
-
-const ButtonGroup = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-
-const BaseButton = styled(Button)`
-    width: 47%;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    color: #fff !important;
-    box-shadow: none !important;
-    background-image: none !important;
-`
-
-const CancelButton = styled(BaseButton)`
-    background-color: #3f4a67 !important;
-    &:hover {
-        background-color: #333c54 !important;
-    }
-`
-
-const RepayButton = styled(BaseButton)`
-    color: #18454e !important
-    background-color: #00e8b5 !important;
-    &:hover {
-        background-color: #00c59a !important;
-    }
-`
 
 const Typo = styled.p`
     margin-bottom: 25px;

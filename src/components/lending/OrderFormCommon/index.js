@@ -1,6 +1,5 @@
 import FractionList from './FractionList'
 import IncreaseAndDecreaseGroup from './IncreaseAndDecreaseGroup'
-import SelectCollaterals from './SelectCollaterals'
 import {
     InputGroupWrapper,
     TokenName,
@@ -41,5 +40,4 @@ export {
     Row,
     Title,
     Value,
-    SelectCollaterals,
 }

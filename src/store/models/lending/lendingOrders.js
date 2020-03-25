@@ -2,7 +2,14 @@
 import BigNumber from 'bignumber.js'
 
 import * as appActionCreators from '../../actions/app'
-import { getLendingOrdersDomain, getLendingTradesDomain, getAccountDomain, getTokenPairsDomain } from '../../domains'
+import { 
+  getLendingOrdersDomain, 
+  getLendingTradesDomain, 
+  getAccountDomain, 
+  getTokenPairsDomain,
+  getLendingTokensDomain,
+  getAccountBalancesDomain,
+} from '../../domains'
 import type { State, ThunkAction } from '../../types'
 
 import { 
@@ -21,6 +28,9 @@ export default function ordersTableSelector(state: State) {
   const trades = getLendingTradesDomain(state).userTrades(address)
   const currentPair = getTokenPairsDomain(state).getCurrentPair()
   const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
+  const lendingTokensDomain = getLendingTokensDomain(state)
+  let collaterals = lendingTokensDomain.collaterals()
+  collaterals = getAccountBalancesDomain(state).getBalancesAndAllowances(collaterals)
 
   return {
     orders,
@@ -28,6 +38,7 @@ export default function ordersTableSelector(state: State) {
     currentPair,
     currentPairData,
     authenticated,
+    collaterals,
   }
 }
 

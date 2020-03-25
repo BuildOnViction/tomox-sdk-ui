@@ -5,6 +5,7 @@ import { sortTable } from '../../../utils/helpers'
 
 import OrdersTableRenderer from './OrdersTableRenderer'
 import RepayModal from './RepayModal'
+import TopUpModal from './TopUpModal'
 
 type Props = {
   orders: Array<Order>,
@@ -22,6 +23,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
     isOpenRepay: false,
+    isOpenTopUp: false,
+    collateralSelected: this.props.collaterals ? this.props.collaterals[0] : {},
+    topUpAmount: '',
   }
 
   componentDidUpdate(prevProps) {
@@ -124,12 +128,50 @@ class OrdersTable extends React.PureComponent<Props, State> {
     this.toggleRepayModal(false)
   }
 
+  toggleTopUpModal = (status: Boolean) => {
+    this.setState({
+      isOpenTopUp: status,
+    })
+  }
+
+  handleTopUp = (hash: String) => {
+    this.props.topUpLendingOrder(hash)
+    this.toggleTopUpModal(false)
+  }
+
+  handleSelectCollateral = (collateral) => {
+    this.setState({
+      collateralSelected: collateral,
+    })
+  }
+
+  handleChangeTopUpAmount = (e) => {
+    this.setState({
+      topUpAmount: e.target.value,
+    })
+  }
+
   render() {
-    const { authenticated, orders, cancelLendingOrder } = this.props
-    const { selectedTabId, isHideOtherPairs, tradeSelected, isOpenRepay } = this.state
+    const { 
+      authenticated, 
+      orders, 
+      cancelLendingOrder,
+      collaterals,
+    } = this.props
+
+    const { 
+      selectedTabId, 
+      isHideOtherPairs, 
+      tradeSelected,
+      isOpenRepay, 
+      isOpenTopUp, 
+      collateralSelected,
+      topUpAmount,
+    } = this.state
+
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
-    const loading = !orders     
+    const loading = !orders        
         
     return (
       <>
@@ -145,6 +187,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
           onSelectTrade={this.handleSelectTrade}
           toggleRepayModal={this.toggleRepayModal}
+          toggleTopUpModal={this.toggleTopUpModal}
         />
 
         <RepayModal
@@ -154,6 +197,20 @@ class OrdersTable extends React.PureComponent<Props, State> {
           hash={tradeSelected}
           onRepay={this.handleRepay}
           onClose={this.toggleRepayModal}
+        />
+
+        <TopUpModal
+          size="sm"
+          title="Top up collateral to secure your loan"
+          isOpen={isOpenTopUp}
+          hash={tradeSelected}
+          collaterals={collaterals}
+          collateralSelected={collateralSelected}
+          onSelectCollateral={this.handleSelectCollateral}
+          topUpAmount={topUpAmount}
+          onChangeAmount={this.handleChangeTopUpAmount}
+          onTopUp={this.handleTopUp}
+          onClose={this.toggleTopUpModal}
         />
       </>
     )

@@ -10,15 +10,9 @@ import
 from '../../../store/models/lending/lendingOrders'
 
 export const mapStateToProps = (state: State) => {
-  const { orders, trades, currentPair, currentPairData, authenticated } = lendingOrdersSelector(state)
+  const data = lendingOrdersSelector(state)
 
-  return {
-    orders,
-    trades,
-    currentPair,
-    currentPairData,
-    authenticated,
-  }
+  return {...data}
 }
 
 export const mapDispatchToProps = { 

@@ -22,7 +22,7 @@ const renderCollateral = (collateral, { handleClick, modifiers }) => {
     )
 }
 
-function SelectCollaterals(props) {
+const SelectCollaterals = (props) => {
     const { activeItem, items, onItemSelect } = props
 
     if (!items) return <StyledButton text="Loading..." />
@@ -58,7 +58,7 @@ const StyledSelect = styled(Select)`
 
 const StyledButton = styled(Button)`
     &.bp3-button {
-        width: 40%;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         color: ${props => props.theme.selectSecondColor} !important;

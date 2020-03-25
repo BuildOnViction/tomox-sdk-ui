@@ -20,8 +20,8 @@ import {
   Row,
   Title,
   Value,
-  SelectCollaterals,
 } from "../OrderFormCommon"
+import SelectCollaterals from '../../SelectCollaterals'
 import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
@@ -126,31 +126,13 @@ const BorrowOrderForm = props => {
           <FormattedMessage id="exchangeLendingPage.orderPlace.selectCollateral" />:
         </InputLabel>
 
-        <InputGroupWrapper
-          name="amount-collateral"
-          onChange={e => onInputChange("BORROW", e)}
-          onFocus={e => onInputFocus("BORROW", e)}
-          onBlur={e => onInputBlur("BORROW", e)}
-          value=''
-          autoComplete="off"
-          inputRef={buyAmountInput}
-          className={errorBuy && errorBuy.type === "amount" ? "has-error" : ""}
-          rightElement={
-            <SelectCollaterals 
-              items={collateralTokens} 
-              activeItem={collateralSelected}
-              onItemSelect={onCollateralSelect} 
-            />
-          }
-        />
-
-        {/* <InputValue>
+        <InputValue>
           <SelectCollaterals 
             items={collateralTokens} 
             activeItem={collateralSelected}
             onItemSelect={onCollateralSelect} 
           />
-        </InputValue> */}
+        </InputValue>
       </InputBox>
 
       {/* <FractionList
