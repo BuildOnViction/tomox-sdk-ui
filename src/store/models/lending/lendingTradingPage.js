@@ -98,7 +98,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
         const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
-        dispatch(lendingTradesActionCreators.tradesByAddressInitialized(tradesByAddress))
+        dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))
       }
 
       // socket.subscribePrice(currentPair)

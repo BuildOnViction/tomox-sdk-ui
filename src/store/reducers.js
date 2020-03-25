@@ -525,7 +525,8 @@ export const lendingTrades = createReducer(action => {
       return lendingTradeEvents.tradesInitialized(payload.trades)
     case socketControllerActionTypes.updateLendingTradesTable:
       return lendingTradeEvents.tradesUpdated(payload.trades)
-    case lendingTradesActionTypes.tradesByAddressInitialized:
+    case socketControllerActionTypes.updateLendingTradesByAddress:
+    case lendingTradesActionTypes.updateTradesByAddress:
       return lendingTradeEvents.tradesByAddressUpdated(payload)
     default:
       return lendingTradeEvents.initialized()

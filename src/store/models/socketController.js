@@ -33,6 +33,7 @@ import {
   parseLendingTrades,
   parseLendingPairsData,
   parseLendingOrders,
+  parseLendingTradesByAddress,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -680,10 +681,15 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
     const tokenAddress = event.payload[0].lendingToken.toLowerCase()
     const state = getState()
     const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
+    const userAddress = getAccountDomain(state).address()
     const decimals = token ? token.decimals : 18
 
     let lendingTrades = event.payload
-
+    let userTrades = lendingTrades.filter(trade => 
+      (trade.investor.toLowerCase() === userAddress.toLowerCase())
+      || (trade.borrower.toLowerCase() === userAddress.toLowerCase())
+    )
+    
     try {
       switch (event.type) {
         case 'INIT':
@@ -693,6 +699,10 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
         case 'UPDATE':
           lendingTrades = parseLendingTrades(lendingTrades, decimals)
           dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
+          if (userTrades.length > 0) {
+            userTrades = parseLendingTradesByAddress(userAddress, userTrades)
+            dispatch(actionCreators.updateLendingTradesByAddress(lendingTrades))
+          }
           break
         default:
           return

@@ -62,6 +62,7 @@ const actionTypes = {
 
   initLendingTradesTable: 'socketController/INIT_LENDING_TRADES_TABLE',
   updateLendingTradesTable: 'socketController/UPDATE_LENDING_TRADES_TABLE',
+  updateLendingTradesByAddress: 'socketController/UPDATE_LENDING_TRADES_BY_ADDRESS',
 
   updateLendingPairsData: 'socketController/UPDATE_LENDING_PAIRS_DATA',
 
@@ -276,6 +277,13 @@ export function updateLendingTradesTable(trades) {
     payload: {
       trades,
     },
+  }
+}
+
+export function updateLendingTradesByAddress(trades) {
+  return {
+    type: actionTypes.updateLendingTradesByAddress,
+    payload: trades,
   }
 }
 

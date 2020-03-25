@@ -1,10 +1,10 @@
 const actionTypes = {
-  tradesByAddressInitialized: 'lendingTrades/TRADES_BY_ADDRESS_INITIALIZED',
+  updateTradesByAddress: 'lendingTrades/UPDATE_TRADES_BY_ADDRESS',
 }
 
-export function tradesByAddressInitialized(trades) {
+export function updateTradesByAddress(trades) {
   return {
-    type: actionTypes.tradesByAddressInitialized,
+    type: actionTypes.updateTradesByAddress,
     payload: trades,
   }
 }

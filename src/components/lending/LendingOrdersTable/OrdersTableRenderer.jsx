@@ -93,7 +93,7 @@ const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest 
         />
         <Tab
           id="open-trades"
-          title="Matched"
+          title={`Matched(${trades['processing'].length})`}
           panel={
             <OpenTradesTable
               orders={trades['processing']}

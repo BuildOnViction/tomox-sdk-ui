@@ -37,7 +37,6 @@ export default function getOrderFormSelector(state: State) {
   const authenticated = accountDomain.authenticated()
   const loading = lendingOrderDomain.loading()
   const fee = accountDomain.fee()
-  console.log(currentPair, '=================================================')
   return {
     selectedOrder,
     currentPair,
