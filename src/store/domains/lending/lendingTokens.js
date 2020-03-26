@@ -102,5 +102,11 @@ export default function getLendingTokensDomain(state: TokenState) {
     collateralSymbols: _ => state.collaterals ? state.collaterals.symbols : [],
     collateralsBySymbol: _ => state.collaterals ? state.collaterals.bySymbol : [],
     getCollateralByAddress: address => state.collaterals ? state.collaterals.byAddress[address] : null,
+
+    // lending collaterals
+    terms: _ => state.terms ? Object.values(state.terms.bySymbol) : null,
+    termsSymbols: _ => state.terms ? state.terms.symbols : [],
+    termsBySymbol: _ => state.terms ? state.terms.bySymbol : [],
+    getTermByValue: value => state.terms ? state.terms.byTerm[value] : null,
   }
 }

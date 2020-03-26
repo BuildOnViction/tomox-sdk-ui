@@ -24,13 +24,39 @@ export default function ordersTableSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   const address = accountDomain.address()
   const authenticated = accountDomain.authenticated()
-  const orders = getLendingOrdersDomain(state).lastOrders(100)
-  const trades = getLendingTradesDomain(state).userTrades(address)
+  let orders = getLendingOrdersDomain(state).lastOrders(100)
+  let trades = getLendingTradesDomain(state).userTrades(address)
   const currentPair = getTokenPairsDomain(state).getCurrentPair()
   const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
   let collaterals = lendingTokensDomain.collaterals()
   collaterals = getAccountBalancesDomain(state).getBalancesAndAllowances(collaterals)
+
+  orders = orders.map(order => {
+    const term = lendingTokensDomain.getTermByValue(order.term)
+    const lendingToken = lendingTokensDomain.getTokenByAddress(order.lendingToken)
+    const collateral = lendingTokensDomain.getCollateralByAddress(order.collateralToken)
+
+    return {
+      ...order,
+      termSymbol: term ? term.symbol : '',
+      lendingTokenSymbol: lendingToken ? lendingToken.symbol : '',
+      collateralTokenSymbol: collateral ? collateral.symbol : '',
+    }
+  })
+
+  trades = trades.map(trade => {
+    const term = lendingTokensDomain.getTermByValue(trade.term)
+    const lendingToken = lendingTokensDomain.getTokenByAddress(trade.lendingToken)
+    const collateral = lendingTokensDomain.getCollateralByAddress(trade.collateralToken)
+
+    return {
+      ...trade,
+      termSymbol: term ? term.symbol : '',
+      lendingTokenSymbol: lendingToken ? lendingToken.symbol : '',
+      collateralTokenSymbol: collateral ? collateral.symbol : '',
+    }
+  })
 
   return {
     orders,

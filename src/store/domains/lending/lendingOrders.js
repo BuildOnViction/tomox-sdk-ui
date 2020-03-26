@@ -97,13 +97,11 @@ export default function ordersDomain(state: OrdersState) {
       let orders: Orders = getOrders(state)
       orders = orders.slice(Math.max(orders.length - n, 0))
       orders = orders.map(order => {
-        const filledPercent = order.filled ? BigNumber(order.filled).times(100).div(order.amount) : 0
-        const total = BigNumber(order.price).times(order.amount).toNumber()
-        const filled = order.filled
+        const filledPercent = order.filledAmount ? BigNumber(order.filledAmount).times(100).div(order.amount) : 0
+        const filled = order.filledAmount
         const amount = order.amount
-        const price = order.price
         const cancelAble = (order.status === 'OPEN' || order.status === 'PARTIAL_FILLED') && (order.orderID !== '0')
-        return { ...order, filledPercent, total, filled, amount, price, cancelAble }
+        return { ...order, filledPercent, filled, amount, cancelAble }
       })
 
       return orders

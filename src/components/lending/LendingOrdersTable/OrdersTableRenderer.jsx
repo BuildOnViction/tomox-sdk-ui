@@ -184,7 +184,7 @@ const OpenOrderTable = ({
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={widthColumns[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
+          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={widthColumns[2]} muted>
           {ORDERTYPES[order.type]}
@@ -225,7 +225,7 @@ const OpenOrderTable = ({
         <HeaderCell width={widthColumns[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
         <HeaderCell width={widthColumns[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={widthColumns[4]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumns[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         {/* <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
         <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
@@ -264,7 +264,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{order.pair}</Link>
+          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={widthColumnsOrderHistory[2]} muted>
           {ORDERTYPES[order.type]}
@@ -300,7 +300,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsOrderHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[4]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumnsOrderHistory[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         {/* <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
         <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
@@ -348,7 +348,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
+          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={widthColumnsTradeHistory[2]} muted>
           {ORDERTYPES[order.type]}
@@ -374,7 +374,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
         {/* <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
       </ListHeader>
@@ -420,7 +420,7 @@ const OpenTradesTable = ({
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={columnsOpenTrades[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{order.pair}</Link>
+          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsOpenTrades[2]} muted>
           {ORDERTYPES[order.type]}
@@ -460,9 +460,9 @@ const OpenTradesTable = ({
         <HeaderCell width={columnsOpenTrades[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades[3]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
+        <HeaderCell width={columnsOpenTrades[5]}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -612,7 +612,6 @@ const LoginLink = styled(InternalLink)`
 `
 
 const MoreButton = styled(Icon)`
-  padding: 7px;
   cursor: pointer;
 `
 

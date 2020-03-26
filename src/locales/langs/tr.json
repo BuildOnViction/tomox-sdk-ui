@@ -153,6 +153,8 @@
   "exchangeLendingPage.orderbook.interest": "Interest(APR)",
   "exchangeLendingPage.orderbook.amount": "Amount({symbol})",
   "exchangeLendingPage.orderbook.totalAmount": "Total({symbol})",
+  "exchangeLendingPage.orders.interest": "Interest",
+  "exchangeLendingPage.orders.actions": "Actions",
   "portfolioPage.send": "Gönder",
   "portfolioPage.receive": "Al",
   "portfolioPage.hideZeroAmounts": "Sıfır tutarları gizle",
