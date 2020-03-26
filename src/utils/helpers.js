@@ -23,6 +23,7 @@ export const relativeDate = (time: number) => {
 }
 
 export const formatDate = (time: number, pattern: string) => {
+  console.log(new Date(time), '========================================')
   const formattedDate = format(new Date(time), pattern)
   return formattedDate
 }

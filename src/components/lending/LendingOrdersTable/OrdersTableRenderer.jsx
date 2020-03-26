@@ -54,7 +54,17 @@ const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
-const columnsOpenTrades = ['17%', '20%', '10%', '22%', '15%', '20%']
+// const columnsOpenTrades = ['17%', '20%', '10%', '22%', '15%', '20%']
+const columnsOpenTrades = {
+  openDate: '16%',
+  closeDate: '16%',
+  pair: '20%',
+  type: '10%',
+  interest: '10%',
+  filled: '15%',
+  collateral: '12%',
+  actions: '5%',
+}
 
 const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest }) => {
   const hasScrollBar = (orders) => {
@@ -416,22 +426,28 @@ const OpenTradesTable = ({
     
     return (
       <Row key={index} style={style} onClick={() => onSelectTrade(order.hash)}>
-        <Cell width={columnsOpenTrades[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsOpenTrades['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={columnsOpenTrades[1]} title={order.pair} muted>
+        <Cell width={columnsOpenTrades['closeDate']} muted>
+          {formatDate(Number(order.liquidationTime)*1000, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={columnsOpenTrades['pair']} title={order.pair} muted>
           <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
-        <Cell width={columnsOpenTrades[2]} muted>
+        <Cell width={columnsOpenTrades['type']} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={columnsOpenTrades[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
+        <Cell width={columnsOpenTrades['interest']} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={columnsOpenTrades[4]} muted>
+        <Cell width={columnsOpenTrades['filled']} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        <Cell width={columnsOpenTrades[5]} muted>
+        <Cell width={columnsOpenTrades['collateral']} muted>
+          {order.collateralTokenSymbol}
+        </Cell>
+        <Cell width={columnsOpenTrades['actions']} muted>
           {
             order.isBorrower && (
               <Popover 
@@ -457,12 +473,14 @@ const OpenTradesTable = ({
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={columnsOpenTrades[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[3]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades[5]}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
+        <HeaderCell width={columnsOpenTrades['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['closeDate']}><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['type']}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>  
+        <HeaderCell width={columnsOpenTrades['actions']}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
