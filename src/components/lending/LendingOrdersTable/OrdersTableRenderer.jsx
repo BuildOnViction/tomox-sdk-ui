@@ -480,16 +480,18 @@ const OpenTradesTable = ({
         <Cell width={columnsOpenTrades['actions']} muted>
           {
             order.isBorrower && (
-              <Popover 
+              <ActionsPopover 
                 content={
                   <ActionsMenu 
                     toggleRepayModal={toggleRepayModal}
                     toggleTopUpModal={toggleTopUpModal}
                   />
                 } 
-                position={Position.TOP}>
+                position={Position.TOP}
+                usePortal={false}
+              >
                 <MoreButton icon="more" />
-              </Popover>
+              </ActionsPopover>
             )
           }
           
@@ -662,6 +664,21 @@ const LoginLink = styled(InternalLink)`
 
 const MoreButton = styled(Icon)`
   cursor: pointer;
+`
+
+const ActionsPopover = styled(Popover)`
+  .bp3-menu {
+    color: ${props => props.theme.menuColor};
+    background-color: ${props => props.theme.menuBg};
+  }
+
+  .bp3-menu-item:hover {
+    background-color: ${props => props.theme.menuBgHover};
+  }
+
+  & .bp3-popover .bp3-popover-arrow-fill {
+    fill: ${props => props.theme.menuBg};
+  }
 `
 
 export default OrdersTableRenderer
