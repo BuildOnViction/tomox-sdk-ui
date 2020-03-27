@@ -84,6 +84,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       const authenticated = accountDomain.authenticated()
 
       if (authenticated) {
+        const pairs = getTokenPairsDomain(state).getPairsArray()
         const userAddress = accountDomain.address()
 
         const [
@@ -95,7 +96,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
         ])
 
         const orders = parseLendingOrders(ordersResult.lendings)
-        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades)
+        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
         dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))

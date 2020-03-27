@@ -7,7 +7,6 @@ import {
   Tabs,
   Checkbox,
   Popover,
-  Button,
   Position,
   Menu,
   MenuItem,
@@ -44,6 +43,11 @@ const STATUS = {
   'REJECTED': <FormattedMessage id='exchangePage.rejected' />,
 }
 
+const TRADE_STATUS = {
+  'CLOSED': <FormattedMessage id='exchangeLendingPage.orders.trade.closed' />,
+  'LIQUIDATED': <FormattedMessage id='exchangeLendingPage.orders.trade.liquidated' />,
+}
+
 const ORDERTYPES = {
   'LO': <FormattedMessage id='exchangePage.limit' />,
   'MO': <FormattedMessage id='exchangePage.market' />,
@@ -53,16 +57,27 @@ const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
-const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
-// const columnsOpenTrades = ['17%', '20%', '10%', '22%', '15%', '20%']
+// const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
+const columnsTradeHistory = {
+  openDate: '12%', 
+  closeDate: '12%',
+  pair: '15%', 
+  type: '10%', 
+  interest: '10%', 
+  filled: '13%',
+  liqPrice: '13%',
+  collateral: '10%',
+  status: '9%',
+}
 const columnsOpenTrades = {
-  openDate: '16%',
-  closeDate: '16%',
-  pair: '20%',
+  openDate: '12%',
+  closeDate: '12%',
+  pair: '18%',
   type: '10%',
   interest: '10%',
   filled: '15%',
-  collateral: '12%',
+  liqPrice: '12%',
+  collateral: '10%',
   actions: '5%',
 }
 
@@ -354,24 +369,33 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     
     return (
       <Row key={index} style={style}>
-        <Cell width={widthColumnsTradeHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsTradeHistory['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[1]} title={order.pair} muted>
+        <Cell width={columnsTradeHistory['closeDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+          {formatDate(order.updatedAt, 'LL-dd HH:mm:ss')}
+        </Cell>
+        <Cell width={columnsTradeHistory['pair']} title={`${order.termSymbol}/${order.lendingTokenSymbol}`} muted>
           <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
-        <Cell width={widthColumnsTradeHistory[2]} muted>
+        <Cell width={columnsTradeHistory['type']} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsTradeHistory[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
+        <Cell width={columnsTradeHistory['interest']} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={widthColumnsTradeHistory[4]} muted>
+        <Cell width={columnsTradeHistory['filled']} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        {/* <Cell width={widthColumnsTradeHistory[5]} muted>
-          {BigNumber(order.total).toFormat()}
-        </Cell> */}
+        <Cell width={columnsTradeHistory['liqPrice']} title={`${order.collateralTokenSymbol}/${order.lendingTokenSymbol}`} muted>
+          {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
+        </Cell>
+        <Cell width={columnsTradeHistory['collateral']} muted>
+          {order.collateralTokenSymbol}
+        </Cell>
+        <Cell width={columnsTradeHistory['status']} muted>
+          {TRADE_STATUS[order.status]}
+        </Cell>
       </Row>
     )
   }  
@@ -381,12 +405,15 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
-        <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
+        <HeaderCell width={columnsTradeHistory['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['openDate']}><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['type']}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['status']}><FormattedMessage id="exchangeLendingPage.orders.status" /></HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper>
@@ -444,6 +471,9 @@ const OpenTradesTable = ({
         <Cell width={columnsOpenTrades['filled']} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
+        <Cell width={columnsOpenTrades['liqPrice']} title={`${order.collateralTokenSymbol}/${order.lendingTokenSymbol}`} muted>
+          {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
+        </Cell>
         <Cell width={columnsOpenTrades['collateral']} muted>
           {order.collateralTokenSymbol}
         </Cell>
@@ -479,6 +509,7 @@ const OpenTradesTable = ({
         <HeaderCell width={columnsOpenTrades['type']}><FormattedMessage id="exchangePage.type" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>  
         <HeaderCell width={columnsOpenTrades['actions']}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
       </ListHeader>
