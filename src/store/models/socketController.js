@@ -681,19 +681,19 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
     const tokenAddress = event.payload[0].lendingToken.toLowerCase()
     const state = getState()
     const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
-    const accountDomain = getAccountDomain(state)
-    const authenticated = accountDomain.authenticated()
-    const userAddress = accountDomain.address()
+    // const accountDomain = getAccountDomain(state)
+    // const authenticated = accountDomain.authenticated()
+    // const userAddress = accountDomain.address()
     const decimals = token ? token.decimals : 18
 
     let lendingTrades = event.payload
 
-    const isUserTrade = trade => {
-      return (trade.investor.toLowerCase() === userAddress.toLowerCase())
-      || (trade.borrower.toLowerCase() === userAddress.toLowerCase())
-    }
+    // const isUserTrade = trade => {
+    //   return (trade.investor.toLowerCase() === userAddress.toLowerCase())
+    //   || (trade.borrower.toLowerCase() === userAddress.toLowerCase())
+    // }
 
-    let userTrades = authenticated ? lendingTrades.filter(isUserTrade) : []
+    // let userTrades = authenticated ? lendingTrades.filter(isUserTrade) : []
     
     try {
       switch (event.type) {
@@ -704,10 +704,10 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
         case 'UPDATE':
           lendingTrades = parseLendingTrades(lendingTrades, decimals)
           dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
-          if (userTrades.length > 0) {
-            userTrades = parseLendingTradesByAddress(userAddress, userTrades)
-            dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
-          }
+          // if (userTrades.length > 0) {
+          //   userTrades = parseLendingTradesByAddress(userAddress, userTrades)
+          //   dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+          // }
           break
         default:
           return
@@ -737,16 +737,16 @@ const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getSta
   dispatch(queryAccountBalance()) // Get the balance of tokens
 
   switch (type) {
-    case 'LENDINNG_ORDER_ADDED':
+    case 'LENDING_ORDER_ADDED':
       return dispatch(handleLendingOrderAdded(event))
-    // case 'LENDING_ORDER_CANCELLED':
-    //   return dispatch(handleOrderCancelled(event))
+    case 'LENDING_ORDER_CANCELLED':
+      return dispatch(handleLendingOrderCancelled(event))
     // case 'LENDING_ORDER_REJECTED':
     //   return dispatch(handleOrderRejected(event))
     // case 'LENDING_ORDER_MATCHED':
     //   return dispatch(handleOrderMatched(event))
-    // case 'LENDING_ORDER_SUCCESS':
-    //   return dispatch(handleOrderSuccess(event))
+    case 'LENDING_ORDER_SUCCESS':
+      return dispatch(handleLendingOrderSuccess(event))
     // case 'LENDING_ORDER_PENDING':
     //   return dispatch(handleOrderPending(event))
     case 'ERROR':
@@ -775,4 +775,43 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
     }
 
   }
-} 
+}
+
+function handleLendingOrderCancelled(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const order: Array<Object> = parseLendingOrders([event.payload])
+
+      dispatch(actionCreators.updateLendingOrders(order))
+      dispatch(appActionCreators.addOrderCancelledNotification())
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const userAddress = getAccountDomain(state).address()
+      const pairs = getTokenPairsDomain(state).getPairsArray()
+      const matches = event.payload.matches
+      let userOrders = []
+      let userTrades = []
+      const userIsBorrower = matches.borrowing.userAddress.toLowerCase() === userAddress.toLowerCase()
+
+      userOrders  = userIsBorrower 
+        ? parseLendingOrders([matches.borrowing]) 
+        : parseLendingOrders(matches.investing)
+      userTrades = parseLendingTradesByAddress(userAddress, matches.lendingTrades, pairs)
+      
+      if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
+      if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
