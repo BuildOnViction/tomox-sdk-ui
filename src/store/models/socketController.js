@@ -81,8 +81,6 @@ export function openConnection(): ThunkAction {
           return dispatch(handleTradesMessage(event))
         case 'ohlcv':
           return dispatch(handleOHLCVMessage(event))
-        case 'tokens':
-          return handleTokenMessage(dispatch, event, getState)
         case 'price_board':
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
@@ -130,46 +128,6 @@ const handleWebsocketErrorMessage = (
   closeConnection,
 ) => {
   console.log(event)
-}
-
-const handleTokenMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const { type } = event
-  switch (type) {
-    case 'UPDATE':
-      return handleTokenListUpdated(dispatch, event, getState)
-    default:
-      console.log('Unknown', event)
-      return
-  }
-}
-
-function handleTokenListUpdated(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    if (event.payload) {
-      const tokens = parseTokens(event.payload)
-
-      dispatch(
-        appActionCreators.addSuccessNotification({ message: 'Tokens updated' }),
-      )
-      dispatch(tokenActionCreators.updateTokensList(tokens))
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
 }
 
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
