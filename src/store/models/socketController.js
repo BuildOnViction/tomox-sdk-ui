@@ -83,9 +83,6 @@ export function openConnection(): ThunkAction {
           return dispatch(handleOHLCVMessage(event))
         case 'tokens':
           return handleTokenMessage(dispatch, event, getState)
-        case 'deposit':
-          // update tokens balances, tokens changes
-          return handleDepositMessage(dispatch, event, getState)
         case 'price_board':
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
@@ -98,6 +95,7 @@ export function openConnection(): ThunkAction {
           return dispatch(handleLendingMarketsMessage(event))
         case 'lending_orders':
           return handleLendingOrderMessage(dispatch, event, getState)
+        
         default:
           console.log(channel, event)
           break
@@ -132,85 +130,6 @@ const handleWebsocketErrorMessage = (
   closeConnection,
 ) => {
   console.log(event)
-}
-
-const handleDepositMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const { type } = event
-  switch (type) {
-    case 'UPDATE':
-      return handleDepositUpdated(dispatch, event, getState)
-    // trigger updating all tokens balances
-    case 'SUCCESS':
-      return handleDepositSucceeded(dispatch, event, getState)
-    default:
-      console.log('Unknown', event)
-      return
-  }
-}
-
-function handleDepositUpdated(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    const parsed = parseAddressAssociation(event.payload)
-    if (parsed) {
-      const { chain, addressAssociation } = parsed
-      // console.log(chain, addressAssociation, event.payload);
-      dispatch(
-        appActionCreators.addSuccessNotification({ message: 'Deposit updated' }),
-      )
-      dispatch(
-        depositActionCreators.updateAddressAssociation(
-          chain,
-          addressAssociation,
-        ),
-      )
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
-}
-
-function handleDepositSucceeded(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    if (event.payload) {
-      const { chain, txEnvelopes } = event.payload
-      // console.log(chain, addressAssociation, event.payload);
-      dispatch(
-        appActionCreators.addSuccessNotification({
-          message: 'Balances updated',
-        }),
-      )
-      dispatch(
-        depositActionCreators.updateAssociationTransactions(chain, txEnvelopes),
-      )
-      // dispatch(queryBalances())
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
 }
 
 const handleTokenMessage = (
