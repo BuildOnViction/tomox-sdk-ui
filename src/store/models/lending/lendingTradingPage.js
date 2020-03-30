@@ -66,7 +66,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
 
 
       // Unsubscribe socket when change current pair
-      // socket.unSubscribePrice()
+      socket.unSubscribeLendingPrice()
       socket.unsubscribeLendingOrderBook()
       socket.unsubscribeLendingTrades()      
 
@@ -107,6 +107,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
         term: Number(currentPair.termValue), 
         lendingToken: currentPair.lendingTokenAddress,
       }
+      socket.subscribeLendingPrice(subscribeData)
       socket.subscribeLendingTrades(subscribeData)
       socket.subscribeLendingOrderBook(subscribeData)
     } catch (e) {
