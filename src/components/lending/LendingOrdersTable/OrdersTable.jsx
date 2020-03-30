@@ -50,7 +50,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   filterOrders = () => {
-    const { orders, currentPair: { pair }} = this.props
+    const { orders, currentPair: { termSymbol, lendingTokenSymbol }} = this.props
     const { isHideOtherPairs } = this.state
     const result = {}
 
@@ -71,7 +71,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
     if (isHideOtherPairs) {
       for (const property in result) {
-        result[property] = result[property].filter(order => order.pair === pair)
+        result[property] = result[property].filter(order => (order.termSymbol === termSymbol) && (order.lendingTokenSymbol === lendingTokenSymbol))
       }
 
       return result
@@ -81,7 +81,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   filterTrades = () => {
-    const { trades, currentPair: { pair }} = this.props
+    const { trades, currentPair: { termSymbol, lendingTokenSymbol }} = this.props
     const { isHideOtherPairs } = this.state
     const result = {}
 
@@ -102,7 +102,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
     if (isHideOtherPairs) {
       for (const property in result) {
-        result[property] = result[property].filter(order => order.pair === pair)
+        result[property] = result[property].filter(order => (order.termSymbol === termSymbol) && (order.lendingTokenSymbol === lendingTokenSymbol))
       }
 
       return result
@@ -170,6 +170,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
       collateralSelected,
       topUpAmount,
     } = this.state
+
+    console.log(this.props, '======================================')
+    
 
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()

@@ -6,9 +6,10 @@ import {
   getLendingOrdersDomain, 
   getLendingTradesDomain, 
   getAccountDomain, 
-  getTokenPairsDomain,
+  // getTokenPairsDomain,
   getLendingTokensDomain,
   getAccountBalancesDomain,
+  getLendingPairsDomain,
 } from '../../domains'
 import type { State, ThunkAction } from '../../types'
 
@@ -26,8 +27,8 @@ export default function ordersTableSelector(state: State) {
   const authenticated = accountDomain.authenticated()
   let orders = getLendingOrdersDomain(state).lastOrders(100)
   let trades = getLendingTradesDomain(state).userTrades(address)
-  const currentPair = getTokenPairsDomain(state).getCurrentPair()
-  const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
+  const currentPair = getLendingPairsDomain(state).getCurrentPair()
+  const currentPairData = getLendingPairsDomain(state).getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
   let collaterals = lendingTokensDomain.collaterals()
   collaterals = getAccountBalancesDomain(state).getBalancesAndAllowances(collaterals)
