@@ -499,6 +499,7 @@ export const parseLendingPriceBoard = (data) => {
     lendingToken: data.lendingID.lendingToken,
     term: data.lendingID.term,
     volume: data.volume ? data.volume : 0,
+    change: computeChange(data.open, data.close),
   }
 
   return parsed

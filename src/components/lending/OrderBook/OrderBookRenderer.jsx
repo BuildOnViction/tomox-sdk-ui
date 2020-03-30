@@ -135,15 +135,15 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 {currentPairData && (
                   <LatestPrice width="75%">
                     <CryptoPrice>
-                      <Ellipsis title={BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)}>
-                        {BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)}
+                      <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
+                        {BigNumber(currentPairData.close).toFormat(2)}&#37;
                       </Ellipsis>
                     </CryptoPrice>
-                    {currentPairData.priceUsd && (<CashPrice>
+                    {/* {currentPairData.priceUsd && (<CashPrice>
                       <Ellipsis title={BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}>
                         {referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}
                       </Ellipsis>
-                    </CashPrice>)} 
+                    </CashPrice>)}  */}
                   </LatestPrice>
                 )}  
 
