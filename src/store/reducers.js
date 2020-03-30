@@ -546,6 +546,8 @@ export const lendingPairs = createReducerPersist({
     case lendingMarketsActionTypes.updateCurrentPair:
     case lendingTradePageActionTypes.updateCurrentPair:
       return lendingPairsEvents.updateCurrentPair(payload)
+    case socketControllerActionTypes.updateLendingCurrentPairData:
+      return lendingPairsEvents.updateCurrentPairData(payload)
     case tokenSearcherActionTypes.updateFavorite:
     case marketsTableActionTypes.updateFavorite:
       return tokenPairsEvents.tokenPairFavorited(

@@ -67,6 +67,8 @@ const actionTypes = {
   updateLendingPairsData: 'socketController/UPDATE_LENDING_PAIRS_DATA',
 
   updateLendingOrders: 'socketController/UPDATE_LENDING_ORDERS',
+
+  updateLendingCurrentPairData: 'socketController/UPDATE_LENDING_CURRENT_PAIR_DATA',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -300,6 +302,13 @@ export function updateLendingOrders(order: Array<Object>) {
   return {
     type: actionTypes.updateLendingOrders,
     payload: order,
+  }
+}
+
+export function updateLendingCurrentPairData(data) {
+  return {
+    type: actionTypes.updateLendingCurrentPairData,
+    payload: data,
   }
 }
 

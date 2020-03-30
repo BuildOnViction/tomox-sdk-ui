@@ -4,8 +4,6 @@ import { utils } from 'ethers'
 // we process token, deposit in socket way
 import * as appActionCreators from '../actions/app'
 import * as actionCreators from '../actions/socketController'
-import * as tokenActionCreators from '../actions/tokens'
-import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
 import * as orderActionsCreators from '../actions/orders'
 import * as lendingOrdersActionsCreators from '../actions/lending/lendingOrders'
@@ -23,8 +21,6 @@ import {
   parseOrder,
   parseTrade,
   parseTrades,
-  parseTokens,
-  parseAddressAssociation,
   parseOrderBookData,
   parseOHLCV,
   parsePriceBoardData,
@@ -34,6 +30,7 @@ import {
   parseLendingPairsData,
   parseLendingOrders,
   parseLendingTradesByAddress,
+  parseLendingPriceBoard,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -85,6 +82,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
           return handleMarketsMessage(dispatch, event, getState)
+        
+        // Lending
         case 'lending_orderbook':
           return dispatch(handleLendingOrderBookMessage(event))
         case 'lending_trades':
@@ -93,7 +92,8 @@ export function openConnection(): ThunkAction {
           return dispatch(handleLendingMarketsMessage(event))
         case 'lending_orders':
           return handleLendingOrderMessage(dispatch, event, getState)
-        
+        case 'lending_price_board':
+          return dispatch(handleLendingPriceMessage(dispatch, event, getState))
         default:
           console.log(channel, event)
           break
@@ -690,5 +690,16 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
     }
+  }
+}
+
+const handleLendingPriceMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const dataParsed = parseLendingPriceBoard(event.payload)
+    dispatch(actionCreators.updateLendingCurrentPairData(dataParsed))
   }
 }

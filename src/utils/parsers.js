@@ -405,7 +405,7 @@ export const parseLendingPairsData = (pairsData, decimals) => {
     low: parseInterest(item.low),
     name: getLendingPairName(item.lendingID.name),
     lendingToken: item.lendingID.lendingToken,
-    term: item.lendingID.tern,
+    term: item.lendingID.term,
     volume: item.volume ? item.volume : 0,
   }))
 
@@ -484,6 +484,22 @@ export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
       side: (trade.investor.toLowerCase() === userAddress.toLowerCase()) ? 'Lend' : 'BORROW',
     }
   })
+
+  return parsed
+}
+
+export const parseLendingPriceBoard = (data) => {
+  
+  const parsed = {
+    open: parseInterest(data.open),
+    close: parseInterest(data.close),
+    high: parseInterest(data.high),
+    low: parseInterest(data.low),
+    name: getLendingPairName(data.lendingID.name),
+    lendingToken: data.lendingID.lendingToken,
+    term: data.lendingID.term,
+    volume: data.volume ? data.volume : 0,
+  }
 
   return parsed
 }

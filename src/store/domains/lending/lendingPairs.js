@@ -179,11 +179,11 @@ export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
   return event
 }
 
-export const updateCurrentPairData = (currentPairData: CurrentTokenPairData) => {
-  const event = (state: TokenPairState): TokenPairState => {
+export const updateCurrentPairData = (data) => {
+  const event = (state) => {
     return {
       ...state,
-      currentPairData,
+      currentPairData: data,
     }
   }
 
