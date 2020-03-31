@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Route, Switch } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -22,96 +22,112 @@ import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import { TOMOSCAN_URL, DEX_LOGO } from '../../config/environment'
 import Ticker from '../Ticker'
+import LendingTicker from '../lending/LendingTicker'
 
 const HeaderRenderer = (props) => {
-    const {
-        pathname,
-        currentPair,
-        currentPairData,
-        isShowTokenSearcher,
-        referenceCurrency,
-        newNotifications,
-        authenticated,
-        address,
-        copyDataSuccess,
-        locale,
-        changeLocale,
-        isTradingPage,
-        toggleTokenSearcherMobile,
-    } = props
-    
-    return (
-        <Header>
-            <Navbar>
-            <MainLogoWrapper>
-              <ExternalLink href={window.location.origin}><TomoXLogo src={DEX_LOGO} height={40} width={40} /></ExternalLink>
-            </MainLogoWrapper>
+  const {
+    currentPair,
+    currentPairData,
+    isShowTokenSearcher,
+    referenceCurrency,
+    newNotifications,
+    authenticated,
+    address,
+    copyDataSuccess,
+    locale,
+    changeLocale,
+    toggleTokenSearcherMobile,
+    lendingCurrentPair,
+    lendingCurrentPairData,
+  } = props
+  
+  return (
+    <Header>
+      <Navbar>
+        <MainLogoWrapper>
+          <ExternalLink href={window.location.origin}><TomoXLogo src={DEX_LOGO} height={40} width={40} /></ExternalLink>
+        </MainLogoWrapper>
 
-            <Ticker
-              pathname={pathname}
+        <Switch>
+          <Route 
+            exact 
+            path="/trade/:pair?" 
+            children={<Ticker
               currentPair={currentPair}
               currentPairData={currentPairData}
               isShowTokenSearcher={isShowTokenSearcher}
               referenceCurrency={referenceCurrency}
-              isTradingPage={isTradingPage}
               toggleTokenSearcherMobile={toggleTokenSearcherMobile}
-            />
+            />} 
+          />
+          <Route 
+            exact 
+            path="/lending/:pair?" 
+            children={<LendingTicker
+              currentPair={lendingCurrentPair}
+              currentPairData={lendingCurrentPairData}
+              isShowTokenSearcher={isShowTokenSearcher}
+              // referenceCurrency={referenceCurrency}
+              // toggleTokenSearcherMobile={toggleTokenSearcherMobile}
+            />} 
+          />
+        </Switch>
 
-            <NavbarGroup className="utilities-menu xs-hidden" align={Alignment.RIGHT}>
-                <SupportItem className="utility-item support">
-                <a href="https://docs.tomochain.com/" target="_blank" rel="noopener noreferrer">
-                    <i>support</i>
-                </a>
-                </SupportItem>
+        <NavbarGroup className="utilities-menu xs-hidden" align={Alignment.RIGHT}>
+            <SupportItem className="utility-item support">
+            <a href="https://docs.tomochain.com/" target="_blank" rel="noopener noreferrer">
+                <i>support</i>
+            </a>
+            </SupportItem>
 
-                <NotificationItem>
-                {
-                    (newNotifications > 0) && (<NumberNewNotifications />)
-                } 
-                <Popover
-                    content={<Notifications />}
+            <NotificationItem>
+            {
+                (newNotifications > 0) && (<NumberNewNotifications />)
+            } 
+            <Popover
+                content={<Notifications />}
+                position={Position.BOTTOM_RIGHT}
+                minimal
+            >
+                <i>notification</i>                 
+            </Popover>
+            </NotificationItem>
+
+            <UserItem className="utility-item notification">
+            {!authenticated ? (
+                <NavbarLink to="/unlock">
+                <WalletIconBox title="Unlock your wallet"></WalletIconBox>
+                </NavbarLink>
+            ) : (
+                <React.Fragment>
+                  <Popover
+                    content={<MenuWallet address={address} copyDataSuccess={copyDataSuccess} />}
                     position={Position.BOTTOM_RIGHT}
                     minimal
-                >
-                    <i>notification</i>                 
-                </Popover>
-                </NotificationItem>
+                  >
+                    <UserIcon icon="user" iconSize={20} />
+                  </Popover>
+                </React.Fragment>
+            )}
+            </UserItem>
 
-                <UserItem className="utility-item notification">
-                {!authenticated ? (
-                    <NavbarLink to="/unlock">
-                    <WalletIconBox title="Unlock your wallet"></WalletIconBox>
-                    </NavbarLink>
-                ) : (
-                    <React.Fragment>
-                      <Popover
-                        content={<MenuWallet address={address} copyDataSuccess={copyDataSuccess} />}
-                        position={Position.BOTTOM_RIGHT}
-                        minimal
-                      >
-                        <UserIcon icon="user" iconSize={20} />
-                      </Popover>
-                    </React.Fragment>
-                )}
-                </UserItem>
+            <LanguageItem className="utility-item language">
+            <i>language</i>              
 
-                <LanguageItem className="utility-item language">
-                <i>language</i>              
-
-                <Popover
-                    content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
-                    position={Position.BOTTOM_RIGHT}
-                    minimal>
-                    <div className="languages-dropdown">
-                    <span>{locales[locale]}</span> 
-                    <span className="arrow"></span>
-                    </div>
-                </Popover>  
-                </LanguageItem>
-            </NavbarGroup>
-            </Navbar>
-        </Header>
-    )
+            <Popover
+                content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
+                position={Position.BOTTOM_RIGHT}
+                minimal>
+                <div className="languages-dropdown">
+                <span>{locales[locale]}</span> 
+                <span className="arrow"></span>
+                </div>
+            </Popover>  
+            </LanguageItem>
+        </NavbarGroup>
+      </Navbar>
+    </Header>
+  )
 }
 
 const MenuWallet = (props) => {

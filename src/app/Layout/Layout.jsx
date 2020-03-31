@@ -174,6 +174,8 @@ class Default extends React.PureComponent<Props, State> {
       changeLocale,
       newNotifications,
       showSessionPasswordModal,
+      lendingCurrentPair,
+      lendingCurrentPairData,
     } = this.props
 
     const { isShowTokenSearcher } = this.state
@@ -203,7 +205,10 @@ class Default extends React.PureComponent<Props, State> {
           newNotifications={newNotifications}
           pathname={pathname}
           isTradingPage={this.isTradingPage}
-          toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
+          toggleTokenSearcherMobile={this.toggleTokenSearcherMobile}
+          lendingCurrentPair={lendingCurrentPair}
+          lendingCurrentPairData={lendingCurrentPairData}
+        />
 
         <MainContainer>
           <Sidebar> 

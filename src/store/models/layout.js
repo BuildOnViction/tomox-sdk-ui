@@ -15,6 +15,7 @@ import {
   getSettingsDomain,
   getTokenPairsDomain,
   getNotificationsDomain,
+  getLendingPairsDomain,
 } from '../domains'
 
 import * as actionCreators from '../actions/walletPage'
@@ -48,6 +49,10 @@ export default function createSelector(state: State) {
   const currentPairData = tokenPairs.getCurrentPairData()
   const { router: { location: { pathname }}} = state
 
+  const lendingPairsDomain = getLendingPairsDomain(state)
+  const lendingCurrentPair = lendingPairsDomain.getCurrentPair()
+  const lendingCurrentPairData = lendingPairsDomain.getCurrentPairData()
+
   return {
     TomoBalance,
     authenticated,
@@ -62,6 +67,8 @@ export default function createSelector(state: State) {
     referenceCurrency,
     newNotifications,
     showSessionPasswordModal,
+    lendingCurrentPair,
+    lendingCurrentPairData,
   }
 }
 

@@ -26,6 +26,7 @@
   "priceBoard.24hHigh": "24h High",
   "priceBoard.24hLow": "24h Low",
   "priceBoard.24hVolume": "24h Volume",
+  "lending.ticker.lastInterest": "Last Interest",
   "unlockWalletPage.title": "Import your wallet",
   "unlockWalletPage.subTitlePart1": "If you don't have a wallet go",
   "unlockWalletPage.subTitlePart2": "Create new wallet",

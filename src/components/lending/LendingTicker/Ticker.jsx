@@ -14,18 +14,18 @@ import { Helmet } from 'react-helmet'
 import {
   NavbarDivider,
   Theme,
-} from '../../components/Common'
-import TokenSearcher from '../../components/TokenSearcher'
-import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
-import { DEX_TITLE } from '../../config/environment'
+} from '../../../components/Common'
+import TokenSearcher from '../../../components/TokenSearcher'
+import { getChangePriceText, getChangePercentText } from '../../../utils/helpers'
+import { DEX_TITLE } from '../../../config/environment'
 
 const TickerRenderer = (props) => {
   const {
     currentPair,
     currentPairData,
-    isShowTokenSearcher,
-    referenceCurrency,
-    toggleTokenSearcherMobile,
+    // isShowTokenSearcher,
+    // referenceCurrency,
+    // toggleTokenSearcherMobile,
   } = props
   
   return (
@@ -33,53 +33,52 @@ const TickerRenderer = (props) => {
     {currentPair 
     && (
       <TokenInfo>
-        {currentPairData && (
+        {/* {currentPairData && (
           <Helmet>
             <title>
               {BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)} | {currentPair.pair.replace("/", "")} | {DEX_TITLE}
             </title>
           </Helmet>
-        )}
+        )} */}
 
-        {currentPair && (
-            <React.Fragment>
-
+        {currentPair && currentPair.termSymbol && (
+          <React.Fragment>
             <TokenSearcherPopover
-              content={<TokenSearcher />}
+              // content={<TokenSearcher />}
               position={Position.BOTTOM_LEFT}
               minimal>
               <TokenPairsDropDown>
-                <span>{currentPair.pair}</span> 
+                <span>{`${currentPair.termSymbol}/${currentPair.lendingTokenSymbol}`}</span> 
                 <i className="arrow"></i>
               </TokenPairsDropDown>
             </TokenSearcherPopover>
 
             {/* For mobile */}
-            {!isShowTokenSearcher && (
+            {/* {!isShowTokenSearcher && (
               <TokenPairsDropDownMobile onClick={() => toggleTokenSearcherMobile(true)}>
               <span>{currentPair.pair}</span> 
               <i className="arrow"></i>
               </TokenPairsDropDownMobile>
-            )}
-            </React.Fragment>
+            )} */}
+          </React.Fragment>
         )}
 
         <HeaderDivider />
 
-        {currentPairData && (currentPairData.ticks.length > 0) && 
+        {currentPairData && currentPairData.close &&
           (<TokenTick>
             <LastPriceTick>
-              <div className="title xs-hidden"><FormattedMessage id="priceBoard.lastPrice" /></div>
+              <div className="title xs-hidden"><FormattedMessage id="lending.ticker.lastInterest" /></div>
               <LastPriceContentTick className="price">
-                <span>{BigNumber(currentPairData.price).toFormat(currentPairData.pricePrecision)}</span>
-                {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)}
+                <span>{BigNumber(currentPairData.close).toFormat(2)}&#37;</span>
+                {/* {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)} */}
               </LastPriceContentTick>
             </LastPriceTick>
 
             <ChangeTick>
               <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
-              <ChangeContentTick className={ (currentPairData.ticks[0].close - currentPairData.ticks[0].open) >= 0 ? 'up' : 'down'}>
-                <span>{getChangePriceText(currentPairData.ticks[0].open, currentPairData.ticks[0].close, currentPairData.pricePrecision)}</span>
+              <ChangeContentTick className={ (currentPairData.close - currentPairData.open) >= 0 ? 'up' : 'down'}>
+                {/* <span>{getChangePriceText(currentPairData.open, currentPairData.close, 2)}&#37;</span> */}
                 <span>{getChangePercentText(currentPairData.change)}</span>
               </ChangeContentTick>
             </ChangeTick>
@@ -87,21 +86,21 @@ const TickerRenderer = (props) => {
             <HighTick>
               <div className="title"><FormattedMessage id="priceBoard.24hHigh" /></div>
               <HighContentTick>
-                <span>{BigNumber(currentPairData.ticks[0].high).toFormat(currentPairData.pricePrecision)}</span>
+                <span>{BigNumber(currentPairData.high).toFormat(2)}&#37;</span>
               </HighContentTick>
             </HighTick>
 
             <LowTick>
               <div className="title"><FormattedMessage id="priceBoard.24hLow" /></div>
               <LowContentTick>
-                <span>{BigNumber(currentPairData.ticks[0].low).toFormat(currentPairData.pricePrecision)}</span>
+                <span>{BigNumber(currentPairData.low).toFormat(2)}&#37;</span>
               </LowContentTick>
             </LowTick>
 
             <VolumeTick>
               <div className="title"><FormattedMessage id="priceBoard.24hVolume" /></div>
               <VolumeContentTick>
-                {currentPair && (<span>{BigNumber(currentPairData.ticks[0].volume).toFormat(2)} {currentPair.quoteTokenSymbol}</span>)}
+                {currentPair && (<span>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair.lendingTokenSymbol}</span>)}
               </VolumeContentTick>
             </VolumeTick>
           </TokenTick>)
