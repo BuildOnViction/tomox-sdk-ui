@@ -15,7 +15,7 @@ import {
   NavbarDivider,
   Theme,
 } from '../../../components/Common'
-import TokenSearcher from '../../../components/TokenSearcher'
+import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
 import { getChangePriceText, getChangePercentText } from '../../../utils/helpers'
 import { DEX_TITLE } from '../../../config/environment'
 
@@ -44,7 +44,7 @@ const TickerRenderer = (props) => {
         {currentPair && currentPair.termSymbol && (
           <React.Fragment>
             <TokenSearcherPopover
-              // content={<TokenSearcher />}
+              content={<LendingTokenSearcher />}
               position={Position.BOTTOM_LEFT}
               minimal>
               <TokenPairsDropDown>

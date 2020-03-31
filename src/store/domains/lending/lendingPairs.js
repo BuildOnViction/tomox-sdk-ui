@@ -55,7 +55,7 @@ export const updatePairs = (pairs) => {
           lendingTokenSymbol: pair.lendingTokenSymbol,
           termValue: pair.term,
           termSymbol,
-          pairSymbol,
+          pair: pairSymbol,
         }
 
         return result
