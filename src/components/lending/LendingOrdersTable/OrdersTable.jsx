@@ -171,9 +171,6 @@ class OrdersTable extends React.PureComponent<Props, State> {
       topUpAmount,
     } = this.state
 
-    console.log(this.props, '======================================')
-    
-
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders        
