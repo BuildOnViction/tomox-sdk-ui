@@ -10,7 +10,7 @@ import LendingOrdersTable from '../../../components/lending/LendingOrdersTable'
 import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import OrderBook from '../../../components/lending/OrderBook'
-import TVChartContainer from '../../../components/TVChartContainer'
+import LendingTvChart from '../../../components/lending/LendingTvChart'
 
 type Props = {
   authenticated: boolean,
@@ -72,7 +72,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           gap="10px" 
           height="100%">
           <ChartsCell>
-            {quoteTokenSymbol && <TVChartContainer />}
+            <LendingTvChart />
           </ChartsCell>
           <OrdersTableCell>
             <LendingOrdersTable />            
