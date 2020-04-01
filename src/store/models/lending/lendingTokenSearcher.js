@@ -5,7 +5,7 @@ import {
   getLendingPairsDomain,
   getLendingTokensDomain, 
 } from '../../domains'
-import * as actionCreators from '../../actions/tokenSearcher'
+import * as actionCreators from '../../actions/lending/lendingTokenSearcher'
 import { push } from 'connected-react-router'
 
 export default function tokenSearcherSelector(state: State) {
@@ -57,11 +57,11 @@ export default function tokenSearcherSelector(state: State) {
 
 export const updateCurrentPair = (pair: string): ThunkAction => {
     return async (dispatch, getState) => {
-      const param = pair.replace('/', '-')
-      let { router: { location: { pathname }}} = getState()
-      pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
+      const param = pair.replace(' ', '_').replace('/', '-')
+      // let { router: { location: { pathname }}} = getState()
+      // pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
 
       dispatch(actionCreators.updateCurrentPair(pair))
-      dispatch(push(`/${pathname}/${param}`))
+      dispatch(push(`/lending/${param}`))
     }
 }

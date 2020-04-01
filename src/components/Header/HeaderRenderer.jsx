@@ -51,7 +51,7 @@ const HeaderRenderer = (props) => {
         <Switch>
           <Route 
             exact 
-            path="/trade/:pair" 
+            path="/trade/:pair?" 
             children={<Ticker
               currentPair={currentPair}
               currentPairData={currentPairData}
@@ -62,7 +62,7 @@ const HeaderRenderer = (props) => {
           />
           <Route 
             exact 
-            path="/lending/:pair" 
+            path="/lending/:pair?" 
             children={<LendingTicker
               currentPair={lendingCurrentPair}
               currentPairData={lendingCurrentPairData}

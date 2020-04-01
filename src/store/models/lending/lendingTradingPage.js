@@ -27,33 +27,33 @@ import {
 // eslint-disable-next-line
 export default function tradingPageSelector(state: State) {
   const accountDomain = getAccountDomain(state)
-  const accountBalancesDomain = getAccountBalancesDomain(state)
-  const pairDomain = getTokenPairsDomain(state)
+  // const accountBalancesDomain = getAccountBalancesDomain(state)
+  const pairsDomain = getLendingPairsDomain(state)
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
     pair,
-    makeFee,
-    takeFee,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-  } = pairDomain.getCurrentPair()
+    // makeFee,
+    // takeFee,
+    // baseTokenSymbol,
+    // quoteTokenSymbol,
+  } = pairsDomain.getCurrentPair()
 
   const authenticated = accountDomain.authenticated()
-  const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
-  const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
+  // const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
+  // const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
 
   return {
     currentPairName: pair,
-    makeFee,
-    takeFee,
+    // makeFee,
+    // takeFee,
     authenticated,
-    baseTokenBalance,
-    baseTokenSymbol,
+    // baseTokenBalance,
+    // baseTokenSymbol,
     isConnected,
     isInitiated,
-    quoteTokenBalance,
-    quoteTokenSymbol,
+    // quoteTokenBalance,
+    // quoteTokenSymbol,
     ohlcvData,
   }
 }

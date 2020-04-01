@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
 import TokenSearcherRenderer from './TokenSearcherRenderer'
-import { sortTable } from '../../../utils/helpers'
+// import { sortTable } from '../../../utils/helpers'
 
 //TODO not sure exactly where to define this type.
 type Token = {
@@ -28,7 +28,7 @@ type Props = {
 type State = {
   quoteTokens: Array<string>,
   searchFilter: string,
-  selectedPair: ?Token,
+  // selectedPair: ?Token,
   filterName: string,
   sortOrder: string,
   selectedTabId: string,
@@ -40,7 +40,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   state = {
     // quoteTokens: [],
     searchFilter: '',
-    selectedPair: null,
+    // selectedPair: null,
     filterName: 'symbol',
     sortOrder: 'asc',
     selectedTabId: this.props.lendingTokens[0],
@@ -165,8 +165,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
 
   changeSelectedToken = (token: Token) => {
     if (this.props.toggleTokenSearcherMobile) this.props.toggleTokenSearcherMobile(false)
-    if (token.pair === this.state.selectedPair.pair) return
-    this.setState({ selectedPair: token })
+    // if (token.pair === this.state.selectedPair.pair) return
+    // this.setState({ selectedPair: token })
     this.props.updateCurrentPair(token.pair)
   };
 
@@ -175,7 +175,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       state: { 
         selectedTabId, 
         searchFilter, 
-        selectedPair, 
+        // selectedPair, 
         sortOrder, 
         filterName, 
         // quoteTokens, 
@@ -211,7 +211,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         // baseTokenBalance={baseTokenBalance}
         // quoteTokenBalance={quoteTokenBalance}
         // silence-error: couldn't resolve selectedPair === undefined case
-        selectedPair={selectedPair}
+        // selectedPair={selectedPair}
         sortOrder={sortOrder}
         filterName={filterName}
         filteredPairs={filteredPairs}

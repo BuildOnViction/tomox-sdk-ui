@@ -38,7 +38,7 @@ type Props = {
   baseTokenBalance: number,
   quoteTokenBalance: number,
   searchFilter: string,
-  selectedPair: Token,
+  // selectedPair: Token,
   filterName: string,
   sortOrder: string,
   quoteTokens: Array<string>,
@@ -116,7 +116,7 @@ const TokenSearchRenderer = (props: Props) => {
               sortOrder={sortOrder}
               searchFilter={searchFilter}
               selectedTabId={selectedTabId}
-              selectedPair={selectedPair}
+              // selectedPair={selectedPair}
               changeSelectedToken={changeSelectedToken}
               updateFavorite={updateFavorite}
               onChangeSearchFilter={onChangeSearchFilter}
@@ -175,7 +175,7 @@ type PanelProps = {
   sortOrder: string,
   searchFilter: string,
   selectedTabId: string,
-  selectedPair: Token,
+  // selectedPair: Token,
   tokenPairs: Array<Token>,
   changeSelectedToken: Token => void,
   updateFavorite: (string, boolean) => void,
