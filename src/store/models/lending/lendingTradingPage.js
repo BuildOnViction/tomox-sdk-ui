@@ -76,7 +76,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       const pairName = pair.replace('_', ' ').replace('-', '/')
 
       //TODO: need to check pairName exist or not
-      if (!currentPair.pairSymbol || pairName.toLowerCase() !== currentPair.pairSymbol.toLowerCase()) {
+      if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
         return dispatch(lendingActionCreators.updateCurrentPair(pairName))
       }
 

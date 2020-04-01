@@ -158,10 +158,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     //   result[quote] = sortTable(result[quote], filterName, sortOrder)
 
     //   result['searchResult'] = sortTable(result['searchResult'], 'pair', 'asc')
-    // }
-
-    console.log(result, selectedTabId, '==========================')
-    
+    // }    
 
     return result
   }

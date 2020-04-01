@@ -65,7 +65,7 @@ const TickerRenderer = (props) => {
 
         <HeaderDivider />
 
-        {currentPairData && currentPairData.close &&
+        {currentPairData &&
           (<TokenTick>
             <LastPriceTick>
               <div className="title xs-hidden"><FormattedMessage id="lending.ticker.lastInterest" /></div>

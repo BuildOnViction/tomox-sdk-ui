@@ -24,6 +24,7 @@ export const initialized = (customInitialState?: TokenPairState) => {
     data: {},
     favorites: [],
     currentPair: '',
+    currentPairData: null,
     sortedPairs: [],
     loading: false,
   }
