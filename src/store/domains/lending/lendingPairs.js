@@ -145,8 +145,8 @@ export const lendingPairsDataUpdated = (lendingPairsData) => {
     const data = lendingPairsData.reduce((result, item) => {
       return {
         ...result,
-        [item.name]: {
-          ...state.data[item.name],
+        [item.pair]: {
+          ...state.data[item.pair],
           ...item,
         },
       }

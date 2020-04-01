@@ -41,8 +41,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
     } = this.props
 
     const {
-      name,
-      baseTokenAddress,
+      pair,
       close,
       high,
       low,
@@ -54,12 +53,12 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} style={style} onClick={() => redirectToLendingPage(name)}>
-        <Cell width="25px" onClick={(e) => updateFavorite(e, name, !favorited)}>
+      <Row key={key} style={style} onClick={() => redirectToLendingPage(pair)}>
+        <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
         <Cell>
-          <PairTitle>{name}</PairTitle>
+          <PairTitle>{pair}</PairTitle>
         </Cell>
         <Cell width="25%">
           <PriceNumber>
