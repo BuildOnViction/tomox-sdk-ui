@@ -121,12 +121,18 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   };
 
   filterTokens = () => {
-    let result = []
-    const { selectedTabId } = this.state
+    let result = {pairs: [], searchResults: []}
+    const { selectedTabId, searchFilter } = this.state
     const { pairs } = this.props
 
     if (selectedTabId !== 'favorites') {
-      result = pairs.filter(pair => pair.lendingTokenSymbol === selectedTabId)
+      result.pairs = pairs.filter(pair => pair.lendingTokenSymbol === selectedTabId)
+    }
+
+    if (searchFilter) {
+      result.searchResults = pairs.filter(pair => pair.pair.toLowerCase().includes(searchFilter.toLowerCase()))
+    } else {
+      result.searchResults = [...pairs]
     }
     
     // const { lendingTokens } = this.props

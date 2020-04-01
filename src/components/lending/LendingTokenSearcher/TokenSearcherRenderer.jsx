@@ -91,7 +91,7 @@ const TokenSearchRenderer = (props: Props) => {
 
             {isShowSearchResult && (
               <SearchResult 
-                items={filteredPairs.searchResult}
+                items={filteredPairs.searchResults}
                 changeSelectedToken={changeSelectedToken} />
             )}
             
@@ -111,7 +111,7 @@ const TokenSearchRenderer = (props: Props) => {
               }
             </TabsWrapper>
             <Panel
-              tokenPairs={filteredPairs}
+              tokenPairs={filteredPairs.pairs}
               filterName={filterName}
               sortOrder={sortOrder}
               searchFilter={searchFilter}
