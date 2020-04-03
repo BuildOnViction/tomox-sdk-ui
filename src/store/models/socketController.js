@@ -558,19 +558,8 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
     const tokenAddress = event.payload[0].lendingToken.toLowerCase()
     const state = getState()
     const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
-    // const accountDomain = getAccountDomain(state)
-    // const authenticated = accountDomain.authenticated()
-    // const userAddress = accountDomain.address()
     const decimals = token ? token.decimals : 18
-
     let lendingTrades = event.payload
-
-    // const isUserTrade = trade => {
-    //   return (trade.investor.toLowerCase() === userAddress.toLowerCase())
-    //   || (trade.borrower.toLowerCase() === userAddress.toLowerCase())
-    // }
-
-    // let userTrades = authenticated ? lendingTrades.filter(isUserTrade) : []
     
     try {
       switch (event.type) {
@@ -581,10 +570,6 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
         case 'UPDATE':
           lendingTrades = parseLendingTrades(lendingTrades, decimals)
           dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
-          // if (userTrades.length > 0) {
-          //   userTrades = parseLendingTradesByAddress(userAddress, userTrades)
-          //   dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
-          // }
           break
         default:
           return
