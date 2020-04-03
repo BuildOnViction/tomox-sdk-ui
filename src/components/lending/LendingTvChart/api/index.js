@@ -24,7 +24,7 @@ export default {
 		// expects a symbolInfo object in response
 		// console.log('======resolveSymbol running')
 		// console.log('resolveSymbol:', symbolName)
-		const [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals, pricePrecision] = symbolName.split('-')
+		const [pair, term, lendingToken] = symbolName.split('-')
 		
 		var symbol_stub = {
 			name: symbolName,
@@ -35,16 +35,14 @@ export default {
 			ticker: pair,
 			exchange: 'TomoDex',
 			minmov: 1,
-			pricescale: Math.pow(10, pricePrecision),
+			pricescale: Math.pow(10, 2),
 			has_intraday: true,
 			intraday_multipliers: supportedResolutions,
 			supported_resolution:  supportedResolutions,
 			volume_precision: 8,
 			data_status: 'streaming',
-			baseTokenAddress,
-			quoteTokenAddress,
-			baseTokenDecimals,
-			quoteTokenDecimals,
+			term, 
+			lendingToken,
 		}
 
 		setTimeout(function() {
@@ -60,7 +58,7 @@ export default {
 		// console.log('=====getBars running')
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-		const { pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals } = symbolInfo
+		const { term, lendingToken } = symbolInfo
 		const { interval } = window.tvWidget.symbolInterval()
 
 		if (firstDataRequest) {
@@ -68,11 +66,10 @@ export default {
 			const currentDuration = getDurationByTimeSpan(currentTimeSpan)
 
 			window.onHistoryCallback = onHistoryCallback
-			socket.subscribeChart(
+			socket.subscribeLendingChart(
 				{
-					pair,
-					baseTokenAddress,
-					quoteTokenAddress,
+					term, 
+					lendingToken,
 				},
 				currentTimeSpan.label,
 				currentDuration.label,

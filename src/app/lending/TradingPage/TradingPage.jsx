@@ -59,7 +59,6 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
   render() {
-    const { quoteTokenSymbol } = this.props
 
     return (
       <Container flow="column" 

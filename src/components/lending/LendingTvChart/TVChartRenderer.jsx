@@ -28,12 +28,9 @@ export default class TVChartRenderer extends React.PureComponent {
 			},
 			changeTimeSpan,
 			currentPair: { 
-				pair, 
-				baseTokenAddress, 
-				quoteTokenAddress, 
-				pricePrecision,
-				baseTokenDecimals, 
-				quoteTokenDecimals,
+				pair,
+				termValue,
+				lendingTokenAddress,
 			},
 			mode,
 			modes,
@@ -54,7 +51,7 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: [pair, baseTokenAddress, quoteTokenAddress, baseTokenDecimals, quoteTokenDecimals, pricePrecision].join('-'),
+			symbol: [pair, termValue, lendingTokenAddress].join('-'),
 			datafeed: Datafeed,
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
@@ -82,7 +79,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			custom_css_url,
 			overrides: {
 				...modes[mode],
-				'mainSeriesProperties.minTick': `${Math.pow(10, pricePrecision)},1,false`,
+				'mainSeriesProperties.minTick': `${Math.pow(10, 2)},1,false`,
 				"mainSeriesProperties.visible": true,
 				"mainSeriesProperties.showPriceLine": true,
 

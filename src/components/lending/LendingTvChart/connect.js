@@ -3,17 +3,17 @@ import {
   updateTimeSpan,
 } from '../../../store/models/ohlcv'
 import { 
-  getTokenPairsDomain,
   getOhlcvDomain,
   getSettingsDomain,
+  getLendingPairsDomain,
 } from '../../../store/domains'
 import type { State } from '../../../types'
 
 export const mapStateToProps = (state: State) => {
   const ohlcvDomain = getOhlcvDomain(state)
   const ohlcv = ohlcvDomain.getState()
-  const currentPair = getTokenPairsDomain(state).getCurrentPair()
-  const currentPairData = getTokenPairsDomain(state).getCurrentPairData()
+  const currentPair = getLendingPairsDomain(state).getCurrentPair()
+  const currentPairData = getLendingPairsDomain(state).getCurrentPairData()
   const pricePrecision = currentPairData ? currentPairData.pricePrecision : null
   const settingsDomain = getSettingsDomain(state)
   const mode = settingsDomain.getMode()
