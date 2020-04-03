@@ -14,6 +14,7 @@ import {
   getWebsocketDomain,
   getTokenDomain,
   getLendingOrdersDomain,
+  getLendingTokensDomain,
 } from '../domains'
 
 import { getSigner } from '../services/signer'
@@ -31,6 +32,7 @@ import {
   parseLendingOrders,
   parseLendingTradesByAddress,
   parseLendingPriceBoard,
+  parseLendingOHLCV,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -94,6 +96,8 @@ export function openConnection(): ThunkAction {
           return handleLendingOrderMessage(dispatch, event, getState)
         case 'lending_price_board':
           return dispatch(handleLendingPriceMessage(dispatch, event, getState))
+        case 'lending_ohlcv':
+          return dispatch(handleLendingOHLCVMessage(event))
         default:
           console.log(channel, event)
           break
@@ -686,5 +690,56 @@ const handleLendingPriceMessage = (
   return async (dispatch, getState, { socket }) => {
     const dataParsed = parseLendingPriceBoard(event.payload)
     dispatch(actionCreators.updateLendingCurrentPairData(dataParsed))
+  }
+}
+
+const handleLendingOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) {
+      if (window.lendingOnHistoryCallback) window.lendingOnHistoryCallback([], {noData: true})
+      // dispatch(actionCreators.initOHLCV([]))
+      // dispatch(actionCreators.updateOHLCVLoading(false))
+      return
+    }
+
+    let ohlcv = event.payload
+    if (!Array.isArray(ohlcv)) {
+      // In case of INIT OHLCV, the payload is an array
+      // But in case of UPDATE OHLCV, the payload is an object
+      ohlcv = [ohlcv]
+    }
+    // const { pairName } = ohlcv[0].pair
+    // const pair = pairs[pairName]
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          ohlcv = parseLendingOHLCV(ohlcv)
+          if (window.lendingOnHistoryCallback) {
+            window.lendingOnHistoryCallback(ohlcv, {noData: false})
+            window.lendingOhlcvLastBar = ohlcv.slice(-1)[0]
+          }
+          // dispatch(actionCreators.initOHLCV(ohlcv))
+          // dispatch(actionCreators.updateOHLCVLoading(false))
+          break
+        case 'UPDATE':
+          ohlcv = parseLendingOHLCV(ohlcv)
+          if (window.lendinOnRealtimeCallback && (ohlcv[0].time >= window.lendingOhlcvLastBar.time)) {
+            window.lendinOnRealtimeCallback(ohlcv[0])
+            window.lendingOhlcvLastBar = ohlcv[0]
+          }
+          // dispatch(actionCreators.updateOHLCV(ohlcv))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      // We reject error when calling Mozilla APIs . Reference: https://developer.mozilla.org/en-US/docs/Mozilla/Errors
+      if (e.name !== 'NS_ERROR_NOT_INITIALIZED') {
+        console.log(e)
+        dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      }
+    }
   }
 }

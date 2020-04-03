@@ -20,9 +20,9 @@ const modes = {
 export default class TVChart extends React.PureComponent {    
   componentDidUpdate(prevProps) {      
     if (prevProps.mode !== this.props.mode 
-      && window.tvWidget) {
-      window.tvWidget.changeTheme(this.props.mode)
-      window.tvWidget.applyOverrides({
+      && window.lendingTvWidget) {
+      window.lendingTvWidget.changeTheme(this.props.mode)
+      window.lendingTvWidget.applyOverrides({
         ...modes[this.props.mode],
       })
     }

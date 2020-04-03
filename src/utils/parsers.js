@@ -505,3 +505,20 @@ export const parseLendingPriceBoard = (data) => {
   return parsed
 }
 
+export const parseLendingOHLCV = (data: Candles): any => {
+
+  const parsed = (data: Candles).map(datum => {
+    return {
+      date: new Date(datum.timestamp),
+      time: datum.timestamp,
+      open: parseInterest(datum.open),
+      high: parseInterest(datum.high),
+      low: parseInterest(datum.low),
+      close: parseInterest(datum.close),
+      volume: parseLendingAmount(datum.volume),
+    }
+  })
+
+  return parsed
+}
+

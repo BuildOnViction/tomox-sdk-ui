@@ -59,13 +59,13 @@ export default {
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
 		const { term, lendingToken } = symbolInfo
-		const { interval } = window.tvWidget.symbolInterval()
+		const { interval } = window.lendingTvWidget.symbolInterval()
 
 		if (firstDataRequest) {
 			const currentTimeSpan = timeSpans.find(timeSpan => timeSpan.value === interval)
 			const currentDuration = getDurationByTimeSpan(currentTimeSpan)
 
-			window.onHistoryCallback = onHistoryCallback
+			window.lendingOnHistoryCallback = onHistoryCallback
 			socket.subscribeLendingChart(
 				{
 					term, 
@@ -75,39 +75,39 @@ export default {
 				currentDuration.label,
 			)
 		} else {
-			const intervals = {
-				1: '1m',
-				5: '5m',
-				15: '15m',
-				30: '30m',
-				60: '1h',
-				120: '2h',
-				240: '4h',
-				'1D': '1d',
-				'1W': '1w',
-				'1M': '1mo',
-			}
+			// const intervals = {
+			// 	1: '1m',
+			// 	5: '5m',
+			// 	15: '15m',
+			// 	30: '30m',
+			// 	60: '1h',
+			// 	120: '2h',
+			// 	240: '4h',
+			// 	'1D': '1d',
+			// 	'1W': '1w',
+			// 	'1M': '1mo',
+			// }
 
-			const ohlcv = await fetchOHLCV(baseTokenAddress, quoteTokenAddress, from, to, intervals[interval])
-			if (ohlcv.length > 0) {
-				const ohlcvParsed  = parseOHLCV(ohlcv, {baseTokenDecimals, quoteTokenDecimals})
-				onHistoryCallback(ohlcvParsed, {noData: false})
-			} else {
-				onHistoryCallback([], {noData: true})
-			}
+			// const ohlcv = await fetchOHLCV(baseTokenAddress, quoteTokenAddress, from, to, intervals[interval])
+			// if (ohlcv.length > 0) {
+			// 	const ohlcvParsed  = parseOHLCV(ohlcv, {baseTokenDecimals, quoteTokenDecimals})
+			// 	onHistoryCallback(ohlcvParsed, {noData: false})
+			// } else {
+			// 	onHistoryCallback([], {noData: true})
+			// }
 		}
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
 		// console.log('=====subscribeBars runnning')
-		window.onRealtimeCallback = onRealtimeCallback
+		window.lendinOnRealtimeCallback = onRealtimeCallback
 	},
 	unsubscribeBars: subscriberUID => {
 		// console.log('=====unsubscribeBars running')
 
 		socket.unsubscribeChart()
-		window.onHistoryCallback = null
-		window.onRealtimeCallback = null
-		window.ohlcvLastBar = null
+		window.lendingOnHistoryCallback = null
+		window.lendinOnRealtimeCallback = null
+		window.lendingOhlcvLastBar = null
 	},
 	calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
 		//optional

@@ -109,14 +109,14 @@ export default class TVChartRenderer extends React.PureComponent {
 			saved_data,
 		}
 
-		const widget = window.tvWidget = new window.TradingView.widget(widgetOptions)
+		const widget = window.lendingTvWidget = new window.TradingView.widget(widgetOptions)
 		
 		widget.onChartReady(() => {
 			// This is a workaround detail see the issue #171
 			widget.applyOverrides({...modes[mode]})
 
 			if (isTomoWallet() || isMobile()) {
-				window.tvWidget.chart().executeActionById('drawingToolbarAction')
+				window.lendingTvWidget.chart().executeActionById('drawingToolbarAction')
 			}
 
 			widget.chart().onIntervalChanged().subscribe(null, function(interval, obj) {
@@ -130,9 +130,9 @@ export default class TVChartRenderer extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
-		if (window.tvWidget !== null) {
-			window.tvWidget.onChartReady(_ => {
-				window.tvWidget.save(data => {
+		if (window.lendingTvWidget !== null) {
+			window.lendingTvWidget.onChartReady(_ => {
+				window.lendingTvWidget.save(data => {
 					// This is a workaround detail see the issue #171
 					delete data.charts[0].chartProperties.paneProperties.background
 					data.charts[0].timeScale = {
@@ -145,8 +145,8 @@ export default class TVChartRenderer extends React.PureComponent {
 						JSON.stringify({...data, createdAt: Date.now()})
 					)
 				})
-				window.tvWidget.remove()
-				window.tvWidget = null
+				window.lendingTvWidget.remove()
+				window.lendingTvWidget = null
 			})
 		}		
 	}
