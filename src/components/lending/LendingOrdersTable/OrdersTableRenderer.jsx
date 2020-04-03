@@ -94,7 +94,11 @@ const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest 
       <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
         <Tab
           id="open-orders"
-          title={`Open(${orders['processing'].length})`}
+          title={
+            <FormattedMessage 
+              id="exchangeLendingPage.orders.trade.open"
+              values={{numberOfOrders: orders['processing'].length}} />
+          }
           panel={
             <OrdersTablePanel
               orders={orders['processing']}
@@ -118,7 +122,11 @@ const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest 
         />
         <Tab
           id="open-trades"
-          title={`Matched(${trades['processing'].length})`}
+          title={
+            <FormattedMessage 
+              id="exchangeLendingPage.orders.trade.openContract"
+              values={{numberOfTrades: trades['processing'].length}} />
+          }
           panel={
             <OpenTradesTable
               orders={trades['processing']}
@@ -130,7 +138,7 @@ const OrdersTableRenderer = ({ orders, trades, selectedTabId, onChange, ...rest 
         />
         <Tab
           id="trade-history"
-          title={<FormattedMessage id="exchangePage.tradeHistory" />}
+          title={<FormattedMessage id="exchangeLendingPage.orders.trade.closedContract" />}
           panel={
             <OrdersTablePanel
               orders={trades['finished']}
