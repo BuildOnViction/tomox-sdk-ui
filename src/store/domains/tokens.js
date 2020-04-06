@@ -58,6 +58,7 @@ export const tokenRemoved = (symbol: string) => {
 
 export default function getTokenDomain(state: TokenState) {
   return {
+    byAddress: () => state.byAddress,
     bySymbol: () => state.bySymbol,
     symbols: () => state.symbols,
     tokens: () => Object.values(state.bySymbol),

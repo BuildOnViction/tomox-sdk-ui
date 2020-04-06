@@ -396,18 +396,21 @@ export const parseLendingTrades = (trades: Trades, decimals) => {
   return parsed
 }
 
-export const parseLendingPairsData = (pairsData, decimals) => {
-  
-  const parsed = (pairsData: any).map(item => ({
-    open: parseInterest(item.open),
-    close: parseInterest(item.close),
-    high: parseInterest(item.high),
-    low: parseInterest(item.low),
-    pair: getLendingPairName(item.lendingID.name),
-    lendingToken: item.lendingID.lendingToken,
-    term: item.lendingID.term,
-    volume: item.volume ? item.volume : 0,
-  }))
+export const parseLendingPairsData = (pairsData, tokens) => {  
+  const parsed = (pairsData: any).map(item => {
+    const decimals = tokens[item.lendingID.lendingToken.toLowerCase()].decimals
+
+    return {
+      open: parseInterest(item.open),
+      close: parseInterest(item.close),
+      high: parseInterest(item.high),
+      low: parseInterest(item.low),
+      pair: getLendingPairName(item.lendingID.name),
+      lendingToken: item.lendingID.lendingToken.toLowerCase(),
+      term: item.lendingID.term,
+      volume: item.volume ? parseLendingAmount(item.volume, decimals) : 0,
+    }
+  })
 
   return parsed
 }

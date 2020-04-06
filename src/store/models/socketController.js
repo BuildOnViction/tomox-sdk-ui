@@ -587,10 +587,12 @@ const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
 
 const handleLendingMarketsMessage = (event: WebsocketEvent) => {
   return async (dispatch, getState) => {
+    const state = getState()
+    const lendingTokensObj = getTokenDomain(state).byAddress()
+
     let { payload: { pairData }} = event
 
-    pairData = parseLendingPairsData(pairData)
-
+    pairData = parseLendingPairsData(pairData, lendingTokensObj)
     dispatch(actionCreators.updateLendingPairsData(pairData))
   }
 }
