@@ -247,8 +247,9 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  handleInterestChange = (interest, side) => {
+  handleInterestChange = (interest, side) => {    
     this.resetErrorObject(side)
+    const { currentPair: { termValue }} = this.props
 
     if (side === 'BORROW') {
       this.setState({ borrowInterest: interest })
@@ -256,10 +257,11 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { lendAmount } = this.state
 
       if (Number(interest) && Number(lendAmount)) {
+        const termDays = (Number(termValue)/60/60/24)
         const rate = BigNumber(interest).div(100)
         const profitPerYear = rate.times(lendAmount)
         const profitPerDay = profitPerYear.div(365)
-        const profit = profitPerDay.toFixed(2) //TODO: need calc by current term
+        const profit = profitPerDay.times(termDays).toFixed(2)
 
         return this.setState({
           lendInterest: interest,
