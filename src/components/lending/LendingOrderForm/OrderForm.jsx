@@ -220,7 +220,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   onInputChange = (side: SIDE = 'BORROW', { target }: Object) => {
     const { authenticated } = this.props
     const interestPrecision = 2
-    const amountPrecision = 2
+    const amountPrecision = 8
     let { value } = target
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
@@ -333,45 +333,16 @@ class OrderForm extends React.PureComponent<Props, State> {
   }
 
   handleUpdateAmountFraction = (fraction: string, side: SIDE) => {
-    const { pricePrecision, amountPrecision } = this.state
-    const { quoteTokenBalance, baseTokenBalance, authenticated, fee } = this.props
+    const { lendingToken, authenticated } = this.props
+
     if (!authenticated) return
 
-    if (side === 'LEND') {
-      const { lendInterest } = this.state
-      if (!lendInterest || Number(lendInterest) === 0) return
-
-      const bigSellAmount = (BigNumber(baseTokenBalance).div(100)).times(fraction)
-      const bigSellTotal = BigNumber(lendInterest).times(bigSellAmount)
+    if (side === 'INVEST') {
+      const lendAmount = (BigNumber(lendingToken.availableBalance).div(100)).times(fraction).toFixed(8)
 
       this.setState({
         fraction,
-        lendAmount: bigSellAmount.toFixed(amountPrecision),
-        sellTotal: bigSellTotal.toFixed(pricePrecision),
-        errorBuy: null,
-        errorSell: null,
-      })
-    } else {
-      const { borrowInterest } = this.state
-      if (!borrowInterest || Number(borrowInterest) === 0) return
-
-      let bigBuyTotal = (BigNumber(quoteTokenBalance).div(100)).times(fraction)
-      let bigBuyAmount = ''
-
-      if (+fraction === 100) {
-        const multiplier = Math.pow(10, 18)
-        const bigBuyTotalMultiplier = BigNumber(quoteTokenBalance).times(multiplier).div(1 + fee)
-        const bigBuyAmountMultiplier = bigBuyTotalMultiplier.div(borrowInterest)
-        bigBuyTotal = bigBuyTotalMultiplier.div(multiplier)      
-        bigBuyAmount = bigBuyAmountMultiplier.div(multiplier)
-      } else {
-        bigBuyAmount = bigBuyTotal.div(borrowInterest)
-      }
-
-      this.setState({
-        fraction,
-        borrowAmount: bigBuyAmount.toFixed(amountPrecision),
-        buyTotal: bigBuyTotal.toFixed(pricePrecision),
+        lendAmount,
         errorBuy: null,
         errorSell: null,
       })
