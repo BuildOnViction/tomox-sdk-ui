@@ -508,7 +508,7 @@ export const parseLendingPriceBoard = (data) => {
   return parsed
 }
 
-export const parseLendingOHLCV = (data: Candles): any => {
+export const parseLendingOHLCV = (data, decimals): any => {
 
   const parsed = (data: Candles).map(datum => {
     return {
@@ -518,7 +518,7 @@ export const parseLendingOHLCV = (data: Candles): any => {
       high: parseInterest(datum.high),
       low: parseInterest(datum.low),
       close: parseInterest(datum.close),
-      volume: parseLendingAmount(datum.volume),
+      volume: parseLendingAmount(datum.volume, decimals),
     }
   })
 

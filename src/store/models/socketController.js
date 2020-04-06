@@ -711,13 +711,15 @@ const handleLendingOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
       // But in case of UPDATE OHLCV, the payload is an object
       ohlcv = [ohlcv]
     }
-    // const { pairName } = ohlcv[0].pair
-    // const pair = pairs[pairName]
+
+    const state = getState()
+    const { lendingToken } = ohlcv[0].lendingID
+    const { decimals } = getTokenDomain(state).getTokenByAddress(lendingToken.toLowerCase())
 
     try {
       switch (event.type) {
         case 'INIT':
-          ohlcv = parseLendingOHLCV(ohlcv)
+          ohlcv = parseLendingOHLCV(ohlcv, decimals)
           if (window.lendingOnHistoryCallback) {
             window.lendingOnHistoryCallback(ohlcv, {noData: false})
             window.lendingOhlcvLastBar = ohlcv.slice(-1)[0]
@@ -726,7 +728,7 @@ const handleLendingOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
           // dispatch(actionCreators.updateOHLCVLoading(false))
           break
         case 'UPDATE':
-          ohlcv = parseLendingOHLCV(ohlcv)
+          ohlcv = parseLendingOHLCV(ohlcv, decimals)
           if (window.lendinOnRealtimeCallback && (ohlcv[0].time >= window.lendingOhlcvLastBar.time)) {
             window.lendinOnRealtimeCallback(ohlcv[0])
             window.lendingOhlcvLastBar = ohlcv[0]
