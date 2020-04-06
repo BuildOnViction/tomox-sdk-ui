@@ -6,7 +6,7 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side } from '../../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
-import { isTomoWallet, isMobile } from '../../../utils/helpers'
+// import { isTomoWallet, isMobile } from '../../../utils/helpers'
 
 type Props = {
   side: Side,
@@ -297,11 +297,11 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleSendOrder = (side: SIDE) => {
 
-    // const error = this.isInvalidInput(side)
-    // if (error) {
-    //   (side === 'BORROW') ? this.setState({ errorBuy: error }) : this.setState({ errorSell: error })
-    //   return
-    // }
+    const error = this.validateInput(side)
+    if (error) {
+      (side === 'BORROW') ? this.setState({ errorBuy: error }) : this.setState({ errorSell: error })
+      return
+    }
 
     const { borrowInterest, lendInterest, borrowAmount, lendAmount, collateralSelected } = this.state
     const { currentPair, sendNewLendingOrder } = this.props    
@@ -619,7 +619,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  isInvalidInput(side: SIDE) {
+  validateInput(side: SIDE) {
     const { 
       borrowInterest, 
       lendInterest, 
@@ -628,22 +628,24 @@ class OrderForm extends React.PureComponent<Props, State> {
     } = this.state
 
     const {
-      fee,
-      quoteTokenBalance,
-      baseTokenBalance,
+      // fee,
+      // quoteTokenBalance,
+      // baseTokenBalance,
+      lendingToken,
     } = this.props
+    console.log(lendAmount, lendingToken.availableBalance, '============================')
 
-    const buyTotal = BigNumber(borrowInterest).times(borrowAmount)
-    const buyFee = buyTotal.times(fee)
-    const buyTotalWithFee = buyTotal.plus(buyFee)
-    const sellMaxAmount = BigNumber(baseTokenBalance)
+    // const buyTotal = BigNumber(borrowInterest).times(borrowAmount)
+    // const buyFee = buyTotal.times(fee)
+    // const buyTotalWithFee = buyTotal.plus(buyFee)
+    // const sellMaxAmount = BigNumber(baseTokenBalance)
 
     if (side === 'BORROW') { 
       switch (true) {
         case (!borrowInterest || BigNumber(borrowInterest).eq(0)):
           return {
-            type: 'price',
-            message: 'Please input price',
+            type: 'interest',
+            message: 'Please input interest',
           }
 
         case (!borrowAmount || BigNumber(borrowAmount).eq(0)):
@@ -651,11 +653,11 @@ class OrderForm extends React.PureComponent<Props, State> {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (buyTotalWithFee.gt(quoteTokenBalance)):
-          return {
-            type: 'total',
-            message: 'Your balance is not enough',
-          }
+        // case (buyTotalWithFee.gt(quoteTokenBalance)):
+        //   return {
+        //     type: 'total',
+        //     message: 'Your balance is not enough',
+        //   }
         default:
           return null 
       }
@@ -663,17 +665,17 @@ class OrderForm extends React.PureComponent<Props, State> {
       switch(true) {
         case (!lendInterest || BigNumber(lendInterest).eq(0)):
           return {
-            type: 'price',
-            message: 'Please input price',
+            type: 'interest',
+            message: 'Please input interest',
           }
         case (!lendAmount || BigNumber(lendAmount).eq(0)):
           return {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (BigNumber(lendAmount).gt(sellMaxAmount)):
+        case (BigNumber(lendAmount).gt(lendingToken.availableBalance)):
           return {
-            type: 'total',
+            type: 'balance',
             message: 'Your balance is not enough',
           }
         default:
@@ -765,6 +767,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         redirectToLoginPage,
         loading,
         collateralTokens,
+        lendingToken,
       },
       onInputChange,
       onInputFocus,
@@ -826,6 +829,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         onCollateralSelect={handleCollateralSelect}
         profit={profit}
         currentPair={currentPair}
+        lendingToken={lendingToken}
       />
     )
   }

@@ -119,10 +119,10 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         }
       }
 
-      const balance = BigNumber(state[symbol].balance).toFormat(pricePrecision)
-      const inOrders = BigNumber(state[symbol].inOrders).toFormat(pricePrecision)
-      const availableBalance = BigNumber(state[symbol].availableBalance).toFormat(pricePrecision)
-
+      const balance = state[symbol].balance
+      const inOrders = state[symbol].inOrders
+      const availableBalance = state[symbol].availableBalance
+      
       return {
         balance,
         inOrders,

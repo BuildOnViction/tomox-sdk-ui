@@ -10,7 +10,7 @@ import * as notifierActionCreators from '../../actions/app'
 import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 
 import {
-  getTokenPairsDomain,
+  // getTokenPairsDomain,
   getOrderBookDomain,
   getAccountBalancesDomain,
   getAccountDomain,
@@ -26,7 +26,7 @@ export default function getOrderFormSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const accountDomain = getAccountDomain(state)
   const currentPair = getLendingPairsDomain(state).getCurrentPair()
-  currentPair.lendingTokenBalance = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
+  const lendingToken = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
   // const currentPairData = tokenPairsDomain.getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
   let collateralTokens = lendingTokensDomain.collaterals()
@@ -45,6 +45,7 @@ export default function getOrderFormSelector(state: State) {
     loading,
     fee,
     collateralTokens,
+    lendingToken,
   }
 }
 

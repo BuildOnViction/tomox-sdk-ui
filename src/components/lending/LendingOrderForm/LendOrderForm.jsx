@@ -10,30 +10,30 @@ import {
   InputBox,
   InputLabel,
   SmallText,
-  InputValue,
+  // InputValue,
   HeaderRow,
   BaseToken,
   SellButton,
-  MaxAmountInfo,
+  // MaxAmountInfo,
   ErrorMessage,
   Wrapper,
   Row,
   Title,
   Value,
 } from "../OrderFormCommon"
-import { pricePrecision } from "../../../config/tokens"
+// import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
 const LendOrderForm = props => {
   const {
     lendInterest,
     lendAmount,
-    sellMaxAmount,
+    // sellMaxAmount,
     fraction,
-    sellTotal,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    baseTokenBalance,
+    // sellTotal,
+    // baseTokenSymbol,
+    // quoteTokenSymbol,
+    // baseTokenBalance,
     // quoteTokenDecimals,
     onInputChange,
     onInputFocus,
@@ -44,19 +44,20 @@ const LendOrderForm = props => {
     handleDecreaseAmount,
     handleIncreaseAmount,
     errorSell,
-    isShowSellMaxAmount,
+    // isShowSellMaxAmount,
     sellPriceInput,
     sellAmountInput,
     authenticated,
     redirectToLoginPage,
     profit,
     currentPair,
+    lendingToken,
   } = props
 
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.pairSymbol}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.pair}</BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -134,8 +135,8 @@ const LendOrderForm = props => {
         <React.Fragment>
           <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
-            <Value title={`${truncateZeroDecimal(currentPair.lendingTokenBalance.availableBalance)} ${currentPair.lendingTokenSymbol}`}>
-              <SmallText>{`${truncateZeroDecimal(currentPair.lendingTokenBalance.availableBalance)} ${currentPair.lendingTokenSymbol}`}</SmallText>
+            <Value title={`${truncateZeroDecimal(BigNumber(lendingToken.availableBalance).toFormat(8))} ${currentPair.lendingTokenSymbol}`}>
+              <SmallText>{`${truncateZeroDecimal(BigNumber(lendingToken.availableBalance).toFormat(8))} ${currentPair.lendingTokenSymbol}`}</SmallText>
             </Value>
           </Row>
 

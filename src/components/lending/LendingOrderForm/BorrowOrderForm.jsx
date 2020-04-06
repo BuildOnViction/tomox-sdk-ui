@@ -1,6 +1,6 @@
 import React from "react"
 import { FormattedMessage } from "react-intl"
-import BigNumber from 'bignumber.js'
+// import BigNumber from 'bignumber.js'
 
 import { 
   // FractionList, 
@@ -22,7 +22,7 @@ import {
   Value,
 } from "../OrderFormCommon"
 import SelectCollaterals from '../../SelectCollaterals'
-import { pricePrecision } from "../../../config/tokens"
+// import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
 const BorrowOrderForm = props => {
@@ -31,9 +31,9 @@ const BorrowOrderForm = props => {
     borrowAmount,
     // buyMaxAmount,
     // fraction,
-    baseTokenSymbol,
-    quoteTokenSymbol,
-    quoteTokenBalance,
+    // baseTokenSymbol,
+    // quoteTokenSymbol,
+    // quoteTokenBalance,
     // quoteTokenDecimals,
     onInputChange,
     onInputFocus,
@@ -59,7 +59,7 @@ const BorrowOrderForm = props => {
     <Wrapper>
       <HeaderRow>
         <BaseToken>
-          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.pairSymbol}
+          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.pair}
         </BaseToken>
       </HeaderRow>
 
