@@ -690,7 +690,11 @@ const handleLendingPriceMessage = (
   getState: GetState
 ): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
-    const dataParsed = parseLendingPriceBoard(event.payload)
+    const state = getState()
+    const { lendingToken } = event.payload.lendingID
+    const { decimals } = getTokenDomain(state).getTokenByAddress(lendingToken.toLowerCase())
+
+    const dataParsed = parseLendingPriceBoard(event.payload, decimals)
     dispatch(actionCreators.updateLendingCurrentPairData(dataParsed))
   }
 }

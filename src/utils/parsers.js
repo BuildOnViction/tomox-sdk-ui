@@ -491,7 +491,7 @@ export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
   return parsed
 }
 
-export const parseLendingPriceBoard = (data) => {
+export const parseLendingPriceBoard = (data, decimals) => {
   
   const parsed = {
     open: parseInterest(data.open),
@@ -501,7 +501,7 @@ export const parseLendingPriceBoard = (data) => {
     name: getLendingPairName(data.lendingID.name),
     lendingToken: data.lendingID.lendingToken,
     term: data.lendingID.term,
-    volume: data.volume ? data.volume : 0,
+    volume: data.volume ? parseLendingAmount(data.volume, decimals) : 0,
     change: computeChange(data.open, data.close),
   }
 
@@ -518,7 +518,7 @@ export const parseLendingOHLCV = (data, decimals): any => {
       high: parseInterest(datum.high),
       low: parseInterest(datum.low),
       close: parseInterest(datum.close),
-      volume: parseLendingAmount(datum.volume, decimals),
+      volume: datum.volume ? parseLendingAmount(datum.volume, decimals) : 0,
     }
   })
 
