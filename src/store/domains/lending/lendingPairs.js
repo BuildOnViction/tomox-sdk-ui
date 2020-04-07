@@ -165,11 +165,11 @@ export const lendingPairsDataUpdated = (lendingPairsData) => {
   return event
 }
 
-export const tokenPairFavorited = (tokenPair: string, favorited: boolean) => {
+export const tokenPairFavorited = (pair: string, favorited: boolean) => {
   const event = (state: TokenPairState): TokenPairState => {
     const newState = favorited
-      ? [...state.favorites, tokenPair]
-      : state.favorites.filter(elem => elem !== tokenPair)
+      ? [...state.favorites, pair]
+      : state.favorites.filter(elem => elem !== pair)
 
     return {
       ...state,

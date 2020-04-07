@@ -536,7 +536,7 @@ export const lendingTrades = createReducer(action => {
 
 export const lendingPairs = createReducerPersist({
   key: 'lendingPairs',
-  keyPrefix: 'tomo:',
+  keyPrefix: 'tomo:lending:',
   storage,
   whitelist: ['favorites', 'currentLendingPair'],
 }, action => {
@@ -550,9 +550,9 @@ export const lendingPairs = createReducerPersist({
       return lendingPairsEvents.updateCurrentPair(payload)
     case socketControllerActionTypes.updateLendingCurrentPairData:
       return lendingPairsEvents.updateCurrentPairData(payload)
-    case tokenSearcherActionTypes.updateFavorite:
-    case marketsTableActionTypes.updateFavorite:
-      return tokenPairsEvents.tokenPairFavorited(
+    // case tokenSearcherActionTypes.updateFavorite:
+    case lendingMarketsActionTypes.updateFavorite:
+      return lendingPairsEvents.tokenPairFavorited(
         payload.code,
         payload.favorite
       )

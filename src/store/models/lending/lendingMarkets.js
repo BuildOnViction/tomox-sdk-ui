@@ -14,13 +14,15 @@ export default function marketsTableSelector(state: State) {
   const accountDomain = getAccountDomain(state)
   // const loading = pairsDomain.loading()
   const referenceCurrency = accountDomain.referenceCurrency()
-  // const favoriteds = pairsDomain.getFavoritePairs()
+  const lendingPairsDomain = getLendingPairsDomain(state)
+  let pairs = lendingPairsDomain.getTokenPairsWithDataArray()
+  const favoriteds = lendingPairsDomain.getFavoritePairs()
 
-  // pairs = pairs.map(tokenPair => {
-  //   tokenPair.favorited = favoriteds.includes(tokenPair.pair)
-  //   return tokenPair
-  // })
-  const pairs = getLendingPairsDomain(state).getTokenPairsWithDataArray()
+  pairs = pairs.map(pair => {
+    pair.favorited = favoriteds.includes(pair.pair)
+    return pair
+  })
+
   const lendingTokensDomain = getLendingTokensDomain(state)
   const lendingTokens = lendingTokensDomain.tokenSymbols()
 

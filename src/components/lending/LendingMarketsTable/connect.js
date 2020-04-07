@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { updateFavorite } from '../../../store/actions/marketsTable'
+import { updateFavorite } from '../../../store/actions/lending/lendingMarkets'
 import lendingMarketTableSelector, { redirectToLendingPage } from '../../../store/models/lending/lendingMarkets'
 
 import type { State } from '../../../types'
