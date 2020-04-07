@@ -28,7 +28,6 @@ type Props = {
 type State = {
   quoteTokens: Array<string>,
   searchFilter: string,
-  // selectedPair: ?Token,
   filterName: string,
   sortOrder: string,
   selectedTabId: string,
@@ -38,9 +37,7 @@ type State = {
 
 class TokenSearcher extends React.PureComponent<Props, State> {
   state = {
-    // quoteTokens: [],
     searchFilter: '',
-    // selectedPair: null,
     filterName: 'symbol',
     sortOrder: 'asc',
     selectedTabId: this.props.lendingTokens[0],
@@ -48,23 +45,6 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     isOpen: true,
     isShowSearchResult: false,
   }
-
-  // static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-  //   const { tokenPairsByQuoteToken, currentPair } = nextProps
-  //   const quoteTokens: Array<string> = Object.keys(tokenPairsByQuoteToken)
-  //   const currentQuoteToken = currentPair.quoteTokenSymbol
-    
-  //   const defaultPairs = tokenPairsByQuoteToken[currentQuoteToken]
-  //   const selectedPair = defaultPairs.filter(pair => pair.pair === currentPair.pair)[0]
-
-  //   if (!prevState.selectedPair) {
-  //     return {
-  //       quoteTokens,
-  //       selectedTabId: currentQuoteToken,
-  //       selectedPair, // selectedPair: defaultPairs[0],
-  //     }
-  //   } return null
-  // }
 
   componentDidUpdate(prevProps) {
     const { lendingTokens } = this.props
@@ -116,7 +96,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     this.setState({ sortOrder: value })
   };
 
-  changeTab = (tabId: string) => {
+  changeTab = (tabId: string) => {    
     this.setState({ selectedTabId: tabId })
   };
 
@@ -128,52 +108,21 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     if (selectedTabId !== 'favorites') {
       result.pairs = pairs.filter(pair => pair.lendingTokenSymbol === selectedTabId)
     }
+    
+    if (selectedTabId === 'favorites') result.pairs = pairs.filter(pair => pair.favorited)
 
     if (searchFilter) {
       result.searchResults = pairs.filter(pair => pair.pair.toLowerCase().includes(searchFilter.toLowerCase()))
     } else {
       result.searchResults = [...pairs]
     }
-    
-    // const { lendingTokens } = this.props
-    // const { searchFilter, filterName, sortOrder } = this.state
-
-    // for (const lendingToken in lendingTokens) {
-    //   if (searchFilter) {
-    //     const tokenPairs = tokenPairsByQuoteToken[quote].filter(tokenPair => {
-    //       return tokenPair.pair.includes(searchFilter.toLocaleUpperCase())
-    //     })
-
-    //     result['searchResult'] = result['searchResult'].concat(tokenPairs)
-    //   } else {
-    //     result['searchResult'] = result['searchResult'].concat(tokenPairsByQuoteToken[quote])
-    //   }
-
-    //   result[quote] = tokenPairsByQuoteToken[quote]
-
-    //   result['favorites'] = result['favorites'].concat(tokenPairsByQuoteToken[quote].filter(pairObj => { 
-    //     return pairObj.favorited
-    //   }))
-
-    //   result['favorites'] = sortTable(
-    //     result['favorites'],
-    //     filterName,
-    //     sortOrder
-    //   )
-
-    //   result[quote] = sortTable(result[quote], filterName, sortOrder)
-
-    //   result['searchResult'] = sortTable(result['searchResult'], 'pair', 'asc')
-    // }    
-
+        
     return result
   }
 
-  changeSelectedToken = (token: Token) => {
-    if (this.props.toggleTokenSearcherMobile) this.props.toggleTokenSearcherMobile(false)
-    // if (token.pair === this.state.selectedPair.pair) return
-    // this.setState({ selectedPair: token })
-    this.props.updateCurrentPair(token.pair)
+  changeSelectedToken = (pair) => {    
+    if (pair.pair === this.props.currentPair.pair) return
+    this.props.updateCurrentPair(pair.pair)
   };
 
   render() {
@@ -181,16 +130,12 @@ class TokenSearcher extends React.PureComponent<Props, State> {
       state: { 
         selectedTabId, 
         searchFilter, 
-        // selectedPair, 
         sortOrder, 
         filterName, 
-        // quoteTokens, 
         isShowSearchResult,
       },
       props: { 
         updateFavorite, 
-        // baseTokenBalance, 
-        // quoteTokenBalance,
         lendingTokens,
       },
       onChangeSearchFilter,
@@ -203,7 +148,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     } = this
 
     const filteredPairs = this.filterTokens()
-    const tabs = ['Favorites', ...lendingTokens]
+    const tabs = ['favorites', ...lendingTokens]
 
     //Temporary loading condition
     const loading = !selectedTabId
@@ -214,10 +159,6 @@ class TokenSearcher extends React.PureComponent<Props, State> {
         tabs={tabs}
         selectedTabId={selectedTabId}
         searchFilter={searchFilter}
-        // baseTokenBalance={baseTokenBalance}
-        // quoteTokenBalance={quoteTokenBalance}
-        // silence-error: couldn't resolve selectedPair === undefined case
-        // selectedPair={selectedPair}
         sortOrder={sortOrder}
         filterName={filterName}
         filteredPairs={filteredPairs}

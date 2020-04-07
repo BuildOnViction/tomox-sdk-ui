@@ -57,7 +57,7 @@ const TokenSearchRenderer = (props: Props) => {
     tabs,
     selectedTabId,
     searchFilter,
-    selectedPair,
+    // selectedPair,
     sortOrder,
     filterName,
     updateFavorite,
@@ -101,8 +101,8 @@ const TokenSearchRenderer = (props: Props) => {
                   return (
                     <TabItem
                       key={i}
-                      icon={tab === 'Favorites' ? 'Favorite' : ''}
-                      text={tab === 'Favorites' ? '' : tab}
+                      icon={tab === 'favorites' ? 'favorite' : ''}
+                      text={tab === 'favorites' ? '' : tab}
                       onClick={() => changeTab(tab)}
                       active={selectedTabId === tab}
                     />
@@ -298,7 +298,7 @@ const TableHeader = ({
 
 const TabItem = (props) => {
   return (
-    <TabContent>
+    <TabContent onClick={props.onClick}>
       {props.icon && (
         <TabIcon>
           <UtilityIcon name={props.name} 
@@ -310,7 +310,7 @@ const TabItem = (props) => {
       {props.text && (
         <TabTitle
           active={props.active}
-          onClick={props.onClick}>
+        >
           {props.text}
         </TabTitle>
       )}
@@ -394,6 +394,7 @@ const TabsWrapper = styled.div`
 `
 
 const TabContent = styled.div`
+  cursor: pointer;
   display: flex;
   align-items: flex-end;
 `
@@ -403,7 +404,6 @@ const TabIcon = styled.span`
 `
 
 const TabTitle = styled.span`
-  cursor: pointer;
   display: flex;
   margin-right: 20px;
   color: ${props => props.active ? props.theme.menuColorHover : 'inherit' };
