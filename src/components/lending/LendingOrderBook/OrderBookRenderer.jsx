@@ -76,7 +76,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onSelect,
       amountPrecision,
       currentPairData,
-    } = this.props    
+      currentPair,
+    } = this.props        
 
     const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
 
@@ -107,12 +108,12 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 <AmountHeader width={widthColumns[1]} className="header-cell text-right">
                   <FormattedMessage 
                     id="exchangeLendingPage.orderbook.amount"
-                    values={{symbol: 'USDT'}} />
+                    values={{symbol: currentPair ? currentPair.lendingTokenSymbol : ''}} />
                 </AmountHeader>
                 <HeaderCell width={widthColumns[2]} className="header-cell text-right">
                   <FormattedMessage 
                     id="exchangeLendingPage.orderbook.totalAmount"
-                    values={{symbol: 'USDT'}} />
+                    values={{symbol: currentPair ? currentPair.lendingTokenSymbol : ''}} />
                 </HeaderCell>
               </HeaderRow>
             </ListHeading>

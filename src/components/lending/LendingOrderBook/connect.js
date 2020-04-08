@@ -6,8 +6,8 @@ import { selectOrder } from '../../../store/actions/lending/lendingOrderBook'
 import type { State } from '../../../types'
 
 export const mapStateToProps = (state: State) => {
-  const { bids, asks, currentPair, currentPairData, referenceCurrency } = lendinOrderBookSelector(state)
-  return { bids, asks, currentPair, currentPairData, referenceCurrency }
+  const selector = lendinOrderBookSelector(state)
+  return { ...selector }
 }
 
 export const mapDispatchToProps = {
