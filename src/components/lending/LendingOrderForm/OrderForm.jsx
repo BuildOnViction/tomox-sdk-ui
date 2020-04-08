@@ -6,6 +6,7 @@ import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 import type { Side } from '../../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
+import { getEstimatedCollateral } from '../../../store/services/api/engine'
 // import { isTomoWallet, isMobile } from '../../../utils/helpers'
 
 type Props = {
@@ -60,6 +61,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     collateralSelected: this.props.collateralTokens ? this.props.collateralTokens[0] : {},
     profit: '',
     isFirstTime: true,
+    estimateCollateral: '',
   }
 
   buyPriceInput = React.createRef()
@@ -181,7 +183,17 @@ class OrderForm extends React.PureComponent<Props, State> {
     this.resetErrorObject(side)
 
     if (side === 'BORROW') {
-      this.setState({ borrowAmount: amount })
+      this.setState({ borrowAmount: amount }, async () => {
+        const qs = {
+          amount: Number(amount),
+          lendingToken: this.props.currentPair.lendingTokenAddress,
+          collateralToken: this.state.collateralSelected.address,
+        }
+        const { estimateCollateralAmount } = await getEstimatedCollateral(qs)
+        this.setState({
+          estimateCollateral: estimateCollateralAmount,
+        })
+      })
     } else {
       const { lendInterest } = this.state
 
@@ -505,17 +517,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     } = this.state
 
     const {
-      // fee,
-      // quoteTokenBalance,
-      // baseTokenBalance,
       lendingToken,
     } = this.props
-    console.log(lendAmount, lendingToken.availableBalance, '============================')
-
-    // const buyTotal = BigNumber(borrowInterest).times(borrowAmount)
-    // const buyFee = buyTotal.times(fee)
-    // const buyTotalWithFee = buyTotal.plus(buyFee)
-    // const sellMaxAmount = BigNumber(baseTokenBalance)
 
     if (side === 'BORROW') { 
       switch (true) {
@@ -631,6 +634,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         isShowSellMaxAmount,
         collateralSelected,
         profit,
+        estimateCollateral,
       },
       props: {
         currentPair,
@@ -707,6 +711,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         profit={profit}
         currentPair={currentPair}
         lendingToken={lendingToken}
+        estimateCollateral={estimateCollateral}
       />
     )
   }

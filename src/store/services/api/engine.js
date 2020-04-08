@@ -689,6 +689,22 @@ export const getLendingOrderNonce = async (address: string): Promise<number> => 
   return data
 }
 
+export const getEstimatedCollateral = async (qs): Promise<number> => {
+  const response = await request(`/lending/estimate?amount=${qs.amount}&lendingToken=${qs.lendingToken}&collateralToken=${qs.collateralToken}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
 export const cancelLendingOrder = async (payload) => {
   const response = await request(
     '/lending/cancel',

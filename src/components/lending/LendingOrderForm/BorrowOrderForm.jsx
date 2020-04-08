@@ -1,6 +1,6 @@
 import React from "react"
 import { FormattedMessage } from "react-intl"
-// import BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 
 import { 
   // FractionList, 
@@ -53,6 +53,7 @@ const BorrowOrderForm = props => {
     collateralSelected,
     onCollateralSelect,
     currentPair,
+    estimateCollateral,
   } = props
 
   return (
@@ -144,7 +145,7 @@ const BorrowOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
         <Value>
-          <SmallText>{collateralSelected.symbol}</SmallText>
+          <SmallText>{estimateCollateral && truncateZeroDecimal(BigNumber(estimateCollateral).toFormat(8))}{collateralSelected.symbol}</SmallText>
         </Value>
       </Row>
 
