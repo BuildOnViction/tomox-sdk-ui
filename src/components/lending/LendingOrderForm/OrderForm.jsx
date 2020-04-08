@@ -183,16 +183,20 @@ class OrderForm extends React.PureComponent<Props, State> {
     this.resetErrorObject(side)
 
     if (side === 'BORROW') {
-      this.setState({ borrowAmount: amount }, async () => {
-        const qs = {
-          amount: Number(amount),
-          lendingToken: this.props.currentPair.lendingTokenAddress,
-          collateralToken: this.state.collateralSelected.address,
-        }
-        const { estimateCollateralAmount } = await getEstimatedCollateral(qs)
-        this.setState({
-          estimateCollateral: estimateCollateralAmount,
-        })
+      if ( window.estimateTimer) clearTimeout(window.estimateTimer)
+
+      this.setState({ borrowAmount: amount }, () => {
+        window.estimateTimer = setTimeout(async () => {
+          const qs = {
+            amount: Number(amount),
+            lendingToken: this.props.currentPair.lendingTokenAddress,
+            collateralToken: this.state.collateralSelected.address,
+          }
+          const { estimateCollateralAmount } = await getEstimatedCollateral(qs)
+          this.setState({
+            estimateCollateral: estimateCollateralAmount,
+          })
+        }, 500)
       })
     } else {
       const { lendInterest } = this.state

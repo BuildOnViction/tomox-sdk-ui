@@ -145,7 +145,7 @@ const BorrowOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
         <Value>
-          <SmallText>{estimateCollateral && truncateZeroDecimal(BigNumber(estimateCollateral).toFormat(8))}{collateralSelected.symbol}</SmallText>
+          <SmallText>{estimateCollateral && truncateZeroDecimal(BigNumber(estimateCollateral).toFormat(8))}&#32;{collateralSelected.symbol}</SmallText>
         </Value>
       </Row>
 
