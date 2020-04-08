@@ -41,7 +41,7 @@ class OrderBook extends React.Component<Props, State> {
       props: { 
         bids, 
         asks,
-        select,
+        selectOrder,
         currentPair: {
           baseTokenSymbol,
           quoteTokenSymbol,
@@ -64,7 +64,7 @@ class OrderBook extends React.Component<Props, State> {
       <OrderListRenderer 
         bids={bidsFilteredZeroAmount} 
         asks={asksFilteredZeroAmount} 
-        onSelect={select}
+        onSelect={selectOrder}
         pricePrecision={pricePrecision}
         amountPrecision={amountPrecision}
         currentPairData={currentPairData}

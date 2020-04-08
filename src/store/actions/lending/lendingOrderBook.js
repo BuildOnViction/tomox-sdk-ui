@@ -1,6 +1,6 @@
 const actionTypes = {
   saveData: 'lendingOrderbook/SAVE_DATA',
-  select: 'lendingOrderbook/SELECT',
+  selectOrder: 'lendingOrderbook/SELECT_ORDER',
 }
 
 export function saveData(data: any) {
@@ -10,10 +10,10 @@ export function saveData(data: any) {
   }
 }
 
-export function select(order) {
+export function selectOrder(order) {
   return {
-    type: actionTypes.select,
-    payload: { order },
+    type: actionTypes.selectOrder,
+    payload: order,
   }
 }
 

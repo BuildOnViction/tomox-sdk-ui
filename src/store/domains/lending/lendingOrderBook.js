@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { round } from '../../../utils/helpers'
 
 const initialState: OrderBookState = {
-  selected: null,
+  selectedOrder: null,
   bids: {},
   asks: {},
   sortedBids: [],
@@ -19,10 +19,10 @@ export const initialized = () => {
   return event
 }
 
-export const selected = (order: Object) => {
+export const selectedOrder = (order: Object) => {
   const event = (state: OrderBookState) => ({
     ...state,
-    selected: order,
+    selectedOrder: order,
   })
 
   return event
@@ -154,7 +154,7 @@ export default function domain(state: OrderBookState) {
     getState: () => state,
     getAsks: () => state.asks,
     getBids: () => state.bids,
-    getSelectedOrder: () => state.selected,
+    getSelectedOrder: () => state.selectedOrder,
     getOrderedBids: (): Array<Object> =>
       state.sortedBids.map(price => state.bids[price]),
     getOrderedAsks: (): Array<Object> =>

@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import lendinOrderBookSelector from '../../../store/models/lending/lendingOrderBook'
-import { select } from '../../../store/actions/orderBook'
+import { selectOrder } from '../../../store/actions/lending/lendingOrderBook'
 
 import type { State } from '../../../types'
 
@@ -11,7 +11,7 @@ export const mapStateToProps = (state: State) => {
 }
 
 export const mapDispatchToProps = {
-  select,
+  selectOrder,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)

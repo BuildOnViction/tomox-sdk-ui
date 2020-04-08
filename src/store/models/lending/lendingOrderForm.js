@@ -10,40 +10,39 @@ import * as notifierActionCreators from '../../actions/app'
 import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 
 import {
-  // getTokenPairsDomain,
-  getOrderBookDomain,
   getAccountBalancesDomain,
   getAccountDomain,
   getLendingOrdersDomain,
   getLendingTokensDomain,
   getLendingPairsDomain,
+  getLendingOrderBookDomain,
 } from '../../domains/'
 
 export default function getOrderFormSelector(state: State) {
-  // const tokenPairsDomain = getTokenPairsDomain(state)
-  const orderBookDomain = getOrderBookDomain(state)
-  const lendingOrderDomain = getLendingOrdersDomain(state)
-  const accountBalancesDomain = getAccountBalancesDomain(state)
   const accountDomain = getAccountDomain(state)
-  const currentPair = getLendingPairsDomain(state).getCurrentPair()
-  const lendingToken = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
-  // const currentPairData = tokenPairsDomain.getCurrentPairData()
+  const authenticated = accountDomain.authenticated()
+  const lendingPairsDomain = getLendingPairsDomain(state)
+  const currentPair = lendingPairsDomain.getCurrentPair()
+  const currentPairData = lendingPairsDomain.getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
   let collateralTokens = lendingTokensDomain.collaterals()
+
+  const lendingOrderBookDomain = getLendingOrderBookDomain(state)
+  const selectedOrder = lendingOrderBookDomain.getSelectedOrder()
+
+  const lendingOrderDomain = getLendingOrdersDomain(state)
+  const loading = lendingOrderDomain.loading()
+
+  const accountBalancesDomain = getAccountBalancesDomain(state)
+  const lendingToken = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
   collateralTokens = accountBalancesDomain.getBalancesAndAllowances(collateralTokens)
 
-  const selectedOrder = orderBookDomain.getSelectedOrder()
-
-  const authenticated = accountDomain.authenticated()
-  const loading = lendingOrderDomain.loading()
-  // const fee = accountDomain.fee()
   return {
     selectedOrder,
     currentPair,
-    // currentPairData,
+    currentPairData,
     authenticated,
     loading,
-    // fee,
     collateralTokens,
     lendingToken,
   }

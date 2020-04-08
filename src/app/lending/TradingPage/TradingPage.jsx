@@ -9,7 +9,7 @@ import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 import LendingOrdersTable from '../../../components/lending/LendingOrdersTable'
 import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
-import OrderBook from '../../../components/lending/OrderBook'
+import OrderBook from '../../../components/lending/LendingOrderBook'
 import LendingTvChart from '../../../components/lending/LendingTvChart'
 
 type Props = {

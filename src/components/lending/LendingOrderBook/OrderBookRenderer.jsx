@@ -76,7 +76,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onSelect,
       amountPrecision,
       currentPairData,
-      referenceCurrency,
     } = this.props    
 
     const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
@@ -139,11 +138,6 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                         {BigNumber(currentPairData.close).toFormat(2)}&#37;
                       </Ellipsis>
                     </CryptoPrice>
-                    {/* {currentPairData.priceUsd && (<CashPrice>
-                      <Ellipsis title={BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}>
-                        {referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}
-                      </Ellipsis>
-                    </CashPrice>)}  */}
                   </LatestPrice>
                 )}  
 
@@ -183,9 +177,9 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> 
+      <Cell onClick={() => onClick({...order, type: "interest", side: "BORROW"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> 
     </Row>
   )
 }
@@ -195,9 +189,9 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>
+      <Cell onClick={() => onClick({...order, type: "interest", side: "INVEST"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+      <AmountCell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+      <Cell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>
     </Row>
   )
 }

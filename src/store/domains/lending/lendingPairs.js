@@ -1,8 +1,8 @@
 //@flow
-import { quoteTokens } from '../../../config/quotes'
-import { tokens } from '../../../config/tokens'
+// import { quoteTokens } from '../../../config/quotes'
+// import { tokens } from '../../../config/tokens'
 import {
-  generateTokenPairs,
+  // generateTokenPairs,
   getPairSymbol,
 } from '../../../utils/tokens'
 import { getTermSymbol } from '../../../utils/helpers'
@@ -13,7 +13,7 @@ import type {
   TokenPairState,
   // TokenPairData,
   // TokenPairDataMap,
-  CurrentTokenPairData,
+  // CurrentTokenPairData,
 } from '../../../types/tokens'
 
 export const initialized = (customInitialState?: TokenPairState) => {

@@ -59,6 +59,7 @@ class OrderForm extends React.PureComponent<Props, State> {
     dirtyPriceForm: false,
     collateralSelected: this.props.collateralTokens ? this.props.collateralTokens[0] : {},
     profit: '',
+    isFirstTime: true,
   }
 
   buyPriceInput = React.createRef()
@@ -67,155 +68,58 @@ class OrderForm extends React.PureComponent<Props, State> {
   sellAmountInput = React.createRef()
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.collateralTokens
-      && this.props.collateralTokens) {
+    const {isFirstTime} = this.state
+    const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder} = prevProps
+    const {collateralTokens: currCollaterals, selectedOrder: currSelectedOrder, currentPairData} = this.props
+
+    if (!prevCollaterals
+      && currCollaterals) {
       this.setState({
-        collateralSelected: this.props.collateralTokens[0],
+        collateralSelected: currCollaterals[0],
       })
     }
 
-    // const prevSelectedOrder = prevProps.selectedOrder
-    // const currSelectedOrder = this.props.selectedOrder
-    // const { currentPairData } = this.props
-    // const { dirtyPriceForm } = this.state
+    // Set interest to current pair data interest
+    if (isFirstTime && !currSelectedOrder && currentPairData ) {
+      this.setState({
+        borrowInterest: currentPairData.close.toFixed(2),
+        lendInterest: currentPairData.close.toFixed(2),
+        isFirstTime: false,
+      })
+    }
 
-    // if (currentPairData 
-    //   && currentPairData.pricePrecision
-    //   && ((currentPairData.pricePrecision !== this.state.pricePrecision)
-    //     || (currentPairData.amountPrecision !== this.state.amountPrecision))
-    //   ) {
-    //   const { pricePrecision, amountPrecision } = currentPairData
+    // Select order from orderbook
+    if (!prevSelectedOrder && currSelectedOrder) {
+      this.handleSelectFromOrderbook(currSelectedOrder)
+    }
 
-    //   this.setState({
-    //     pricePrecision,
-    //     amountPrecision,
-    //     interestStep: toDecimalFormString(1/Math.pow(10, pricePrecision)),
-    //     amountStep: toDecimalFormString(1/Math.pow(10, amountPrecision)),
-    //   })
-    // }
-
-    // currentPair and currentPairData changed and ready at different times
-    // so we use dirtyPriceForm to indicate token pair changed & order form is refresh
-    // and when currenPairData ready we will add price to form
-    // if (prevProps.currentPair.pair !== this.props.currentPair.pair) {
-    //   this.setState({dirtyPriceForm: false})
-    // }
-
-    // if (!dirtyPriceForm && currentPairData) {
-    //   const { price, pricePrecision } = currentPairData
-    //   const priceFormated = BigNumber(price).toFixed(pricePrecision)
-
-    //   return this.setState({ 
-    //     borrowInterest: priceFormated, 
-    //     lendInterest: priceFormated,
-    //     borrowAmount: '',
-    //     lendAmount: '',
-    //     buyTotal: '',
-    //     sellTotal: '',
-    //     dirtyPriceForm: true,
-    //   }) 
-    // }
-
-    // if(!prevSelectedOrder && currSelectedOrder) {
-    //   return this.setOrderByChoose(currSelectedOrder)
-    // }
-
-    // if (prevSelectedOrder 
-    //   && (prevSelectedOrder.price !== currSelectedOrder.price
-    //   || prevSelectedOrder.type !== currSelectedOrder.type)) {
-
-    //   return this.setOrderByChoose(currSelectedOrder)  
-    // }  
+    if (prevSelectedOrder && 
+      (prevSelectedOrder.interest !== currSelectedOrder.interest ||
+      prevSelectedOrder.amount !== currSelectedOrder.amount)
+    ) {
+      this.handleSelectFromOrderbook(currSelectedOrder)
+    }
   }
 
-  // setOrderByChoose(order) {    
-  //   const { pricePrecision, amountPrecision } = this.state
+  handleSelectFromOrderbook = (order) => {
+    const { interest, type, total } = order
 
-  //   this.resetErrorObject()
-  //   const { authenticated } = this.props
-  //   let { type, price, total, side } = order
-  //   const oppositeSide = (side === 'BORROW') ? 'LEND' : 'BORROW'
-
-  //   const priceFormated = BigNumber(price).toFixed(pricePrecision)
-
-  //   if (type === 'amount') {
-  //     if (isTomoWallet() || isMobile()) return
-  //     if (side === 'BORROW') {
-  //       this.setState({
-  //         borrowInterest: priceFormated, 
-  //         lendInterest: priceFormated,
-  //         borrowAmount: '',
-  //         buyTotal: '',
-  //       }, _ => {
-  //         let amountFormated = BigNumber(total).toFixed(amountPrecision)
-
-  //         if (authenticated) {
-  //           let { sellMaxAmount } = this.calcMaxAmount(priceFormated)
-  //           sellMaxAmount = BigNumber(sellMaxAmount).gt(0) ? sellMaxAmount : ''
-  //           amountFormated = BigNumber(amountFormated).lte(sellMaxAmount) ? amountFormated : sellMaxAmount
-  //         }
-
-  //         this.handleAmountChange(amountFormated, oppositeSide)
-  //       })
-  //     } else {
-  //       this.setState({
-  //         borrowInterest: priceFormated, 
-  //         lendInterest: priceFormated,
-  //         lendAmount: '',
-  //         sellTotal: '',
-  //       }, _ => {
-  //         let amountFormated = BigNumber(total).toFixed(amountPrecision)
-  //         if (authenticated) {
-  //           let { buyMaxAmount } = this.calcMaxAmount(priceFormated)
-
-  //           buyMaxAmount = BigNumber(buyMaxAmount).gt(0) ? buyMaxAmount : ''
-  //           amountFormated = BigNumber(amountFormated).lte(buyMaxAmount) ? amountFormated : buyMaxAmount
-  //         }
-
-  //         this.handleAmountChange(amountFormated, oppositeSide)
-  //       })
-  //     }
-  //   } else {      
-  //     // eslint-disable-next-line no-lonely-if
-  //     if (side === 'BORROW') {
-  //       this.setState({
-  //         borrowInterest: priceFormated, 
-  //         lendInterest: priceFormated,
-  //         borrowAmount: '',
-  //         buyTotal: '',
-  //       }, _ => {
-  //         if (authenticated && this.state.lendAmount) {
-  //           let sellAmountFormated = BigNumber(this.state.lendAmount).toFixed(amountPrecision)
-  //           let { sellMaxAmount } = this.calcMaxAmount(priceFormated)
-  //           sellMaxAmount = BigNumber(sellMaxAmount).gt(0) ? sellMaxAmount : ''
-  //           sellAmountFormated = BigNumber(sellAmountFormated).lte(sellMaxAmount) ? sellAmountFormated : sellMaxAmount
-            
-  //           this.handleAmountChange(sellAmountFormated, oppositeSide)
-  //         } else {
-  //           this.handleInterestChange(priceFormated, oppositeSide)
-  //         }          
-  //       })
-  //     } else {
-  //       this.setState({
-  //         borrowInterest: priceFormated, 
-  //         lendInterest: priceFormated,
-  //         lendAmount: '',
-  //         sellTotal: '',
-  //       }, _ => {
-  //         if (authenticated && this.state.borrowAmount) {
-  //           let buyAmountFormated = BigNumber(this.state.borrowAmount).toFixed(amountPrecision)
-  //           let { buyMaxAmount } = this.calcMaxAmount(priceFormated)
-  //           buyMaxAmount = BigNumber(buyMaxAmount).gt(0) ? buyMaxAmount : ''
-  //           buyAmountFormated = BigNumber(buyAmountFormated).lte(buyMaxAmount) ? buyAmountFormated : buyMaxAmount
-            
-  //           this.handleAmountChange(buyAmountFormated, oppositeSide)
-  //         } else {
-  //           this.handleInterestChange(priceFormated, oppositeSide)
-  //         } 
-  //       })
-  //     }
-  //   }
-  // }
+    if (order.side === 'BORROW') {
+      this.setState({
+        borrowInterest: interest,
+        borrowAmount: '',
+        lendInterest: interest,
+        lendAmount: (type === 'amount') ? total : '',
+      })
+    } else {
+      this.setState({
+        borrowInterest: interest,
+        borrowAmount: (type === 'amount') ? total : '',
+        lendInterest: interest,
+        lendAmount: '',
+      })
+    }
+  }
 
   onInputChange = (side: SIDE = 'BORROW', { target }: Object) => {
     const { authenticated } = this.props

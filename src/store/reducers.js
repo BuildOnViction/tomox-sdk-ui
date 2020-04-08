@@ -32,6 +32,7 @@ import lendingTradesActionTypes from './actions/lending/lendingTrades'
 import lendingMarketsActionTypes from './actions/lending/lendingMarkets'
 import lendingTradePageActionTypes from './actions/lending/lendingTradePage'
 import lendingTokenSearcherActionTypes from './actions/lending/lendingTokenSearcher'
+import lendingOrderBookActionTypes from './actions/lending/lendingOrderBook'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -514,6 +515,8 @@ export const lendingOrderBook = createReducer(({ type, payload }) => {
       return lendingOrderBookEvents.orderBookInitialized(payload.bids, payload.asks)
     case socketControllerActionTypes.updateLendingOrderBook:
       return lendingOrderBookEvents.orderBookUpdated(payload.bids, payload.asks)
+    case lendingOrderBookActionTypes.selectOrder:
+      return lendingOrderBookEvents.selectedOrder(payload)
     default:
       return lendingOrderBookEvents.initialized()
   }
