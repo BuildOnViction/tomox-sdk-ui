@@ -165,13 +165,13 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
         return {
           ...token,
           balance: state[token.symbol]
-            ? BigNumber(state[token.symbol].balance).toFormat(pricePrecision)
+            ? state[token.symbol].balance
             : null,
           inOrders: state[token.symbol]
-            ? BigNumber(state[token.symbol].inOrders).toFormat(pricePrecision)
+            ? state[token.symbol].inOrders
             : null,
           availableBalance: state[token.symbol]
-            ? BigNumber(state[token.symbol].availableBalance).toFormat(pricePrecision)
+            ? state[token.symbol].availableBalance
             : null,
         }
       })

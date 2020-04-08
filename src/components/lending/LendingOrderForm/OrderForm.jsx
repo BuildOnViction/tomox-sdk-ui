@@ -518,6 +518,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       lendInterest, 
       borrowAmount, 
       lendAmount, 
+      collateralSelected,
+      estimateCollateral,
     } = this.state
 
     const {
@@ -525,6 +527,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     } = this.props
 
     if (side === 'BORROW') { 
+      const collateralBalance = collateralSelected ? collateralSelected.availableBalance : 0
+
       switch (true) {
         case (!borrowInterest || BigNumber(borrowInterest).eq(0)):
           return {
@@ -537,15 +541,17 @@ class OrderForm extends React.PureComponent<Props, State> {
             type: 'amount',
             message: 'Please input amount',
           }
-        // case (buyTotalWithFee.gt(quoteTokenBalance)):
-        //   return {
-        //     type: 'total',
-        //     message: 'Your balance is not enough',
-        //   }
+        case (BigNumber(collateralBalance).lt(estimateCollateral)):
+          return {
+            type: 'total',
+            message: 'Your balance is not enough',
+          }
         default:
           return null 
       }
     } else {
+      const lendingTokenBalance = lendingToken ? Number(lendingToken.availableBalance) : 0
+
       switch(true) {
         case (!lendInterest || BigNumber(lendInterest).eq(0)):
           return {
@@ -557,7 +563,7 @@ class OrderForm extends React.PureComponent<Props, State> {
             type: 'amount',
             message: 'Please input amount',
           }
-        case (BigNumber(lendAmount).gt(lendingToken.availableBalance)):
+        case (BigNumber(lendingTokenBalance).lt(lendAmount)):
           return {
             type: 'balance',
             message: 'Your balance is not enough',
