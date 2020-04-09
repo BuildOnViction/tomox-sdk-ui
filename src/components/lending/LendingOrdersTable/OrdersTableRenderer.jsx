@@ -57,16 +57,15 @@ const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
 const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
-// const widthColumnsTradeHistory = ['17%', '20%', '10%', '32%', '25%']
 const columnsTradeHistory = {
   openDate: '12%', 
   closeDate: '12%',
   pair: '15%', 
   type: '10%', 
   interest: '10%', 
-  filled: '13%',
+  filled: '10%',
   liqPrice: '13%',
-  collateral: '10%',
+  collateral: '13%',
   status: '9%',
 }
 const columnsOpenTrades = {
@@ -75,9 +74,9 @@ const columnsOpenTrades = {
   pair: '18%',
   type: '10%',
   interest: '10%',
-  filled: '15%',
+  filled: '10%',
   liqPrice: '12%',
-  collateral: '10%',
+  collateral: '15%',
   actions: '5%',
 }
 
@@ -231,9 +230,6 @@ const OpenOrderTable = ({
         <Cell width={widthColumns[5]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        {/* <Cell width={widthColumns[6]} muted>
-          {BigNumber(order.total).toFormat()}
-        </Cell> */}
         <Cell width={widthColumns[6]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
@@ -311,9 +307,6 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsOrderHistory[5]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        {/* <Cell width={widthColumnsOrderHistory[6]} muted>
-          {BigNumber(order.total).toFormat()}
-        </Cell> */}
         <Cell width={widthColumnsOrderHistory[6]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
@@ -399,7 +392,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
         </Cell>
         <Cell width={columnsTradeHistory['collateral']} muted>
-          {order.collateralTokenSymbol}
+          {BigNumber(order.collateralLockedAmount).toFormat()} {order.collateralTokenSymbol}
         </Cell>
         <Cell width={columnsTradeHistory['status']} muted>
           {TRADE_STATUS[order.status]}
@@ -483,7 +476,7 @@ const OpenTradesTable = ({
           {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
         </Cell>
         <Cell width={columnsOpenTrades['collateral']} muted>
-          {order.collateralTokenSymbol}
+          {BigNumber(order.collateralLockedAmount).toFormat()} {order.collateralTokenSymbol}
         </Cell>
         <Cell width={columnsOpenTrades['actions']} muted>
           {

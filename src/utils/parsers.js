@@ -456,7 +456,7 @@ export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
 
     return {
-      amount: parseLendingAmount(trade.amount),
+      amount: parseLendingAmount(trade.amount, pair.quoteTokenDecimals),
       borrower: trade.borrower.toLowerCase(),
       isBorrower: trade.borrower.toLowerCase() === userAddress.toLowerCase(),
       borrowingFee: trade.borrowingFee,
@@ -464,6 +464,7 @@ export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
       borrowRelayer: trade.borrowRelayer,
       collateralPrice: trade.collateralPrice,
       collateralToken: trade.collateralToken.toLowerCase(),
+      collateralLockedAmount: parseLendingAmount(trade.collateralLockedAmount, pair.baseTokenDecimals),
       createdAt: trade.createdAt,
       depositRate: trade.depositRate,
       hash: trade.hash,
