@@ -156,7 +156,8 @@ export const repayLendingOrder = (hash): ThunkAction => {
         lendingToken: trade.lendingToken,
         term: trade.term,
         tradeId: trade.tradeID,
-        status: 'REPAY',
+        status: 'NEW',
+        type: 'REPAY',
       }
 
       params.nonce = String(nonce)    

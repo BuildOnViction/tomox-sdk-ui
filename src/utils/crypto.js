@@ -176,6 +176,7 @@ export const getRepayLendingHash = (order) => {
           'bytes',
           'uint256',
           'uint256',
+          'string',
       ],
       [
           order.nonce,
@@ -185,6 +186,7 @@ export const getRepayLendingHash = (order) => {
           order.lendingToken,
           order.term,
           order.tradeId,
+          order.type,
       ],
   )
 }
