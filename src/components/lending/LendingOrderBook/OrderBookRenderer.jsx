@@ -133,7 +133,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               
               <LatestTick>
                 {currentPairData && (
-                  <LatestPrice width="75%">
+                  <LatestPrice width="45%">
                     <CryptoPrice>
                       <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
                         {BigNumber(currentPairData.close).toFormat(2)}&#37;
@@ -143,8 +143,8 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
                 )}  
 
                 {currentPairData && (currentPairData.change !== null) && (
-                  <PercentChange positive={Number(currentPairData.change) >= 0} width="25%">
-                    <Ellipsis>{getChangePercentText(currentPairData.change)}</Ellipsis>
+                  <PercentChange width="55%">
+                  <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis>
                   </PercentChange> 
                 )}                          
               </LatestTick>
@@ -410,7 +410,7 @@ const CashPrice = styled.span.attrs({
 `
 
 const PercentChange = styled.div.attrs({
-  className: ({positive}) => positive ? "percent-change up text-right" : "percent-change down text-right",
+  className: "text-right",
 })`
   width: ${props => props.width? props.width : "35px"}
 `
