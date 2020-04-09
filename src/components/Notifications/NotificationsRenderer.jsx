@@ -14,6 +14,15 @@ const MESSAGES = {
   'ORDER_MATCHED': <FormattedMessage id='notifications.orderMatched' />,
   'ORDER_SUCCESS': <FormattedMessage id='notifications.orderSuccess' />,  
   'ORDER_PENDING': <FormattedMessage id='notifications.orderPending' />,
+
+  'LENDING_ORDER_ADDED': <FormattedMessage id='notifications.lendingOrderAdded' />,
+  'LENDING_ORDER_CANCELLED': <FormattedMessage id='notifications.lendingOrderCancelled' />,
+  'LENDING_ORDER_REJECTED': <FormattedMessage id='notifications.lendingOrderRejected' />,
+  'LENDING_ORDER_MATCHED': <FormattedMessage id='notifications.lendingOrderMatched' />,
+  'LENDING_ORDER_SUCCESS': <FormattedMessage id='notifications.lendingOrderSuccess' />,  
+  'LENDING_ORDER_PENDING': <FormattedMessage id='notifications.lendingOrderPending' />,
+  'LENDING_ORDER_REPAYED': <FormattedMessage id='notifications.lendingOrderRepayed' />,
+
   'ERROR': <FormattedMessage id='notifications.orderError' />,
 }
 
@@ -27,6 +36,17 @@ const generateScanUrl = (type, txHash) => {
     case 'ORDER_MATCHED':
     case 'ORDER_SUCCESS':
       return `${TOMOSCAN_URL}/trades/${txHash}`
+
+    case 'LENDING_ORDER_ADDED': 
+    case 'LENDING_ORDER_CANCELLED': 
+    case 'LENDING_ORDER_PENDING':
+    case 'LENDING_ORDER_REJECTED':
+      return `${TOMOSCAN_URL}/lending/orders/${txHash}`
+    case 'LENDING_ORDER_MATCHED':
+    case 'LENDING_ORDER_SUCCESS':
+    case 'LENDING_ORDER_REPAYED':
+      return `${TOMOSCAN_URL}/lending/trades/${txHash}`
+
     default:
       return ''
   }
