@@ -118,7 +118,8 @@ export const topUpLendingOrder = ({hash, collateral}): ThunkAction => {
         lendingToken: trade.lendingToken,
         term: trade.term,
         tradeId: trade.tradeID,
-        status: 'TOPUP',
+        status: 'NEW',
+        type: 'TOPUP',
       }
 
       params.quantity = BigNumber(collateral.amount)

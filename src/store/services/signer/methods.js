@@ -1,14 +1,12 @@
 //@flow
 import { utils } from 'ethers'
-import { getOrderHash, getOrderCancelHash, getTradeHash, getMarketOrderHash } from '../../../utils/crypto'
+import { getOrderHash, getOrderCancelHash, getMarketOrderHash } from '../../../utils/crypto'
 import { computePricepoint, computeAmountPoints, isTomoWallet } from '../../../utils/helpers'
 
 // flow
 import type {
-  RawOrder,
   OrderCancel,
 } from '../../../types/orders'
-import type { Trade } from '../../../types/trades'
 import { amountPrecision, pricePrecision } from '../../../config/tokens'
 
 export const createRawOrder = async function (params: any) {

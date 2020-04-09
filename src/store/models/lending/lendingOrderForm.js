@@ -16,6 +16,7 @@ import {
   getLendingTokensDomain,
   getLendingPairsDomain,
   getLendingOrderBookDomain,
+  getTokenDomain,
 } from '../../domains/'
 
 export default function getOrderFormSelector(state: State) {
@@ -56,6 +57,7 @@ export const sendNewLendingOrder = (order): ThunkAction => {
       const accountDomain = getAccountDomain(state)
       const userAddress = accountDomain.address()
       const exchangeAddress = accountDomain.exchangeAddress()
+      const lendingToken = getTokenDomain(state).getTokenByAddress(order.lendingToken)
 
       const signer = getSigner()
       const nonce = await api.getLendingOrderNonce(userAddress)
@@ -75,7 +77,7 @@ export const sendNewLendingOrder = (order): ThunkAction => {
         autoTopUp: order.autoTopUp || '1',
       }
       params.quantity = new BigNumber(order.amount)
-        .multipliedBy(10 ** 8).toString(10) //TODO: remove hardecode 8 to lendingToken decimal
+        .multipliedBy(10 ** lendingToken.decimals).toString(10)
       params.nonce = String(nonce)
       params.hash = getNewLendingOrderHash(params)
 

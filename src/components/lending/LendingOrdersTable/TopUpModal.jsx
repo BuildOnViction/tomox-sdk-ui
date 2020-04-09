@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from "styled-components"
 import { InputGroup } from "@blueprintjs/core"
+import BigNumber from 'bignumber.js'
 
+import { truncateZeroDecimal } from '../../../utils/helpers'
 import { ButtonGroup, CancelButton, AcceptButton, Theme, TmColors } from '../../Common'
 import Modal from '../../Modal'
 import SelectCollaterals from '../../SelectCollaterals'
@@ -36,7 +38,7 @@ export default function TopUpModal({
             />
             <Row>
                 <Title>Available:</Title>
-                <Value>{collateralSelected.availableBalance} {collateralSelected.symbol}</Value>
+                <Value>{truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(8))} {collateralSelected.symbol}</Value>
             </Row>
 
             <ButtonGroup>
