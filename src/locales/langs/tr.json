@@ -160,7 +160,7 @@
   "exchangeLendingPage.orders.openDate": "Open Date",
   "exchangeLendingPage.orders.closeDate": "Close Date",
   "exchangeLendingPage.orders.liqPrice": "Liq Price",
-  "exchangeLendingPage.orders.status": "status",
+  "exchangeLendingPage.orders.status": "Status",
   "exchangeLendingPage.orders.trade.closed": "Closed",
   "exchangeLendingPage.orders.trade.liquidated": "Liquidated",
   "portfolioPage.send": "Gönder",

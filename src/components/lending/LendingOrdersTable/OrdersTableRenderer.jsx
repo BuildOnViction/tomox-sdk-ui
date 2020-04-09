@@ -22,19 +22,6 @@ import { formatDate, capitalizeFirstLetter } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
 
-type Props = {
-  loading: boolean,
-  selectedTabId: string,
-  onChange: string => void,
-  toggleCollapse: void => void,
-  cancelOrder: string => void,
-  orders: {
-    finished: Array<Order>,
-    processing: Array<Order>,
-  }, 
-  authenticated: Boolean,
-}
-
 const STATUS = {
   'OPEN': <FormattedMessage id='exchangePage.open' />,
   'PARTIAL_FILLED': <FormattedMessage id='exchangePage.partialFilled' />,
@@ -60,13 +47,14 @@ const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%'
 const columnsTradeHistory = {
   openDate: '12%', 
   closeDate: '12%',
-  pair: '15%', 
-  type: '10%', 
+  pair: '10%', 
+  type: '7%', 
   interest: '10%', 
   filled: '10%',
   liqPrice: '13%',
   collateral: '13%',
   status: '9%',
+  actions: '8%',
 }
 const columnsOpenTrades = {
   openDate: '12%',
@@ -256,7 +244,6 @@ const OpenOrderTable = ({
         <HeaderCell width={widthColumns[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={widthColumns[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        {/* <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
         <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
         <HeaderCell width={widthColumns[7]}></HeaderCell>
       </ListHeader>
@@ -328,7 +315,6 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsOrderHistory[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        {/* <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.total" /></HeaderCell>           */}
         <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
         <HeaderCell width={widthColumnsOrderHistory[7]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
       </ListHeader>
@@ -377,7 +363,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {formatDate(order.updatedAt, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={columnsTradeHistory['pair']} title={`${order.termSymbol}/${order.lendingTokenSymbol}`} muted>
-          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
+          <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsTradeHistory['type']} muted>
           {ORDERTYPES[order.type]}
@@ -397,6 +383,9 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={columnsTradeHistory['status']} muted>
           {TRADE_STATUS[order.status]}
         </Cell>
+        <Cell width={columnsTradeHistory['actions']} muted>
+          <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">Details</Link>
+        </Cell>
       </Row>
     )
   }  
@@ -415,6 +404,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsTradeHistory['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['status']}><FormattedMessage id="exchangeLendingPage.orders.status" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['actions']}>View</HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -461,7 +451,7 @@ const OpenTradesTable = ({
           {formatDate(Number(order.liquidationTime)*1000, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={columnsOpenTrades['pair']} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
+          <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsOpenTrades['type']} muted>
           {ORDERTYPES[order.type]}
@@ -480,20 +470,20 @@ const OpenTradesTable = ({
         </Cell>
         <Cell width={columnsOpenTrades['actions']} muted>
           {
-            order.isBorrower && (
-              <ActionsPopover 
-                content={
-                  <ActionsMenu 
-                    toggleRepayModal={toggleRepayModal}
-                    toggleTopUpModal={toggleTopUpModal}
-                  />
-                } 
-                position={Position.TOP}
-                usePortal={false}
-              >
-                <MoreButton icon="more" />
-              </ActionsPopover>
-            )
+            <ActionsPopover 
+              content={
+                <ActionsMenu
+                  hash={order.hash}
+                  isBorrower={order.isBorrower}
+                  toggleRepayModal={toggleRepayModal}
+                  toggleTopUpModal={toggleTopUpModal}
+                />
+              } 
+              position={Position.TOP}
+              usePortal={false}
+            >
+              <MoreButton icon="more" />
+            </ActionsPopover>
           }
           
         </Cell>
@@ -539,12 +529,19 @@ const OpenTradesTable = ({
   )
 }
 
-const ActionsMenu = ({ toggleRepayModal, toggleTopUpModal }) => {
+const ActionsMenu = ({ isBorrower, hash, toggleRepayModal, toggleTopUpModal }) => {
   
   return (
     <Menu>
-      <MenuItem text="Top up" onClick={() => toggleTopUpModal(true)} />
-      <MenuItem text="Repay" onClick={() => toggleRepayModal(true)} />
+      {
+        isBorrower && (
+          <>
+            <MenuItem text="Top up" onClick={() => toggleTopUpModal(true)} />
+            <MenuItem text="Repay" onClick={() => toggleRepayModal(true)} />
+          </>
+        )
+      }
+      <MenuLink href={`${TOMOSCAN_URL}/lending/trades/${hash}`} target="_blank">Details <Icon iconSize='10px' icon="document-share" /></MenuLink>
     </Menu>
   )
 }
@@ -679,6 +676,19 @@ const ActionsPopover = styled(Popover)`
 
   & .bp3-popover .bp3-popover-arrow-fill {
     fill: ${props => props.theme.menuBg};
+  }
+`
+
+const MenuLink = styled(Link)`
+  display: flex;
+  height: 30px;
+  padding: 0 7px;
+  align-items: center;
+  justify-content: space-between;
+  color: ${props => props.theme.menuColor};
+  &:hover {
+    color: ${props => props.theme.menuColor};
+    background-color: ${props => props.theme.menuBgHover};
   }
 `
 
