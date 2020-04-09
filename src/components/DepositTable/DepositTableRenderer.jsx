@@ -1,6 +1,11 @@
 // @flow
 import React from 'react'
 import { Checkbox, InputGroup } from '@blueprintjs/core'
+import BigNumber from 'bignumber.js'
+import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+
 import {
   RowSpaceBetween,
   TokenImage,
@@ -12,14 +17,9 @@ import {
   UtilityIcon,
   Centered,
 } from '../Common'
-import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
-
-import { lendingTokens, collaterralTokens } from '../../config/tokens'
-
+import { lendingTokens, collaterralTokens, pricePrecision } from '../../config/tokens'
 import { TOMOSCAN_URL } from '../../config/environment'
-import { truncateZeroDecimal } from '../../utils/helpers'
+// import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
@@ -131,13 +131,13 @@ const TOMORow = (props: Props) => {
         </TokenNameWrapper>
       </Cell>
       <Cell width="20%">
-        <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
+        <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
       </Cell>
       <Cell width="20%">
-        <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+        <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
       </Cell>
       <Cell width="17%">
-        <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+        <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
       </Cell>
       <Cell width="25%">
         <ButtonWrapper>
@@ -189,13 +189,13 @@ const QuoteTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
+            <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+            <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+            <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
@@ -257,13 +257,13 @@ const BaseTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={truncateZeroDecimal(balance)}>{truncateZeroDecimal(balance)}</Ellipsis>
+            <Ellipsis title={BigNumber(balance).toFormat(pricePrecision)}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+            <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+            <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
