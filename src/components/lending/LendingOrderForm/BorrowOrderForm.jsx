@@ -24,6 +24,7 @@ import {
 import SelectCollaterals from '../../SelectCollaterals'
 // import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
+import { pricePrecision } from "../../../config/tokens"
 
 const BorrowOrderForm = props => {
   const {
@@ -153,8 +154,8 @@ const BorrowOrderForm = props => {
         <React.Fragment>
           <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
-            <Value title={`${truncateZeroDecimal(collateralSelected.availableBalance)} ${collateralSelected.symbol}`}>
-              <SmallText>{`${truncateZeroDecimal(collateralSelected.availableBalance)} ${collateralSelected.symbol}`}</SmallText>
+            <Value title={`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}>
+              <SmallText>{`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}</SmallText>
             </Value>
           </Row>
 

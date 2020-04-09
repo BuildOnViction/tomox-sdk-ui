@@ -21,6 +21,7 @@ import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } f
 import { formatDate, capitalizeFirstLetter } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
+import { minHeight } from 'styled-system'
 
 const STATUS = {
   'OPEN': <FormattedMessage id='exchangePage.open' />,
@@ -574,6 +575,10 @@ const ListBodyWrapper = styled.ul.attrs({
   margin: 0;
   overflow-y: auto;
   overflow-x: hidden;
+
+  .ReactVirtualized__Grid__innerScrollContainer {
+    overflow: visible !important;
+  }
 `
 const ListHeader = styled.li.attrs({
   className: 'header',
