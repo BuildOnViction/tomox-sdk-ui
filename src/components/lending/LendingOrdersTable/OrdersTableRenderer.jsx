@@ -42,16 +42,26 @@ const ORDERTYPES = {
 
 const rowHeight = 45
 const overscanRowCount = 5
-const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
-const columnsOpenHistory = {
+const columnsOpenOrder = {
+  time: '15%', 
+  pair: '15%', 
+  type: '8%', 
+  side: '8%', 
+  interest: '12%', 
+  amount: '12%', 
+  filled: '12%', 
+  cancel: '8%',
+  actions: '10%',
+}
+const columnsOrderHistory = {
   time: '12%', 
   pair: '10%', 
-  type: '10%', 
+  type: '8%', 
   side: '8%', 
   interest: '15%', 
   amount: '12%', 
   filled: '13%', 
-  status: '10%',
+  status: '12%',
   actions: '10%',
 }
 const columnsTradeHistory = {
@@ -210,28 +220,33 @@ const OpenOrderTable = ({
 
     return (
       <Row key={index} style={style}>
-        <Cell width={widthColumns[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsOpenOrder["time"]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={widthColumns[1]} title={order.pair} muted>
+        <Cell width={columnsOpenOrder["pair"]} title={order.pair} muted>
           <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
-        <Cell width={widthColumns[2]} muted>
+        <Cell width={columnsOpenOrder["type"]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
+        <Cell width={columnsOpenOrder["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
-        <Cell width={widthColumns[4]} muted>
+        <Cell width={columnsOpenOrder["interest"]} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={widthColumns[5]} muted>
+        <Cell width={columnsOpenOrder["amount"]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        <Cell width={widthColumns[6]} muted>
+        <Cell width={columnsOpenOrder["filled"]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
-        <Cell width={widthColumns[7]} muted>
+        <Cell width={columnsOrderHistory['actions']} muted>
+          {order.cancelAble && (
+            <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">Details</Link>)
+          }
+        </Cell>
+        <Cell width={columnsOpenOrder["cancel"]} muted>
           {order.cancelAble && (
             <CancelIcon 
               icon="cross" 
@@ -248,14 +263,15 @@ const OpenOrderTable = ({
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={widthColumns[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={widthColumns[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={widthColumns[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={widthColumns[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
-        <HeaderCell width={widthColumns[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        <HeaderCell width={widthColumns[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={widthColumns[7]}></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["pair"]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["type"]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["side"]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory['actions']}>View</HeaderCell>
+        <HeaderCell width={columnsOpenOrder["cancel"]}></HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper className="list">
@@ -286,31 +302,31 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
     return (
       <Row key={key} style={style}>
-        <Cell width={columnsOpenHistory["time"]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsOrderHistory["time"]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={columnsOpenHistory["pair"]} title={order.pair} muted>
+        <Cell width={columnsOrderHistory["pair"]} title={order.pair} muted>
           <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
-        <Cell width={columnsOpenHistory["type"]} muted>
+        <Cell width={columnsOrderHistory["type"]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={columnsOpenHistory["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
+        <Cell width={columnsOrderHistory["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
-        <Cell width={columnsOpenHistory["interest"]} muted>
+        <Cell width={columnsOrderHistory["interest"]} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={columnsOpenHistory["amount"]} muted>
+        <Cell width={columnsOrderHistory["amount"]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        <Cell width={columnsOpenHistory["filled"]} muted>
+        <Cell width={columnsOrderHistory["filled"]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
-        <Cell width={columnsOpenHistory["status"]} muted>
+        <Cell width={columnsOrderHistory["status"]} muted>
           {STATUS[order.status]}
         </Cell>
-        <Cell width={columnsOpenHistory['actions']} muted>
+        <Cell width={columnsOrderHistory['actions']} muted>
           <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">Details</Link>
         </Cell>
       </Row>
@@ -322,15 +338,15 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={columnsOpenHistory["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["pair"]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["type"]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["side"]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={columnsOpenHistory["status"]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
-        <HeaderCell width={columnsTradeHistory['actions']}>View</HeaderCell>
+        <HeaderCell width={columnsOrderHistory["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["pair"]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["type"]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["side"]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory["status"]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory['actions']}>View</HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper className="list">
