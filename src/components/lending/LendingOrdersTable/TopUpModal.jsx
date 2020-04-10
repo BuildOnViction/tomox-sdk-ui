@@ -18,11 +18,13 @@ export default function TopUpModal({
     onSelectCollateral,
     topUpAmount,
     onChangeAmount,
+    error,
     ...rest 
 }) {
     return (
         <Modal onClose={() => onClose(false)} {...rest}>
             <StyledInputGroup
+                error={error}
                 name="amount-collateral"
                 type="number"
                 onChange={e => onChangeAmount(e)}
@@ -58,7 +60,7 @@ export default function TopUpModal({
 }
 
 export const StyledInputGroup = styled(InputGroup).attrs({
-        className: "bp3-fill",
+        className: props => props.error ? 'bp3-fill has-error' : 'bp3-fil',
     })`
     margin-bottom: 10px;
 

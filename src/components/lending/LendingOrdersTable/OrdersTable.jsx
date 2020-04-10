@@ -26,6 +26,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     isOpenTopUp: false,
     collateralSelected: this.props.collaterals ? this.props.collaterals[0] : {},
     topUpAmount: '',
+    errorTopUp: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -131,6 +132,8 @@ class OrdersTable extends React.PureComponent<Props, State> {
   toggleTopUpModal = (status: Boolean) => {
     this.setState({
       isOpenTopUp: status,
+      topUpAmount: '',
+      errorTopUp: false,
     })
   }
 
@@ -143,11 +146,14 @@ class OrdersTable extends React.PureComponent<Props, State> {
   handleChangeTopUpAmount = (e) => {
     this.setState({
       topUpAmount: e.target.value,
+      errorTopUp: false,
     })
   }
 
   handleTopUp = (hash: String) => {
     const { collateralSelected, topUpAmount } = this.state
+    if (!topUpAmount) return this.setState({errorTopUp: true})
+
     const collateral = {...collateralSelected, amount: topUpAmount}
     this.props.topUpLendingOrder({hash, collateral})
     this.toggleTopUpModal(false)
@@ -169,6 +175,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       isOpenTopUp, 
       collateralSelected,
       topUpAmount,
+      errorTopUp,
     } = this.state
 
     const filteredOrders = this.filterOrders()
@@ -214,6 +221,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           onChangeAmount={this.handleChangeTopUpAmount}
           onTopUp={this.handleTopUp}
           onClose={this.toggleTopUpModal}
+          error={errorTopUp}
         />
       </>
     )
