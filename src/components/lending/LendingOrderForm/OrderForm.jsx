@@ -74,8 +74,11 @@ class OrderForm extends React.PureComponent<Props, State> {
     const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder} = prevProps
     const {collateralTokens: currCollaterals, selectedOrder: currSelectedOrder, currentPairData} = this.props
 
-    if (!prevCollaterals
-      && currCollaterals) {
+    if (prevCollaterals
+      && currCollaterals
+      && !prevCollaterals[0].availableBalance
+      && currCollaterals[0].availableBalance
+    ) {        
       this.setState({
         collateralSelected: currCollaterals[0],
       })

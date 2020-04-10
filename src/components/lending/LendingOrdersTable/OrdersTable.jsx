@@ -30,12 +30,25 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
+    const {collaterals: prevCollaterals} = prevProps
+    const {collaterals: currCollaterals} = this.props
+
     if (this.props.currentPairData && (
       this.props.currentPairData.pricePrecision !== this.state.pricePrecision
       || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,
+      })
+    }
+    
+    if (prevCollaterals
+      && currCollaterals
+      && !prevCollaterals[0].availableBalance
+      && currCollaterals[0].availableBalance
+    ) {        
+      this.setState({
+        collateralSelected: currCollaterals[0],
       })
     }
   }
@@ -139,6 +152,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
   handleSelectCollateral = (collateral) => {
     this.setState({
+      topUpAmount: '',
       collateralSelected: collateral,
     })
   }
@@ -186,7 +200,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       topUpAmount,
       errorTopUp,
     } = this.state
-
+    
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
