@@ -21,7 +21,6 @@ import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } f
 import { formatDate, capitalizeFirstLetter } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
-import { minHeight } from 'styled-system'
 
 const STATUS = {
   'OPEN': <FormattedMessage id='exchangePage.open' />,
@@ -44,7 +43,17 @@ const ORDERTYPES = {
 const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '15%']
-const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '18%']
+const columnsOpenHistory = {
+  time: '12%', 
+  pair: '10%', 
+  type: '10%', 
+  side: '8%', 
+  interest: '15%', 
+  amount: '12%', 
+  filled: '13%', 
+  status: '10%',
+  actions: '10%',
+}
 const columnsTradeHistory = {
   openDate: '12%', 
   closeDate: '12%',
@@ -205,7 +214,7 @@ const OpenOrderTable = ({
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={widthColumns[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
+          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={widthColumns[2]} muted>
           {ORDERTYPES[order.type]}
@@ -277,29 +286,32 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
     return (
       <Row key={key} style={style}>
-        <Cell width={widthColumnsOrderHistory[0]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsOpenHistory["time"]} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
-        <Cell width={widthColumnsOrderHistory[1]} title={order.pair} muted>
-          <Link href={`${TOMOSCAN_URL}/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
+        <Cell width={columnsOpenHistory["pair"]} title={order.pair} muted>
+          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
-        <Cell width={widthColumnsOrderHistory[2]} muted>
+        <Cell width={columnsOpenHistory["type"]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
+        <Cell width={columnsOpenHistory["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {order.side && capitalizeFirstLetter(order.side)}
         </Cell>
-        <Cell width={widthColumnsOrderHistory[4]} muted>
+        <Cell width={columnsOpenHistory["interest"]} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
-        <Cell width={widthColumnsOrderHistory[5]} muted>
+        <Cell width={columnsOpenHistory["amount"]} muted>
           {BigNumber(order.amount).toFormat()}
         </Cell>
-        <Cell width={widthColumnsOrderHistory[6]} muted>
+        <Cell width={columnsOpenHistory["filled"]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
-        <Cell width={widthColumnsOrderHistory[7]} muted>
+        <Cell width={columnsOpenHistory["status"]} muted>
           {STATUS[order.status]}
+        </Cell>
+        <Cell width={columnsOpenHistory['actions']} muted>
+          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">Details</Link>
         </Cell>
       </Row>
     )
@@ -310,14 +322,15 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
-        <HeaderCell width={widthColumnsOrderHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[3]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[4]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[5]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[6]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={widthColumnsOrderHistory[7]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["pair"]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["type"]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["side"]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
+        <HeaderCell width={columnsOpenHistory["status"]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['actions']}>View</HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper className="list">
