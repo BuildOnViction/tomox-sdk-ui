@@ -8,6 +8,7 @@ import type { Side } from '../../../types/orders'
 import OrderFormRenderer from './OrderFormRenderer'
 import { getEstimatedCollateral } from '../../../store/services/api/engine'
 // import { isTomoWallet, isMobile } from '../../../utils/helpers'
+import {pricePrecision as defaultPricePrecision} from '../../../config/tokens'
 
 type Props = {
   side: Side,
@@ -129,7 +130,7 @@ class OrderForm extends React.PureComponent<Props, State> {
   onInputChange = (side: SIDE = 'BORROW', { target }: Object) => {
     const { authenticated } = this.props
     const interestPrecision = 2
-    const amountPrecision = 8
+    const amountPrecision = 2
     let { value } = target
 
     value = value.replace(/[^0-9.]/g, '').replace(/^0+/g, '0')    
@@ -158,19 +159,19 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   handleInterestChange = (interest, side) => {    
     this.resetErrorObject(side)
-    const { currentPair: { termValue }} = this.props
-
+  
     if (side === 'BORROW') {
       this.setState({ borrowInterest: interest })
     } else { 
       const { lendAmount } = this.state
 
       if (Number(interest) && Number(lendAmount)) {
+        const { currentPair: { termValue }} = this.props
         const termDays = (Number(termValue)/60/60/24)
         const rate = BigNumber(interest).div(100)
         const profitPerYear = rate.times(lendAmount)
         const profitPerDay = profitPerYear.div(365)
-        const profit = profitPerDay.times(termDays).toFixed(2)
+        const profit = profitPerDay.times(termDays).toFixed(defaultPricePrecision)        
 
         return this.setState({
           lendInterest: interest,
@@ -205,10 +206,12 @@ class OrderForm extends React.PureComponent<Props, State> {
       const { lendInterest } = this.state
 
       if (Number(amount) && Number(lendInterest)) {
+        const { currentPair: { termValue }} = this.props
+        const termDays = (Number(termValue)/60/60/24)
         const rate = BigNumber(lendInterest).div(100)
         const profitPerYear = rate.times(amount)
         const profitPerDay = profitPerYear.div(365)
-        const profit = profitPerDay.toFixed(2) //TODO: need calc by current term
+        const profit = profitPerDay.times(termDays).toFixed(defaultPricePrecision)
 
         return this.setState({
           lendAmount: amount,

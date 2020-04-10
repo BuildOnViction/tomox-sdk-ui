@@ -127,7 +127,7 @@ const LendOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.estimatedProfit" />:</Title>
         <Value>
-        <SmallText>{profit} USDT</SmallText>
+        <SmallText>{profit} {currentPair.lendingTokenSymbol}</SmallText>
         </Value>
       </Row>
 
