@@ -19,6 +19,7 @@ export default function TopUpModal({
     topUpAmount,
     onChangeAmount,
     error,
+    selectAllAvailableBalance,
     ...rest 
 }) {
     return (
@@ -40,7 +41,9 @@ export default function TopUpModal({
             />
             <Row>
                 <Title>Available:</Title>
-                <Value>{truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(8))} {collateralSelected.symbol}</Value>
+                <Value onClick={selectAllAvailableBalance}>
+                    {truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(8))} {collateralSelected.symbol}
+                </Value>
             </Row>
 
             <ButtonGroup>
@@ -98,4 +101,9 @@ const Row = styled.div`
 
 const Title = styled.span``
 
-const Value = styled.span``
+const Value = styled.span`
+    cursor: pointer;
+    &:hover {
+        color: ${props => props.theme.mainColorHover};
+    }
+`

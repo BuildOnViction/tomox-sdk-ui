@@ -150,6 +150,15 @@ class OrdersTable extends React.PureComponent<Props, State> {
     })
   }
 
+  selectAllAvailableBalance = _ => {
+    const { collateralSelected } = this.state
+
+    this.setState({
+      topUpAmount: collateralSelected ? collateralSelected.availableBalance : 0,
+      errorTopUp: false,
+    })
+  }
+
   handleTopUp = (hash: String) => {
     const { collateralSelected, topUpAmount } = this.state
     if (!topUpAmount) return this.setState({errorTopUp: true})
@@ -222,6 +231,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           onTopUp={this.handleTopUp}
           onClose={this.toggleTopUpModal}
           error={errorTopUp}
+          selectAllAvailableBalance={this.selectAllAvailableBalance}
         />
       </>
     )

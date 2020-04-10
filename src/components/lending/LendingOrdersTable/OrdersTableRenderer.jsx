@@ -673,6 +673,8 @@ const ActionsPopover = styled(Popover)`
   .bp3-menu {
     color: ${props => props.theme.menuColor};
     background-color: ${props => props.theme.menuBg};
+    border: 1px solid ${props => props.theme.border};
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, .1);
   }
 
   .bp3-menu-item:hover {
