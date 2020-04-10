@@ -18,6 +18,8 @@ import type { Trades } from '../../../types/trades'
 import type { PairAddresses } from '../../../types/pairs'
 import { NATIVE_TOKEN_SYMBOL, NATIVE_TOKEN_ADDRESS } from '../../../config/tokens'
 
+const qs = require('querystringify')
+
 const request = (endpoint, options) => {
   return fetch(`${ENGINE_HTTP_URL}${endpoint}`, {
     headers: {
@@ -689,8 +691,9 @@ export const getLendingOrderNonce = async (address: string): Promise<number> => 
   return data
 }
 
-export const getEstimatedCollateral = async (qs): Promise<number> => {
-  const response = await request(`/lending/estimate?amount=${qs.amount}&lendingToken=${qs.lendingToken}&collateralToken=${qs.collateralToken}`)
+export const getEstimatedCollateral = async (params): Promise<number> => {
+  const qsString = qs.stringify(params, true)
+  const response = await request(`/lending/estimate${qsString}`)
 
   if (response.status === 400) {
     const { error } = await response.json()
