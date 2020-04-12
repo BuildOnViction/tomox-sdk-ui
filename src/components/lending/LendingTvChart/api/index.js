@@ -2,8 +2,8 @@
 import { socket } from '../../../../store/services'
 import { timeSpans, getDurationByTimeSpan } from '../../../../store/models/ohlcv'
 
-import { fetchOHLCV } from '../../../../store/services/api/ohlcv'
-import { parseOHLCV } from '../../../../utils/parsers'
+import { fetchLendingOHLCV } from '../../../../store/services/api/ohlcv'
+import { parseLendingOHLCV } from '../../../../utils/parsers'
 
 const supportedResolutions = ["1", "5", "15", "30", "60", "120", "240", "D", "1W", "1M"]
 
@@ -24,7 +24,7 @@ export default {
 		// expects a symbolInfo object in response
 		// console.log('======resolveSymbol running')
 		// console.log('resolveSymbol:', symbolName)
-		const [pair, term, lendingToken] = symbolName.split('-')
+		const [pair, term, lendingToken, lendingTokenDecimals] = symbolName.split('-')
 		
 		var symbol_stub = {
 			name: symbolName,
@@ -43,6 +43,7 @@ export default {
 			data_status: 'streaming',
 			term, 
 			lendingToken,
+			lendingTokenDecimals,
 		}
 
 		setTimeout(function() {
@@ -58,7 +59,7 @@ export default {
 		// console.log('=====getBars running')
 		// console.log('function args',arguments)
 		// console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-		const { term, lendingToken } = symbolInfo
+		const { term, lendingToken, lendingTokenDecimals } = symbolInfo
 		const { interval } = window.lendingTvWidget.symbolInterval()
 
 		if (firstDataRequest) {
@@ -75,26 +76,26 @@ export default {
 				currentDuration.label,
 			)
 		} else {
-			// const intervals = {
-			// 	1: '1m',
-			// 	5: '5m',
-			// 	15: '15m',
-			// 	30: '30m',
-			// 	60: '1h',
-			// 	120: '2h',
-			// 	240: '4h',
-			// 	'1D': '1d',
-			// 	'1W': '1w',
-			// 	'1M': '1mo',
-			// }
+			const intervals = {
+				1: '1m',
+				5: '5m',
+				15: '15m',
+				30: '30m',
+				60: '1h',
+				120: '2h',
+				240: '4h',
+				'1D': '1d',
+				'1W': '1w',
+				'1M': '1mo',
+			}
 
-			// const ohlcv = await fetchOHLCV(baseTokenAddress, quoteTokenAddress, from, to, intervals[interval])
-			// if (ohlcv.length > 0) {
-			// 	const ohlcvParsed  = parseOHLCV(ohlcv, {baseTokenDecimals, quoteTokenDecimals})
-			// 	onHistoryCallback(ohlcvParsed, {noData: false})
-			// } else {
-			// 	onHistoryCallback([], {noData: true})
-			// }
+			const ohlcv = await fetchLendingOHLCV(term, lendingToken, from, to, intervals[interval])
+			if (ohlcv.length > 0) {
+				const ohlcvParsed  = parseLendingOHLCV(ohlcv, lendingTokenDecimals)
+				onHistoryCallback(ohlcvParsed, {noData: false})
+			} else {
+				onHistoryCallback([], {noData: true})
+			}
 		}
 	},
 	subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {

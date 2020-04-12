@@ -31,6 +31,7 @@ export default class TVChartRenderer extends React.PureComponent {
 				pair,
 				termValue,
 				lendingTokenAddress,
+				lendingTokenDecimals,
 			},
 			mode,
 			modes,
@@ -51,7 +52,7 @@ export default class TVChartRenderer extends React.PureComponent {
 
 		const widgetOptions = {
 			debug: false,
-			symbol: [pair, termValue, lendingTokenAddress].join('-'),
+			symbol: [pair, termValue, lendingTokenAddress, lendingTokenDecimals].join('-'),
 			datafeed: Datafeed,
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
