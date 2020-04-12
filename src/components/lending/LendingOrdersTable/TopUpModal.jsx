@@ -6,16 +6,12 @@ import BigNumber from 'bignumber.js'
 import { truncateZeroDecimal } from '../../../utils/helpers'
 import { ButtonGroup, CancelButton, AcceptButton, Theme, TmColors } from '../../Common'
 import Modal from '../../Modal'
-import SelectCollaterals from '../../SelectCollaterals'
 
 export default function TopUpModal({ 
     hash, 
     onTopUp,
     onClose,
-    collaterals,
-    collateralSelected,
-    onCollateralSelect,
-    onSelectCollateral,
+    selectedCollateral,
     topUpAmount,
     onChangeAmount,
     error,
@@ -31,18 +27,12 @@ export default function TopUpModal({
                 onChange={e => onChangeAmount(e)}
                 value={topUpAmount}
                 autoComplete="off"
-                rightElement={
-                    <SelectCollaterals 
-                        items={collaterals} 
-                        activeItem={collateralSelected}
-                        onItemSelect={onSelectCollateral} 
-                    />
-                }
+                rightElement={<CollateralLabel symbol={selectedCollateral && selectedCollateral.symbol} />}
             />
             <Row>
                 <Title>Available:</Title>
                 <Value onClick={selectAllAvailableBalance}>
-                    {truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(8))} {collateralSelected.symbol}
+                    {selectedCollateral && truncateZeroDecimal(BigNumber(selectedCollateral.availableBalance).toFormat(8))} {selectedCollateral && selectedCollateral.symbol}
                 </Value>
             </Row>
 
@@ -60,6 +50,10 @@ export default function TopUpModal({
             </ButtonGroup>
         </Modal>
     )
+}
+
+const CollateralLabel = ({symbol}) => {
+    return (<Label>{symbol}</Label>)
 }
 
 export const StyledInputGroup = styled(InputGroup).attrs({
@@ -106,4 +100,8 @@ const Value = styled.span`
     &:hover {
         color: ${props => props.theme.mainColorHover};
     }
+`
+
+const Label = styled.div`
+    padding: 0 10px;
 `

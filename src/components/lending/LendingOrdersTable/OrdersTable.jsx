@@ -24,33 +24,10 @@ class OrdersTable extends React.PureComponent<Props, State> {
     isHideOtherPairs: false,
     isOpenRepay: false,
     isOpenTopUp: false,
-    collateralSelected: this.props.collaterals ? this.props.collaterals[0] : {},
+    selectedCollateral: {},
+    selectedTrade: {},
     topUpAmount: '',
     errorTopUp: false,
-  }
-
-  componentDidUpdate(prevProps) {
-    const {collaterals: prevCollaterals} = prevProps
-    const {collaterals: currCollaterals} = this.props
-
-    if (this.props.currentPairData && (
-      this.props.currentPairData.pricePrecision !== this.state.pricePrecision
-      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
-      this.setState({
-        pricePrecision: this.props.currentPairData.pricePrecision,
-        amountPrecision: this.props.currentPairData.amountPrecision,
-      })
-    }
-    
-    if (prevCollaterals
-      && currCollaterals
-      && !prevCollaterals[0].availableBalance
-      && currCollaterals[0].availableBalance
-    ) {        
-      this.setState({
-        collateralSelected: currCollaterals[0],
-      })
-    }
   }
 
   changeTab = (tabId: string) => {
@@ -125,9 +102,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
     return result
   }
 
-  handleSelectTrade = (hash: String) => {
+  handleSelectTrade = (trade: Object) => {
     this.setState({
-      selectedTrade: hash,
+      selectedTrade: trade,
     })
   }
 
@@ -138,22 +115,29 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   handleRepay = () => {
-    this.props.repayLendingOrder(this.state.selectedTrade)
+    this.props.repayLendingOrder(this.state.selectedTrade.hash)
     this.toggleRepayModal(false)
   }
 
   toggleTopUpModal = (status: Boolean) => {
+    if (status) {
+      const { collaterals } = this.props
+      const { selectedTrade } = this.state
+      const selectedCollateral = collaterals.find(collateral => collateral.address.toLowerCase() === selectedTrade.collateralToken.toLowerCase())
+      
+      return this.setState({
+        selectedCollateral,
+        isOpenTopUp: status,
+        topUpAmount: '',
+        errorTopUp: false,
+      })
+    }
+
     this.setState({
+      selectedCollateral: {},
       isOpenTopUp: status,
       topUpAmount: '',
       errorTopUp: false,
-    })
-  }
-
-  handleSelectCollateral = (collateral) => {
-    this.setState({
-      topUpAmount: '',
-      collateralSelected: collateral,
     })
   }
 
@@ -165,19 +149,19 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   selectAllAvailableBalance = _ => {
-    const { collateralSelected } = this.state
+    const { selectedCollateral } = this.state
 
     this.setState({
-      topUpAmount: collateralSelected ? collateralSelected.availableBalance : 0,
+      topUpAmount: selectedCollateral ? selectedCollateral.availableBalance : 0,
       errorTopUp: false,
     })
   }
 
   handleTopUp = (hash: String) => {
-    const { collateralSelected, topUpAmount } = this.state
+    const { selectedCollateral, topUpAmount } = this.state
     if (!topUpAmount) return this.setState({errorTopUp: true})
 
-    const collateral = {...collateralSelected, amount: topUpAmount}
+    const collateral = {...selectedCollateral, amount: topUpAmount}
     this.props.topUpLendingOrder({hash, collateral})
     this.toggleTopUpModal(false)
   }
@@ -196,7 +180,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       selectedTrade,
       isOpenRepay, 
       isOpenTopUp, 
-      collateralSelected,
+      selectedCollateral,
       topUpAmount,
       errorTopUp,
     } = this.state
@@ -204,7 +188,6 @@ class OrdersTable extends React.PureComponent<Props, State> {
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
-    const currentTrade = filteredTrades.processing.find(trade => trade.hash === selectedTrade)    
         
     return (
       <>
@@ -227,7 +210,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           size="sm"
           title="Repay your borrowing"
           isOpen={isOpenRepay}
-          trade={currentTrade}
+          trade={selectedTrade}
           onRepay={this.handleRepay}
           onClose={this.toggleRepayModal}
         />
@@ -236,10 +219,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
           size="sm"
           title="Top up collateral to secure your loan"
           isOpen={isOpenTopUp}
-          hash={selectedTrade}
+          hash={selectedTrade.hash}
           collaterals={collaterals}
-          collateralSelected={collateralSelected}
-          onSelectCollateral={this.handleSelectCollateral}
+          selectedCollateral={selectedCollateral}
           topUpAmount={topUpAmount}
           onChangeAmount={this.handleChangeTopUpAmount}
           onTopUp={this.handleTopUp}

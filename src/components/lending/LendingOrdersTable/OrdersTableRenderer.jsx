@@ -473,7 +473,7 @@ const OpenTradesTable = ({
     const order = orders[index]
     
     return (
-      <Row key={index} style={style} onClick={() => onSelectTrade(order.hash)}>
+      <Row key={index} style={style} onClick={() => onSelectTrade(order)}>
         <Cell width={columnsOpenTrades['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
