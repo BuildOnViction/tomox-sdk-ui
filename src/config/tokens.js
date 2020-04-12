@@ -32,5 +32,3 @@ export const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000001'
 export const defaultDecimals = 18
 export const pricePrecision = 8
 export const amountPrecision = 8
-export const lendingTokens = ['USDT']
-export const collaterralTokens = ['BTC', 'ETH', 'TOMO']

@@ -107,6 +107,8 @@ class DepositTable extends React.PureComponent<Props, State> {
         redirectToLendingPage,
         accountAddress,
         mode,
+        lendingTokenSymbols,
+        collateralTokenSymbols,
       },
       state: {
         isSendModalOpen,
@@ -159,6 +161,8 @@ class DepositTable extends React.PureComponent<Props, State> {
           openReceiveDialog={this.openReceiveDialog}
           closeReceiveDialog={this.closeReceiveDialog}
           notifyCopiedSuccess={this.notifyCopiedSuccess}
+          lendingTokenSymbols={lendingTokenSymbols}
+          collateralTokenSymbols={collateralTokenSymbols}
         />
         <TransferTokensModal
           isOpen={isSendModalOpen}

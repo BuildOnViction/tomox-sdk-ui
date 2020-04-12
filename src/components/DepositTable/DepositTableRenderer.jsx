@@ -17,7 +17,7 @@ import {
   UtilityIcon,
   Centered,
 } from '../Common'
-import { lendingTokens, collaterralTokens, pricePrecision } from '../../config/tokens'
+import { pricePrecision } from '../../config/tokens'
 import { TOMOSCAN_URL } from '../../config/environment'
 // import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
@@ -116,6 +116,8 @@ const TOMORow = (props: Props) => {
     TOMOTokenData,
     redirectToTradingPage,
     redirectToLendingPage,
+    lendingTokenSymbols,
+    collateralTokenSymbols,
   } = props
 
   if (!TOMOTokenData) return null
@@ -147,7 +149,7 @@ const TOMORow = (props: Props) => {
             </OperationButton>
 
             {
-              (lendingTokens.includes(symbol)) && (
+              (lendingTokenSymbols.includes(symbol)) && (
                 <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                   <FormattedMessage id="portfolioPage.lend" />
                 </OperationButton>
@@ -155,7 +157,7 @@ const TOMORow = (props: Props) => {
             }
 
             {
-              (collaterralTokens.includes(symbol)) && (
+              (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                 <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                   <FormattedMessage id="portfolioPage.borrow" />
                 </OperationButton>
@@ -174,6 +176,8 @@ const QuoteTokenRows = (props: Props) => {
     quoteTokensData,
     redirectToTradingPage,
     redirectToLendingPage,
+    lendingTokenSymbols,
+    collateralTokenSymbols,
   } = props
 
   if (!quoteTokensData) return null
@@ -205,7 +209,7 @@ const QuoteTokenRows = (props: Props) => {
                 </OperationButton>
 
                 {
-                  (lendingTokens.includes(symbol)) && (
+                  (lendingTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.lend" />
                     </OperationButton>
@@ -213,7 +217,7 @@ const QuoteTokenRows = (props: Props) => {
                 }
 
                 {
-                  (collaterralTokens.includes(symbol)) && (
+                  (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.borrow" />
                     </OperationButton>
@@ -242,6 +246,8 @@ const BaseTokenRows = (props: Props) => {
     baseTokensData,
     redirectToTradingPage,
     redirectToLendingPage,
+    lendingTokenSymbols,
+    collateralTokenSymbols,
   } = props
 
   if (!baseTokensData) return null
@@ -273,7 +279,7 @@ const BaseTokenRows = (props: Props) => {
                 </OperationButton>
 
                 {
-                  (lendingTokens.includes(symbol)) && (
+                  (lendingTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.lend" />
                     </OperationButton>
@@ -281,7 +287,7 @@ const BaseTokenRows = (props: Props) => {
                 }
 
                 {
-                  (collaterralTokens.includes(symbol)) && (
+                  (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.borrow" />
                     </OperationButton>
