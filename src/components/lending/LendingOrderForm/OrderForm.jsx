@@ -255,7 +255,14 @@ class OrderForm extends React.PureComponent<Props, State> {
       }
 
       sendNewLendingOrder(order)
-    }                    
+    }
+    
+    this.setState({
+      borrowAmount: '',
+      borrowInterest: '',
+      lendAmount: '',
+      lendInterest: '',
+    })
   }
 
   handleUpdateAmountFraction = (fraction: string, side: SIDE) => {
