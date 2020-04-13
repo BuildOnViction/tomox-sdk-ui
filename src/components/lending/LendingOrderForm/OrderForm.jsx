@@ -262,6 +262,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       borrowInterest: '',
       lendAmount: '',
       lendInterest: '',
+      estimateCollateral: '',
     })
   }
 
@@ -282,9 +283,25 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
   }
 
-  handleCollateralSelect = (collateralToken) => {    
+  handleCollateralSelect = (collateralToken) => {  
+    if ( window.estimateTimer) clearTimeout(window.estimateTimer)
+    
     this.setState({
       collateralSelected: collateralToken,
+    }, () => {
+      if (!this.state.borrowAmount) return
+      
+      window.estimateTimer = setTimeout(async () => {
+        const qs = {
+          amount: Number(this.state.borrowAmount),
+          lendingToken: this.props.currentPair.lendingTokenAddress,
+          collateralToken: this.state.collateralSelected.address,
+        }
+        const { estimateCollateralAmount } = await getEstimatedCollateral(qs)
+        this.setState({
+          estimateCollateral: estimateCollateralAmount,
+        })
+      }, 500)
     })
   }
 
