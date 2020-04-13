@@ -165,6 +165,7 @@ export function queryAccountData(): ThunkAction {
 
       if (!accountAddress) throw new Error('Account address is not set')
       
+      socket.subscribeLendingOrders(accountAddress)
       const { tokenBalances } = await api.fetchAccountInfo(accountAddress)
       dispatch(accountBalancesCreators.updateBalances(tokenBalances))
       window.getBalancesInterval = setInterval(async _ => {
@@ -235,6 +236,7 @@ export function releaseResource(): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     socket.unSubscribeMarkets()
     socket.unSubscribeLendingMarkets()
+    socket.unSubscribeLendingOrders()
     if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
   }
 }

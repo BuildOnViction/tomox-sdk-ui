@@ -600,7 +600,8 @@ const handleLendingMarketsMessage = (event: WebsocketEvent) => {
 const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
   const { type } = event
 
-  if (type !== 'LENDINGORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
+  if (type === 'INIT') return
+  if (type !== 'LENDING_ORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
   dispatch(actionCreators.updateNewNotifications()) 
   dispatch(queryAccountBalance()) // Get the balance of tokens
 
@@ -615,8 +616,9 @@ const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getSta
     //   return dispatch(handleOrderMatched(event))
     case 'LENDING_ORDER_SUCCESS':
       return dispatch(handleLendingOrderSuccess(event))
-    // case 'LENDING_ORDER_PENDING':
-    //   return dispatch(handleOrderPending(event))
+    case 'LENDING_ORDER_REPAYED':
+    case 'LENDING_ORDER_TOPUPED':
+      return dispatch(handleLendingOrderRepayedTopUped(event))
     case 'ERROR':
       return dispatch(handleOrderError(event))
     default:
@@ -676,6 +678,23 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
       userTrades = parseLendingTradesByAddress(userAddress, matches.lendingTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
+      if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+function handleLendingOrderRepayedTopUped(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const userAddress = getAccountDomain(state).address()
+      const pairs = getTokenPairsDomain(state).getPairsArray()
+      const trade = event.payload
+      let userTrades = []
+      userTrades = parseLendingTradesByAddress(userAddress, [trade], pairs)
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
     } catch (e) {
       console.log(e)
