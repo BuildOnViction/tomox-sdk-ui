@@ -532,6 +532,8 @@ export const lendingTrades = createReducer(action => {
     case socketControllerActionTypes.updateLendingTradesByAddress:
     case lendingTradesActionTypes.updateTradesByAddress:
       return lendingTradeEvents.tradesByAddressUpdated(payload)
+    case logoutPageActionTypes.resetTradesByAddress:
+      return lendingTradeEvents.resetTradesByAddress()
     default:
       return lendingTradeEvents.initialized()
   }
@@ -591,6 +593,8 @@ export const lendingOrders = createReducer(action => {
       return lendingOrdersEvents.ordersInitialized(payload)
     case socketControllerActionTypes.updateLendingOrders:
       return lendingOrdersEvents.updateOrders(payload)
+    case logoutPageActionTypes.ordersReset:
+      return lendingOrdersEvents.ordersReset()
     default:
       return lendingOrdersEvents.initialized()
   }

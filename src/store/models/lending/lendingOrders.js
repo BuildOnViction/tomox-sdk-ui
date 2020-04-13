@@ -26,7 +26,7 @@ export default function ordersTableSelector(state: State) {
   const address = accountDomain.address()
   const authenticated = accountDomain.authenticated()
   let orders = getLendingOrdersDomain(state).lastOrders(100)
-  let trades = getLendingTradesDomain(state).userTrades(address)
+  let trades = address ? getLendingTradesDomain(state).userTrades(address) : []
   const currentPair = getLendingPairsDomain(state).getCurrentPair()
   const currentPairData = getLendingPairsDomain(state).getCurrentPairData()
   const lendingTokensDomain = getLendingTokensDomain(state)
