@@ -14,7 +14,6 @@ import {
   getWebsocketDomain,
   getTokenDomain,
   getLendingOrdersDomain,
-  getLendingTokensDomain,
 } from '../domains'
 
 import { getSigner } from '../services/signer'

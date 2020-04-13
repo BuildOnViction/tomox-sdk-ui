@@ -18,7 +18,7 @@ import {
   Centered,
 } from '../Common'
 import { pricePrecision } from '../../config/tokens'
-import { TOMOSCAN_URL } from '../../config/environment'
+import { TOMOSCAN_URL, TOMO_BRIDGE_URL } from '../../config/environment'
 // import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
@@ -225,11 +225,11 @@ const QuoteTokenRows = (props: Props) => {
                 }
               </OperationsBox>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
                 <FormattedMessage id="portfolioPage.deposit" />
               </ExternalLink>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
                 <FormattedMessage id="portfolioPage.withdrawal" />
               </ExternalLink>
             </ButtonWrapper>
@@ -295,11 +295,11 @@ const BaseTokenRows = (props: Props) => {
                 }
               </OperationsBox>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
                 <FormattedMessage id="portfolioPage.deposit" />
               </ExternalLink>
 
-              <ExternalLink  target="_blank" href="https://bridge.tomochain.com/">
+              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
                 <FormattedMessage id="portfolioPage.withdrawal" />
               </ExternalLink>             
             </ButtonWrapper>
