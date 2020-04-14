@@ -72,7 +72,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps) {
     const {isFirstTime} = this.state
-    const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder} = prevProps
+    const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder, currentPairData: prevPairData} = prevProps
     const {collateralTokens: currCollaterals, selectedOrder: currSelectedOrder, currentPairData} = this.props
 
     if (prevCollaterals
@@ -86,7 +86,8 @@ class OrderForm extends React.PureComponent<Props, State> {
     }
 
     // Set interest to current pair data interest
-    if (isFirstTime && !currSelectedOrder && currentPairData ) {
+    if ((isFirstTime && !currSelectedOrder && currentPairData) 
+    || (prevPairData && prevPairData.pair !== currentPairData.pair)) {
       this.setState({
         borrowInterest: currentPairData.close.toFixed(2),
         lendInterest: currentPairData.close.toFixed(2),
