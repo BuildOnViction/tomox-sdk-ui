@@ -1,16 +1,16 @@
 // @flow
-import { push, useParams } from 'connected-react-router'
+// import { push, useParams } from 'connected-react-router'
 
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  getAccountBalancesDomain,
+  // getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
   getLendingPairsDomain,
 } from '../../domains'
 
-import * as actionCreators from '../../actions/tradingPage'
+// import * as actionCreators from '../../actions/tradingPage'
 import * as lendingActionCreators from '../../actions/lending/lendingTradePage'
 import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 import * as lendingTradesActionCreators from '../../actions/lending/lendingTrades'
@@ -102,7 +102,6 @@ export const queryTradingPageData = (pair): ThunkAction => {
         dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))
       }
 
-      // socket.subscribePrice(currentPair)
       const subscribeData = {
         term: Number(currentPair.termValue), 
         lendingToken: currentPair.lendingTokenAddress,
@@ -110,6 +109,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       socket.subscribeLendingPrice(subscribeData)
       socket.subscribeLendingTrades(subscribeData)
       socket.subscribeLendingOrderBook(subscribeData)
+      dispatch(lendingActionCreators.updateOHLCVLoading(false))
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
@@ -150,8 +150,8 @@ export const queryDappTradePageData = (): ThunkAction => {
         orders = parseOrders(orders, pairs)
         tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
 
-        dispatch(actionCreators.initOrdersTable(orders))
-        dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
+        dispatch(lendingActionCreators.initOrdersTable(orders))
+        dispatch(lendingActionCreators.updateTradesByAddress(tradesByAddress))
       }
 
       socket.subscribePrice(currentPair)
@@ -190,13 +190,13 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       const state = getState()
       const pairDomain = getTokenPairsDomain(state)
 
-      dispatch(actionCreators.updateCurrentPair(pair))
+      dispatch(lendingActionCreators.updateCurrentPair(pair))
       const tokenPair = pairDomain.getPair(pair)
 
       socket.subscribePrice(tokenPair)
       socket.subscribeTrades(tokenPair)
       socket.subscribeOrderBook(tokenPair)
-      dispatch(actionCreators.updateOHLCVLoading(true))
+      dispatch(lendingActionCreators.updateOHLCVLoading(true))
       socket.subscribeChart(
         tokenPair,
         state.ohlcv.currentTimeSpan.label,

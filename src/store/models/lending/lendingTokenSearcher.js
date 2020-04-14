@@ -33,8 +33,13 @@ export default function tokenSearcherSelector(state: State) {
 
 export const updateCurrentPair = (pair: string): ThunkAction => {
     return async (dispatch, getState) => {
+      const state = getState()
+      const currentPair = getLendingPairsDomain(state).getCurrentPair()
+      if (currentPair.pair === pair) return
+
       const param = pair.replace(' ', '_').replace('/', '-')
       dispatch(actionCreators.updateCurrentPair(pair))
+      dispatch(actionCreators.updateOhlcvLoading(true))
       dispatch(push(`/lending/${param}`))
     }
 }

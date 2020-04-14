@@ -42,8 +42,9 @@ export default class TVChart extends React.PureComponent {
   }
 
   render() {
-    const { currentPair: { pair }} = this.props
-    if (!pair) return <Loading />
+    const { currentPair: { pair }, loading } = this.props
+    
+    if (!pair || loading) return <Loading />
     
     return (
       <React.Fragment>

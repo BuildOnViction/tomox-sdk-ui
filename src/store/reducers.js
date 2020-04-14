@@ -58,6 +58,7 @@ import * as lendingTradeEvents from './domains/lending/lendingTrades'
 import * as lendingPairsEvents from './domains/lending/lendingPairs'
 import * as lendingTokensEvents from './domains/lending/lendingTokens'
 import * as lendingOrdersEvents from './domains/lending/lendingOrders'
+import * as lendingOhlcvEvents from './domains/lending/lendingOhlcv'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -597,5 +598,22 @@ export const lendingOrders = createReducer(action => {
       return lendingOrdersEvents.ordersReset()
     default:
       return lendingOrdersEvents.initialized()
+  }
+})
+
+export const lendingOhlcv = createReducerPersist({
+  key: 'ohlcv',
+  keyPrefix: 'tomo:lending:',
+  storage,
+  whitelist: ['currentTimeSpan', 'currentDuration'],
+},
+action => {
+  const { type, payload } = action
+  switch (type) {
+    case lendingTokenSearcherActionTypes.updateOhlcvLoading:
+    case lendingTradePageActionTypes.updateOHLCVLoading:
+      return lendingOhlcvEvents.loading(payload)
+    default:
+      return lendingOhlcvEvents.initialized()
   }
 })

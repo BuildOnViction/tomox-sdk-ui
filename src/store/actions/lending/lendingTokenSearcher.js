@@ -3,6 +3,7 @@ const actionTypes = {
   updateCurrentPair: 'lendingTokenSearcher/UPDATE_CURRENT_PAIR',
   updateTradesTable: 'lendingTokenSearcher/UPDATE_TRADES_TABLE',
   updateOrderBook: 'lendingTokenSearcher/UPDATE_ORDERBOOK',
+  updateOhlcvLoading: 'lendingTokenSearcher/UPDATE_OHLCV_LOADING',
 }
 
 export function updateFavorite(code: string, favorite: boolean) {
@@ -30,6 +31,13 @@ export function updateOrderBook(bids: Array<Object>, asks: Array<Object>) {
   return {
     type: actionTypes.updateOrderBook,
     payload: { bids, asks },
+  }
+}
+
+export function updateOhlcvLoading(loading: boolean) {
+  return {
+    type: actionTypes.updateOhlcvLoading,
+    payload: loading,
   }
 }
 
