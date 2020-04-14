@@ -40,17 +40,21 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     searchFilter: '',
     filterName: 'symbol',
     sortOrder: 'asc',
-    selectedTabId: this.props.lendingTokens[0],
+    selectedTabId: '',
     orderChanged: false,
     isOpen: true,
     isShowSearchResult: false,
   }
 
-  componentDidUpdate(prevProps) {
-    const { lendingTokens } = this.props
+  static getDerivedStateFromProps(props, state) {
+    const { currentPair } = props
+
+    if (!state.selectedTabId && currentPair.pair) {
+      const lendingToken = currentPair.pair.split('/')[1]
+      return {selectedTabId: lendingToken}
+    }
     
-    if (prevProps.lendingTokens.length === 0 
-      && lendingTokens.length > 0) this.setState({selectedTabId: lendingTokens[0]})
+    return null
   }
 
   onChangeSearchFilter = (event) => {
