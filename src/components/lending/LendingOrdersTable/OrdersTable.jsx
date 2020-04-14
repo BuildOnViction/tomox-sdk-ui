@@ -1,7 +1,9 @@
 //@flow
 import React from 'react'
+import { differenceInSeconds } from 'date-fns'
 
 import { sortTable } from '../../../utils/helpers'
+import { lendingAmountPrecision } from '../../../config/tokens'
 
 import OrdersTableRenderer from './OrdersTableRenderer'
 import RepayModal from './RepayModal'
@@ -28,6 +30,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     selectedTrade: {},
     topUpAmount: '',
     errorTopUp: false,
+    realInterest: '',
   }
 
   changeTab = (tabId: string) => {
@@ -109,7 +112,21 @@ class OrdersTable extends React.PureComponent<Props, State> {
   }
 
   toggleRepayModal = (status: Boolean) => {
+    const { selectedTrade } = this.state
+    if (!selectedTrade) return
+    
+    if (status && selectedTrade && selectedTrade.isBorrower) {
+      const realTimesInSeconds = differenceInSeconds(new Date(), new Date(selectedTrade.time))
+      const realInterest = (Number(selectedTrade.amount) * Number(selectedTrade.interest) * (realTimesInSeconds + Number(selectedTrade.term)))/(100*2*365*24*60*60)    
+      
+      return this.setState({
+        realInterest: realInterest.toFixed(lendingAmountPrecision),
+        isOpenRepay: status,
+      })
+    }
+
     this.setState({
+      realInterest: '',
       isOpenRepay: status,
     })
   }
@@ -183,6 +200,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       selectedCollateral,
       topUpAmount,
       errorTopUp,
+      realInterest,
     } = this.state
     
     const filteredOrders = this.filterOrders()
@@ -211,6 +229,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           title="Repay your borrowing"
           isOpen={isOpenRepay}
           trade={selectedTrade}
+          realInterest={realInterest}
           onRepay={this.handleRepay}
           onClose={this.toggleRepayModal}
         />
