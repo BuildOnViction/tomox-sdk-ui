@@ -518,6 +518,8 @@ export const lendingOrderBook = createReducer(({ type, payload }) => {
       return lendingOrderBookEvents.orderBookUpdated(payload.bids, payload.asks)
     case lendingOrderBookActionTypes.selectOrder:
       return lendingOrderBookEvents.selectedOrder(payload)
+    case lendingTokenSearcherActionTypes.resetOrderbook:
+      return lendingOrderBookEvents.orderBookReset()
     default:
       return lendingOrderBookEvents.initialized()
   }
@@ -535,6 +537,8 @@ export const lendingTrades = createReducer(action => {
       return lendingTradeEvents.tradesByAddressUpdated(payload)
     case logoutPageActionTypes.resetTradesByAddress:
       return lendingTradeEvents.resetTradesByAddress()
+    case lendingTokenSearcherActionTypes.resetTradesHistory:
+      return lendingTradeEvents.tradesReset()
     default:
       return lendingTradeEvents.initialized()
   }

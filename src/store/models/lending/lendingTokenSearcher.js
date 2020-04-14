@@ -40,6 +40,9 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       const param = pair.replace(' ', '_').replace('/', '-')
       dispatch(actionCreators.updateCurrentPair(pair))
       dispatch(actionCreators.updateOhlcvLoading(true))
+      dispatch(actionCreators.resetOrderbook())
+      dispatch(actionCreators.resetTradesHistory())
       dispatch(push(`/lending/${param}`))
+
     }
 }

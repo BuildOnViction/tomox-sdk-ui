@@ -4,6 +4,8 @@ const actionTypes = {
   updateTradesTable: 'lendingTokenSearcher/UPDATE_TRADES_TABLE',
   updateOrderBook: 'lendingTokenSearcher/UPDATE_ORDERBOOK',
   updateOhlcvLoading: 'lendingTokenSearcher/UPDATE_OHLCV_LOADING',
+  resetOrderbook: 'lendingTokenSearcher/RESET_ORDERBOOK',
+  resetTradesHistory: 'lendingTokenSearcher/RESET_TRADES_HISTORY',
 }
 
 export function updateFavorite(code: string, favorite: boolean) {
@@ -38,6 +40,18 @@ export function updateOhlcvLoading(loading: boolean) {
   return {
     type: actionTypes.updateOhlcvLoading,
     payload: loading,
+  }
+}
+
+export function resetOrderbook() {
+  return {
+    type: actionTypes.resetOrderbook,
+  }
+}
+
+export function resetTradesHistory() {
+  return {
+    type: actionTypes.resetTradesHistory,
   }
 }
 

@@ -103,6 +103,7 @@ export const resetTradesByAddress = () => {
 }
 
 export const tradesReset = () => {
+  console.log('reset trades work==============================================')
   const event = (state: TradesState) => {
     return {
       ...state,
