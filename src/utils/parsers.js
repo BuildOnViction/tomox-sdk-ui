@@ -409,6 +409,7 @@ export const parseLendingPairsData = (pairsData, tokens) => {
       lendingToken: item.lendingID.lendingToken.toLowerCase(),
       term: item.lendingID.term,
       volume: item.volume ? parseLendingAmount(item.volume, decimals) : 0,
+      change: computeChange(item.open, item.close),
     }
   })
 
