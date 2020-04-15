@@ -764,9 +764,13 @@ const Info = styled.div`
   background-color: ${props => props.theme.menuBg};
 `
 
-const InfoIcon = styled(Icon)`
-  vertical-align: top;
-  margin-left: 3px;
+const InfoIcon = styled(Icon).attrs({
+  className: 'info-icon',
+})`
+  &.info-icon {
+    vertical-align: top;
+    margin-left: 3px;
+  }
 `
 
 export default OrdersTableRenderer
