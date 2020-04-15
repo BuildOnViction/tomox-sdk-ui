@@ -225,13 +225,17 @@ const QuoteTokenRows = (props: Props) => {
                 }
               </OperationsBox>
 
-              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
-                <FormattedMessage id="portfolioPage.deposit" />
-              </ExternalLink>
+              {verified && (
+                <>
+                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
+                    <FormattedMessage id="portfolioPage.deposit" />
+                  </ExternalLink>
 
-              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
-                <FormattedMessage id="portfolioPage.withdrawal" />
-              </ExternalLink>
+                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
+                    <FormattedMessage id="portfolioPage.withdrawal" />
+                  </ExternalLink>
+                </>
+              )}
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -295,13 +299,17 @@ const BaseTokenRows = (props: Props) => {
                 }
               </OperationsBox>
 
-              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
-                <FormattedMessage id="portfolioPage.deposit" />
-              </ExternalLink>
+              {verified && (
+                <>
+                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
+                    <FormattedMessage id="portfolioPage.deposit" />
+                  </ExternalLink>
 
-              <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
-                <FormattedMessage id="portfolioPage.withdrawal" />
-              </ExternalLink>             
+                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
+                    <FormattedMessage id="portfolioPage.withdrawal" />
+                  </ExternalLink>
+                </>
+              )}             
             </ButtonWrapper>
           </Cell>
         </Row>
