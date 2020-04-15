@@ -22,6 +22,7 @@ const MESSAGES = {
   'LENDING_ORDER_SUCCESS': <FormattedMessage id='notifications.lendingOrderSuccess' />,  
   'LENDING_ORDER_PENDING': <FormattedMessage id='notifications.lendingOrderPending' />,
   'LENDING_ORDER_REPAYED': <FormattedMessage id='notifications.lendingOrderRepayed' />,
+  'LENDING_ORDER_TOPUPED': <FormattedMessage id='notifications.lendingOrderTopUped' />,
 
   'ERROR': <FormattedMessage id='notifications.orderError' />,
 }
@@ -45,6 +46,7 @@ const generateScanUrl = (type, txHash) => {
     case 'LENDING_ORDER_MATCHED':
     case 'LENDING_ORDER_SUCCESS':
     case 'LENDING_ORDER_REPAYED':
+    case 'LENDING_ORDER_TOPUPED':
       return `${TOMOSCAN_URL}/lending/trades/${txHash}`
 
     default:

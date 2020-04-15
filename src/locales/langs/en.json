@@ -21,6 +21,7 @@
   "notifications.lendingOrderSuccess": "Your lending order has been successfully executed!",
   "notifications.lendingOrderPending": "Your lending order is now pending. You will receive a notification when the transaction is confirmed",
   "notifications.lendingOrderRepayed": "Lending Order Repayed",
+  "notifications.lendingOrderTopUped": "Lending Order TopUped",
   "notifications.orderError": "",
   "mainMenuPage.markets": "Markets",
   "mainMenuPage.exchange": "Exchange",
