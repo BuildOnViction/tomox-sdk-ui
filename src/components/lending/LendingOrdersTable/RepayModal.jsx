@@ -9,6 +9,7 @@ import { lendingAmountPrecision } from '../../../config/tokens'
 export default function RepayModal({ 
     trade,
     realInterest,
+    lendingToken,
     onRepay,
     onClose,
     ...rest 
@@ -20,6 +21,7 @@ export default function RepayModal({
                 <Typo>Loan amount: <span><Value>{BigNumber(trade.amount).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
                 <Typo>Estimated interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
                 <Typo>Total repay amount: <Highlight><Value>{BigNumber(Number(trade.amount) + Number(realInterest)).toFormat(lendingAmountPrecision)}</Value> USDT</Highlight></Typo>
+                <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
             </RepayContent>
             <ButtonGroup>
                 <CancelButton 

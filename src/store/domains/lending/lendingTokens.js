@@ -92,7 +92,7 @@ export const updateLendingTerms = (terms) => {
 export default function getLendingTokensDomain(state: TokenState) {
   return {
     // lending tokens
-    tokens: _ => state.tokens ? Object.values(state.tokends.bySymbol) : null,
+    tokens: _ => state.tokens ? Object.values(state.tokens.bySymbol) : null,
     tokenSymbols: _ => state.tokens ? state.tokens.symbols : [],
     tokensBySymbol: _ => state.tokens ? state.tokens.bySymbol : [],
     getTokenByAddress: address => state.tokens ? state.tokens.byAddress[address.toLowerCase()] : null,

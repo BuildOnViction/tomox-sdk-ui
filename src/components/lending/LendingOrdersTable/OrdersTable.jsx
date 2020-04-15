@@ -31,6 +31,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     topUpAmount: '',
     errorTopUp: false,
     realInterest: '',
+    lendingToken: '',
   }
 
   changeTab = (tabId: string) => {
@@ -116,16 +117,19 @@ class OrdersTable extends React.PureComponent<Props, State> {
     if (!selectedTrade) return
     
     if (status && selectedTrade && selectedTrade.isBorrower) {
+      const lendingToken = this.props.lendingTokens.find(token => token.address.toLowerCase() === selectedTrade.lendingToken.toLowerCase())
       const realTimesInSeconds = differenceInSeconds(new Date(), new Date(selectedTrade.time))
       const realInterest = (Number(selectedTrade.amount) * Number(selectedTrade.interest) * (realTimesInSeconds + Number(selectedTrade.term)))/(100*2*365*24*60*60)    
       
       return this.setState({
+        lendingToken,
         realInterest: realInterest.toFixed(lendingAmountPrecision),
         isOpenRepay: status,
       })
     }
 
     this.setState({
+      lendingToken: '',
       realInterest: '',
       isOpenRepay: status,
     })
@@ -201,6 +205,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       topUpAmount,
       errorTopUp,
       realInterest,
+      lendingToken,
     } = this.state
     
     const filteredOrders = this.filterOrders()
@@ -230,6 +235,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
           isOpen={isOpenRepay}
           trade={selectedTrade}
           realInterest={realInterest}
+          lendingToken={lendingToken}
           onRepay={this.handleRepay}
           onClose={this.toggleRepayModal}
         />

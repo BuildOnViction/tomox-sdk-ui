@@ -29,9 +29,12 @@ export default function ordersTableSelector(state: State) {
   let trades = address ? getLendingTradesDomain(state).userTrades(address) : []
   const currentPair = getLendingPairsDomain(state).getCurrentPair()
   const currentPairData = getLendingPairsDomain(state).getCurrentPairData()
+  const accountBalanceDomain = getAccountBalancesDomain(state)
   const lendingTokensDomain = getLendingTokensDomain(state)
   let collaterals = lendingTokensDomain.collaterals()
-  collaterals = getAccountBalancesDomain(state).getBalancesAndAllowances(collaterals)
+  let lendingTokens = lendingTokensDomain.tokens()
+  collaterals = collaterals ? accountBalanceDomain.getBalancesAndAllowances(collaterals) : []
+  lendingTokens = collaterals ? accountBalanceDomain.getBalancesAndAllowances(lendingTokens) : []
 
   orders = orders.map(order => {
     const term = lendingTokensDomain.getTermByValue(order.term)
@@ -66,6 +69,7 @@ export default function ordersTableSelector(state: State) {
     currentPairData,
     authenticated,
     collaterals,
+    lendingTokens,
   }
 }
 
