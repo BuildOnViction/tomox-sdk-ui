@@ -3,11 +3,12 @@ import React from 'react'
 import { differenceInSeconds } from 'date-fns'
 
 import { sortTable } from '../../../utils/helpers'
-import { lendingAmountPrecision } from '../../../config/tokens'
 
 import OrdersTableRenderer from './OrdersTableRenderer'
 import RepayModal from './RepayModal'
 import TopUpModal from './TopUpModal'
+import BigNumber from 'bignumber.js'
+import { lendingAmountPrecision } from '../../../config/tokens'
 
 type Props = {
   orders: Array<Order>,
@@ -30,6 +31,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     selectedTrade: {},
     topUpAmount: '',
     errorTopUp: false,
+    errorRepay: false,
     realInterest: '',
     lendingToken: '',
   }
@@ -120,10 +122,12 @@ class OrdersTable extends React.PureComponent<Props, State> {
       const lendingToken = this.props.lendingTokens.find(token => token.address.toLowerCase() === selectedTrade.lendingToken.toLowerCase())
       const realTimesInSeconds = differenceInSeconds(new Date(), new Date(selectedTrade.time))
       const realInterest = (Number(selectedTrade.amount) * Number(selectedTrade.interest) * (realTimesInSeconds + Number(selectedTrade.term)))/(100*2*365*24*60*60)    
+      const totalRepay = realInterest + Number(selectedTrade.amount)
       
       return this.setState({
         lendingToken,
-        realInterest: realInterest.toFixed(lendingAmountPrecision),
+        realInterest,
+        totalRepay,
         isOpenRepay: status,
       })
     }
@@ -131,11 +135,19 @@ class OrdersTable extends React.PureComponent<Props, State> {
     this.setState({
       lendingToken: '',
       realInterest: '',
+      totalRepay: '',
+      errorRepay: false,
       isOpenRepay: status,
     })
   }
 
   handleRepay = () => {
+    const { totalRepay, lendingToken } = this.state
+
+    if (BigNumber(totalRepay.toFixed(lendingAmountPrecision)).gt(Number(lendingToken.availableBalance).toFixed(lendingAmountPrecision))) {
+      return this.setState({ errorRepay: true })
+    }
+
     this.props.repayLendingOrder(this.state.selectedTrade.hash)
     this.toggleRepayModal(false)
   }
@@ -204,7 +216,9 @@ class OrdersTable extends React.PureComponent<Props, State> {
       selectedCollateral,
       topUpAmount,
       errorTopUp,
+      errorRepay,
       realInterest,
+      totalRepay,
       lendingToken,
     } = this.state
     
@@ -235,9 +249,11 @@ class OrdersTable extends React.PureComponent<Props, State> {
           isOpen={isOpenRepay}
           trade={selectedTrade}
           realInterest={realInterest}
+          totalRepay={totalRepay}
           lendingToken={lendingToken}
           onRepay={this.handleRepay}
           onClose={this.toggleRepayModal}
+          errorRepay={errorRepay}
         />
 
         <TopUpModal

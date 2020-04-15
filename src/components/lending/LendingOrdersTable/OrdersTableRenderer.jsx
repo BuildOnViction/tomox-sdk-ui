@@ -726,6 +726,7 @@ const LoginLink = styled(InternalLink)`
 
 const MoreButton = styled(Icon)`
   cursor: pointer;
+  vertical-align: middle;
 `
 
 const ActionsPopover = styled(Popover)`
@@ -765,7 +766,7 @@ const Info = styled.div`
 
 const InfoIcon = styled(Icon)`
   vertical-align: top;
-  margin-left: 5px;
+  margin-left: 3px;
 `
 
 export default OrdersTableRenderer
