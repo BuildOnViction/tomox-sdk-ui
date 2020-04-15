@@ -8,6 +8,7 @@ import {
   Checkbox,
   Popover,
   Position,
+  PopoverInteractionKind,
   Menu,
   MenuItem,
 } from '@blueprintjs/core'
@@ -40,6 +41,11 @@ const ORDERTYPES = {
   'MO': <FormattedMessage id='exchangePage.market' />,
 }
 
+const TOPUPTYPES = {
+  '0': 'Manual',
+  '1': 'Auto',
+}
+
 const rowHeight = 45
 const overscanRowCount = 5
 const columnsOpenOrder = {
@@ -68,10 +74,10 @@ const columnsTradeHistory = {
   openDate: '12%', 
   closeDate: '12%',
   pair: '10%', 
-  type: '7%', 
+  type: '10%', 
   interest: '10%', 
   filled: '10%',
-  liqPrice: '13%',
+  liqPrice: '10%',
   collateral: '13%',
   status: '9%',
   actions: '8%',
@@ -79,8 +85,8 @@ const columnsTradeHistory = {
 const columnsOpenTrades = {
   openDate: '12%',
   closeDate: '12%',
-  pair: '18%',
-  type: '10%',
+  pair: '14%',
+  type: '14%',
   interest: '10%',
   filled: '10%',
   liqPrice: '12%',
@@ -396,7 +402,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsTradeHistory['type']} muted>
-          {ORDERTYPES[order.type]}
+          {ORDERTYPES[order.type]}-{TOPUPTYPES[order.autoTopUp]}
         </Cell>
         <Cell width={columnsTradeHistory['interest']} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
@@ -428,7 +434,10 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsTradeHistory['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['openDate']}><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={columnsTradeHistory['type']}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsTradeHistory['type']}>
+          <FormattedMessage id="exchangePage.type" />
+          <InfoPopover />
+        </HeaderCell>
         <HeaderCell width={columnsTradeHistory['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
@@ -484,7 +493,7 @@ const OpenTradesTable = ({
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsOpenTrades['type']} muted>
-          {ORDERTYPES[order.type]}
+          {ORDERTYPES[order.type]}-{TOPUPTYPES[order.autoTopUp]}
         </Cell>
         <Cell width={columnsOpenTrades['interest']} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
@@ -529,7 +538,10 @@ const OpenTradesTable = ({
         <HeaderCell width={columnsOpenTrades['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['closeDate']}><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades['type']}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['type']}>
+          <FormattedMessage id="exchangePage.type" />
+          <InfoPopover />
+        </HeaderCell>
         <HeaderCell width={columnsOpenTrades['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
@@ -575,6 +587,24 @@ const ActionsMenu = ({ isBorrower, hash, toggleRepayModal, toggleTopUpModal }) =
     </Menu>
   )
 }
+
+const InfoPopover = _ => (
+  <ActionsPopover
+    content={<InfoContent />}
+    enforceFocus={false}
+    position={Position.BOTTOM}
+    interactionKind={PopoverInteractionKind.HOVER}
+    usePortal={false}
+  >
+    <InfoIcon icon="info-sign" iconSize='10px' />
+  </ActionsPopover>
+)
+
+const InfoContent = _ => (
+  <Info>
+    <span>Order type-TopUp type</span>
+  </Info>
+)
 
 const TabsContainer = styled(Tabs)`
   position: relative;
@@ -726,6 +756,16 @@ const MenuLink = styled(Link)`
     color: ${props => props.theme.menuColor};
     background-color: ${props => props.theme.menuBgHover};
   }
+`
+
+const Info = styled.div`
+  padding: 5px 10px;
+  background-color: ${props => props.theme.menuBg};
+`
+
+const InfoIcon = styled(Icon)`
+  vertical-align: top;
+  margin-left: 5px;
 `
 
 export default OrdersTableRenderer

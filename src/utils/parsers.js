@@ -487,6 +487,7 @@ export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
       time: trade.updatedAt,
       type: trade.type || 'LO',
       side: (trade.investor.toLowerCase() === userAddress.toLowerCase()) ? 'Lend' : 'BORROW',
+      autoTopUp: trade.autoTopUp,
     }
   })
 
