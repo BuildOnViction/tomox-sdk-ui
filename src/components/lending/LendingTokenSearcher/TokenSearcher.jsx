@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
 import TokenSearcherRenderer from './TokenSearcherRenderer'
-// import { sortTable } from '../../../utils/helpers'
+import { sortTable } from '../../../utils/helpers'
 
 //TODO not sure exactly where to define this type.
 type Token = {
@@ -77,10 +77,11 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     }, 300) 
   }
 
-  onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
-    const {dataset: { filter }} = target
+  onChangeFilterName = (filter: string) => {
     const { filterName, orderChanged } = this.state
 
+    console.log(filter, '======================================')
+    
     if (filter === filterName && !orderChanged) {
       this.setState({
         filterName: filter,
@@ -106,7 +107,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
 
   filterTokens = () => {
     let result = {pairs: [], searchResults: []}
-    const { selectedTabId, searchFilter } = this.state
+    const { selectedTabId, searchFilter, filterName, sortOrder } = this.state
     const { pairs } = this.props
 
     if (selectedTabId !== 'favorites') {
@@ -120,6 +121,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     } else {
       result.searchResults = [...pairs]
     }
+
+    result.pairs = sortTable(result.pairs, filterName, sortOrder)
         
     return result
   }

@@ -38,7 +38,6 @@ type Props = {
   baseTokenBalance: number,
   quoteTokenBalance: number,
   searchFilter: string,
-  // selectedPair: Token,
   filterName: string,
   sortOrder: string,
   quoteTokens: Array<string>,
@@ -57,7 +56,6 @@ const TokenSearchRenderer = (props: Props) => {
     tabs,
     selectedTabId,
     searchFilter,
-    // selectedPair,
     sortOrder,
     filterName,
     updateFavorite,
@@ -116,7 +114,6 @@ const TokenSearchRenderer = (props: Props) => {
               sortOrder={sortOrder}
               searchFilter={searchFilter}
               selectedTabId={selectedTabId}
-              // selectedPair={selectedPair}
               changeSelectedToken={changeSelectedToken}
               updateFavorite={updateFavorite}
               onChangeSearchFilter={onChangeSearchFilter}
@@ -175,7 +172,6 @@ type PanelProps = {
   sortOrder: string,
   searchFilter: string,
   selectedTabId: string,
-  // selectedPair: Token,
   tokenPairs: Array<Token>,
   changeSelectedToken: Token => void,
   updateFavorite: (string, boolean) => void,
@@ -274,22 +270,22 @@ const TableHeader = ({
   return (
       <HeaderRow>
         <Cell width="10%">&nbsp;</Cell>
-        <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="pair"><FormattedMessage id="marketsPage.pair" /></CellTitle>
-          {filterName === 'pair' && (
-            <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+        <Cell width="30%" onClick={() => onChangeFilterName('term')}>
+          <CellTitle><FormattedMessage id="marketsPage.pair" /></CellTitle>
+          {filterName === 'term' && (
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="lastPrice" width="35%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="lastPrice"><FormattedMessage id="lending.ticker.lastInterest" /></CellTitle>
-          {filterName === 'lastPrice' && (
-            <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+        <Cell width="35%" onClick={() => onChangeFilterName('close')}>
+          <CellTitle><FormattedMessage id="lending.ticker.lastInterest" /></CellTitle>
+          {filterName === 'close' && (
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="change" width="25%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="change"><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
+        <Cell width="25%" onClick={() => onChangeFilterName('change')}>
+          <CellTitle><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
           {filterName === 'change' && (
-            <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
       </HeaderRow>
