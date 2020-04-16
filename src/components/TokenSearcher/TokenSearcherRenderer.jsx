@@ -297,22 +297,22 @@ const TableHeader = ({
   return (
       <HeaderRow>
         <Cell width="10%">&nbsp;</Cell>
-        <Cell data-filter="pair" width="30%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="pair"><FormattedMessage id="marketsPage.pair" /></CellTitle>
+        <Cell width="30%" onClick={() => onChangeFilterName('pair')}>
+          <CellTitle><FormattedMessage id="marketsPage.pair" /></CellTitle>
           {filterName === 'pair' && (
-            <UtilityIcon data-filter="pair" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="lastPrice" width="35%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="lastPrice"><FormattedMessage id="priceBoard.lastPrice" /></CellTitle>
+        <Cell width="35%" onClick={() => onChangeFilterName('lastPrice')}>
+          <CellTitle><FormattedMessage id="priceBoard.lastPrice" /></CellTitle>
           {filterName === 'lastPrice' && (
-            <UtilityIcon data-filter="lastPrice" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
-        <Cell data-filter="change" width="25%" onClick={onChangeFilterName}>
-          <CellTitle data-filter="change"><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
+        <Cell width="25%" onClick={() => onChangeFilterName('change')}>
+          <CellTitle><FormattedMessage id="priceBoard.24hChange" /></CellTitle>
           {filterName === 'change' && (
-            <UtilityIcon data-filter="change" name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
+            <UtilityIcon name={sortOrder === "asc" ? "arrow-up" : "arrow-down"} />
           )}
         </Cell>
       </HeaderRow>

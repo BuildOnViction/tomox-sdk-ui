@@ -86,8 +86,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     }, 300) 
   }
 
-  onChangeFilterName = ({ target }: SyntheticInputEvent<>) => {
-    const {dataset: { filter }} = target
+  onChangeFilterName = (filter: string) => {
     const { filterName, orderChanged } = this.state
 
     if (filter === filterName && !orderChanged) {
