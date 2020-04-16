@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { Loading, Colors, TmColors, Centered, UtilityIcon, Text, Theme } from '../../Common'
-import { getChangePercentText } from '../../../utils/helpers'
 
 type BidOrAsk = {
   interest: number,

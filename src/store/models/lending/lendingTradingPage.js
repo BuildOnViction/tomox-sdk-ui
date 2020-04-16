@@ -1,16 +1,14 @@
 // @flow
-// import { push, useParams } from 'connected-react-router'
+import { push } from 'connected-react-router'
 
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  // getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
   getLendingPairsDomain,
 } from '../../domains'
 
-// import * as actionCreators from '../../actions/tradingPage'
 import * as lendingActionCreators from '../../actions/lending/lendingTradePage'
 import * as lendingOrdersActionCreators from '../../actions/lending/lendingOrders'
 import * as lendingTradesActionCreators from '../../actions/lending/lendingTrades'
@@ -27,33 +25,20 @@ import {
 // eslint-disable-next-line
 export default function tradingPageSelector(state: State) {
   const accountDomain = getAccountDomain(state)
-  // const accountBalancesDomain = getAccountBalancesDomain(state)
   const pairsDomain = getLendingPairsDomain(state)
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
   const {
     pair,
-    // makeFee,
-    // takeFee,
-    // baseTokenSymbol,
-    // quoteTokenSymbol,
   } = pairsDomain.getCurrentPair()
 
   const authenticated = accountDomain.authenticated()
-  // const baseTokenBalance = accountBalancesDomain.tokenBalance(baseTokenSymbol)
-  // const quoteTokenBalance = accountBalancesDomain.tokenBalance(quoteTokenSymbol)
 
   return {
     currentPairName: pair,
-    // makeFee,
-    // takeFee,
     authenticated,
-    // baseTokenBalance,
-    // baseTokenSymbol,
     isConnected,
     isInitiated,
-    // quoteTokenBalance,
-    // quoteTokenSymbol,
     ohlcvData,
   }
 }
@@ -73,7 +58,8 @@ export const queryTradingPageData = (pair): ThunkAction => {
       const state = getState()
       const lendingPairsDomain = getLendingPairsDomain(state)
       const currentPair = lendingPairsDomain.getCurrentPair()
-      const pairName = pair.replace('_', ' ').replace('-', '/')
+      const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
+      if (!pair && pairName) dispatch(push(`/lending/${pairName.replace(' ', '_').replace('/', '-')}`))
 
       //TODO: need to check pairName exist or not
       if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {

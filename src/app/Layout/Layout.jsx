@@ -327,9 +327,11 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
-              <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink>
+              {/* <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink> */}
 
-              <PageLink to="/trade"><FormattedMessage id="mainMenuPage.exchange" /></PageLink>
+              <PageLink to="/markets/trading"><FormattedMessage id="mainMenuPage.spot" /></PageLink>
+
+              <PageLink to="/markets/lending"><FormattedMessage id="mainMenuPage.lending" /></PageLink>
 
               <LanguageItem className="utility-item language">
                 <i>language</i>              

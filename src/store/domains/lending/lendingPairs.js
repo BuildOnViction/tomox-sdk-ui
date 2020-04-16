@@ -76,6 +76,7 @@ export const updatePairs = (pairs) => {
         ...byPair,
       },
       sortedPairs: [...new Set([...state.sortedPairs, ...sortedPairs])],
+      currentPair: sortedPairs[0],
     }
   }
 
