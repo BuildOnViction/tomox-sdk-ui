@@ -436,7 +436,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsTradeHistory['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['type']}>
           <FormattedMessage id="exchangePage.type" />
-          <InfoPopover />
+          <TypeInfoPopover />
         </HeaderCell>
         <HeaderCell width={columnsTradeHistory['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
@@ -540,11 +540,14 @@ const OpenTradesTable = ({
         <HeaderCell width={columnsOpenTrades['pair']}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['type']}>
           <FormattedMessage id="exchangePage.type" />
-          <InfoPopover />
+          <TypeInfoPopover />
         </HeaderCell>
         <HeaderCell width={columnsOpenTrades['interest']}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenTrades['filled']}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
-        <HeaderCell width={columnsOpenTrades['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
+        <HeaderCell width={columnsOpenTrades['liqPrice']}>
+          <FormattedMessage id="exchangeLendingPage.orders.liqPrice" />
+          <LiqInfoPopover />
+        </HeaderCell>
         <HeaderCell width={columnsOpenTrades['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>  
         <HeaderCell width={columnsOpenTrades['actions']}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
       </ListHeader>
@@ -588,9 +591,9 @@ const ActionsMenu = ({ isBorrower, hash, toggleRepayModal, toggleTopUpModal }) =
   )
 }
 
-const InfoPopover = _ => (
+const TypeInfoPopover = _ => (
   <ActionsPopover
-    content={<InfoContent />}
+    content={<TypeInfoContent />}
     enforceFocus={false}
     position={Position.BOTTOM}
     interactionKind={PopoverInteractionKind.HOVER}
@@ -600,9 +603,28 @@ const InfoPopover = _ => (
   </ActionsPopover>
 )
 
-const InfoContent = _ => (
+const TypeInfoContent = _ => (
   <Info>
     <span>Order type-TopUp type</span>
+  </Info>
+)
+
+const LiqInfoPopover = _ => (
+  <ActionsPopover
+    content={<LiqInfoContent />}
+    enforceFocus={false}
+    position={Position.BOTTOM}
+    interactionKind={PopoverInteractionKind.HOVER}
+    usePortal={false}
+  >
+    <InfoIcon icon="info-sign" iconSize='10px' />
+  </ActionsPopover>
+)
+
+const LiqInfoContent = _ => (
+  <Info>
+    <div>Collateral token / Lending token</div>
+    <div>Hover on liquidating price to see details</div>
   </Info>
 )
 
@@ -730,6 +752,8 @@ const MoreButton = styled(Icon)`
 `
 
 const ActionsPopover = styled(Popover)`
+  color: ${props => props.theme.menuColor};
+
   .bp3-menu {
     color: ${props => props.theme.menuColor};
     background-color: ${props => props.theme.menuBg};
