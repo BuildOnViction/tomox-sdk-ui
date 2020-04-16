@@ -6,6 +6,7 @@ import { List, AutoSizer } from 'react-virtualized'
 import { InputGroup } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 
+import { interestPrecision } from '../../../config/tokens'
 import {
   Theme,
   UtilityIcon,
@@ -13,7 +14,6 @@ import {
   Centered,
   Text,
   SmallText,
-  // TokenImage,
 } from '../../Common'
 import { getChangePercentText } from '../../../utils/helpers'
 import CenteredSpinner from '../../../components/Common/CenteredSpinner'
@@ -26,7 +26,6 @@ type Props = {
   selectedTab: string,
   handleChangeTab: string => void,
   tabs: Array<string>,
-  // quoteTokens: Array<string>,
   currentReferenceCurrency: string,
   onChangeFilter: Function,
 };
@@ -48,7 +47,6 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       change,
       volume,
       favorited,
-      pricePrecision,
     } = pairs[index]
 
 
@@ -62,7 +60,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
         </Cell>
         <Cell width="25%">
           <PriceNumber>
-            <ChangeCell change={change}>{(close !== null) ? BigNumber(close).toFormat(pricePrecision) : "N.A"}&#37;</ChangeCell>
+            <ChangeCell change={change}>{(close !== null) ? BigNumber(close).toFormat(interestPrecision) : "N.A"}&#37;</ChangeCell>
           </PriceNumber>
         </Cell>
         <Cell>
@@ -71,10 +69,10 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             </ChangeCell>
         </Cell>
         <Cell>
-            {(high !== null) ? BigNumber(high).toFormat(pricePrecision): "N.A"}&#37;
+            {(high !== null) ? BigNumber(high).toFormat(interestPrecision): "N.A"}&#37;
         </Cell>
         <Cell>
-          {(low !== null) ? BigNumber(low).toFormat(pricePrecision) : "N.A"}&#37;
+          {(low !== null) ? BigNumber(low).toFormat(interestPrecision) : "N.A"}&#37;
         </Cell>
         <Cell align="flex-end" flexGrow={2}>
           {(volume !== null) ? BigNumber(volume).toFormat(2) : 'N.A'}
@@ -139,15 +137,15 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
         <TableHeader>
           <TableHeaderCell width="25px"></TableHeaderCell>
-          <TableHeaderCell onClick={() => onChangeFilter("pair")}>
-            <SmallText muted>{<FormattedMessage dataColumn="pair" id="marketsPage.pair" />}</SmallText>
-            {filter === 'pair' && (
+          <TableHeaderCell onClick={() => onChangeFilter("term")}>
+            <SmallText muted>{<FormattedMessage id="marketsPage.pair" />}</SmallText>
+            {filter === 'term' && (
               <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
             )}
           </TableHeaderCell>
-          <TableHeaderCell onClick={() => onChangeFilter("lastPrice")} width="25%">
+          <TableHeaderCell onClick={() => onChangeFilter("close")} width="25%">
             <SmallText muted>{<FormattedMessage id="lendingMarketsPage.lastMatch" />}</SmallText>
-            {filter === 'lastPrice' && (
+            {filter === 'close' && (
               <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
             )}
           </TableHeaderCell>

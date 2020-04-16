@@ -220,9 +220,8 @@ export const getChangePercentText = (change) => {
 
   const percent = Number(change) || 0
 
-  if (percent > 0) return `+${percent}%`
-  if (percent < 0) return `${percent}%`
-
+  if (percent > 0) return `+${BigNumber(percent).toFormat(2)}%`
+  if (percent < 0) return `${BigNumber(percent).toFormat(2)}%`
   return `${BigNumber(percent).toFormat(2)}%`
 }
 
