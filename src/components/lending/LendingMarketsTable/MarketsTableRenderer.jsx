@@ -144,7 +144,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
             )}
           </TableHeaderCell>
           <TableHeaderCell onClick={() => onChangeFilter("close")} width="25%">
-            <SmallText muted>{<FormattedMessage id="lendingMarketsPage.lastMatch" />}</SmallText>
+            <SmallText muted>{<FormattedMessage id="lendingMarketsPage.lastInterest" />}</SmallText>
             {filter === 'close' && (
               <UtilityIcon name={order === "asc" ? "arrow-up" : "arrow-down"} />
             )}
