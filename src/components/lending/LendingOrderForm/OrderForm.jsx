@@ -75,10 +75,12 @@ class OrderForm extends React.PureComponent<Props, State> {
     const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder, currentPairData: prevPairData} = prevProps
     const {collateralTokens: currCollaterals, selectedOrder: currSelectedOrder, currentPairData} = this.props
 
-    if (prevCollaterals
-      && currCollaterals
-      && !prevCollaterals[0].availableBalance
-      && currCollaterals[0].availableBalance
+    if (
+      (!prevCollaterals && currCollaterals) ||
+      (prevCollaterals
+        && currCollaterals
+        && !prevCollaterals[0].availableBalance
+        && currCollaterals[0].availableBalance)
     ) {        
       this.setState({
         collateralSelected: currCollaterals[0],
@@ -707,8 +709,9 @@ class OrderForm extends React.PureComponent<Props, State> {
       handleCollateralSelect,
     } = this
 
-    const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(borrowInterest)
-
+    const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(borrowInterest)        
+    const filteredCollaterals = collateralTokens ? collateralTokens.filter(token => token.symbol !== currentPair.lendingTokenSymbol) : collateralTokens
+    
     return (
       <OrderFormRenderer
         side={side}
@@ -746,7 +749,7 @@ class OrderForm extends React.PureComponent<Props, State> {
         authenticated={authenticated}
         redirectToLoginPage={redirectToLoginPage}
         loading={loading}
-        collateralTokens={collateralTokens}
+        collateralTokens={filteredCollaterals}
         collateralSelected={collateralSelected}
         onCollateralSelect={handleCollateralSelect}
         profit={profit}
