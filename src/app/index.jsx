@@ -24,6 +24,7 @@ const DappOrders = lazy(_ => import('./trading/DappOrders'))
 
 const LendingTradingPage = lazy(_ => import('./lending/TradingPage'))
 const LendingMarketsPage = lazy(_ => import('./lending/MarketsPage'))
+const DappLending = lazy(_ => import('./lending/DappLending'))
 
 const theme = {
   dark: DarkMode,
@@ -54,6 +55,9 @@ class App extends React.PureComponent {
                 <Route exact path="/dapp/orders" component={DappOrders} />
                 <Route exact path="/dapp/:pair?" component={Dapp} />               
                 <Route exact path="/dapp/trade/:pair?" component={DappTrade} />
+
+                <Route exact path="/dapp/lending/:pair?" component={DappLending} /> 
+
                 <Route render={() => <Redirect to="/markets/trading" />} />
               </Switch>          
             </Layout>

@@ -73,6 +73,7 @@ export const queryTradingPageData = (): ThunkAction => {
       let pairName = (pairParam && pairParam[2]) ? pairParam[2].toUpperCase() : (currentPair.pair ? currentPair.pair : '')
 
       pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
+      console.log(pathname, '========================================')
       dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsByCode()

@@ -78,8 +78,15 @@ const HeaderRenderer = (props) => {
               currentPair={lendingCurrentPair}
               currentPairData={lendingCurrentPairData}
               isShowTokenSearcher={isShowTokenSearcher}
-              // referenceCurrency={referenceCurrency}
-              // toggleTokenSearcherMobile={toggleTokenSearcherMobile}
+            />} 
+          />
+          <Route 
+            exact 
+            path="/dapp/lending/:pair?" 
+            children={<LendingTicker
+              currentPair={lendingCurrentPair}
+              currentPairData={lendingCurrentPairData}
+              isShowTokenSearcher={isShowTokenSearcher}
             />} 
           />
         </Switch>
