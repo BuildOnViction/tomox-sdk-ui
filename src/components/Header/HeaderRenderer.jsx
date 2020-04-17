@@ -62,6 +62,17 @@ const HeaderRenderer = (props) => {
           />
           <Route 
             exact 
+            path="/dapp/:pair?" 
+            children={<Ticker
+              currentPair={currentPair}
+              currentPairData={currentPairData}
+              isShowTokenSearcher={isShowTokenSearcher}
+              referenceCurrency={referenceCurrency}
+              toggleTokenSearcherMobile={toggleTokenSearcherMobile}
+            />} 
+          />
+          <Route 
+            exact 
             path="/lending/:pair?" 
             children={<LendingTicker
               currentPair={lendingCurrentPair}
