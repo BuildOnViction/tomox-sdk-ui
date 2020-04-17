@@ -14,8 +14,8 @@ import { isTomoWallet } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
-import TradesTable from '../../../components/TradesTable'
-import OrderBook from '../../../components/OrderBook'
+import LendingTradesTable from '../../../components/lending/LendingTradesTable'
+import LendingOrderBook from '../../../components/lending/LendingOrderBook'
 import LendingTvChart from '../../../components/lending/LendingTvChart'
 
 type State = {
@@ -52,7 +52,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
 
   render() {
     const { isShowHelpPanel } = this.state
-    const { quoteTokenSymbol, currentPairName, authenticated } = this.props
+    const { currentPairName, authenticated } = this.props
 
     return (
       <Grid flow="column" 
@@ -61,7 +61,7 @@ export default class Dapp extends React.PureComponent<Props, State> {
         gap="10px" 
         height="100%">
         <ChartsCell>
-          {quoteTokenSymbol && <LendingTvChart />}
+          <LendingTvChart />
         </ChartsCell>
 
         <OrdersTradesCell>
@@ -107,8 +107,8 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
+    <TabPane tab='Book' key="1"><LendingOrderBook /></TabPane>  
+    <TabPane tab='Market Trades' key="2"><LendingTradesTable /></TabPane>  
   </MainTabs>
 )
 
