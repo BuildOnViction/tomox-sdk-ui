@@ -9,23 +9,22 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Helmet } from 'react-helmet'
+// import { Helmet } from 'react-helmet'
 
 import {
   NavbarDivider,
   Theme,
 } from '../../../components/Common'
 import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
-import { getChangePriceText, getChangePercentText } from '../../../utils/helpers'
-import { DEX_TITLE } from '../../../config/environment'
+import { getChangePercentText } from '../../../utils/helpers'
+// import { DEX_TITLE } from '../../../config/environment'
 
 const TickerRenderer = (props) => {
   const {
     currentPair,
     currentPairData,
-    // isShowTokenSearcher,
-    // referenceCurrency,
-    // toggleTokenSearcherMobile,
+    isShowTokenSearcher,
+    toggleTokenSearcherMobile,
   } = props
   
   return (
@@ -54,12 +53,12 @@ const TickerRenderer = (props) => {
             </TokenSearcherPopover>
 
             {/* For mobile */}
-            {/* {!isShowTokenSearcher && (
+            {!isShowTokenSearcher && (
               <TokenPairsDropDownMobile onClick={() => toggleTokenSearcherMobile(true)}>
               <span>{currentPair.pair}</span> 
               <i className="arrow"></i>
               </TokenPairsDropDownMobile>
-            )} */}
+            )}
           </React.Fragment>
         )}
 
@@ -71,14 +70,12 @@ const TickerRenderer = (props) => {
               <div className="title xs-hidden"><FormattedMessage id="lending.ticker.lastInterest" /></div>
               <LastPriceContentTick className="price">
                 <span>{BigNumber(currentPairData.close).toFormat(2)}&#37;</span>
-                {/* {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)} */}
               </LastPriceContentTick>
             </LastPriceTick>
 
             <ChangeTick>
               <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
               <ChangeContentTick className={ (currentPairData.close - currentPairData.open) >= 0 ? 'up' : 'down'}>
-                {/* <span>{getChangePriceText(currentPairData.open, currentPairData.close, 2)}&#37;</span> */}
                 <span>{getChangePercentText(currentPairData.change)}</span>
               </ChangeContentTick>
             </ChangeTick>

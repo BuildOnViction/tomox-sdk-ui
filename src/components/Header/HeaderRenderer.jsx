@@ -87,6 +87,7 @@ const HeaderRenderer = (props) => {
               currentPair={lendingCurrentPair}
               currentPairData={lendingCurrentPairData}
               isShowTokenSearcher={isShowTokenSearcher}
+              toggleTokenSearcherMobile={toggleTokenSearcherMobile}
             />} 
           />
         </Switch>
