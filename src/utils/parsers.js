@@ -2,7 +2,7 @@
 import { utils } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
-import { isFloat, isInteger, round, computeChange, calcPrecision } from './helpers'
+import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName } from './helpers'
 
 import {
   pricePrecision,
@@ -348,4 +348,184 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
   return parsed
 }
 
+export const parseInterest = (interest, decimals = 8) => {
+  const interestMultiplier = BigNumber(10).pow(decimals)
+  const bigInterest = BigNumber(interest).div(interestMultiplier)
+  
+  return Number(bigInterest.toFixed(2))
+}
+
+export const parseLendingAmount = (amount, decimals = 8) => {
+  const amounttMultiplier = BigNumber(10).pow(decimals)
+  const bigAmount = BigNumber(amount).div(amounttMultiplier)
+  
+  return Number(bigAmount.toFixed(8))
+}
+
+export const parseLendingOrderBookData = (data, decimals) => {
+  let asks, bids
+  const { borrow, lend } = data
+
+  asks = lend.map(ask => ({
+    interest: parseInterest(ask.interest),
+    amount: parseLendingAmount(ask.amount, decimals),
+  }))
+  
+  bids = borrow.map(bid => ({
+    interest: parseInterest(bid.interest),
+    amount: parseLendingAmount(bid.amount, decimals),
+  }))
+
+  return { asks, bids }
+}
+
+export const parseLendingTrades = (trades: Trades, decimals) => {
+  
+  const parsed = (trades: any).map(trade => ({
+    time: trade.createdAt,
+    interest: parseInterest(trade.interest),
+    amount: parseLendingAmount(trade.amount, decimals),
+    hash: trade.hash,
+    orderHash: trade.investingOrderHash,
+    type: trade.takerOrderType,
+    side: trade.takerOrderSide,
+    status: trade.status,
+    borrower: trade.borrower,
+    investor: trade.investor,
+  }))
+
+  return parsed
+}
+
+export const parseLendingPairsData = (pairsData, tokens) => {  
+  const parsed = (pairsData: any).map(item => {
+    const decimals = tokens[item.lendingID.lendingToken.toLowerCase()].decimals
+
+    return {
+      open: parseInterest(item.open),
+      close: parseInterest(item.close),
+      high: parseInterest(item.high),
+      low: parseInterest(item.low),
+      pair: getLendingPairName(item.lendingID.name),
+      lendingToken: item.lendingID.lendingToken.toLowerCase(),
+      term: Number(item.lendingID.term),
+      volume: item.volume ? parseLendingAmount(item.volume, decimals) : 0,
+      change: computeChange(item.open, item.close),
+    }
+  })
+
+  return parsed
+}
+
+export const parseLendingOrders = (orders) => {
+
+  const parsed = orders.map(order => {
+    return {
+      autoTopUp: order.autoTopUp,
+      collateralToken: order.collateralToken,
+      createdAt: order.createdAt,
+      filledAmount: parseLendingAmount(order.filledAmount),
+      hash: order.hash,
+      interest: parseInterest(order.interest),
+      key: order.key,
+      lendingId: order.lendingId,
+      lendingToken: order.lendingToken,
+      nonce: order.nonce,
+      amount: parseLendingAmount(order.quantity),
+      side: (order.side.toLowerCase() === 'invest') ? 'Lend' : order.side,
+      status: order.status,
+      term: order.term,
+      tradeId: order.tradeId,
+      type: order.type,
+      updatedAt: order.updatedAt,
+      userAddress: order.userAddress,
+      time: order.updatedAt,
+    }
+  })
+  
+  return parsed
+}
+
+export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
+
+  const parsed = trades.map(trade => {
+    const pair = pairs.find(pair => 
+      (trade.collateralToken.toLowerCase() === pair.baseTokenAddress) && 
+      (trade.lendingToken.toLowerCase() === pair.quoteTokenAddress)
+    )
+
+    const liquidationPrice = parsePricepoint(trade.liquidationPrice, pair)
+    const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
+
+    return {
+      amount: parseLendingAmount(trade.amount, pair.quoteTokenDecimals),
+      borrower: trade.borrower.toLowerCase(),
+      isBorrower: trade.borrower.toLowerCase() === userAddress.toLowerCase(),
+      borrowingFee: trade.borrowingFee,
+      borrowingOrderHash: trade.borrowingOrderHash,
+      borrowRelayer: trade.borrowRelayer,
+      collateralPrice: trade.collateralPrice,
+      collateralToken: trade.collateralToken.toLowerCase(),
+      collateralLockedAmount: parseLendingAmount(trade.collateralLockedAmount, pair.baseTokenDecimals),
+      createdAt: trade.createdAt,
+      depositRate: trade.depositRate,
+      hash: trade.hash,
+      interest: parseInterest(trade.interest),
+      investingFee: trade.investingFee,
+      investingOrderHash: trade.investingOrderHash,
+      investingRelayer: trade.investingRelayer,
+      investor: trade.investor.toLowerCase(),
+      lendingToken: trade.lendingToken.toLowerCase(),
+      liquidationPrice,
+      liquidationPricePrecision,
+      liquidationTime: trade.liquidationTime,
+      status: trade.status,
+      takerOrderSide: trade.takerOrderSide,
+      takerOrderType: trade.takerOrderType,
+      term: trade.term,
+      tradeID: trade.tradeID,
+      updatedAt: trade.updatedAt,
+      time: trade.updatedAt,
+      type: trade.type || 'LO',
+      side: (trade.investor.toLowerCase() === userAddress.toLowerCase()) ? 'Lend' : 'BORROW',
+      autoTopUp: trade.autoTopUp,
+    }
+  })
+
+  return parsed
+}
+
+export const parseLendingPriceBoard = (data, decimals) => {
+  
+  const parsed = {
+    open: parseInterest(data.open),
+    close: parseInterest(data.close),
+    high: parseInterest(data.high),
+    low: parseInterest(data.low),
+    pair: getLendingPairName(data.lendingID.name),
+    lendingToken: data.lendingID.lendingToken.toLowerCase(),
+    term: data.lendingID.term,
+    volume: data.volume ? parseLendingAmount(data.volume, decimals) : 0,
+    change: computeChange(data.open, data.close),
+  }
+
+  return parsed
+}
+
+export const parseLendingOHLCV = (data, decimals): any => {
+
+  const parsed = (data: Candles).map(datum => {
+    return {
+      date: new Date(datum.timestamp),
+      time: datum.timestamp,
+      open: parseInterest(datum.open),
+      high: parseInterest(datum.high),
+      low: parseInterest(datum.low),
+      close: parseInterest(datum.close),
+      volume: datum.volume ? parseLendingAmount(datum.volume, decimals) : 0,
+    }
+  })
+
+  return parsed
+}
 

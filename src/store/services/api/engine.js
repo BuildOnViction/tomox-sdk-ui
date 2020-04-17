@@ -18,6 +18,8 @@ import type { Trades } from '../../../types/trades'
 import type { PairAddresses } from '../../../types/pairs'
 import { NATIVE_TOKEN_SYMBOL, NATIVE_TOKEN_ADDRESS } from '../../../config/tokens'
 
+const qs = require('querystringify')
+
 const request = (endpoint, options) => {
   return fetch(`${ENGINE_HTTP_URL}${endpoint}`, {
     headers: {
@@ -574,4 +576,200 @@ export const getTokensAndPairs = async () => {
     sessionStorage.setItem('addresses', null)
     return ({ err })
   }
+}
+
+export const fetchLendingTokens = async _ => {
+  const response = await request('/lending/lendingtoken')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingCollaterals = async _ => {
+  const response = await request('/lending/collateraltoken')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingPairs = async _ => {
+  const response = await request('/lending/pairs')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+} 
+
+export const fetchLendingTerms = async _ => {
+  const response = await request('/lending/terms')
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data: { terms }} = await response.json()
+  return terms
+} 
+
+
+export const fetchLendingOrders = async (address) => {
+  const response = await request(`/lending/orders?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingAddressTrades = async (address) => {
+  const response = await request(`/lending/trades/history?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+} 
+
+export const getLendingOrderNonce = async (address: string): Promise<number> => {
+  const response = await request(`/lending/nonce?address=${address}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const getEstimatedCollateral = async (params): Promise<number> => {
+  const qsString = qs.stringify(params, true)
+  const response = await request(`/lending/estimate${qsString}`)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const cancelLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/cancel',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const topUpLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/topup',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const repayLendingOrder = async (payload) => {
+  const response = await request(
+    '/lending/repay',
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const { data } = await response.json()
+  return data
 }

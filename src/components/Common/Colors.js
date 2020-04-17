@@ -280,10 +280,14 @@ export const DarkMode = {
   notificationBg: '#394362',
   notificationUnreadBg: '#6e7793',
   linkText: '#fff',
+  
   inputBackground: '#1f2538',
   inputBackground2: '#272f48',
   inputColor: '#9ca4ba',
+
   modalColor: '#6e7793',
+  modalBackground: '#252C40',
+
   mainColor: '#6e7793',
   mainColorHover: '#5c6583',
   selectTokenSearchBorder: '#384058',
@@ -293,6 +297,10 @@ export const DarkMode = {
   decimalsMenuBoder: '#394362',
 
   checkboxBg: '#fff',
+
+  selectBackground: '#1f2538',
+  selectColor: '#fff',
+  selectSecondColor: '#6e7793',
 }
 
 export const LightMode = {
@@ -329,7 +337,10 @@ export const LightMode = {
   inputBackground: '#e4ecf3',
   inputBackground2: '#cad9e6',
   inputColor: '#1f2538',
+  
   modalColor: '#1f2538',
+  modalBackground: '#fff',
+
   mainColor: '#1f2538',
   mainColorHover: '#3f4a6f',
   selectTokenSearchBorder: '#b3c9dc',
@@ -339,6 +350,10 @@ export const LightMode = {
   decimalsMenuBoder: '#ccc',
 
   checkboxBg: '#cad9e6',
+
+  selectBackground: '#e4ecf3',
+  selectColor: '#1f2538',
+  selectSecondColor: '#6e7793',
 }
 
 export const Theme = {

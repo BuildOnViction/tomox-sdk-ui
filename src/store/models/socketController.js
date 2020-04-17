@@ -4,29 +4,34 @@ import { utils } from 'ethers'
 // we process token, deposit in socket way
 import * as appActionCreators from '../actions/app'
 import * as actionCreators from '../actions/socketController'
-import * as tokenActionCreators from '../actions/tokens'
-import * as depositActionCreators from '../actions/deposit'
 import * as tokenPairsActionCreators from '../actions/tokenPairs'
 import * as orderActionsCreators from '../actions/orders'
+import * as lendingOrdersActionsCreators from '../actions/lending/lendingOrders'
 
 import {
   getAccountDomain,
   getTokenPairsDomain,
   getWebsocketDomain,
+  getTokenDomain,
+  getLendingOrdersDomain,
 } from '../domains'
 
-// import { queryBalances } from './depositForm'
 import { getSigner } from '../services/signer'
 import {
   parseOrder,
   parseTrade,
   parseTrades,
-  parseTokens,
-  parseAddressAssociation,
   parseOrderBookData,
   parseOHLCV,
   parsePriceBoardData,
   parseTokenPairsData,
+  parseLendingOrderBookData,
+  parseLendingTrades,
+  parseLendingPairsData,
+  parseLendingOrders,
+  parseLendingTradesByAddress,
+  parseLendingPriceBoard,
+  parseLendingOHLCV,
 } from '../../utils/parsers'
 
 import type { State, Dispatch, GetState, ThunkAction } from '../../types/'
@@ -74,15 +79,24 @@ export function openConnection(): ThunkAction {
           return dispatch(handleTradesMessage(event))
         case 'ohlcv':
           return dispatch(handleOHLCVMessage(event))
-        case 'tokens':
-          return handleTokenMessage(dispatch, event, getState)
-        case 'deposit':
-          // update tokens balances, tokens changes
-          return handleDepositMessage(dispatch, event, getState)
         case 'price_board':
           return dispatch(handlePriceMessage(dispatch, event, getState))
         case 'markets':
           return handleMarketsMessage(dispatch, event, getState)
+        
+        // Lending
+        case 'lending_orderbook':
+          return dispatch(handleLendingOrderBookMessage(event))
+        case 'lending_trades':
+          return dispatch(handleLendingTradesMessage(event))
+        case 'lending_markets':
+          return dispatch(handleLendingMarketsMessage(event))
+        case 'lending_orders':
+          return handleLendingOrderMessage(dispatch, event, getState)
+        case 'lending_price_board':
+          return dispatch(handleLendingPriceMessage(dispatch, event, getState))
+        case 'lending_ohlcv':
+          return dispatch(handleLendingOHLCVMessage(event))
         default:
           console.log(channel, event)
           break
@@ -117,125 +131,6 @@ const handleWebsocketErrorMessage = (
   closeConnection,
 ) => {
   console.log(event)
-}
-
-const handleDepositMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const { type } = event
-  switch (type) {
-    case 'UPDATE':
-      return handleDepositUpdated(dispatch, event, getState)
-    // trigger updating all tokens balances
-    case 'SUCCESS':
-      return handleDepositSucceeded(dispatch, event, getState)
-    default:
-      console.log('Unknown', event)
-      return
-  }
-}
-
-function handleDepositUpdated(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    const parsed = parseAddressAssociation(event.payload)
-    if (parsed) {
-      const { chain, addressAssociation } = parsed
-      // console.log(chain, addressAssociation, event.payload);
-      dispatch(
-        appActionCreators.addSuccessNotification({ message: 'Deposit updated' }),
-      )
-      dispatch(
-        depositActionCreators.updateAddressAssociation(
-          chain,
-          addressAssociation,
-        ),
-      )
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
-}
-
-function handleDepositSucceeded(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    if (event.payload) {
-      const { chain, txEnvelopes } = event.payload
-      // console.log(chain, addressAssociation, event.payload);
-      dispatch(
-        appActionCreators.addSuccessNotification({
-          message: 'Balances updated',
-        }),
-      )
-      dispatch(
-        depositActionCreators.updateAssociationTransactions(chain, txEnvelopes),
-      )
-      // dispatch(queryBalances())
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
-}
-
-const handleTokenMessage = (
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState: GetState,
-) => {
-  const { type } = event
-  switch (type) {
-    case 'UPDATE':
-      return handleTokenListUpdated(dispatch, event, getState)
-    default:
-      console.log('Unknown', event)
-      return
-  }
-}
-
-function handleTokenListUpdated(
-  dispatch: Dispatch,
-  event: WebsocketEvent,
-  getState,
-) {
-  try {
-    // let state = getState();
-    if (event.payload) {
-      const tokens = parseTokens(event.payload)
-
-      dispatch(
-        appActionCreators.addSuccessNotification({ message: 'Tokens updated' }),
-      )
-      dispatch(tokenActionCreators.updateTokensList(tokens))
-    }
-  } catch (e) {
-    console.log(e)
-    dispatch(
-      appActionCreators.addErrorNotification({
-        message: e.message,
-      }),
-    )
-  }
 }
 
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
@@ -617,4 +512,260 @@ const handleMarketsMessage = (
   dispatch(actionCreators.updateTokenPairData(pairData))
   dispatch(actionCreators.updateSmallChartsData(smallChartsData))
   dispatch(actionCreators.updateLoadingTokenPair(false))
+}
+
+const handleLendingOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
+
+    const tokenAddress = event.payload.name.split('::').pop()
+    const state = getState()
+    const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
+    const decimals = token ? token.decimals : 18
+
+    let bids, asks, lendingOrderBookData
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          lendingOrderBookData = parseLendingOrderBookData(event.payload, decimals)
+          bids = lendingOrderBookData.bids
+          asks = lendingOrderBookData.asks
+          dispatch(actionCreators.initLendingOrderBook(bids, asks))
+          break
+
+        case 'UPDATE':
+          lendingOrderBookData = parseLendingOrderBookData(event.payload, decimals)
+          bids = lendingOrderBookData.bids
+          asks = lendingOrderBookData.asks
+          dispatch(actionCreators.updateLendingOrderBook(bids, asks))
+          break
+
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
+    }
+  }
+}
+
+const handleLendingTradesMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) return
+
+    const tokenAddress = event.payload[0].lendingToken.toLowerCase()
+    const state = getState()
+    const token = getTokenDomain(state).getTokenByAddress(tokenAddress)
+    const decimals = token ? token.decimals : 18
+    let lendingTrades = event.payload
+    
+    try {
+      switch (event.type) {
+        case 'INIT':
+          lendingTrades = parseLendingTrades(lendingTrades, decimals)
+          dispatch(actionCreators.initLendingTradesTable(lendingTrades))
+          break
+        case 'UPDATE':
+          lendingTrades = parseLendingTrades(lendingTrades, decimals)
+          dispatch(actionCreators.updateLendingTradesTable(lendingTrades))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      console.log(e)
+    }
+  }
+}
+
+const handleLendingMarketsMessage = (event: WebsocketEvent) => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const lendingTokensObj = getTokenDomain(state).byAddress()
+
+    let { payload: { pairData }} = event
+
+    pairData = parseLendingPairsData(pairData, lendingTokensObj)
+    dispatch(actionCreators.updateLendingPairsData(pairData))
+  }
+}
+
+const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
+  const { type } = event
+
+  if (type === 'INIT') return
+  if (type !== 'LENDING_ORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
+  dispatch(actionCreators.updateNewNotifications()) 
+  dispatch(queryAccountBalance()) // Get the balance of tokens
+
+  switch (type) {
+    case 'LENDING_ORDER_ADDED':
+      return dispatch(handleLendingOrderAdded(event))
+    case 'LENDING_ORDER_CANCELLED':
+      return dispatch(handleLendingOrderCancelled(event))
+    // case 'LENDING_ORDER_REJECTED':
+    //   return dispatch(handleOrderRejected(event))
+    // case 'LENDING_ORDER_MATCHED':
+    //   return dispatch(handleOrderMatched(event))
+    case 'LENDING_ORDER_SUCCESS':
+      return dispatch(handleLendingOrderSuccess(event))
+    case 'LENDING_ORDER_REPAYED':
+    case 'LENDING_ORDER_TOPUPED':
+      return dispatch(handleLendingOrderRepayedTopUped(event))
+    case 'ERROR':
+      return dispatch(handleOrderError(event))
+    default:
+      console.log('Unknown', event)
+      return
+  }
+}
+
+function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const byHash = getLendingOrdersDomain(state).byHash()
+      const order: Array<Object> = parseLendingOrders([event.payload])
+
+      dispatch(actionCreators.updateLendingOrders(order))
+      
+      if (!byHash[order.hash]) {
+        dispatch(appActionCreators.addOrderAddedNotification())
+      }
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+
+  }
+}
+
+function handleLendingOrderCancelled(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const order: Array<Object> = parseLendingOrders([event.payload])
+
+      dispatch(actionCreators.updateLendingOrders(order))
+      dispatch(appActionCreators.addOrderCancelledNotification())
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const userAddress = getAccountDomain(state).address()
+      const pairs = getTokenPairsDomain(state).getPairsArray()
+      const matches = event.payload.matches
+      let userOrders = []
+      let userTrades = []
+      const userIsBorrower = matches.borrowing.userAddress.toLowerCase() === userAddress.toLowerCase()
+
+      userOrders  = userIsBorrower 
+        ? parseLendingOrders([matches.borrowing]) 
+        : parseLendingOrders(matches.investing)
+      userTrades = parseLendingTradesByAddress(userAddress, matches.lendingTrades, pairs)
+      
+      if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
+      if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+function handleLendingOrderRepayedTopUped(event: WebsocketEvent): ThunkAction {
+  return async (dispatch, getState, { socket }) => {
+    try {
+      const state = getState()
+      const userAddress = getAccountDomain(state).address()
+      const pairs = getTokenPairsDomain(state).getPairsArray()
+      const trade = event.payload
+      let userTrades = []
+      userTrades = parseLendingTradesByAddress(userAddress, [trade], pairs)
+      if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+    } catch (e) {
+      console.log(e)
+      dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+    }
+  }
+}
+
+const handleLendingPriceMessage = (
+  dispatch: Dispatch,
+  event: WebsocketEvent,
+  getState: GetState
+): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    const state = getState()
+    const { lendingToken } = event.payload.lendingID
+    const { decimals } = getTokenDomain(state).getTokenByAddress(lendingToken.toLowerCase())
+
+    const dataParsed = parseLendingPriceBoard(event.payload, decimals)
+    dispatch(actionCreators.updateLendingCurrentPairData(dataParsed))
+  }
+}
+
+const handleLendingOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
+  return async (dispatch, getState, { socket }) => {
+    if (event.type === 'ERROR' || !event.payload) return
+    if (event.payload.length === 0) {
+      if (window.lendingOnHistoryCallback) window.lendingOnHistoryCallback([], {noData: true})
+      // dispatch(actionCreators.initOHLCV([]))
+      // dispatch(actionCreators.updateOHLCVLoading(false))
+      return
+    }
+
+    let ohlcv = event.payload
+    if (!Array.isArray(ohlcv)) {
+      // In case of INIT OHLCV, the payload is an array
+      // But in case of UPDATE OHLCV, the payload is an object
+      ohlcv = [ohlcv]
+    }
+
+    const state = getState()
+    const { lendingToken } = ohlcv[0].lendingID
+    const { decimals } = getTokenDomain(state).getTokenByAddress(lendingToken.toLowerCase())
+
+    try {
+      switch (event.type) {
+        case 'INIT':
+          ohlcv = parseLendingOHLCV(ohlcv, decimals)
+          if (window.lendingOnHistoryCallback) {
+            window.lendingOnHistoryCallback(ohlcv, {noData: false})
+            window.lendingOhlcvLastBar = ohlcv.slice(-1)[0]
+          }
+          // dispatch(actionCreators.initOHLCV(ohlcv))
+          // dispatch(actionCreators.updateOHLCVLoading(false))
+          break
+        case 'UPDATE':
+          ohlcv = parseLendingOHLCV(ohlcv, decimals)
+          if (window.lendinOnRealtimeCallback && (ohlcv[0].time >= window.lendingOhlcvLastBar.time)) {
+            window.lendinOnRealtimeCallback(ohlcv[0])
+            window.lendingOhlcvLastBar = ohlcv[0]
+          }
+          // dispatch(actionCreators.updateOHLCV(ohlcv))
+          break
+        default:
+          return
+      }
+    } catch (e) {
+      // We reject error when calling Mozilla APIs . Reference: https://developer.mozilla.org/en-US/docs/Mozilla/Errors
+      if (e.name !== 'NS_ERROR_NOT_INITIALIZED') {
+        console.log(e)
+        dispatch(appActionCreators.addErrorNotification({ message: e.message }))
+      }
+    }
+  }
 }

@@ -25,6 +25,7 @@ import {
   Theme,
   DarkMode,
   TmColors,
+  UtilityIcon,
 } from '../../components/Common'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
@@ -109,7 +110,11 @@ class Default extends React.PureComponent<Props, State> {
   }
 
   isTradingPage = (pathname: string) => {
-    return pathname.includes('/trade') || pathname.includes('/dapp')
+    return (
+      pathname.includes('/trade')
+      || (pathname.includes('/lending') && !pathname.includes('/markets'))
+      || pathname.includes('/dapp')
+    )
   }
 
   handleThemeChange = (e: Object) => {
@@ -169,6 +174,8 @@ class Default extends React.PureComponent<Props, State> {
       changeLocale,
       newNotifications,
       showSessionPasswordModal,
+      lendingCurrentPair,
+      lendingCurrentPairData,
     } = this.props
 
     const { isShowTokenSearcher } = this.state
@@ -198,35 +205,38 @@ class Default extends React.PureComponent<Props, State> {
           newNotifications={newNotifications}
           pathname={pathname}
           isTradingPage={this.isTradingPage}
-          toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
+          toggleTokenSearcherMobile={this.toggleTokenSearcherMobile}
+          lendingCurrentPair={lendingCurrentPair}
+          lendingCurrentPairData={lendingCurrentPairData}
+        />
 
         <MainContainer>
           <Sidebar> 
-            <MarketsLink to="/markets">
+            <MarketsLink to="/markets/trading">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
-                  content="Markets" 
+                  content={<FormattedMessage id="mainMenuPage.spot" />} 
                   position={Position.RIGHT}
                   transitionDuration={0}>
                   <i></i> 
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.spot" /></SidebarItemTitle>
               </SidebarItemBox>
             </MarketsLink>
 
-            <ExchangeLink to={currentPair ? `/trade/${currentPair.baseTokenSymbol}-${currentPair.quoteTokenSymbol}` : "/404"}>
+            <LendingMarketsLink to="/markets/lending">
               <SidebarItemBox>
                 <Tooltip disabled={!this.isTradingPage(pathname)} 
                   portalClassName="sidebar-tooltip"
-                  content="Exchange" 
+                  content={<FormattedMessage id="mainMenuPage.lending" />} 
                   position={Position.RIGHT}
                   transitionDuration={0}>
-                  <i></i> 
+                  <UtilityIcon name="lending" />
                 </Tooltip>
-                <SidebarItemTitle><FormattedMessage id="mainMenuPage.exchange" /></SidebarItemTitle>
+                <SidebarItemTitle><FormattedMessage id="mainMenuPage.lending" /></SidebarItemTitle>
               </SidebarItemBox>
-            </ExchangeLink> 
+            </LendingMarketsLink>
 
             <PortfolioLink to="/wallet">
               <SidebarItemBox>
@@ -317,9 +327,11 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
-              <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink>
+              {/* <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink> */}
 
-              <PageLink to="/trade"><FormattedMessage id="mainMenuPage.exchange" /></PageLink>
+              <PageLink to="/markets/trading"><FormattedMessage id="mainMenuPage.spot" /></PageLink>
+
+              <PageLink to="/markets/lending"><FormattedMessage id="mainMenuPage.lending" /></PageLink>
 
               <LanguageItem className="utility-item language">
                 <i>language</i>              
@@ -498,12 +510,21 @@ const SidebarItem = styled(NavLink).attrs({
 `
 
 const MarketsLink = styled(SidebarItem).attrs({
-  className: 'markets-link',
-})``
-
-const ExchangeLink = styled(SidebarItem).attrs({
   className: 'exchange-link',
 })``
+
+const LendingMarketsLink = styled(SidebarItem).attrs({
+  className: 'markets-link',
+})`
+  svg {
+    margin-right: 10px;
+  }
+
+  &:hover svg path,
+  &.active svg path {
+    fill: #fff;
+  }
+`
 
 const PortfolioLink = styled(SidebarItem).attrs({
   className: 'portfolio-link',
@@ -574,6 +595,7 @@ const NavExternalLink = styled.a.attrs({
 
   &:hover .sidebar-item-box {
     color: ${props => props.theme.activeLink};
+    box-shadow: -2px 0 0 0 ${props => props.theme.active};
   }
 `
 

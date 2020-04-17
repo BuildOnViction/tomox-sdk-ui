@@ -2,6 +2,7 @@
 import { connect } from 'react-redux'
 import getWalletPageSelector, {
   redirectToTradingPage,
+  redirectToLendingPage,
 } from '../../store/models/walletPage'
 import { copyDataSuccess } from '../../store/models/app'
 import { removeNotification } from '../../store/actions/app'
@@ -20,6 +21,7 @@ export function mapStateToProps(state: State) {
 export const mapDispatchToProps = {
   removeNotification,
   redirectToTradingPage,
+  redirectToLendingPage,
   closeHelpModal,
   copyDataSuccess,
 }

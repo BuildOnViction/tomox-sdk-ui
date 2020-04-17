@@ -80,3 +80,140 @@ export const getRandomNonce = () => {
 export const isEthereumAddress = address => {
   return /^(0x)?[0-9a-f]{40}$/i.test(address)
 }
+
+export const getNewLendingOrderHash = order => {
+  if (order.side === 'BORROW') {
+    return utils.solidityKeccak256(
+      [
+        'bytes',
+        'bytes',
+        'bytes',
+        'bytes',
+        'uint256',
+        'uint256',
+        'uint256',
+        'string',
+        'string',
+        'string',
+        'uint256',
+        'uint256',
+      ],
+      [
+        order.relayerAddress,
+        order.userAddress,
+        order.collateralToken,
+        order.lendingToken,
+        order.quantity,
+        order.term,
+        order.interest,
+        order.side,
+        order.status,
+        order.type,
+        order.nonce,
+        order.autoTopUp,
+      ],
+    )
+  }
+
+  return utils.solidityKeccak256(
+    [
+      'bytes',
+      'bytes',
+      'bytes',
+      'uint256',
+      'uint256',
+      'uint256',
+      'string',
+      'string',
+      'string',
+      'uint256',
+    ],
+    [
+      order.relayerAddress,
+      order.userAddress,
+      order.lendingToken,
+      order.quantity,
+      order.term,
+      order.interest,
+      order.side,
+      order.status,
+      order.type,
+      order.nonce,
+    ],
+  )
+}
+
+export const getLendingCancelHash = (order) => {
+  return utils.solidityKeccak256(
+      [
+          'uint256',
+          'string',
+          'bytes',
+          'bytes',
+          'bytes',
+          'uint256',
+          'uint256',
+      ],
+      [
+          order.nonce,
+          order.status,
+          order.relayerAddress,
+          order.userAddress,
+          order.lendingToken,
+          order.term,
+          order.lendingId,
+      ],
+  )
+}
+
+export const getRepayLendingHash = (order) => {
+  return utils.solidityKeccak256(
+      [
+          'uint256',
+          'string',
+          'bytes',
+          'bytes',
+          'bytes',
+          'uint256',
+          'uint256',
+          'string',
+      ],
+      [
+          order.nonce,
+          order.status,
+          order.relayerAddress,
+          order.userAddress,
+          order.lendingToken,
+          order.term,
+          order.tradeId,
+          order.type,
+      ],
+  )
+}
+
+export const getTopupLendingHash = (order) => {
+  return utils.solidityKeccak256(
+    [
+      'uint256',
+      'string',
+      'bytes',
+      'bytes',
+      'bytes',
+      'uint256',
+      'uint256',
+      'uint256',
+      'string',
+    ],
+    [
+      order.nonce,
+      order.status,
+      order.relayerAddress,
+      order.userAddress,
+      order.lendingToken,
+      order.term,
+      order.tradeId,
+      order.quantity,
+      order.type,
+    ],
+  )
+}

@@ -223,6 +223,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getPairs: (): any => Object.keys(state.byPair),
     getPair: (code: string): any => state.byPair[code],
     getPairsByCode: () => state.byPair,
+    getPairsArray: () => Object.values(state.byPair),
     getTokenPairsData: () => state.data,
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,

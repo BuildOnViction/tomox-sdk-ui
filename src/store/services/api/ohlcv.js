@@ -7,6 +7,8 @@ import {
 } from 'd3-time-format'
 import { ENGINE_HTTP_URL } from '../../../config/environment'
 
+const qs = require('querystringify')
+
 const request = (endpoint: string, options: Object) => {
   return fetch(`${ENGINE_HTTP_URL}/${endpoint}`, {
     headers: {
@@ -28,6 +30,25 @@ export const fetchOHLCV = async (
 ) => {
 
   const url = `ohlcv?baseToken=${baseToken}&quoteToken=${quoteToken}&timeInterval=${timeInterval}&from=${from}&to=${to}`
+  const response = await request(url)
+
+  if (response.status !== 200) {
+    throw new Error('Error')
+  }
+
+  const { data } = await response.json()
+  return data
+}
+
+export const fetchLendingOHLCV = async (
+  term: string,
+  lendingToken: string,
+  from: number,
+  to: number,
+  timeInterval: string,
+) => {
+  const qsString = qs.stringify({ term, lendingToken, from, to, timeInterval }, true)
+  const url = `lending-ohlcv${qsString}`
   const response = await request(url)
 
   if (response.status !== 200) {

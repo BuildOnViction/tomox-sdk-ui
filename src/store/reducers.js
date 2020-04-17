@@ -26,6 +26,13 @@ import marketsTableActionTypes from './actions/marketsTable'
 import orderBookActionTypes from './actions/orderBook'
 import tokenPairsActionsTypes from './actions/tokenPairs'
 import orderActionsTypes from './actions/orders'
+import lendingTokensActionTypes from './actions/lending/lendingTokens'
+import lendingOrdersActionTypes from './actions/lending/lendingOrders'
+import lendingTradesActionTypes from './actions/lending/lendingTrades'
+import lendingMarketsActionTypes from './actions/lending/lendingMarkets'
+import lendingTradePageActionTypes from './actions/lending/lendingTradePage'
+import lendingTokenSearcherActionTypes from './actions/lending/lendingTokenSearcher'
+import lendingOrderBookActionTypes from './actions/lending/lendingOrderBook'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -46,6 +53,12 @@ import * as signerEvents from './domains/signer'
 import * as walletsEvents from './domains/wallets'
 import * as notificationEvents from './domains/notifications'
 import * as connectionEvents from './domains/connection'
+import * as lendingOrderBookEvents from './domains/lending/lendingOrderBook'
+import * as lendingTradeEvents from './domains/lending/lendingTrades'
+import * as lendingPairsEvents from './domains/lending/lendingPairs'
+import * as lendingTokensEvents from './domains/lending/lendingTokens'
+import * as lendingOrdersEvents from './domains/lending/lendingOrders'
+import * as lendingOhlcvEvents from './domains/lending/lendingOhlcv'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -493,5 +506,118 @@ export const connection = createReducer(({ type }) => {
       return connectionEvents.opened()
     default:
       return connectionEvents.initialized()
+  }
+})
+
+export const lendingOrderBook = createReducer(({ type, payload }) => {
+ 
+  switch (type) {
+    case socketControllerActionTypes.initLendingOrderBook:
+      return lendingOrderBookEvents.orderBookInitialized(payload.bids, payload.asks)
+    case socketControllerActionTypes.updateLendingOrderBook:
+      return lendingOrderBookEvents.orderBookUpdated(payload.bids, payload.asks)
+    case lendingOrderBookActionTypes.selectOrder:
+      return lendingOrderBookEvents.selectedOrder(payload)
+    case lendingTokenSearcherActionTypes.resetOrderbook:
+      return lendingOrderBookEvents.orderBookReset()
+    default:
+      return lendingOrderBookEvents.initialized()
+  }
+})
+
+export const lendingTrades = createReducer(action => {
+  const { type, payload } = action
+  switch (type) {
+    case socketControllerActionTypes.initLendingTradesTable:
+      return lendingTradeEvents.tradesInitialized(payload.trades)
+    case socketControllerActionTypes.updateLendingTradesTable:
+      return lendingTradeEvents.tradesUpdated(payload.trades)
+    case socketControllerActionTypes.updateLendingTradesByAddress:
+    case lendingTradesActionTypes.updateTradesByAddress:
+      return lendingTradeEvents.tradesByAddressUpdated(payload)
+    case logoutPageActionTypes.resetTradesByAddress:
+      return lendingTradeEvents.resetTradesByAddress()
+    case lendingTokenSearcherActionTypes.resetTradesHistory:
+      return lendingTradeEvents.tradesReset()
+    default:
+      return lendingTradeEvents.initialized()
+  }
+})
+
+export const lendingPairs = createReducerPersist({
+  key: 'lendingPairs',
+  keyPrefix: 'tomo:lending:',
+  storage,
+  whitelist: ['favorites', 'currentLendingPair'],
+}, action => {
+  const { type, payload } = action
+  switch (type) {
+    case layoutActionTypes.updateLendingPairs:
+      return lendingPairsEvents.updatePairs(payload)
+    case lendingTokenSearcherActionTypes.updateCurrentPair:
+    case lendingMarketsActionTypes.updateCurrentPair:
+    case lendingTradePageActionTypes.updateCurrentPair:
+      return lendingPairsEvents.updateCurrentPair(payload)
+    case socketControllerActionTypes.updateLendingCurrentPairData:
+      return lendingPairsEvents.updateCurrentPairData(payload)
+    case lendingTokenSearcherActionTypes.updateFavorite:
+    case lendingMarketsActionTypes.updateFavorite:
+      return lendingPairsEvents.tokenPairFavorited(
+        payload.code,
+        payload.favorite
+      )
+    case socketControllerActionTypes.updateLendingPairsData:
+      return lendingPairsEvents.lendingPairsDataUpdated(payload.lendingPairsData)
+    default:
+      return lendingPairsEvents.initialized()
+  }
+})
+
+export const lendingTokens = createReducer(action => {
+  const { type, payload } = action
+
+  switch (type) {
+    case lendingTokensActionTypes.updateLendingTokens:
+      return lendingTokensEvents.updateLendingTokens(payload)
+    case lendingTokensActionTypes.updateLendingCollaterals:
+      return lendingTokensEvents.updateLendingCollaterals(payload)
+    case lendingTokensActionTypes.updateLendingTerms:
+      return lendingTokensEvents.updateLendingTerms(payload)
+    default:
+      return lendingTokensEvents.initialized()
+  }
+})
+
+export const lendingOrders = createReducer(action => {
+  const { type, payload } = action
+
+  switch (type) {
+    case lendingOrdersActionTypes.lendingOrdersUpdateLoading:
+      return lendingOrdersEvents.lendingOrdersUpdateLoading(payload)
+    case lendingOrdersActionTypes.ordersInitialized:
+      return lendingOrdersEvents.ordersInitialized(payload)
+    case socketControllerActionTypes.updateLendingOrders:
+      return lendingOrdersEvents.updateOrders(payload)
+    case logoutPageActionTypes.ordersReset:
+      return lendingOrdersEvents.ordersReset()
+    default:
+      return lendingOrdersEvents.initialized()
+  }
+})
+
+export const lendingOhlcv = createReducerPersist({
+  key: 'ohlcv',
+  keyPrefix: 'tomo:lending:',
+  storage,
+  whitelist: ['currentTimeSpan', 'currentDuration'],
+},
+action => {
+  const { type, payload } = action
+  switch (type) {
+    case lendingTokenSearcherActionTypes.updateOhlcvLoading:
+    case lendingTradePageActionTypes.updateOHLCVLoading:
+      return lendingOhlcvEvents.loading(payload)
+    default:
+      return lendingOhlcvEvents.initialized()
   }
 })

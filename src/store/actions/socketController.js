@@ -55,6 +55,20 @@ const actionTypes = {
   updateLoadingTokenPair: 'socketController/UPDATE_LOADING_TOKEN_PAIR',
 
   updateNewNotifications: 'socketController/UPDATE_NEW_NOTIFICATIONS',
+
+  // LENDING
+  initLendingOrderBook: 'socketController/INIT_LENDING_ORDERBOOK',
+  updateLendingOrderBook: 'socketController/UPDATE_LENDING_ORDERBOOK',
+
+  initLendingTradesTable: 'socketController/INIT_LENDING_TRADES_TABLE',
+  updateLendingTradesTable: 'socketController/UPDATE_LENDING_TRADES_TABLE',
+  updateLendingTradesByAddress: 'socketController/UPDATE_LENDING_TRADES_BY_ADDRESS',
+
+  updateLendingPairsData: 'socketController/UPDATE_LENDING_PAIRS_DATA',
+
+  updateLendingOrders: 'socketController/UPDATE_LENDING_ORDERS',
+
+  updateLendingCurrentPairData: 'socketController/UPDATE_LENDING_CURRENT_PAIR_DATA',
 }
 
 export function createConnection(): CreateConnectionAction {
@@ -233,6 +247,68 @@ export function updateLoadingTokenPair(loading: Boolean) {
 export function updateNewNotifications() {
   return {
     type: actionTypes.updateNewNotifications,
+  }
+}
+
+export function initLendingOrderBook(bids: Array<Object>, asks: Array<Object>) {
+  return {
+    type: actionTypes.initLendingOrderBook,
+    payload: { bids, asks },
+  }
+}
+
+export function updateLendingOrderBook(bids: Array<Object>, asks: Array<Object>) {
+  return {
+    type: actionTypes.updateLendingOrderBook,
+    payload: { bids, asks },
+  }
+}
+
+export function initLendingTradesTable(trades) {
+  return {
+    type: actionTypes.initLendingTradesTable,
+    payload: {
+      trades,
+    },
+  }
+}
+
+export function updateLendingTradesTable(trades) {
+  return {
+    type: actionTypes.updateLendingTradesTable,
+    payload: {
+      trades,
+    },
+  }
+}
+
+export function updateLendingTradesByAddress(trades) {
+  return {
+    type: actionTypes.updateLendingTradesByAddress,
+    payload: trades,
+  }
+}
+
+export function updateLendingPairsData(lendingPairsData) {
+  return {
+    type: actionTypes.updateLendingPairsData,
+    payload: {
+      lendingPairsData,
+    },
+  }
+}
+
+export function updateLendingOrders(order: Array<Object>) {
+  return {
+    type: actionTypes.updateLendingOrders,
+    payload: order,
+  }
+}
+
+export function updateLendingCurrentPairData(data) {
+  return {
+    type: actionTypes.updateLendingCurrentPairData,
+    payload: data,
   }
 }
 

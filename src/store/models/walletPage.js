@@ -5,6 +5,8 @@ import {
   getTokenDomain,
   getTransferTokensFormDomain,
   getSettingsDomain,
+  getLendingTokensDomain,
+  getLendingPairsDomain,
 } from '../domains'
 
 import * as actionCreators from '../actions/walletPage'
@@ -25,6 +27,9 @@ export default function walletPageSelector(state: State) {
     .filter(symbol => quoteTokens.indexOf(symbol) !== -1)
   const tokenData = accountBalancesDomain.getBalancesAndAllowances(tokens)
   const mode = getSettingsDomain(state).getMode()
+  const lendingTokensDomain = getLendingTokensDomain(state)
+  const lendingTokenSymbols = lendingTokensDomain.tokenSymbols()
+  const collateralTokenSymbols = lendingTokensDomain.collateralSymbols()
 
   return {
     tomoBalance: accountBalancesDomain.formattedTomoBalance(),
@@ -39,6 +44,8 @@ export default function walletPageSelector(state: State) {
     gas: transferTokensFormDomain.getGas(),
     gasPrice: transferTokensFormDomain.getGasPrice(),
     mode,
+    lendingTokenSymbols,
+    collateralTokenSymbols,
   }
 }
 
@@ -59,5 +66,16 @@ export function redirectToTradingPage(symbol: string): ThunkAction {
 
     dispatch(actionCreators.updateCurrentPair(pair))
     dispatch(push('/trade'))
+  }
+}
+
+export function redirectToLendingPage(symbol: string): ThunkAction {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const lendingPairSymbols = getLendingPairsDomain(state).getPairs()
+    let lendingPair = lendingPairSymbols.find(pair => pair.includes(symbol))
+    lendingPair = lendingPair ? lendingPair : (lendingPairSymbols[0] ? lendingPairSymbols[0] : '1_Day_USDT')
+    
+    dispatch(push(`/lending/${lendingPair.replace(' ', '_').replace('/', '-')}`))
   }
 }

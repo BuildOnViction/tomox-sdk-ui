@@ -22,7 +22,7 @@ const Modal = (props: Props): Node => {
       enforceFocus={false}
       usePortal={false}
       onClose={props.onClose}
-      className={props.className}
+      className={props.size || props.className}
       canOutsideClickClose={false}
     >
       <DialogContent>{props.children}</DialogContent>
@@ -31,7 +31,17 @@ const Modal = (props: Props): Node => {
 }
 
 const StyledDialog = styled(Dialog)`
+  padding: 10px 25px 25px !important;
+  min-width: 650px;
   color: ${props => props.theme.modalColor};
+  background-color: ${props => props.theme.modalBackground} !important;
+
+  .bp3-dialog-header {
+    padding: 0;
+    min-height: unset;
+    margin-bottom: 15px;
+    background-color: ${props => props.theme.modalBackground} !important;
+  }
 
   button.bp3-dialog-close-button,
   button.bp3-dialog-close-button:hover {
@@ -50,6 +60,15 @@ const StyledDialog = styled(Dialog)`
   .bp3-heading {
     font-size: ${Theme.FONT_SIZE_H4};
     font-weight: 300;
+  }
+
+  .bp3-input-group .bp3-input,
+  .bp3-popover-wrapper .bp3-button {
+    background: ${props => props.theme.inputBackground};
+  }
+
+  &.sm {
+    min-width: 450px !important;
   }
 `
 
