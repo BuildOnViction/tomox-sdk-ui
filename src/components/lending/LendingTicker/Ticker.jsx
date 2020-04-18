@@ -9,15 +9,13 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Helmet } from 'react-helmet'
 
 import {
   NavbarDivider,
   Theme,
 } from '../../../components/Common'
 import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
-import { getChangePriceText, getChangePercentText } from '../../../utils/helpers'
-import { DEX_TITLE } from '../../../config/environment'
+import { getChangePercentText } from '../../../utils/helpers'
 
 const TickerRenderer = (props) => {
   const {
@@ -131,6 +129,7 @@ const TokenPairsDropDown = styled.div.attrs({
   }
 `
 
+/*
 const TokenPairsDropDownMobile = styled(TokenPairsDropDown)`
   display: none;
   @media only screen and (max-width: 680px) {
@@ -142,6 +141,7 @@ const TokenPairsDropDownMobile = styled(TokenPairsDropDown)`
     }
   }
 `
+*/
 
 const HeaderDivider = styled(NavbarDivider).attrs({
   className: 'xs-hidden',
