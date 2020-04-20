@@ -5,8 +5,7 @@ import styled from 'styled-components'
 import {
   SpinnerContainer,
 } from '../../Common'
-import BorrowOrderForm from './BorrowOrderForm'
-import LendOrderForm from './LendOrderForm'
+import { BorrowOrderForm, LendOrderForm } from '../OrderFormCommon'
 
 const OrderFormRenderer = (props) => {
 

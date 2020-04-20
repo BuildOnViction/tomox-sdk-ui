@@ -20,7 +20,7 @@ import {
   Row,
   Title,
   Value,
-} from "../OrderFormCommon"
+} from './index'
 // import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
