@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Tabs, Icon } from '@blueprintjs/core'
+import { Icon } from '@blueprintjs/core'
 import { FormattedMessage } from "react-intl"
 import 'rc-tabs/assets/index.css'
 import { default as RcTabs, TabPane } from 'rc-tabs'
@@ -388,13 +388,6 @@ const OrdersTradesCell = styled(Cell).attrs({
       }
     }
   } 
-`
-
-const ChartTabs = styled(Tabs)`
-  .bp3-tab-list {
-    position: absolute;
-    right: 0;
-  }
 `
 
 const MainTabs = styled(RcTabs)`

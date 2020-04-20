@@ -24,7 +24,7 @@ const TickerRenderer = (props) => {
     currentPair,
     currentPairData,
     isShowTokenSearcher,
-    toggleTokenSearcherMobile,
+    toggleLendingTokenSearcherDapp,
   } = props
   
   return (
@@ -54,9 +54,9 @@ const TickerRenderer = (props) => {
 
             {/* For mobile */}
             {!isShowTokenSearcher && (
-              <TokenPairsDropDownMobile onClick={() => toggleTokenSearcherMobile(true)}>
-              <span>{currentPair.pair}</span> 
-              <i className="arrow"></i>
+              <TokenPairsDropDownMobile onClick={() => toggleLendingTokenSearcherDapp(true)}>
+                <span>{currentPair.pair}</span> 
+                <i className="arrow"></i>
               </TokenPairsDropDownMobile>
             )}
           </React.Fragment>
