@@ -10,7 +10,7 @@ import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link } from "react-router-dom"
 
-import { isTomoWallet } from '../../../utils/helpers'
+import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
@@ -114,17 +114,20 @@ const OrdersTradesTabs = _ => (
 
 const ButtonGroup = ({toggleHelpPanel, pair}) => {
 
-  return isTomoWallet() 
+  return isTomoWallet() || isWeb3()
   ? (
     <ButtonGroupBox>
       <OrdersLink to="/dapp/orders">
         <Icon icon="document" />
         <FormattedMessage id="dapp.orders" />
       </OrdersLink>
-      <OrderFormButtonGroup>
-        <BuyLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
-        <SellLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
-      </OrderFormButtonGroup>
+      {
+        pair && (
+          <OrderFormButtonGroup>
+            <BuyLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
+            <SellLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
+          </OrderFormButtonGroup>)
+      }
     </ButtonGroupBox>
   )
   : (

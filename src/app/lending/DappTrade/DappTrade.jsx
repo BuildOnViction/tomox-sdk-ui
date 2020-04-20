@@ -11,7 +11,7 @@ import { Link, Redirect } from "react-router-dom"
 
 import { isTomoWallet } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
-import OrderForm from '../../../components/OrderForm'
+import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import TradesTable from '../../../components/TradesTable'
 import OrderBook from '../../../components/OrderBook'
 
@@ -46,7 +46,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   render() {
     const { currentPairName } = this.props
-    if (!isTomoWallet()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
+    // if (!isTomoWallet()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
 
     return (     
       <OrderFormCell isShow={true}>
@@ -55,10 +55,13 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
           rows={"auto 500px"} 
           gap="10px" 
           height="100%">
-          <Cell><OrderForm /></Cell>
+          <Cell><LendingOrderForm /></Cell>
           <OrdersTradesCell><OrdersTradesTabs /></OrdersTradesCell>
         </Grid>
-        <BackButton to={`/dapp/${currentPairName.replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>
+        {currentPairName && 
+          (<BackButton to={`/dapp/lending/${currentPairName.replace(' ', '_').replace('/', '-')}`}>
+            <Icon icon="arrow-left" color={TmColors.WHITE} />
+          </BackButton>)}
       </OrderFormCell>
     )
   }

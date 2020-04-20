@@ -18,7 +18,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
-import { isTomoWallet, isMobile } from '../../utils/helpers'
+import { isTomoWallet, isMobile, isWeb3 } from '../../utils/helpers'
 import { DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -88,7 +88,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet()) {
+    if (isTomoWallet() || isWeb3()) {// TODO: remove isWeb3 after complete
       await this.props.loginWithMetamask()
     }
 
