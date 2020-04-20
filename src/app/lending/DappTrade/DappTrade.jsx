@@ -11,9 +11,10 @@ import { Link, Redirect } from "react-router-dom"
 
 import { isTomoWallet } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
+
 import LendingOrderForm from '../../../components/lending/LendingOrderForm'
 import TradesTable from '../../../components/TradesTable'
-import OrderBook from '../../../components/OrderBook'
+import DappLendingOrderBook from '../../../components/lending/DappLendingOrderBook'
 
 type State = {
   chartTadId: string,
@@ -73,7 +74,7 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
+    <TabPane tab='Book' key="1"><DappLendingOrderBook /></TabPane>  
     <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
   </TabsStyled>
 )
