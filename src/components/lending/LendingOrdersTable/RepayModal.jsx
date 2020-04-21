@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 
-import { ButtonGroup, CancelButton, AcceptButton, Highlight } from '../../Common'
+import { ButtonGroup, CancelButton, AcceptButton, Highlight, TmColors } from '../../Common'
 import Modal from '../../Modal'
 import { lendingAmountPrecision } from '../../../config/tokens'
 
@@ -24,7 +24,7 @@ export default function RepayModal({
                 <Typo>Estimated interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
                 <Typo>Total repay amount: <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> USDT</Highlight></Typo>
                 <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
-                {errorRepay && (<Highlight>Your balance, not enough</Highlight>)}
+                {errorRepay && (<Highlight color={TmColors.RED}>Your balance, not enough</Highlight>)}
             </RepayContent>
             <ButtonGroup>
                 <CancelButton 
