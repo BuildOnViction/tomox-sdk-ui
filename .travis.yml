@@ -1,12 +1,11 @@
 language: node_js
+os: linux
+dist: xenial
 node_js:
 - "10"
 
 jobs:
   include:          
-    - cache:
-      directories:
-      - node_modules
     - stage: Lint
       script:
         - npm run lint
@@ -21,9 +20,8 @@ jobs:
         - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.tar.gz ./build
       deploy:
         provider: releases
-        api_key: $GH_TOKEN
+        token: $GH_TOKEN
         file: tomox-sdk-ui.*.tar.gz
-        skip_cleanup: true
         overwrite: true
         on:
           tags: true

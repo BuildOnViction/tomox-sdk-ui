@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import './index.css'
 import Datafeed from './api/'
-import { isTomoWallet, isMobile } from '../../utils/helpers';
+import { isTomoWallet, isMobile } from '../../utils/helpers'
 
 const isExpired = (timestamp, expireDays: number = 1) => {
 	const now = Date.now()

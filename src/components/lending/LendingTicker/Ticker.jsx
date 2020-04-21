@@ -9,7 +9,6 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-// import { Helmet } from 'react-helmet'
 
 import {
   NavbarDivider,
@@ -17,7 +16,6 @@ import {
 } from '../../../components/Common'
 import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
 import { getChangePercentText } from '../../../utils/helpers'
-// import { DEX_TITLE } from '../../../config/environment'
 
 const TickerRenderer = (props) => {
   const {
