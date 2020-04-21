@@ -15,7 +15,8 @@ import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../../Common'
 import { formatDate, calcPercent } from '../../../utils/helpers'
 import type { Order } from '../../../types/orders'
 import tickUrl from '../../../assets/images/tick.svg'
-import FundsTable from '../../FundsTable'
+import { interestPrecision, lendingAmountPrecision } from '../../../config/tokens'
+// import FundsTable from '../../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -79,13 +80,13 @@ const OrdersTableRendererMobile = (props: Props) => {
             />
           }
         />
-        <Tab
+        {/* <Tab
           id="funds"
           title={<FormattedMessage id="exchangePage.funds" />}
           panel={
             <FundsTable />
           }
-        />
+        /> */}
       </TabsContainer>
     </React.Fragment>
   )
@@ -135,6 +136,7 @@ const OrdersTablePanel = (props: {
 }
 
 const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, amountPrecision, pricePrecision}) => {
+  
   return (
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
@@ -146,36 +148,34 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {orders.map((order, index) => (
             <Row key={index}>
               <CenterCell width={"25%"} muted>  
-                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BUY' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
+                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BORROW' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
                 <div style={{width: "40px"}}>
                   <CircularProgressbar 
                     value={calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}
                     text={`${calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}%`}
                     styles={buildStyles({
-                      textColor: order.side === 'BUY' ? TmColors.GREEN : TmColors.RED,
-                      // pathColor: TmColors.ORANGE,
-                      // trailColor: TmColors.LIGHT_GRAY
+                      textColor: order.side === 'BORROW' ? TmColors.GREEN : TmColors.RED,
                     })} />
                 </div>
               </CenterCell>
               <Cell width={"75%"} muted>
                 <ChildRow style={{marginBottom: "10px"}}>
-                  <FieldValue>{order.pair}</FieldValue>
+                  <FieldValue>{`${order.termSymbol}/${order.lendingTokenSymbol}`}</FieldValue>
                   <FieldValue color={TmColors.LIGHT_GRAY}>{formatDate(order.time, 'LL-dd HH:mm:ss')}</FieldValue>
                 </ChildRow> 
                 <ChildRow>
                   <Cell width="70%">
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.filledAmount" /></FieldTitle>
-                      <FieldValue>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</FieldValue>
+                      <FieldValue>{BigNumber(order.filled).toFormat(lendingAmountPrecision)}</FieldValue>
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.amount" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.amount).toFormat()}</FieldValue>
+                      <FieldValue>{BigNumber(order.amount).toFormat(lendingAmountPrecision)}</FieldValue>
                     </div>
                     <div>
-                      <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.price).toFormat()}</FieldValue>
+                      <FieldTitle><FormattedMessage id="exchangeLendingPage.orders.interest" /></FieldTitle>
+                      <FieldValue>{BigNumber(order.interest).toFormat(interestPrecision)}&#37;</FieldValue>
                     </div>
                   </Cell>
                   <Cell width="30%">
@@ -198,7 +198,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
       <ListHeader className="header">
         <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
       </ListHeader>
 
@@ -208,16 +208,16 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         (<ListBodyWrapper className="list">
           {orders.map((order, index) => (
             <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
-              <Cell width={"35%"} title={order.pair} muted>
-                <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
+              <Cell width={"35%"} muted>
+                <Pair><SideIcon side={order.side} /> <span>{`${order.termSymbol}/${order.lendingTokenSymbol}`}</span></Pair>
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
-              <Cell width={"35%"} title={order.price} muted>
-                {BigNumber(order.price).toFormat()}
+              <Cell width={"35%"} title={order.interest} muted>
+                {BigNumber(order.interest).toFormat(interestPrecision)}
               </Cell>
               <AmountCell textAlign="right" width={"30%"} muted>
-                <span>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</span>
-                <span>{BigNumber(order.amount).toFormat()}</span>
+                <span>{BigNumber(order.filled).toFormat(lendingAmountPrecision)}</span>
+                <span>{BigNumber(order.amount).toFormat(lendingAmountPrecision)}</span>
               </AmountCell>
             </Row>
           ))}
@@ -324,7 +324,7 @@ const Cell = styled.span.attrs({
 
 const CenterCell = styled(Cell)`
   display: flex;
-  padding-right: 20px;
+  padding-right: 10px;
   flex-direction: column;
   align-items: center;
 `
@@ -351,10 +351,10 @@ const SideIcon = styled.span`
   margin-right: 5px;
   border-radius: 1px;
   position: relative;
-  background-color: ${props => props.side === 'BUY' ? TmColors.GREEN : TmColors.RED};
+  background-color: ${props => props.side.toUpperCase() === 'BORROW' ? TmColors.GREEN : TmColors.RED};
 
   &::before {
-    content: '${props => props.side === 'BUY' ? 'B' : 'S'}';
+    content: '${props => props.side.toUpperCase() === 'BORROW' ? 'B' : 'L'}';
     position: absolute;
     top: 0;
     left: 0;
@@ -430,6 +430,7 @@ const FieldTitle = styled.span`
 
 const FieldValue = styled.span`
   display: inline-block;
+  font-size: 10px;
   color: ${props => props.color || TmColors.WHITE};
 `
 
