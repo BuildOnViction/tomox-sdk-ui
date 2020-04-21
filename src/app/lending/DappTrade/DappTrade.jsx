@@ -10,7 +10,7 @@ import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 
 import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
-import TradesTable from '../../../components/TradesTable'
+import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import DappLendingOrderBook from '../../../components/lending/DappLendingOrderBook'
 
 type State = {
@@ -62,7 +62,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
             </Grid>
           <Cell>
             <Title>Market Contracts</Title>
-            <TradesTable />
+            <LendingTradesTable />
           </Cell>
         </Grid>
 
@@ -165,6 +165,7 @@ const OrderFormCell = styled(Cell).attrs({
 `
 
 const Title = styled.div`
+  color: #fff;  
   padding: 7px 10px;
   margin-bottom: 5px;
   background-color: #1f2538;

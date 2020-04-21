@@ -190,7 +190,8 @@ export const Value = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+  font-family: 'Ubuntu', sans-serif;
+
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       max-width: unset;
