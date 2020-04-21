@@ -117,7 +117,7 @@ const ButtonGroup = ({toggleHelpPanel, pair}) => {
   return isTomoWallet() || isWeb3()
   ? (
     <ButtonGroupBox>
-      <OrdersLink to="/dapp/orders">
+      <OrdersLink to="/dapp/lending/orders">
         <Icon icon="document" />
         <FormattedMessage id="dapp.orders" />
       </OrdersLink>
