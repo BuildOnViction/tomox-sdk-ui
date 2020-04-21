@@ -30,7 +30,22 @@ type Props = {
   }
 }
 
-const OrdersTableRendererMobile = (props: Props) => {
+const DappLendingOrdersTableRenderer = (props: Props ) => {
+  const {
+    selectedPanel,
+    handlePanelChange,
+    ...rest
+  } = props
+
+  return (
+    <PanelTabs id="orders-contracts" onChange={handlePanelChange} selectedPanel={selectedPanel}>
+      <Tab id="orders" title="Orders" panel={<OrdersPanel {...rest} />} />
+      <Tab id="contracts" title="Contracts" panel={<ContractsPanel {...rest} />} />
+    </PanelTabs>
+  )
+}
+
+const OrdersPanel = (props: Props) => {
   const {
     selectedTabId,
     onChange,
@@ -72,6 +87,46 @@ const OrdersTableRendererMobile = (props: Props) => {
             <FundsTable />
           }
         /> */}
+      </TabsContainer>
+    </React.Fragment>
+  )
+}
+
+const ContractsPanel = (props: Props) => {  
+  const {
+    selectedTabId,
+    onChange,
+    trades,
+    ...rest
+  } = props  
+
+  return (
+    <React.Fragment>
+      <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
+        <Tab
+          id="open-contracts"
+          title={<FormattedMessage 
+            id="exchangeLendingPage.orders.trade.openContract"
+            values={{numberOfTrades: trades['processing'].length}} />}
+          panel={
+            <OrdersTablePanel
+              orders={trades['processing']}
+              selectedTabId={selectedTabId}
+              {...rest}
+            />
+          }
+        />
+        <Tab
+          id="close-contracts"
+          title={<FormattedMessage id="exchangeLendingPage.orders.trade.closedContract" />}
+          panel={
+            <OrdersTablePanel
+              orders={trades['finished']}
+              selectedTabId={selectedTabId}
+              {...rest}
+            />
+          }
+        />
       </TabsContainer>
     </React.Fragment>
   )
@@ -195,12 +250,24 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
+const PanelTabs = styled(Tabs).attrs({
+  className: 'panel-tabs',
+})`
+  &.panel-tabs {
+    .bp3-tab-list {
+      padding: 3px 0;
+      justify-content: flex-end;
+    }
+  }
+`
+
 const TabsContainer = styled(Tabs)`
   position: relative;  
   height: 100%;
 
   .bp3-tab-list {
     margin-bottom: 10px;
+    justify-content: flex-start !important;
   }
 
   .bp3-tab-panel {
@@ -402,4 +469,4 @@ const FieldValue = styled.span`
   color: ${props => props.color || TmColors.WHITE};
 `
 
-export default OrdersTableRendererMobile
+export default DappLendingOrdersTableRenderer

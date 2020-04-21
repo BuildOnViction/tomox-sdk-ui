@@ -46,7 +46,7 @@ export default class DappOrders extends React.PureComponent<Props, State> {
     return (      
       <OrdersTableCell>
         <DappLendingOrdersTable />
-        <OrdersTableTitle><FormattedMessage id="dapp.orders" /></OrdersTableTitle>
+        {/* <OrdersTableTitle><FormattedMessage id="dapp.orders" /></OrdersTableTitle> */}
         {currentPairName && <BackButton to={`/dapp/lending/${currentPairName.replace(' ', '_').replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>}
       </OrdersTableCell>
     )
@@ -61,14 +61,14 @@ const BackButton = styled(Link)`
   padding: 10px;
 `
 
-const OrdersTableTitle = styled.div`
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  padding: 5px 0;
-  transform: translateX(-50%);
-  font-size: ${Theme.FONT_SIZE_MD};
-`
+// const OrdersTableTitle = styled.div`
+//   position: absolute;
+//   top: 5px;
+//   left: 50%;
+//   padding: 5px 0;
+//   transform: translateX(-50%);
+//   font-size: ${Theme.FONT_SIZE_MD};
+// `
 
 const OrdersTableCell = styled.div`
   overflow: auto;
@@ -80,7 +80,7 @@ const OrdersTableCell = styled.div`
   top: 0;
   bottom: 0;
   z-index: 30;
-  padding: 40px 5px 5px 5px;
+  padding: 0 5px 5px 5px;
 `
 
 
