@@ -32,15 +32,10 @@ type Props = {
 
 const OrdersTableRendererMobile = (props: Props) => {
   const {
-    loading,
     selectedTabId,
     onChange,
-    cancelOrder,
     orders,
-    isHideOtherPairs,
-    handleChangeHideOtherPairs,
-    pricePrecision,
-    amountPrecision,
+    ...rest
   } = props
 
   return (
@@ -53,14 +48,9 @@ const OrdersTableRendererMobile = (props: Props) => {
             values={{numberOfOrders: orders['processing'].length}} />}
           panel={
             <OrdersTablePanel
-              loading={loading}
               orders={orders['processing']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -69,14 +59,9 @@ const OrdersTableRendererMobile = (props: Props) => {
           title={<FormattedMessage id="exchangePage.orderHistory" />}
           panel={
             <OrdersTablePanel
-              loading={loading}
               orders={orders['finished']}
-              cancelOrder={cancelOrder}
               selectedTabId={selectedTabId}
-              isHideOtherPairs={isHideOtherPairs}
-              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-              pricePrecision={pricePrecision}
-              amountPrecision={amountPrecision}
+              {...rest}
             />
           }
         />
@@ -101,35 +86,18 @@ const OrdersTablePanel = (props: {
   handleChangeHideOtherPairs: string => void,
 }) => {
   const { 
-    loading, 
-    orders, 
-    cancelOrder, 
-    selectedTabId, 
-    isHideOtherPairs, 
-    handleChangeHideOtherPairs,
-    pricePrecision,
-    amountPrecision,
+    loading,
+    selectedTabId,
+    ...rest
   } = props
   
   if (loading) return <Loading />
 
   switch(selectedTabId) {
     case 'open-orders':
-      return (<OpenOrderTable 
-                orders={orders} 
-                cancelOrder={cancelOrder} 
-                isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                pricePrecision={pricePrecision}
-                amountPrecision={amountPrecision} />)
+      return (<OpenOrderTable {...rest} />)
     case 'order-history':
-      return (<OrderHistoryTable 
-                orders={orders} 
-                cancelOrder={cancelOrder}
-                isHideOtherPairs={isHideOtherPairs} 
-                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
-                pricePrecision={pricePrecision}
-                amountPrecision={amountPrecision} />)
+      return (<OrderHistoryTable {...rest} />)
     default:
       return (<div></div>)
   }
@@ -213,7 +181,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
               </Cell>
               <Cell width={"35%"} title={order.interest} muted>
-                {BigNumber(order.interest).toFormat(interestPrecision)}
+                {BigNumber(order.interest).toFormat(interestPrecision)}&#37;
               </Cell>
               <AmountCell textAlign="right" width={"30%"} muted>
                 <span>{BigNumber(order.filled).toFormat(lendingAmountPrecision)}</span>
