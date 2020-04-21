@@ -41,6 +41,10 @@ const OrderWrapper = styled.div.attrs({
   className: 'order-wrapper',
 })`
   height: 100%;
+
+  & > div {
+    width: calc(50% - 12px);
+  }
 `
 
 export default OrderFormRenderer

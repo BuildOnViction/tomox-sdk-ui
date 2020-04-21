@@ -17,7 +17,7 @@ type Props = {
   asks: Array<BidOrAsk>
 };
 
-const widthColumns = ['32%', '32%', '36%']
+const widthColumns = ['45%', '55%']
 
 const NoData = () => {
   return (
@@ -75,22 +75,12 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       onSelect,
       amountPrecision,
       currentPairData,
-      currentPair,
     } = this.props        
 
     const isNoItems = (bids.length === 0 && asks.length === 0 && !currentPairData)
 
     return (
       <Wrapper className={ this.getOrderBookClass() }>
-        <OrderBookHeader className="order-book-header">
-          <Title><FormattedMessage id="exchangePage.orderbook" /></Title>
-
-          {/* <FilterList>
-            <FilterSell onClick={() => this.changeFilter('sell')}><i>filter sell</i></FilterSell>
-            <FilterAll onClick={() => this.changeFilter('all')}><i>filter all</i></FilterAll>
-            <FilterBuy onClick={() => this.changeFilter('buy')}><i>filter buy</i></FilterBuy>
-          </FilterList> */}
-        </OrderBookHeader>
 
         {isNoItems && (<NoData />)}
 
@@ -102,18 +92,11 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
             <ListHeading>
               <HeaderRow>
                 <HeaderCell width={widthColumns[0]} className="header-cell">
-                  <FormattedMessage id="exchangeLendingPage.orderbook.interest" />
+                  <FormattedMessage id="exchangeLendingPage.orderbook.interestWithoutSymbol" />
                 </HeaderCell>
                 <AmountHeader width={widthColumns[1]} className="header-cell text-right">
-                  <FormattedMessage 
-                    id="exchangeLendingPage.orderbook.amount"
-                    values={{symbol: currentPair ? currentPair.lendingTokenSymbol : ''}} />
+                  <FormattedMessage id="exchangeLendingPage.orderbook.amountWithoutSymbol" />
                 </AmountHeader>
-                {/* <HeaderCell width={widthColumns[2]} className="header-cell text-right">
-                  <FormattedMessage 
-                    id="exchangeLendingPage.orderbook.totalAmount"
-                    values={{symbol: currentPair ? currentPair.lendingTokenSymbol : ''}} />
-                </HeaderCell> */}
               </HeaderRow>
             </ListHeading>
 
@@ -132,20 +115,14 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               
               <LatestTick>
                 {currentPairData && (
-                  <LatestPrice width="45%">
-                    <CryptoPrice>
-                      <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
-                        {BigNumber(currentPairData.close).toFormat(2)}&#37;
-                      </Ellipsis>
-                    </CryptoPrice>
+                  <LatestPrice width="100%">
+                    <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
+                      {BigNumber(currentPairData.close).toFormat(2)}&#37;
+                    </Ellipsis>
+                    {/* <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis> */}
                   </LatestPrice>
                 )}  
 
-                {/* {currentPairData && (currentPairData.change !== null) && (
-                  <PercentChange width="55%">
-                  <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis>
-                  </PercentChange> 
-                )}                           */}
               </LatestTick>
               
               {bids && (
@@ -179,7 +156,6 @@ const BuyOrder = (props: SingleOrderProps) => {
       <BuyRowBackground amount={order.relativeTotal} />
       <Cell onClick={() => onClick({...order, type: "interest", side: "BORROW"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
       <AmountCell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      {/* <Cell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>  */}
     </Row>
   )
 }
@@ -191,7 +167,6 @@ const SellOrder = (props: SingleOrderProps) => {
       <SellRowBackGround amount={order.relativeTotal} />
       <Cell onClick={() => onClick({...order, type: "interest", side: "INVEST"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
       <AmountCell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      {/* <Cell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> */}
     </Row>
   )
 }
@@ -199,30 +174,6 @@ const SellOrder = (props: SingleOrderProps) => {
 const Wrapper = styled.div`
   height: 100%;
 `
-const OrderBookHeader = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  height: 16px;
-  margin-bottom: 4px;
-  padding: 0 10px;
-`
-const Title = styled.div.attrs({
-  className: 'title xs-hidden',
-})``
-const FilterList = styled.div.attrs({
-  className: "filter-list",
-})``
-const FilterSell = styled.div.attrs({
-  className: "filter filter-sell",
-})``
-const FilterAll = styled.div.attrs({
-  className: "filter filter-all",
-})``
-const FilterBuy = styled.div.attrs({
-  className: "filter filter-buy",
-})``
 
 const OrderBookContent = styled.div`
   width: 100%;
@@ -274,14 +225,14 @@ const Row = styled.li.attrs({
   position: relative;
   width: 100%;
   margin: 0px !important;
-  padding: 0 10px !important;
+  padding-right: 10px !important;
   animation: ${props => props.update ? 
               (props.theme.mode === 'light' ? 
                 fadeInLightMode 
                 : fadeInDarkMode) 
               : ''} .3s ease;
   font-family: 'Ubuntu', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   user-select: none;
 
   &:hover {
@@ -335,11 +286,11 @@ const ListHeading = styled.ul.attrs({
   justify-content: space-around;
   margin: 0px;
   height: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      margin-bottom: 5px;
+      margin-bottom: 0;
     }
   }
 `
@@ -363,7 +314,7 @@ const HeaderRow = styled.li`
   display: flex;
   justify-content: space-between;
   margin: 0px !important;
-  padding: 0 10px 10px 10px;
+  padding: 0 10px 10px 0;
   width: 100%;
 `
 
@@ -396,11 +347,7 @@ const LatestPrice = styled.div.attrs({
 })`
   width: ${props => props.width? props.width : "70px"};
 `
-const CryptoPrice = styled.span.attrs({
-  className: 'crypto',
-})`
-  width: 60%;
-`
+const CryptoPrice = styled.span``
 
 const CashPrice = styled.span.attrs({
   className: 'cash',

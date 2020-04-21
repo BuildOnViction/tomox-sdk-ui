@@ -160,6 +160,8 @@
   "exchangeLendingPage.orderPlace.collateralRequired": "Collateral required",
   "exchangeLendingPage.orderbook.interest": "Interest(APR)",
   "exchangeLendingPage.orderbook.amount": "Amount({symbol})",
+  "exchangeLendingPage.orderbook.amountWithoutSymbol": "Amount",
+  "exchangeLendingPage.orderbook.interestWithoutSymbol": "Interest",
   "exchangeLendingPage.orderbook.totalAmount": "Total({symbol})",
   "exchangeLendingPage.orders.interest": "Interest",
   "exchangeLendingPage.orders.actions": "Actions",

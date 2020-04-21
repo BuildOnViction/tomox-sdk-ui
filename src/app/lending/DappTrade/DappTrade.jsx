@@ -4,15 +4,12 @@ import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import { Icon } from '@blueprintjs/core'
 import 'rc-tabs/assets/index.css'
-import { default as RcTabs, TabPane } from 'rc-tabs'
-import TabContent from 'rc-tabs/lib/TabContent'
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link, Redirect } from "react-router-dom"
 
-import { isTomoWallet } from '../../../utils/helpers'
+import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 
-import LendingOrderForm from '../../../components/lending/LendingOrderForm'
+import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
 import TradesTable from '../../../components/TradesTable'
 import DappLendingOrderBook from '../../../components/lending/DappLendingOrderBook'
 
@@ -47,18 +44,28 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   render() {
     const { currentPairName } = this.props
-    // if (!isTomoWallet()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
+    if (!isTomoWallet() && !isWeb3()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
 
     return (     
       <OrderFormCell isShow={true}>
         <Grid flow="column" 
           columns={"1fr"} 
-          rows={"auto 500px"} 
+          rows={"400px 500px"} 
           gap="10px" 
           height="100%">
-          <Cell><LendingOrderForm /></Cell>
-          <OrdersTradesCell><OrdersTradesTabs /></OrdersTradesCell>
+            <Grid flow="row" 
+              columns={"6fr 5fr"} 
+              gap="0px" 
+              height="100%">
+              <Cell><DappLendingOrderForm /></Cell>
+              <Cell><DappLendingOrderBook /></Cell>
+            </Grid>
+          <Cell>
+            <Title>Market Contracts</Title>
+            <TradesTable />
+          </Cell>
         </Grid>
+
         {currentPairName && 
           (<BackButton to={`/dapp/lending/${currentPairName.replace(' ', '_').replace('/', '-')}`}>
             <Icon icon="arrow-left" color={TmColors.WHITE} />
@@ -67,17 +74,6 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
     )
   }
 }
-
-const OrdersTradesTabs = _ => (
-  <TabsStyled
-    defaultActiveKey="1"
-    onChange={() => {}}
-    renderTabBar={()=><ScrollableInkTabBar />}
-    renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Book' key="1"><DappLendingOrderBook /></TabPane>  
-    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
-  </TabsStyled>
-)
 
 const BackButton = styled(Link)`
   position: absolute;
@@ -101,13 +97,14 @@ const OrderFormCell = styled(Cell).attrs({
   top: 0;
   bottom: 0;
   z-index: 30;
+  padding-top: 35px;
 
   .bp3-tab {
     line-height: initial;
   }
 
   .bp3-tab-list {
-    justify-content: flex-end;
+    margin-bottom: 5px;
   }
 
   .bp3-tab-list > *:not(:last-child) {
@@ -167,41 +164,10 @@ const OrderFormCell = styled(Cell).attrs({
   }
 `
 
-const TabsStyled = styled(RcTabs)`
-  box-shadow: 0 0 0 1px ${props => props.theme.border};
-
-  &.rc-tabs-top {
-    border-bottom: none;
-    height: 100%;
-  }
-
-  .rc-tabs-content {
-    margin-top: 12px;
-    height: calc(100% - 40px);
-  }
-
-  .rc-tabs-nav-wrap .rc-tabs-tab-active {
-    color: ${props => props.theme.active};
-  }
-
-  .rc-tabs-nav-wrap .rc-tabs-tab {
-    font-size: ${Theme.FONT_SIZE_MD};
-    padding: 8px 25px;
-    margin-right: 0;
-    user-select: none;
-  }
-
-  .rc-tabs-nav-wrap .rc-tabs-ink-bar {
-    background-color: ${props => props.theme.active};
-  }
-
-  .rc-tabs-bar {
-    border-bottom: 1px solid ${props => props.theme.border} !important;
-  }
-`
-
-const OrdersTradesCell = styled(Cell)`
-  padding: 10px;
+const Title = styled.div`
+  padding: 7px 10px;
+  margin-bottom: 5px;
+  background-color: #1f2538;
 `
 
 
