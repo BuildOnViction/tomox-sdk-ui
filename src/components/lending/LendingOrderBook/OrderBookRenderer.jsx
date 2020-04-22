@@ -207,6 +207,12 @@ const OrderBookHeader = styled.div`
   height: 16px;
   margin-bottom: 4px;
   padding: 0 10px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      display: none !important;
+    }
+  }
 `
 const Title = styled.div.attrs({
   className: 'title xs-hidden',
