@@ -39,6 +39,7 @@ const HeaderRenderer = (props) => {
     toggleTokenSearcherMobile,
     lendingCurrentPair,
     lendingCurrentPairData,
+    toggleLendingTokenSearcherDapp,
   } = props
   
   return (
@@ -78,8 +79,16 @@ const HeaderRenderer = (props) => {
               currentPair={lendingCurrentPair}
               currentPairData={lendingCurrentPairData}
               isShowTokenSearcher={isShowTokenSearcher}
-              // referenceCurrency={referenceCurrency}
-              // toggleTokenSearcherMobile={toggleTokenSearcherMobile}
+            />} 
+          />
+          <Route 
+            exact 
+            path="/dapp/lending/:pair?" 
+            children={<LendingTicker
+              currentPair={lendingCurrentPair}
+              currentPairData={lendingCurrentPairData}
+              isShowTokenSearcher={isShowTokenSearcher}
+              toggleLendingTokenSearcherDapp={toggleLendingTokenSearcherDapp}
             />} 
           />
         </Switch>
@@ -126,13 +135,13 @@ const HeaderRenderer = (props) => {
             <i>language</i>              
 
             <Popover
-                content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
-                position={Position.BOTTOM_RIGHT}
-                minimal>
-                <div className="languages-dropdown">
+              content={<MenuLocales locale={locale} changeLocale={changeLocale} />}
+              position={Position.BOTTOM_RIGHT}
+              minimal>
+              <div className="languages-dropdown">
                 <span>{locales[locale]}</span> 
                 <span className="arrow"></span>
-                </div>
+              </div>
             </Popover>  
             </LanguageItem>
         </NavbarGroup>
@@ -164,9 +173,9 @@ const MenuWallet = (props) => {
             </MenuItem>
 
             <MenuItem>
-                <MenuItemLink to="/logout">
+              <MenuItemLink to="/logout">
                 Close Wallet
-                </MenuItemLink>
+              </MenuItemLink>
             </MenuItem>
         </StyledMenu>
     )

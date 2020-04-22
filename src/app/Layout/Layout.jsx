@@ -18,7 +18,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
-import { isTomoWallet, isMobile } from '../../utils/helpers'
+import { isTomoWallet, isMobile, isWeb3 } from '../../utils/helpers'
 import { DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {
@@ -27,15 +27,18 @@ import {
   TmColors,
   UtilityIcon,
 } from '../../components/Common'
-import Notifier from '../../components/Notifier'
-import TomoXLogo from '../../components/Common/TomoXLogo'
-import TokenSearcher from '../../components/TokenSearcher'
-import Header from '../../components/Header'
-import SessionPasswordModal from '../../components/SessionPasswordModal'
+
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
 import arrowGrayUrl from '../../assets/images/arrow_down_gray.svg'
 import favicon from '../../assets/images/favico-32x32.png'
+
+import Notifier from '../../components/Notifier'
+import TomoXLogo from '../../components/Common/TomoXLogo'
+import TokenSearcher from '../../components/TokenSearcher'
+import DappLendingTokenSearcher from '../../components/lending/DappLendingTokenSearcher'
+import Header from '../../components/Header'
+import SessionPasswordModal from '../../components/SessionPasswordModal'
 
 export type Props = {
   TomoBalance: string,
@@ -79,6 +82,7 @@ class Default extends React.PureComponent<Props, State> {
     sessionPassword: '',
     sessionPasswordStatus: '',
     isShowTokenSearcher: false,
+    isShowLendingTokenSearcher: false,
   }
 
   componentDidMount = async () => {
@@ -137,7 +141,6 @@ class Default extends React.PureComponent<Props, State> {
     })
   }
 
-
   unlockWalletWithSessionPasswordOnKeyPress = async (event) => {
     if (event.key !== 'Enter') return
     await this.unlockWalletWithSessionPassword()
@@ -151,6 +154,10 @@ class Default extends React.PureComponent<Props, State> {
 
   toggleTokenSearcherMobile = (isShow: Boolean) => {
     this.setState({ isShowTokenSearcher: isShow })
+  }
+
+  toggleLendingTokenSearcherDapp = (status: Boolean) => {
+    this.setState({ isShowLendingTokenSearcher: status })
   }
 
   generateClassname = () => {
@@ -178,7 +185,7 @@ class Default extends React.PureComponent<Props, State> {
       lendingCurrentPairData,
     } = this.props
 
-    const { isShowTokenSearcher } = this.state
+    const { isShowTokenSearcher, isShowLendingTokenSearcher } = this.state
     
     return (
       <Wrapper mode={mode} className={this.generateClassname()}>
@@ -208,6 +215,7 @@ class Default extends React.PureComponent<Props, State> {
           toggleTokenSearcherMobile={this.toggleTokenSearcherMobile}
           lendingCurrentPair={lendingCurrentPair}
           lendingCurrentPairData={lendingCurrentPairData}
+          toggleLendingTokenSearcherDapp={this.toggleLendingTokenSearcherDapp}
         />
 
         <MainContainer>
@@ -290,6 +298,14 @@ class Default extends React.PureComponent<Props, State> {
             <TokenSearcher toggleTokenSearcherMobile={this.toggleTokenSearcherMobile} />
           </TokenSearcherBoxMobile>
         )}
+
+        {isShowLendingTokenSearcher && (
+          <TokenSearcherBoxMobile>
+            <TokenSearcherTitle><FormattedMessage id="mainMenuPage.markets" /></TokenSearcherTitle>
+            <Close icon="cross" intent="danger" onClick={() => this.toggleLendingTokenSearcherDapp(false)} />
+            <DappLendingTokenSearcher toggleLendingTokenSearcherDapp={this.toggleLendingTokenSearcherDapp} />
+          </TokenSearcherBoxMobile>
+        )}
       </Wrapper>
     )
   }
@@ -327,8 +343,6 @@ class CreateImportWallet extends React.PureComponent<Props, State> {
             </LogoWrapper>
 
             <NavbarGroup className="utilities-menu" align={Alignment.RIGHT}>
-              {/* <PageLink to="/markets"><FormattedMessage id="mainMenuPage.markets" /></PageLink> */}
-
               <PageLink to="/markets/trading"><FormattedMessage id="mainMenuPage.spot" /></PageLink>
 
               <PageLink to="/markets/lending"><FormattedMessage id="mainMenuPage.lending" /></PageLink>

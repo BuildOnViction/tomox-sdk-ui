@@ -59,7 +59,11 @@ export const queryTradingPageData = (pair): ThunkAction => {
       const lendingPairsDomain = getLendingPairsDomain(state)
       const currentPair = lendingPairsDomain.getCurrentPair()
       const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
-      if (!pair && pairName) dispatch(push(`/lending/${pairName.replace(' ', '_').replace('/', '-')}`))
+
+      let { router: { location: { pathname }}} = state
+      pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'   
+         
+      if (!pair && pairName) dispatch(push(`/${pathname}/${pairName.replace(' ', '_').replace('/', '-')}`))
 
       //TODO: need to check pairName exist or not
       if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {

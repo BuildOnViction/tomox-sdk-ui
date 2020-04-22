@@ -19,6 +19,9 @@ import {
     Title,
     Value,
 } from './Styled'
+import BorrowOrderForm from './BorrowOrderForm'
+import LendOrderForm from './LendOrderForm'
+import withOrderFormLogic from './withOrderFormLogic'
 
 export { 
     FractionList, 
@@ -40,4 +43,7 @@ export {
     Row,
     Title,
     Value,
+    BorrowOrderForm,
+    LendOrderForm,
+    withOrderFormLogic,
 }

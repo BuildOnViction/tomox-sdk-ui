@@ -4,7 +4,6 @@ import { Button, InputGroup } from "@blueprintjs/core"
 import { Theme, TmColors } from "../../Common"
 
 export const Wrapper = styled.div`
-  width: calc(50% - 12px);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -170,15 +169,34 @@ export const Row = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: ${props => props.mb ? props.mb : '10px'};
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      flex-direction: column;
+    }
+  }
 `
 
-export const Title = styled.div``
+export const Title = styled.div`
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      width: 100%;
+    }
+  }
+`
 
 export const Value = styled.div`
   max-width: 60%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: 'Ubuntu', sans-serif;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      max-width: unset;
+    }
+  }
 `
   
 export const ErrorMessage = styled.div`

@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Tabs, Tab, Icon } from '@blueprintjs/core'
+import { Icon } from '@blueprintjs/core'
 import { FormattedMessage } from "react-intl"
 import 'rc-tabs/assets/index.css'
 import { default as RcTabs, TabPane } from 'rc-tabs'
@@ -10,23 +10,21 @@ import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
 import { Link } from "react-router-dom"
 
-import { isTomoWallet } from '../../../utils/helpers'
-import TradesTable from '../../../components/TradesTable'
-import OrderBook from '../../../components/OrderBook'
-import TVChartRenderer from '../../../components/TVChartContainer'
-import DepthChart from '../../../components/DepthChart'
+import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
+import LendingTradesTable from '../../../components/lending/LendingTradesTable'
+import LendingOrderBook from '../../../components/lending/LendingOrderBook'
+import LendingTvChart from '../../../components/lending/LendingTvChart'
+
 type State = {
-  chartTadId: string,
   isShowOrderForm: boolean,
   isShowOrdersTable: boolean,
 };
 
 export default class Dapp extends React.PureComponent<Props, State> {
   state = {
-    chartTadId: 'tvchart',
     isShowHelpPanel: false,
   }
 
@@ -54,23 +52,16 @@ export default class Dapp extends React.PureComponent<Props, State> {
 
   render() {
     const { isShowHelpPanel } = this.state
-    const { quoteTokenSymbol, currentPairName, authenticated } = this.props
+    const { currentPairName, authenticated } = this.props
 
-    return (      
+    return (
       <Grid flow="column" 
         columns={"1fr"} 
         rows={"300px 500px 55px"} 
         gap="10px" 
         height="100%">
         <ChartsCell>
-          <ChartTabs
-            id="tabs-chart"
-            onChange={this.handleTabsChartChange}
-            selectedTabId={this.state.chartTadId}
-          >
-            <Tab id="tvchart" title="TradingView" panel={quoteTokenSymbol && <TVChartRenderer />} />
-            <Tab id="depth" title="Depth" panel={<DepthChart />} />
-          </ChartTabs>
+          <LendingTvChart />
         </ChartsCell>
 
         <OrdersTradesCell>
@@ -116,24 +107,27 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
+    <TabPane tab='Book' key="1"><LendingOrderBook /></TabPane>  
+    <TabPane tab='Market Trades' key="2"><LendingTradesTable /></TabPane>  
   </MainTabs>
 )
 
 const ButtonGroup = ({toggleHelpPanel, pair}) => {
 
-  return isTomoWallet() 
+  return isTomoWallet() || isWeb3()
   ? (
     <ButtonGroupBox>
-      <OrdersLink to="/dapp/orders">
+      <OrdersLink to="/dapp/lending/orders">
         <Icon icon="document" />
         <FormattedMessage id="dapp.orders" />
       </OrdersLink>
-      <OrderFormButtonGroup>
-        <BuyLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
-        <SellLink to={`/dapp/trade/${pair.replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
-      </OrderFormButtonGroup>
+      {
+        pair && (
+          <OrderFormButtonGroup>
+            <BuyLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
+            <SellLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
+          </OrderFormButtonGroup>)
+      }
     </ButtonGroupBox>
   )
   : (
@@ -397,13 +391,6 @@ const OrdersTradesCell = styled(Cell).attrs({
       }
     }
   } 
-`
-
-const ChartTabs = styled(Tabs)`
-  .bp3-tab-list {
-    position: absolute;
-    right: 0;
-  }
 `
 
 const MainTabs = styled(RcTabs)`

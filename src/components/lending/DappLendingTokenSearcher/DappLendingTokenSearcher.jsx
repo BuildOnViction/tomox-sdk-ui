@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import TokenSearcherRenderer from './TokenSearcherRenderer'
+import DappLendingTokenSearcherRenderer from './DappLendingTokenSearcherRenderer'
 import { sortTable } from '../../../utils/helpers'
 
 //TODO not sure exactly where to define this type.
@@ -35,7 +35,7 @@ type State = {
   isOpen: boolean,
 }
 
-class TokenSearcher extends React.PureComponent<Props, State> {
+class DappLendingTokenSearcher extends React.PureComponent<Props, State> {
   state = {
     searchFilter: '',
     filterName: 'symbol',
@@ -125,7 +125,8 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     return result
   }
 
-  changeSelectedToken = (pair) => {    
+  changeSelectedToken = (pair) => {
+    this.props.toggleLendingTokenSearcherDapp(false)
     if (pair.pair === this.props.currentPair.pair) return
     this.props.updateCurrentPair(pair.pair)
   };
@@ -159,7 +160,7 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     const loading = !selectedTabId
 
     return (
-      <TokenSearcherRenderer
+      <DappLendingTokenSearcherRenderer
         loading={loading}
         tabs={tabs}
         selectedTabId={selectedTabId}
@@ -181,4 +182,4 @@ class TokenSearcher extends React.PureComponent<Props, State> {
   }
 }
 
-export default TokenSearcher
+export default DappLendingTokenSearcher

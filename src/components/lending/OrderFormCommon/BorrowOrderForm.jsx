@@ -20,7 +20,7 @@ import {
   Row,
   Title,
   Value,
-} from "../OrderFormCommon"
+} from './index'
 import SelectCollaterals from '../../SelectCollaterals'
 // import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
@@ -61,7 +61,7 @@ const BorrowOrderForm = props => {
     <Wrapper>
       <HeaderRow>
         <BaseToken>
-          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.pair}
+          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.lendingTokenSymbol} in {currentPair.termSymbol}
         </BaseToken>
       </HeaderRow>
 

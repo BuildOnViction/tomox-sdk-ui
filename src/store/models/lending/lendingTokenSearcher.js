@@ -37,12 +37,14 @@ export const updateCurrentPair = (pair: string): ThunkAction => {
       const currentPair = getLendingPairsDomain(state).getCurrentPair()
       if (currentPair.pair === pair) return
 
+      let { router: { location: { pathname }}} = getState()
+      pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'
       const param = pair.replace(' ', '_').replace('/', '-')
+      dispatch(push(`/${pathname}/${param}`))
+
       dispatch(actionCreators.updateCurrentPair(pair))
       dispatch(actionCreators.updateOhlcvLoading(true))
       dispatch(actionCreators.resetOrderbook())
       dispatch(actionCreators.resetTradesHistory())
-      dispatch(push(`/lending/${param}`))
-
     }
 }

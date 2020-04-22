@@ -21,9 +21,8 @@ const TickerRenderer = (props) => {
   const {
     currentPair,
     currentPairData,
-    // isShowTokenSearcher,
-    // referenceCurrency,
-    // toggleTokenSearcherMobile,
+    isShowTokenSearcher,
+    toggleLendingTokenSearcherDapp,
   } = props
   
   return (
@@ -52,12 +51,12 @@ const TickerRenderer = (props) => {
             </TokenSearcherPopover>
 
             {/* For mobile */}
-            {/* {!isShowTokenSearcher && (
-              <TokenPairsDropDownMobile onClick={() => toggleTokenSearcherMobile(true)}>
-              <span>{currentPair.pair}</span> 
-              <i className="arrow"></i>
+            {!isShowTokenSearcher && (
+              <TokenPairsDropDownMobile onClick={() => toggleLendingTokenSearcherDapp(true)}>
+                <span>{currentPair.pair}</span> 
+                <i className="arrow"></i>
               </TokenPairsDropDownMobile>
-            )} */}
+            )}
           </React.Fragment>
         )}
 
@@ -69,14 +68,12 @@ const TickerRenderer = (props) => {
               <div className="title xs-hidden"><FormattedMessage id="lending.ticker.lastInterest" /></div>
               <LastPriceContentTick className="price">
                 <span>{BigNumber(currentPairData.close).toFormat(2)}&#37;</span>
-                {/* {currentPairData.priceUsd && (<span className="up">{referenceCurrency.symbol}{BigNumber(currentPairData.priceUsd).toFormat(currentPairData.pricePrecisionUsd)}</span>)} */}
               </LastPriceContentTick>
             </LastPriceTick>
 
             <ChangeTick>
               <div className="title xs-hidden"><FormattedMessage id="priceBoard.24hChange" /></div>
               <ChangeContentTick className={ (currentPairData.close - currentPairData.open) >= 0 ? 'up' : 'down'}>
-                {/* <span>{getChangePriceText(currentPairData.open, currentPairData.close, 2)}&#37;</span> */}
                 <span>{getChangePercentText(currentPairData.change)}</span>
               </ChangeContentTick>
             </ChangeTick>
@@ -129,7 +126,6 @@ const TokenPairsDropDown = styled.div.attrs({
   }
 `
 
-/*
 const TokenPairsDropDownMobile = styled(TokenPairsDropDown)`
   display: none;
   @media only screen and (max-width: 680px) {
@@ -141,7 +137,6 @@ const TokenPairsDropDownMobile = styled(TokenPairsDropDown)`
     }
   }
 `
-*/
 
 const HeaderDivider = styled(NavbarDivider).attrs({
   className: 'xs-hidden',

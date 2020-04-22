@@ -5,8 +5,7 @@ import styled from 'styled-components'
 import {
   SpinnerContainer,
 } from '../../Common'
-import BorrowOrderForm from './BorrowOrderForm'
-import LendOrderForm from './LendOrderForm'
+import { BorrowOrderForm, LendOrderForm } from '../OrderFormCommon'
 
 const OrderFormRenderer = (props) => {
 
@@ -42,6 +41,10 @@ const OrderWrapper = styled.div.attrs({
   className: 'order-wrapper',
 })`
   height: 100%;
+
+  & > div {
+    width: calc(50% - 12px);
+  }
 `
 
 export default OrderFormRenderer
