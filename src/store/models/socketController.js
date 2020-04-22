@@ -134,11 +134,11 @@ const handleWebsocketErrorMessage = (
 }
 
 const handleOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
+  dispatch(queryAccountBalance()) // Get the balance of tokens
   const { type } = event
 
   if (type !== 'ORDER_CANCELLED') dispatch(orderActionsCreators.ordersUpdatedStatus(false)) // Remove loading screen in OrderForm
   dispatch(actionCreators.updateNewNotifications()) 
-  dispatch(queryAccountBalance()) // Get the balance of tokens
 
   switch (type) {
     case 'ORDER_ADDED':
@@ -597,12 +597,12 @@ const handleLendingMarketsMessage = (event: WebsocketEvent) => {
 }
 
 const handleLendingOrderMessage = async (dispatch, event: WebsocketEvent, getState): ThunkAction => {
+  dispatch(queryAccountBalance()) // Get the balance of tokens
   const { type } = event
 
   if (type === 'INIT') return
   if (type !== 'LENDING_ORDER_CANCELLED') dispatch(lendingOrdersActionsCreators.lendingOrdersUpdateLoading(false))
   dispatch(actionCreators.updateNewNotifications()) 
-  dispatch(queryAccountBalance()) // Get the balance of tokens
 
   switch (type) {
     case 'LENDING_ORDER_ADDED':

@@ -557,10 +557,12 @@ function withOrderFormLogic(WrappedComponent) {
 
       const {
         lendingToken,
+        collateralTokens,
       } = this.props
 
-      if (side === 'BORROW') { 
-        const collateralBalance = collateralSelected ? collateralSelected.availableBalance : 0
+      if (side === 'BORROW') {
+        const collateralSelectedData = (collateralTokens && collateralSelected.symbol) ? collateralTokens.find(token => token.symbol === collateralSelected.symbol) : null
+        const collateralBalance = collateralSelectedData ? collateralSelectedData.availableBalance : 0
 
         switch (true) {
           case (!borrowInterest || BigNumber(borrowInterest).eq(0)):
@@ -711,7 +713,8 @@ function withOrderFormLogic(WrappedComponent) {
 
       const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(borrowInterest)        
       const filteredCollaterals = collateralTokens ? collateralTokens.filter(token => token.symbol !== currentPair.lendingTokenSymbol) : collateralTokens
-      
+      const collateralSelectedData = (collateralTokens && collateralSelected.symbol) ? collateralTokens.find(token => token.symbol === collateralSelected.symbol) : collateralSelected
+
       return (
         <WrappedComponent
           side={side}
@@ -750,7 +753,7 @@ function withOrderFormLogic(WrappedComponent) {
           redirectToLoginPage={redirectToLoginPage}
           loading={loading}
           collateralTokens={filteredCollaterals}
-          collateralSelected={collateralSelected}
+          collateralSelected={collateralSelectedData}
           onCollateralSelect={handleCollateralSelect}
           profit={profit}
           currentPair={currentPair}

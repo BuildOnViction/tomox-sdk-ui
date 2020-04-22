@@ -88,7 +88,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet() || isWeb3()) {// TODO: remove isWeb3 after complete
+    if (isTomoWallet()) {
       await this.props.loginWithMetamask()
     }
 
