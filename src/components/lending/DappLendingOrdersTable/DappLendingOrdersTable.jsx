@@ -19,22 +19,10 @@ type State = {
 class DappLendingOrdersTable extends React.PureComponent<Props, State> {
   static defaultProps = { authenticated: true }
   state = {
+    selectedTrade: null,
     selectedPanel: 'orders',
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
-    pricePrecision: 4,
-    amountPrecision: 4,
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.currentPairData && (
-      this.props.currentPairData.pricePrecision !== this.state.pricePrecision
-      || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
-      this.setState({
-        pricePrecision: this.props.currentPairData.pricePrecision,
-        amountPrecision: this.props.currentPairData.amountPrecision,
-      })
-    }
   }
 
   handleChangePanel = (panelId: string) => {
@@ -54,7 +42,7 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
   filterOrders = () => {
     const { orders, currentPair: { pair }} = this.props
     const { isHideOtherPairs } = this.state
-    const result = {}
+    const result = {processing: [], finished: []}
 
     result['finished'] = orders.filter(order => {
       return (order.status === 'FILLED' || order.status === 'CANCELLED'|| order.status === 'REJECTED')
@@ -85,7 +73,7 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
   filterTrades = () => {
     const { trades, currentPair: { termSymbol, lendingTokenSymbol }} = this.props
     const { isHideOtherPairs } = this.state
-    const result = {}
+    const result = {processing: [], finished: []}
 
     result['finished'] = trades.filter(trade => {
       return (trade.status !== 'OPEN')
@@ -113,9 +101,21 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
     return result
   }
 
+  handleSelectTrade = (trade: Object) => {
+    this.setState({
+      selectedTrade: trade,
+    })
+  }
+
+  closeDetailsPanel = (trade: Object) => {
+    this.setState({
+      selectedTrade: null,
+    })
+  }
+
   render() {
     const { authenticated, orders, cancelOrder } = this.props
-    const { selectedPanel, selectedTabId, isHideOtherPairs, pricePrecision, amountPrecision } = this.state
+    const { selectedPanel, selectedTrade, selectedTabId, isHideOtherPairs } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
@@ -132,10 +132,11 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
         trades={filteredTrades}
         isHideOtherPairs={isHideOtherPairs}
         handleChangeHideOtherPairs={this.handleChangeHideOtherPairs}
-        pricePrecision={pricePrecision} 
-        amountPrecision={amountPrecision}
         selectedPanel={selectedPanel}
         handleChangePanel={this.handleChangePanel}
+        selectedTrade={selectedTrade}
+        handleSelectTrade={this.handleSelectTrade}
+        closeDetailsPanel={this.closeDetailsPanel}
       />
     )
   }

@@ -5,6 +5,9 @@ import {
   Tab,
   Tabs,
   Checkbox,
+  Drawer,
+  Position,
+  Icon,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
@@ -30,6 +33,22 @@ type Props = {
   }
 }
 
+const TRADE_STATUS = {
+  'OPEN': <FormattedMessage id='exchangePage.open' />,
+  'CLOSED': <FormattedMessage id='exchangeLendingPage.orders.trade.closed' />,
+  'LIQUIDATED': <FormattedMessage id='exchangeLendingPage.orders.trade.liquidated' />,
+}
+
+const ORDERTYPES = {
+  'LO': <FormattedMessage id='exchangePage.limit' />,
+  'MO': <FormattedMessage id='exchangePage.market' />,
+}
+
+const TOPUPTYPES = {
+  '0': 'Manual',
+  '1': 'Auto',
+}
+
 const DappLendingOrdersTableRenderer = (props: Props ) => {
   const {
     selectedPanel,
@@ -40,7 +59,7 @@ const DappLendingOrdersTableRenderer = (props: Props ) => {
   return (
     <PanelTabs id="orders-contracts" onChange={handlePanelChange} selectedPanel={selectedPanel}>
       <Tab id="orders" title="Orders" panel={<OrdersPanel {...rest} />} />
-      <Tab id="contracts" title="Contracts" panel={<ContractsPanel {...rest} />} />
+      <Tab id="contracts" title="Contracts" panel={<TradesPanel {...rest} />} />
     </PanelTabs>
   )
 }
@@ -92,36 +111,36 @@ const OrdersPanel = (props: Props) => {
   )
 }
 
-const ContractsPanel = (props: Props) => {  
+const TradesPanel = (props: Props) => {  
   const {
     selectedTabId,
     onChange,
     trades,
     ...rest
   } = props  
-
+  
   return (
     <React.Fragment>
-      <TabsContainer selectedTabId={selectedTabId} onChange={onChange}>
+      <TabsContainer selectedTabId={selectedTabId} onChange={onChange} renderActiveTabPanelOnly={true}>
         <Tab
-          id="open-contracts"
+          id="open-trades"
           title={<FormattedMessage 
             id="exchangeLendingPage.orders.trade.openContract"
             values={{numberOfTrades: trades['processing'].length}} />}
           panel={
-            <OrdersTablePanel
-              orders={trades['processing']}
+            <OpenTradesTable
+              items={trades['processing']}
               selectedTabId={selectedTabId}
               {...rest}
             />
           }
         />
         <Tab
-          id="close-contracts"
+          id="close-trades"
           title={<FormattedMessage id="exchangeLendingPage.orders.trade.closedContract" />}
           panel={
-            <OrdersTablePanel
-              orders={trades['finished']}
+            <CloseTradesTable
+              items={trades['finished']}
               selectedTabId={selectedTabId}
               {...rest}
             />
@@ -250,6 +269,138 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
+const OpenTradesTable = ({items, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision, amountPrecision}) => {
+  
+  return (
+    <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
+      <ListHeader className="header">
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+      </ListHeader>
+
+      {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+
+      {(items.length > 0) && 
+        (<ListBodyWrapper className="list">
+          {items.map((order, index) => (
+            <Row key={index}>
+              <Cell width={"35%"} muted>
+                <Pair><SideIcon side={order.side} /> <span>{`${order.termSymbol}/${order.lendingTokenSymbol}`}</span></Pair>
+                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
+              </Cell>
+              <Cell width={"35%"} title={order.interest} muted>
+                {BigNumber(order.interest).toFormat(interestPrecision)}&#37;
+              </Cell>
+              <AmountCell textAlign="right" width={"30%"} muted>
+                <span>{BigNumber(order.amount).toFormat(lendingAmountPrecision)}</span>
+              </AmountCell>
+            </Row>
+          ))}
+        </ListBodyWrapper>)
+      }
+    </ListContainer>
+  )
+}
+
+const CloseTradesTable = ({
+  items, 
+  isHideOtherPairs, 
+  handleChangeHideOtherPairs,
+  selectedTrade,
+  handleSelectTrade,
+  closeDetailsPanel,
+}) => {
+  
+  return (
+    <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+
+      <ListHeader className="header">
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+        <HeaderCell width={"35%"}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
+        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+      </ListHeader>
+
+      {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+
+      <Drawer
+        title="Details"
+        onClose={closeDetailsPanel}
+        autoFocus={true}
+        canOutsideClickClose={true}
+        hasBackdrop={true}
+        isOpen={!!selectedTrade}
+        position={Position.RIGHT}
+        size="70%"
+        usePortal={false}
+      >
+        {selectedTrade && (
+          <DetailsContainer>
+            <DetailsHeader>
+              <span><SideIcon side={selectedTrade.side} />{`${selectedTrade.termSymbol}/${selectedTrade.lendingTokenSymbol}`}</span>
+              <DetailsValue>{BigNumber(selectedTrade.interest).toFormat(2)}&#37;</DetailsValue>
+            </DetailsHeader>
+
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.openDate" /></DetailsLabel>
+              <DetailsValue>{formatDate(selectedTrade.time, 'LL-dd HH:mm:ss')}</DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></DetailsLabel> 
+              <DetailsValue>{formatDate(selectedTrade.updatedAt, 'LL-dd HH:mm:ss')}</DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangePage.type" /></DetailsLabel>
+              <DetailsValue>{ORDERTYPES[selectedTrade.type]}-{TOPUPTYPES[selectedTrade.autoTopUp]}</DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangePage.amount" /></DetailsLabel> 
+              <DetailsValue>{BigNumber(selectedTrade.amount).toFormat()} {selectedTrade.lendingTokenSymbol}</DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.collateral" /></DetailsLabel> 
+              <DetailsValue>{BigNumber(selectedTrade.collateralLockedAmount).toFormat()} {selectedTrade.collateralTokenSymbol}</DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></DetailsLabel> 
+              <DetailsValue>
+                {BigNumber(selectedTrade.liquidationPrice).toFormat(selectedTrade.liquidationPricePrecision)}&nbsp;
+                {`${selectedTrade.collateralTokenSymbol}/${selectedTrade.lendingTokenSymbol}`}
+              </DetailsValue>
+            </DetailsRow>
+            <DetailsRow>
+              <DetailsLabel><FormattedMessage id="exchangePage.status" /></DetailsLabel>
+              <DetailsValue>{TRADE_STATUS[selectedTrade.status]}</DetailsValue>
+            </DetailsRow>
+          </DetailsContainer>
+        )}
+      </Drawer>
+
+      {(items.length > 0) && 
+        (<ListBodyWrapper className="list">
+          {items.map((order, index) => (
+            <Row key={index} onClick={() => handleSelectTrade(order)}>
+              <Cell width={"35%"} muted>
+                <Pair><SideIcon side={order.side} /> <span>{`${order.termSymbol}/${order.lendingTokenSymbol}`}</span></Pair>
+                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
+              </Cell>
+              <Cell width={"35%"} title={order.interest} muted>
+                {BigNumber(order.interest).toFormat(interestPrecision)}&#37;
+              </Cell>
+              <AmountCell textAlign="right" width={"30%"} muted>
+                <span>{BigNumber(order.amount).toFormat(lendingAmountPrecision)}</span>
+              </AmountCell>
+            </Row>
+          ))}
+        </ListBodyWrapper>)
+      }
+    </ListContainer>
+  )
+}
+
 const PanelTabs = styled(Tabs).attrs({
   className: 'panel-tabs',
 })`
@@ -289,6 +440,25 @@ const ListContainer = styled.div.attrs({
   className: 'list-container',
 })`
   height: 100%;
+
+  .bp3-overlay.bp3-overlay-container.bp3-overlay-inline {
+    position: fixed;
+  }
+
+  .bp3-drawer {
+    background: #394362;
+  }
+
+  .bp3-drawer-header {
+    padding: 0 10px;
+    min-height: 30px;
+  }
+
+  .bp3-heading {
+    color: #9ca4ba;
+    font-weight: normal;
+    font-size: ${Theme.FONT_SIZE_MD};
+  }
 `
 const ListBodyWrapper = styled.ul.attrs({
   className: 'list',
@@ -440,7 +610,10 @@ const CheckboxHidePairs = styled(Checkbox)`
 `
 
 const NoOrders = styled.div`
+  display: flex;
+  align-items: center;
   height: calc(100% - 25px);
+  min-height: 100px;
 `
 
 const CancelButton = styled.div`
@@ -467,6 +640,32 @@ const FieldValue = styled.span`
   display: inline-block;
   font-size: 10px;
   color: ${props => props.color || TmColors.WHITE};
+`
+
+const DetailsContainer = styled.div`
+  padding: 10px;
+`
+
+const DetailsHeader = styled.div`
+  color: #fff;
+  font-size: ${Theme.FONT_SIZE_MD};
+  margin-bottom: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+`
+
+const DetailsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+`
+
+const DetailsLabel = styled.span``
+
+const DetailsValue = styled.span`
+  color: #9ca4ba;
+  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 export default DappLendingOrdersTableRenderer

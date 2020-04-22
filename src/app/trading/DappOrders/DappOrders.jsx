@@ -79,7 +79,7 @@ const OrdersTableCell = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 30;
+  z-index: 15;
   padding: 40px 5px 5px 5px;
 `
 
