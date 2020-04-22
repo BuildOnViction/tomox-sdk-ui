@@ -356,12 +356,15 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
     const { pairs, currentPairData } = socketControllerSelector(state)
+    const pairDomain = getTokenPairsDomain(state)
+    const currentPair = pairDomain.getCurrentPair()
+
 
     if (event.type === 'ERROR' || !event.payload) return
     // if (event.payload.length === 0) return
 
-    const { pairName } = event.payload
-    const pairInfo = pairs[pairName]
+    const pairInfo = pairs[currentPair.pair]
+
     let bids, asks, orderBookData, pricePrecision = defaultPricePrecision, amountPrecision = defaultAmountPrecision
 
     if (currentPairData) {
@@ -398,14 +401,15 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
 const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
+    const pairDomain = getTokenPairsDomain(state)
+    const currentPair = pairDomain.getCurrentPair()
     const { pairs } = socketControllerSelector(state)
 
     if (event.type === 'ERROR' || !event.payload) return
     if (event.payload.length === 0) return
 
     let trades = event.payload
-    const { pairName } = trades[0]
-    const pair = pairs[pairName]
+    const pair = pairs[currentPair.pair]
 
     try {
       switch (event.type) {
@@ -430,6 +434,8 @@ const handleTradesMessage = (event: WebsocketEvent): ThunkAction => {
 const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
   return async (dispatch, getState, { socket }) => {
     const state = getState()
+    const pairDomain = getTokenPairsDomain(state)
+    const currentPair = pairDomain.getCurrentPair()
     const { pairs } = socketControllerSelector(state)
 
     if (event.type === 'ERROR' || !event.payload) return
@@ -446,8 +452,7 @@ const handleOHLCVMessage = (event: WebsocketEvent): ThunkAction => {
       // But in case of UPDATE OHLCV, the payload is an object
       ohlcv = [ohlcv]
     }
-    const { pairName } = ohlcv[0].pair
-    const pair = pairs[pairName]
+    const pair = pairs[currentPair.pair]
 
     try {
       switch (event.type) {
