@@ -126,6 +126,22 @@ function withOrderFormLogic(WrappedComponent) {
           borrowAmount: (type === 'amount') ? total : '',
           lendInterest: interest,
           lendAmount: '',
+        }, () => {
+          if (type === 'amount') {
+            if (window.estimateTimer) clearTimeout(window.estimateTimer)
+
+            window.estimateTimer = setTimeout(async () => {
+              const qs = {
+                amount: Number(total),
+                lendingToken: this.props.currentPair.lendingTokenAddress,
+                collateralToken: this.state.collateralSelected.address,
+              }
+              const { estimateCollateralAmount } = await getEstimatedCollateral(qs)
+              this.setState({
+                estimateCollateral: estimateCollateralAmount,
+              })
+            }, 500)
+          }
         })
       }
     }
