@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {
+    Icon,
+    Tabs,
+    Tab,
     Drawer,
     Position,
   } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { Theme } from '../../Common'
+import { TOMOSCAN_URL } from '../../../config/environment'
+import { Link, Theme, TmColors } from '../../Common'
 import { formatDate } from '../../../utils/helpers'
 
 const TRADE_STATUS = {
@@ -26,7 +30,13 @@ const TOPUPTYPES = {
     '1': 'Auto',
 }
 
-export default function DetailsDrawer({item, onClose, renderSideIcon}) {
+export default function DetailsDrawer({item, actions, onClose, renderSideIcon}) {    
+    const [selectedTabId, setSelectedTabId] = useState('topup')
+
+    const handleTabChange = (tabId) => {
+        setSelectedTabId(tabId)
+    }
+
     return (
         <Drawer
             title="Details"
@@ -46,40 +56,59 @@ export default function DetailsDrawer({item, onClose, renderSideIcon}) {
                         <Value>{BigNumber(item.interest).toFormat(2)}&#37;</Value>
                     </Header>
 
-                    <Row>
-                        <Label><FormattedMessage id="exchangeLendingPage.orders.openDate" /></Label>
-                        <Value>{formatDate(item.time, 'LL-dd HH:mm:ss')}</Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label> 
-                        <Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangePage.type" /></Label>
-                        <Value>{ORDERTYPES[item.type]}-{TOPUPTYPES[item.autoTopUp]}</Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangePage.amount" /></Label> 
-                        <Value>{BigNumber(item.amount).toFormat()} {item.lendingTokenSymbol}</Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangeLendingPage.orders.collateral" /></Label> 
-                        <Value>{BigNumber(item.collateralLockedAmount).toFormat()} {item.collateralTokenSymbol}</Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></Label> 
-                        <Value>
-                        {BigNumber(item.liquidationPrice).toFormat(item.liquidationPricePrecision)}&nbsp;
-                        {`${item.collateralTokenSymbol}/${item.lendingTokenSymbol}`}
-                        </Value>
-                    </Row>
-                    <Row>
-                        <Label><FormattedMessage id="exchangePage.status" /></Label>
-                        <Value>{TRADE_STATUS[item.status]}</Value>
-                    </Row>
+                    <DetailsInfo item={item} />
+
+                    {item.isBorrower && actions && (
+                        <Tabs onChange={handleTabChange} selectedTabId={selectedTabId}>
+                            <Tab id="topup" title="TopUp" panel={<div>TopUp</div>} />
+                            <Tab id="repay" title="Repay" panel={<div>Repay</div>} />
+                        </Tabs>
+                    )}
+
+                    <ButtonLink href={`${TOMOSCAN_URL}/lending/trades/${item.hash}`} target="_blank">
+                        View on TomoScan <Icon iconSize='10px' icon="document-share" />
+                    </ButtonLink>
                 </Container>
             )}
         </Drawer>
+    )
+}
+
+function DetailsInfo({item}) {
+    return (
+        <>
+            <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orders.openDate" /></Label>
+                <Value>{formatDate(item.time, 'LL-dd HH:mm:ss')}</Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label> 
+                <Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangePage.type" /></Label>
+                <Value>{ORDERTYPES[item.type]}-{TOPUPTYPES[item.autoTopUp]}</Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangePage.amount" /></Label> 
+                <Value>{BigNumber(item.amount).toFormat()} {item.lendingTokenSymbol}</Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orders.collateral" /></Label> 
+                <Value>{BigNumber(item.collateralLockedAmount).toFormat()} {item.collateralTokenSymbol}</Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></Label> 
+                <Value>
+                {BigNumber(item.liquidationPrice).toFormat(item.liquidationPricePrecision)}&nbsp;
+                {`${item.collateralTokenSymbol}/${item.lendingTokenSymbol}`}
+                </Value>
+            </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangePage.status" /></Label>
+                <Value>{TRADE_STATUS[item.status]}</Value>
+            </Row>
+        </>
     )
 }
 
@@ -107,4 +136,18 @@ const Label = styled.span``
 const Value = styled.span`
   color: #9ca4ba;
   font-size: ${Theme.FONT_SIZE_SM};
+`
+
+const ButtonLink = styled(Link)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid ${TmColors.ORANGE};
+    border-radius: 3px;
+    padding: 7px 0;
+    margin-top: 35px;
+
+    .bp3-icon {
+        margin-left: 5px;
+    }
 `

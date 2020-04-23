@@ -251,7 +251,14 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   )
 }
 
-const OpenTradesTable = ({items, cancelOrder, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision, amountPrecision}) => {
+const OpenTradesTable = ({
+  items, 
+  isHideOtherPairs, 
+  handleChangeHideOtherPairs,
+  selectedTrade,
+  handleSelectTrade,
+  closeDetailsPanel,
+}) => {
   
   return (
     <ListContainer className="list-container">
@@ -265,10 +272,17 @@ const OpenTradesTable = ({items, cancelOrder, isHideOtherPairs, handleChangeHide
 
       {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
 
+      <DetailsDrawer
+        actions={true}
+        item={selectedTrade}
+        onClose={closeDetailsPanel}
+        renderSideIcon={() => <SideIcon side={selectedTrade.side} />}
+      />
+
       {(items.length > 0) && 
         (<ListBodyWrapper className="list">
           {items.map((order, index) => (
-            <Row key={index}>
+            <Row key={index} onClick={() => handleSelectTrade(order)}>
               <Cell width={"35%"} muted>
                 <Pair><SideIcon side={order.side} /> <span>{`${order.termSymbol}/${order.lendingTokenSymbol}`}</span></Pair>
                 <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
