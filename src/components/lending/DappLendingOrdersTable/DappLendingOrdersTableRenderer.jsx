@@ -5,9 +5,6 @@ import {
   Tab,
   Tabs,
   Checkbox,
-  Drawer,
-  Position,
-  Icon,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
@@ -19,6 +16,7 @@ import { formatDate, calcPercent } from '../../../utils/helpers'
 import type { Order } from '../../../types/orders'
 import tickUrl from '../../../assets/images/tick.svg'
 import { interestPrecision, lendingAmountPrecision } from '../../../config/tokens'
+import DetailsDrawer from './DetailsDrawer'
 // import FundsTable from '../../FundsTable'
 
 type Props = {
@@ -31,22 +29,6 @@ type Props = {
     finished: Array<Order>,
     processing: Array<Order>,
   }
-}
-
-const TRADE_STATUS = {
-  'OPEN': <FormattedMessage id='exchangePage.open' />,
-  'CLOSED': <FormattedMessage id='exchangeLendingPage.orders.trade.closed' />,
-  'LIQUIDATED': <FormattedMessage id='exchangeLendingPage.orders.trade.liquidated' />,
-}
-
-const ORDERTYPES = {
-  'LO': <FormattedMessage id='exchangePage.limit' />,
-  'MO': <FormattedMessage id='exchangePage.market' />,
-}
-
-const TOPUPTYPES = {
-  '0': 'Manual',
-  '1': 'Auto',
 }
 
 const DappLendingOrdersTableRenderer = (props: Props ) => {
@@ -326,58 +308,11 @@ const CloseTradesTable = ({
 
       {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
 
-      <Drawer
-        title="Details"
+      <DetailsDrawer 
+        item={selectedTrade}
         onClose={closeDetailsPanel}
-        autoFocus={true}
-        canOutsideClickClose={true}
-        hasBackdrop={true}
-        isOpen={!!selectedTrade}
-        position={Position.RIGHT}
-        size="70%"
-        usePortal={false}
-      >
-        {selectedTrade && (
-          <DetailsContainer>
-            <DetailsHeader>
-              <span><SideIcon side={selectedTrade.side} />{`${selectedTrade.termSymbol}/${selectedTrade.lendingTokenSymbol}`}</span>
-              <DetailsValue>{BigNumber(selectedTrade.interest).toFormat(2)}&#37;</DetailsValue>
-            </DetailsHeader>
-
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.openDate" /></DetailsLabel>
-              <DetailsValue>{formatDate(selectedTrade.time, 'LL-dd HH:mm:ss')}</DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></DetailsLabel> 
-              <DetailsValue>{formatDate(selectedTrade.updatedAt, 'LL-dd HH:mm:ss')}</DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangePage.type" /></DetailsLabel>
-              <DetailsValue>{ORDERTYPES[selectedTrade.type]}-{TOPUPTYPES[selectedTrade.autoTopUp]}</DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangePage.amount" /></DetailsLabel> 
-              <DetailsValue>{BigNumber(selectedTrade.amount).toFormat()} {selectedTrade.lendingTokenSymbol}</DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.collateral" /></DetailsLabel> 
-              <DetailsValue>{BigNumber(selectedTrade.collateralLockedAmount).toFormat()} {selectedTrade.collateralTokenSymbol}</DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></DetailsLabel> 
-              <DetailsValue>
-                {BigNumber(selectedTrade.liquidationPrice).toFormat(selectedTrade.liquidationPricePrecision)}&nbsp;
-                {`${selectedTrade.collateralTokenSymbol}/${selectedTrade.lendingTokenSymbol}`}
-              </DetailsValue>
-            </DetailsRow>
-            <DetailsRow>
-              <DetailsLabel><FormattedMessage id="exchangePage.status" /></DetailsLabel>
-              <DetailsValue>{TRADE_STATUS[selectedTrade.status]}</DetailsValue>
-            </DetailsRow>
-          </DetailsContainer>
-        )}
-      </Drawer>
+        renderSideIcon={() => <SideIcon side={selectedTrade.side} />}
+      />
 
       {(items.length > 0) && 
         (<ListBodyWrapper className="list">
@@ -640,32 +575,6 @@ const FieldValue = styled.span`
   display: inline-block;
   font-size: 10px;
   color: ${props => props.color || TmColors.WHITE};
-`
-
-const DetailsContainer = styled.div`
-  padding: 10px;
-`
-
-const DetailsHeader = styled.div`
-  color: #fff;
-  font-size: ${Theme.FONT_SIZE_MD};
-  margin-bottom: 5px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-`
-
-const DetailsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-`
-
-const DetailsLabel = styled.span``
-
-const DetailsValue = styled.span`
-  color: #9ca4ba;
-  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 export default DappLendingOrdersTableRenderer
