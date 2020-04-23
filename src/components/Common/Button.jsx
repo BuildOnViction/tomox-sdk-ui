@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Colors from './Colors'
+import Colors, { Theme } from './Colors'
 import { Button } from '@blueprintjs/core'
 
 
@@ -40,6 +40,14 @@ export const BaseButton = styled(Button)`
   color: #fff !important;
   box-shadow: none !important;
   background-image: none !important;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      font-size: ${Theme.FONT_SIZE_SM};
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+  }
 `
 
 export const CancelButton = styled(BaseButton)`
