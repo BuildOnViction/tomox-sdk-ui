@@ -263,6 +263,11 @@ const OpenTradesTable = ({
   handleTopUp,
   errorTopUp,
   selectAllAvailableBalance,
+  lendingToken,
+  realInterest,
+  totalRepay,
+  errorRepay,
+  handleRepay,
 }) => {
   
   return (
@@ -286,6 +291,11 @@ const OpenTradesTable = ({
         onTopUp={handleTopUp}
         errorTopUp={errorTopUp}
         selectAllAvailableBalance={selectAllAvailableBalance}
+        lendingToken={lendingToken}
+        realInterest={realInterest}
+        totalRepay={totalRepay}
+        errorRepay={errorRepay}
+        handleRepay={handleRepay}
         renderSideIcon={() => <SideIcon side={selectedTrade.side} />}
       />
 

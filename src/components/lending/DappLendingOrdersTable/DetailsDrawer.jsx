@@ -42,6 +42,11 @@ export default function DetailsDrawer({
     onTopUp,
     errorTopUp,
     selectAllAvailableBalance,
+    lendingToken,
+    realInterest,
+    totalRepay,
+    errorRepay,
+    handleRepay,
 }) {    
     const [selectedTabId, setSelectedTabId] = useState('topup')
 
@@ -82,7 +87,18 @@ export default function DetailsDrawer({
                                                     selectAllAvailableBalance={selectAllAvailableBalance}
                                                 />} 
                                     />
-                                    <Tab id="repay" title="Repay" panel={<Repay item={item} />} />
+                                    <Tab 
+                                        id="repay" 
+                                        title="Repay" 
+                                        panel={<Repay 
+                                                item={item} 
+                                                lendingToken={lendingToken}
+                                                realInterest={realInterest}
+                                                totalRepay={totalRepay}
+                                                errorRepay={errorRepay}
+                                                onRepay={handleRepay}
+                                            />} 
+                                    />
                                 </Tabs>
                             </>
                         )}
@@ -183,10 +199,26 @@ function Repay({item, onRepay, lendingToken, realInterest, totalRepay, errorRepa
     return (
         <>
             <ActionBody>
-                <Typo>Loan amount: <span><Value>{BigNumber(item.amount).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
-                <Typo>Estimated interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
-                <Typo>Total repay amount: <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> USDT</Highlight></Typo>
-                {/* <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo> */}
+                <Typo>Loan: 
+                    <span>
+                        <Value>{BigNumber(item.amount).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
+                    </span>
+                </Typo>
+                <Typo>Interest: 
+                    <span>
+                        <Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
+                    </span>
+                </Typo>
+                <Typo>Total repay: 
+                    <Highlight>
+                        {BigNumber(totalRepay).toFormat(lendingAmountPrecision)} {lendingToken.symbol}
+                    </Highlight>
+                </Typo>
+                <Typo>Avbl: 
+                    <span>
+                        <Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
+                    </span>
+                </Typo>
                 {errorRepay && (<Highlight color={TmColors.RED}>Your balance, not enough</Highlight>)}
             </ActionBody>
 
@@ -194,7 +226,7 @@ function Repay({item, onRepay, lendingToken, realInterest, totalRepay, errorRepa
                 <AcceptButton 
                     width="100%"
                     onClick={onRepay} 
-                    text="Yes, I want to repay you" 
+                    text="Yes, I want to repay" 
                 />
             </ButtonGroup>
         </>

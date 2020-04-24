@@ -20,10 +20,10 @@ export default function RepayModal({
         <Modal onClose={() => onClose(false)} {...rest}>
             <Typo>Note: you are repaying your borrowing before the pay-off date, it could make you have to imposed more fee</Typo>
             <RepayContent>
-                <Typo>Loan amount: <span><Value>{BigNumber(trade.amount).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
-                <Typo>Estimated interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
-                <Typo>Total repay amount: <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> USDT</Highlight></Typo>
-                <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> USDT</span></Typo>
+                <Typo>Loan: <span><Value>{BigNumber(trade.amount).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
+                <Typo>Interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
+                <Typo>Total repay: <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</Highlight></Typo>
+                <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
                 {errorRepay && (<Highlight color={TmColors.RED}>Your balance, not enough</Highlight>)}
             </RepayContent>
             <ButtonGroup>
@@ -35,7 +35,7 @@ export default function RepayModal({
                 <AcceptButton 
                     width="47%"
                     onClick={onRepay} 
-                    text="Yes, I want to repay you" 
+                    text="Yes, I want to repay" 
                 />
             </ButtonGroup>
         </Modal>

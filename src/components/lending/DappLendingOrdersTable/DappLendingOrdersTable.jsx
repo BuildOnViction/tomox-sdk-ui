@@ -1,9 +1,11 @@
 //@flow
 import React from 'react'
 import BigNumber from 'bignumber.js'
+import { differenceInSeconds } from 'date-fns'
 
 import { sortTable } from '../../../utils/helpers'
 import type { Order } from '../../../types/orders'
+import { lendingAmountPrecision } from '../../../config/tokens'
 
 import DappLendingOrdersTableRenderer from './DappLendingOrdersTableRenderer'
 
@@ -113,6 +115,20 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
     const { collaterals } = this.props
     const collateral = collaterals.find(collateral => collateral.address.toLowerCase() === trade.collateralToken.toLowerCase())
     
+    if (trade && trade.isBorrower) {
+      const lendingToken = this.props.lendingTokens.find(token => token.address.toLowerCase() === trade.lendingToken.toLowerCase())
+      const realTimesInSeconds = differenceInSeconds(new Date(), new Date(trade.time))
+      const realInterest = (Number(trade.amount) * Number(trade.interest) * (realTimesInSeconds + Number(trade.term)))/(100*2*365*24*60*60)    
+      const totalRepay = realInterest + Number(trade.amount)
+      
+      return this.setState({
+        selectedTrade: {...trade, collateral},
+        lendingToken,
+        realInterest,
+        totalRepay,
+      })
+    }
+
     this.setState({
       selectedTrade: {...trade, collateral},
     })
@@ -151,6 +167,16 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
     this.props.topUpLendingOrder({hash, collateral})
   }
 
+  handleRepay = () => {
+    const { totalRepay, lendingToken } = this.state
+
+    if (BigNumber(totalRepay.toFixed(lendingAmountPrecision)).gt(Number(lendingToken.availableBalance).toFixed(lendingAmountPrecision))) {
+      return this.setState({ errorRepay: true })
+    }
+
+    this.props.repayLendingOrder(this.state.selectedTrade.hash)
+  }
+
   render() {
     const { authenticated, orders, cancelOrder } = this.props
     const { 
@@ -160,6 +186,10 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
       isHideOtherPairs,
       topUpAmount,
       errorTopUp,
+      lendingToken,
+      realInterest,
+      totalRepay,
+      errorRepay,
     } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
@@ -187,6 +217,11 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
         handleTopUp={this.handleTopUp}
         errorTopUp={errorTopUp}
         selectAllAvailableBalance={this.selectAllAvailableBalance}
+        lendingToken={lendingToken}
+        realInterest={realInterest}
+        totalRepay={totalRepay}
+        errorRepay={errorRepay}
+        handleRepay={this.handleRepay}
       />
     )
   }
