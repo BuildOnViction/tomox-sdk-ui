@@ -258,6 +258,11 @@ const OpenTradesTable = ({
   selectedTrade,
   handleSelectTrade,
   closeDetailsPanel,
+  topUpAmount,
+  handleChangeTopUpAmount,
+  handleTopUp,
+  errorTopUp,
+  selectAllAvailableBalance,
 }) => {
   
   return (
@@ -276,6 +281,11 @@ const OpenTradesTable = ({
         actions={true}
         item={selectedTrade}
         onClose={closeDetailsPanel}
+        topUpAmount={topUpAmount}
+        onChangeAmount={handleChangeTopUpAmount}
+        onTopUp={handleTopUp}
+        errorTopUp={errorTopUp}
+        selectAllAvailableBalance={selectAllAvailableBalance}
         renderSideIcon={() => <SideIcon side={selectedTrade.side} />}
       />
 

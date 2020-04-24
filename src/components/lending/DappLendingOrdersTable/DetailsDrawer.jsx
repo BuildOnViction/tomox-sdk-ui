@@ -32,7 +32,17 @@ const TOPUPTYPES = {
     '1': 'Auto',
 }
 
-export default function DetailsDrawer({item, actions, onClose, renderSideIcon}) {    
+export default function DetailsDrawer({
+    item, 
+    actions, 
+    onClose, 
+    renderSideIcon,
+    topUpAmount,
+    onChangeAmount,
+    onTopUp,
+    errorTopUp,
+    selectAllAvailableBalance,
+}) {    
     const [selectedTabId, setSelectedTabId] = useState('topup')
 
     const handleTabChange = (tabId) => {
@@ -60,7 +70,18 @@ export default function DetailsDrawer({item, actions, onClose, renderSideIcon}) 
                             <>
                                 <Divider />
                                 <Tabs onChange={handleTabChange} selectedTabId={selectedTabId}>
-                                    <Tab id="topup" title="TopUp" panel={<TopUp item={item} />} />
+                                    <Tab 
+                                        id="topup" 
+                                        title="TopUp" 
+                                        panel={<TopUp 
+                                                    item={item} 
+                                                    topUpAmount={topUpAmount} 
+                                                    onChangeAmount={onChangeAmount}
+                                                    onTopUp={onTopUp}
+                                                    error={errorTopUp}
+                                                    selectAllAvailableBalance={selectAllAvailableBalance}
+                                                />} 
+                                    />
                                     <Tab id="repay" title="Repay" panel={<Repay item={item} />} />
                                 </Tabs>
                             </>
@@ -89,7 +110,12 @@ function Info({item, renderSideIcon}) {
             </Row>
             <Row>
                 <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label> 
-                <Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>
+                {(item.status.toUpperCase() === "OPEN") && 
+                    (<Value>{formatDate(Number(item.liquidationTime)*1000, 'LL-dd HH:mm:ss')}</Value>)
+                }
+                {(item.status.toUpperCase() !== "OPEN") && 
+                    (<Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>)
+                }
             </Row>
             <Row>
                 <Label><FormattedMessage id="exchangePage.type" /></Label>
@@ -118,26 +144,28 @@ function Info({item, renderSideIcon}) {
     )
 }
 
-function TopUp({item, onTopUp, onChangeAmount, topUpAmount, selectAllAvailableBalance, selectedCollateral }) {
+function TopUp({item, onTopUp, onChangeAmount, topUpAmount, selectAllAvailableBalance, error }) {
+    
     return (
         <>
             <ActionBody>
                 <Label>Amount</Label>
                 <StyledInputGroup
-                    // error={error ? 1 : 0}
+                    error={error ? 1 : 0}
                     name="amount-collateral"
                     type="number"
                     onChange={e => onChangeAmount(e)}
                     value={topUpAmount}
                     autoComplete="off"
-                    // rightElement={<CollateralLabel symbol={selectedCollateral && selectedCollateral.symbol} />}
+                    rightElement={<CollateralSymbol>{item.collateral && item.collateral.symbol}</CollateralSymbol>}
                 />
-                <Row>
-                    <Label>Avbl</Label>
+                <Error color={TmColors.RED}>{error && error.message}</Error>
+                <div>
+                    <div>Avbl</div>
                     <Value onClick={selectAllAvailableBalance}>
-                        {selectedCollateral && BigNumber(selectedCollateral.availableBalance).toFormat(8)} {selectedCollateral && selectedCollateral.symbol}
+                        {item.collateral && BigNumber(item.collateral.availableBalance).toFormat(8)} {item.collateral && item.collateral.symbol}
                     </Value>
-                </Row>
+                </div>
             </ActionBody>
 
             <ButtonGroup>
@@ -234,8 +262,6 @@ const ButtonLink = styled(Link)`
 export const StyledInputGroup = styled(InputGroup).attrs({
     className: props => props.error ? 'bp3-fill has-error' : 'bp3-fill',
 })`
-    margin-bottom: 10px;
-
     &.has-error .bp3-input {
         box-shadow: 0 0 0 1px ${TmColors.RED};
     }
@@ -271,4 +297,14 @@ const Typo = styled.p`
     margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
+`
+
+const CollateralSymbol = styled.span`
+    padding: 0 5px;
+`
+
+const Error = styled.div`
+    color: ${TmColors.RED};
+    font-size: 10px;
+    margin: 3px 0 7px;
 `

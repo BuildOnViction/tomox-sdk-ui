@@ -29,6 +29,7 @@ export default function TopUpModal({
                 autoComplete="off"
                 rightElement={<CollateralLabel symbol={selectedCollateral && selectedCollateral.symbol} />}
             />
+            <Error color={TmColors.RED}>{error && error.message}</Error>
             <Row>
                 <Title>Available:</Title>
                 <Value onClick={selectAllAvailableBalance}>
@@ -59,8 +60,6 @@ const CollateralLabel = ({symbol}) => {
 export const StyledInputGroup = styled(InputGroup).attrs({
         className: props => props.error ? 'bp3-fill has-error' : 'bp3-fill',
     })`
-    margin-bottom: 10px;
-
     &.has-error .bp3-input {
         box-shadow: 0 0 0 1px ${TmColors.RED};
     }
@@ -104,4 +103,9 @@ const Value = styled.span`
 
 const Label = styled.div`
     padding: 0 10px;
+`
+
+const Error = styled.div`
+    color: ${TmColors.RED};
+    margin: 5px 0 10px;
 `

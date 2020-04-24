@@ -1,9 +1,11 @@
 //@flow
 import React from 'react'
-import DappLendingOrdersTableRenderer from './DappLendingOrdersTableRenderer'
-import { sortTable } from '../../../utils/helpers'
+import BigNumber from 'bignumber.js'
 
+import { sortTable } from '../../../utils/helpers'
 import type { Order } from '../../../types/orders'
+
+import DappLendingOrdersTableRenderer from './DappLendingOrdersTableRenderer'
 
 type Props = {
   orders: Array<Order>,
@@ -23,6 +25,12 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
     selectedPanel: 'orders',
     selectedTabId: 'open-orders',
     isHideOtherPairs: false,
+    selectedCollateral: {},
+    topUpAmount: '',
+    errorTopUp: null,
+    errorRepay: false,
+    realInterest: '',
+    lendingToken: '',
   }
 
   handleChangePanel = (panelId: string) => {
@@ -102,8 +110,11 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
   }
 
   handleSelectTrade = (trade: Object) => {
+    const { collaterals } = this.props
+    const collateral = collaterals.find(collateral => collateral.address.toLowerCase() === trade.collateralToken.toLowerCase())
+    
     this.setState({
-      selectedTrade: trade,
+      selectedTrade: {...trade, collateral},
     })
   }
 
@@ -113,9 +124,43 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
     })
   }
 
+  selectAllAvailableBalance = _ => {
+    const { selectedTrade } = this.state
+
+    this.setState({
+      topUpAmount: (selectedTrade && selectedTrade.collateral) ? selectedTrade.collateral.availableBalance : 0,
+      errorTopUp: null,
+    })
+  }
+
+  handleChangeTopUpAmount = (e) => {
+    this.setState({
+      topUpAmount: e.target.value,
+      errorTopUp: null,
+    })
+  }
+
+  handleTopUp = (hash: String) => {
+    const { selectedTrade, topUpAmount } = this.state
+    const collateralAvailable = (selectedTrade && selectedTrade.collateral) ? selectedTrade.collateral.availableBalance : 0
+    
+    if (!topUpAmount) return this.setState({errorTopUp: {message: 'Please enter amount'}})
+    if (BigNumber(collateralAvailable).lt(topUpAmount)) return this.setState({errorTopUp: {message: 'Balance not enough'}})
+
+    const collateral = {...selectedTrade.collateral, amount: topUpAmount}
+    this.props.topUpLendingOrder({hash, collateral})
+  }
+
   render() {
     const { authenticated, orders, cancelOrder } = this.props
-    const { selectedPanel, selectedTrade, selectedTabId, isHideOtherPairs } = this.state
+    const { 
+      selectedPanel, 
+      selectedTrade, 
+      selectedTabId, 
+      isHideOtherPairs,
+      topUpAmount,
+      errorTopUp,
+    } = this.state
     const filteredOrders = this.filterOrders()
     const filteredTrades = this.filterTrades()
     const loading = !orders
@@ -137,6 +182,11 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
         selectedTrade={selectedTrade}
         handleSelectTrade={this.handleSelectTrade}
         closeDetailsPanel={this.closeDetailsPanel}
+        topUpAmount={topUpAmount}
+        handleChangeTopUpAmount={this.handleChangeTopUpAmount}
+        handleTopUp={this.handleTopUp}
+        errorTopUp={errorTopUp}
+        selectAllAvailableBalance={this.selectAllAvailableBalance}
       />
     )
   }

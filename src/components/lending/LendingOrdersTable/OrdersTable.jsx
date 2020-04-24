@@ -30,7 +30,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
     selectedCollateral: {},
     selectedTrade: {},
     topUpAmount: '',
-    errorTopUp: false,
+    errorTopUp: null,
     errorRepay: false,
     realInterest: '',
     lendingToken: '',
@@ -162,7 +162,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
         selectedCollateral,
         isOpenTopUp: status,
         topUpAmount: '',
-        errorTopUp: false,
+        errorTopUp: null,
       })
     }
 
@@ -170,7 +170,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
       selectedCollateral: {},
       isOpenTopUp: status,
       topUpAmount: '',
-      errorTopUp: false,
+      errorTopUp: null,
     })
   }
 
@@ -186,13 +186,15 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
     this.setState({
       topUpAmount: selectedCollateral ? selectedCollateral.availableBalance : 0,
-      errorTopUp: false,
+      errorTopUp: null,
     })
   }
 
   handleTopUp = (hash: String) => {
     const { selectedCollateral, topUpAmount } = this.state
-    if (!topUpAmount) return this.setState({errorTopUp: true})
+
+    if (!topUpAmount) return this.setState({errorTopUp: {message: 'Please enter amount'}})
+    if (BigNumber(selectedCollateral.availableBalance).lt(topUpAmount)) return this.setState({errorTopUp: {message: 'Balance not enough'}})
 
     const collateral = {...selectedCollateral, amount: topUpAmount}
     this.props.topUpLendingOrder({hash, collateral})

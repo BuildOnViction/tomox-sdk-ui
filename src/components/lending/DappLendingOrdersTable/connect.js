@@ -1,21 +1,27 @@
 // @flow
 import { connect } from 'react-redux'
-import ordersTableSelector, { cancelLendingOrder } from '../../../store/models/lending/lendingOrders'
+import 
+  lendingOrdersSelector, 
+  { 
+    cancelLendingOrder,
+    topUpLendingOrder,
+    repayLendingOrder,
+  } 
+from '../../../store/models/lending/lendingOrders'
 
 import type { State } from '../../../types'
 
 export const mapStateToProps = (state: State) => {
-  const { orders, trades, currentPair, currentPairData } = ordersTableSelector(state)
+  const selector = lendingOrdersSelector(state)
 
-  return {
-    orders,
-    trades,
-    currentPair,
-    currentPairData,
-  }
+  return {...selector}
 }
 
-export const mapDispatchToProps = { cancelOrder: cancelLendingOrder }
+export const mapDispatchToProps = { 
+  cancelOrder: cancelLendingOrder,
+  topUpLendingOrder,
+  repayLendingOrder,
+}
 
 export default connect(
   mapStateToProps,
