@@ -75,7 +75,7 @@ export const queryTradingPageData = (): ThunkAction => {
       pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
       dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
 
-      const pairs = pairDomain.getPairsByCode()
+      const pairs = pairDomain.getPairsArray()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
 
