@@ -147,11 +147,11 @@ export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: n
   }
 }
 
-export const parseOrders = (orders: Orders, pairs: Object, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseOrders = (orders: Orders, pairs: Object[], currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsedOrders = []
 
   orders.forEach(order => {
-    const pair = pairs[order.pairName]
+    const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === order.baseToken.toLowerCase() && item.quoteTokenAddress.toLowerCase() === order.quoteToken.toLowerCase())
     if (pair) {
       const orderParsed = parseOrder(order, pair, currAmountPrecision, currPricePrecision)
 
@@ -197,11 +197,11 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
   return parsed
 }
 
-export const parseTradesByAddress = (userAddress, trades: Trades, pairs: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseTradesByAddress = (userAddress, trades: Trades, pairs: Object[], currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = []
   
   trades.forEach(trade => {
-    const pair = pairs[trade.pairName]
+    const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === trade.baseToken.toLowerCase() && item.quoteTokenAddress.toLowerCase() === trade.quoteToken.toLowerCase())
     const tradeParsed = {
       time: trade.createdAt,
       price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
