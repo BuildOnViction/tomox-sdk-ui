@@ -37,6 +37,7 @@ export default function getOrderFormSelector(state: State) {
   const accountBalancesDomain = getAccountBalancesDomain(state)
   const lendingToken = accountBalancesDomain.tokenBalance(currentPair.lendingTokenSymbol)
   collateralTokens = accountBalancesDomain.getBalancesAndAllowances(collateralTokens)
+  collateralTokens = collateralTokens.filter(collateral => collateral.address !== currentPair.lendingTokenAddress)
 
   return {
     selectedOrder,
