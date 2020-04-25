@@ -8,9 +8,7 @@ import 'rc-tabs/assets/index.css'
 import { default as RcTabs, TabPane } from 'rc-tabs'
 import TabContent from 'rc-tabs/lib/TabContent'
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar'
-import { Link } from "react-router-dom"
 
-import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
 
@@ -52,7 +50,6 @@ export default class Dapp extends React.PureComponent<Props, State> {
 
   render() {
     const { isShowHelpPanel } = this.state
-    const { currentPairName, authenticated } = this.props
 
     return (
       <Grid flow="column" 
@@ -67,13 +64,6 @@ export default class Dapp extends React.PureComponent<Props, State> {
         <OrdersTradesCell>
           <OrdersTradesTabs />
         </OrdersTradesCell>
-
-        <FooterCell>
-          {<ButtonGroup 
-            toggleHelpPanel={this.toggleHelpPanel}
-            authenticated={authenticated}  
-            pair={currentPairName} />}
-        </FooterCell>
 
         {isShowHelpPanel && <HelpPanel togglePanel={this.toggleHelpPanel} />}
       </Grid>
@@ -112,37 +102,6 @@ const OrdersTradesTabs = _ => (
   </MainTabs>
 )
 
-const ButtonGroup = ({toggleHelpPanel, pair}) => {
-
-  return isTomoWallet() || isWeb3()
-  ? (
-    <ButtonGroupBox>
-      <OrdersLink to="/dapp/lending/orders">
-        <Icon icon="document" />
-        <FormattedMessage id="dapp.orders" />
-      </OrdersLink>
-      {
-        pair && (
-          <OrderFormButtonGroup>
-            <BuyLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.buy" /></BuyLink>
-            <SellLink to={`/dapp/lending/trade/${pair.replace(' ', '_').replace('/', '-')}`}><FormattedMessage id="exchangePage.sell" /></SellLink>
-          </OrderFormButtonGroup>)
-      }
-    </ButtonGroupBox>
-  )
-  : (
-    <ButtonGroupBox>
-      <OrdersButton onClick={() => toggleHelpPanel(true)}>
-        <Icon icon="document" />
-        <FormattedMessage id="dapp.orders" />
-      </OrdersButton>
-      <OrderFormButtonGroup>
-        <BuyButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.buy" /></BuyButton>
-        <SellButton onClick={() => toggleHelpPanel(true)}><FormattedMessage id="exchangePage.sell" /></SellButton>
-      </OrderFormButtonGroup>
-    </ButtonGroupBox>
-  )
-}
 
 const HelpPanelContainer = styled.div`
   position: fixed;
@@ -194,106 +153,6 @@ const ExternalLink = styled.a`
 
 const GoolgePlayIcon = styled.i`
   color: ${TmColors.LIGHT_GREEN};
-`
-
-const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 40px;
-  user-select: none;
-  height: 40px;
-  min-width: 45%;
-  color: ${TmColors.WHITE};
-`
-
-const BuyLink = styled(StyledLink)`
-  background: ${TmColors.GREEN};
-`
-
-const SellLink = styled(StyledLink)`
-  background: ${TmColors.RED};
-`
-
-const StyledButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 40px;
-  user-select: none;
-  height: 40px;
-  min-width: 45%;
-  color: ${TmColors.WHITE};
-`
-
-const BuyButton = styled(StyledButton)`
-  background: ${TmColors.GREEN};
-`
-
-const SellButton = styled(StyledButton)`
-  background: ${TmColors.RED};
-`
-
-const OrderFormButtonGroup = styled.div`
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  width: 230px;
-`
-
-const OrdersLink = styled(Link)`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  flex-flow: column;
-  flex-grow: 2;
-  padding: 0 10px;
-  font-size: ${Theme.FONT_SIZE_SM};
-  color: ${TmColors.GRAY};
-
-  span {
-    user-select: none;
-  }
-
-  span:first-child {
-    margin-bottom: 3px;
-  }
-`
-const OrdersButton = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  flex-flow: column;
-  flex-grow: 2;
-  padding: 0 10px;
-  font-size: ${Theme.FONT_SIZE_SM};
-  color: ${TmColors.GRAY};
-
-  span {
-    user-select: none;
-  }
-
-  span:first-child {
-    margin-bottom: 3px;
-  }
-`
-
-const ButtonGroupBox = styled.div`
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  height: 50px;
-  background-color: ${props => props.theme.menuBgHover};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 20;
-  padding: 0 5px; 
-`
-
-const FooterCell = styled.div`
-  height: 55px;
 `
 
 const ChartsCell = styled(Cell).attrs({
