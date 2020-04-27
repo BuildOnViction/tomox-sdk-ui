@@ -2,7 +2,7 @@
 import type { Node } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { Route, Switch, NavLink } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -33,10 +33,11 @@ import favicon from '../../assets/images/favico-32x32.png'
 import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
-import DappLendingTokenSearcher from '../../components/lending/DappLendingTokenSearcher'
 import Header from '../../components/Header'
 import SessionPasswordModal from '../../components/SessionPasswordModal'
 import Sidebar from '../../components/Sidebar'
+import DappLendingTokenSearcher from '../../components/lending/DappLendingTokenSearcher'
+import DappLendingSidebar from '../../components/lending/DappLendingSidebar'
 
 export type Props = {
   TomoBalance: string,
@@ -86,7 +87,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet()) {
+    if (isTomoWallet() || isWeb3()) {
       await this.props.loginWithMetamask()
     }
 
@@ -217,11 +218,36 @@ class Default extends React.PureComponent<Props, State> {
         />
 
         <MainContainer>
-          <Sidebar 
-            disabled={!this.isTradingPage(pathname)} 
-            mode={mode}
-            onChangeTheme={this.handleThemeChange}
-          />
+          <Switch>
+            <Route 
+              exact 
+              path={[
+                "/wallet",
+                "/markets/trading",
+                "/trade/:pair?",
+                "/markets/lending",
+                "/lending/:pair?",
+              ]} 
+              component={() => <Sidebar 
+                          disabled={!this.isTradingPage(pathname)} 
+                          mode={mode}
+                          onChangeTheme={this.handleThemeChange}
+                        />} 
+            />
+            <Route 
+              exact 
+              path={[
+                "/dapp/lending/:pair?",
+                "/dapp/lending/trade/:pair?",
+              ]} 
+              component={() => <DappLendingSidebar 
+                          currentPair={currentPair}
+                          disabled={!this.isTradingPage(pathname)} 
+                          mode={mode}
+                          onChangeTheme={this.handleThemeChange}
+                        />} 
+            />
+          </Switch>
           <MainContent>{children}</MainContent>
         </MainContainer>
 

@@ -18,8 +18,8 @@ import type { State, ThunkAction } from '../../types'
 import {
   parseLendingOrders,
   parseLendingTradesByAddress,
-  parseTradesByAddress,
-  parseOrders,
+  // parseTradesByAddress,
+  // parseOrders,
 } from '../../../utils/parsers'
 
 // eslint-disable-next-line
@@ -107,46 +107,63 @@ export const queryTradingPageData = (pair): ThunkAction => {
   }
 }
 
-export const queryDappTradePageData = (): ThunkAction => {
+export const queryDappTradePageData = (pair): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {
     try {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) throw new Error('Cannot get tokens or pairs')
 
+
       // Unsubscribe socket when change current pair
-      socket.unSubscribePrice()
-      socket.unsubscribeOrderBook()
-      socket.unsubscribeTrades()      
+      socket.unSubscribeLendingPrice()
+      socket.unsubscribeLendingOrderBook()
+      socket.unsubscribeLendingTrades()      
 
       const state = getState()
-      const pairDomain = getTokenPairsDomain(state)
-      const currentPair = pairDomain.getCurrentPair()
+      const lendingPairsDomain = getLendingPairsDomain(state)
+      const currentPair = lendingPairsDomain.getCurrentPair()
+      const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
 
-      const pairs = pairDomain.getPairsByCode()
+      // let { router: { location: { pathname }}} = state
+      // pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'   
+         
+      // if (!pair && pairName) dispatch(push(`/${pathname}/${pairName.replace(' ', '_').replace('/', '-')}`))
+
+      //TODO: need to check pairName exist or not
+      if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
+        return dispatch(lendingActionCreators.updateCurrentPair(pairName))
+      }
+
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
 
       if (authenticated) {
+        const pairs = getTokenPairsDomain(state).getPairsArray()
         const userAddress = accountDomain.address()
 
-        let [
-          orders,
-          tradesByAddress, // For trade history in OrderTable
+        const [
+          ordersResult,
+          tradesByAddressResult,
         ] = await Promise.all([
-          api.fetchOrders(userAddress),
-          api.fetchAddressTrades(userAddress), 
+          api.fetchLendingOrders(userAddress),
+          api.fetchLendingAddressTrades(userAddress), 
         ])
 
-        orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        const orders = parseLendingOrders(ordersResult.lendings)
+        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
 
-        dispatch(lendingActionCreators.initOrdersTable(orders))
-        dispatch(lendingActionCreators.updateTradesByAddress(tradesByAddress))
+        dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
+        dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))
       }
 
-      socket.subscribePrice(currentPair)
-      socket.subscribeTrades(currentPair)
-      socket.subscribeOrderBook(currentPair)
+      const subscribeData = {
+        term: Number(currentPair.termValue), 
+        lendingToken: currentPair.lendingTokenAddress,
+      }
+      socket.subscribeLendingPrice(subscribeData)
+      socket.subscribeLendingTrades(subscribeData)
+      socket.subscribeLendingOrderBook(subscribeData)
+      dispatch(lendingActionCreators.updateOHLCVLoading(false))
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))

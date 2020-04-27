@@ -123,6 +123,12 @@ export const HeaderRow = styled.div.attrs({
   className: "header",
 })`
   margin-bottom: 10px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      display: none;
+    }
+  }
 `
 
 export const SellButton = styled(Button).attrs({

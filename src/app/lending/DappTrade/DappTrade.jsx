@@ -7,7 +7,7 @@ import 'rc-tabs/assets/index.css'
 import { Link, Redirect } from "react-router-dom"
 
 import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
-import { Theme, TmColors } from '../../../components/Common'
+import { Theme } from '../../../components/Common'
 
 import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
@@ -67,20 +67,45 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
         </Grid>
 
         {currentPairName && 
-          (<BackButton to={`/dapp/lending/${currentPairName.replace(' ', '_').replace('/', '-')}`}>
-            <Icon icon="arrow-left" color={TmColors.WHITE} />
-          </BackButton>)}
+          (<Header>
+            <Pair>{currentPairName}</Pair>
+            <OrdersLink to="/dapp/lending/orders">
+              <Icon icon="document" iconSize={13} />
+              <Typo>Orders</Typo>
+            </OrdersLink>
+          </Header>)}
       </OrderFormCell>
     )
   }
 }
 
-const BackButton = styled(Link)`
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
+  right: 0;
   cursor: pointer;
-  padding: 10px;
+  padding: 0 10px;
+  height: 35px;
+  background-color: #1f2538;
+`
+
+const Pair = styled.div`
+  font-size: ${Theme.FONT_SIZE_MD};
+  font-weight: 700;
+`
+
+const OrdersLink = styled(Link)`
+  display: flex;
+  color: #6e7793;
+`
+
+const Typo = styled.span`
+  margin-left: 3px;
 `
 
 const OrderFormCell = styled(Cell).attrs({
@@ -96,8 +121,8 @@ const OrderFormCell = styled(Cell).attrs({
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 30;
-  padding-top: 35px;
+  z-index: 15;
+  padding-top: 40px;
 
   .bp3-tab {
     line-height: initial;
