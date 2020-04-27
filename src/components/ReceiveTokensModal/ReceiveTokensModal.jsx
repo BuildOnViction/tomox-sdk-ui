@@ -40,7 +40,9 @@ const ReceiveTokensModal = (props: Props) => {
           <AddressWrapper>
             <AddressText>{accountAddress}</AddressText>
             <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
-              <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}><Icon icon="applications" /></CopyIconBox> 
+              <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}>
+                <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
+              </CopyIconBox> 
             </CopyToClipboard>
           </AddressWrapper>
 

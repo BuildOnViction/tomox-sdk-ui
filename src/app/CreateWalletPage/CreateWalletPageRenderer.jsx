@@ -150,7 +150,9 @@ const WalletCreateStep = props => {
           <AddressBox>
             <Address title={address}>{address}</Address>
             <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
-              <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}><Icon icon="applications" /></CopyIconBox> 
+              <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}>
+                <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
+              </CopyIconBox> 
             </CopyToClipboard>
           </AddressBox>
         </AddressWrapper>
