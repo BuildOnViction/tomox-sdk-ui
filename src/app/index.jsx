@@ -28,6 +28,8 @@ const DappLending = lazy(_ => import('./lending/DappLending'))
 const DappLendingTrade = lazy(_ => import('./lending/DappTrade'))
 const DappLendingOrders = lazy(_ => import('./lending/DappOrders'))
 
+const DappFund = lazy(_ => import('./DappFund'))
+
 const theme = {
   dark: DarkMode,
   light: LightMode,
@@ -53,6 +55,8 @@ class App extends React.PureComponent {
 
                 <Route exact path="/markets/lending" component={LendingMarketsPage} /> 
                 <Route exact path="/lending/:pair?" component={LendingTradingPage} />                 
+                
+                <Route exact path="/dapp/fund" component={DappFund} />
                 
                 <Route exact path="/dapp/orders" component={DappOrders} />
                 <Route exact path="/dapp/:pair?" component={Dapp} />               

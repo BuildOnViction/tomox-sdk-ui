@@ -95,8 +95,7 @@ const Header = styled.div`
 `
 
 const Pair = styled.div`
-  font-size: ${Theme.FONT_SIZE_MD};
-  font-weight: 700;
+  font-size: ${Theme.FONT_SIZE_SM};
 `
 
 const OrdersLink = styled(Link)`

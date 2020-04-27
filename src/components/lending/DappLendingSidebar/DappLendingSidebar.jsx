@@ -21,7 +21,7 @@ export default function DappLendingSidebar({ currentPair }) {
             </MenuItem>
             <MenuItem>
                 <UtilityIcon name="wallet" /> 
-                Fund
+                <NavLink to="/dapp/fund">Fund</NavLink>
             </MenuItem>
             <MenuItem>
                 <Icon icon="user" iconSize={20} />

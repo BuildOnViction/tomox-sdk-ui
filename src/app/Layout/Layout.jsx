@@ -237,6 +237,7 @@ class Default extends React.PureComponent<Props, State> {
             <Route 
               exact 
               path={[
+                "/dapp/fund",
                 "/dapp/lending/:pair?",
                 "/dapp/lending/trade/:pair?",
               ]} 

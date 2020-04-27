@@ -17,7 +17,6 @@ import type { Order } from '../../../types/orders'
 import tickUrl from '../../../assets/images/tick.svg'
 import { interestPrecision, lendingAmountPrecision } from '../../../config/tokens'
 import DetailsDrawer from './DetailsDrawer'
-// import FundsTable from '../../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -81,13 +80,6 @@ const OrdersPanel = (props: Props) => {
             />
           }
         />
-        {/* <Tab
-          id="funds"
-          title={<FormattedMessage id="exchangePage.funds" />}
-          panel={
-            <FundsTable />
-          }
-        /> */}
       </TabsContainer>
     </React.Fragment>
   )
