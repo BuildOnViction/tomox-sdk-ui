@@ -75,13 +75,7 @@ function withOrderFormLogic(WrappedComponent) {
       const {collateralTokens: prevCollaterals, selectedOrder: prevSelectedOrder, currentPairData: prevPairData} = prevProps
       const {collateralTokens: currCollaterals, selectedOrder: currSelectedOrder, currentPairData} = this.props
 
-      if (
-        (!prevCollaterals && currCollaterals) ||
-        (prevCollaterals
-          && currCollaterals
-          && !prevCollaterals[0].availableBalance
-          && currCollaterals[0].availableBalance)
-      ) {        
+      if (prevCollaterals.length === 0 && currCollaterals.length > 0) {        
         this.setState({
           collateralSelected: currCollaterals[0],
         })
@@ -728,8 +722,7 @@ function withOrderFormLogic(WrappedComponent) {
       } = this
 
       const { buyMaxAmount, sellMaxAmount } = this.calcMaxAmount(borrowInterest)        
-      const filteredCollaterals = collateralTokens ? collateralTokens.filter(token => token.symbol !== currentPair.lendingTokenSymbol) : collateralTokens
-      const collateralSelectedData = (collateralTokens && collateralSelected.symbol) ? collateralTokens.find(token => token.symbol === collateralSelected.symbol) : collateralSelected
+      const collateralSelectedData = collateralSelected ? collateralTokens.find(token => token.symbol === collateralSelected.symbol) : collateralSelected
 
       return (
         <WrappedComponent
@@ -768,7 +761,7 @@ function withOrderFormLogic(WrappedComponent) {
           authenticated={authenticated}
           redirectToLoginPage={redirectToLoginPage}
           loading={loading}
-          collateralTokens={filteredCollaterals}
+          collateralTokens={collateralTokens}
           collateralSelected={collateralSelectedData}
           onCollateralSelect={handleCollateralSelect}
           profit={profit}
