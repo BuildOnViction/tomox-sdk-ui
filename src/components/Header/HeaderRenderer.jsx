@@ -162,12 +162,14 @@ const MenuWallet = (props) => {
 
                 <CopyToClipboard text={address} onCopy={copyDataSuccess}>
                     <IconBox title="Copy Address">              
-                    <Icon icon="applications" />              
+                      <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
                     </IconBox>
                 </CopyToClipboard>
 
                 <IconBox title="Go to Tomoscan">
-                    <a target="_blank" rel="noreferrer noopener" href={`${TOMOSCAN_URL}/address/${address}`}><Icon icon="document-share" /></a>
+                    <a target="_blank" rel="noreferrer noopener" href={`${TOMOSCAN_URL}/address/${address}`}>
+                      <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                    </a>
                 </IconBox>
                 </AddressWalletBox>
             </MenuItem>
@@ -300,7 +302,7 @@ const IconBox = styled.span`
     background-color: ${props => props.theme.menuBg};
   }
 
-  a {
+  a, i {
     color: ${props => props.theme.menuColor}; 
   }
 `

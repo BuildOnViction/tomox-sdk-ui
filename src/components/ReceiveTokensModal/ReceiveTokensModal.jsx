@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Icon } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
@@ -40,7 +39,9 @@ const ReceiveTokensModal = (props: Props) => {
           <AddressWrapper>
             <AddressText>{accountAddress}</AddressText>
             <CopyToClipboard text={accountAddress} onCopy={notifyCopiedSuccess}>
-              <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}><Icon icon="applications" /></CopyIconBox> 
+              <CopyIconBox title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}>
+                <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
+              </CopyIconBox> 
             </CopyToClipboard>
           </AddressWrapper>
 
