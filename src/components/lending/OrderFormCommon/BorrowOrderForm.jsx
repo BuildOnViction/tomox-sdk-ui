@@ -146,7 +146,7 @@ const BorrowOrderForm = props => {
       <Row mb="10px">
         <Title><FormattedMessage id="exchangeLendingPage.orderPlace.collateralRequired" />:</Title>
         <Value>
-          <SmallText>{estimateCollateral && truncateZeroDecimal(BigNumber(estimateCollateral).toFormat(8))}&#32;{collateralSelected.symbol}</SmallText>
+          <SmallText>{estimateCollateral && truncateZeroDecimal(BigNumber(estimateCollateral).toFormat(8))}&#32;{collateralSelected && collateralSelected.symbol}</SmallText>
         </Value>
       </Row>
 
@@ -154,9 +154,11 @@ const BorrowOrderForm = props => {
         <React.Fragment>
           <Row mb="10px">
             <Title><FormattedMessage id="portfolioPage.available" />:</Title>
-            <Value title={`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}>
-              <SmallText>{`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}</SmallText>
-            </Value>
+            {collateralSelected && (
+              <Value title={`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}>
+                <SmallText>{`${truncateZeroDecimal(BigNumber(collateralSelected.availableBalance).toFormat(pricePrecision))} ${collateralSelected.symbol}`}</SmallText>
+              </Value>
+            )}
           </Row>
 
           <Row><ErrorMessage>{errorBuy && errorBuy.message}</ErrorMessage></Row>

@@ -98,7 +98,7 @@ export default function getLendingTokensDomain(state: TokenState) {
     getTokenByAddress: address => state.tokens ? state.tokens.byAddress[address.toLowerCase()] : null,
 
     // lending collaterals
-    collaterals: _ => state.collaterals ? Object.values(state.collaterals.bySymbol) : null,
+    collaterals: _ => state.collaterals ? Object.values(state.collaterals.bySymbol) : [],
     collateralSymbols: _ => state.collaterals ? state.collaterals.symbols : [],
     collateralsBySymbol: _ => state.collaterals ? state.collaterals.bySymbol : [],
     getCollateralByAddress: address => state.collaterals ? state.collaterals.byAddress[address] : null,
