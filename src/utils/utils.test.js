@@ -68,8 +68,8 @@ describe('Parsers', () => {
   })
 
   it('parseOrders return correct data', () => {
-    const pairs = {
-      'BTC/TOMO': {
+    const pairs = [
+      {
         baseTokenAddress: "0x4d7ea2ce949216d6b120f3aa10164173615a2b6c",
         baseTokenDecimals: 18,
         baseTokenSymbol: "BTC",
@@ -78,7 +78,7 @@ describe('Parsers', () => {
         quoteTokenDecimals: 18,
         quoteTokenSymbol: "TOMO",
       },
-    }
+    ]
 
     const data = [
       {

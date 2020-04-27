@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Icon } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import {
   Theme,
