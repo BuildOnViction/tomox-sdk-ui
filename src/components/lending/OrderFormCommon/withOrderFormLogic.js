@@ -117,13 +117,16 @@ function withOrderFormLogic(WrappedComponent) {
 
     handleSelectFromOrderbook = (order) => {
       const { interest, type, total } = order
+      const { currentPair: { termValue }} = this.props
 
       if (order.side === 'BORROW') {
+        const profit = calcProfit(interest, total, termValue)
         this.setState({
           borrowInterest: interest,
           borrowAmount: '',
           lendInterest: interest,
           lendAmount: (type === 'amount') ? total : '',
+          profit,
         })
       } else {
         this.setState({
