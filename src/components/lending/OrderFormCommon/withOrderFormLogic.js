@@ -34,6 +34,17 @@ type State = {
   lendAmount: string,
 }
 
+function calcProfit(amount, interest, term) {
+  if (!Number(amount) && Number(interest) && Number(term)) return ''
+
+  const termDays = (Number(term)/60/60/24)
+  const rate = BigNumber(interest).div(100)
+  const profitPerYear = rate.times(amount)
+  const profitPerDay = profitPerYear.div(365)
+  const profit = profitPerDay.times(termDays).toFixed(defaultPricePrecision)
+  return profit
+}
+
 function withOrderFormLogic(WrappedComponent) {
   return class OrderForm extends React.PureComponent<Props, State> {
     static defaultProps = {
@@ -217,22 +228,10 @@ function withOrderFormLogic(WrappedComponent) {
         })
       } else {
         const { lendInterest } = this.state
+        const { currentPair: { termValue }} = this.props
+        const profit = calcProfit(lendInterest, amount, termValue)
 
-        if (Number(amount) && Number(lendInterest)) {
-          const { currentPair: { termValue }} = this.props
-          const termDays = (Number(termValue)/60/60/24)
-          const rate = BigNumber(lendInterest).div(100)
-          const profitPerYear = rate.times(amount)
-          const profitPerDay = profitPerYear.div(365)
-          const profit = profitPerDay.times(termDays).toFixed(defaultPricePrecision)
-
-          return this.setState({
-            lendAmount: amount,
-            profit,
-          })
-        }
-
-        this.setState({ lendAmount: amount })
+        this.setState({ profit, lendAmount: amount })
       }
     }
 
@@ -285,9 +284,13 @@ function withOrderFormLogic(WrappedComponent) {
       if (!authenticated) return
 
       if (side === 'INVEST') {
+        const { lendInterest } = this.state
         const lendAmount = (BigNumber(lendingToken.availableBalance).div(100)).times(fraction).toFixed(8)
+        const { currentPair: { termValue }} = this.props
+        const profit = calcProfit(lendInterest, lendAmount, termValue)
 
         this.setState({
+          profit,
           fraction,
           lendAmount,
           errorBuy: null,
