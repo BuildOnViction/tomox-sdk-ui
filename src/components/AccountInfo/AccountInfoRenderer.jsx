@@ -5,6 +5,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { injectIntl } from 'react-intl'
 
 function AccountRenderer({ intl, address }) {
+  if (!address) return null
+
   return (
     <Wrapper>
       <Title>Your address</Title>

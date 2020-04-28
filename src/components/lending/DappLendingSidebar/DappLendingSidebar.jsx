@@ -3,29 +3,29 @@ import styled from 'styled-components'
 import { Icon } from '@blueprintjs/core'
 import { NavLink } from 'react-router-dom'
 
-import { Theme, UtilityIcon } from '../../Common'
+import { Theme } from '../../Common'
 
 export default function DappLendingSidebar({ currentPair }) {
-    if (!currentPair) return null
+    if (!currentPair.pair) return null
     const pair = currentPair.pair.replace(' ', '_').replace('/', '-')
     
     return (
         <Wrapper>
-            <MenuItem>
+            <MenuItem to={`/dapp/lending/${pair}`}>
                 <Icon icon="timeline-bar-chart" iconSize={20} />
-                <NavLink to={`/dapp/lending/${pair}`}>Home</NavLink>
+                <Typo>Home</Typo>
             </MenuItem>
-            <MenuItem>
-                <UtilityIcon name="lending" color="#6E7793" /> 
-                <NavLink to={`/dapp/lending/trade/${pair}`}>Lending</NavLink>
+            <MenuItem to={`/dapp/lending/trade/${pair}`}>
+                <i class="tomoicons-lending"></i> 
+                <Typo>Lending</Typo>
             </MenuItem>
-            <MenuItem>
-                <UtilityIcon name="wallet" /> 
-                <NavLink to="/dapp/fund">Fund</NavLink>
+            <MenuItem to="/dapp/fund">
+                <i class="tomoicons-wallet"></i> 
+                <Typo>Fund</Typo>
             </MenuItem>
-            <MenuItem>
+            <MenuItem to="/dapp/account">
                 <Icon icon="user" iconSize={20} />
-                <NavLink to="/dapp/account">Account</NavLink>
+                <Typo>Account</Typo>
             </MenuItem>
         </Wrapper>
     )
@@ -45,9 +45,21 @@ const Wrapper = styled.div`
     padding: 0 5px;
 `
 
-const MenuItem = styled.div`
+const MenuItem = styled(NavLink)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #6e7793;
     font-size: ${Theme.FONT_SIZE_XS};
+
+    &.active,
+    &.active i::before {
+        color: #fff;
+    }
+
+    i {
+        font-size: 20px;
+    }
 `
+
+const Typo = styled.div``

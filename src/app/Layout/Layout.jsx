@@ -242,12 +242,7 @@ class Default extends React.PureComponent<Props, State> {
                 "/dapp/lending/:pair?",
                 "/dapp/lending/trade/:pair?",
               ]} 
-              component={() => <DappLendingSidebar 
-                          currentPair={currentPair}
-                          disabled={!this.isTradingPage(pathname)} 
-                          mode={mode}
-                          onChangeTheme={this.handleThemeChange}
-                        />} 
+              component={() => <DappLendingSidebar currentPair={lendingCurrentPair} />} 
             />
           </Switch>
           <MainContent>{children}</MainContent>
