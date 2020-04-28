@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 
 import { 
   // FractionList, 
-  IncreaseAndDecreaseGroup,
+  // IncreaseAndDecreaseGroup,
   InputGroupWrapper,
   TokenName,
   InputBox,
@@ -84,11 +84,11 @@ const BorrowOrderForm = props => {
 
         <TokenName>&#37;</TokenName>
 
-        <IncreaseAndDecreaseGroup
+        {/* <IncreaseAndDecreaseGroup
           type="price"
           onDecreasePrice={e => handleDecreasePrice(e, "BORROW")}
           onIncreasePrice={e => handleIncreasePrice(e, "BORROW")}
-        />
+        /> */}
       </InputBox>
 
       <InputBox>
@@ -110,11 +110,11 @@ const BorrowOrderForm = props => {
 
         <TokenName>{currentPair.lendingTokenSymbol}</TokenName>
 
-        <IncreaseAndDecreaseGroup
+        {/* <IncreaseAndDecreaseGroup
           type="amount"
           onDecreaseAmount={e => handleDecreaseAmount(e, "BORROW")}
           onIncreaseAmount={e => handleIncreaseAmount(e, "BORROW")}
-        />
+        /> */}
 
         {/* {isShowBuyMaxAmount && (
           <MaxAmountInfo title={buyMaxAmount}>
