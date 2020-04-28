@@ -6,6 +6,7 @@ import {
   getAccountDomain,
   getConnectionDomain,
   getOhlcvDomain,
+  getTokenDomain,
   getLendingPairsDomain,
 } from '../../domains'
 
@@ -18,8 +19,6 @@ import type { State, ThunkAction } from '../../types'
 import {
   parseLendingOrders,
   parseLendingTradesByAddress,
-  // parseTradesByAddress,
-  // parseOrders,
 } from '../../../utils/parsers'
 
 // eslint-disable-next-line
@@ -56,6 +55,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       socket.unsubscribeLendingTrades()      
 
       const state = getState()
+      const tokens = getTokenDomain(state).byAddress()
       const lendingPairsDomain = getLendingPairsDomain(state)
       const currentPair = lendingPairsDomain.getCurrentPair()
       const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
@@ -85,7 +85,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
           api.fetchLendingAddressTrades(userAddress), 
         ])
 
-        const orders = parseLendingOrders(ordersResult.lendings)
+        const orders = parseLendingOrders(ordersResult.lendings, tokens)
         const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
@@ -120,6 +120,7 @@ export const queryDappTradePageData = (pair): ThunkAction => {
       socket.unsubscribeLendingTrades()      
 
       const state = getState()
+      const tokens = getTokenDomain(state).byAddress()
       const lendingPairsDomain = getLendingPairsDomain(state)
       const currentPair = lendingPairsDomain.getCurrentPair()
       const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
@@ -149,7 +150,7 @@ export const queryDappTradePageData = (pair): ThunkAction => {
           api.fetchLendingAddressTrades(userAddress), 
         ])
 
-        const orders = parseLendingOrders(ordersResult.lendings)
+        const orders = parseLendingOrders(ordersResult.lendings, tokens)
         const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))

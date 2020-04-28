@@ -417,21 +417,23 @@ export const parseLendingPairsData = (pairsData, tokens) => {
   return parsed
 }
 
-export const parseLendingOrders = (orders) => {
+export const parseLendingOrders = (orders, tokens: Object[]) => {
 
   const parsed = orders.map(order => {
+    const decimals = tokens[order.lendingToken] ? tokens[order.lendingToken].decimals : 6
+
     return {
       autoTopUp: order.autoTopUp,
       collateralToken: order.collateralToken,
       createdAt: order.createdAt,
-      filledAmount: parseLendingAmount(order.filledAmount),
+      filledAmount: parseLendingAmount(order.filledAmount, decimals),
       hash: order.hash,
       interest: parseInterest(order.interest),
       key: order.key,
       lendingId: order.lendingId,
       lendingToken: order.lendingToken,
       nonce: order.nonce,
-      amount: parseLendingAmount(order.quantity),
+      amount: parseLendingAmount(order.quantity, decimals),
       side: (order.side.toLowerCase() === 'invest') ? 'Lend' : order.side,
       status: order.status,
       term: order.term,

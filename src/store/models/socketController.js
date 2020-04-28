@@ -645,8 +645,9 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
+      const tokens = getTokenDomain(state).byAddress()
       const byHash = getLendingOrdersDomain(state).byHash()
-      const order: Array<Object> = parseLendingOrders([event.payload])
+      const order: Array<Object> = parseLendingOrders([event.payload], tokens)
 
       dispatch(actionCreators.updateLendingOrders(order))
       
@@ -664,7 +665,9 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
 function handleLendingOrderCancelled(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
-      const order: Array<Object> = parseLendingOrders([event.payload])
+      const state = getState()
+      const tokens = getTokenDomain(state).byAddress()
+      const order: Array<Object> = parseLendingOrders([event.payload], tokens)
 
       dispatch(actionCreators.updateLendingOrders(order))
       dispatch(appActionCreators.addOrderCancelledNotification())
@@ -679,6 +682,7 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
+      const tokens = getTokenDomain(state).byAddress()
       const userAddress = getAccountDomain(state).address()
       const pairs = getTokenPairsDomain(state).getPairsArray()
       const matches = event.payload.matches
@@ -687,8 +691,8 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
       const userIsBorrower = matches.borrowing.userAddress.toLowerCase() === userAddress.toLowerCase()
 
       userOrders  = userIsBorrower 
-        ? parseLendingOrders([matches.borrowing]) 
-        : parseLendingOrders(matches.investing)
+        ? parseLendingOrders([matches.borrowing], tokens) 
+        : parseLendingOrders(matches.investing, tokens)
       userTrades = parseLendingTradesByAddress(userAddress, matches.lendingTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
