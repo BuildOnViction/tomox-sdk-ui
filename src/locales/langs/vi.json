@@ -172,7 +172,7 @@
   "exchangeLendingPage.orders.status": "Status",
   "exchangeLendingPage.orders.trade.closed": "Closed",
   "exchangeLendingPage.orders.trade.liquidated": "Liquidated",
-  "exchangeLendingPage.orders.trade.open": "Open({numberOfOrders})",
+  "exchangeLendingPage.orders.trade.open": "Open Orders({numberOfOrders})",
   "exchangeLendingPage.orders.trade.openContract": "Open Contract({numberOfTrades})",
   "exchangeLendingPage.orders.trade.closedContract": "Closed Contract",
   "portfolioPage.send": "Send",
