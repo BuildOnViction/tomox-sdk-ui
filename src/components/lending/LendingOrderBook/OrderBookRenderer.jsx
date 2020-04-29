@@ -177,9 +177,13 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "interest", side: "BORROW"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> 
+      <RowContentWrapper>
+        <RowContent>
+          <Cell onClick={() => onClick({...order, type: "interest", side: "BORROW"})} className="up" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+          <AmountCell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+          <Cell onClick={() => onClick({...order, type: "amount", side: "BORROW"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell> 
+        </RowContent>
+      </RowContentWrapper>
     </Row>
   )
 }
@@ -189,9 +193,13 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "interest", side: "INVEST"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>
+      <RowContentWrapper>
+        <RowContent>
+          <Cell onClick={() => onClick({...order, type: "interest", side: "INVEST"})} className="down" width={widthColumns[0]}>{BigNumber(order.interest).toFormat(2)}&#37;</Cell>
+          <AmountCell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(2)}</AmountCell>
+          <Cell onClick={() => onClick({...order, type: "amount", side: "INVEST"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(2)}</Cell>
+        </RowContent>
+      </RowContentWrapper>
     </Row>
   )
 }
@@ -279,6 +287,7 @@ const Row = styled.li.attrs({
   flex-direction: row;
   position: relative;
   width: 100%;
+  min-height: 23px;
   margin: 0px !important;
   padding: 0 10px !important;
   animation: ${props => props.update ? 
@@ -293,6 +302,22 @@ const Row = styled.li.attrs({
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
   }
+`
+
+const RowContentWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+`
+
+const RowContent = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 10px;
+  align-items: center;
 `
 
 const SellRowBackGround = styled.span`

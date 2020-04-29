@@ -109,7 +109,8 @@ function withOrderFormLogic(WrappedComponent) {
 
       if (prevSelectedOrder && 
         (prevSelectedOrder.interest !== currSelectedOrder.interest ||
-        prevSelectedOrder.amount !== currSelectedOrder.amount)
+        prevSelectedOrder.total !== currSelectedOrder.total ||
+        prevSelectedOrder.type !== currSelectedOrder.type)
       ) {
         this.handleSelectFromOrderbook(currSelectedOrder)
       }
