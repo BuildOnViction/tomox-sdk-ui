@@ -636,6 +636,14 @@ const TabsContainer = styled(Tabs)`
     padding-right: 50px;
   }
 
+  .bp3-tab-panel {
+    padding-top: 35px !important;
+  }
+
+  .funds-checkbox-hide-zero {
+    top: 29px !important;
+  }
+
   @media (max-width: 1500px) {
     & .bp3-tab-list > *:not(:last-child) {
       padding-right: 12px;
@@ -719,7 +727,7 @@ const CheckboxHidePairs = styled(Checkbox)`
   text-align: center;
   margin-bottom: 0 !important;
   position: absolute !important;
-  top: 2px;
+  top: 29px;
   right: 10px;
   user-select: none;
 

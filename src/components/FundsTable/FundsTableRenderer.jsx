@@ -284,7 +284,9 @@ const HeaderCellXs = styled(CellXs)`
   }
 `
 
-const CheckboxWrapper = styled(Checkbox)`
+const CheckboxWrapper = styled(Checkbox).attrs({
+  className: 'funds-checkbox-hide-zero',
+})`
   font-size: ${Theme.FONT_SIZE_SM};
   text-align: center;
   margin-bottom: 0 !important;
