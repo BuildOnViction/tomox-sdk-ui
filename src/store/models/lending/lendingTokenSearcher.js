@@ -31,20 +31,20 @@ export default function tokenSearcherSelector(state: State) {
   }
 }
 
-export const updateCurrentPair = (pair: string): ThunkAction => {
-    return async (dispatch, getState) => {
-      const state = getState()
-      const currentPair = getLendingPairsDomain(state).getCurrentPair()
-      if (currentPair.pair === pair) return
+export const updateCurrentPair = (lendingPair: string): ThunkAction => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const currentPair = getLendingPairsDomain(state).getCurrentPair()
+    if (currentPair.pair === lendingPair.pair) return
 
-      let { router: { location: { pathname }}} = getState()
-      pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'
-      const param = pair.replace(' ', '_').replace('/', '-')
-      dispatch(push(`/${pathname}/${param}`))
+    let { router: { location: { pathname }}} = getState()
+    pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'
+    const param = lendingPair.pair.replace(' ', '_').replace('/', '-')
+    dispatch(push(`/${pathname}/${param}`))
 
-      dispatch(actionCreators.updateCurrentPair(pair))
-      dispatch(actionCreators.updateOhlcvLoading(true))
-      dispatch(actionCreators.resetOrderbook())
-      dispatch(actionCreators.resetTradesHistory())
-    }
+    dispatch(actionCreators.updateCurrentPair(lendingPair))
+    dispatch(actionCreators.updateOhlcvLoading(true))
+    dispatch(actionCreators.resetOrderbook())
+    dispatch(actionCreators.resetTradesHistory())
+  }
 }

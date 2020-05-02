@@ -125,9 +125,12 @@ class TokenSearcher extends React.PureComponent<Props, State> {
     return result
   }
 
-  changeSelectedToken = (pair) => {    
-    if (pair.pair === this.props.currentPair.pair) return
-    this.props.updateCurrentPair(pair.pair)
+  changeSelectedToken = (lendingPair) => {    
+    if (lendingPair.pairValueAddress === this.props.currentPair.pairValueAddress) return
+
+    const { pairs } = this.props
+    const newPair = pairs.find(pair => pair.pairValueAddress === lendingPair.pairValueAddress)
+    this.props.updateCurrentPair(newPair || pairs[0])
   };
 
   render() {

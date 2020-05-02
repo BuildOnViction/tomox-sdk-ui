@@ -25,7 +25,7 @@ export default function marketsTableSelector(state: State) {
 
   const lendingTokensDomain = getLendingTokensDomain(state)
   const lendingTokens = lendingTokensDomain.tokenSymbols()
-
+  
   return {
     // loading,
     pairs,
@@ -37,7 +37,7 @@ export default function marketsTableSelector(state: State) {
 
 export function redirectToLendingPage(lendingPair): ThunkAction {
   return async (dispatch, getState) => {
-    const param = lendingPair.replace(/\s+/g, '_').replace('/', '-')
+    const param = lendingPair.pair.replace(/\s+/g, '_').replace('/', '-')
     dispatch(actionCreators.updateCurrentPair(lendingPair))
     dispatch(push(`/lending/${param}`))
   }

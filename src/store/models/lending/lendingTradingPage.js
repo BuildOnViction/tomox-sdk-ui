@@ -27,14 +27,11 @@ export default function tradingPageSelector(state: State) {
   const pairsDomain = getLendingPairsDomain(state)
   const ohlcvData = getOhlcvDomain(state).getOHLCVData()
   const { isInitiated, isConnected } = getConnectionDomain(state)
-  const {
-    pair,
-  } = pairsDomain.getCurrentPair()
-
+  const currentPair = pairsDomain.getCurrentPair()
   const authenticated = accountDomain.authenticated()
 
   return {
-    currentPairName: pair,
+    currentPairName: currentPair ? currentPair.pair : '',
     authenticated,
     isConnected,
     isInitiated,
@@ -57,6 +54,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       const state = getState()
       const tokens = getTokenDomain(state).byAddress()
       const lendingPairsDomain = getLendingPairsDomain(state)
+      const lendingPairs = lendingPairsDomain.getPairs()
       const currentPair = lendingPairsDomain.getCurrentPair()
       const pairName = pair ? pair.replace('_', ' ').replace('-', '/') : currentPair.pair
 
@@ -64,10 +62,13 @@ export const queryTradingPageData = (pair): ThunkAction => {
       pathname = pathname.includes('dapp') ? 'dapp/lending' : 'lending'   
          
       if (!pair && pairName) dispatch(push(`/${pathname}/${pairName.replace(' ', '_').replace('/', '-')}`))
-
+      
       //TODO: need to check pairName exist or not
-      if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
-        return dispatch(lendingActionCreators.updateCurrentPair(pairName))
+      if (!currentPair.pair) return
+
+      if (pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
+        const pair = lendingPairs.find(lendingPair => lendingPair.pair === pairName)
+        return dispatch(lendingActionCreators.updateCurrentPair(pair || {}))
       }
 
       const accountDomain = getAccountDomain(state)
@@ -131,7 +132,9 @@ export const queryDappTradePageData = (pair): ThunkAction => {
       // if (!pair && pairName) dispatch(push(`/${pathname}/${pairName.replace(' ', '_').replace('/', '-')}`))
 
       //TODO: need to check pairName exist or not
-      if (!currentPair.pair || pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
+      if (!currentPair.pair) return
+
+      if (pairName.toLowerCase() !== currentPair.pair.toLowerCase()) {
         return dispatch(lendingActionCreators.updateCurrentPair(pairName))
       }
 

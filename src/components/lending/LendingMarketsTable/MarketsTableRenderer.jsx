@@ -49,9 +49,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       favorited,
     } = pairs[index]
 
-
     return (
-      <Row key={key} style={style} onClick={() => redirectToLendingPage(pair)}>
+      <Row key={key} style={style} onClick={() => redirectToLendingPage(pairs[index])}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
