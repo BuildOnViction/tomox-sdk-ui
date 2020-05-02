@@ -1,9 +1,17 @@
 // @flow
-
 const INITIAL_STATE = {
-    tokens: null,
-    collaterals: null,
-    terms: null,
+    tokens: {
+      symbols: [],
+      byAddress: {},
+    },
+    collaterals: {
+      symbols: [],
+      byAddress: {},
+    },
+    terms: {
+      symbols: [],
+      byTerm: {},
+    },
 }
 
 export const initialized = () => {
@@ -15,11 +23,6 @@ export const initialized = () => {
 export const updateLendingTokens = (tokens) => {
   const symbols = tokens.map(token => token.symbol)
 
-  const bySymbol = tokens.reduce((result, token) => {
-    result[token.symbol] = token
-    return result
-  }, {})
-
   const byAddress = tokens.reduce((result, token) => {
     token.address = token.contractAddress.toLowerCase()
     result[token.address] = token
@@ -30,7 +33,6 @@ export const updateLendingTokens = (tokens) => {
       ...state,
       tokens: {
         symbols,
-        bySymbol,
         byAddress,
       },
   })
@@ -40,11 +42,6 @@ export const updateLendingTokens = (tokens) => {
 
 export const updateLendingCollaterals = (collaterals) => {
   const symbols = collaterals.map(token => token.symbol)
-
-  const bySymbol = collaterals.reduce((result, token) => {
-    result[token.symbol] = token
-    return result
-  }, {})
 
   const byAddress = collaterals.reduce((result, token) => {
     token.address = token.contractAddress.toLowerCase()
@@ -56,7 +53,6 @@ export const updateLendingCollaterals = (collaterals) => {
     ...state,
     collaterals: {
       symbols,
-      bySymbol,
       byAddress,
     },
   })
@@ -67,11 +63,6 @@ export const updateLendingCollaterals = (collaterals) => {
 export const updateLendingTerms = (terms) => {
   const symbols = terms.map(token => token.symbol)
 
-  const bySymbol = terms.reduce((result, term) => {
-    result[term.symbol] = term
-    return result
-  }, {})
-
   const byTerm = terms.reduce((result, term) => {
     result[term.term] = term
     return result
@@ -81,7 +72,6 @@ export const updateLendingTerms = (terms) => {
     ...state,
     terms: {
       symbols,
-      bySymbol,
       byTerm,
     },
   })
@@ -92,21 +82,21 @@ export const updateLendingTerms = (terms) => {
 export default function getLendingTokensDomain(state: TokenState) {
   return {
     // lending tokens
-    tokens: _ => state.tokens ? Object.values(state.tokens.bySymbol) : null,
+    tokens: _ => state.tokens ? Object.values(state.tokens.byAddress) : [],
     tokenSymbols: _ => state.tokens ? state.tokens.symbols : [],
-    tokensBySymbol: _ => state.tokens ? state.tokens.bySymbol : [],
-    getTokenByAddress: address => state.tokens ? state.tokens.byAddress[address.toLowerCase()] : null,
+    tokensByAddress: _ => state.tokens ? state.tokens.byAddress : {},
+    getTokenByAddress: address => state.tokens ? state.tokens.byAddress[address.toLowerCase()] : {},
 
     // lending collaterals
-    collaterals: _ => state.collaterals ? Object.values(state.collaterals.bySymbol) : [],
+    collaterals: _ => state.collaterals ? Object.values(state.collaterals.byAddress) : [],
     collateralSymbols: _ => state.collaterals ? state.collaterals.symbols : [],
-    collateralsBySymbol: _ => state.collaterals ? state.collaterals.bySymbol : [],
-    getCollateralByAddress: address => state.collaterals ? state.collaterals.byAddress[address] : null,
+    collateralsByAddress: _ => state.collaterals ? state.collaterals.byAddress : {},
+    getCollateralByAddress: address => state.collaterals ? state.collaterals.byAddress[address] : {},
 
-    // lending collaterals
-    terms: _ => state.terms ? Object.values(state.terms.bySymbol) : null,
+    // lending terms
+    terms: _ => state.terms ? Object.values(state.terms.byValue) : [],
     termsSymbols: _ => state.terms ? state.terms.symbols : [],
-    termsBySymbol: _ => state.terms ? state.terms.bySymbol : [],
-    getTermByValue: value => state.terms ? state.terms.byTerm[value] : null,
+    termsByValue: _ => state.terms ? state.terms.byValue : {},
+    getTermByValue: value => state.terms ? state.terms.byTerm[value] : {},
   }
 }
