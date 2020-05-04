@@ -22,8 +22,11 @@ jobs:
         - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.tar.gz ./build
       deploy:
         provider: releases
-        token: $GH_TOKEN
-        file: tomox-sdk-ui.*.tar.gz
+        api_key: $GH_TOKEN
+        skip_cleanup: true
+        file:
+          - tomox-sdk-ui.$TRAVIS_TAG.tar.gz
+          - tomox-sdk-ui.$TRAVIS_TAG.testnet.tar.gz
         overwrite: true
         on:
           tags: true
