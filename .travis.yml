@@ -13,6 +13,8 @@ jobs:
       script:
         - npm run test
     - stage: Release application
+      before_script:
+        - npm install -g sass
       script:
         - cp .env.testnet .env && npm run build
         - tar cvzf tomox-sdk-ui.$TRAVIS_TAG.testnet.tar.gz ./build
