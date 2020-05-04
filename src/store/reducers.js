@@ -268,14 +268,8 @@ export const orders = createReducer(action => {
 })
 
 export const tokens = createReducer(action => {
-  const { type, payload } = action
+  const { type } = action
   switch (type) {
-    case tokensActionTypes.updateTokensList:
-      return tokensEvents.tokenListUpdated(payload)
-    case tokensActionTypes.updateTokens:
-      return tokensEvents.tokenUpdated(payload.symbol, payload.address)
-    case tokensActionTypes.removeTokens:
-      return tokensEvents.tokenRemoved(payload.symbol)
     default:
       return tokensEvents.initialized()
   }
