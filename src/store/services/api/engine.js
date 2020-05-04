@@ -592,7 +592,7 @@ export const fetchLendingTokens = async _ => {
   }
 
   const { data } = await response.json()
-  return data
+  return data ? data : []
 }
 
 export const fetchLendingCollaterals = async _ => {
@@ -608,7 +608,7 @@ export const fetchLendingCollaterals = async _ => {
   }
 
   const { data } = await response.json()
-  return data
+  return data ? data : []
 }
 
 export const fetchLendingPairs = async _ => {
@@ -624,7 +624,7 @@ export const fetchLendingPairs = async _ => {
   }
 
   const { data } = await response.json()
-  return data
+  return data ? data : []
 } 
 
 export const fetchLendingTerms = async _ => {
