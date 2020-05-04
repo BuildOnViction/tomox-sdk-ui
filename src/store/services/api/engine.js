@@ -554,6 +554,7 @@ export const getTokensAndPairs = async () => {
         'symbol': tokensRaw[i].symbol,
         'decimals': tokensRaw[i].decimals,
         'verified': verifiedTokens.includes(address),
+        address,
       }
     }
 
