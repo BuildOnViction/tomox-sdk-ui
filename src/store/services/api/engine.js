@@ -536,8 +536,8 @@ export const getBalancesInOrders = async (address: string, tokens: Array<Object>
 export const getTokensAndPairs = async () => {
   try {
     const tokensRaw = await fetchTokens()
-    // const { data, error } = await fetchVerifiedTokens()    
-    // const verifiedTokens = !error ? data : []
+    const { data, error } = await fetchVerifiedTokens()    
+    const verifiedTokens = !error ? data : []
 
     const tokens = {}
     tokens[NATIVE_TOKEN_ADDRESS] = {
@@ -553,7 +553,7 @@ export const getTokensAndPairs = async () => {
         'name': tokensRaw[i].symbol,
         'symbol': tokensRaw[i].symbol,
         'decimals': tokensRaw[i].decimals,
-        // 'verified': verifiedTokens.includes(address),
+        'verified': verifiedTokens.includes(address),
       }
     }
 
