@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
 import { differenceInSeconds } from 'date-fns'
+import { FormattedMessage } from 'react-intl'
 
 import { sortTable } from '../../../utils/helpers'
 
@@ -247,7 +248,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
         <RepayModal
           size="sm"
-          title="Repay your borrowing"
+          title={<FormattedMessage id="exchangeLendingPage.orders.repayModal.title" />}
           isOpen={isOpenRepay}
           trade={selectedTrade}
           realInterest={realInterest}

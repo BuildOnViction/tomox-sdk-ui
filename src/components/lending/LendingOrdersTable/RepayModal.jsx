@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
+import { FormattedMessage } from 'react-intl'
 
 import { ButtonGroup, CancelButton, AcceptButton, Highlight, TmColors } from '../../Common'
 import Modal from '../../Modal'
@@ -18,24 +19,24 @@ export default function RepayModal({
 }) {
     return (
         <Modal onClose={() => onClose(false)} {...rest}>
-            <Typo>Note: you are repaying your borrowing before the pay-off date, it could make you have to imposed more fee</Typo>
+            <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.note" /></Typo>
             <RepayContent>
-                <Typo>Loan: <span><Value>{BigNumber(trade.amount).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
-                <Typo>Interest: <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
-                <Typo>Total repay: <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</Highlight></Typo>
-                <Typo>Available balance: <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
-                {errorRepay && (<Highlight color={TmColors.RED}>Your balance, not enough</Highlight>)}
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.loan" /> <span><Value>{BigNumber(trade.amount).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.interest" /> <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.total" /> <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</Highlight></Typo>
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.availableBalance" /> <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
+                {errorRepay && (<Highlight color={TmColors.RED}><FormattedMessage id="exchangeLendingPage.orders.repayModal.noReplay" /></Highlight>)}
             </RepayContent>
             <ButtonGroup>
                 <CancelButton 
                     width="47%"
-                    text="No, let me pay later"
+                    text={<FormattedMessage id="exchangeLendingPage.orders.repayModal.noReplay" />}
                     onClick={() => onClose(false)}
                 />
                 <AcceptButton 
                     width="47%"
                     onClick={onRepay} 
-                    text="Yes, I want to repay" 
+                    text={<FormattedMessage id="exchangeLendingPage.orders.repayModal.yesReplay" />} 
                 />
             </ButtonGroup>
         </Modal>
