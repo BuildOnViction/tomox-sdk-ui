@@ -659,7 +659,7 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
 
       dispatch(actionCreators.updateLendingOrders(order))
       
-      if (!byHash[order.hash]) {
+      if (byHash[order.lendingId] === '0') {
         dispatch(appActionCreators.addOrderAddedNotification())
       }
     } catch (e) {
@@ -704,11 +704,7 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
         ? parseLendingOrders([matches.borrowing], tokens) 
         : parseLendingOrders(matches.investing, tokens)
 
-      const isExchangeLendingTrades = trade => (trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase() 
-                                                || trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase())
-
-      userTrades = matches.lendingTrades.filter(isExchangeLendingTrades)
-      userTrades = parseLendingTradesByAddress(userAddress, userTrades, pairs)
+      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, userTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
@@ -723,11 +719,14 @@ function handleLendingOrderRepayedTopUped(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
-      const userAddress = getAccountDomain(state).address()
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
+
       const pairs = getTokenPairsDomain(state).getPairsArray()
       const trade = event.payload
       let userTrades = []
-      userTrades = parseLendingTradesByAddress(userAddress, [trade], pairs)
+      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, [trade], pairs)
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
     } catch (e) {
       console.log(e)

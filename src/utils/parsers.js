@@ -462,51 +462,60 @@ export const parseLendingOrders = (orders, tokens: Object[]) => {
   return parsed
 }
 
-export const parseLendingTradesByAddress = (userAddress, trades, pairs) => {
+export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades, pairs) => {
 
-  const parsed = trades.map(trade => {
+  const parsed = []
+  
+  for (let i = 0; i < trades.length; i++) {
+    if (
+      (userAddress.toLowerCase() === trades[i].borrower.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].borrowingRelayer.toLowerCase())
+      || (userAddress.toLowerCase() === trades[i].investor.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].investingRelayer.toLowerCase())
+    ) continue
+
     const pair = pairs.find(pair => 
-      (trade.collateralToken.toLowerCase() === pair.baseTokenAddress) && 
-      (trade.lendingToken.toLowerCase() === pair.quoteTokenAddress)
+      (trades[i].collateralToken.toLowerCase() === pair.baseTokenAddress) && 
+      (trades[i].lendingToken.toLowerCase() === pair.quoteTokenAddress)
     )
 
-    const liquidationPrice = parsePricepoint(trade.liquidationPrice, pair)
+    const liquidationPrice = parsePricepoint(trades[i].liquidationPrice, pair)
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
 
-    return {
-      amount: parseLendingAmount(trade.amount, pair.quoteTokenDecimals),
-      borrower: trade.borrower.toLowerCase(),
-      isBorrower: trade.borrower.toLowerCase() === userAddress.toLowerCase(),
-      borrowingFee: trade.borrowingFee,
-      borrowingOrderHash: trade.borrowingOrderHash,
-      borrowRelayer: trade.borrowRelayer,
-      collateralPrice: trade.collateralPrice,
-      collateralToken: trade.collateralToken.toLowerCase(),
-      collateralLockedAmount: parseLendingAmount(trade.collateralLockedAmount, pair.baseTokenDecimals),
-      createdAt: trade.createdAt,
-      depositRate: trade.depositRate,
-      hash: trade.hash,
-      interest: parseInterest(trade.interest),
-      investingFee: trade.investingFee,
-      investingOrderHash: trade.investingOrderHash,
-      investingRelayer: trade.investingRelayer,
-      investor: trade.investor.toLowerCase(),
-      lendingToken: trade.lendingToken.toLowerCase(),
+    const tradeParsed = {
+      amount: parseLendingAmount(trades[i].amount, pair.quoteTokenDecimals),
+      borrower: trades[i].borrower.toLowerCase(),
+      isBorrower: trades[i].borrower.toLowerCase() === userAddress.toLowerCase(),
+      borrowingFee: trades[i].borrowingFee,
+      borrowingOrderHash: trades[i].borrowingOrderHash,
+      borrowRelayer: trades[i].borrowRelayer,
+      collateralPrice: trades[i].collateralPrice,
+      collateralToken: trades[i].collateralToken.toLowerCase(),
+      collateralLockedAmount: parseLendingAmount(trades[i].collateralLockedAmount, pair.baseTokenDecimals),
+      createdAt: trades[i].createdAt,
+      depositRate: trades[i].depositRate,
+      hash: trades[i].hash,
+      interest: parseInterest(trades[i].interest),
+      investingFee: trades[i].investingFee,
+      investingOrderHash: trades[i].investingOrderHash,
+      investingRelayer: trades[i].investingRelayer,
+      investor: trades[i].investor.toLowerCase(),
+      lendingToken: trades[i].lendingToken.toLowerCase(),
       liquidationPrice,
       liquidationPricePrecision,
-      liquidationTime: trade.liquidationTime,
-      status: trade.status,
-      takerOrderSide: trade.takerOrderSide,
-      takerOrderType: trade.takerOrderType,
-      term: trade.term,
-      tradeID: trade.tradeID,
-      updatedAt: trade.updatedAt,
-      time: trade.updatedAt,
-      type: trade.type || 'LO',
-      side: (trade.investor.toLowerCase() === userAddress.toLowerCase()) ? 'LEND' : 'BORROW',
-      autoTopUp: trade.autoTopUp,
+      liquidationTime: trades[i].liquidationTime,
+      status: trades[i].status,
+      takerOrderSide: trades[i].takerOrderSide,
+      takerOrderType: trades[i].takerOrderType,
+      term: trades[i].term,
+      tradeID: trades[i].tradeID,
+      updatedAt: trades[i].updatedAt,
+      time: trades[i].updatedAt,
+      type: trades[i].type || 'LO',
+      side: (trades[i].investor.toLowerCase() === userAddress.toLowerCase()) ? 'LEND' : 'BORROW',
+      autoTopUp: trades[i].autoTopUp,
     }
-  })
+
+    parsed.push(tradeParsed)
+  }
 
   return parsed
 }
