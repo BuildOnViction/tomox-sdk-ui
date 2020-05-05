@@ -693,7 +693,9 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
     try {
       const state = getState()
       const tokens = getTokenDomain(state).byAddress()
-      const userAddress = getAccountDomain(state).address()
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
       const pairs = getTokenPairsDomain(state).getPairsArray()
       const matches = event.payload.matches
       let userOrders = []
@@ -703,7 +705,12 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
       userOrders  = userIsBorrower 
         ? parseLendingOrders([matches.borrowing], tokens) 
         : parseLendingOrders(matches.investing, tokens)
-      userTrades = parseLendingTradesByAddress(userAddress, matches.lendingTrades, pairs)
+
+      const isExchangeLendingTrades = trade => (trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase() 
+                                                || trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase())
+
+      userTrades = matches.lendingTrades.filter(isExchangeLendingTrades)
+      userTrades = parseLendingTradesByAddress(userAddress, userTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
