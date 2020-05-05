@@ -197,32 +197,39 @@ export const parseTrades = (trades: Trades, pair: TokenPair, currAmountPrecision
   return parsed
 }
 
-export const parseTradesByAddress = (userAddress, trades: Trades, pairs: Object[], currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseTradesByAddress = (userAddress: String, exchangeAddress: String, trades: Trades, pairs: Object[], currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
   const parsed = []
   
-  trades.forEach(trade => {
-    const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === trade.baseToken.toLowerCase() && item.quoteTokenAddress.toLowerCase() === trade.quoteToken.toLowerCase())
+  for (let i = 0; i < trades.length; i++) {
+    if (
+      (userAddress.toLowerCase() === trades[i].maker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].makerExchange.toLowerCase())
+      || (userAddress.toLowerCase() === trades[i].taker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].takerExchange.toLowerCase())
+    ) continue
+
+    const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === trades[i].baseToken.toLowerCase() 
+                                  && item.quoteTokenAddress.toLowerCase() === trades[i].quoteToken.toLowerCase())
+    
     const tradeParsed = {
-      time: trade.createdAt,
-      price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
-      amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
-      hash: trade.hash,
-      txHash: trade.txHash,
-      orderHash: trade.orderHash,
-      type: trade.takerOrderType,
-      side: trade.takerOrderSide,
+      time: trades[i].createdAt,
+      price: parsePricepoint(trades[i].pricepoint, pair, currPricePrecision),
+      amount: parseTokenAmount(trades[i].amount, pair, currAmountPrecision),
+      hash: trades[i].hash,
+      txHash: trades[i].txHash,
+      orderHash: trades[i].orderHash,
+      type: trades[i].takerOrderType,
+      side: trades[i].takerOrderSide,
       pair: pair.pair,
-      status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
-      maker: utils.getAddress(trade.maker),
-      taker: utils.getAddress(trade.taker),
+      status: trades[i].status === 'SUCCESS' ? 'EXECUTED' : trades[i].status,
+      maker: utils.getAddress(trades[i].maker),
+      taker: utils.getAddress(trades[i].taker),
     }
 
-    if (userAddress === utils.getAddress(trade.maker)) {
+    if (userAddress === utils.getAddress(trades[i].maker)) {
       tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
     }
 
     parsed.push(tradeParsed)
-  })
+  }
 
   return parsed
 }

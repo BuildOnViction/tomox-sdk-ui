@@ -272,8 +272,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         userOrders = [parsedOrder]
 
         for (let i = 0; i < matches.trades.length; i++) {
-          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
-            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+          if (matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
           
           userTrades.push(parseTrade(matches.trades[i], pairInfo))
         }
@@ -291,8 +290,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         for (let i = 0; i < matches.trades.length; i++) {
-          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
-            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
 
           if (utils.getAddress(trades[i].maker).toLowerCase() === signerAddress.toLowerCase()) {
             const tradeParsed = parseTrade(trades[i], pairInfo)

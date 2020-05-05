@@ -81,6 +81,7 @@ export const queryTradingPageData = (): ThunkAction => {
 
       if (authenticated) {
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         let [
           orders,
@@ -91,7 +92,7 @@ export const queryTradingPageData = (): ThunkAction => {
         ])
 
         orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, exchangeAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
@@ -128,6 +129,7 @@ export const queryDappTradePageData = (): ThunkAction => {
 
       if (authenticated) {
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         let [
           orders,
@@ -138,7 +140,7 @@ export const queryDappTradePageData = (): ThunkAction => {
         ])
 
         orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, exchangeAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
