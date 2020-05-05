@@ -254,6 +254,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
     try {
       const state = getState()
       const { pairs } = socketControllerSelector(state)
+      const exchangeAddress = getAccountDomain(state).exchangeAddress()
       const signer = getSigner()
       const signerAddress = await signer.getAddress()
       const matches = event.payload.matches
@@ -270,7 +271,13 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         const parsedOrder = parseOrder(matches.takerOrder, pairInfo)
         userOrders = [parsedOrder]
 
-        userTrades = matches.trades.map(trade => parseTrade(trade, pairInfo))
+        for (let i = 0; i < matches.trades.length; i++) {
+          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
+            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+          
+          userTrades.push(parseTrade(matches.trades[i], pairInfo))
+        }
+
         const { price, amount, side, filled, pair } = parsedOrder
         dispatch(appActionCreators.addOrderSuccessNotification({ txHash, pair, price, amount, filled, side }))
       } else {
@@ -283,13 +290,16 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
           }
         })
 
-        matches.trades.forEach(trade => {
-          if (utils.getAddress(trade.maker).toLowerCase() === signerAddress.toLowerCase()) {
-            const tradeParsed = parseTrade(trade, pairInfo)
+        for (let i = 0; i < matches.trades.length; i++) {
+          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
+            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+
+          if (utils.getAddress(trades[i].maker).toLowerCase() === signerAddress.toLowerCase()) {
+            const tradeParsed = parseTrade(trades[i], pairInfo)
             tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
             userTrades.push(tradeParsed)
           }
-        })
+        }
       }
       
       if (userOrders.length > 0) dispatch(actionCreators.updateOrdersTable(userOrders))
