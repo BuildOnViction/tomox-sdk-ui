@@ -397,23 +397,29 @@ export const parseLendingTrades = (trades: Trades, decimals) => {
   return parsed
 }
 
-export const parseLendingPairsData = (pairsData, tokens) => {  
-  const parsed = (pairsData: any).map(item => {
-    const decimals = tokens[item.lendingID.lendingToken.toLowerCase()].decimals
+export const parseLendingPairsData = (pairsData: Array<Object>, tokens: Object) => {  
+  const parsed = []
+  
+  for (let i = 0; i < pairsData.length; i++) {
+    if (!tokens[pairsData[i].lendingID.lendingToken.toLowerCase()]) continue
 
-    return {
-      open: parseInterest(item.open),
-      close: parseInterest(item.close),
-      high: parseInterest(item.high),
-      low: parseInterest(item.low),
-      pair: getLendingPairName(item.lendingID.name),
-      pairValueAddress: `${item.lendingID.term}/${item.lendingID.lendingToken.toLowerCase()}`,
-      lendingToken: item.lendingID.lendingToken.toLowerCase(),
-      term: Number(item.lendingID.term),
-      volume: item.volume ? parseLendingAmount(item.volume, decimals) : 0,
-      change: computeChange(item.open, item.close),
+    const decimals = tokens[pairsData[i].lendingID.lendingToken.toLowerCase()].decimals
+
+    const tradePased = {
+      open: parseInterest(pairsData[i].open),
+      close: parseInterest(pairsData[i].close),
+      high: parseInterest(pairsData[i].high),
+      low: parseInterest(pairsData[i].low),
+      pair: getLendingPairName(pairsData[i].lendingID.name),
+      pairValueAddress: `${pairsData[i].lendingID.term}/${pairsData[i].lendingID.lendingToken.toLowerCase()}`,
+      lendingToken: pairsData[i].lendingID.lendingToken.toLowerCase(),
+      term: Number(pairsData[i].lendingID.term),
+      volume: pairsData[i].volume ? parseLendingAmount(pairsData[i].volume, decimals) : 0,
+      change: computeChange(pairsData[i].open, pairsData[i].close),
     }
-  })
+
+    parsed.push(tradePased)
+  }
 
   return parsed
 }
