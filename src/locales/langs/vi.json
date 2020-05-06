@@ -158,6 +158,7 @@
   "exchangeLendingPage.orderPlace.selectCollateral": "Select collateral",
   "exchangeLendingPage.orderPlace.estimatedProfit": "Estimated profit",
   "exchangeLendingPage.orderPlace.collateralRequired": "Collateral required",
+  "exchangeLendingPage.orderPlace.onlyForTomoWallet": "Only for TomoWallet",
   "exchangeLendingPage.orderbook.interest": "Interest(APR)",
   "exchangeLendingPage.orderbook.amount": "Amount({symbol})",
   "exchangeLendingPage.orderbook.amountWithoutSymbol": "Amount",
