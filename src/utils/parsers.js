@@ -201,10 +201,8 @@ export const parseTradesByAddress = (userAddress: String, exchangeAddress: Strin
   const parsed = []
   
   for (let i = 0; i < trades.length; i++) {
-    if (
-      (userAddress.toLowerCase() === trades[i].maker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].makerExchange.toLowerCase())
-      || (userAddress.toLowerCase() === trades[i].taker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].takerExchange.toLowerCase())
-    ) continue
+    if (userAddress.toLowerCase() === trades[i].maker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].makerExchange.toLowerCase()) continue
+    if (userAddress.toLowerCase() === trades[i].taker.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].takerExchange.toLowerCase()) continue
 
     const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === trades[i].baseToken.toLowerCase() 
                                   && item.quoteTokenAddress.toLowerCase() === trades[i].quoteToken.toLowerCase())
@@ -467,10 +465,8 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
   const parsed = []
   
   for (let i = 0; i < trades.length; i++) {
-    if (
-      (userAddress.toLowerCase() === trades[i].borrower.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].borrowingRelayer.toLowerCase())
-      || (userAddress.toLowerCase() === trades[i].investor.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].investingRelayer.toLowerCase())
-    ) continue
+    if (userAddress.toLowerCase() === trades[i].borrower.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].borrowingRelayer.toLowerCase()) continue
+    if (userAddress.toLowerCase() === trades[i].investor.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].investingRelayer.toLowerCase()) continue
 
     const pair = pairs.find(pair => 
       (trades[i].collateralToken.toLowerCase() === pair.baseTokenAddress) && 

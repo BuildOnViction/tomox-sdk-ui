@@ -704,7 +704,7 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
         ? parseLendingOrders([matches.borrowing], tokens) 
         : parseLendingOrders(matches.investing, tokens)
 
-      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, userTrades, pairs)
+      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, matches.lendingTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
