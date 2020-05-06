@@ -70,7 +70,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
           (<Header>
             <Pair>{currentPairName}</Pair>
             <OrdersLink to="/dapp/lending/orders">
-              <i class="fa fa-file-text-o" aria-hidden="true"></i>
+              <i className="fa fa-file-text-o" aria-hidden="true"></i>
               <Typo>Orders</Typo>
             </OrdersLink>
           </Header>)}
