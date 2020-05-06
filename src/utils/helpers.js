@@ -359,3 +359,14 @@ export const convertTermsToObjects = (terms: Array<term>) => {
     term,
   }))
 }
+
+export const formatAmount = (amount: string) => {
+  if (!amount) return 0
+
+  switch (true) {
+    case (Number(amount) >= 1):
+      return BigNumber(amount).toFormat(2)
+    default:
+      return BigNumber(amount).toFormat(4)
+  }
+}

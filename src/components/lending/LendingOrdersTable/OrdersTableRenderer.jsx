@@ -19,7 +19,7 @@ import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../../Common'
-import { formatDate, capitalizeFirstLetter } from '../../../utils/helpers'
+import { formatDate, capitalizeFirstLetter, formatAmount } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
 
@@ -414,13 +414,15 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
         </Cell>
         <Cell width={columnsTradeHistory['collateral']} muted>
-          {BigNumber(order.collateralLockedAmount).toFormat()} {order.collateralTokenSymbol}
+          {formatAmount(order.collateralLockedAmount)} {order.collateralTokenSymbol}
         </Cell>
         <Cell width={columnsTradeHistory['status']} muted>
           {TRADE_STATUS[order.status]}
         </Cell>
         <Cell width={columnsTradeHistory['actions']} muted>
-          <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">Details</Link>
+          <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">
+            Details
+          </Link>
         </Cell>
       </Row>
     )
@@ -505,7 +507,7 @@ const OpenTradesTable = ({
           {BigNumber(order.liquidationPrice).toFormat(order.liquidationPricePrecision)}
         </Cell>
         <Cell width={columnsOpenTrades['collateral']} muted>
-          {BigNumber(order.collateralLockedAmount).toFormat()} {order.collateralTokenSymbol}
+          {formatAmount(order.collateralLockedAmount)} {order.collateralTokenSymbol}
         </Cell>
         <Cell width={columnsOpenTrades['actions']} muted>
           {
