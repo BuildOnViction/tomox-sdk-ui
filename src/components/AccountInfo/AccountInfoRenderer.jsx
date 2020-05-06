@@ -16,7 +16,7 @@ function AccountRenderer({ intl, address }) {
         <CopyToClipboard text={address}>
           <CopyButton title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}>
             <Typo>Copy</Typo>
-            <i class="fa fa-clone" aria-hidden="true"></i>
+            <i className="fa fa-clone" aria-hidden="true"></i>
           </CopyButton> 
         </CopyToClipboard>
       </AlignCenter>    

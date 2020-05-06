@@ -1,0 +1,75 @@
+html.theme-dark .chart-page,
+html.theme-dark .group-wWM3zP_M-,
+html.theme-dark .drawingToolbar-U3_QXRof-,
+html.theme-dark .group-2JyOhh7Z-,
+html.theme-dark .chart-controls-bar {
+    background: #252C40;
+}
+
+html.theme-light .chart-page,
+html.theme-light .group-wWM3zP_M-,
+html.theme-light .drawingToolbar-U3_QXRof-,
+html.theme-light .group-2JyOhh7Z-,
+html.theme-light .chart-controls-bar {
+    background: #fff;
+}
+
+.chart-container {
+    border: none !important;
+}
+
+.layout__area--top {
+    left: 0 !important;
+}
+
+html.theme-dark .layout__area--center {
+    border-top: 1px solid #394362;
+}
+
+html.theme-dark .layout__area--left {
+    border-right: 1px solid #394362;
+    border-top: 1px solid #394362;
+    top: 38px !important;
+    height: calc(100% - 38px) !important;
+}
+
+html.theme-light .layout__area--center {
+    border-top: 1px solid #d7e1ea;
+}
+
+html.theme-light .layout__area--left {
+    border-right: 1px solid #d7e1ea;
+    border-top: 1px solid #d7e1ea;
+    top: 38px !important;
+    height: calc(100% - 38px) !important;
+}
+
+.tv-dialog {
+    top: 38px !important;
+}
+
+.fill-2axUON87- {
+    display: none;
+}
+
+.pane-legend-line.pane-legend-wrap .pane-legend-item-value-container,
+.chart-toolbar.chart-controls-bar .toolbar-2MJefnwP- {
+    font-size: 12px !important;
+}
+
+.chart-toolbar.chart-controls-bar {
+    height: 30px;
+}
+
+.pane-legend-line.pane-legend-wrap .pane-legend-item-value {
+    padding-left: 2px;
+}
+
+@media only screen and (max-width: 480px) {
+    #header-toolbar-indicators .js-button-text,
+    .group-wWM3zP_M-:nth-last-child(2),
+    .control-bar-wrapper,
+    .chart-toolbar.chart-controls-bar {
+        display: none;
+    }
+}
