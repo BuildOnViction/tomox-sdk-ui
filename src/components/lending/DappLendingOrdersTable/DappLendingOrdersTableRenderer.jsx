@@ -33,12 +33,12 @@ type Props = {
 const DappLendingOrdersTableRenderer = (props: Props ) => {
   const {
     selectedPanel,
-    handlePanelChange,
+    handleChangePanel,
     ...rest
   } = props
 
   return (
-    <PanelTabs id="orders-contracts" onChange={handlePanelChange} selectedPanel={selectedPanel}>
+    <PanelTabs id="orders-contracts" onChange={handleChangePanel} selectedPanel={selectedPanel}>
       <Tab id="orders" title="Orders" panel={<OrdersPanel {...rest} />} />
       <Tab id="contracts" title="Contracts" panel={<TradesPanel {...rest} />} />
     </PanelTabs>

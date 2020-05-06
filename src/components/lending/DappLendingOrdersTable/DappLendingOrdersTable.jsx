@@ -36,7 +36,12 @@ class DappLendingOrdersTable extends React.PureComponent<Props, State> {
   }
 
   handleChangePanel = (panelId: string) => {
-    this.setState({ selectedPanel: panelId })
+    const selectedTabId = (panelId === 'orders') ? 'open-orders' : 'open-trades'
+
+    this.setState({ 
+      selectedPanel: panelId,
+      selectedTabId,
+    })
   }
 
   changeTab = (tabId: string) => {

@@ -2,7 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Icon } from '@blueprintjs/core'
 import 'rc-tabs/assets/index.css'
 import { Link, Redirect } from "react-router-dom"
 
