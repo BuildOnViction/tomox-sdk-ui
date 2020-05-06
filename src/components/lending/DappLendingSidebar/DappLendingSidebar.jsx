@@ -21,7 +21,7 @@ export default function DappLendingSidebar({ currentPair }) {
             </MenuItem>
             <MenuItem to="/dapp/fund">
                 <i class="tomoicons-wallet"></i> 
-                <Typo>Fund</Typo>
+                <Typo>Funds</Typo>
             </MenuItem>
             <MenuItem to="/dapp/account">
                 <Icon icon="user" iconSize={20} />
