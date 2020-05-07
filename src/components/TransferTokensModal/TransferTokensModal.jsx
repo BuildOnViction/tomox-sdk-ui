@@ -22,7 +22,7 @@ const TransferTokensModal = (props: Props) => (
     onClose={props.handleClose}
     className={`${props.mode}-dialog sm`}
   >
-    <TransferTokensFormContainer token={props.token} tokens={props.tokens} />
+    <TransferTokensFormContainer />
   </ModalWrapper>
 )
 

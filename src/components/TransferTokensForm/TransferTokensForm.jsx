@@ -39,7 +39,7 @@ type Props = {
 
 class TransferTokensForm extends React.PureComponent<Props, State> {
   state = {
-    token: this.props.token || this.props.tokens[0],
+    token: this.props.tokens[0] || {},
     amount: 0,
     receiver: '',
     sender: '',
