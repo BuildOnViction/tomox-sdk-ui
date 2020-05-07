@@ -89,7 +89,7 @@ const Header = styled.div`
   right: 0;
   cursor: pointer;
   padding: 0 10px;
-  height: 35px;
+  height: 40px;
   background-color: #1f2538;
 `
 
@@ -121,7 +121,7 @@ const OrderFormCell = styled(Cell).attrs({
   top: 0;
   bottom: 0;
   z-index: 15;
-  padding-top: 42px;
+  padding-top: 45px;
 
   .bp3-tab {
     line-height: initial;
