@@ -73,9 +73,10 @@ export function redirectToLendingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
     const state = getState()
     const lendingPairSymbols = getLendingPairsDomain(state).getPairs()
-    let lendingPair = lendingPairSymbols.find(pair => pair.includes(symbol))
-    lendingPair = lendingPair ? lendingPair : (lendingPairSymbols[0] ? lendingPairSymbols[0] : '1_Day_USDT')
-    
-    dispatch(push(`/lending/${lendingPair.replace(' ', '_').replace('/', '-')}`))
+    if (!lendingPairSymbols.length) return
+
+    let lendingPair = lendingPairSymbols.find(pair => pair.pair.includes(symbol))
+    lendingPair = lendingPair ? lendingPair : lendingPairSymbols[0]
+    dispatch(push(`/lending/${lendingPair.pair.replace(' ', '_').replace('/', '-')}`))
   }
 }
