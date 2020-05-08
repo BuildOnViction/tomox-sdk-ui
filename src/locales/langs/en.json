@@ -168,7 +168,7 @@
   "exchangeLendingPage.orders.actions": "Actions",
   "exchangeLendingPage.orders.collateral": "Collateral",
   "exchangeLendingPage.orders.openDate": "Open Date",
-  "exchangeLendingPage.orders.closeDate": "Close Date",
+  "exchangeLendingPage.orders.closeDate": "Maturity Date",
   "exchangeLendingPage.orders.liqPrice": "Liq Price",
   "exchangeLendingPage.orders.status": "Status",
   "exchangeLendingPage.orders.trade.closed": "Closed",
