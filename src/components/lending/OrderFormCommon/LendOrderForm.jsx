@@ -57,7 +57,7 @@ const LendOrderForm = props => {
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.lendingTokenSymbol} in {currentPair.termSymbol}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.lendingTokenSymbol} for {currentPair.termSymbol}</BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>

@@ -61,7 +61,7 @@ const BorrowOrderForm = props => {
     <Wrapper>
       <HeaderRow>
         <BaseToken>
-          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.lendingTokenSymbol} in {currentPair.termSymbol}
+          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.lendingTokenSymbol} for {currentPair.termSymbol}
         </BaseToken>
       </HeaderRow>
 
