@@ -44,9 +44,13 @@ export default function tokenSearcherSelector(state: State) {
   }
 }
 
-export const updateCurrentPair = (pair: string): ThunkAction => {
+export const updateCurrentPair = (pairName: string): ThunkAction => {
     return async (dispatch, getState) => {
-      const param = pair.replace('/', '-')
+      const state = getState()
+      const pairs = getTokenPairsDomain(state).getPairsByCode()
+      const pair = pairs[pairName]
+
+      const param = pairName.replace('/', '-')
       let { router: { location: { pathname }}} = getState()
       pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
 

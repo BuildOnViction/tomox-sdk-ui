@@ -17,8 +17,8 @@ import type {
 
 export const initialized = (customInitialState?: TokenPairState) => {
   const addresses = JSON.parse(sessionStorage.getItem('addresses'))
-  const defaultTokenPairs = addresses ? Object.values(addresses.pairs) : []
-  const defaultTokenPair = defaultTokenPairs[0]
+  const defaultTokenPairs = addresses ? addresses.pairs : {}
+  const defaultTokenPair = Object.values(defaultTokenPairs)
 
   const defaultInitialState: TokenPairState = {
     byPair: defaultTokenPairs,
