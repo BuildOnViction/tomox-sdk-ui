@@ -303,7 +303,7 @@ export const parseTokenPairsData = (data: APIPairData, pairs: Object): Array<Tok
 
 export const parsePriceBoardData = (data: APIPairData, pair: Object): Array<TokenPair> => {
   const { last_trade_price, ticks, usd } = data
-  if (ticks.length === 0 && last_trade_price === '?') return
+  if (!ticks || (ticks.length === 0 && last_trade_price === '?')) return
 
   let price = parsePricepoint(last_trade_price, pair)
   const { pricePrecision, amountPrecision } = calcPrecision(price)

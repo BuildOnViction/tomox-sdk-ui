@@ -170,30 +170,6 @@ export const releaseResources = (): ThunkAction => {
   }
 }
 
-export function toggleAllowances(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
-  return async (dispatch, getState, { txProvider }) => {
-    try {
-      const state = getState()
-      const tokens = getTokenDomain(state).bySymbol()
-      const baseTokenAddress = tokens[baseTokenSymbol].address
-      const quoteTokenAddress = tokens[quoteTokenSymbol].address
-
-      const txConfirmHandler = (txConfirmed) => {
-        txConfirmed
-          ? dispatch(notifierActionCreators.addSuccessNotification({ message: `Approval Successful. You can now start trading!` }))
-          : dispatch(notifierActionCreators.addErrorNotification({ message: `Approval Failed. Please try again.` }))
-      }
-
-      txProvider.updatePairAllowances(baseTokenAddress, quoteTokenAddress, txConfirmHandler)
-      dispatch(notifierActionCreators.addSuccessNotification({ message: `Unlocking ${baseTokenSymbol}/${quoteTokenSymbol} trading. Your transaction should be approved within a few minutes` }))
-
-    } catch (e) {
-      console.log(e)
-      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
-    }
-  }
-}
-
 // eslint-disable-next-line
 export const updateCurrentPair = (pair: string): ThunkAction => {
   return async (dispatch, getState, { api, socket }) => {

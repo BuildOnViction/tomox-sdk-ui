@@ -1,8 +1,8 @@
 //@flow
-import { quoteTokens } from '../../config/quotes'
-import { tokens } from '../../config/tokens'
+// import { quoteTokens } from '../../config/quotes'
+// import { tokens } from '../../config/tokens'
 import {
-  generateTokenPairs,
+  // generateTokenPairs,
   getPairSymbol,
 } from '../../utils/tokens'
 
@@ -16,13 +16,15 @@ import type {
 } from '../../types/tokens'
 
 export const initialized = (customInitialState?: TokenPairState) => {
-  const defaultTokenPairs = generateTokenPairs(quoteTokens, tokens)
-  const defaultTokenPair = Object.values(defaultTokenPairs)[0]
+  const addresses = JSON.parse(sessionStorage.getItem('addresses'))
+  const defaultTokenPairs = addresses ? Object.values(addresses.pairs) : []
+  const defaultTokenPair = defaultTokenPairs[0]
+
   const defaultInitialState: TokenPairState = {
     byPair: defaultTokenPairs,
     data: {},
     favorites: [],
-    currentPair: (defaultTokenPair: any).pair,
+    currentPair: defaultTokenPair || {},
     currentPairData: null,
     sortedPairs: [],
     smallChartsData: null,
@@ -227,7 +229,7 @@ export default function getTokenPairsDomain(state: TokenPairState) {
     getTokenPairsData: () => state.data,
     getTokenPairsDataArray: () => Object.values(state.data),
     getFavoritePairs: () => state.favorites,
-    getCurrentPair: (): TokenPair => state.byPair[state.currentPair] || {},
+    getCurrentPair: (): TokenPair => state.currentPair || {},
     getCurrentPairData: () => state.currentPairData,
 
     //Merge token pair properties and data

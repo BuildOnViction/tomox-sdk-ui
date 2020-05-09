@@ -559,12 +559,12 @@ export const getTokensAndPairs = async () => {
     }
 
     const pairsRaw = await fetchPairs()
-    const pairs = []
 
-    for (let j = 0; j < pairsRaw.length; j++) {
-      const pair = `${pairsRaw[j].baseTokenSymbol}/${pairsRaw[j].quoteTokenSymbol}`
-      pairs.push(pair)
-    }
+    const pairs = pairsRaw.reduce((result, item) => {
+      const pair = `${item.baseTokenSymbol}/${item.quoteTokenSymbol}`
+      result[pair] = {...item, pair}
+      return result
+    }, {})
 
     const addresses = {
       tokens,

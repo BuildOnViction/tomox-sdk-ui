@@ -78,7 +78,7 @@ export function queryAppData(): ThunkAction {
     const { pair } = getTokenPairsDomain(state).getCurrentPair() || {}
     const { router: { location: { pathname }}} = state
     const pairParam = pathname.match(/.*\/(trade|dapp)\/?(.*)$/i)
-    let currentPair = (pairParam && pairParam[2]) ? pairParam[2].replace('-', '/').toUpperCase() : pair ? pair : ''
+    let currentPairName = (pairParam && pairParam[2]) ? pairParam[2].replace('-', '/').toUpperCase() : pair ? pair.pair : ''
 
     try {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
@@ -102,9 +102,8 @@ export function queryAppData(): ThunkAction {
       dispatch(layoutCreators.updateExchangeAddress(exchangeAddress))
       dispatch(layoutCreators.updateExchangeFee(fee))
 
-      const {pairs: pairNames} = addresses
-      currentPair = (currentPair && pairNames.includes(currentPair)) ? currentPair : pairNames[0]
-      dispatch(actionCreators.updateCurrentPair(currentPair))
+      const tokensPairs = addresses.pairs
+      if (tokensPairs[currentPairName]) dispatch(actionCreators.updateCurrentPair(tokensPairs[currentPairName]))
       
       const lendingPairs = await api.fetchLendingPairs()
       dispatch(layoutCreators.updateLendingPairs(lendingPairs))

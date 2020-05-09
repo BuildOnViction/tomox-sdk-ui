@@ -3,6 +3,7 @@ import {
   getAccountBalancesDomain,
   getAccountDomain,
   getTokenDomain,
+  getTokenPairsDomain,
   getTransferTokensFormDomain,
   getSettingsDomain,
   getLendingTokensDomain,
@@ -51,21 +52,16 @@ export default function walletPageSelector(state: State) {
 
 export function redirectToTradingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
-    const quoteTokenIndex = quoteTokenSymbols.indexOf(symbol)
-    let baseTokenSymbol, quoteTokenSymbol
+    const state = getState()
+    const pairs = getTokenPairsDomain(state).getPairsArray()
 
-    if (quoteTokenIndex === 0) {
-      baseTokenSymbol = quoteTokenSymbols[1]
-      quoteTokenSymbol = quoteTokenSymbols[0]
-    } else {
-      baseTokenSymbol = symbol
-      quoteTokenSymbol = quoteTokenSymbols[0]
-    }
+    if (!pairs.length) return
 
-    const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
+    let pair = pairs.find(pair => pair.pair.includes(symbol))
+    pair = pair ? pair : pairs[0]
 
     dispatch(actionCreators.updateCurrentPair(pair))
-    dispatch(push('/trade'))
+    dispatch(push(`/trade/${pair.pair.replace('/', '-')}`))
   }
 }
 
