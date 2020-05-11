@@ -1,7 +1,7 @@
 import * as eventCreators from './tokenPairs'
-import { generateTokenPairs } from '../../utils/tokens'
+// import { generateTokenPairs } from '../../utils/tokens'
 import getTokenPairsDomain from './tokenPairs'
-import { quoteTokens } from '../../config/quotes'
+// import { quoteTokens } from '../../config/quotes'
 
 //createInitialState is not an eventCreator. We simply import it in order to create a new
 //create an initial state. The default initial state used in the application has to many
@@ -9,21 +9,303 @@ import { quoteTokens } from '../../config/quotes'
 //to test the token pair model
 // const symbols = ['TOMO', 'EOS', 'WETH', 'ZRX']
 
-const tokensBySymbol = {
-  TOMO: { symbol: 'TOMO', address: '0x0000000000000000000000000000000000000001' },
-  EOS: { symbol: 'EOS', address: '0x8d0a722b76c0dcb91bf62334afd11f925c0adb95' },
-  WETH: { symbol: 'WETH', address: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6' },
-  ZRX: { symbol: 'ZRX', address: '0xc73eec564e96e6653943d6d0e32121d455917653' },
+// const tokensBySymbol = {
+//   TOMO: { symbol: 'TOMO', address: '0x0000000000000000000000000000000000000001' },
+//   EOS: { symbol: 'EOS', address: '0x8d0a722b76c0dcb91bf62334afd11f925c0adb95' },
+//   WETH: { symbol: 'WETH', address: '0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6' },
+//   ZRX: { symbol: 'ZRX', address: '0xc73eec564e96e6653943d6d0e32121d455917653' },
+// }
+
+// const tokens = Object.values(tokensBySymbol)
+// const defaultPairs = generateTokenPairs(quoteTokens, tokens)
+
+const addresses = {
+  "tokens": {
+    "0x0000000000000000000000000000000000000001": {
+      "name": "TOMO",
+      "symbol": "TOMO",
+      "decimals": 18,
+      "verified": false,
+      "address": "0x0000000000000000000000000000000000000001",
+    },
+    "0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9": {
+      "name": "ETH",
+      "symbol": "ETH",
+      "decimals": 18,
+      "verified": true,
+      "address": "0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9",
+    },
+    "0x576201ac3f1e0fe483a9320dacc4b08eb3e58306": {
+      "name": "ADA",
+      "symbol": "ADA",
+      "decimals": 0,
+      "verified": false,
+      "address": "0x576201ac3f1e0fe483a9320dacc4b08eb3e58306",
+    },
+    "0xfdf68de6dffd893221fc9f7985febc2ab20761a6": {
+      "name": "BCH",
+      "symbol": "BCH",
+      "decimals": 18,
+      "verified": false,
+      "address": "0xfdf68de6dffd893221fc9f7985febc2ab20761a6",
+    },
+    "0xd9bb01454c85247b2ef35bb5be57384cc275a8cf": {
+      "name": "EOS",
+      "symbol": "EOS",
+      "decimals": 18,
+      "verified": false,
+      "address": "0xd9bb01454c85247b2ef35bb5be57384cc275a8cf",
+    },
+    "0xc2fa1ba90b15e3612e0067a0020192938784d9c5": {
+      "name": "BTC",
+      "symbol": "BTC",
+      "decimals": 8,
+      "verified": true,
+      "address": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+    },
+    "0x45c25041b8e6cbd5c963e7943007187c3673c7c9": {
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 6,
+      "verified": true,
+      "address": "0x45c25041b8e6cbd5c963e7943007187c3673c7c9",
+    },
+    "0x6f98655a8fa7aeef3147ee002c666d09c7aa4f5c": {
+      "name": "LTC",
+      "symbol": "LTC",
+      "decimals": 18,
+      "verified": false,
+      "address": "0x6f98655a8fa7aeef3147ee002c666d09c7aa4f5c",
+    },
+    "0xac389aca56394a5b14918cf6437600760b6c650c": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18,
+      "verified": false,
+      "address": "0xac389aca56394a5b14918cf6437600760b6c650c",
+    },
+    "0xf992cf45394dac5f50a26446de17803a79b940da": {
+      "name": "ETC",
+      "symbol": "ETC",
+      "decimals": 18,
+      "verified": false,
+      "address": "0xf992cf45394dac5f50a26446de17803a79b940da",
+    },
+    "0x5dc27d59bb80e0ef853bb2e27b94113df08f547f": {
+      "name": "XRP",
+      "symbol": "XRP",
+      "decimals": 18,
+      "verified": false,
+      "address": "0x5dc27d59bb80e0ef853bb2e27b94113df08f547f",
+    },
+  },
+  "pairs": {
+    "TOMO/BTC": {
+      "active": true,
+      "baseTokenAddress": "0x0000000000000000000000000000000000000001",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "TOMO",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+      "quoteTokenDecimals": 8,
+      "quoteTokenSymbol": "BTC",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "TOMO/BTC",
+    },
+    "TOMO/USDT": {
+      "active": true,
+      "baseTokenAddress": "0x0000000000000000000000000000000000000001",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "TOMO",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x45c25041b8e6cbd5c963e7943007187c3673c7c9",
+      "quoteTokenDecimals": 6,
+      "quoteTokenSymbol": "USDT",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "TOMO/USDT",
+    },
+    "ETH/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "ETH",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "ETH/TOMO",
+    },
+    "XRP/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0x5dc27d59bb80e0ef853bb2e27b94113df08f547f",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "XRP",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "XRP/TOMO",
+    },
+    "LTC/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0x6f98655a8fa7aeef3147ee002c666d09c7aa4f5c",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "LTC",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "LTC/TOMO",
+    },
+    "BNB/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0xac389aca56394a5b14918cf6437600760b6c650c",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "BNB",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "BNB/TOMO",
+    },
+    "ADA/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0x576201ac3f1e0fe483a9320dacc4b08eb3e58306",
+      "baseTokenDecimals": 0,
+      "baseTokenSymbol": "ADA",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "ADA/TOMO",
+    },
+    "ETC/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0xf992cf45394dac5f50a26446de17803a79b940da",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "ETC",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "ETC/TOMO",
+    },
+    "BCH/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0xfdf68de6dffd893221fc9f7985febc2ab20761a6",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "BCH",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "BCH/TOMO",
+    },
+    "EOS/TOMO": {
+      "active": true,
+      "baseTokenAddress": "0xd9bb01454c85247b2ef35bb5be57384cc275a8cf",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "EOS",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
+      "quoteTokenDecimals": 18,
+      "quoteTokenSymbol": "TOMO",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "EOS/TOMO",
+    },
+    "ETH/BTC": {
+      "active": true,
+      "baseTokenAddress": "0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "ETH",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+      "quoteTokenDecimals": 8,
+      "quoteTokenSymbol": "BTC",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "ETH/BTC",
+    },
+    "XRP/BTC": {
+      "active": true,
+      "baseTokenAddress": "0x5dc27d59bb80e0ef853bb2e27b94113df08f547f",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "XRP",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+      "quoteTokenDecimals": 8,
+      "quoteTokenSymbol": "BTC",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "XRP/BTC",
+    },
+    "BTC/USDT": {
+      "active": true,
+      "baseTokenAddress": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+      "baseTokenDecimals": 8,
+      "baseTokenSymbol": "BTC",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x45c25041b8e6cbd5c963e7943007187c3673c7c9",
+      "quoteTokenDecimals": 6,
+      "quoteTokenSymbol": "USDT",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "BTC/USDT",
+    },
+  },
 }
 
-const tokens = Object.values(tokensBySymbol)
-const defaultPairs = generateTokenPairs(quoteTokens, tokens)
+const defaultTokenPairs = addresses ? addresses.pairs : {}
+const defaultTokenPair = Object.values(defaultTokenPairs)
 
 const initialTokenPairState = {
-  byPair: defaultPairs,
+  byPair: defaultTokenPairs,
   data: {},
   favorites: [],
-  currentPair: Object.values(defaultPairs)[0].pair,
+  currentPair: defaultTokenPair || {},
   currentPairData: null,
   sortedPairs: [],
   smallChartsData: null,
@@ -38,52 +320,34 @@ function getDomain(events) {
 describe('Token Pair Domain', () => {
   it('handles initialized event properly', () => {
     const tokenPairsDomain = getDomain([eventCreators.initialized(initialTokenPairState)])
-    const expectedPairs = ['EOS/TOMO', 'WETH/TOMO', 'ZRX/TOMO']
+    const expectedPairs = Object.keys(addresses.pairs)
+    const expectedByPairsByCode = addresses.pairs
 
-    const expectedByPairsByCode = {
-      "EOS/TOMO": {
-        "baseTokenAddress": "0x8d0a722b76c0dcb91bf62334afd11f925c0adb95",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "EOS",
-        "pair": "EOS/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "WETH/TOMO": {
-        "baseTokenAddress": "0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "WETH",
-        "pair": "WETH/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "ZRX/TOMO": {
-        "baseTokenAddress": "0xc73eec564e96e6653943d6d0e32121d455917653",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "ZRX",
-        "pair": "ZRX/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-    }
     expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
     expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedByPairsByCode)
   })
 
   it('handles tokenPairUpdated event properly', () => {
     const pair = {
-      "baseTokenAddress": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
-      "baseTokenDecimals": undefined,
-      "baseTokenSymbol": "REQ",
-      "pair": "REQ/TOMO",
-      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-      "quoteTokenDecimals": 18,
-      "quoteTokenSymbol": "TOMO",
       "active": true,
+      "baseTokenAddress": "0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9",
+      "baseTokenDecimals": 18,
+      "baseTokenSymbol": "ETH",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x45c25041b8e6cbd5c963e7943007187c3673c7c9",
+      "quoteTokenDecimals": 6,
+      "quoteTokenSymbol": "USDT",
       "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "ETH/USDT",
+    }
+
+    const newPair = {
+      "ETH/USDT": {
+        ...pair,
+      },
     }
 
     const tokenPairsDomain = getDomain([
@@ -91,48 +355,8 @@ describe('Token Pair Domain', () => {
       eventCreators.tokenPairsUpdated([pair]),
     ])
 
-    const expectedPairs = ['EOS/TOMO', 'WETH/TOMO', 'ZRX/TOMO', 'REQ/TOMO']
-
-    const expectedByPairsByCode = {
-      "EOS/TOMO": {
-        "baseTokenAddress": "0x8d0a722b76c0dcb91bf62334afd11f925c0adb95",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "EOS",
-        "pair": "EOS/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "WETH/TOMO": {
-        "baseTokenAddress": "0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "WETH",
-        "pair": "WETH/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "ZRX/TOMO": {
-        "baseTokenAddress": "0xc73eec564e96e6653943d6d0e32121d455917653",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "ZRX",
-        "pair": "ZRX/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "REQ/TOMO": {
-        "baseTokenAddress": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "REQ",
-        "pair": "REQ/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-        "active": true,
-        "rank": 0,
-      },
-    }
+    const expectedPairs = [...Object.keys(addresses.pairs), pair.pair]
+    const expectedByPairsByCode = {...addresses.pairs, ...newPair}
 
     expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
     expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedByPairsByCode)
@@ -140,13 +364,19 @@ describe('Token Pair Domain', () => {
 
   it('handles tokenPairUpdated event properly if the event is already pair', () => {
     const pair = {
-      "baseTokenAddress": "0x8d0a722b76c0dcb91bf62334afd11f925c0adb95",
-      "baseTokenDecimals": undefined,
-      "baseTokenSymbol": "EOS",
-      "pair": "EOS/TOMO",
-      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-      "quoteTokenDecimals": 18,
-      "quoteTokenSymbol": "TOMO",
+      "active": true,
+      "baseTokenAddress": "0xc2fa1ba90b15e3612e0067a0020192938784d9c5",
+      "baseTokenDecimals": 8,
+      "baseTokenSymbol": "BTC",
+      "listed": false,
+      "makeFee": "10",
+      "quoteTokenAddress": "0x45c25041b8e6cbd5c963e7943007187c3673c7c9",
+      "quoteTokenDecimals": 6,
+      "quoteTokenSymbol": "USDT",
+      "rank": 0,
+      "relayerAddress": "0x0d3ab14bbad3d99f4203bd7a11acb94882050e7e",
+      "takeFee": "10",
+      "pair": "BTC/USDT",
     }
 
     const tokenPairsDomain = getDomain([
@@ -154,107 +384,12 @@ describe('Token Pair Domain', () => {
       eventCreators.tokenPairsUpdated([pair]),
     ])
 
-    const expectedPairs = ['EOS/TOMO', 'WETH/TOMO', 'ZRX/TOMO']
+    const expectedPairs = Object.keys(addresses.pairs)
 
-    const expectedByPairsByCode = {
-      "EOS/TOMO": {
-        "baseTokenAddress": "0x8d0a722b76c0dcb91bf62334afd11f925c0adb95",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "EOS",
-        "pair": "EOS/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "WETH/TOMO": {
-        "baseTokenAddress": "0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "WETH",
-        "pair": "WETH/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "ZRX/TOMO": {
-        "baseTokenAddress": "0xc73eec564e96e6653943d6d0e32121d455917653",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "ZRX",
-        "pair": "ZRX/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-    }
+    const expectedByPairsByCode = addresses.pairs
 
     expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
     expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedByPairsByCode)
-  })
-
-  it('handles tokenPairUpdated event properly', () => {
-    const pair1 = {
-      "baseTokenAddress": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
-      "baseTokenDecimals": undefined,
-      "baseTokenSymbol": "REQ",
-      "pair": "REQ/TOMO",
-      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-      "quoteTokenDecimals": 18,
-      "quoteTokenSymbol": "TOMO",
-      "active": true,
-      "rank": 0,
-    }
-
-    const pair2 = {
-      "baseTokenAddress": "0x8d0a722b76c0dcb91bf62334afd11f925c0adb95",
-      "baseTokenDecimals": undefined,
-      "baseTokenSymbol": "EOS",
-      "pair": "EOS/TOMO",
-      "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-      "quoteTokenDecimals": 18,
-      "quoteTokenSymbol": "TOMO",
-    }
-
-    const tokenPairsDomain = getDomain([
-      eventCreators.initialized(initialTokenPairState),
-      eventCreators.tokenPairsUpdated([pair1]),
-      eventCreators.tokenPairRemoved(pair2),
-    ])
-
-    const expectedPairs = ['WETH/TOMO', 'ZRX/TOMO', 'REQ/TOMO']
-
-    const expectedPairsBySymbol = {
-      "WETH/TOMO": {
-        "baseTokenAddress": "0x549638ff7b1038a1923f8e2c38b8c6fc50b8acb6",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "WETH",
-        "pair": "WETH/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "ZRX/TOMO": {
-        "baseTokenAddress": "0xc73eec564e96e6653943d6d0e32121d455917653",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "ZRX",
-        "pair": "ZRX/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-      },
-      "REQ/TOMO": {
-        "baseTokenAddress": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
-        "baseTokenDecimals": undefined,
-        "baseTokenSymbol": "REQ",
-        "pair": "REQ/TOMO",
-        "quoteTokenAddress": "0x0000000000000000000000000000000000000001",
-        "quoteTokenDecimals": 18,
-        "quoteTokenSymbol": "TOMO",
-        "active": true,
-        "rank": 0,
-      },
-    }
-
-    expect(tokenPairsDomain.getPairs()).toEqual(expectedPairs)
-    expect(tokenPairsDomain.getPairsByCode()).toEqual(expectedPairsBySymbol)
   })
 
   it('handles updated event', () => {

@@ -61,6 +61,10 @@ export const tokenPairsUpdated = (pairs: TokenPairs) => {
           quoteTokenDecimals: pair.quoteTokenDecimals,
           active: pair.active,
           rank: pair.rank,
+          listed: pair.listed,
+          makeFee: pair.makeFee,
+          relayerAddress: pair.relayerAddress,
+          takeFee: pair.takeFee,
         }
 
         return result
