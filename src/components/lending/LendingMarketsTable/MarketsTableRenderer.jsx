@@ -109,11 +109,13 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <TabsWrapper>
             {
               tabs.map((tab, i) => {
+                let tabText = (tab.toLowerCase() === 'favorites') ? <FormattedMessage id="marketsPage.favorites" /> 
+                                : (tab.toLowerCase() === 'all' ? <FormattedMessage id="marketsPage.all" /> : tab)
                 return (
                   <TabItem
                     key={i}
                     icon={tab === 'Favorites' ? 'Favorite' : ''}
-                    text={tab}
+                    text={tabText}
                     onClick={() => handleChangeTab(tab)}
                     active={selectedTab === tab}
                   />

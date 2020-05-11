@@ -272,7 +272,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
 
   return (
     <ListContainer>
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumns[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
@@ -347,7 +347,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   
   return (
     <ListContainer className="list-container">
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumnsOrderHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
@@ -422,7 +422,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
   return (
     <ListContainer>
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>

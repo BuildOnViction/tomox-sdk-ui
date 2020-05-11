@@ -60,7 +60,7 @@ class FundsTableRenderer extends React.PureComponent {
     return (
       <Wrapper>
         <CheckboxWrapper
-          label="Hide zero amounts"
+          label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
           checked={isHideZeroBalanceToken}  
           onChange={toggleZeroBalanceToken} />
 

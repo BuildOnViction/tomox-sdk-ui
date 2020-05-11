@@ -249,7 +249,7 @@ const OpenOrderTable = ({
         </Cell>
         <Cell width={columnsOrderHistory['actions']} muted>
           {order.cancelAble && (
-            <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">Details</Link>)
+            <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><FormattedMessage id="exchangeLendingPage.orders.actions.details" /></Link>)
           }
         </Cell>
         <Cell width={columnsOpenOrder["cancel"]} muted>
@@ -266,7 +266,7 @@ const OpenOrderTable = ({
 
   return (
     <ListContainer>
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={columnsOpenOrder["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
@@ -276,7 +276,7 @@ const OpenOrderTable = ({
         <HeaderCell width={columnsOpenOrder["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenOrder["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={columnsOpenOrder["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={columnsOrderHistory['actions']}>View</HeaderCell>
+        <HeaderCell width={columnsOrderHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>
         <HeaderCell width={columnsOpenOrder["cancel"]}></HeaderCell>
       </ListHeader>
 
@@ -333,7 +333,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {STATUS[order.status]}
         </Cell>
         <Cell width={columnsOrderHistory['actions']} muted>
-          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">Details</Link>
+          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><FormattedMessage id="exchangeLendingPage.orders.actions.details" /></Link>
         </Cell>
       </Row>
     )
@@ -341,7 +341,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
   
   return (
     <ListContainer className="list-container">
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={columnsOrderHistory["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
@@ -352,7 +352,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsOrderHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["status"]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
-        <HeaderCell width={columnsOrderHistory['actions']}>View</HeaderCell>
+        <HeaderCell width={columnsOrderHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper className="list">
@@ -421,7 +421,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         </Cell>
         <Cell width={columnsTradeHistory['actions']} muted>
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">
-            Details
+            <FormattedMessage id="exchangeLendingPage.orders.actions.details" />
           </Link>
         </Cell>
       </Row>
@@ -430,7 +430,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
 
   return (
     <ListContainer>
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={columnsTradeHistory['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
@@ -445,7 +445,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsTradeHistory['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['status']}><FormattedMessage id="exchangeLendingPage.orders.status" /></HeaderCell>
-        <HeaderCell width={columnsTradeHistory['actions']}>View</HeaderCell>          
+        <HeaderCell width={columnsTradeHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -534,7 +534,7 @@ const OpenTradesTable = ({
 
   return (
     <ListContainer>
-      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label={<FormattedMessage id="exchangeLendingPage.orders.hideOtherPairs" />} />
 
       <ListHeader style={{paddingRight: hasScrollBar ? '16px' : '10px'}}>
         <HeaderCell width={columnsOpenTrades['openDate']}><FormattedMessage id="exchangeLendingPage.orders.openDate" /></HeaderCell>
@@ -583,12 +583,12 @@ const ActionsMenu = ({ isBorrower, hash, toggleRepayModal, toggleTopUpModal }) =
       {
         isBorrower && (
           <>
-            <MenuItem text="Top up" onClick={() => toggleTopUpModal(true)} />
-            <MenuItem text="Repay" onClick={() => toggleRepayModal(true)} />
+            <MenuItem text={<FormattedMessage id="exchangeLendingPage.orders.actions.topUp" />} onClick={() => toggleTopUpModal(true)} />
+            <MenuItem text={<FormattedMessage id="exchangeLendingPage.orders.actions.repay" />} onClick={() => toggleRepayModal(true)} />
           </>
         )
       }
-      <MenuLink href={`${TOMOSCAN_URL}/lending/trades/${hash}`} target="_blank">Details <Icon iconSize='10px' icon="document-share" /></MenuLink>
+      <MenuLink href={`${TOMOSCAN_URL}/lending/trades/${hash}`} target="_blank"><FormattedMessage id="exchangeLendingPage.orders.actions.details" /> <Icon iconSize='10px' icon="document-share" /></MenuLink>
     </Menu>
   )
 }

@@ -159,7 +159,7 @@ const DappBorrowOrderForm = props => {
 
           <BuyButton
             intent="success"
-            text={<FormattedMessage id="exchangeLendingPage.orderPlace.borrow" />}
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnBorrow" />}
             name="order"
             onClick={() => handleSendOrder("BORROW")}
             fill

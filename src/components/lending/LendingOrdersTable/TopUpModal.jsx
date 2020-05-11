@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import { InputGroup } from "@blueprintjs/core"
 import BigNumber from 'bignumber.js'
+import { FormattedMessage } from 'react-intl'
 
 import { truncateZeroDecimal } from '../../../utils/helpers'
 import { ButtonGroup, CancelButton, AcceptButton, Theme, TmColors } from '../../Common'
@@ -31,7 +32,7 @@ export default function TopUpModal({
             />
             <Error color={TmColors.RED}>{error && error.message}</Error>
             <Row>
-                <Title>Available:</Title>
+                <Title><FormattedMessage id="exchangeLendingPage.orders.topUpModal.availableBalance" /></Title>
                 <Value onClick={selectAllAvailableBalance}>
                     {selectedCollateral && truncateZeroDecimal(BigNumber(selectedCollateral.availableBalance).toFormat(8))} {selectedCollateral && selectedCollateral.symbol}
                 </Value>
@@ -40,12 +41,12 @@ export default function TopUpModal({
             <ButtonGroup>
                 <CancelButton
                     width="47%"
-                    text="Cancel"
+                    text={<FormattedMessage id="exchangeLendingPage.orders.topUpModal.cancel" />}
                     onClick={() => onClose(false)}
                 />
                 <AcceptButton
                     width="47%"
-                    text="Top Up"
+                    text={<FormattedMessage id="exchangeLendingPage.orders.topUpModal.topUp" />}
                     onClick={() => onTopUp(hash)} 
                 />
             </ButtonGroup>

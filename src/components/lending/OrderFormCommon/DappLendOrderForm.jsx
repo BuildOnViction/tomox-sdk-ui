@@ -140,7 +140,7 @@ const DappLendOrderForm = props => {
          
           <SellButton
             intent="danger"
-            text={<FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> }
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnLend" /> }
             name="order"
             onClick={() => handleSendOrder("INVEST")}
             fill

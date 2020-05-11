@@ -61,7 +61,9 @@ const BorrowOrderForm = props => {
     <Wrapper>
       <HeaderRow>
         <BaseToken>
-          <FormattedMessage id="exchangeLendingPage.orderPlace.borrow" /> {currentPair.lendingTokenSymbol} for {currentPair.termSymbol}
+          <FormattedMessage 
+            id="exchangeLendingPage.orderPlace.borrow"
+            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
         </BaseToken>
       </HeaderRow>
 
@@ -165,7 +167,7 @@ const BorrowOrderForm = props => {
 
           <BuyButton
             intent="success"
-            text={<FormattedMessage id="exchangeLendingPage.orderPlace.borrow" />}
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnBorrow" />}
             name="order"
             onClick={() => handleSendOrder("BORROW")}
             fill

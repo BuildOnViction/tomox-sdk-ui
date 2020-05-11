@@ -261,7 +261,7 @@ class OrdersTable extends React.PureComponent<Props, State> {
 
         <TopUpModal
           size="sm"
-          title="Top up collateral to secure your loan"
+          title={<FormattedMessage id="exchangeLendingPage.orders.topUpModal.title" />}
           isOpen={isOpenTopUp}
           hash={selectedTrade.hash}
           collaterals={collaterals}

@@ -57,7 +57,11 @@ const LendOrderForm = props => {
   return (
     <Wrapper>
       <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.lendingTokenSymbol} for {currentPair.termSymbol}</BaseToken>
+        <BaseToken>
+          <FormattedMessage 
+            id="exchangeLendingPage.orderPlace.lend"
+            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
+        </BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>
@@ -144,7 +148,7 @@ const LendOrderForm = props => {
          
           <SellButton
             intent="danger"
-            text={<FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> }
+            text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnLend" /> }
             name="order"
             onClick={() => handleSendOrder("INVEST")}
             fill
