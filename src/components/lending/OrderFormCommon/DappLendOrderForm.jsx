@@ -10,9 +10,6 @@ import {
   InputBox,
   InputLabel,
   SmallText,
-  // InputValue,
-  HeaderRow,
-  BaseToken,
   SellButton,
   // MaxAmountInfo,
   ErrorMessage,
@@ -52,9 +49,6 @@ const DappLendOrderForm = props => {
 
   return (
     <Wrapper>
-      <HeaderRow>
-        <BaseToken><FormattedMessage id="exchangeLendingPage.orderPlace.lend" /> {currentPair.lendingTokenSymbol} in {currentPair.termSymbol}</BaseToken>
-      </HeaderRow>
       <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangeLendingPage.orderPlace.interest" />:
