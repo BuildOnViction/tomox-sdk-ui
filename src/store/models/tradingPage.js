@@ -4,7 +4,6 @@ import { push } from 'connected-react-router'
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  getTokenDomain,
   getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
@@ -123,7 +122,7 @@ export const queryDappTradePageData = (): ThunkAction => {
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
 
-      const pairs = pairDomain.getPairsByCode()
+      const pairs = pairDomain.getPairsArray()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
 
