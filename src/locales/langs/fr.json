@@ -23,6 +23,7 @@
   "notifications.lendingOrderRepayed": "Ordre de prêt remboursé",
   "notifications.lendingOrderTopUped": "Ordre de prêt rechargé",
   "notifications.orderError": "",
+  "notifications.noNotifications": "Aucune notification",
   "mainMenuPage.markets": "Marché",
   "mainMenuPage.spot": "Spot",
   "mainMenuPage.lending": "Prêt",

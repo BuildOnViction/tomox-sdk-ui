@@ -23,6 +23,7 @@
   "notifications.lendingOrderRepayed": "Lending Order Repayed",
   "notifications.lendingOrderTopUped": "Lending Order TopUped",
   "notifications.orderError": "",
+  "notifications.noNotifications": "No notifications to show",
   "mainMenuPage.markets": "Markets",
   "mainMenuPage.spot": "Spot",
   "mainMenuPage.lending": "Lending",

@@ -23,6 +23,7 @@
   "notifications.lendingOrderRepayed": "Lending Order Repayed",
   "notifications.lendingOrderTopUped": "Lending Order TopUped",
   "notifications.orderError": "",
+  "notifications.noNotifications": "Bildirim yok",
   "mainMenuPage.markets": "Piyasalar",
   "mainMenuPage.spot": "Spot",
   "mainMenuPage.lending": "Lending",
