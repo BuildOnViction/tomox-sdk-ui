@@ -18,7 +18,7 @@ import { List, AutoSizer } from 'react-virtualized'
 import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../../config/environment'
-import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../../Common'
+import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon, LendingLabelSide } from '../../Common'
 import { formatDate, capitalizeFirstLetter, formatAmount } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
@@ -60,15 +60,14 @@ const columnsOpenOrder = {
   actions: '10%',
 }
 const columnsOrderHistory = {
-  time: '12%', 
-  pair: '10%', 
+  time: '18%', 
+  pair: '19%', 
   type: '8%', 
-  side: '8%', 
-  interest: '15%', 
-  amount: '12%', 
-  filled: '13%', 
+  interest: '12%', 
+  amount: '14%', 
+  filled: '12%', 
   status: '12%',
-  actions: '10%',
+  actions: '7%',
 }
 const columnsTradeHistory = {
   openDate: '12%', 
@@ -312,15 +311,13 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {formatDate(order.time, 'LL-dd HH:mm:ss')}
         </Cell>
         <Cell width={columnsOrderHistory["pair"]} title={order.pair} muted>
+          <LendingLabelSide side={order.side} />
           <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsOrderHistory["type"]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
-        <Cell width={columnsOrderHistory["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
-        </Cell>
-        <Cell width={columnsOrderHistory["interest"]} muted>
+        <Cell width={columnsOrderHistory["interest"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
         </Cell>
         <Cell width={columnsOrderHistory["amount"]} muted>
@@ -333,7 +330,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {STATUS[order.status]}
         </Cell>
         <Cell width={columnsOrderHistory['actions']} muted>
-          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><FormattedMessage id="exchangeLendingPage.orders.actions.details" /></Link>
+          <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><i className="fa fa-external-link fa-lg" aria-hidden="true"></i></Link>
         </Cell>
       </Row>
     )
@@ -347,7 +344,6 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsOrderHistory["time"]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["pair"]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["type"]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
-        <HeaderCell width={columnsOrderHistory["side"]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
