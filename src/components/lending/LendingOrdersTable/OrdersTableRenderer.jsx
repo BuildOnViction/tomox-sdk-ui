@@ -51,13 +51,13 @@ const overscanRowCount = 5
 const columnsOpenOrder = {
   time: '15%', 
   pair: '15%', 
-  type: '8%', 
-  side: '8%', 
+  type: '10%', 
+  side: '10%', 
   interest: '12%', 
   amount: '12%', 
   filled: '12%', 
   cancel: '8%',
-  actions: '10%',
+  actions: '6%',
 }
 const columnsOrderHistory = {
   time: '18%', 
@@ -70,22 +70,22 @@ const columnsOrderHistory = {
   actions: '7%',
 }
 const columnsTradeHistory = {
-  openDate: '12%', 
-  closeDate: '12%',
-  pair: '10%', 
+  openDate: '10%', 
+  closeDate: '10%',
+  pair: '17%', 
   type: '10%', 
   interest: '10%', 
   filled: '10%',
   liqPrice: '10%',
   collateral: '13%',
   status: '9%',
-  actions: '8%',
+  actions: '5%',
 }
 const columnsOpenTrades = {
-  openDate: '12%',
-  closeDate: '12%',
-  pair: '14%',
-  type: '14%',
+  openDate: '10%',
+  closeDate: '10%',
+  pair: '19%',
+  type: '13%',
   interest: '10%',
   filled: '10%',
   liqPrice: '12%',
@@ -246,9 +246,9 @@ const OpenOrderTable = ({
         <Cell width={columnsOpenOrder["filled"]} muted>
           {order.filled && BigNumber(order.filledPercent).toFormat(2)}%
         </Cell>
-        <Cell width={columnsOrderHistory['actions']} muted>
+        <Cell width={columnsOpenOrder['actions']} muted>
           {order.cancelAble && (
-            <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><FormattedMessage id="exchangeLendingPage.orders.actions.details" /></Link>)
+            <Link href={`${TOMOSCAN_URL}/lending/orders/${order.hash}`} target="_blank"><i className="fa fa-external-link fa-lg" aria-hidden="true"></i></Link>)
           }
         </Cell>
         <Cell width={columnsOpenOrder["cancel"]} muted>
@@ -275,7 +275,7 @@ const OpenOrderTable = ({
         <HeaderCell width={columnsOpenOrder["interest"]}><FormattedMessage id="exchangeLendingPage.orders.interest" /></HeaderCell>
         <HeaderCell width={columnsOpenOrder["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={columnsOpenOrder["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
-        <HeaderCell width={columnsOrderHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>
+        <HeaderCell width={columnsOpenOrder['actions']}></HeaderCell>
         <HeaderCell width={columnsOpenOrder["cancel"]}></HeaderCell>
       </ListHeader>
 
@@ -348,7 +348,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsOrderHistory["amount"]}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["filled"]}><FormattedMessage id="exchangePage.filled" /></HeaderCell>
         <HeaderCell width={columnsOrderHistory["status"]}><FormattedMessage id="exchangePage.status" /></HeaderCell>
-        <HeaderCell width={columnsOrderHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>
+        <HeaderCell width={columnsOrderHistory['actions']}></HeaderCell>
       </ListHeader>
 
       <ListBodyWrapper className="list">
@@ -389,12 +389,15 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     return (
       <Row key={index} style={style}>
         <Cell width={columnsTradeHistory['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+          <Day>{formatDate(order.time, 'LL-dd')}</Day>
+          <Time>{formatDate(order.time, 'HH:mm:ss')}</Time>
         </Cell>
         <Cell width={columnsTradeHistory['closeDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-          {formatDate(order.updatedAt, 'LL-dd HH:mm:ss')}
+          <Day>{formatDate(order.updatedAt, 'LL-dd')}</Day>
+          <Time>{formatDate(order.updatedAt, 'HH:mm:ss')}</Time>
         </Cell>
         <Cell width={columnsTradeHistory['pair']} title={`${order.termSymbol}/${order.lendingTokenSymbol}`} muted>
+          <LendingLabelSide side={order.side} />
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsTradeHistory['type']} muted>
@@ -417,7 +420,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         </Cell>
         <Cell width={columnsTradeHistory['actions']} muted>
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">
-            <FormattedMessage id="exchangeLendingPage.orders.actions.details" />
+            <i className="fa fa-external-link fa-lg" aria-hidden="true"></i>
           </Link>
         </Cell>
       </Row>
@@ -441,7 +444,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={columnsTradeHistory['liqPrice']}><FormattedMessage id="exchangeLendingPage.orders.liqPrice" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>
         <HeaderCell width={columnsTradeHistory['status']}><FormattedMessage id="exchangeLendingPage.orders.status" /></HeaderCell>
-        <HeaderCell width={columnsTradeHistory['actions']}><FormattedMessage id="exchangeLendingPage.orders.view" /></HeaderCell>          
+        <HeaderCell width={columnsTradeHistory['actions']}></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -482,12 +485,15 @@ const OpenTradesTable = ({
     return (
       <Row key={index} style={style} onClick={() => onSelectTrade(order)}>
         <Cell width={columnsOpenTrades['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-          {formatDate(order.time, 'LL-dd HH:mm:ss')}
+          <Day>{formatDate(order.time, 'LL-dd')}</Day>
+          <Time>{formatDate(order.time, 'HH:mm:ss')}</Time>
         </Cell>
-        <Cell width={columnsOpenTrades['closeDate']} muted>
-          {formatDate(Number(order.liquidationTime)*1000, 'LL-dd HH:mm:ss')}
+        <Cell width={columnsOpenTrades['closeDate']} title={formatDate(Number(order.liquidationTime)*1000, 'LL-dd HH:mm:ss')} muted>
+          <Day>{formatDate(Number(order.liquidationTime)*1000, 'LL-dd')}</Day>
+          <Time>{formatDate(Number(order.liquidationTime)*1000, 'HH:mm:ss')}</Time>
         </Cell>
         <Cell width={columnsOpenTrades['pair']} title={order.pair} muted>
+          <LendingLabelSide side={order.side} />
           <Link href={`${TOMOSCAN_URL}/lending/trades/${order.hash}`} target="_blank">{`${order.termSymbol}/${order.lendingTokenSymbol}`}</Link>
         </Cell>
         <Cell width={columnsOpenTrades['type']} muted>
@@ -547,7 +553,7 @@ const OpenTradesTable = ({
           <LiqInfoPopover />
         </HeaderCell>
         <HeaderCell width={columnsOpenTrades['collateral']}><FormattedMessage id="exchangeLendingPage.orders.collateral" /></HeaderCell>  
-        <HeaderCell width={columnsOpenTrades['actions']}><FormattedMessage id="exchangeLendingPage.orders.actions" /></HeaderCell>          
+        <HeaderCell width={columnsOpenTrades['actions']}></HeaderCell>          
       </ListHeader>
 
       <ListBodyWrapper>
@@ -710,10 +716,12 @@ const Cell = styled.span.attrs({
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 5px;
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
+  padding-left: 5px;
 `
 
 const CancelIcon = styled(Icon)`
@@ -800,6 +808,16 @@ const InfoIcon = styled(Icon).attrs({
   &.info-icon {
     vertical-align: top;
     margin-left: 3px;
+  }
+`
+
+const Day = styled.span``
+
+const Time = styled.span`
+  margin-left: 3px;
+
+  @media (max-width: 1500px) {
+    display: none;
   }
 `
 
