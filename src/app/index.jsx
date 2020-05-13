@@ -60,13 +60,13 @@ class App extends React.PureComponent {
                 <Route exact path="/dapp/fund" component={DappFund} />
                 <Route exact path="/dapp/account" component={DappAccount} />
 
-                <Route exact path="/dapp/orders" component={DappOrders} />
-                <Route exact path="/dapp/:pair?" component={Dapp} />               
-                <Route exact path="/dapp/trade/:pair?" component={DappTrade} />
-
                 <Route exact path="/dapp/lending/orders" component={DappLendingOrders} />
                 <Route exact path="/dapp/lending/:pair?" component={DappLending} /> 
                 <Route exact path="/dapp/lending/trade/:pair?" component={DappLendingTrade} /> 
+
+                <Route exact path="/dapp/orders" component={DappOrders} />
+                <Route exact path="/dapp/:pair?" component={Dapp} />               
+                <Route exact path="/dapp/trade/:pair?" component={DappTrade} />
 
                 <Route render={() => <Redirect to="/markets/trading" />} />
               </Switch>          
