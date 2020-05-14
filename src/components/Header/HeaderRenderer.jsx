@@ -162,13 +162,13 @@ const MenuWallet = (props) => {
 
                 <CopyToClipboard text={address} onCopy={copyDataSuccess}>
                     <IconBox title="Copy Address">              
-                      <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
+                      <i className="fa fa-clone fa-lg" aria-hidden="true"></i>
                     </IconBox>
                 </CopyToClipboard>
 
                 <IconBox title="Go to Tomoscan">
                     <a target="_blank" rel="noreferrer noopener" href={`${TOMOSCAN_URL}/address/${address}`}>
-                      <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                      <i className="fa fa-external-link fa-lg" aria-hidden="true"></i>
                     </a>
                 </IconBox>
                 </AddressWalletBox>

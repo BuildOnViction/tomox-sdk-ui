@@ -16,12 +16,12 @@ export default function DappLendingSidebar({ currentPair }) {
                 <Typo>Home</Typo>
             </MenuItem>
             <MenuItem to={`/dapp/lending/trade/${pair}`}>
-                <i class="tomoicons-lending"></i> 
+                <i className="tomoicons-lending"></i> 
                 <Typo>Lending</Typo>
             </MenuItem>
             <MenuItem to="/dapp/fund">
-                <i class="tomoicons-wallet"></i> 
-                <Typo>Fund</Typo>
+                <i className="tomoicons-wallet"></i> 
+                <Typo>Funds</Typo>
             </MenuItem>
             <MenuItem to="/dapp/account">
                 <Icon icon="user" iconSize={20} />

@@ -8,6 +8,7 @@ import type { Side } from '../../../types/orders'
 import { getEstimatedCollateral } from '../../../store/services/api/engine'
 // import { isTomoWallet, isMobile } from '../../../utils/helpers'
 import {pricePrecision as defaultPricePrecision} from '../../../config/tokens'
+import { isMobile } from '../../../utils/helpers'
 
 type Props = {
   side: Side,
@@ -127,17 +128,17 @@ function withOrderFormLogic(WrappedComponent) {
           borrowInterest: interest,
           borrowAmount: '',
           lendInterest: interest,
-          lendAmount: (type === 'amount') ? total : '',
+          lendAmount: (type === 'amount' && !isMobile()) ? total : '',
           profit,
         })
       } else {
         this.setState({
           borrowInterest: interest,
-          borrowAmount: (type === 'amount') ? total : '',
+          borrowAmount: (type === 'amount' && !isMobile()) ? total : '',
           lendInterest: interest,
           lendAmount: '',
         }, () => {
-          if (type === 'amount') {
+          if (type === 'amount' && !isMobile()) {
             if (window.estimateTimer) clearTimeout(window.estimateTimer)
 
             window.estimateTimer = setTimeout(async () => {

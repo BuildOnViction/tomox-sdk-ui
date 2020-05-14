@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import { Theme } from '../../components/Common'
 
 import AccountInfo from '../../components/AccountInfo'
+import DappWelcome from '../../components/DappWelcome'
 
-export default function DappFund() {
+export default function DappFund({ authenticated }) {
+
+  if (!authenticated) return (<OrdersTableCell><DappWelcome /></OrdersTableCell>)
 
   return (
     <OrdersTableCell>

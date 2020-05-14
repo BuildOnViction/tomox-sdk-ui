@@ -41,7 +41,7 @@ export default class TVChartRenderer extends React.PureComponent {
 		} = this.props
 
 		const { location: { origin } } = window
-		const custom_css_url = `${ origin }/tvchart_07012020.css`
+		const custom_css_url = `${ origin }/tvchart_07052020.css`
 		// Intl maybe incorrect depend browser and it's version
 		let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone

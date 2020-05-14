@@ -26,7 +26,7 @@ describe('Login Page Model', () => {
   walletService.savePrivateKeyInSessionStorage = jest.fn()
   signerService.createMetamaskSigner = jest.fn(() => Promise.resolve('test address'))
 
-  it('handles loginWithMetamask action (web3 undefined)', async () => {
+  it.skip('handles loginWithMetamask action (web3 undefined)', async () => {
     global.web3 = undefined
     const { store } = createStore()
 
@@ -47,7 +47,7 @@ describe('Login Page Model', () => {
     expect(model.error).toEqual('Metamask not installed')
   })
 
-  it('handles loginWithMetamask action (web3 present but account locked)', async () => {
+  it.skip('handles loginWithMetamask action (web3 present but account locked)', async () => {
     const { store } = createStore()
     global.web3 = {
       eth: 'test eth',
@@ -70,7 +70,7 @@ describe('Login Page Model', () => {
     expect(model.error).toEqual('Metamask account locked')
   })
 
-  it('handles loginWithMetamask action (metamask unlocked)', async () => {
+  it.skip('handles loginWithMetamask action (metamask unlocked)', async () => {
     global.web3 = {
       eth: {
         defaultAccount: 'c838efcb6512a2ca12027ebcdf9e1fc5e4ff7ee3',
@@ -90,7 +90,7 @@ describe('Login Page Model', () => {
     expect(model.loading).toEqual(false)
   })
 
-  it('handles loginWithWallet (no storage)', async () => {
+  it.skip('handles loginWithWallet (no storage)', async () => {
     const { store } = createStore()
     const params = {
       wallet: {

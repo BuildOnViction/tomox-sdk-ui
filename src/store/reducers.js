@@ -532,6 +532,7 @@ export const lendingTrades = createReducer(action => {
     case logoutPageActionTypes.resetTradesByAddress:
       return lendingTradeEvents.resetTradesByAddress()
     case lendingTokenSearcherActionTypes.resetTradesHistory:
+    case lendingMarketsActionTypes.updateCurrentPair:
       return lendingTradeEvents.tradesReset()
     default:
       return lendingTradeEvents.initialized()

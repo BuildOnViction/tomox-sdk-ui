@@ -21,6 +21,8 @@ import {
 } from './Styled'
 import BorrowOrderForm from './BorrowOrderForm'
 import LendOrderForm from './LendOrderForm'
+import DappBorrowOrderForm from './DappBorrowOrderForm'
+import DappLendOrderForm from './DappLendOrderForm'
 import withOrderFormLogic from './withOrderFormLogic'
 
 export { 
@@ -45,5 +47,7 @@ export {
     Value,
     BorrowOrderForm,
     LendOrderForm,
+    DappBorrowOrderForm,
+    DappLendOrderForm,
     withOrderFormLogic,
 }

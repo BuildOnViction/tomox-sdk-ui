@@ -71,7 +71,7 @@ export default function DetailsDrawer({
                     <Main>
                         <Info item={item} renderSideIcon={renderSideIcon} />
 
-                        {item.isBorrower && actions && (
+                        {(item.side.toUpperCase() === 'BORROW') && actions && (
                             <>
                                 <Divider />
                                 <Tabs onChange={handleTabChange} selectedTabId={selectedTabId}>

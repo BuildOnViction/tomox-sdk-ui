@@ -6,7 +6,7 @@ import { Tab, Tabs } from "@blueprintjs/core"
 import {
   SpinnerContainer,
 } from '../../Common'
-import { BorrowOrderForm, LendOrderForm } from '../OrderFormCommon'
+import { DappBorrowOrderForm, DappLendOrderForm } from '../OrderFormCommon'
 
 function OrderFormRenderer(props) {
   const [selectedTabId, setselectedTabId] = useState('borrow')
@@ -17,8 +17,8 @@ function OrderFormRenderer(props) {
   return (
     <Container>
       <Tabs id="order-tabs" onChange={handleTabChange} selectedTabId={selectedTabId}>
-        <Tab id="borrow" title="Borrow" panel={<BorrowOrderForm {...props} />} />
-        <Tab id="lend" title="Lend" panel={<LendOrderForm {...props} />} />
+        <Tab id="borrow" title="Borrow" panel={<DappBorrowOrderForm {...props} />} />
+        <Tab id="lend" title="Lend" panel={<DappLendOrderForm {...props} />} />
       </Tabs>
 
       {props.loading && <SpinnerContainer />}

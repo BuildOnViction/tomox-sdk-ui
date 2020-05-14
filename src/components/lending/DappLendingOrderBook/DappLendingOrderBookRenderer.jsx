@@ -74,6 +74,7 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
       asks, 
       onSelect,
       amountPrecision,
+      currentPair,
       currentPairData,
     } = this.props        
 
@@ -115,14 +116,13 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               
               <LatestTick>
                 {currentPairData && (
-                  <LatestPrice width="100%">
+                  <>
                     <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
                       {BigNumber(currentPairData.close).toFormat(2)}&#37;
                     </Ellipsis>
-                    {/* <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis> */}
-                  </LatestPrice>
+                    <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis>
+                  </>
                 )}  
-
               </LatestTick>
               
               {bids && (
@@ -177,6 +177,7 @@ const Wrapper = styled.div`
 
 const OrderBookContent = styled.div`
   width: 100%;
+  height: 100% !important;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
@@ -290,7 +291,7 @@ const ListHeading = styled.ul.attrs({
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      margin-bottom: 0;
+      margin-bottom: 12px;
     }
   }
 `
@@ -305,7 +306,8 @@ const ListContent = styled.div.attrs({
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
-      height: 390px !important;
+      height: 370px !important;
+      overflow: hidden;
     }
   }
 `
@@ -328,8 +330,7 @@ const HeaderCell = styled.span`
   font-size: ${Theme.FONT_SIZE_SM};
 `
 
-const AmountHeader = styled(HeaderCell)`
-`
+const AmountHeader = styled(HeaderCell)``
 
 const LatestTick = styled.div.attrs({
   className: 'latest-tick',
@@ -338,8 +339,9 @@ const LatestTick = styled.div.attrs({
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-around;
   height: 30px;
-  padding: 0 10px;
+  padding: 0;
   background: ${props => props.theme.orderbookLatestPrice};
 `
 const LatestPrice = styled.div.attrs({
@@ -362,7 +364,6 @@ const PercentChange = styled.div.attrs({
 `
 
 const Ellipsis = styled.span`
-  width: 100%;
   display: block;
   white-space: nowrap;
   overflow: hidden;

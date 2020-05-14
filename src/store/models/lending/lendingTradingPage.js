@@ -77,6 +77,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
       if (authenticated) {
         const pairs = getTokenPairsDomain(state).getPairsArray()
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         const [
           ordersResult,
@@ -87,7 +88,7 @@ export const queryTradingPageData = (pair): ThunkAction => {
         ])
 
         const orders = parseLendingOrders(ordersResult.lendings, tokens)
-        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
+        const tradesByAddress = parseLendingTradesByAddress(userAddress, exchangeAddress, tradesByAddressResult.trades, pairs)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
         dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))
@@ -144,6 +145,7 @@ export const queryDappTradePageData = (pair): ThunkAction => {
       if (authenticated) {
         const pairs = getTokenPairsDomain(state).getPairsArray()
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         const [
           ordersResult,
@@ -154,7 +156,7 @@ export const queryDappTradePageData = (pair): ThunkAction => {
         ])
 
         const orders = parseLendingOrders(ordersResult.lendings, tokens)
-        const tradesByAddress = parseLendingTradesByAddress(userAddress, tradesByAddressResult.trades, pairs)
+        const tradesByAddress = parseLendingTradesByAddress(userAddress, exchangeAddress, tradesByAddressResult.trades, pairs)
 
         dispatch(lendingOrdersActionCreators.ordersInitialized(orders))
         dispatch(lendingTradesActionCreators.updateTradesByAddress(tradesByAddress))

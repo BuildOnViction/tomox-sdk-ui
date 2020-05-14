@@ -4,7 +4,6 @@ import { push } from 'connected-react-router'
 import {
   getTokenPairsDomain,
   getAccountDomain,
-  getTokenDomain,
   getAccountBalancesDomain,
   getConnectionDomain,
   getOhlcvDomain,
@@ -81,6 +80,7 @@ export const queryTradingPageData = (): ThunkAction => {
 
       if (authenticated) {
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         let [
           orders,
@@ -91,7 +91,7 @@ export const queryTradingPageData = (): ThunkAction => {
         ])
 
         orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, exchangeAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
@@ -122,12 +122,13 @@ export const queryDappTradePageData = (): ThunkAction => {
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
 
-      const pairs = pairDomain.getPairsByCode()
+      const pairs = pairDomain.getPairsArray()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
 
       if (authenticated) {
         const userAddress = accountDomain.address()
+        const exchangeAddress = accountDomain.exchangeAddress()
 
         let [
           orders,
@@ -138,7 +139,7 @@ export const queryDappTradePageData = (): ThunkAction => {
         ])
 
         orders = parseOrders(orders, pairs)
-        tradesByAddress = parseTradesByAddress(userAddress, tradesByAddress, pairs)
+        tradesByAddress = parseTradesByAddress(userAddress, exchangeAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
@@ -161,30 +162,6 @@ export const releaseResources = (): ThunkAction => {
       socket.unsubscribeOrderBook()
       socket.unsubscribeTrades()
       socket.unSubscribePrice()
-    } catch (e) {
-      console.log(e)
-      dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
-    }
-  }
-}
-
-export function toggleAllowances(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
-  return async (dispatch, getState, { txProvider }) => {
-    try {
-      const state = getState()
-      const tokens = getTokenDomain(state).bySymbol()
-      const baseTokenAddress = tokens[baseTokenSymbol].address
-      const quoteTokenAddress = tokens[quoteTokenSymbol].address
-
-      const txConfirmHandler = (txConfirmed) => {
-        txConfirmed
-          ? dispatch(notifierActionCreators.addSuccessNotification({ message: `Approval Successful. You can now start trading!` }))
-          : dispatch(notifierActionCreators.addErrorNotification({ message: `Approval Failed. Please try again.` }))
-      }
-
-      txProvider.updatePairAllowances(baseTokenAddress, quoteTokenAddress, txConfirmHandler)
-      dispatch(notifierActionCreators.addSuccessNotification({ message: `Unlocking ${baseTokenSymbol}/${quoteTokenSymbol} trading. Your transaction should be approved within a few minutes` }))
-
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))

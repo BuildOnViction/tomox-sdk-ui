@@ -43,9 +43,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
     const {
       pair,
-      baseTokenSymbol,
       baseTokenAddress,
-      quoteTokenSymbol,
       lastPrice,
       priceUsd,
       high,
@@ -59,7 +57,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
 
 
     return (
-      <Row key={key} style={style} onClick={() => redirectToTradingPage(baseTokenSymbol, quoteTokenSymbol)}>
+      <Row key={key} style={style} onClick={() => redirectToTradingPage(pairs[index])}>
         <Cell width="25px" onClick={(e) => updateFavorite(e, pair, !favorited)}>
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
@@ -125,11 +123,13 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <TabsWrapper>
             {
               tabs.map((tab, i) => {
+                let tabText = (tab.toLowerCase() === 'favorites') ? <FormattedMessage id="marketsPage.favorites" /> 
+                                : (tab.toLowerCase() === 'all' ? <FormattedMessage id="marketsPage.all" /> : tab)
                 return (
                   <TabItem
                     key={i}
                     icon={tab === 'Favorites' ? 'Favorite' : ''}
-                    text={tab}
+                    text={tabText}
                     onClick={() => handleChangeTab(tab)}
                     active={selectedTab === tab}
                   />

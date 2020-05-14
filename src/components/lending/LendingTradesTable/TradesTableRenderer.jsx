@@ -91,7 +91,8 @@ const Wrapper = styled.div.attrs({
     height: 16px;    
   }
   .content {
-    height: calc(100% - 16px);
+    height: calc(100% - 46px) !important;
+    overflow: hidden;
   }
 
   @media only screen and (max-width: 680px) {

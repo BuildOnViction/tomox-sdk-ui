@@ -272,8 +272,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         userOrders = [parsedOrder]
 
         for (let i = 0; i < matches.trades.length; i++) {
-          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
-            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+          if (matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
           
           userTrades.push(parseTrade(matches.trades[i], pairInfo))
         }
@@ -291,8 +290,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         })
 
         for (let i = 0; i < matches.trades.length; i++) {
-          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase() 
-            && matches.trades[i].takerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
+          if (matches.trades[i].makerExchange.toLowerCase() !== exchangeAddress.toLowerCase()) continue
 
           if (utils.getAddress(trades[i].maker).toLowerCase() === signerAddress.toLowerCase()) {
             const tradeParsed = parseTrade(trades[i], pairInfo)
@@ -661,7 +659,7 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
 
       dispatch(actionCreators.updateLendingOrders(order))
       
-      if (!byHash[order.hash]) {
+      if (byHash[order.lendingId] === '0') {
         dispatch(appActionCreators.addOrderAddedNotification())
       }
     } catch (e) {
@@ -706,11 +704,7 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
         ? parseLendingOrders([matches.borrowing], tokens) 
         : parseLendingOrders(matches.investing, tokens)
 
-      const isExchangeLendingTrades = trade => (trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase() 
-                                                || trade.borrowingRelayer.toLowerCase() === exchangeAddress.toLowerCase())
-
-      userTrades = matches.lendingTrades.filter(isExchangeLendingTrades)
-      userTrades = parseLendingTradesByAddress(userAddress, userTrades, pairs)
+      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, matches.lendingTrades, pairs)
       
       if (userOrders.length > 0) dispatch(actionCreators.updateLendingOrders(userOrders))
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
@@ -725,12 +719,17 @@ function handleLendingOrderRepayedTopUped(event: WebsocketEvent): ThunkAction {
   return async (dispatch, getState, { socket }) => {
     try {
       const state = getState()
-      const userAddress = getAccountDomain(state).address()
+      const accountDomain = getAccountDomain(state)
+      const userAddress = accountDomain.address()
+      const exchangeAddress = accountDomain.exchangeAddress()
+
       const pairs = getTokenPairsDomain(state).getPairsArray()
       const trade = event.payload
+      const type = event.type
       let userTrades = []
-      userTrades = parseLendingTradesByAddress(userAddress, [trade], pairs)
+      userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, [trade], pairs)
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+      dispatch(appActionCreators.addSuccessNotification({ message: type === 'LENDING_ORDER_TOPUPED' ? 'Top up success' : 'Repay success' }))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))

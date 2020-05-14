@@ -27,7 +27,7 @@ export default function Sidebar ({ disabled, mode, onChangeTheme }) {
         </SidebarItemBox>
       </MarketsLink>
 
-      <LendingMarketsLink to="/markets/lending">
+      <LendingMarketsLink mode={mode} to="/markets/lending">
         <SidebarItemBox>
           <Tooltip disabled={disabled} 
             portalClassName="sidebar-tooltip"
@@ -108,7 +108,7 @@ const LendingMarketsLink = styled(SidebarItem).attrs({
 
   &:hover svg path,
   &.active svg path {
-    fill: #fff;
+    fill: ${props => props.mode === 'dark' ? '#fff' : '#040404'};
   }
 `
 

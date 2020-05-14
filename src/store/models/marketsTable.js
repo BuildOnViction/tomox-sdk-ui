@@ -38,13 +38,11 @@ export default function marketsTableSelector(state: State) {
   }
 }
 
-export function redirectToTradingPage(baseTokenSymbol: string, quoteTokenSymbol: string): ThunkAction {
+export function redirectToTradingPage(pair: Object): ThunkAction {
   return async (dispatch, getState) => {
-    const param = `${baseTokenSymbol}-${quoteTokenSymbol}`
-    const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
 
     dispatch(actionCreators.updateCurrentPair(pair))
-    dispatch(push(`/trade/${param}`))
+    dispatch(push(`/trade/${pair.pair.replace('/', '-')}`))
   }
 }
 

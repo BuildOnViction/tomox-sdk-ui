@@ -2,7 +2,10 @@ html.theme-dark .chart-page,
 html.theme-dark .group-wWM3zP_M-,
 html.theme-dark .drawingToolbar-U3_QXRof-,
 html.theme-dark .group-2JyOhh7Z-,
-html.theme-dark .chart-controls-bar {
+html.theme-dark .chart-controls-bar,
+html.theme-dark .fill-1djIbBXv-,
+html.theme-dark .chart-page .chart-container-border,
+html.theme-dark .inner-1xuW-gY4- {
     background: #252C40;
 }
 
@@ -68,7 +71,6 @@ html.theme-light .layout__area--left {
 @media only screen and (max-width: 480px) {
     #header-toolbar-indicators .js-button-text,
     .group-wWM3zP_M-:nth-last-child(2),
-    .group-wWM3zP_M-:last-child,
     .control-bar-wrapper,
     .chart-toolbar.chart-controls-bar {
         display: none;

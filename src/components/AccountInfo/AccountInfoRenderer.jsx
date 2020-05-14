@@ -10,13 +10,13 @@ function AccountRenderer({ intl, address }) {
   return (
     <Wrapper>
       <Title>Your address</Title>
-      <AlignCenter><QRCode value={address} size={100} includeMargin={true} /></AlignCenter> 
+      <AlignCenter><QRCode value={address} size={200} includeMargin={true} /></AlignCenter> 
       <AlignCenter>{address}</AlignCenter>
       <AlignCenter>
         <CopyToClipboard text={address}>
           <CopyButton title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}>
             <Typo>Copy</Typo>
-            <i class="fa fa-clone" aria-hidden="true"></i>
+            <i className="fa fa-clone" aria-hidden="true"></i>
           </CopyButton> 
         </CopyToClipboard>
       </AlignCenter>    

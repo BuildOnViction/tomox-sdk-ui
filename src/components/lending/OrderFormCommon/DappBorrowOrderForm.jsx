@@ -11,8 +11,6 @@ import {
   InputLabel,
   SmallText,
   InputValue,
-  HeaderRow,
-  BaseToken,
   BuyButton,
   // MaxAmountInfo,
   ErrorMessage,
@@ -22,20 +20,15 @@ import {
   Value,
 } from './index'
 import SelectCollaterals from '../../SelectCollaterals'
-// import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 import { pricePrecision } from "../../../config/tokens"
 
-const BorrowOrderForm = props => {
+const DappBorrowOrderForm = props => {
   const {
     borrowInterest,
     borrowAmount,
     // buyMaxAmount,
     // fraction,
-    // baseTokenSymbol,
-    // quoteTokenSymbol,
-    // quoteTokenBalance,
-    // quoteTokenDecimals,
     onInputChange,
     onInputFocus,
     onInputBlur,
@@ -49,7 +42,6 @@ const BorrowOrderForm = props => {
     buyPriceInput,
     buyAmountInput,
     authenticated,
-    redirectToLoginPage,
     collateralTokens,
     collateralSelected,
     onCollateralSelect,
@@ -59,14 +51,6 @@ const BorrowOrderForm = props => {
 
   return (
     <Wrapper>
-      <HeaderRow>
-        <BaseToken>
-          <FormattedMessage 
-            id="exchangeLendingPage.orderPlace.borrow"
-            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
-        </BaseToken>
-      </HeaderRow>
-
       <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangeLendingPage.orderPlace.interest" />:
@@ -178,9 +162,8 @@ const BorrowOrderForm = props => {
       {!authenticated && (
         <BuyButton
           intent="success"
-          text={<FormattedMessage id="exchangePage.unlockWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
           name="order"
-          onClick={redirectToLoginPage}
           fill
         />
       )}
@@ -188,4 +171,4 @@ const BorrowOrderForm = props => {
   )
 }
 
-export default BorrowOrderForm
+export default DappBorrowOrderForm

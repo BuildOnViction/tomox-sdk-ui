@@ -72,17 +72,17 @@ const CreateWalletPageRenderer = (props: Props) => {
     confirmPassword,
     confirmPasswordStatus,
     handleConfirmPasswordChange,
-    storeAccount,
-    handleChangeStoreAccount,
+    // storeAccount,
+    // handleChangeStoreAccount,
   } = props
 
   const content = {
-    '0': (<WalletCreateStep 
-            address={address}             
-            goToPasswordStep={goToPasswordStep}
-            handleChangeStoreAccount={handleChangeStoreAccount}
-            storeAccount={storeAccount}
-            notifyCopiedSuccess={notifyCopiedSuccess} />),
+    // '0': (<WalletCreateStep 
+    //         address={address}             
+    //         goToPasswordStep={goToPasswordStep}
+    //         handleChangeStoreAccount={handleChangeStoreAccount}
+    //         storeAccount={storeAccount}
+    //         notifyCopiedSuccess={notifyCopiedSuccess} />),
     '1': (<WalletPasswordStep 
             password={password}
             passwordStatus={passwordStatus}
@@ -182,9 +182,7 @@ const WalletPasswordStep = props => {
       <Header>
         <HeaderTitle><FormattedMessage id="createWalletPage.passwordStep.title" /></HeaderTitle>
         <HeaderSubTitle>
-          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart1" />  
-          <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.passwordStep.subTitlePart2" /> </LinkWrapper> 
-          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart3" />
+          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart" />  
         </HeaderSubTitle>
       </Header>
 

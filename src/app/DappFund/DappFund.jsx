@@ -3,14 +3,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Theme } from '../../components/Common'
-import DappFundTable from '../../components/DappFundsTable'
 
-export default function DappFund() {
+import DappFundTable from '../../components/DappFundsTable'
+import DappWelcome from '../../components/DappWelcome'
+
+export default function DappFund({ authenticated }) {
+  if (!authenticated) return (<OrdersTableCell><DappWelcome /></OrdersTableCell>)
 
   return (
     <OrdersTableCell>
       <Header>
-        Fund
+        Funds
       </Header>
       <DappFundTable />
     </OrdersTableCell>

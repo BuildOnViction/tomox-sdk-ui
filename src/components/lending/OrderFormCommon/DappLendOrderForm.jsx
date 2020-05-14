@@ -10,9 +10,6 @@ import {
   InputBox,
   InputLabel,
   SmallText,
-  // InputValue,
-  HeaderRow,
-  BaseToken,
   SellButton,
   // MaxAmountInfo,
   ErrorMessage,
@@ -21,18 +18,15 @@ import {
   Title,
   Value,
 } from './index'
-// import { pricePrecision } from "../../../config/tokens"
 import { truncateZeroDecimal } from '../../../utils/helpers'
 
-const LendOrderForm = props => {
+const DappLendOrderForm = props => {
   const {
     lendInterest,
     lendAmount,
     // sellMaxAmount,
     fraction,
     // sellTotal,
-    // baseTokenSymbol,
-    // quoteTokenSymbol,
     // baseTokenBalance,
     // quoteTokenDecimals,
     onInputChange,
@@ -48,7 +42,6 @@ const LendOrderForm = props => {
     sellPriceInput,
     sellAmountInput,
     authenticated,
-    redirectToLoginPage,
     profit,
     currentPair,
     lendingToken,
@@ -56,13 +49,6 @@ const LendOrderForm = props => {
 
   return (
     <Wrapper>
-      <HeaderRow>
-        <BaseToken>
-          <FormattedMessage 
-            id="exchangeLendingPage.orderPlace.lend"
-            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
-        </BaseToken>
-      </HeaderRow>
       <InputBox>
         <InputLabel>
           <FormattedMessage id="exchangeLendingPage.orderPlace.interest" />:
@@ -159,9 +145,8 @@ const LendOrderForm = props => {
       {!authenticated && (
         <SellButton
           intent="danger"
-          text={<FormattedMessage id="exchangePage.unlockWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
           name="order"
-          onClick={redirectToLoginPage}
           fill
         />
       )}
@@ -169,6 +154,6 @@ const LendOrderForm = props => {
   )
 }
 
-export default LendOrderForm
+export default DappLendOrderForm
 
 

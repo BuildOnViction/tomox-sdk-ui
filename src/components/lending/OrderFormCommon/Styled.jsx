@@ -98,6 +98,7 @@ export const InputLabel = styled.div`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       width: 100%;
+      margin-bottom: 5px;
     }
   }
 `
@@ -187,6 +188,7 @@ export const Title = styled.div`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       width: 100%;
+      margin-bottom: 5px;
     }
   }
 `
@@ -201,6 +203,7 @@ export const Value = styled.div`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       max-width: unset;
+      margin-bottom: 12px;
     }
   }
 `

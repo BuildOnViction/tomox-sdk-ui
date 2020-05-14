@@ -13,6 +13,7 @@ import {
 import styled from 'styled-components'
 import { withRouter, Link as InternalLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { truncateZeroDecimal } from '../../utils/helpers'
@@ -59,7 +60,7 @@ class FundsTableRenderer extends React.PureComponent {
     return (
       <Wrapper>
         <CheckboxWrapper
-          label="Hide zero amounts"
+          label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
           checked={isHideZeroBalanceToken}  
           onChange={toggleZeroBalanceToken} />
 
@@ -124,17 +125,17 @@ const TOMORow = (props: Props) => {
         <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="_blank">{symbol}</Link>
       </Cell>
       <CellXsHidden width={WidthColums[1]}>
-        <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
+        <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
       </CellXsHidden>
       <CellXsHidden width={WidthColums[2]}>
-        <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
       </CellXsHidden>
       <CellXs width="65%">
         <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
-        <span>{truncateZeroDecimal(availableBalance)}</span> 
+        <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span> 
       </CellXs>
       <Cell width={WidthColums[3]}>
-        <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+        <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
       </Cell>
     </Row>
   )
@@ -153,17 +154,17 @@ const QuoteTokenRows = (props: Props) => {
           <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
-            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
+            <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
           </CellXsHidden>
           <CellXsHidden width={WidthColums[2]}>
-            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
           </CellXsHidden>
           <CellXs width="65%">
-            <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
-            <span>{truncateZeroDecimal(availableBalance)}</span>
+            <TotalBalance>{truncateZeroDecimal(BigNumber(balance).toFormat())}</TotalBalance>
+            <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span>
           </CellXs>
           <Cell width={WidthColums[3]}>
-            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
           </Cell>
         </Row>
       )
@@ -184,17 +185,17 @@ const BaseTokenRows = (props: Props) => {
             <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
-            <Ellipsis title={balance}>{truncateZeroDecimal(balance)}</Ellipsis>
+            <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
           </CellXsHidden>
           <CellXsHidden width={WidthColums[2]}>
-            <Ellipsis>{truncateZeroDecimal(availableBalance)}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
           </CellXsHidden>
           <CellXs width="65%">
-            <TotalBalance>{truncateZeroDecimal(balance)}</TotalBalance>
-            <span>{truncateZeroDecimal(availableBalance)}</span>
+            <TotalBalance>{truncateZeroDecimal(BigNumber(balance).toFormat())}</TotalBalance>
+            <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span>
           </CellXs>
           <Cell width={WidthColums[3]}>
-            <Ellipsis>{truncateZeroDecimal(inOrders)}</Ellipsis>
+            <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
           </Cell>
         </Row>
       )

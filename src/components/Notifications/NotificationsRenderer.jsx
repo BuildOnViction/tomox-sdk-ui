@@ -82,7 +82,7 @@ class NotificationsRenderer extends React.PureComponent {
           <MarkReadAll onClick={() => markAllNotificationsRead(address)}><FormattedMessage id="notifications.markAllAsRead" /></MarkReadAll>
         </NotificationTitle>
         <NotificationList onScroll={this.onScroll}>
-          { !notifications.length && !loading && <NoItems>No notifications to show</NoItems> }
+          { !notifications.length && !loading && <NoItems><FormattedMessage id="notifications.noNotifications" /></NoItems> }
           {
             (notifications.length > 0) && notifications.map((notification, index) => {
               return (

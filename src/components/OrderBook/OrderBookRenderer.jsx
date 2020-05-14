@@ -209,9 +209,13 @@ const BuyOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <BuyRowBackground amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell> 
+      <RowContentWrapper>
+        <RowContent>
+          <Cell onClick={() => onClick({...order, type: "price", side: "BUY"})} className="up" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
+          <AmountCell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
+          <Cell onClick={() => onClick({...order, type: "amount", side: "BUY"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell> 
+        </RowContent>
+      </RowContentWrapper>
     </Row>
   )
 }
@@ -221,9 +225,13 @@ const SellOrder = (props: SingleOrderProps) => {
   return (
     <Row update={order.update}>
       <SellRowBackGround amount={order.relativeTotal} />
-      <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
-      <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
-      <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell>
+      <RowContentWrapper>
+        <RowContent>
+          <Cell onClick={() => onClick({...order, type: "price", side: "SELL"})} className="down" width={widthColumns[0]}>{BigNumber(order.price).toFormat(currentPricePrecision)}</Cell>
+          <AmountCell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[1]}>{BigNumber(order.amount).toFormat(amountPrecision)}</AmountCell>
+          <Cell onClick={() => onClick({...order, type: "amount", side: "SELL"})} className="text-right" width={widthColumns[2]}>{BigNumber(order.total).toFormat(amountPrecision)}</Cell>
+        </RowContent>
+      </RowContentWrapper>  
     </Row>
   )
 }
@@ -371,6 +379,7 @@ const Row = styled.li.attrs({
   flex-direction: row;
   position: relative;
   width: 100%;
+  min-height: 23px;
   margin: 0px !important;
   padding: 0 10px !important;
   animation: ${props => props.update ? 
@@ -385,6 +394,22 @@ const Row = styled.li.attrs({
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
   }
+`
+
+const RowContentWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+`
+
+const RowContent = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 10px;
+  align-items: center;
 `
 
 const SellRowBackGround = styled.span`

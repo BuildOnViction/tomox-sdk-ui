@@ -2,7 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
-import { Icon } from '@blueprintjs/core'
 import 'rc-tabs/assets/index.css'
 import { Link, Redirect } from "react-router-dom"
 
@@ -70,7 +69,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
           (<Header>
             <Pair>{currentPairName}</Pair>
             <OrdersLink to="/dapp/lending/orders">
-              <Icon icon="document" iconSize={13} />
+              <i className="fa fa-file-text-o" aria-hidden="true"></i>
               <Typo>Orders</Typo>
             </OrdersLink>
           </Header>)}
@@ -90,7 +89,7 @@ const Header = styled.div`
   right: 0;
   cursor: pointer;
   padding: 0 10px;
-  height: 35px;
+  height: 40px;
   background-color: #1f2538;
 `
 
@@ -100,6 +99,7 @@ const Pair = styled.div`
 
 const OrdersLink = styled(Link)`
   display: flex;
+  align-items: center;
   color: #6e7793;
 `
 
@@ -121,14 +121,14 @@ const OrderFormCell = styled(Cell).attrs({
   top: 0;
   bottom: 0;
   z-index: 15;
-  padding-top: 40px;
+  padding-top: 45px;
 
   .bp3-tab {
     line-height: initial;
   }
 
   .bp3-tab-list {
-    margin-bottom: 5px;
+    margin-bottom: 12px;
   }
 
   .bp3-tab-list > *:not(:last-child) {
@@ -190,7 +190,7 @@ const OrderFormCell = styled(Cell).attrs({
 
 const Title = styled.div`
   color: #fff;  
-  padding: 7px 10px;
+  padding: 12px 10px;
   margin-bottom: 5px;
   background-color: #1f2538;
 `

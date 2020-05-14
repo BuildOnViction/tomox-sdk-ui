@@ -14,7 +14,7 @@ export function generateQuotes(addresses) {
   }
 
   const quoteSymbolTokens = []
-  const pairs = addresses.pairs
+  const pairs = Object.keys(addresses.pairs)
 
   pairs.forEach(p => {
     const x = p.split('/')

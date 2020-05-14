@@ -3,6 +3,7 @@ import {
   getAccountBalancesDomain,
   getAccountDomain,
   getTokenDomain,
+  getTokenPairsDomain,
   getTransferTokensFormDomain,
   getSettingsDomain,
   getLendingTokensDomain,
@@ -51,21 +52,16 @@ export default function walletPageSelector(state: State) {
 
 export function redirectToTradingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
-    const quoteTokenIndex = quoteTokenSymbols.indexOf(symbol)
-    let baseTokenSymbol, quoteTokenSymbol
+    const state = getState()
+    const pairs = getTokenPairsDomain(state).getPairsArray()
 
-    if (quoteTokenIndex === 0) {
-      baseTokenSymbol = quoteTokenSymbols[1]
-      quoteTokenSymbol = quoteTokenSymbols[0]
-    } else {
-      baseTokenSymbol = symbol
-      quoteTokenSymbol = quoteTokenSymbols[0]
-    }
+    if (!pairs.length) return
 
-    const pair = `${baseTokenSymbol}/${quoteTokenSymbol}`
+    let pair = pairs.find(pair => pair.pair.includes(symbol))
+    pair = pair ? pair : pairs[0]
 
     dispatch(actionCreators.updateCurrentPair(pair))
-    dispatch(push('/trade'))
+    dispatch(push(`/trade/${pair.pair.replace('/', '-')}`))
   }
 }
 
@@ -73,9 +69,10 @@ export function redirectToLendingPage(symbol: string): ThunkAction {
   return async (dispatch, getState) => {
     const state = getState()
     const lendingPairSymbols = getLendingPairsDomain(state).getPairs()
-    let lendingPair = lendingPairSymbols.find(pair => pair.includes(symbol))
-    lendingPair = lendingPair ? lendingPair : (lendingPairSymbols[0] ? lendingPairSymbols[0] : '1_Day_USDT')
-    
-    dispatch(push(`/lending/${lendingPair.replace(' ', '_').replace('/', '-')}`))
+    if (!lendingPairSymbols.length) return
+
+    let lendingPair = lendingPairSymbols.find(pair => pair.pair.includes(symbol))
+    lendingPair = lendingPair ? lendingPair : lendingPairSymbols[0]
+    dispatch(push(`/lending/${lendingPair.pair.replace(' ', '_').replace('/', '-')}`))
   }
 }
