@@ -730,7 +730,8 @@ class OrderForm extends React.PureComponent<Props, State> {
       buyPrice, 
       sellPrice, 
       buyAmount, 
-      sellAmount, 
+      sellAmount,
+      selectedTabId,
     } = this.state
 
     const {
@@ -746,7 +747,7 @@ class OrderForm extends React.PureComponent<Props, State> {
 
     if (side === 'BUY') { 
       switch (true) {
-        case (!buyPrice || BigNumber(buyPrice).eq(0)):
+        case ((!buyPrice || BigNumber(buyPrice).eq(0)) && (selectedTabId === 'LO')):
           return {
             type: 'price',
             message: 'Please input price',
@@ -767,7 +768,7 @@ class OrderForm extends React.PureComponent<Props, State> {
       }
     } else {
       switch(true) {
-        case (!sellPrice || BigNumber(sellPrice).eq(0)):
+        case ((!sellPrice || BigNumber(sellPrice).eq(0)) && (selectedTabId === 'LO')):
           return {
             type: 'price',
             message: 'Please input price',
