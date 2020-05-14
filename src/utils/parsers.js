@@ -475,6 +475,8 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
 
     const liquidationPrice = parsePricepoint(trades[i].liquidationPrice, pair)
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
+    const side = (trades[i].investor.toLowerCase() === userAddress.toLowerCase() 
+                  && trades[i].investor.toLowerCase() !== trades[i].borrower.toLowerCase()) ? 'LEND' : 'BORROW'
 
     const tradeParsed = {
       amount: parseLendingAmount(trades[i].amount, pair.quoteTokenDecimals),
@@ -506,7 +508,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       updatedAt: trades[i].updatedAt,
       time: trades[i].updatedAt,
       type: trades[i].type || 'LO',
-      side: (trades[i].investor.toLowerCase() === userAddress.toLowerCase()) ? 'LEND' : 'BORROW',
+      side,
       autoTopUp: trades[i].autoTopUp,
     }
 

@@ -517,7 +517,7 @@ const OpenTradesTable = ({
               content={
                 <ActionsMenu
                   hash={order.hash}
-                  isBorrower={order.isBorrower}
+                  side={order.side}
                   toggleRepayModal={toggleRepayModal}
                   toggleTopUpModal={toggleTopUpModal}
                 />
@@ -578,12 +578,12 @@ const OpenTradesTable = ({
   )
 }
 
-const ActionsMenu = ({ isBorrower, hash, toggleRepayModal, toggleTopUpModal }) => {
+const ActionsMenu = ({ side, hash, toggleRepayModal, toggleTopUpModal }) => {
   
   return (
     <Menu>
       {
-        isBorrower && (
+        (side.toUpperCase() === 'BORROW') && (
           <>
             <MenuItem text={<FormattedMessage id="exchangeLendingPage.orders.actions.topUp" />} onClick={() => toggleTopUpModal(true)} />
             <MenuItem text={<FormattedMessage id="exchangeLendingPage.orders.actions.repay" />} onClick={() => toggleRepayModal(true)} />
