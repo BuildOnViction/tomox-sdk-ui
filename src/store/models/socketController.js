@@ -725,9 +725,11 @@ function handleLendingOrderRepayedTopUped(event: WebsocketEvent): ThunkAction {
 
       const pairs = getTokenPairsDomain(state).getPairsArray()
       const trade = event.payload
+      const type = event.type
       let userTrades = []
       userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, [trade], pairs)
       if (userTrades.length > 0) dispatch(actionCreators.updateLendingTradesByAddress(userTrades))
+      dispatch(appActionCreators.addSuccessNotification({ message: type === 'LENDING_ORDER_TOPUPED' ? 'Top up success' : 'Repay success' }))
     } catch (e) {
       console.log(e)
       dispatch(appActionCreators.addErrorNotification({ message: e.message }))
