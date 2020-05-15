@@ -139,7 +139,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           </TabsWrapper>
 
           <SearchWrapper
-            type="string"
+            type="search"
             leftIcon="search"
             placeholder="Search" 
             value={searchInput}
@@ -263,7 +263,7 @@ const SearchWrapper= styled(InputGroup)`
     color: #6e7793;
     min-width: 300px;
     background: ${props => props.theme.subBg};
-    border-radius: 0;
+    border-radius: 0 !important;
     &:focus, 
     &.bp3-active {
       box-shadow: none;

@@ -68,12 +68,12 @@ const DepositTableRenderer = (props: Props) => {
           </OperationButtonWrapper>
           
           <SearchWrapper
-              type="string"
-              leftIcon="search"
-              placeholder="Search"
-              value={searchInput}
-              onChange={handleSearchInputChange}
-            />
+            type="search"
+            leftIcon="search"
+            placeholder="Search"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+          />
         </RowSpaceBetween>
         <Table>
           <TableHeader>
@@ -323,7 +323,7 @@ const SearchWrapper= styled(InputGroup)`
     color: ${TmColors.LIGHT_GRAY};
     min-width: 300px;
     background: ${props => props.theme.subBg};
-    border-radius: 0;
+    border-radius: 0 !important;
     &:focus, 
     &.bp3-active {
       box-shadow: none;
