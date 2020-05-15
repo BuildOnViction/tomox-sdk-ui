@@ -717,6 +717,10 @@ const Cell = styled.span.attrs({
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 5px;
+
+  i.fa-external-link {
+    color: ${props => props.theme.mainColorHover};
+  }
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
