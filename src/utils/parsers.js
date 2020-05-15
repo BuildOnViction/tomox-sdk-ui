@@ -129,16 +129,19 @@ export const parsePricepoint = (pricepoint: string, pair: TokenPair, precision: 
   return unformat(price)
 }
 
-export const parseOrder = (order: Order, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseOrder = (order: Order, pairs: Array<TokenPair>, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
 
+  const orderPair = pairs.find(pair => pair.baseTokenAddress.toLowerCase() === order.baseToken.toLowerCase() 
+                                      && pair.quoteTokenAddress.toLowerCase() === order.quoteToken.toLowerCase())
+  
   return {
     time: order.createdAt,
-    amount: parseTokenAmount(order.amount, pair, currAmountPrecision),
-    filled: parseTokenAmount(order.filledAmount, pair, currAmountPrecision),
-    price: parsePricepoint(order.pricepoint, pair, currPricePrecision),
+    amount: parseTokenAmount(order.amount, orderPair, currAmountPrecision),
+    filled: parseTokenAmount(order.filledAmount, orderPair, currAmountPrecision),
+    price: parsePricepoint(order.pricepoint, orderPair, currPricePrecision),
     hash: order.hash,
     side: order.side,
-    pair: pair.pair,
+    pair: orderPair.pair,
     type: order.type,
     status: order.status,
     orderID: order.orderID,
@@ -151,27 +154,28 @@ export const parseOrders = (orders: Orders, pairs: Object[], currAmountPrecision
   const parsedOrders = []
 
   orders.forEach(order => {
-    const pair = pairs.find(item => item.baseTokenAddress.toLowerCase() === order.baseToken.toLowerCase() && item.quoteTokenAddress.toLowerCase() === order.quoteToken.toLowerCase())
-    if (pair) {
-      const orderParsed = parseOrder(order, pair, currAmountPrecision, currPricePrecision)
+    const orderParsed = parseOrder(order, pairs, currAmountPrecision, currPricePrecision)
 
-      parsedOrders.push(orderParsed)
-    }
+    parsedOrders.push(orderParsed)
   })
 
   return parsedOrders
 }
 
-export const parseTrade = (trade: Trade, pair: TokenPair, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+export const parseTrade = (trade: Trade, pairs: Arrays<TokenPair>, currAmountPrecision: number = amountPrecision, currPricePrecision: number = pricePrecision) => {
+  
+  const tradePair = pairs.find(pair => pair.baseTokenAddress.toLowerCase() === trade.baseToken.toLowerCase() 
+                                      && pair.quoteTokenAddress.toLowerCase() === trade.quoteToken.toLowerCase())
+  
   return {
     time: trade.createdAt,
-    price: parsePricepoint(trade.pricepoint, pair, currPricePrecision),
-    amount: parseTokenAmount(trade.amount, pair, currAmountPrecision),
+    price: parsePricepoint(trade.pricepoint, tradePair, currPricePrecision),
+    amount: parseTokenAmount(trade.amount, tradePair, currAmountPrecision),
     hash: trade.hash,
     orderHash: trade.orderHash,
     type: trade.takerOrderType,
     side: trade.takerOrderSide,
-    pair: pair.pair,
+    pair: tradePair.pair,
     status: trade.status === 'SUCCESS' ? 'EXECUTED' : trade.status,
     maker: utils.getAddress(trade.maker),
     taker: utils.getAddress(trade.taker),

@@ -49,7 +49,7 @@ const ORDERTYPES = {
 const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '10%', '5%']
-const widthColumnsOrderHistory = ['12%', '10%', '10%', '8%', '15%', '12%', '15%', '10%', '8%']
+const widthColumnsOrderHistory = ['12%', '16%', '8%', '8%', '13%', '12%', '13%', '10%', '8%']
 const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
 
 const OrdersTableRenderer = (props: Props) => {
@@ -527,10 +527,12 @@ const Cell = styled.span.attrs({
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-right: 5px;
 `
 
 const HeaderCell = styled.span.attrs({ className: props => props.className })`
   width: ${props => (props.width ? props.width : '10%')};
+  padding-right: 5px;
 `
 
 const CancelIcon = styled(Icon)`
