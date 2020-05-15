@@ -4,8 +4,8 @@ import type { OHLCVState } from '../../../types/ohlcv'
 const initialState: OHLCVState = {
   ohlcvData: [],
   noOfCandles: 150,
-  currentTimeSpan: { name: '1 min', label: '1m', value: '1' },
-  currentDuration: { name: '1 Day', label: '1d' },
+  currentTimeSpan: { name: '1 hr', label: '1h', value: '60' },
+  currentDuration: { name: '2 Month', label: '2M' },
   loading: false,
 }
 
