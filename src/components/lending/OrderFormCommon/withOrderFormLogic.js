@@ -218,6 +218,7 @@ function withOrderFormLogic(WrappedComponent) {
 
       if (side === 'BORROW') {
         if ( window.estimateTimer) clearTimeout(window.estimateTimer)
+        if (!amount || Number(amount) === 0) return this.setState({ borrowAmount: amount, estimateCollateral: '' })
 
         this.setState({ borrowAmount: amount }, () => {
           window.estimateTimer = setTimeout(async () => {
@@ -233,6 +234,8 @@ function withOrderFormLogic(WrappedComponent) {
           }, 500)
         })
       } else {
+        if (!amount || Number(amount) === 0) return this.setState({ lendAmount: amount, profit: '' })
+
         const { lendInterest } = this.state
         const { currentPair: { termValue }} = this.props
         const profit = calcProfit(lendInterest, amount, termValue)
