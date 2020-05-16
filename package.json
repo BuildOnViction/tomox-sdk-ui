@@ -107,7 +107,8 @@
     "husky": "^0.14.3",
     "node-fetch": "^2.2.0",
     "react-hot-loader": "^4.3.11",
-    "react-intl-cra": "^0.3.3"
+    "react-intl-cra": "^0.3.3",
+    "sass": "^1.26.5"
   },
   "browserslist": [
     ">0.2%",
