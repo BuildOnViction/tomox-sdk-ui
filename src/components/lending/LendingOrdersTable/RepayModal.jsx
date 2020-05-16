@@ -25,7 +25,7 @@ export default function RepayModal({
                 <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.interest" /> <span><Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
                 <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.total" /> <Highlight><Value>{BigNumber(totalRepay).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</Highlight></Typo>
                 <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.availableBalance" /> <span><Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}</span></Typo>
-                {errorRepay && (<Highlight color={TmColors.RED}><FormattedMessage id="exchangeLendingPage.orders.repayModal.noReplay" /></Highlight>)}
+                {errorRepay && (<Highlight color={TmColors.RED}><FormattedMessage id="exchangeLendingPage.orders.repayModal.errorNotEnoughBalance" /></Highlight>)}
             </RepayContent>
             <ButtonGroup>
                 <CancelButton 
