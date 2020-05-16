@@ -350,7 +350,11 @@ const List = styled.ul`
 const Asks = styled(List).attrs({
   className: "bp3-list-unstyled list list-sell",
   id: "list-sell",
-})``
+})`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
 
 const Bids = styled(List).attrs({
   className: "bp3-list-unstyled list list-buy",
