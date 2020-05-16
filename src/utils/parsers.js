@@ -392,6 +392,8 @@ export const parseLendingTrades = (trades: Trades, decimals) => {
   
   const parsed = (trades: any).map(trade => ({
     time: trade.createdAt,
+    createdAt: trade.createdAt,
+    updatedAt: trade.updatedAt,
     interest: parseInterest(trade.interest),
     amount: parseLendingAmount(trade.amount, decimals),
     hash: trade.hash,

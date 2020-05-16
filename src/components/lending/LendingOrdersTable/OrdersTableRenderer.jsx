@@ -388,11 +388,11 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     
     return (
       <Row key={index} style={style}>
-        <Cell width={columnsTradeHistory['openDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
-          <Day>{formatDate(order.time, 'LL-dd')}</Day>
-          <Time>{formatDate(order.time, 'HH:mm:ss')}</Time>
+        <Cell width={columnsTradeHistory['openDate']} title={formatDate(order.createdAt, 'LL-dd HH:mm:ss')} muted>
+          <Day>{formatDate(order.createdAt, 'LL-dd')}</Day>
+          <Time>{formatDate(order.createdAt, 'HH:mm:ss')}</Time>
         </Cell>
-        <Cell width={columnsTradeHistory['closeDate']} title={formatDate(order.time, 'LL-dd HH:mm:ss')} muted>
+        <Cell width={columnsTradeHistory['closeDate']} title={formatDate(order.updatedAt, 'LL-dd HH:mm:ss')} muted>
           <Day>{formatDate(order.updatedAt, 'LL-dd')}</Day>
           <Time>{formatDate(order.updatedAt, 'HH:mm:ss')}</Time>
         </Cell>
