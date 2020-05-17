@@ -9,38 +9,25 @@ import {
   Switch,
 } from '@blueprintjs/core'
 
-// import { UtilityIcon } from '../../components/Common'
+import { UtilityIcon } from '../../components/Common'
 
-export default function Sidebar ({ disabled, mode, onChangeTheme, currentPairName }) {
+export default function Sidebar ({ disabled, mode, onChangeTheme }) {
   return (
     <Wrapper> 
       <MarketsLink to="/markets/trading">
         <SidebarItemBox>
           <Tooltip disabled={disabled} 
             portalClassName="sidebar-tooltip"
-            content={<FormattedMessage id="mainMenuPage.markets" />} 
-            position={Position.RIGHT}
-            transitionDuration={0}>
-            <i></i> 
-          </Tooltip>
-          <SidebarItemTitle><FormattedMessage id="mainMenuPage.markets" /></SidebarItemTitle>
-        </SidebarItemBox>
-      </MarketsLink>
-
-      <ExchangeLink to={currentPairName ? `/trade/${currentPairName.replace('/', '-')}` : "/404"}>
-        <SidebarItemBox>
-          <Tooltip disabled={disabled}
-            portalClassName="sidebar-tooltip"
-            content={<FormattedMessage id="mainMenuPage.spot" />}
+            content={<FormattedMessage id="mainMenuPage.spot" />} 
             position={Position.RIGHT}
             transitionDuration={0}>
             <i></i> 
           </Tooltip>
           <SidebarItemTitle><FormattedMessage id="mainMenuPage.spot" /></SidebarItemTitle>
         </SidebarItemBox>
-      </ExchangeLink>
+      </MarketsLink>
 
-      {/* <LendingMarketsLink mode={mode} to="/markets/lending">
+      <LendingMarketsLink mode={mode} to="/markets/lending">
         <SidebarItemBox>
           <Tooltip disabled={disabled} 
             portalClassName="sidebar-tooltip"
@@ -51,7 +38,7 @@ export default function Sidebar ({ disabled, mode, onChangeTheme, currentPairNam
           </Tooltip>
           <SidebarItemTitle><FormattedMessage id="mainMenuPage.lending" /></SidebarItemTitle>
         </SidebarItemBox>
-      </LendingMarketsLink> */}
+      </LendingMarketsLink>
 
       <PortfolioLink to="/wallet">
         <SidebarItemBox>
@@ -109,25 +96,21 @@ const SidebarItem = styled(NavLink).attrs({
 `
 
 const MarketsLink = styled(SidebarItem).attrs({
-  className: 'markets-link',
-})``
-
-const ExchangeLink = styled(SidebarItem).attrs({
   className: 'exchange-link',
 })``
 
-// const LendingMarketsLink = styled(SidebarItem).attrs({
-//   className: 'markets-link',
-// })`
-//   svg {
-//     margin-right: 10px;
-//   }
+const LendingMarketsLink = styled(SidebarItem).attrs({
+  className: 'markets-link',
+})`
+  svg {
+    margin-right: 10px;
+  }
 
-//   &:hover svg path,
-//   &.active svg path {
-//     fill: ${props => props.mode === 'dark' ? '#fff' : '#040404'};
-//   }
-// `
+  &:hover svg path,
+  &.active svg path {
+    fill: ${props => props.mode === 'dark' ? '#fff' : '#040404'};
+  }
+`
 
 const PortfolioLink = styled(SidebarItem).attrs({
   className: 'portfolio-link',
