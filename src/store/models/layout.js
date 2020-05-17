@@ -6,7 +6,7 @@ import { DEFAULT_NETWORK_ID } from '../../config/environment'
 import { createLocalWalletSigner } from '../services/signer'
 import { quoteTokens } from '../../config/quotes'
 import { NATIVE_TOKEN_SYMBOL } from '../../config/tokens'
-import { convertTermsToObjects } from '../../utils/helpers'
+// import { convertTermsToObjects } from '../../utils/helpers'
 
 import {
   getAccountDomain,
@@ -23,7 +23,7 @@ import * as notifierActionCreators from '../actions/app'
 import * as settingsActionCreators from '../actions/settings'
 import * as accountBalancesCreators from '../actions/accountBalances'
 import * as layoutCreators from '../actions/layout'
-import * as lendingTokensCreators from '../actions/lending/lendingTokens'
+// import * as lendingTokensCreators from '../actions/lending/lendingTokens'
 
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
@@ -105,18 +105,18 @@ export function queryAppData(): ThunkAction {
       const tokensPairs = addresses.pairs
       if (tokensPairs[currentPairName]) dispatch(actionCreators.updateCurrentPair(tokensPairs[currentPairName]))
       
-      const lendingPairs = await api.fetchLendingPairs()
-      dispatch(layoutCreators.updateLendingPairs(lendingPairs))
+      // const lendingPairs = await api.fetchLendingPairs()
+      // dispatch(layoutCreators.updateLendingPairs(lendingPairs))
 
-      const lendingTokens = await api.fetchLendingTokens()
-      dispatch(lendingTokensCreators.updateLendingTokens(lendingTokens))
+      // const lendingTokens = await api.fetchLendingTokens()
+      // dispatch(lendingTokensCreators.updateLendingTokens(lendingTokens))
 
-      const lendingCollaterals = await api.fetchLendingCollaterals()
-      dispatch(lendingTokensCreators.updateLendingCollaterals(lendingCollaterals))
+      // const lendingCollaterals = await api.fetchLendingCollaterals()
+      // dispatch(lendingTokensCreators.updateLendingCollaterals(lendingCollaterals))
 
-      let lendingTerms = await api.fetchLendingTerms()
-      lendingTerms = convertTermsToObjects(lendingTerms)
-      dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
+      // let lendingTerms = await api.fetchLendingTerms()
+      // lendingTerms = convertTermsToObjects(lendingTerms)
+      // dispatch(lendingTokensCreators.updateLendingTerms(lendingTerms))
     } catch (e) {
       const message = e.message ? e.message : "Could not connect to Tomochain network"
 
