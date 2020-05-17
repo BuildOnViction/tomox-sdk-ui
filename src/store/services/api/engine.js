@@ -137,8 +137,10 @@ export const fetchTokenBalances = async (address: string, tokens: Array<Token>) 
   }
 }
 
-export const fetchOrders = async (address: string) => {
-  const response = await request(`/orders?address=${address}`)
+export const fetchOrders = async (address: string, status: string) => {
+  const statusAvailable = ['OPEN']
+  const url = status && statusAvailable.includes(status.toUpperCase()) ? `/orders?address=${address}&orderStatus=${status.toUpperCase()}` : `/orders?address=${address}`
+  const response = await request(url)
 
   if (response.status === 400) {
     const { error } = await response.json()
