@@ -85,19 +85,23 @@ export const queryTradingPageData = (): ThunkAction => {
         let [
           orders,
           openOrders,
+          partialFilledOrders,
           tradesByAddress, // For trade history in OrderTable
         ] = await Promise.all([
           api.fetchOrders(userAddress),
           api.fetchOrders(userAddress, 'open'),
+          api.fetchOrders(userAddress, 'partial_filled'),
           api.fetchAddressTrades(userAddress), 
         ])
 
         orders = parseOrders(orders, pairs)
         openOrders = parseOrders(openOrders, pairs)
+        partialFilledOrders = parseOrders(partialFilledOrders, pairs)
         tradesByAddress = parseTradesByAddress(userAddress, exchangeAddress, tradesByAddress, pairs)
 
         dispatch(actionCreators.initOrdersTable(orders))
         dispatch(actionCreators.updateOrdersTable(openOrders))
+        dispatch(actionCreators.updateOrdersTable(partialFilledOrders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       }
 
