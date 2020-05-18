@@ -20,7 +20,7 @@ import {
 } from '../../components/Common'
 import Notifications from '../../components/Notifications'
 import TomoXLogo from '../../components/Common/TomoXLogo'
-import { TOMOSCAN_URL, DEX_LOGO } from '../../config/environment'
+import { TOMOSCAN_URL, DEX_LOGO, DEX_DOCS_URL } from '../../config/environment'
 import Ticker from '../Ticker'
 import LendingTicker from '../lending/LendingTicker'
 
@@ -95,7 +95,7 @@ const HeaderRenderer = (props) => {
 
         <NavbarGroup className="utilities-menu xs-hidden" align={Alignment.RIGHT}>
             <SupportItem className="utility-item support">
-            <a href="https://docs.tomochain.com/" target="_blank" rel="noopener noreferrer">
+            <a href={DEX_DOCS_URL} target="_blank" rel="noopener noreferrer">
                 <i>support</i>
             </a>
             </SupportItem>

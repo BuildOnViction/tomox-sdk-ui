@@ -9,6 +9,7 @@ import {
   Switch,
 } from '@blueprintjs/core'
 
+import { DEX_DOCS_URL } from '../../config/environment'
 import { UtilityIcon } from '../../components/Common'
 
 export default function Sidebar ({ disabled, mode, onChangeTheme }) {
@@ -53,7 +54,7 @@ export default function Sidebar ({ disabled, mode, onChangeTheme }) {
         </SidebarItemBox>
       </PortfolioLink>   
 
-      <NavExternalLink target="_blank" href="https://docs.tomochain.com">
+      <NavExternalLink target="_blank" href={DEX_DOCS_URL}>
         <SidebarItemBox>
           <Tooltip disabled={disabled} 
             portalClassName="sidebar-tooltip"
