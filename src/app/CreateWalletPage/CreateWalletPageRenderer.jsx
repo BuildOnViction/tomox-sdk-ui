@@ -8,7 +8,7 @@ import {
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 
 import Modal from '../../components/Modal'
 import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
@@ -44,13 +44,13 @@ type Props = {
 
 const CreateWalletPageRenderer = (props: Props) => {
   const {
-    address,
+    // address,
     currentStep,
     complete,
     mnemonic,
     shuffedMnemonic,
     inputMnemonic,
-    goToPasswordStep,
+    // goToPasswordStep,
     goToBackupStep,
     goToWarningStep,
     goToMnemonicStep,
@@ -120,48 +120,48 @@ const CreateWalletPageRenderer = (props: Props) => {
   )
 }
 
-const WalletCreateStep = props => {
-  const { address, goToPasswordStep, notifyCopiedSuccess } = props
+// const WalletCreateStep = props => {
+//   const { address, goToPasswordStep, notifyCopiedSuccess } = props
 
-  return (
-    <Wrapper>
-      <Header>
-        <HeaderTitle>
-          <FormattedMessage id="createWalletPage.title" />
-        </HeaderTitle>
+//   return (
+//     <Wrapper>
+//       <Header>
+//         <HeaderTitle>
+//           <FormattedMessage id="createWalletPage.title" />
+//         </HeaderTitle>
 
-        <HeaderSubTitle>
-          <LinkWrapper to="/unlock"><FormattedMessage id="createWalletPage.subTitlePart1" /> </LinkWrapper>        
-          <FormattedMessage id="createWalletPage.subTitlePart2" /> 
-          <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.subTitlePart3" /></LinkWrapper>
-        </HeaderSubTitle>
-      </Header>
+//         <HeaderSubTitle>
+//           <LinkWrapper to="/unlock"><FormattedMessage id="createWalletPage.subTitlePart1" /> </LinkWrapper>        
+//           <FormattedMessage id="createWalletPage.subTitlePart2" /> 
+//           <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.subTitlePart3" /></LinkWrapper>
+//         </HeaderSubTitle>
+//       </Header>
 
-      <Divider />
+//       <Divider />
 
-      <Content>
-        <LabelWrapper>
-          <LabelTitle><FormattedMessage id="createWalletPage.inputTitleName" /></LabelTitle>
-          <InputGroupWrapper />
-        </LabelWrapper>
+//       <Content>
+//         <LabelWrapper>
+//           <LabelTitle><FormattedMessage id="createWalletPage.inputTitleName" /></LabelTitle>
+//           <InputGroupWrapper />
+//         </LabelWrapper>
 
-        <AddressWrapper>
-          <LabelTitle><FormattedMessage id="createWalletPage.inputTileAddress" /></LabelTitle>
-          <AddressBox>
-            <Address title={address}>{address}</Address>
-            <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
-              <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}>
-                <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
-              </CopyIconBox> 
-            </CopyToClipboard>
-          </AddressBox>
-        </AddressWrapper>
+//         <AddressWrapper>
+//           <LabelTitle><FormattedMessage id="createWalletPage.inputTileAddress" /></LabelTitle>
+//           <AddressBox>
+//             <Address title={address}>{address}</Address>
+//             <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
+//               <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}>
+//                 <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
+//               </CopyIconBox> 
+//             </CopyToClipboard>
+//           </AddressBox>
+//         </AddressWrapper>
 
-        <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
-      </Content>
-    </Wrapper>
-  )
-}
+//         <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
+//       </Content>
+//     </Wrapper>
+//   )
+// }
 
 const WalletPasswordStep = props => {
   const { 
@@ -408,35 +408,35 @@ const HeaderSubTitle = styled.div`
   }
 `
 
-const AddressWrapper = styled.div`
-  margin-top: 35px !important;
-`
+// const AddressWrapper = styled.div`
+//   margin-top: 35px !important;
+// `
 
-const AddressBox = styled.div`
-  position: relative;
-`
+// const AddressBox = styled.div`
+//   position: relative;
+// `
 
-const Address = styled.div`
-  height: 50px;
-  padding: 15px 35px 15px 15px;
-  background: ${TmColors.BLACK};
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
+// const Address = styled.div`
+//   height: 50px;
+//   padding: 15px 35px 15px 15px;
+//   background: ${TmColors.BLACK};
+//   overflow: hidden;
+//   white-space: nowrap;
+//   text-overflow: ellipsis;
+// `
 
-const CopyIconBox = styled.span`
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  padding: 5px;
+// const CopyIconBox = styled.span`
+//   position: absolute;
+//   right: 5px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   cursor: pointer;
+//   padding: 5px;
 
-  &:hover {
-    background-color: ${TmColors.LIGHT_BLUE};
-  }
-`
+//   &:hover {
+//     background-color: ${TmColors.LIGHT_BLUE};
+//   }
+// `
 
 const LabelWrapper = styled(Label)`
   margin-bottom: 0 !important;
@@ -492,12 +492,12 @@ const ButtonWrapper = styled(Button)`
   }
 `
 
-const LinkWrapper = styled(Link)`
-  color: ${TmColors.ORANGE};
-  &:hover {
-    color: ${TmColors.DARK_ORANGE};
-  }
-`
+// const LinkWrapper = styled(Link)`
+//   color: ${TmColors.ORANGE};
+//   &:hover {
+//     color: ${TmColors.DARK_ORANGE};
+//   }
+// `
 
 const Paragraph = styled.p`
   text-align: ${props => props.textAlign? props.textAlign : 'left'};
