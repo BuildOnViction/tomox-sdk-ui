@@ -7,7 +7,7 @@ const initialState: TransferTokensFormState = {
   status: 'incomplete',
   statusMessage: null,
   gas: 21000,
-  gasPrice: 41000000000,
+  gasPrice: 250000000,
   hash: null,
   receipt: null,
 }
