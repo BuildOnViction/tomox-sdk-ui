@@ -53,7 +53,7 @@
   "unlockWalletPage.connectionIssues": "Bạn gặp vấn đề khi kết nối?",
   "unlockWalletPage.instructions": "Hướng dẫn sử dụng",
   "unlockWalletPage.labelPassword": "Mật khẩu",
-  "unlockWalletPage.describePassword": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ viết hoa, ký tự và số",
+  "unlockWalletPage.describePassword": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ viết hoa, ký tự đặc biệt và số",
   "unlockWalletPage.unlockWallet": "Mở khóa ví",
   "unlockWalletPage.chooseAddressModal.title": "Địa chỉ",
   "unlockWalletPage.chooseAddressModal.subTitle": "Xin hãy chọn một địa chỉ để sử dụng:",
