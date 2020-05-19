@@ -43,6 +43,7 @@ const TransferTokensFormRenderer = (props: Props) => {
     handleTokenChange,
     handleSubmit,
     intl,
+    isInvalidInput,
   } = props
 
   return (
@@ -98,7 +99,7 @@ const TransferTokensFormRenderer = (props: Props) => {
         type="submit"
         fill
         onClick={handleSubmit}
-        disabled={loading || (receipt !== null)}
+        disabled={loading || (receipt !== null) || isInvalidInput}
       />
     </div>
   )

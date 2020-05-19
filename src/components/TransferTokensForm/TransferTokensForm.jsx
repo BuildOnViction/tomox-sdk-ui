@@ -43,8 +43,14 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     amount: 0,
     receiver: '',
     sender: '',
-    customGas: null,
-    customGasPrice: null,
+    customGas: this.props.gas,
+    customGasPrice: this.props.gasPrice,
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.token.symbol !== prevState.token.symbol || this.props.gas !== prevProps.gas) {
+      this.setState({customGas: this.props.gas})
+    }
   }
 
   componentWillUnmount() {
@@ -66,8 +72,8 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       const { amount, receiver, token, customGasPrice, customGas } = this.state
       let { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
 
-      gas = customGas || gas
-      gasPrice = customGasPrice || gasPrice
+      gas = customGas
+      gasPrice = customGasPrice
 
       if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice })
@@ -109,8 +115,8 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   handleSubmit = () => {
     const { amount, receiver, token, customGas, customGasPrice } = this.state
     let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props
-    gas = customGas || gas
-    gasPrice = customGasPrice || gasPrice
+    gas = customGas
+    gasPrice = customGasPrice
           
     // console.log(amount, receiver, gas, gasPrice, token)
     
@@ -128,11 +134,18 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     }
   }
 
+  isInvalidInput = () => {
+    const { amount, receiver, customGas, customGasPrice } = this.state
+    const { estimatedGas } = this.props
+
+    return !amount || !receiver || !customGas || !customGasPrice || (Number(customGas) < Number(estimatedGas))
+  }
+
   render() {
     let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt, estimatedGas } = this.props
     const { token, amount, receiver, customGas, customGasPrice } = this.state
-    gas = customGas || gas
-    gasPrice = customGasPrice || gasPrice
+    gas = customGas
+    gasPrice = customGasPrice
 
     return (
       <TransferTokensFormRenderer
@@ -152,6 +165,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
         token={token}
         amount={amount}
         receiver={receiver}
+        isInvalidInput={this.isInvalidInput()}
       />
     )
   }

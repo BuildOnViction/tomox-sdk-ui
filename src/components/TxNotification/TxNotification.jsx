@@ -32,7 +32,7 @@ const TxNotification = (props: Props) => {
     case 'reverted':
       return renderErrorNotification(statusMessage, receipt, title)
     case 'error':
-      return renderErrorNotification(statusMessage, receipt, title)
+      return renderErrorNotification(statusMessage, receipt, title, estimatedGas)
     default:
       return null
   }
@@ -43,8 +43,8 @@ const renderLoader = () => {
   return <Spinner intent={Intent.SUCCESS} />
 }
 
-const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string) => {
-  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} />
+const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string, estimatedGas) => {
+  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} estimatedGas={estimatedGas} />
 }
 
 const renderValidityNotification = (status: string, statusMessage: string, gas: number) => {

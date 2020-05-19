@@ -24,6 +24,7 @@ export const txValidated = (statusMessage: string, estimatedGas: number) => {
     status: 'valid',
     statusMessage,
     estimatedGas,
+    gas: estimatedGas,
   })
   return event
 }
