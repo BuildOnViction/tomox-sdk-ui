@@ -19,10 +19,10 @@ const GasSettingsRenderer = (props: Props) => {
       <ButtonMinimal onClick={toggleVisible}><FormattedMessage id="portfolioPage.showGasSetting" /></ButtonMinimal>
 
       <Collapse isOpen={visible}>
-        <InputGroupWrapper type="number" placeholder="Gas" name="customGas" value={gas || ''} onChange={handleChange} />
+        <InputGroupWrapper type="number" placeholder="Gas limit" name="customGas" value={gas || ''} onChange={handleChange} />
         <InputGroupWrapper
           type="number"
-          placeholder="Gas Price"
+          placeholder="Gas price"
           name="customGasPrice"
           value={gasPrice || ''}
           onChange={handleChange}

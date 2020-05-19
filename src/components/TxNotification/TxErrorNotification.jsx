@@ -9,10 +9,11 @@ type Props = {
   title: ?string
 }
 
-const TxErrorNotification = ({ error, receipt, title }: Props) => (
+const TxErrorNotification = ({ error, receipt, title, estimatedGas }: Props) => (
   <Callout title="Transaction Failed" icon="info-sign" intent={Intent.DANGER}>
     <p>{error}</p>
     {receipt && <TxReceipt receipt={receipt} />}
+    {estimatedGas && `Required Gas: ${estimatedGas}`}
   </Callout>
 )
 
