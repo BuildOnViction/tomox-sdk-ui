@@ -31,6 +31,7 @@ const TransferTokensFormRenderer = (props: Props) => {
     status,
     statusMessage,
     gas,
+    estimatedGas,
     gasPrice,
     hash,
     receipt,
@@ -86,7 +87,7 @@ const TransferTokensFormRenderer = (props: Props) => {
           receipt={receipt}
           status={status}
           statusMessage={statusMessage}
-          gas={gas}
+          estimatedGas={estimatedGas}
         />
       </TxNotificationBox>
 

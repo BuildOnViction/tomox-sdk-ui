@@ -17,14 +17,14 @@ type Props = {
 }
 
 const TxNotification = (props: Props) => {
-  const { hash, receipt, status, statusMessage, gas, title } = props
+  const { hash, receipt, status, statusMessage, estimatedGas, title } = props
   switch (status) {
     case 'incomplete':
       return null
     case 'invalid':
-      return renderValidityNotification('invalid', statusMessage, gas)
+      return renderValidityNotification('invalid', statusMessage, estimatedGas)
     case 'valid':
-      return renderValidityNotification('valid', statusMessage, gas)
+      return renderValidityNotification('valid', statusMessage, estimatedGas)
     case 'sent':
       return renderTxPendingNotification(hash, title)
     case 'confirmed':

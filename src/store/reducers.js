@@ -138,7 +138,7 @@ export const transferTokensForm = createReducer(action => {
     case transferTokensFormActionTypes.validateTx:
       return transferTokensFormEvents.txValidated(
         payload.statusMessage,
-        payload.gas
+        payload.estimatedGas
       )
     case transferTokensFormActionTypes.invalidateTx:
       return transferTokensFormEvents.txInvalidated(payload.statusMessage)

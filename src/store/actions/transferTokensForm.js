@@ -35,10 +35,10 @@ export function invalidateTx(statusMessage: string): InvalidateTxAction {
   }
 }
 
-export function validateTx(statusMessage: string, gas: number): ValidateTxAction {
+export function validateTx(statusMessage: string, estimatedGas: number): ValidateTxAction {
   return {
     type: actionTypes.validateTx,
-    payload: { statusMessage, gas },
+    payload: { statusMessage, estimatedGas },
   }
 }
 

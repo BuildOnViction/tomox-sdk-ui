@@ -29,6 +29,7 @@ export const mapStateToProps = (state: State, ownProps: Props) => {
     receipt: transferTokensFormSelector.getReceipt(),
     tokens: transferTokensFormSelector.tokens(),
     address: transferTokensFormSelector.getAddress(),
+    estimatedGas: transferTokensFormSelector.getEstimatedGas(),
   }
 }
 

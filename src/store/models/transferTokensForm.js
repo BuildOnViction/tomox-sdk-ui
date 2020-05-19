@@ -52,6 +52,7 @@ export default function sendEtherSelector(state: State) {
     getHash: () => transferTokensFormDomain.getHash(),
     getReceipt: () => transferTokensFormDomain.getReceipt(),
     tokens: () => tokens,
+    getEstimatedGas: () => transferTokensFormDomain.getEstimatedGas(),
   }
 }
 

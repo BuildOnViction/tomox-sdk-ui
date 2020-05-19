@@ -7,6 +7,7 @@ const initialState: TransferTokensFormState = {
   status: 'incomplete',
   statusMessage: null,
   gas: 21000,
+  estimatedGas: '',
   gasPrice: 250000000,
   hash: null,
   receipt: null,
@@ -17,12 +18,12 @@ export const initialized = () => {
   return event
 }
 
-export const txValidated = (statusMessage: string, gas: number) => {
+export const txValidated = (statusMessage: string, estimatedGas: number) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     status: 'valid',
     statusMessage,
-    gas,
+    estimatedGas,
   })
   return event
 }
@@ -102,5 +103,6 @@ export default function transferTokensFormDomain(
     getGasPrice: () => state.gasPrice,
     getHash: () => state.hash,
     getReceipt: () => state.receipt,
+    getEstimatedGas: () => state.estimatedGas,
   }
 }
