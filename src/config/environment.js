@@ -10,7 +10,8 @@ let ENGINE_HTTP_URL,
   DEX_TITLE,
   DEX_LOGO,
   DEX_FAVICON,
-  DEX_DOCS_URL
+  DEX_DOCS_URL,
+  DEX_VERSION
 
 const env = window.env || process.env
 
@@ -42,6 +43,7 @@ if (env) {
   DEX_LOGO = env.REACT_APP_LOGO
   DEX_FAVICON = env.REACT_APP_FAVICON
   DEX_DOCS_URL = env.REACT_APP_DEX_DOCS_URL || 'https://docs.tomochain.com/tomodex'
+  DEX_VERSION = REACT_APP_DEX_VERSION || '1.2.2'
 }
 
 export {
@@ -59,4 +61,5 @@ export {
   DEX_LOGO,
   DEX_FAVICON,
   DEX_DOCS_URL,
+  DEX_VERSION,
 }

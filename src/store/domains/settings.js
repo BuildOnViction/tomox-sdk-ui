@@ -1,5 +1,5 @@
 import type { SettingsState } from '../../types/settings'
-import { LOCALE } from '../../config/environment'
+import { LOCALE, DEX_VERSION } from '../../config/environment'
 
 const initialState = {
   defaultGasLimit: 2100000,
@@ -7,6 +7,7 @@ const initialState = {
   pvtKeyLocked: true,
   locale: LOCALE,
   mode: 'dark',
+  version: DEX_VERSION,
 }
 
 export const initialized = () => {

@@ -3,6 +3,7 @@ import * as React from 'react'
 import './index.css'
 import Datafeed from './api/'
 import { isTomoWallet, isMobile } from '../../utils/helpers'
+import { DEX_VERSION } from '../../config/environment'
 
 const isExpired = (timestamp, expireDays: number = 1) => {
 	const now = Date.now()
@@ -46,10 +47,10 @@ export default class TVChartRenderer extends React.PureComponent {
 		let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 		timezone = (timezone === 'Asia/Saigon') ? 'Asia/Ho_Chi_Minh' : timezone
 
-		let saved_data = JSON.parse(localStorage.getItem(`savedChart.${this.props.currentPair.pair}`))
+		let saved_data = JSON.parse(localStorage.getItem(`${DEX_VERSION}:savedChart.${this.props.currentPair.pair}`))
 		if (saved_data && isExpired(saved_data.createdAt, 1)) {
 			saved_data = null
-			localStorage.removeItem(`savedChart.${this.props.currentPair.pair}`)
+			localStorage.removeItem(`${DEX_VERSION}:savedChart.${this.props.currentPair.pair}`)
 		}
 
 		const widgetOptions = {
@@ -71,10 +72,10 @@ export default class TVChartRenderer extends React.PureComponent {
 				'header_undo_redo',
 			],
 			enabled_features: [],
-			charts_storage_url: this.props.chartsStorageUrl,
-			charts_storage_api_version: this.props.chartsStorageApiVersion,
-			client_id: this.props.clientId,
-			user_id: this.props.userId,
+			// charts_storage_url: this.props.chartsStorageUrl,
+			// charts_storage_api_version: this.props.chartsStorageApiVersion,
+			// client_id: this.props.clientId,
+			// user_id: this.props.userId,
 			fullscreen: this.props.fullscreen,
 			autosize: this.props.autosize,
 			studies_overrides: this.props.studiesOverrides,
@@ -144,7 +145,7 @@ export default class TVChartRenderer extends React.PureComponent {
 					}
 
 					localStorage.setItem(
-						`savedChart.${this.props.currentPair.pair}`, 
+						`${DEX_VERSION}:savedChart.${this.props.currentPair.pair}`, 
 						JSON.stringify({...data, createdAt: Date.now()})
 					)
 				})
