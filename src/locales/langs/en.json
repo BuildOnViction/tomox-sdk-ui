@@ -82,7 +82,7 @@
   "createWalletPage.passwordStep.inputPasswordTitle": "New password:",
   "createWalletPage.passwordStep.inputConfirmPasswordTitle": "Confirm password",
   "createWalletPage.passwordStep.describePassword": "Password need 8 or more characters, at least an upper case, a symbol and a number",
-  "createWalletPage.passwordStep.measureResult": "Password is week",
+  "createWalletPage.passwordStep.measureResult": "Password is weak",
   "createWalletPage.passwordStep.warningNotMatch": "The password entered does not match",
   "createWalletPage.backupStep.title": "No Backup, No Money",
   "createWalletPage.backupStep.description": "You must save the secret phrase. It is crucial for accessing your account or Do it later.",
