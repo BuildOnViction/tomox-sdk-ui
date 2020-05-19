@@ -15,6 +15,7 @@ import { messsages } from './locales'
 import { getAddresses } from './config/addresses.js'
 import { generateQuotes } from './config/quotes'
 import { generateTokens } from './config/tokens'
+import { DEX_VERSION } from './config/environment'
 
 // registerServiceWorker()
 
@@ -25,9 +26,10 @@ const ConnectedIntlProvider = connect(state => {
 })(IntlProvider)
 
 const render = async (AppComponent) => {
-  // After refactor the flow, we get tokens and pairs from the API instead the addresses.json file but when app render,
-  // tokens.js & quotes.js run before at all so variables relative tokens and pairs export from them are in addresss.json
-  // we will change them with data from the API before create store
+  // clear localStorage change version
+  const settings = JSON.parse(localStorage.getItem('tomo:settings'))
+  if (settings && settings.version !== DEX_VERSION) localStorage.clear()
+
   const {addresses, err} = await getAddresses()
   if (!err) {
     generateQuotes(addresses)
