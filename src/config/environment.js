@@ -43,7 +43,7 @@ if (env) {
   DEX_LOGO = env.REACT_APP_LOGO
   DEX_FAVICON = env.REACT_APP_FAVICON
   DEX_DOCS_URL = env.REACT_APP_DEX_DOCS_URL || 'https://docs.tomochain.com/tomodex'
-  DEX_VERSION = REACT_APP_DEX_VERSION || '1.2.2'
+  DEX_VERSION = env.REACT_APP_DEX_VERSION || '1.2.2'
 }
 
 export {
