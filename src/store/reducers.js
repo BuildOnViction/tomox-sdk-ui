@@ -1,4 +1,5 @@
 // @flow
+import { DEX_VERSION } from '../config/environment'
 import storage from 'redux-persist/lib/storage'
 
 import createReducer, { createReducerPersist } from './createReducer'
@@ -170,7 +171,7 @@ export const websocket = createReducer(action => {
 
 export const ohlcv = createReducerPersist({
     key: 'ohlcv',
-    keyPrefix: 'tomo:',
+    keyPrefix: `${DEX_VERSION}:tomo:`,
     storage,
     whitelist: ['currentTimeSpan', 'currentDuration'],
   },
@@ -277,7 +278,7 @@ export const tokens = createReducer(action => {
 
 export const tokenPairs = createReducerPersist({
   key: 'tokenPairs',
-  keyPrefix: 'tomo:',
+  keyPrefix: `${DEX_VERSION}:tomo:`,
   storage,
   whitelist: ['favorites', 'currentPair'],
 }, action => {
@@ -417,7 +418,7 @@ export const settings = createReducerPersist({
   key: 'settings',
   keyPrefix: 'tomo:',
   storage,
-  whitelist: ['locale', 'mode'],
+  whitelist: ['locale', 'mode', 'version'],
 }, action => {
   const { type, payload } = action
   switch (type) {
@@ -541,7 +542,7 @@ export const lendingTrades = createReducer(action => {
 
 export const lendingPairs = createReducerPersist({
   key: 'lendingPairs',
-  keyPrefix: 'tomo:lending:',
+  keyPrefix: `${DEX_VERSION}:tomo:lending:`,
   storage,
   whitelist: ['favorites', 'currentLendingPair'],
 }, action => {
@@ -602,7 +603,7 @@ export const lendingOrders = createReducer(action => {
 
 export const lendingOhlcv = createReducerPersist({
   key: 'ohlcv',
-  keyPrefix: 'tomo:lending:',
+  keyPrefix: `${DEX_VERSION}:tomo:lending:`,
   storage,
   whitelist: ['currentTimeSpan', 'currentDuration'],
 },
