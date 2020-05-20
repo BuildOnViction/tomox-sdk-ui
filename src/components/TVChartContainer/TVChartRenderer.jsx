@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import './index.css'
 import Datafeed from './api/'
-import { isTomoWallet, isMobile } from '../../utils/helpers'
+import { isTomoWallet, isMobile, getLocaleTradingView } from '../../utils/helpers'
 
 const isExpired = (timestamp, expireDays: number = 1) => {
 	const now = Date.now()
@@ -59,7 +59,7 @@ export default class TVChartRenderer extends React.PureComponent {
 			interval: currentTimeSpan.value,
 			container_id: this.props.containerId,
 			library_path: this.props.libraryPath,
-			locale,
+			locale: getLocaleTradingView(locale),
 			disabled_features: [
 				'use_localstorage_for_settings', 
 				'volume_force_overlay', 

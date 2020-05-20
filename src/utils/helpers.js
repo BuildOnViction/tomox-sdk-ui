@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import ethereum_address from 'ethereum-address'
 import { format, formatRelative } from 'date-fns'
 import { pricePrecision } from '../config/tokens'
+import locales from '../config/locales'
 
 export const rand = (min, max, decimals = 4) => {
   return (Math.random() * (max - min) + min).toFixed(decimals)
@@ -369,4 +370,9 @@ export const formatAmount = (amount: string) => {
     default:
       return BigNumber(amount).toFormat(4)
   }
+}
+
+export const getLocaleTradingView = (locale) => {
+  const supportedLocale = locales[locale]
+  return supportedLocale || 'en'
 }
