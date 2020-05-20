@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import zxcvbn from 'zxcvbn'
+import { FormattedMessage } from 'react-intl'
 
 export const PasswordStrengMeter = props => {
     const { password } = props
@@ -14,7 +15,7 @@ export const PasswordStrengMeter = props => {
             <StrengMeter password={password}>
                 <StrengMeterFill data-strength={strength} />
             </StrengMeter>
-            {(strength < 3) && (<Message>Password is week</Message>)}
+            {(strength < 3) && (<Message><FormattedMessage id="createWalletPage.passwordStep.measureResult" /></Message>)}
         </React.Fragment>
     )
 }
