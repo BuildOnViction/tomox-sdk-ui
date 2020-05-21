@@ -644,6 +644,9 @@ function handleLendingOrderAdded(event: WebsocketEvent): ThunkAction {
       const state = getState()
       const tokens = getTokenDomain(state).byAddress()
       const byHash = getLendingOrdersDomain(state).byHash()
+      const exchangeAddress = getAccountDomain(state).exchangeAddress()
+      if (exchangeAddress.toLowerCase() !== event.payload.relayerAddress.toLowerCase()) return
+
       const order: Array<Object> = parseLendingOrders([event.payload], tokens)
 
       dispatch(actionCreators.updateLendingOrders(order))
@@ -664,6 +667,9 @@ function handleLendingOrderCancelled(event: WebsocketEvent): ThunkAction {
     try {
       const state = getState()
       const tokens = getTokenDomain(state).byAddress()
+      const exchangeAddress = getAccountDomain(state).exchangeAddress()
+      if (exchangeAddress.toLowerCase() !== event.payload.relayerAddress.toLowerCase()) return
+
       const order: Array<Object> = parseLendingOrders([event.payload], tokens)
 
       dispatch(actionCreators.updateLendingOrders(order))
@@ -689,9 +695,13 @@ function handleLendingOrderSuccess(event: WebsocketEvent): ThunkAction {
       let userTrades = []
       const userIsBorrower = matches.borrowing.userAddress.toLowerCase() === userAddress.toLowerCase()
 
-      userOrders  = userIsBorrower 
-        ? parseLendingOrders([matches.borrowing], tokens) 
-        : parseLendingOrders(matches.investing, tokens)
+      if (userIsBorrower) {        
+        userOrders = (exchangeAddress.toLowerCase() === matches.borrowing.relayerAddress.toLowerCase()) 
+                      ? parseLendingOrders([matches.borrowing], tokens) : []
+      } else {
+        const orders = matches.investing.filter(order => order.relayerAddress.toLowerCase() === exchangeAddress.toLowerCase())
+        userOrders = parseLendingOrders(orders, tokens)
+      }
 
       userTrades = parseLendingTradesByAddress(userAddress, exchangeAddress, matches.lendingTrades, pairs)
       
