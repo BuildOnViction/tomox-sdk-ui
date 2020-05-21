@@ -167,6 +167,9 @@ function handleOrderAdded(event: WebsocketEvent): ThunkAction {
       const state = getState()
       const {orders: {byHash}} = state
       let order = event.payload
+      const exchangeAddress = getAccountDomain(state).exchangeAddress()
+      if (exchangeAddress.toLowerCase() !== order.exchangeAddress.toLowerCase()) return
+
       const pairs = getTokenPairsDomain(state).getPairsArray()
       order = parseOrder(order, pairs)
       dispatch(actionCreators.updateOrdersTable([order]))
@@ -188,6 +191,8 @@ function handleOrderCancelled(event: WebsocketEvent): ThunkAction {
       const state = getState()
       const pairs = getTokenPairsDomain(state).getPairsArray()
       let order = event.payload
+      const exchangeAddress = getAccountDomain(state).exchangeAddress()
+      if (exchangeAddress.toLowerCase() !== order.exchangeAddress.toLowerCase()) return
 
       order = parseOrder(order, pairs)
 
@@ -253,6 +258,7 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
       const userIsTaker = utils.getAddress(matches.takerOrder.userAddress).toLowerCase() === signerAddress.toLowerCase()
 
       if (userIsTaker) {
+        if (matches.takerOrder.exchangeAddress.toLowerCase() !== exchangeAddress.toLowerCase()) return
         const parsedOrder = parseOrder(matches.takerOrder, pairs)
         userOrders = [parsedOrder]
 
@@ -266,7 +272,8 @@ function handleOrderSuccess(event: WebsocketEvent): ThunkAction {
         dispatch(appActionCreators.addOrderSuccessNotification({ txHash, pair, price, amount, filled, side }))
       } else {
         matches.makerOrders.forEach(order => {
-          if (utils.getAddress(order.userAddress).toLowerCase() === signerAddress.toLowerCase()) {
+          if (utils.getAddress(order.userAddress).toLowerCase() === signerAddress.toLowerCase()
+          && order.exchangeAddress.toLowerCase() === exchangeAddress.toLowerCase()) {
             const parsedOrder = parseOrder(order, pairs)
             userOrders.push(parsedOrder)
             const { price, amount, filled, side, pair } = parsedOrder
