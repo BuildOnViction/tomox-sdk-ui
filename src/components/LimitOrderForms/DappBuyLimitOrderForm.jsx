@@ -44,7 +44,6 @@ const DappBuyLimitOrderForm = props => {
     buyPriceInput,
     buyAmountInput,
     authenticated,
-    redirectToLoginPage,
     amountPrecision,
   } = props
 
@@ -154,7 +153,6 @@ const DappBuyLimitOrderForm = props => {
           intent="success"
           text={<FormattedMessage id="exchangePage.unlockWallet" />}
           name="order"
-          onClick={redirectToLoginPage}
           fill
         />
       )}

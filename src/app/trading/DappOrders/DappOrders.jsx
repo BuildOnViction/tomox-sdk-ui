@@ -3,10 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from "react-intl"
 import 'rc-tabs/assets/index.css'
-import { Link, Redirect } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Icon } from '@blueprintjs/core'
 
-import { isTomoWallet } from '../../../utils/helpers'
 import { Theme, TmColors } from '../../../components/Common'
 import OrdersTableMobile from '../../../components/OrdersTableMobile'
 
@@ -41,13 +40,12 @@ export default class DappOrders extends React.PureComponent<Props, State> {
 
   render() {
     const { currentPairName } = this.props
-    if (!isTomoWallet()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
 
     return (      
       <OrdersTableCell>
         <OrdersTableMobile />
         <OrdersTableTitle><FormattedMessage id="dapp.orders" /></OrdersTableTitle>
-        <BackButton to={`/dapp/${currentPairName.replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>
+        <BackButton to={`/dapp/trade/${currentPairName.replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>
       </OrdersTableCell>
     )
   }

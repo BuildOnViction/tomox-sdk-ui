@@ -15,7 +15,6 @@ import { Colors, Loading, CenteredMessage, TmColors, Theme } from '../Common'
 import { formatDate, calcPercent } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
-import FundsTable from '../FundsTable'
 
 type Props = {
   loading: boolean,
@@ -29,6 +28,11 @@ type Props = {
   }
 }
 
+const ORDERTYPES = {
+  'LO': <FormattedMessage id='exchangePage.limit' />,
+  'MO': <FormattedMessage id='exchangePage.market' />,
+}
+
 const OrdersTableRendererMobile = (props: Props) => {
   const {
     loading,
@@ -36,6 +40,7 @@ const OrdersTableRendererMobile = (props: Props) => {
     onChange,
     cancelOrder,
     orders,
+    trades,
     isHideOtherPairs,
     handleChangeHideOtherPairs,
     pricePrecision,
@@ -80,10 +85,18 @@ const OrdersTableRendererMobile = (props: Props) => {
           }
         />
         <Tab
-          id="funds"
-          title={<FormattedMessage id="exchangePage.funds" />}
+          id="trade-history"
+          title={<FormattedMessage id="exchangePage.tradeHistory" />}
           panel={
-            <FundsTable />
+            <OrdersTablePanel
+              loading={loading}
+              orders={trades}
+              selectedTabId={selectedTabId}
+              isHideOtherPairs={isHideOtherPairs}
+              handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+              pricePrecision={pricePrecision}
+              amountPrecision={amountPrecision}
+            />
           }
         />
       </TabsContainer>
@@ -129,6 +142,13 @@ const OrdersTablePanel = (props: {
                 handleChangeHideOtherPairs={handleChangeHideOtherPairs}
                 pricePrecision={pricePrecision}
                 amountPrecision={amountPrecision} />)
+    case 'trade-history':
+      return (<TradeHistoryTable 
+                orders={orders} 
+                isHideOtherPairs={isHideOtherPairs} 
+                handleChangeHideOtherPairs={handleChangeHideOtherPairs}
+                pricePrecision={pricePrecision}
+                amountPrecision={amountPrecision} />)
     default:
       return (<div></div>)
   }
@@ -153,8 +173,6 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     text={`${calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}%`}
                     styles={buildStyles({
                       textColor: order.side === 'BUY' ? TmColors.GREEN : TmColors.RED,
-                      // pathColor: TmColors.ORANGE,
-                      // trailColor: TmColors.LIGHT_GRAY
                     })} />
                 </div>
               </CenterCell>
@@ -175,7 +193,9 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     </div>
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
-                      <FieldValue>{BigNumber(order.price).toFormat()}</FieldValue>
+                      <FieldValue>
+                        {order.type.toUpperCase() === 'LO' ? BigNumber(order.price).toFormat() : [ORDERTYPES[order.type.toUpperCase()]]}
+                      </FieldValue>
                     </div>
                   </Cell>
                   <Cell width="30%">
@@ -196,32 +216,72 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      <ListHeader className="header">
-        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-        <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-        <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
-      </ListHeader>
+      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+
+      {(orders.length > 0) &&
+        (<>
+          <ListHeader className="header">
+            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+            <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
+          </ListHeader>
+          <ListBodyWrapper className="list">
+            {orders.map((order, index) => (
+              <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
+                <Cell width={"35%"} title={order.pair} muted>
+                  <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
+                  <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
+                </Cell>
+                <Cell width={"35%"} title={order.price} muted>
+                  { (order.type.toUpperCase() !== 'MO') && (<span>{BigNumber(order.price).toFormat()}</span>) }
+                  <span>{ORDERTYPES[order.type.toUpperCase()]}</span>
+                </Cell>
+                <Cell textAlign="right" width={"30%"} muted>
+                  <span>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</span>
+                  <span>{BigNumber(order.amount).toFormat()}</span>
+                </Cell>
+              </Row>
+            ))}
+          </ListBodyWrapper>
+        </>)
+      }
+    </ListContainer>
+  )
+}
+
+const TradeHistoryTable = ({orders, isHideOtherPairs, handleChangeHideOtherPairs, pricePrecision, amountPrecision}) => {
+  
+  return (
+    <ListContainer className="list-container">
+      <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
       {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
 
-      {(orders.length > 0) && 
-        (<ListBodyWrapper className="list">
-          {orders.map((order, index) => (
-            <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
-              <Cell width={"35%"} title={order.pair} muted>
-                <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
-                <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
-              </Cell>
-              <Cell width={"35%"} title={order.price} muted>
-                {BigNumber(order.price).toFormat()}
-              </Cell>
-              <AmountCell textAlign="right" width={"30%"} muted>
-                <span>{order.filled ? BigNumber(order.filled).toFormat() : "--"}</span>
-                <span>{BigNumber(order.amount).toFormat()}</span>
-              </AmountCell>
-            </Row>
-          ))}
-        </ListBodyWrapper>)
+      {(orders.length > 0) &&
+        (<>
+          <ListHeader className="header">
+            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+            <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+          </ListHeader>
+          <ListBodyWrapper className="list">
+            {orders.map((order, index) => (
+              <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
+                <Cell width={"35%"} title={order.pair} muted>
+                  <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
+                  <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
+                </Cell>
+                <Cell width={"35%"} title={order.price} muted>
+                  { (order.type.toUpperCase() !== 'MO') && (<span>{BigNumber(order.price).toFormat()}</span>) }
+                  <span>{ORDERTYPES[order.type.toUpperCase()]}</span>
+                </Cell>
+                <Cell textAlign="right" width={"30%"} muted>
+                  <span>{BigNumber(order.amount).toFormat()}</span>
+                </Cell>
+              </Row>
+            ))}
+          </ListBodyWrapper>
+        </>)
       }
     </ListContainer>
   )
@@ -301,6 +361,8 @@ const ChildRow = styled.div`
 const Cell = styled.span.attrs({
   className: props => props.className,
 })`
+  display: flex;
+  flex-direction: column;
   color: ${props =>
     props.side === 'BUY'
       ? Colors.BUY
@@ -329,10 +391,10 @@ const CenterCell = styled(Cell)`
   align-items: center;
 `
 
-const AmountCell = styled(Cell)`
-  display: flex;
-  flex-direction: column;
-`
+// const AmountCell = styled(Cell)`
+//   display: flex;
+//   flex-direction: column;
+// `
 
 const Pair = styled.div`
   display: flex;

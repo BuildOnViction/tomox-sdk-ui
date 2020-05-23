@@ -12,8 +12,6 @@ import {
   SmallText,
   Value,
   BuyLimitOrderContainer,
-  HeaderRow,
-  BaseToken,
   BuyButton,
   MaxAmountInfo,
   ErrorMessage,
@@ -39,7 +37,6 @@ const DappBuyLimitOrderForm = props => {
     isShowBuyMaxAmount,
     buyAmountInput,
     authenticated,
-    redirectToLoginPage,
     intl,
     amountPrecision,
   } = props
@@ -121,9 +118,8 @@ const DappBuyLimitOrderForm = props => {
       {!authenticated && (
         <BuyButton
           intent="success"
-          text={<FormattedMessage id="exchangePage.unlockWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
           name="order"
-          onClick={redirectToLoginPage}
           fill
         />
       )}

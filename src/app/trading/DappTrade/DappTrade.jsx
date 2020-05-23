@@ -65,7 +65,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
         {currentPairName && 
           (<Header>
             <Pair>{currentPairName}</Pair>
-            <OrdersLink to="/dapp/trade/orders">
+            <OrdersLink to="/dapp/spot/orders">
               <i className="fa fa-file-text-o" aria-hidden="true"></i>
               <Typo>Orders</Typo>
             </OrdersLink>
