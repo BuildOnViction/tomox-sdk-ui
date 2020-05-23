@@ -151,7 +151,7 @@ const DappBuyLimitOrderForm = props => {
       {!authenticated && (
         <BuyButton
           intent="success"
-          text={<FormattedMessage id="exchangePage.unlockWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
           name="order"
           fill
         />

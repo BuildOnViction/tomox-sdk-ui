@@ -194,7 +194,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     <div>
                       <FieldTitle><FormattedMessage id="exchangePage.price" /></FieldTitle>
                       <FieldValue>
-                        {order.type.toUpperCase() === 'LO' ? BigNumber(order.price).toFormat() : [ORDERTYPES[order.type.toUpperCase()]]}
+                        {order.type.toUpperCase() === 'LO' ? BigNumber(order.price).toFormat() : ORDERTYPES[order.type.toUpperCase()]}
                       </FieldValue>
                     </div>
                   </Cell>
@@ -266,7 +266,7 @@ const TradeHistoryTable = ({orders, isHideOtherPairs, handleChangeHideOtherPairs
           </ListHeader>
           <ListBodyWrapper className="list">
             {orders.map((order, index) => (
-              <Row key={index} cancel={order.status === "CANCELLED" || order.status === "REJECTED"}>
+              <Row key={index}>
                 <Cell width={"35%"} title={order.pair} muted>
                   <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
                   <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>

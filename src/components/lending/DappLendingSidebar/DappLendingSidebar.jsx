@@ -19,11 +19,11 @@ export default function DappLendingSidebar({ currentPair }) {
                 <i className="tomoicons-lending"></i> 
                 <Typo>Lending</Typo>
             </MenuItem>
-            <MenuItem to="/dapp/fund">
+            <MenuItem to="/dapp/lending/fund">
                 <i className="tomoicons-wallet"></i> 
                 <Typo>Funds</Typo>
             </MenuItem>
-            <MenuItem to="/dapp/account">
+            <MenuItem to="/dapp/lending/account">
                 <Icon icon="user" iconSize={20} />
                 <Typo>Account</Typo>
             </MenuItem>
