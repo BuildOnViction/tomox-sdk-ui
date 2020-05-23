@@ -350,7 +350,7 @@ export const parseOHLCV = (data: Candles, pair: TokenPair): any => {
       high: parsePricepoint(datum.high, pair, pricePrecision),
       low: parsePricepoint(datum.low, pair, pricePrecision),
       close: parsePricepoint(datum.close, pair, pricePrecision),
-      volume: parseTokenAmount(datum.volume, pair, 2),
+      volume: parseTokenAmount(datum.volume, pair, 4),
     }
   })
 
