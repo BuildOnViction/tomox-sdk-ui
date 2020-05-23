@@ -128,6 +128,7 @@ const Container = styled.div`
 
   .bp3-tab-list .bp3-tab {
     font-size: ${Theme.FONT_SIZE_SM};
+    padding-right: 60px !important;
     margin-bottom: 7px;
   }
 `
@@ -152,7 +153,7 @@ const StyledButton = styled(Button)`
       color: ${TmColors.ORANGE} !important;
       font-size: ${Theme.FONT_SIZE_SM};
       padding: 0 !important;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       min-height: unset;
       box-shadow: none !important;
       background-image: none !important;
