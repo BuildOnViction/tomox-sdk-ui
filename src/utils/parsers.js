@@ -226,8 +226,8 @@ export const parseTradesByAddress = (userAddress: String, exchangeAddress: Strin
       taker: utils.getAddress(trades[i].taker),
     }
 
-    if (userAddress === utils.getAddress(trades[i].maker)) {
-      tradeParsed.side = tradeParsed.side === 'BUY' ? 'SELL' : 'BUY'
+    if (userAddress.toLowerCase() === utils.getAddress(trades[i].maker).toLowerCase()) {
+      tradeParsed.side = tradeParsed.side.toUpperCase() === 'BUY' ? 'SELL' : 'BUY'
     }
 
     parsed.push(tradeParsed)
