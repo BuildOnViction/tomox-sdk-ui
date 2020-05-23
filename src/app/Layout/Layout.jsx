@@ -36,6 +36,7 @@ import TokenSearcher from '../../components/TokenSearcher'
 import Header from '../../components/Header'
 import SessionPasswordModal from '../../components/SessionPasswordModal'
 import Sidebar from '../../components/Sidebar'
+import DappSidebar from '../../components/DappSidebar'
 import DappLendingTokenSearcher from '../../components/lending/DappLendingTokenSearcher'
 import DappLendingSidebar from '../../components/lending/DappLendingSidebar'
 
@@ -233,6 +234,16 @@ class Default extends React.PureComponent<Props, State> {
                           mode={mode}
                           onChangeTheme={this.handleThemeChange}
                         />} 
+            />
+            <Route 
+              exact 
+              path={[
+                "/dapp/spot/fund",
+                "/dapp/spot/account",
+                "/dapp/:pair?",
+                "/dapp/trade/:pair?",
+              ]} 
+              component={() => <DappSidebar currentPair={currentPair} />} 
             />
             <Route 
               exact 

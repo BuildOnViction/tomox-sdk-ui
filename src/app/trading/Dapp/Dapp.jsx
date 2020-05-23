@@ -77,12 +77,12 @@ export default class Dapp extends React.PureComponent<Props, State> {
           <OrdersTradesTabs />
         </OrdersTradesCell>
 
-        <FooterCell>
+        {/* <FooterCell>
           {<ButtonGroup 
             toggleHelpPanel={this.toggleHelpPanel}
             authenticated={authenticated}  
             pair={currentPairName} />}
-        </FooterCell>
+        </FooterCell> */}
 
         {isShowHelpPanel && <HelpPanel togglePanel={this.toggleHelpPanel} />}
       </Grid>
