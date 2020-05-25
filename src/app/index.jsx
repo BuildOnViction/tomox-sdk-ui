@@ -18,7 +18,7 @@ const WalletPage = lazy(_ => import('./WalletPage'))
 
 const TradingPage = lazy(_ => import('./trading/TradingPage'))
 const MarketsPage = lazy(_ => import('./trading/MarketsPage'))
-const Dapp = lazy(_ => import('./trading/Dapp'))
+const DappSpot = lazy(_ => import('./trading/DappSpot'))
 const DappTrade = lazy(_ => import('./trading/DappTrade'))
 const DappOrders = lazy(_ => import('./trading/DappOrders'))
 
@@ -65,7 +65,7 @@ class App extends React.PureComponent {
                 <Route exact path="/dapp/lending/trade/:pair?" component={DappLendingTrade} /> 
 
                 <Route exact path="/dapp/spot/orders" component={DappOrders} />
-                <Route exact path="/dapp/:pair?" component={Dapp} />               
+                <Route exact path="/dapp/spot/:pair?" component={DappSpot} />               
                 <Route exact path="/dapp/trade/:pair?" component={DappTrade} />
 
                 <Route render={() => <Redirect to="/markets/trading" />} />

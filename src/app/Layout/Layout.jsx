@@ -240,7 +240,7 @@ class Default extends React.PureComponent<Props, State> {
               path={[
                 "/dapp/spot/fund",
                 "/dapp/spot/account",
-                "/dapp/:pair?",
+                "/dapp/spot/:pair?",
                 "/dapp/trade/:pair?",
               ]} 
               component={() => <DappSidebar currentPair={currentPair} />} 

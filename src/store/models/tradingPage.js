@@ -68,10 +68,10 @@ export const queryTradingPageData = (): ThunkAction => {
       const currentPair = pairDomain.getCurrentPair()
 
       let { router: { location: { pathname }}} = state
-      const pairParam = pathname.match(/.*\/(trade|dapp)\/?(.*)$/i)
+      const pairParam = pathname.match(/.*\/(trade|dapp\/spot)\/?(.*)$/i)
       let pairName = (pairParam && pairParam[2]) ? pairParam[2].toUpperCase() : (currentPair.pair ? currentPair.pair : '')
 
-      pathname = pathname.includes('dapp') ? 'dapp' : 'trade'
+      pathname = pathname.includes('dapp/spot') ? 'dapp/spot' : 'trade'
       dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
 
       const pairs = pairDomain.getPairsArray()

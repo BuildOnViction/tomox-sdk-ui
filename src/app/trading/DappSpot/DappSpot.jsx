@@ -22,7 +22,7 @@ type State = {
   isShowOrdersTable: boolean,
 };
 
-export default class Dapp extends React.PureComponent<Props, State> {
+export default class DappSpot extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
     isShowHelpPanel: false,

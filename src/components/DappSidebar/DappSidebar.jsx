@@ -11,7 +11,7 @@ export default function DappSidebar({ currentPair }) {
     
     return (
         <Wrapper>
-            <MenuItem to={`/dapp/${pair}`}>
+            <MenuItem to={`/dapp/spot/${pair}`}>
                 <i className="fa fa-home" aria-hidden="true"></i>
                 <Typo>Home</Typo>
             </MenuItem>

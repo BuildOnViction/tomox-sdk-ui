@@ -63,7 +63,7 @@ const HeaderRenderer = (props) => {
           />
           <Route 
             exact 
-            path="/dapp/:pair?" 
+            path="/dapp/spot/:pair?" 
             children={<Ticker
               currentPair={currentPair}
               currentPairData={currentPairData}
