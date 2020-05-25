@@ -145,7 +145,7 @@ const StyledSelect = styled(Select)`
       background-color: ${props => props.theme.selectBackground} !important;
 
       > li:not(:last-child) {
-        border-bottom: 1px solid ${TmColors.BLUE};
+        border-bottom: 1px solid ${TmColors.DARK_BLUE};
       }
     }
 

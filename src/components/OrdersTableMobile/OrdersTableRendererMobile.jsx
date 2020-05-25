@@ -280,7 +280,11 @@ const TradeHistoryTable = ({orders, isHideOtherPairs, handleChangeHideOtherPairs
                   <span>{BigNumber(order.amount).toFormat()}</span>
                 </Cell>
                 <Cell textAlign="right" width={"25%"} muted>
-                  <span>{BigNumber(order.total).toFormat()}</span>
+                  <span>{
+                    (order.type.toUpperCase() !== 'MO') 
+                      ? BigNumber(order.total).toFormat() 
+                      : ORDERTYPES[order.type.toUpperCase()]
+                  }</span>
                 </Cell>
               </Row>
             ))}
