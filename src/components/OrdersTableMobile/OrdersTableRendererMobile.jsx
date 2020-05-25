@@ -260,23 +260,27 @@ const TradeHistoryTable = ({orders, isHideOtherPairs, handleChangeHideOtherPairs
       {(orders.length > 0) &&
         (<>
           <ListHeader className="header">
-            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
-            <HeaderCell width={"35%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
-            <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+            <HeaderCell width={"30%"}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
+            <HeaderCell width={"25%"}><FormattedMessage id="exchangePage.price" /></HeaderCell>
+            <HeaderCell width={"20%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
+            <HeaderCell textAlign="right" width={"25%"}><FormattedMessage id="exchangePage.total" /></HeaderCell>
           </ListHeader>
           <ListBodyWrapper className="list">
             {orders.map((order, index) => (
               <Row key={index}>
-                <Cell width={"35%"} title={order.pair} muted>
+                <Cell width={"30%"} title={order.pair} muted>
                   <Pair><SideIcon side={order.side} /> <span>{order.pair}</span></Pair>
                   <Date>{formatDate(order.time, 'LL-dd HH:mm:ss')}</Date>
                 </Cell>
-                <Cell width={"35%"} title={order.price} muted>
+                <Cell width={"25%"} title={order.price} muted>
                   { (order.type.toUpperCase() !== 'MO') && (<span>{BigNumber(order.price).toFormat()}</span>) }
                   <span>{ORDERTYPES[order.type.toUpperCase()]}</span>
                 </Cell>
-                <Cell textAlign="right" width={"30%"} muted>
+                <Cell width={"20%"} muted>
                   <span>{BigNumber(order.amount).toFormat()}</span>
+                </Cell>
+                <Cell textAlign="right" width={"25%"} muted>
+                  <span>{BigNumber(order.total).toFormat()}</span>
                 </Cell>
               </Row>
             ))}

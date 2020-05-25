@@ -143,21 +143,29 @@ const StyledSelect = styled(Select)`
     .bp3-menu {
       color: ${props => props.theme.selectColor};
       background-color: ${props => props.theme.selectBackground} !important;
+
+      > li:not(:last-child) {
+        border-bottom: 1px solid ${TmColors.BLUE};
+      }
+    }
+
+    .bp3-menu-item {
+      padding: 7px;
     }
 `
 
 const StyledButton = styled(Button)`
-    &.bp3-button {
-      display: flex;
-      justify-content: space-between;
-      color: ${TmColors.ORANGE} !important;
-      font-size: ${Theme.FONT_SIZE_SM};
-      padding: 0 !important;
-      margin-bottom: 10px;
-      min-height: unset;
-      box-shadow: none !important;
-      background-image: none !important;
-      background-color: transparent !important;
-    }
+  &.bp3-button {
+    display: flex;
+    justify-content: space-between;
+    color: ${TmColors.ORANGE} !important;
+    font-size: ${Theme.FONT_SIZE_SM};
+    padding: 0 !important;
+    margin-bottom: 10px;
+    min-height: unset;
+    box-shadow: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+  }
 `
 

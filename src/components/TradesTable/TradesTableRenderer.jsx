@@ -96,7 +96,7 @@ const Wrapper = styled.div.attrs({
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & .content {
-      height: 396px;
+      height: 397px;
     }
   }
 `
