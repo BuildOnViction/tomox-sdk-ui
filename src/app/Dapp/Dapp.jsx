@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { TmColors, UtilityIcon } from '../../components/Common'
 
 function Dapp() {
     return (
         <Wrapper>
-            <Header></Header>
-            <LinkBtn>
+            <LinkBtn to="/dapp/spot">
                 <UtilityIcon color="#fff" name="spot" />
                 <Title>Spot</Title>
             </LinkBtn>
             <Divider>Or</Divider>
-            <LinkBtn>
+            <LinkBtn to="/dapp/lending">
                 <UtilityIcon color="#fff" name="lending" /> 
                 <Title>Lending</Title>
             </LinkBtn>
@@ -34,9 +34,7 @@ const Wrapper = styled.div`
     align-items: center;
 `
 
-const Header = styled.div``
-
-const LinkBtn = styled.div`
+const LinkBtn = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
