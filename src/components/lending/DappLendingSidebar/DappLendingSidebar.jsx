@@ -12,7 +12,7 @@ export default function DappLendingSidebar({ currentPair }) {
     return (
         <Wrapper>
             <MenuItem to={`/dapp/lending/${pair}`}>
-                <Icon icon="timeline-bar-chart" iconSize={20} />
+                <i className="fa fa-home" aria-hidden="true"></i>
                 <Typo>Home</Typo>
             </MenuItem>
             <MenuItem to={`/dapp/lending/trade/${pair}`}>
