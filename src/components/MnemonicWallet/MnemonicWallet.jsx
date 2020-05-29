@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { validatePassword } from '../../utils/helpers'
 import { createWalletFromMnemonic } from '../../store/services/wallet'
 import MnemonicWalletRenderer from './MnemonicWalletRenderer'
 
@@ -16,8 +15,6 @@ class MnemonicWallet extends React.PureComponent {
     state: State = {
         mnemonicStatus: 'initial',
         mnemonic: '',
-        password: '',
-        passwordStatus: 'initial',
     }
 
     handleMnemonicChange = (e) => {
@@ -35,31 +32,13 @@ class MnemonicWallet extends React.PureComponent {
         })
     }
     
-    handlePasswordChange = (e) => {
-        const password = e.target.value
-    
-        if (!validatePassword(password)) {
-            this.setState({ 
-                passwordStatus: 'invalid',
-                password,
-            })
-        
-            return
-        }
-    
-        this.setState({ 
-            passwordStatus: 'valid',
-            password,
-        })
-    }
-    
     unlockWalletWithMnemonic = async () => {
         const {
             props: { loginWithWallet },
-            state: { mnemonicStatus, mnemonic, password, passwordStatus },
+            state: { mnemonicStatus, mnemonic},
         } = this
     
-        if (mnemonicStatus !== 'valid' || passwordStatus !== 'valid') return
+        if (mnemonicStatus !== 'valid') return
     
         const { wallet } = await createWalletFromMnemonic(mnemonic)
     
@@ -68,7 +47,7 @@ class MnemonicWallet extends React.PureComponent {
             return
         }
     
-        loginWithWallet(wallet, password)
+        loginWithWallet(wallet)
     }
 
     render() {
@@ -76,8 +55,6 @@ class MnemonicWallet extends React.PureComponent {
             state: { 
                 mnemonic,
                 mnemonicStatus,
-                password,
-                passwordStatus,
             },
             props: {
                 loading,
@@ -93,8 +70,6 @@ class MnemonicWallet extends React.PureComponent {
                 mnemonicStatus={mnemonicStatus} 
                 handleMnemonicChange={handleMnemonicChange} 
                 unlockWallet={unlockWalletWithMnemonic}
-                password={password}
-                passwordStatus={passwordStatus}
                 handlePasswordChange={handlePasswordChange}
                 loading={loading} />
         )

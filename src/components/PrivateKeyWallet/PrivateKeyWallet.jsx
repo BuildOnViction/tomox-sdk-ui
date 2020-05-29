@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { validatePassword } from '../../utils/helpers'
 import { createWalletFromPrivateKey } from '../../store/services/wallet'
 import PrivateKeyWalletRenderer from './PrivateKeyWalletRenderer'
 
@@ -16,8 +15,6 @@ class PrivateKeyWallet extends React.PureComponent {
     state: State = {
         privateKeyStatus: 'initial',
         privateKey: '',
-        password: '',
-        passwordStatus: 'initial',
     }
 
     handlePrivateKeyChange = (e) => {
@@ -35,30 +32,13 @@ class PrivateKeyWallet extends React.PureComponent {
         })    
     }
 
-    handlePasswordChange = (e) => {
-        const password = e.target.value
-    
-        if (!validatePassword(password)) {
-            this.setState({ 
-                passwordStatus: 'invalid',
-                password,
-            })    
-            return
-        }
-    
-        this.setState({ 
-            passwordStatus: 'valid',
-            password,
-        })
-    }
-
     unlockWallet = async () => {
         const { 
             props: { loginWithWallet },
-            state: { privateKey, privateKeyStatus, password, passwordStatus },
+            state: { privateKey, privateKeyStatus },
         } = this
     
-        if (privateKeyStatus !== 'valid' || passwordStatus !== 'valid') return
+        if (privateKeyStatus !== 'valid') return
     
         const privateKeyString = (privateKey.length === 64) ? `0x${privateKey}` : privateKey
         const { wallet } = await createWalletFromPrivateKey(privateKeyString)
@@ -68,7 +48,7 @@ class PrivateKeyWallet extends React.PureComponent {
             return
         }
     
-        loginWithWallet(wallet, password)
+        loginWithWallet(wallet)
     }
     
     unlockWalletByKeyPress = async (event) => {
@@ -82,8 +62,6 @@ class PrivateKeyWallet extends React.PureComponent {
             state: { 
                 privateKeyStatus, 
                 privateKey,
-                password,
-                passwordStatus,
             },
             props: {
                 loading,
@@ -101,8 +79,6 @@ class PrivateKeyWallet extends React.PureComponent {
                 handlePrivateKeyChange={handlePrivateKeyChange}
                 unlockWallet={unlockWallet}
                 unlockWalletByKeyPress={unlockWalletByKeyPress}
-                password={password}
-                passwordStatus={passwordStatus}
                 handlePasswordChange={handlePasswordChange}
                 loading={loading} />
         )

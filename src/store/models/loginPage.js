@@ -1,5 +1,4 @@
 // @flow
-import aes from 'crypto-js/aes'
 import * as actionCreators from '../actions/loginPage'
 import * as notifierActionCreators from '../actions/app'
 import { getAccountDomain, getLoginPageDomain } from '../domains'
@@ -50,13 +49,12 @@ export function loginWithMetamask(): ThunkAction {
   }
 }
 
-export function loginWithWallet(wallet, password): ThunkAction {
+export function loginWithWallet(wallet): ThunkAction {
   return async dispatch => {
     try {
       dispatch(actionCreators.requestLogin())
       const { address, privateKey } = wallet
 
-      const privateKeyEncrypted = aes.encrypt(privateKey, password).toString()      
       await createLocalWalletSigner(wallet)
 
       // Check account exist on backend yet? 
@@ -66,7 +64,7 @@ export function loginWithWallet(wallet, password): ThunkAction {
       if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.createWallet(wallet.address))
-      dispatch(actionCreators.loginWithWallet(address, privateKeyEncrypted))
+      dispatch(actionCreators.loginWithWallet(address, privateKey))
     } catch (e) {
       console.log(e)
       dispatch(

@@ -4,14 +4,11 @@ import styled from 'styled-components'
 import {
   Button,
   Icon,
-  Label,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-// import { Link } from "react-router-dom"
 
 import Modal from '../../components/Modal'
-import PasswordStrengMeter from '../../components/PasswordStrengthMeter'
 import { TmColors, Theme } from '../../components/Common'
 import backupWalletUrl from '../../assets/images/backup_wallet.svg'
 
@@ -22,7 +19,6 @@ type Props = {
   mnemonic: string,
   shuffedMnemonic: string[],
   inputMnemonic: string,
-  goToPasswordStep: () => void,
   goToBackupStep: () => void,
   goToWarningStep: () => void,
   goToMnemonicStep: () => void,
@@ -35,23 +31,15 @@ type Props = {
   togglePrivateKeyDialog: (status: string) => void,
   isOpenPrivateKeyDialog: boolean,
   privateKey: string,
-  password: string,
-  passwordStatus: string,
-  showPassword: boolean,
-  togglePassword: () => void,
-  handlePasswordChange: () => void,
 }
 
 const CreateWalletPageRenderer = (props: Props) => {
   const {
-    // address,
     currentStep,
     complete,
     mnemonic,
     shuffedMnemonic,
     inputMnemonic,
-    // goToPasswordStep,
-    goToBackupStep,
     goToWarningStep,
     goToMnemonicStep,
     goToConfirmMnemonicStep,
@@ -63,37 +51,9 @@ const CreateWalletPageRenderer = (props: Props) => {
     togglePrivateKeyDialog,
     isOpenPrivateKeyDialog,
     privateKey,
-    password,
-    passwordStatus,
-    showPassword,
-    showConfirmPassword,
-    togglePassword,
-    handlePasswordChange,
-    confirmPassword,
-    confirmPasswordStatus,
-    handleConfirmPasswordChange,
-    // storeAccount,
-    // handleChangeStoreAccount,
   } = props
 
   const content = {
-    // '0': (<WalletCreateStep 
-    //         address={address}             
-    //         goToPasswordStep={goToPasswordStep}
-    //         handleChangeStoreAccount={handleChangeStoreAccount}
-    //         storeAccount={storeAccount}
-    //         notifyCopiedSuccess={notifyCopiedSuccess} />),
-    '1': (<WalletPasswordStep 
-            password={password}
-            passwordStatus={passwordStatus}
-            showPassword={showPassword}
-            showConfirmPassword={showConfirmPassword}
-            togglePassword={togglePassword}
-            handlePasswordChange={handlePasswordChange}
-            confirmPassword={confirmPassword}
-            confirmPasswordStatus={confirmPasswordStatus}
-            handleConfirmPasswordChange={handleConfirmPasswordChange}
-            goToBackupStep={goToBackupStep} />),
     '2': (<WalletBackupStep goToWarningStep={goToWarningStep} />),
     '3': (<WalletWarningStep goToMnemonicStep={goToMnemonicStep} />),
     '4': (<WalletMnemonicStep 
@@ -117,106 +77,6 @@ const CreateWalletPageRenderer = (props: Props) => {
     <React.Fragment>
       { content[currentStep] }
     </React.Fragment>
-  )
-}
-
-// const WalletCreateStep = props => {
-//   const { address, goToPasswordStep, notifyCopiedSuccess } = props
-
-//   return (
-//     <Wrapper>
-//       <Header>
-//         <HeaderTitle>
-//           <FormattedMessage id="createWalletPage.title" />
-//         </HeaderTitle>
-
-//         <HeaderSubTitle>
-//           <LinkWrapper to="/unlock"><FormattedMessage id="createWalletPage.subTitlePart1" /> </LinkWrapper>        
-//           <FormattedMessage id="createWalletPage.subTitlePart2" /> 
-//           <LinkWrapper to="/unlock"> <FormattedMessage id="createWalletPage.subTitlePart3" /></LinkWrapper>
-//         </HeaderSubTitle>
-//       </Header>
-
-//       <Divider />
-
-//       <Content>
-//         <LabelWrapper>
-//           <LabelTitle><FormattedMessage id="createWalletPage.inputTitleName" /></LabelTitle>
-//           <InputGroupWrapper />
-//         </LabelWrapper>
-
-//         <AddressWrapper>
-//           <LabelTitle><FormattedMessage id="createWalletPage.inputTileAddress" /></LabelTitle>
-//           <AddressBox>
-//             <Address title={address}>{address}</Address>
-//             <CopyToClipboard text={address} onCopy={notifyCopiedSuccess}>
-//               <CopyIconBox title={<FormattedMessage id="createWalletPage.copyAddress" />}>
-//                 <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
-//               </CopyIconBox> 
-//             </CopyToClipboard>
-//           </AddressBox>
-//         </AddressWrapper>
-
-//         <ButtonWrapper fill={true} onClick={goToPasswordStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
-//       </Content>
-//     </Wrapper>
-//   )
-// }
-
-const WalletPasswordStep = props => {
-  const { 
-    password, 
-    passwordStatus, 
-    showPassword, 
-    showConfirmPassword,
-    handlePasswordChange, 
-    goToBackupStep,
-    togglePassword,
-    confirmPassword,
-    confirmPasswordStatus,
-    handleConfirmPasswordChange,
-  } = props
-
-  return (
-    <Wrapper>
-      <Header>
-        <HeaderTitle><FormattedMessage id="createWalletPage.passwordStep.title" /></HeaderTitle>
-        <HeaderSubTitle>
-          <FormattedMessage id="createWalletPage.passwordStep.subTitlePart" />  
-        </HeaderSubTitle>
-      </Header>
-
-      <Divider />
-
-      <Content>
-        <MarginWrapper>
-          <LabelWrapper>
-            <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputPasswordTitle" /></LabelTitle>
-
-            <InputBox>
-              <InputGroupWrapper hasError={ passwordStatus === 'invalid' } value={password} type={ showPassword ? 'text' : 'password' } onChange={handlePasswordChange} />
-              {!showPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
-              {showPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={togglePassword} />)}
-            </InputBox>
-          </LabelWrapper>
-          {(passwordStatus === 'valid') && (<PasswordStrengMeter password={password} />)}
-          {(passwordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.describePassword" /></ErrorMessage>)}
-        </MarginWrapper>
-
-        <LabelWrapper>
-          <LabelTitle><FormattedMessage id="createWalletPage.passwordStep.inputConfirmPasswordTitle" /></LabelTitle>
-
-          <InputBox>
-            <InputGroupWrapper hasError={ confirmPasswordStatus === 'invalid' } value={confirmPassword}  type={ showConfirmPassword ? 'text' : 'password' } onChange={handleConfirmPasswordChange} />
-            {!showConfirmPassword && (<ShowPasswordIcon icon="eye-off" iconSize={Icon.SIZE_STANDARD} onClick={() => togglePassword('confirm')} />)}
-            {showConfirmPassword && (<ShowPasswordIcon icon="eye-open" iconSize={Icon.SIZE_STANDARD} onClick={() => togglePassword('confirm')} />)}
-          </InputBox>
-        </LabelWrapper>
-        {(confirmPasswordStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="createWalletPage.passwordStep.warningNotMatch" /></ErrorMessage>)}
-
-        <ButtonWrapper fill={true} disabled={passwordStatus !== 'valid' || confirmPasswordStatus !== 'valid'} onClick={goToBackupStep}><FormattedMessage id="createWalletPage.continue" /></ButtonWrapper>
-      </Content>
-    </Wrapper>
   )
 }
 
@@ -378,10 +238,6 @@ const WrapperWithoutBorder = styled(Wrapper)`
   border: none;
 `
 
-const Divider = styled.div`
-  border-bottom: 1px solid ${TmColors.LIGHT_BLUE};
-`
-
 const Header = styled.header`
   padding: ${props => props.padding === 'sm' ? '35px 70px' : '35px 110px'};
 `
@@ -405,64 +261,6 @@ const HeaderSubTitle = styled.div`
   text-align: center;
   &:not(:last-child) {
     margin-bottom: 20px;
-  }
-`
-
-// const AddressWrapper = styled.div`
-//   margin-top: 35px !important;
-// `
-
-// const AddressBox = styled.div`
-//   position: relative;
-// `
-
-// const Address = styled.div`
-//   height: 50px;
-//   padding: 15px 35px 15px 15px;
-//   background: ${TmColors.BLACK};
-//   overflow: hidden;
-//   white-space: nowrap;
-//   text-overflow: ellipsis;
-// `
-
-// const CopyIconBox = styled.span`
-//   position: absolute;
-//   right: 5px;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   cursor: pointer;
-//   padding: 5px;
-
-//   &:hover {
-//     background-color: ${TmColors.LIGHT_BLUE};
-//   }
-// `
-
-const LabelWrapper = styled(Label)`
-  margin-bottom: 0 !important;
-`
-
-const LabelTitle = styled.span`
-  display: block;
-  margin-bottom: 25px;
-`
-
-const InputBox = styled.div`
-  position: relative;
-`
-
-const InputGroupWrapper = styled.input`
-  height: 50px;
-  color: ${TmColors.WHITE};
-  font-size: ${Theme.FONT_SIZE_LG};
-  padding: 15px;
-  margin: 0 !important;
-  background: ${TmColors.BLACK};
-  border: ${props => props.hasError ? `1px solid ${TmColors.RED} !important` : 'none'};
-  width: 100%;
-
-  &:focus {
-    border: 1px solid ${TmColors.ORANGE};
   }
 `
 
@@ -491,13 +289,6 @@ const ButtonWrapper = styled(Button)`
     background-color: ${TmColors.GRAY} !important;
   }
 `
-
-// const LinkWrapper = styled(Link)`
-//   color: ${TmColors.ORANGE};
-//   &:hover {
-//     color: ${TmColors.DARK_ORANGE};
-//   }
-// `
 
 const Paragraph = styled.p`
   text-align: ${props => props.textAlign? props.textAlign : 'left'};
@@ -570,14 +361,6 @@ const StyledModal = styled(Modal)`
 const ShowPrivateKeyText = styled(Highlight)`
   margin-left: auto;
   font-size: ${Theme.FONT_SIZE_SM};
-`
-
-const ShowPasswordIcon = styled(Icon)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
 `
 
 const MarginWrapper = styled.div`

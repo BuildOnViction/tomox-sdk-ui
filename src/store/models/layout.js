@@ -27,7 +27,6 @@ import * as lendingTokensCreators from '../actions/lending/lendingTokens'
 
 import type { State, ThunkAction } from '../../types'
 import type { Token } from '../../types/tokens'
-import { getSigner } from '../services/signer'
 
 export default function createSelector(state: State) {
   const accountDomain = getAccountDomain(state)
@@ -134,17 +133,10 @@ export function queryAccountData(): ThunkAction {
   return async (dispatch, getState, { api, socket }) => {
     const state = getState()
     const accountAddress = getAccountDomain(state).address()
-    const privatekey = getAccountDomain(state).privateKey()
-    const signer = getSigner()
 
     try {
       const addresses = JSON.parse(sessionStorage.getItem('addresses'))
       if (!addresses) return
-
-      if (!signer && privatekey) {
-        if (window.getBalancesInterval) clearInterval(window.getBalancesInterval)
-        return dispatch(dispatch(layoutCreators.showSessionPasswordModal(true)))
-      }
 
       let tokens = getTokenDomain(state).tokens() //eslint-disable-line
       const quotes = quoteTokens

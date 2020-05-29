@@ -23,10 +23,6 @@ const PrivateKeyWalletRenderer = (props: Props) => {
       privateKeyStatus, 
       handlePrivateKeyChange, 
       unlockWallet,
-      unlockWalletByKeyPress,
-      password,
-      passwordStatus,
-      handlePasswordChange,
       loading,
     } = props
   
@@ -45,23 +41,9 @@ const PrivateKeyWalletRenderer = (props: Props) => {
                     onFocus={(event) => event.target.removeAttribute('readonly')} />
             </LabelWrapper>
             {(privateKeyStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.privateKey.invalid" /></ErrorMessage>)}
+
     
-            <LabelWrapper>
-                <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-                <InputGroupWrapper 
-                    type="password" 
-                    value={password} 
-                    onChange={handlePasswordChange} 
-                    onKeyPress={unlockWalletByKeyPress} 
-                    isInvalid={passwordStatus === 'invalid'} 
-                    marginBottom="5px"
-                    autoComplete="off" 
-                    readOnly 
-                    onFocus={(event) => event.target.removeAttribute('readonly')} />
-            </LabelWrapper>          
-            <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>          
-    
-            <ButtonLogin onClick={unlockWallet} disabled={passwordStatus !== 'valid' || privateKeyStatus !== 'valid'}>
+            <ButtonLogin onClick={unlockWallet} disabled={privateKeyStatus !== 'valid'}>
                 <FormattedMessage id="unlockWalletPage.unlockWallet" />
                 {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}
             </ButtonLogin>

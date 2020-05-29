@@ -36,7 +36,7 @@ const accountTransform = createTransform(
   },
   // apply creating window.signer from account
   {
-    whitelist: ['account'],
+    whitelist: [],
   }
 )
 
@@ -47,7 +47,7 @@ const configureStore = preloadedState => {
     keyPrefix: 'tomo:',
     storage: storageSession,
     transforms: [accountTransform],
-    whitelist: ['account'], // only information related to account will be persisted
+    whitelist: [], // only information related to account will be persisted
   }
 
   const initialStore = {}

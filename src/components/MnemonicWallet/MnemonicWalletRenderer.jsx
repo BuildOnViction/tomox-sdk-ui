@@ -11,9 +11,6 @@ const MnemonicWalletRenderer = (props) => {
       mnemonicStatus, 
       handleMnemonicChange, 
       unlockWallet,
-      password, 
-      passwordStatus,
-      handlePasswordChange,
       loading,
     } = props
   
@@ -30,20 +27,8 @@ const MnemonicWalletRenderer = (props) => {
             onFocus={(event) => event.target.removeAttribute('readonly')} />
         </LabelWrapper>
         {(mnemonicStatus === 'invalid') && (<ErrorMessage><FormattedMessage id="unlockWalletPage.mnemonic.invalid" /></ErrorMessage>)}
-  
-        <LabelWrapper>
-          <LabelTitle><FormattedMessage id="unlockWalletPage.labelPassword" /></LabelTitle> 
-          <InputGroupWrapper 
-            type="password" value={password} 
-            onChange={handlePasswordChange} 
-            isInvalid={passwordStatus === 'invalid'} 
-            marginBottom="5px"autoComplete="off" 
-            readOnly 
-            onFocus={(event) => event.target.removeAttribute('readonly')} />
-        </LabelWrapper>          
-        <SmallText><FormattedMessage id="unlockWalletPage.describePassword" /></SmallText>  
-  
-        <ButtonLogin disabled={passwordStatus !== 'valid' || mnemonicStatus !== 'valid'} onClick={unlockWallet}>
+    
+        <ButtonLogin disabled={mnemonicStatus !== 'valid'} onClick={unlockWallet}>
           <FormattedMessage id="unlockWalletPage.unlockWallet" />
           {loading && <Spinner intent="PRIMARY" size={Spinner.SIZE_SMALL} />}
         </ButtonLogin>
@@ -71,22 +56,6 @@ const LabelWrapper = styled(Label)`
 
 const LabelTitle = styled.div`
   margin-bottom: 25px;
-`
-
-const InputGroupWrapper = styled.input`
-  height: 50px;
-  color: ${TmColors.WHITE};
-  font-size: ${Theme.FONT_SIZE_LG};
-  padding: 15px;
-  margin-top: 0 !important;
-  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '35px'};
-  background: ${TmColors.BLACK};
-  border: ${props => props.isInvalid ? `1px solid ${TmColors.RED} !important` : 'none'};
-  width: 100%;
-
-  &:focus {
-      border: 1px solid ${TmColors.ORANGE};
-  }
 `
 
 const TextAreaWrapper = styled.textarea`

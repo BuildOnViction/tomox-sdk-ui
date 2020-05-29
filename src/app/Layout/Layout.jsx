@@ -34,7 +34,6 @@ import Notifier from '../../components/Notifier'
 import TomoXLogo from '../../components/Common/TomoXLogo'
 import TokenSearcher from '../../components/TokenSearcher'
 import Header from '../../components/Header'
-import SessionPasswordModal from '../../components/SessionPasswordModal'
 import Sidebar from '../../components/Sidebar'
 import DappSidebar from '../../components/DappSidebar'
 import DappLendingTokenSearcher from '../../components/lending/DappLendingTokenSearcher'
@@ -131,27 +130,6 @@ class Default extends React.PureComponent<Props, State> {
     })
   }
 
-  unlockWalletWithSessionPassword = async () => {
-    const { error } = await this.props.unlockWalletWithSessionPassword(this.state.sessionPassword)
-
-    if (!error) this.props.queryAccountData()
-
-    this.setState({ 
-      sessionPasswordStatus: error ? 'incorrect' : '',
-    })
-  }
-
-  unlockWalletWithSessionPasswordOnKeyPress = async (event) => {
-    if (event.key !== 'Enter') return
-    await this.unlockWalletWithSessionPassword()
-  }
-
-  closeSessionPasswordModal = () => {
-    const { closeSessionPasswordModal, logout } = this.props
-    closeSessionPasswordModal()
-    logout()
-  }
-
   toggleTokenSearcherMobile = (isShow: Boolean) => {
     this.setState({ isShowTokenSearcher: isShow })
   }
@@ -180,7 +158,6 @@ class Default extends React.PureComponent<Props, State> {
       mode,
       changeLocale,
       newNotifications,
-      showSessionPasswordModal,
       lendingCurrentPair,
       lendingCurrentPairData,
     } = this.props
@@ -258,16 +235,6 @@ class Default extends React.PureComponent<Props, State> {
           </Switch>
           <MainContent>{children}</MainContent>
         </MainContainer>
-
-        <SessionPasswordModal 
-          password={this.state.sessionPassword}
-          passwordStatus={this.state.sessionPasswordStatus}
-          onChange={this.handleSessionPasswordChange}  
-          unlockWalletOnKeyPress={this.unlockWalletWithSessionPasswordOnKeyPress}        
-          unlockWallet={this.unlockWalletWithSessionPassword}
-          isOpen={showSessionPasswordModal} 
-          handleClose={this.closeSessionPasswordModal}
-          mode={mode} />
 
         {isShowTokenSearcher && (
           <TokenSearcherBoxMobile>

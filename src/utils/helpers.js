@@ -256,14 +256,6 @@ export const shuffleArray = (array) => {
   return shuffeArray
 }
 
-
-// Reference: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-export const validatePassword = (password) => {
-  const validationPasswordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^\-_])[A-Za-z\d@$!%*?&#^\-_]{8,}$/g
-
-  return validationPasswordRegex.test(password.trim())
-}
-
 export const truncateZeroDecimal = (num: String) => {
   if (!num) return null
 
