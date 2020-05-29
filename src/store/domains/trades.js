@@ -139,7 +139,7 @@ export default function tradesDomain(state: TradesState) {
           ...trade,
           amount: trade.amount,
           price: trade.price,
-          total: BigNumber(trade.price).times(trade.amount).toFormat(),
+          total: BigNumber(trade.price).times(trade.amount).toNumber(),
         }
       })
 
