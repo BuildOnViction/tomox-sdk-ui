@@ -3,27 +3,27 @@ import styled from 'styled-components'
 import { Icon } from '@blueprintjs/core'
 import { NavLink } from 'react-router-dom'
 
-import { Theme } from '../../Common'
+import { Theme } from '../Common'
 
-export default function DappLendingSidebar({ currentPair }) {
+export default function DappSidebar({ currentPair }) {
     if (!currentPair.pair) return null
     const pair = currentPair.pair.replace(' ', '_').replace('/', '-')
     
     return (
         <Wrapper>
-            <MenuItem to={`/dapp/lending/${pair}`}>
-                <Icon icon="timeline-bar-chart" iconSize={20} />
+            <MenuItem to={`/dapp/spot/${pair}`}>
+                <i className="fa fa-home" aria-hidden="true"></i>
                 <Typo>Home</Typo>
             </MenuItem>
-            <MenuItem to={`/dapp/lending/trade/${pair}`}>
-                <i className="tomoicons-lending"></i> 
-                <Typo>Lending</Typo>
+            <MenuItem to={`/dapp/trade/${pair}`}>
+                <Icon icon="timeline-bar-chart" iconSize={20} /> 
+                <Typo>Trade</Typo>
             </MenuItem>
-            <MenuItem to="/dapp/lending/fund">
+            <MenuItem to="/dapp/spot/fund">
                 <i className="tomoicons-wallet"></i> 
                 <Typo>Funds</Typo>
             </MenuItem>
-            <MenuItem to="/dapp/lending/account">
+            <MenuItem to="/dapp/spot/account">
                 <Icon icon="user" iconSize={20} />
                 <Typo>Account</Typo>
             </MenuItem>

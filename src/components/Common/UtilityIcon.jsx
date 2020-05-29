@@ -8,6 +8,7 @@ import SvgWallet from './Icons/utilities/wallet.js'
 import Login from './Icons/utilities/login.js'
 import NotFound from './Icons/utilities/not-found.js'
 import Lending from './Icons/utilities/lending.js'
+import Spot from './Icons/utilities/spot.js'
 
 const UtilityIcon = ({name, width, height, color}) => {
     switch(name) {
@@ -27,6 +28,8 @@ const UtilityIcon = ({name, width, height, color}) => {
             return  (<NotFound width={width} height={height} color={color} />)
         case 'lending':
             return  (<Lending width={width} height={height} color={color} />)
+        case 'spot':
+            return  (<Spot width={width} height={height} color={color} />)
         default:
             return (<SvgFavorite width={width} height={height} color={color} />)
     }

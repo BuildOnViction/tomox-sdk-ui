@@ -50,7 +50,7 @@ const rowHeight = 45
 const overscanRowCount = 5
 const widthColumns = ['15%', '15%', '8%', '8%', '13%', '13%', '13%', '10%', '5%']
 const widthColumnsOrderHistory = ['12%', '16%', '8%', '8%', '13%', '12%', '13%', '10%', '8%']
-const widthColumnsTradeHistory = ['17%', '20%', '10%', '22%', '15%', '20%']
+const widthColumnsTradeHistory = ['15%', '18%', '10%', '18%', '15%', '20%', '8%']
 
 const OrdersTableRenderer = (props: Props) => {
   const hasScrollBar = (orders) => {
@@ -407,6 +407,9 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <Cell width={widthColumnsTradeHistory[2]} muted>
           {ORDERTYPES[order.type]}
         </Cell>
+        <Cell width={widthColumnsTradeHistory[6]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
+          {order.side && capitalizeFirstLetter(order.side)}
+        </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {order.type === 'LO' ? BigNumber(order.price).toFormat() : 'Market'}
         </Cell>
@@ -428,6 +431,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell width={widthColumnsTradeHistory[0]}><FormattedMessage id="exchangePage.date" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[1]}><FormattedMessage id="exchangePage.pair" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[2]}><FormattedMessage id="exchangePage.type" /></HeaderCell>
+        <HeaderCell width={widthColumnsTradeHistory[6]}><FormattedMessage id="exchangePage.side" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[3]}><FormattedMessage id="exchangePage.price" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[4]}><FormattedMessage id="exchangePage.filledAmount" /></HeaderCell>
         <HeaderCell width={widthColumnsTradeHistory[5]}><FormattedMessage id="exchangePage.total" /></HeaderCell>          
