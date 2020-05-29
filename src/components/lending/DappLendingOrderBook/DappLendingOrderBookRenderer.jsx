@@ -117,10 +117,14 @@ export class OrderBookRenderer extends React.PureComponent<Props> {
               <LatestTick>
                 {currentPairData && (
                   <>
-                    <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
-                      {BigNumber(currentPairData.close).toFormat(2)}&#37;
-                    </Ellipsis>
-                    <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis>
+                    <CryptoPrice>
+                      <Ellipsis title={BigNumber(currentPairData.close).toFormat(2)}>
+                        {BigNumber(currentPairData.close).toFormat(2)}&#37; 
+                      </Ellipsis>
+                    </CryptoPrice>
+                    <CashPrice>
+                      <Ellipsis>{BigNumber(currentPairData.volume).toFormat(2)} {currentPair && currentPair.lendingTokenSymbol}</Ellipsis>
+                    </CashPrice>
                   </>
                 )}  
               </LatestTick>
@@ -353,12 +357,13 @@ const LatestPrice = styled.div.attrs({
 })`
   width: ${props => props.width? props.width : "70px"};
 `
+
 const CryptoPrice = styled.span``
 
-const CashPrice = styled.span.attrs({
-  className: 'cash',
-})`
-  width: 40%;
+const CashPrice = styled.span`
+  color: #9ca4ba;
+  font-size: ${Theme.FONT_SIZE_XS};
+  margin-left: 5px;
 `
 
 const PercentChange = styled.div.attrs({
