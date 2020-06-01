@@ -6,9 +6,11 @@ import {
   NavbarGroup,
   Popover,
   Position,
+  Icon,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { Link } from 'react-router-dom'
 
 import {
   NavbarDivider,
@@ -59,6 +61,14 @@ const TickerRenderer = (props) => {
             )}
           </React.Fragment>
         )}
+
+        <SwitchPopover
+          content={<StyledLink to="/dapp/spot">Switch to spot</StyledLink>}
+          position={Position.BOTTOM_LEFT}
+          minimal
+        >
+          <SwapBtn icon="swap-horizontal" iconSize="12" />
+        </SwitchPopover>
 
         <HeaderDivider />
 
@@ -115,6 +125,33 @@ const TokenSearcherPopover = styled(Popover)`
   }
 `
 
+const SwitchPopover = styled(Popover)`
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 0;
+  padding: 10px;
+
+  @media only screen and (max-width: 680px) {
+    .tomo-wallet & {
+      display: block;
+    }
+  }
+`
+
+const SwapBtn = styled(Icon)`
+  border: 1px solid #394362;
+  border-radius: 50%;
+  padding: 7px;
+`
+
+const StyledLink = styled(Link)`
+  color: #9ca4ba;
+  font-size: ${Theme.FONT_SIZE_MD};
+  background-color: #394362;
+  padding: 7px 10px;
+`
+
 const TokenPairsDropDown = styled.div.attrs({
   className: 'tokens-dropdown',
 })`
@@ -148,6 +185,7 @@ const TokenInfo = styled.div.attrs({
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  position: relative;
 
   .arrow {
     transition: transform .5s ease;
