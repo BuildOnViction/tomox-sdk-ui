@@ -18,6 +18,7 @@ import {
 import TokenSearcher from '../../components/TokenSearcher'
 import { getChangePriceText, getChangePercentText } from '../../utils/helpers'
 import { DEX_TITLE } from '../../config/environment'
+import DappSwitchProduct from '../../components/DappSwitchProduct'
 
 const TickerRenderer = (props) => {
   const {
@@ -63,6 +64,8 @@ const TickerRenderer = (props) => {
             )}
             </React.Fragment>
         )}
+
+        <DappSwitchProduct link="/dapp/lending" title="Switch to lending" />
 
         <HeaderDivider />
 
@@ -154,6 +157,7 @@ const TokenInfo = styled.div.attrs({
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  position: relative;
 
   .arrow {
     transition: transform .5s ease;

@@ -126,7 +126,7 @@ class DappLendingTokenSearcher extends React.PureComponent<Props, State> {
   }
 
   changeSelectedToken = (pair) => {
-    this.props.toggleLendingTokenSearcherDapp(false)
+    if (typeof this.props.toggleLendingTokenSearcherDapp === 'function') this.props.toggleLendingTokenSearcherDapp(false)
     this.props.updateCurrentPair(pair)
   };
 

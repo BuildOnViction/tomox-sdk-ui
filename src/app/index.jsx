@@ -23,12 +23,14 @@ const Dapp = lazy(_ => import('./Dapp'))
 const DappSpot = lazy(_ => import('./trading/DappSpot'))
 const DappTrade = lazy(_ => import('./trading/DappTrade'))
 const DappOrders = lazy(_ => import('./trading/DappOrders'))
+const DappSelectPairs = lazy(_ => import('./trading/DappSelectPairs'))
 
 const LendingTradingPage = lazy(_ => import('./lending/TradingPage'))
 const LendingMarketsPage = lazy(_ => import('./lending/MarketsPage'))
 const DappLending = lazy(_ => import('./lending/DappLending'))
 const DappLendingTrade = lazy(_ => import('./lending/DappTrade'))
 const DappLendingOrders = lazy(_ => import('./lending/DappOrders'))
+const DappLendingSelectPairs = lazy(_ => import('./lending/DappLendingSelectPairs'))
 
 const DappFund = lazy(_ => import('./DappFund'))
 const DappAccount = lazy(_ => import('./DappAccount'))
@@ -64,10 +66,12 @@ class App extends React.PureComponent {
                 <Route exact path={["/dapp/lending/fund", "/dapp/spot/fund"]} component={DappFund} />
                 <Route exact path={["/dapp/lending/account", "/dapp/spot/account"]} component={DappAccount} />
 
+                <Route exact path="/dapp/lending/pairs" component={DappLendingSelectPairs} />
                 <Route exact path="/dapp/lending/orders" component={DappLendingOrders} />
                 <Route exact path="/dapp/lending/:pair?" component={DappLending} /> 
                 <Route exact path="/dapp/lending/trade/:pair?" component={DappLendingTrade} /> 
 
+                <Route exact path="/dapp/spot/pairs" component={DappSelectPairs} />
                 <Route exact path="/dapp/spot/orders" component={DappOrders} />
                 <Route exact path="/dapp/spot/:pair?" component={DappSpot} />               
                 <Route exact path="/dapp/trade/:pair?" component={DappTrade} />

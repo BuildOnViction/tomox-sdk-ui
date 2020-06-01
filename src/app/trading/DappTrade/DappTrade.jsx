@@ -3,7 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import 'rc-tabs/assets/index.css'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
+import { Icon } from '@blueprintjs/core'
 
 import { Theme } from '../../../components/Common'
 import DappOrderForm from '../../../components/DappOrderForm'
@@ -64,7 +65,10 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
         {currentPairName && 
           (<Header>
-            <Pair>{currentPairName}</Pair>
+            <Pair to="/dapp/spot/pairs">
+              <PairName>{currentPairName}</PairName>
+              <Icon icon="caret-down" />
+            </Pair>
             <OrdersLink to="/dapp/spot/orders">
               <i className="fa fa-file-text-o" aria-hidden="true"></i>
               <Typo>Orders</Typo>
@@ -90,9 +94,14 @@ const Header = styled.div`
   background-color: #1f2538;
 `
 
-const Pair = styled.div`
+const Pair = styled(Link)`
   font-size: ${Theme.FONT_SIZE_SM};
   font-weight: 700;
+  color: #6e7793;
+`
+
+const PairName = styled.span`
+  margin-right: 5px;
 `
 
 const OrdersLink = styled(Link)`
