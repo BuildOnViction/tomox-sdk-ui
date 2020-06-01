@@ -6,11 +6,9 @@ import {
   NavbarGroup,
   Popover,
   Position,
-  Icon,
 } from '@blueprintjs/core'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Link } from 'react-router-dom'
 
 import {
   NavbarDivider,
@@ -18,6 +16,7 @@ import {
 } from '../../../components/Common'
 import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
 import { getChangePercentText } from '../../../utils/helpers'
+import DappSwitchProduct from '../../../components/DappSwitchProduct'
 
 const TickerRenderer = (props) => {
   const {
@@ -62,13 +61,7 @@ const TickerRenderer = (props) => {
           </React.Fragment>
         )}
 
-        <SwitchPopover
-          content={<StyledLink to="/dapp/spot">Switch to spot</StyledLink>}
-          position={Position.BOTTOM_LEFT}
-          minimal
-        >
-          <SwapBtn icon="swap-horizontal" iconSize="12" />
-        </SwitchPopover>
+        <DappSwitchProduct link="/dapp/spot" title="Switch to spot" />
 
         <HeaderDivider />
 
@@ -123,33 +116,6 @@ const TokenSearcherPopover = styled(Popover)`
       display: none;
     }
   }
-`
-
-const SwitchPopover = styled(Popover)`
-  display: none;
-  position: absolute;
-  top: 15px;
-  right: 0;
-  padding: 10px;
-
-  @media only screen and (max-width: 680px) {
-    .tomo-wallet & {
-      display: block;
-    }
-  }
-`
-
-const SwapBtn = styled(Icon)`
-  border: 1px solid #394362;
-  border-radius: 50%;
-  padding: 7px;
-`
-
-const StyledLink = styled(Link)`
-  color: #9ca4ba;
-  font-size: ${Theme.FONT_SIZE_MD};
-  background-color: #394362;
-  padding: 7px 10px;
 `
 
 const TokenPairsDropDown = styled.div.attrs({
