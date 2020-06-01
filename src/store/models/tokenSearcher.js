@@ -45,18 +45,18 @@ export default function tokenSearcherSelector(state: State) {
 }
 
 export const updateCurrentPair = (pairName: string): ThunkAction => {
-    return async (dispatch, getState) => {
-      const state = getState()
-      const tokenPairsDomain = getTokenPairsDomain(state)
-      const pairs = tokenPairsDomain.getPairsByCode()
-      const currentPair = tokenPairsDomain.getCurrentPair()
-      const pair = pairs[pairName]
+  return async (dispatch, getState) => {
+    const state = getState()
+    const tokenPairsDomain = getTokenPairsDomain(state)
+    const pairs = tokenPairsDomain.getPairsByCode()
+    const currentPair = tokenPairsDomain.getCurrentPair()
+    const pair = pairs[pairName]
 
-      const param = pairName.replace('/', '-')
-      let { router: { location: { pathname }}} = getState()
-      pathname = pathname.includes('dapp/spot/pairs') ? 'dapp/trade' : (pathname.includes('dapp/spot') ? 'dapp/spot' : 'trade')
+    const param = pairName.replace('/', '-')
+    let { router: { location: { pathname }}} = getState()
+    pathname = pathname.includes('dapp/spot/pairs') ? 'dapp/trade' : (pathname.includes('dapp/spot') ? 'dapp/spot' : 'trade')
 
-      if (currentPair.pair !== pairName) dispatch(actionCreators.updateCurrentPair(pair))
-      dispatch(push(`/${pathname}/${param}`))
-    }
+    if (currentPair.pair !== pairName) dispatch(actionCreators.updateCurrentPair(pair))
+    dispatch(push(`/${pathname}/${param}`))
+  }
 }
