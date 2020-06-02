@@ -16,6 +16,7 @@ import {
 } from '../../../components/Common'
 import LendingTokenSearcher from '../../../components/lending/LendingTokenSearcher'
 import { getChangePercentText } from '../../../utils/helpers'
+import DappSwitchProduct from '../../../components/DappSwitchProduct'
 
 const TickerRenderer = (props) => {
   const {
@@ -59,6 +60,8 @@ const TickerRenderer = (props) => {
             )}
           </React.Fragment>
         )}
+
+        <DappSwitchProduct link="/dapp/spot" title="Switch to spot" />
 
         <HeaderDivider />
 
@@ -148,6 +151,7 @@ const TokenInfo = styled.div.attrs({
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  position: relative;
 
   .arrow {
     transition: transform .5s ease;
