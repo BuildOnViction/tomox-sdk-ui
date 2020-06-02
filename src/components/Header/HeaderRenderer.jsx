@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink, Route, Switch } from 'react-router-dom'
+import { NavLink, Route, Switch, Link } from 'react-router-dom'
 import {
   Alignment,
   Menu,
@@ -158,7 +158,7 @@ const MenuWallet = (props) => {
             <MenuItem>
                 <MenuItemTitle>Wallet</MenuItemTitle>
                 <AddressWalletBox>
-                <AddressText>{address}</AddressText>
+                <AddressText to="/wallet">{address}</AddressText>
 
                 <CopyToClipboard text={address} onCopy={copyDataSuccess}>
                     <IconBox title="Copy Address">              
@@ -286,12 +286,17 @@ const AddressWalletBox = styled.div`
   align-items: center;
 `
 
-const AddressText = styled.span`
+const AddressText = styled(Link)`
   display: inline-block;
   width: 78%;
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${TmColors.GRAY};
+
+  &:hover {
+    color: ${TmColors.WHITE};
+  }
 `
 
 const IconBox = styled.span`
