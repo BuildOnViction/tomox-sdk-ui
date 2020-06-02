@@ -67,6 +67,8 @@
   "unlockWalletPage.metaMaskNote": "Installeer & login op {metamaskLink} en verbind het dan met {mainnetLink} of {testnetLink}.",
   "unlockWalletPage.metaMaskError1": "Heeft u de MetaMask extensie gedownload?",
   "unlockWalletPage.metaMaskError2": "Zorg ervoor dat MetaMask correct geconfigureerd is.",
+  "unlockWalletPage.pantographError1": "Heeft u de Pantograph extensie gedownload?",
+  "unlockWalletPage.pantographError2": "Zorg ervoor dat Pantograph correct geconfigureerd is.",
   "unlockWalletPage.notRecommended": "Opmerking: dit is geen aanbevolen manier om uw wallet te ontgrendelen",
   "createWalletPage.title": "Creëer nieuwe wallet",
   "createWalletPage.subTitlePart1": "Inloggen",

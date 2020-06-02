@@ -67,6 +67,8 @@
   "unlockWalletPage.metaMaskNote": "Lütfen {metamaskLink}'i yükleyin ve giriş yapın, ardından {mainnetLink} yada {testnetLink}'e bağlayın.",
   "unlockWalletPage.metaMaskError1": "MetaMask uzantısını yüklediniz mi?",
   "unlockWalletPage.metaMaskError2": "MetaMask'ın doğru yapılandırıldığından emin olun.",
+  "unlockWalletPage.pantographError1": "Pantograph uzantısını yüklediniz mi?",
+  "unlockWalletPage.pantographError2": "Pantograph'ın doğru yapılandırıldığından emin olun.",
   "unlockWalletPage.notRecommended": "Not: bu yöntem cüzdanınızın kilidini açmak için önerilen bir yol değildir.",
   "createWalletPage.title": "Yeni Cüzdan Oluşturun",
   "createWalletPage.subTitlePart1": "Cüzdanınıza",

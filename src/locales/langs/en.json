@@ -67,6 +67,8 @@
   "unlockWalletPage.metaMaskNote": "Please install & login {metamaskLink} then connect it to {mainnetLink} or {testnetLink}.",
   "unlockWalletPage.metaMaskError1": "Have you installed MetaMask extension?",
   "unlockWalletPage.metaMaskError2": "Make sure your MetaMask is configured correctly.",
+  "unlockWalletPage.pantographError1": "Have you installed Pandograph extension?",
+  "unlockWalletPage.pantographError2": "Make sure your Pandograph is configured correctly.",
   "unlockWalletPage.notRecommended": "Note: this is not a recommended way to unlock your wallet.",
   "createWalletPage.title": "Create New Wallet",
   "createWalletPage.subTitlePart1": "Sign in",

@@ -28,6 +28,10 @@ export const createProvider = (
       return new providers.Web3Provider(window.web3.currentProvider, {
         chainId: networkId,
       })
+    case 'web3-p':
+      return new providers.Web3Provider(window.tomoWeb3.currentProvider, {
+        chainId: networkId,
+      })
     case 'rpc':
     default:
       return new providers.JsonRpcProvider(url, {

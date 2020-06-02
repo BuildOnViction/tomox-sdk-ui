@@ -67,6 +67,8 @@
   "unlockWalletPage.metaMaskNote": "Hãy cài đặt và đăng nhập với {metamaskLink} sau đó kết nối tới {mainnetLink} hoặc {testnetLink}.",
   "unlockWalletPage.metaMaskError1": "Hãy đảm bảo rằng bạn đã cài đặt Metamask?",
   "unlockWalletPage.metaMaskError2": "Hãy đảm bảo bạn thiết lập cấu hình Metamask chính xác.",
+  "unlockWalletPage.pantographError1": "Hãy đảm bảo rằng bạn đã cài đặt Pantograph?",
+  "unlockWalletPage.pantographError2": "Hãy đảm bảo bạn thiết lập cấu hình Pantograph chính xác.",
   "unlockWalletPage.notRecommended": "Chú ý: đây không phải là cách được khuyến khích để mở khóa ví của bạn.",
   "createWalletPage.title": "Tạo một ví mới",
   "createWalletPage.subTitlePart1": "Sign in",

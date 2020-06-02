@@ -6,6 +6,7 @@ import {
   getSigner,
   createLocalWalletSigner,
   createMetamaskSigner,
+  createPantographSigner,
 } from '../services/signer'
 
 import type
@@ -34,6 +35,32 @@ export function loginWithMetamask(): ThunkAction {
       if (typeof window.web3.eth.defaultAccount === 'undefined')
         throw new Error('Metamask account locked')
       const { address } = await createMetamaskSigner()
+
+      // Check account exist on backend yet? 
+      // Create account if not yet for get balance of account from backend
+      // Remove when connect direct to TomoX
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) { await createAccount(address) }
+
+      dispatch(actionCreators.loginWithMetamask(address))
+    } catch (e) {
+      dispatch(actionCreators.loginError(e.message))
+      return e
+    }
+  }
+}
+
+export function loginWithPantograph(): ThunkAction {
+  return async (dispatch, getState) => {
+    if (window.tomochain) await window.tomochain.enable()
+
+    try {
+      dispatch(actionCreators.requestLogin())
+      if (typeof window.tomoWeb3 === 'undefined')
+        throw new Error('Pantograph not installed')
+      if (typeof window.tomoWeb3.eth.defaultAccount === 'undefined')
+        throw new Error('Metamask account locked')
+      const { address } = await createPantographSigner()
 
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend

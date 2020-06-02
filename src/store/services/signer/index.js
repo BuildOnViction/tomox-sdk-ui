@@ -35,15 +35,28 @@ export const createSigner = async (params: UpdateSignerParams): any => {
           address = await createMetamaskSigner()
           settings = { type: 'metamask', networkId }
           return { settings, address }
+          
         case 'rpc':
           settings = { type: 'rpc', url: TOMOCHAIN_NODE_HTTP_URL, networkId }
           address = await createRpcSigner(settings.url, settings.networkId)
           return { settings, address }
+
         case 'wallet':
           if (!wallet) throw new Error('Wallet not found')
           settings = { type: 'wallet', url: TOMOCHAIN_NODE_HTTP_URL, networkId }
           address = await createLocalWalletSigner(wallet, networkId)
           return { settings, address }
+
+        case 'pantograph':
+          if (typeof window.tomoWeb3 === 'undefined')
+            throw new Error('Pantograph not installed')
+          if (typeof window.tomoWeb3.eth.defaultAccount === 'undefined')
+            throw new Error('Pantograph account locked')
+          
+          address = await createPantographSigner()
+          settings = { type: 'pantograph', networkId }
+          return { settings, address } 
+
         default:
           throw new Error('Incorrect type')
       }
@@ -68,6 +81,17 @@ export const createSigner = async (params: UpdateSignerParams): any => {
           settings = { type, url, networkId }
           address = await createLocalWalletSigner(wallet, networkId)
           return { settings, address }
+
+        case 'pantograph':
+          if (typeof window.web3 === 'undefined')
+            throw new Error('Pantograph not installed')
+          if (typeof window.tomoWeb3.eth.defaultAccount === 'undefined')
+            throw new Error('Pantograph account locked')
+
+          address = await createPantographSigner()
+          settings = { type: 'pantograph', networkId }
+          return { settings, address }
+
         default:
           throw new Error('Incorrect type')
       }
@@ -94,6 +118,19 @@ export const createMetamaskSigner = async () => {
 
   const address = await signer.getAddress()
   window.signer = { instance: signer, type: 'metamask' }
+
+  return { address, networkId }
+}
+
+export const createPantographSigner = async () => {
+  const networkId = Number(window.tomoWeb3.version.network)
+
+  const provider = createProvider('web3-p', networkId)
+  const signer = provider.getSigner()
+  addMethodsToSigner(signer)
+
+  const address = await signer.getAddress()
+  window.signer = { instance: signer, type: 'pantograph' }
 
   return { address, networkId }
 }

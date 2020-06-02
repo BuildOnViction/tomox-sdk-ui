@@ -10,6 +10,7 @@ import TrezorWallet from '../../components/TrezorWallet'
 import PrivateKeyWallet from '../../components/PrivateKeyWallet'
 import MnemonicWallet from '../../components/MnemonicWallet'
 import LedgerWallet from '../../components/LedgerWallet'
+import Pantograph from '../../components/Pantograph'
 
 type Props = {
   selectedTabId: string,
@@ -47,6 +48,7 @@ class LoginPageRenderer extends React.PureComponent<Props> {
             selectedTabId={selectedTabId}
             renderActiveTabPanelOnly={true}>
             <Tab id="ledger" title="Ledger Nano S" panel={<LedgerWallet />} />
+            <Tab id="pantograph" title="Pantograph" panel={<Pantograph />} />
             <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab id="private-key" title="Private Key" panel={<PrivateKeyWallet />} />
@@ -64,7 +66,7 @@ const Wrapper = styled.div`
 
 const TabsWrapper = styled(Tabs)`
   margin: 35px auto 0 auto;
-  width: 480px;
+  width: fit-content;
 
   .bp3-tab-list {
     .bp3-tab {
