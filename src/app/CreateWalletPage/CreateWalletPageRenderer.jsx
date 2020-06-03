@@ -40,7 +40,6 @@ const CreateWalletPageRenderer = (props: Props) => {
     mnemonic,
     shuffedMnemonic,
     inputMnemonic,
-    goToWarningStep,
     goToMnemonicStep,
     goToConfirmMnemonicStep,
     goBackToPreviousStep,
@@ -54,8 +53,7 @@ const CreateWalletPageRenderer = (props: Props) => {
   } = props
 
   const content = {
-    '2': (<WalletBackupStep goToWarningStep={goToWarningStep} />),
-    '3': (<WalletWarningStep goToMnemonicStep={goToMnemonicStep} />),
+    '2': (<WalletBackupStep goToWarningStep={goToMnemonicStep} />),
     '4': (<WalletMnemonicStep 
             mnemonic={mnemonic} 
             notifyCopiedSuccess={notifyCopiedSuccess} 
@@ -93,23 +91,7 @@ const WalletBackupStep = props => {
         <HeaderTitle><FormattedMessage id="createWalletPage.backupStep.title" /></HeaderTitle>
         <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.description" /></HeaderSubTitle>
 
-        <ButtonWrapper onClick={goToWarningStep}><FormattedMessage id="createWalletPage.backupStep.backUpNow" /></ButtonWrapper>
-      </Content>
-    </WrapperWithoutBorder>
-  )
-}
-
-const WalletWarningStep = props => {
-  const { goToMnemonicStep } = props
-
-  return (
-    <WrapperWithoutBorder>
-      <Content>
-        <HeaderTitle><FormattedMessage id="createWalletPage.backupStep.warningTitle" /></HeaderTitle>
-        <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.warningNote1" /></HeaderSubTitle>
-        <HeaderSubTitle><FormattedMessage id="createWalletPage.backupStep.warningNote2" /></HeaderSubTitle>
-
-        <ButtonWrapper onClick={goToMnemonicStep}><FormattedMessage id="createWalletPage.backupStep.IUnderstand" /></ButtonWrapper>
+        <ButtonWrapper onClick={goToWarningStep}><FormattedMessage id="createWalletPage.backupStep.IUnderstand" /></ButtonWrapper>
       </Content>
     </WrapperWithoutBorder>
   )
@@ -310,7 +292,11 @@ const MnemonicWrapper = styled.div`
   margin-bottom: ${props => props.bottom ? props.bottom: '70px'};
 `
 
-const MnemonicList = styled.div``
+const MnemonicList = styled.div`
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+`
 
 const MnemonicTag = styled.span`
   display: inline-block;

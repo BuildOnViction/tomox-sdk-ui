@@ -21,7 +21,7 @@ type State = {
 
 class CreateWalletPage extends React.PureComponent<Props, State> {
   state = {
-    currentStep: 2, // We skip step 0 because it seems redundant
+    currentStep: 2,
     shuffedMnemonic: [],
     inputMnemonic: [],
     mnemonicErrorMessage: '',
@@ -55,10 +55,6 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
 
   goToBackupStep = async () => {
     this.changeCurrentStep(2)
-  }
-
-  goToWarningStep = () => {
-    this.changeCurrentStep(3)
   }
 
   goToMnemonicStep = () => {
@@ -177,7 +173,6 @@ class CreateWalletPage extends React.PureComponent<Props, State> {
         shuffedMnemonic={shuffedMnemonic}
         inputMnemonic={inputMnemonic}
         goToBackupStep={this.goToBackupStep}
-        goToWarningStep={this.goToWarningStep}
         goToMnemonicStep={this.goToMnemonicStep}
         goToConfirmMnemonicStep={this.goToConfirmMnemonicStep}
         goBackToPreviousStep={this.goBackToPreviousStep}
