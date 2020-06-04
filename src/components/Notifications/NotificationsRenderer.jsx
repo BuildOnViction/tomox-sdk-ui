@@ -3,9 +3,18 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon, Spinner, Intent } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
+import { enUS, tr, vi, fr, nl  } from 'date-fns/locale'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Theme, TmColors } from '../../components/Common'
+
+const LANGUAGES = {
+  en: enUS,
+  tr,
+  vi,
+  fr,
+  nl,
+}
 
 const MESSAGES = {
   'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
@@ -90,7 +99,7 @@ class NotificationsRenderer extends React.PureComponent {
                   <div>{MESSAGES[notification.message.type]}</div>
                   <NotificationDate>
                       <Icon icon="time" iconSize="12" />
-                      <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date())}</DistanceDate>
+                      <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date(), {locale: LANGUAGES[intl.locale]})}</DistanceDate>
                   </NotificationDate>
                   <IconsBox>
                     <TomoScanLink target="_blank" href={generateScanUrl(notification.message.type, notification.message.description)}>
