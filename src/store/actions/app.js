@@ -92,12 +92,11 @@ export function addTxRevertedNotification(options) {
   }
 }
 
-export function addSuccessNotification({
-                                         message,
-                                       }) {
+export function addSuccessNotification({ notificationType, message }) {
   return {
     type: actionTypes.addNotification,
     payload: {
+      notificationType,
       options: {
         intent: 'success',
         message,

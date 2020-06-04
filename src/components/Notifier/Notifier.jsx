@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
 import { Position, Toaster } from '@blueprintjs/core'
+import { injectIntl } from 'react-intl'
 
 import type {
   Notification,
@@ -15,8 +16,8 @@ type Props = {
 };
 
 class Notifier extends React.Component<Props> {
-  show = ({ notificationType, options }: Notification) => {
-    const notification = NotificationFactory(notificationType, options)
+  show = ({ notificationType, options }: Notification) => {    
+    const notification = NotificationFactory(notificationType, this.props.intl, options)
     if (notification) ToastInstance.show(notification)
 
     this.clear(this.props)
@@ -42,7 +43,7 @@ class Notifier extends React.Component<Props> {
 }
 
 //TODO refactor this
-const NotificationFactory = (type, options: NotificationOptions) => {
+const NotificationFactory = (type, intl, options: NotificationOptions) => {
   switch (type) {
     case 'orderPending':
     case 'orderSuccess':
@@ -50,25 +51,32 @@ const NotificationFactory = (type, options: NotificationOptions) => {
       return null
     case 'orderAdded':
       return {
-        message: 'Order Added',
+        message: intl.formatMessage({id: "notifications.orderAdded"}),
         icon: 'tick',
         intent: 'success',
         timeout: 2000,
       }
     case 'orderCancelled':
       return {
-        message: 'Order Cancelled',
+        message: intl.formatMessage({id: "notifications.orderCancelled"}),
         icon: 'tick',
         intent: 'success',
         timeout: 2000,
       } 
     case 'orderRejected':
       return {
-        message: 'Order Rejected',
+        message: intl.formatMessage({id: "notifications.orderRejected"}),
         icon: 'tick',
         intent: 'success',
         timeout: 2000,
-      }   
+      }
+    case 'orderCancelling': 
+      return {
+        message: intl.formatMessage({id: "notifications.orderCancelling"}),
+        icon: 'tick',
+        intent: 'success',
+        timeout: 2000,
+      }
     case 'copied': 
       return {
         message: 'The data is copied',
@@ -88,4 +96,4 @@ const ToastInstance = Toaster.create({
   position: isTomoWallet() || isMobile() ? Position.TOP_CENTER : Position.BOTTOM_LEFT,
 })
 
-export default Notifier
+export default injectIntl(Notifier)

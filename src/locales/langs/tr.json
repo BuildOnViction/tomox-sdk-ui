@@ -12,6 +12,7 @@
   "notifications.tomoScan": "Tomoscan'de Bak",
   "notifications.orderAdded": "Emir Girildi",
   "notifications.orderCancelled": "Emir İptal Edildi",
+  "notifications.orderCancelling": "Emir İptal Ediliyor",
   "notifications.orderRejected": "Emir Reddedildi",
   "notifications.orderMatched": "Emir Eşleşti",
   "notifications.orderSuccess": "Emiriniz başarıyla gerçekleştirildi!",

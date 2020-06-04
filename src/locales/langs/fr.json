@@ -12,6 +12,7 @@
   "notifications.tomoScan": "Voir sur Tomoscan",
   "notifications.orderAdded": "Ordre ajouté",
   "notifications.orderCancelled": "Ordre annulé",
+  "notifications.orderCancelling": "Cancelling order...",
   "notifications.orderRejected": "Ordre rejeté",
   "notifications.orderMatched": "Ordre correspondant",
   "notifications.orderSuccess": "Votre ordre a été exécuté avec succès!",

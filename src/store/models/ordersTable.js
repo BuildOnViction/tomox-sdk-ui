@@ -35,7 +35,7 @@ export const cancelOrder = (hash: string): ThunkAction => {
       order.nonce = await api.getOrderNonceByAddress(userAddress)
       const orderCancelPayload = await getSigner().createOrderCancel({...order, status: 'CANCELLED', userAddress, exchangeAddress})
 
-      dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling order ...` }))
+      dispatch(appActionCreators.addSuccessNotification({ notificationType: 'orderCancelling', message: `Cancelling order ...` }))
       socket.sendNewOrderCancelMessage(orderCancelPayload)
     } catch (error) {
       const message = parseCancelOrderError(error)

@@ -98,7 +98,7 @@ export const cancelLendingOrder = (hash): ThunkAction => {
       params.signature = await getSigner().signLendingCancelOrder(orderHashed)
 
       api.cancelLendingOrder(params)
-      dispatch(appActionCreators.addSuccessNotification({ message: `Cancelling lending order...` }))
+      dispatch(appActionCreators.addSuccessNotification({ notificationType: 'orderCancelling', message: `Cancelling lending order...` }))
     } catch (error) {
       const message = parseCancelOrderError(error)
       return dispatch(appActionCreators.addErrorNotification({ message }))

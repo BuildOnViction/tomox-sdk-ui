@@ -12,6 +12,7 @@
   "notifications.tomoScan": "Xem trên TomoScan",
   "notifications.orderAdded": "Lệnh spot đã được thêm",
   "notifications.orderCancelled": "Lệnh spot đã được hủy",
+  "notifications.orderCancelling": "Lệnh của bạn đang được hủy",
   "notifications.orderRejected": "Lệnh spot bị từ chối",
   "notifications.orderMatched": "Lệnh spot đã được khớp",
   "notifications.orderSuccess": "Lệnh spot của bạn đã được thực hiện thành công!",

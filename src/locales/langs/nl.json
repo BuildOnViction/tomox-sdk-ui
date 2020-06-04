@@ -12,6 +12,7 @@
   "notifications.tomoScan": "Bekijk op Tomoscan",
   "notifications.orderAdded": "Order Toegevoegd",
   "notifications.orderCancelled": "Order Geannuleerd",
+  "notifications.orderCancelling": "Cancelling order...",
   "notifications.orderRejected": "Order Afgewezen",
   "notifications.orderMatched": "Order Gematcht",
   "notifications.orderSuccess": "De order is succesvol verwerkt!",
