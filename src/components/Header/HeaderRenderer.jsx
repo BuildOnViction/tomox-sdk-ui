@@ -23,6 +23,7 @@ import TomoXLogo from '../../components/Common/TomoXLogo'
 import { TOMOSCAN_URL, DEX_LOGO, DEX_DOCS_URL } from '../../config/environment'
 import Ticker from '../Ticker'
 import LendingTicker from '../lending/LendingTicker'
+import { FormattedMessage } from 'react-intl'
 
 const HeaderRenderer = (props) => {
   const {
@@ -156,7 +157,7 @@ const MenuWallet = (props) => {
     return  (
         <StyledMenu>
             <MenuItem>
-                <MenuItemTitle>Wallet</MenuItemTitle>
+                <MenuItemTitle><FormattedMessage id="app.wallet" /></MenuItemTitle>
                 <AddressWalletBox>
                 <AddressText to="/wallet">{address}</AddressText>
 
@@ -176,7 +177,7 @@ const MenuWallet = (props) => {
 
             <MenuItem>
               <MenuItemLink to="/logout">
-                Close Wallet
+                <FormattedMessage id="app.closeWallet" />
               </MenuItemLink>
             </MenuItem>
         </StyledMenu>

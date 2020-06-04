@@ -1,4 +1,6 @@
 {
+  "app.wallet": "Wallet",
+  "app.closeWallet": "Close Wallet",
   "app.volume": "Volume: {volume}",
   "app.mustLogin1": "U moet",
   "app.mustLogin2": "Wallet ontgrendelen",

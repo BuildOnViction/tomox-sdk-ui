@@ -1,4 +1,6 @@
 {
+  "app.wallet": "Cüzdan",
+  "app.closeWallet": "Cüzdanı Kapat",
   "app.volume": "Hacim: {volume}",
   "app.mustLogin1": "Bu içeriği",
   "app.mustLogin2": "görebilmek için",

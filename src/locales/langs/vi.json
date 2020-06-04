@@ -1,4 +1,6 @@
 {
+  "app.wallet": "Địa chỉ",
+  "app.closeWallet": "Thoát",
   "app.volume": "Khối lượng: {volume}",
   "app.mustLogin1": "Bạn phải",
   "app.mustLogin2": "mở khóa ví của bạn",
