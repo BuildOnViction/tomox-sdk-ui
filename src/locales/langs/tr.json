@@ -136,6 +136,7 @@
   "exchangePage.orderbook.price": "Fiyat({quoteTokenSymbol})",
   "exchangePage.orderbook.amount": "Miktar({baseTokenSymbol})",
   "exchangePage.orderbook.total": "Toplam({baseTokenSymbol})",
+  "exchangePage.orderbook.decimals": "{precision} ondalık",
   "exchangePage.noOrderbook": "Bu token çifti için emir defteri yok",
   "exchangePage.noTrades": "Hiç alım-satım yok",
   "exchangePage.buy": "Al",

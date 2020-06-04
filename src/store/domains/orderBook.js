@@ -13,6 +13,7 @@ const initialState: OrderBookState = {
   sortedAsks: [],
   quoteToken: '',
   baseToken: '',
+  decimals: pricePrecision,
 }
 
 export const initialized = () => {
@@ -136,6 +137,17 @@ export const orderBookUpdated = (bids: Array<Object>, asks: Array<Object>) => {
   return event
 }
 
+export const updateDecimals = (decimals: number) => {
+  const event = (state: OrderBookState) => {
+    return {
+      ...state,
+      decimals,
+    }
+  }
+
+  return event
+}
+
 export const orderBookReset = () => {
   const event = (state: OrderBookState) => {
     return {
@@ -163,9 +175,55 @@ export default function domain(state: OrderBookState) {
     getOrderBookData: (ln: number): OrderBookData => {
       ln = ln || 300
 
-      let bids = state.sortedBids
-        .slice(0, Math.min(state.sortedBids.length, ln))
-        .map(price => state.bids[price])
+      const newSortedBids = new SortedArray([], (a, b) => b - a)
+      const newSortedAsks = new SortedArray([], (a, b) => a - b)
+      
+      let formatedBids = JSON.parse(JSON.stringify(Object.values(state.bids))).map(bid => {
+        bid.price = BigNumber(bid.price).toFixed(state.decimals, 2)
+        return bid
+      })
+
+      const newBids = formatedBids.reduce((result, item) => {
+        if (item.amount > 0) {
+
+          if (newSortedBids.search(item.price) === -1) {
+            item.update = true
+            result[item.price] = item
+            newSortedBids.insert(item.price)
+          } else {
+            result[item.price].amount = result[item.price].amount + item.amount
+          }
+        }
+  
+        return result
+      }, {})
+
+      let formatedAsks = JSON.parse(JSON.stringify(Object.values(state.asks))).map(ask => {
+        ask.price = BigNumber(ask.price).toFixed(state.decimals, 2)
+        return ask
+      })
+
+      const newAsks = formatedAsks.reduce((result, item) => {
+        if (item.amount > 0) {
+
+          if (newSortedAsks.search(item.price) === -1) {
+            item.update = true
+            result[item.price] = item
+            newSortedAsks.insert(item.price)
+          } else {
+            result[item.price].amount = result[item.price].amount + item.amount
+          }
+        }
+  
+        return result
+      }, {})
+
+      const sortedBids = newSortedBids.array
+      const sortedAsks = newSortedAsks.array
+
+      let bids = sortedBids
+        .slice(0, Math.min(sortedBids.length, ln))
+        .map(price => newBids[price])
         .reduce((result, item) => {
           result.push({
             update: item.update,
@@ -179,9 +237,9 @@ export default function domain(state: OrderBookState) {
           return result
         }, [])
 
-      let asks = state.sortedAsks
-        .slice(0, Math.min(state.sortedAsks.length, ln))
-        .map(price => state.asks[price])
+      let asks = sortedAsks
+        .slice(0, Math.min(sortedAsks.length, ln))
+        .map(price => newAsks[price])
         .reduce((result, item) => {
           result.push({
             update: item.update,
@@ -228,5 +286,6 @@ export default function domain(state: OrderBookState) {
         : 0,
     getQuoteToken: () => state.quoteToken,
     getBaseToken: () => state.baseToken,
+    getDecimals: () => state.decimals,
   }
 }

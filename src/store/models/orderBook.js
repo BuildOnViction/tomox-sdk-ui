@@ -7,7 +7,11 @@ import {
 import type { State } from '../../types'
 
 export default function orderBookSelector(state: State) {
-  const { bids, asks } = getOrderBookDomain(state).getOrderBookData(35)
+
+  const orderBookDomain = getOrderBookDomain(state)
+  const { bids, asks } = orderBookDomain.getOrderBookData(50)
+  const decimals = orderBookDomain.getDecimals()
+
   const pairDomain = getTokenPairsDomain(state)
   const accountDomain = getAccountDomain(state)
 
@@ -21,5 +25,6 @@ export default function orderBookSelector(state: State) {
     currentPair,
     currentPairData,
     referenceCurrency,
+    decimals,
   }
 }

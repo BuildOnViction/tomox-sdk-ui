@@ -136,6 +136,7 @@
   "exchangePage.orderbook.price": "Price({quoteTokenSymbol})",
   "exchangePage.orderbook.amount": "Amount({baseTokenSymbol})",
   "exchangePage.orderbook.total": "Total({baseTokenSymbol})",
+  "exchangePage.orderbook.decimals": "{precision} decimals",
   "exchangePage.noOrderbook": "No Orderbook for this token pair",
   "exchangePage.noTrades": "You have no trades",
   "exchangePage.buy": "Buy",

@@ -136,6 +136,7 @@
   "exchangePage.orderbook.price": "Prijs({quoteTokenSymbol})",
   "exchangePage.orderbook.amount": "Aantal({baseTokenSymbol})",
   "exchangePage.orderbook.total": "Totaal({baseTokenSymbol})",
+  "exchangePage.orderbook.decimals": "{precision} decimalen",
   "exchangePage.noOrderbook": "Geen orderboek voor dit handelspaar.",
   "exchangePage.noTrades": "U heeft geen transacties",
   "exchangePage.buy": "Koop",

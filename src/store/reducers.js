@@ -245,6 +245,9 @@ export const orderBook = createReducer(action => {
     case tokenSearcherActionTypes.updateCurrentPair:
     case marketsTableActionTypes.updateCurrentPair:
       return orderBookEvents.orderBookReset()
+    case orderBookActionTypes.updateDecimals:
+    case socketControllerActionTypes.orderBookUpdateDecimals:
+      return orderBookEvents.updateDecimals(payload.decimals)
     default:
       return orderBookEvents.initialized()
   }

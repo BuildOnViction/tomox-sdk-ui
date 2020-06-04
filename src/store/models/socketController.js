@@ -386,6 +386,7 @@ const handleOrderBookMessage = (event: WebsocketEvent): ThunkAction => {
           bids = orderBookData.bids
           asks = orderBookData.asks
           dispatch(actionCreators.initOrderBook(bids, asks))
+          dispatch(actionCreators.orderBookUpdateDecimals(pricePrecision))
           break
 
         case 'UPDATE':

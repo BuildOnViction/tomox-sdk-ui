@@ -49,6 +49,7 @@ const actionTypes = {
   unsubscribeOrderbook: 'socketController/UNSUBSCRIBE_ORDERBOOK',
   initOrderBook: 'socketController/INIT_ORDERBOOK',
   updateOrderBook: 'socketController/UPDATE_ORDERBOOK',
+  orderBookUpdateDecimals: 'socketController/ORDERBOOK_UPDATE_DECIMALS',
 
   updateTokenPairData: 'socketController/UPDATE_TOKEN_PAIR_DATA',
   updateSmallChartsData: 'socketController/UPDATE_SMALL_CHARTS_DATA',
@@ -211,13 +212,20 @@ export function initOrderBook(bids: Array<Object>, asks: Array<Object>): InitOrd
   return {
     type: actionTypes.initOrderBook,
     payload: { bids, asks },
-  }
+  } 
 }
 
 export function updateOrderBook(bids: Array<Object>, asks: Array<Object>): UpdateOrderBookAction {
   return {
     type: actionTypes.updateOrderBook,
     payload: { bids, asks },
+  }
+}
+
+export function orderBookUpdateDecimals(decimals: number) {
+  return {
+    type: actionTypes.orderBookUpdateDecimals,
+    payload: { decimals },
   }
 }
 

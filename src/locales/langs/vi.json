@@ -136,6 +136,7 @@
   "exchangePage.orderbook.price": "Giá({quoteTokenSymbol})",
   "exchangePage.orderbook.amount": "Số lượng({baseTokenSymbol})",
   "exchangePage.orderbook.total": "Tổng({baseTokenSymbol})",
+  "exchangePage.orderbook.decimals": "{precision} số tp",
   "exchangePage.noOrderbook": "Không có sổ lệnh",
   "exchangePage.noTrades": "Bạn không có giao dịch nào",
   "exchangePage.buy": "Mua",

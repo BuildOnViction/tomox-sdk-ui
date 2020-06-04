@@ -34,7 +34,6 @@ class OrderBook extends React.Component<Props, State> {
   state = {
     pricePrecision: 4,
     amountPrecision: 4,
-    currentPricePrecision: 4,
   }
 
   componentDidUpdate(prevProps) {
@@ -44,15 +43,12 @@ class OrderBook extends React.Component<Props, State> {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,
-        currentPricePrecision: this.props.currentPairData.pricePrecision,
       })
     }
   }
 
   handleChangePricePrecision = (precision) => {
-    this.setState({
-      currentPricePrecision: precision.value,
-    })
+    this.props.updateDecimals(precision.value)
   }
 
   render() {
@@ -67,22 +63,24 @@ class OrderBook extends React.Component<Props, State> {
         },
         currentPairData,
         referenceCurrency,
+        decimals,
       },
       state: { 
         pricePrecision,
         amountPrecision,
-        currentPricePrecision,
       },
       handleChangePricePrecision,
     }
     = this
-
+    
     const reversedAsks = asks.slice().reverse()
     const asksFilteredZeroAmount = filterZeroAmount(reversedAsks, amountPrecision)
     const bidsFilteredZeroAmount = filterZeroAmount(bids, amountPrecision)
 
     const pricePrecisionsList = []
-    for (let i = 0; i <= pricePrecision; i++) {
+    // Reference https://stackoverflow.com/questions/31001901/how-to-count-the-number-of-zero-decimals-in-javascript
+    const start = currentPairData ? -Math.floor( Math.log(currentPairData.price) / Math.log(10) + 1) : 0
+    for (let i = start; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
     }
 
@@ -93,7 +91,7 @@ class OrderBook extends React.Component<Props, State> {
         onSelect={select}
         pricePrecisionsList={pricePrecisionsList}
         pricePrecision={pricePrecision}
-        currentPricePrecision={currentPricePrecision}
+        currentPricePrecision={decimals}
         amountPrecision={amountPrecision}
         onChangePricePrecision={handleChangePricePrecision}
         currentPairData={currentPairData}

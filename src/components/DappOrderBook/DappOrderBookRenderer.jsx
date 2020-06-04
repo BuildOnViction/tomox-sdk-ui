@@ -221,7 +221,7 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
 
   const items: Array<PricePrecision> = pricePrecisionsList.map((precision, index) => {
     return {
-      title: `${precision} decimals`,
+      title: <FormattedMessage id="exchangePage.orderbook.decimals" values={{ precision }} />,
       value: precision,
       rank: index + 1,
     }
