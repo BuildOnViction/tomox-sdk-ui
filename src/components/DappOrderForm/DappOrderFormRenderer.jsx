@@ -8,7 +8,8 @@ import {
   MenuItem,
   Position,
 } from '@blueprintjs/core'
-import { Select } from "@blueprintjs/select";
+import { Select } from "@blueprintjs/select"
+import { FormattedMessage } from "react-intl"
 
 import type { Side, OrderType } from '../../types/orders'
 import {
@@ -95,8 +96,8 @@ const OrderFormRenderer = (props: Props) => {
 const LimitOrderPanel = props => {
   return (
     <Tabs id="lo-order-tabs">
-      <Tab id="lo-buy" title="Buy" panel={<DappBuyLimitOrderForm {...props} />} />
-      <Tab id="lo-sell" title="Sell" panel={<DappSellLimitOrderForm {...props} />} />
+      <Tab id="lo-buy" title={<FormattedMessage id="exchangePage.buy" />} panel={<DappBuyLimitOrderForm {...props} />} />
+      <Tab id="lo-sell" title={<FormattedMessage id="exchangePage.sell" />} panel={<DappSellLimitOrderForm {...props} />} />
     </Tabs>
   )
 }

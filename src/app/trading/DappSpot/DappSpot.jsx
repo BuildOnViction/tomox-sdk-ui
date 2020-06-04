@@ -107,8 +107,8 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Book' key="1"><OrderBook /></TabPane>  
-    <TabPane tab='Market Trades' key="2"><TradesTable /></TabPane>  
+    <TabPane tab={<FormattedMessage id="dapp.spot.book" />} key="1"><OrderBook /></TabPane>  
+    <TabPane tab={<FormattedMessage id="dapp.spot.marketTrades" />} key="2"><TradesTable /></TabPane>  
   </MainTabs>
 )
 

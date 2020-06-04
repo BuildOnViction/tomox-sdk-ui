@@ -230,5 +230,7 @@
   "dapp.instruction": "Hãy sử dụng TomoWallet để giao dịch bạn có thể tải TomoWallet từ",
   "dapp.or": "hoặc",
   "dapp.appleStore": "App store",
-  "dapp.googleStore": "Google play"
+  "dapp.googleStore": "Google play",
+  "dapp.spot.book": "Sổ lệnh",
+  "dapp.spot.marketTrades": "Lịch sử giao dịch"
 }

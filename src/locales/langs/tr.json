@@ -230,5 +230,7 @@
   "dapp.instruction": "Bu işlem için TomoWallet kullanınız. Şuradan indirebilir",
   "dapp.or": "veya",
   "dapp.appStore": "App store",
-  "dapp.googleStore": "Google play"
+  "dapp.googleStore": "Google play",
+  "dapp.spot.book": "Tahta",
+  "dapp.spot.marketTrades": "Piyasa İşlemleri"
 }

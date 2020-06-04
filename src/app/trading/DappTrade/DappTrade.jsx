@@ -10,6 +10,7 @@ import { Theme } from '../../../components/Common'
 import DappOrderForm from '../../../components/DappOrderForm'
 import DappOrderBook from '../../../components/DappOrderBook'
 import TradesTable from '../../../components/TradesTable'
+import { FormattedMessage } from 'react-intl'
 
 type State = {
   chartTadId: string,
@@ -58,7 +59,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
               <Cell><DappOrderBook /></Cell>
             </Grid>
           <Cell>
-            <Title>Market Trades</Title>
+            <Title><FormattedMessage id="dapp.spot.marketTrades" /></Title>
             <TradesTable />
           </Cell>
         </Grid>
@@ -71,7 +72,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
             </Pair>
             <OrdersLink to="/dapp/spot/orders">
               <i className="fa fa-file-text-o" aria-hidden="true"></i>
-              <Typo>Orders</Typo>
+              <Typo><FormattedMessage id="dapp.spot.book" /></Typo>
             </OrdersLink>
           </Header>)}
       </OrderFormCell>

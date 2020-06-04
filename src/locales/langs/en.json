@@ -230,5 +230,7 @@
   "dapp.instruction": "Please use TomoWallet for this action. You can download it from",
   "dapp.or": "or",
   "dapp.appStore": "App store",
-  "dapp.googleStore": "Google play"
+  "dapp.googleStore": "Google play",
+  "dapp.spot.book": "Book",
+  "dapp.spot.marketTrades": "Market Trades"
 }
