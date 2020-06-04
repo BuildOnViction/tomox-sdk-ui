@@ -150,6 +150,8 @@
   "exchangePage.cancelled": "İptal Edildi",
   "exchangePage.filledStatus": "Dolan",
   "exchangePage.rejected": "Reddedildi",
+  "exchangePage.orderPlace.buy": "{baseTokenSymbol} Al",
+  "exchangePage.orderPlace.sell": "{baseTokenSymbol} Sat",
   "exchangeLendingPage.orderPlace.lend": "{termSymbol} için {lendingSymbol} borç ver",
   "exchangeLendingPage.orderPlace.borrow": "{termSymbol} için {lendingSymbol} borç al",
   "exchangeLendingPage.orderPlace.btnLend": "Borç Ver",

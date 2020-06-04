@@ -47,7 +47,7 @@ const BuyLimitOrderForm = props => {
   return (
     <BuyLimitOrderContainer>
       <HeaderRow>
-        <BaseToken>{`Buy ${baseTokenSymbol}`}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangePage.orderPlace.buy" values={{baseTokenSymbol}} /></BaseToken>
       </HeaderRow>
 
       <InputBox>

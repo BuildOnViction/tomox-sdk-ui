@@ -150,6 +150,8 @@
   "exchangePage.cancelled": "Cancelled",
   "exchangePage.filledStatus": "Filled",
   "exchangePage.rejected": "Rejected",
+  "exchangePage.orderPlace.buy": "Mua {baseTokenSymbol}",
+  "exchangePage.orderPlace.sell": "Bán {baseTokenSymbol}",
   "exchangeLendingPage.orderPlace.lend": "Cho vay {lendingSymbol} trong {termSymbol}",
   "exchangeLendingPage.orderPlace.borrow": "Vay {lendingSymbol} trong {termSymbol}", 
   "exchangeLendingPage.orderPlace.btnLend": "Cho vay",

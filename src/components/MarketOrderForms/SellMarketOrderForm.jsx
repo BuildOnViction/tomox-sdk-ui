@@ -47,7 +47,7 @@ const SellLimitOrderForm = props => {
   return (
     <SellLimitOrderContainer>
       <HeaderRow>
-        <BaseToken>{`Sell ${baseTokenSymbol}`}</BaseToken>
+        <BaseToken><FormattedMessage id="exchangePage.orderPlace.sell" values={{baseTokenSymbol}} /></BaseToken>
       </HeaderRow>
       <InputBox>
         <InputLabel>

@@ -150,6 +150,8 @@
   "exchangePage.cancelled": "Geannuleerd",
   "exchangePage.filledStatus": "Gevuld",
   "exchangePage.rejected": "Afgewezen",
+  "exchangePage.orderPlace.buy": "Koop {baseTokenSymbol}",
+  "exchangePage.orderPlace.sell": "Verkoop {baseTokenSymbol}",
   "exchangeLendingPage.orderPlace.lend": "Uitlenen {lendingSymbol} voor {termSymbol}",
   "exchangeLendingPage.orderPlace.borrow": "Lenen {lendingSymbol} voor {termSymbol}",
   "exchangeLendingPage.orderPlace.btnLend": "Uitlenen",

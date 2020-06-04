@@ -150,6 +150,8 @@
   "exchangePage.cancelled": "Cancelled",
   "exchangePage.filledStatus": "Filled",
   "exchangePage.rejected": "Rejected",
+  "exchangePage.orderPlace.buy": "Buy {baseTokenSymbol}",
+  "exchangePage.orderPlace.sell": "Sell {baseTokenSymbol}",
   "exchangeLendingPage.orderPlace.lend": "Lend {lendingSymbol} for {termSymbol}",
   "exchangeLendingPage.orderPlace.borrow": "Borrow {lendingSymbol} for {termSymbol}",
   "exchangeLendingPage.orderPlace.btnLend": "Lend",
