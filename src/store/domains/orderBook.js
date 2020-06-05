@@ -156,6 +156,7 @@ export const orderBookReset = () => {
       asks: {},
       sortedBids: [],
       sortedAsks: [],
+      decimals: pricePrecision,
     }
   }
 

@@ -34,20 +34,34 @@ class OrderBook extends React.Component<Props, State> {
   state = {
     pricePrecision: 4,
     amountPrecision: 4,
+    decimals: this.props.decimals,
   }
 
   componentDidUpdate(prevProps) {
+    
+    if (!prevProps.currentPairData && this.props.currentPairData) {
+      this.setState({
+        decimals: this.props.currentPairData.pricePrecision,
+      })
+
+      this.props.updateDecimals(this.props.currentPairData.pricePrecision)
+    }
+
     if (this.props.currentPairData && (
       this.props.currentPairData.pricePrecision !== this.state.pricePrecision
       || this.props.currentPairData.amountPrecision !== this.state.amountPrecision)) {
       this.setState({
         pricePrecision: this.props.currentPairData.pricePrecision,
         amountPrecision: this.props.currentPairData.amountPrecision,
+        decimals: this.props.currentPairData.pricePrecision,
       })
+
+      this.props.updateDecimals(this.props.currentPairData.pricePrecision)
     }
   }
 
   handleChangePricePrecision = (precision) => {
+    this.setState({ decimals: precision.value })
     this.props.updateDecimals(precision.value)
   }
 
@@ -63,11 +77,11 @@ class OrderBook extends React.Component<Props, State> {
         },
         currentPairData,
         referenceCurrency,
-        decimals,
       },
       state: { 
         pricePrecision,
         amountPrecision,
+        decimals,
       },
       handleChangePricePrecision,
     }
@@ -79,7 +93,9 @@ class OrderBook extends React.Component<Props, State> {
 
     const pricePrecisionsList = []
     // Reference https://stackoverflow.com/questions/31001901/how-to-count-the-number-of-zero-decimals-in-javascript
-    const start = currentPairData ? -Math.floor( Math.log(currentPairData.price) / Math.log(10) + 1) : 0
+    let start = currentPairData ? -Math.floor( Math.log(currentPairData.price) / Math.log(10) + 1) : 0
+    start = Math.max(start, 0)
+
     for (let i = start; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
     }
