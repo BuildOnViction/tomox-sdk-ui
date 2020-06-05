@@ -17,6 +17,7 @@ it('handles initialized event properly', () => {
     sortedAsks: [],
     quoteToken: '',
     baseToken: '',
+    decimals: 8,
   })
 
   expect(domain.getAsks()).toEqual({})
@@ -158,6 +159,7 @@ it('handles handles updated event properly', () => {
       409.039,
       407.5885,
     ],
+    decimals: 8,
   })
 
   expect(domain.getOrderBookData()).toEqual({

@@ -5,7 +5,7 @@ import { getTokenPairsDomain, getAccountDomain } from '../domains'
 
 it('checks Initial Model return', async () => {
   const { store } = createStore()
-  const initialState = { asks: [], bids: [] }
+  const initialState = { asks: [], bids: [], decimals: 8 }
   const tokenPairDomain = getTokenPairsDomain(store.getState())
 
   initialState['currentPair'] = tokenPairDomain.getCurrentPair()
