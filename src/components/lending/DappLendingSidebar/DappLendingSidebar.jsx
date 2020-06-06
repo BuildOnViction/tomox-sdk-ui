@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from '@blueprintjs/core'
 import { NavLink } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 import { Theme } from '../../Common'
 
@@ -13,19 +14,19 @@ export default function DappLendingSidebar({ currentPair }) {
         <Wrapper>
             <MenuItem to={`/dapp/lending/${pair}`}>
                 <i className="fa fa-home" aria-hidden="true"></i>
-                <Typo>Home</Typo>
+                <Typo><FormattedMessage id="dapp.menu.home" /></Typo>
             </MenuItem>
             <MenuItem to={`/dapp/lending/trade/${pair}`}>
                 <i className="tomoicons-lending"></i> 
-                <Typo>Lending</Typo>
+                <Typo><FormattedMessage id="mainMenuPage.lending" /></Typo>
             </MenuItem>
             <MenuItem to="/dapp/lending/fund">
                 <i className="tomoicons-wallet"></i> 
-                <Typo>Funds</Typo>
+                <Typo><FormattedMessage id="exchangePage.funds" /></Typo>
             </MenuItem>
             <MenuItem to="/dapp/lending/account">
                 <Icon icon="user" iconSize={20} />
-                <Typo>Account</Typo>
+                <Typo><FormattedMessage id="dapp.menu.account" /></Typo>
             </MenuItem>
         </Wrapper>
     )
