@@ -47,7 +47,7 @@ const configureStore = preloadedState => {
     keyPrefix: 'tomo:',
     storage: storageSession,
     transforms: [accountTransform],
-    whitelist: [], // only information related to account will be persisted
+    whitelist: ['account'], // only information related to account will be persisted
   }
 
   const initialStore = {}

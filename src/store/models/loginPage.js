@@ -1,4 +1,6 @@
 // @flow
+import aes from 'crypto-js/aes'
+
 import * as actionCreators from '../actions/loginPage'
 import * as notifierActionCreators from '../actions/app'
 import { getAccountDomain, getLoginPageDomain } from '../domains'
@@ -77,11 +79,13 @@ export function loginWithPantograph(): ThunkAction {
 }
 
 export function loginWithWallet(wallet): ThunkAction {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(actionCreators.requestLogin())
       const { address, privateKey } = wallet
 
+      const time = getAccountDomain(getState()).time()
+      const privateKeyEncrypted = aes.encrypt(privateKey, time).toString() 
       await createLocalWalletSigner(wallet)
 
       // Check account exist on backend yet? 
@@ -91,7 +95,7 @@ export function loginWithWallet(wallet): ThunkAction {
       if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.createWallet(wallet.address))
-      dispatch(actionCreators.loginWithWallet(address, privateKey))
+      dispatch(actionCreators.loginWithWallet(address, privateKeyEncrypted))
     } catch (e) {
       console.log(e)
       dispatch(

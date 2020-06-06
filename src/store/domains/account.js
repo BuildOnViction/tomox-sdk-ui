@@ -6,9 +6,9 @@ const initialState = {
   privateKey: null,
   currentBlock: '',
   showHelpModal: true,
-  showSessionPasswordModal: false,
   exchangeAddress: '',
   referenceCurrency: { name: 'USD', symbol: '$' },
+  time: new Date().getTime().toString(),
 }
 
 export const initialized = () => {
@@ -47,15 +47,6 @@ export const showHelpModalUpdated = (showHelpModal: boolean) => {
   const event = (state: AccountState) => ({
     ...state,
     showHelpModal,
-  })
-
-  return event
-}
-
-export const showSessionPasswordModalUpdated = (showSessionPasswordModal: boolean) => {
-  const event = (state: AccountState) => ({
-    ...state,
-    showSessionPasswordModal,
   })
 
   return event
@@ -107,5 +98,6 @@ export default function accountDomain(state: AccountState) {
     exchangeAddress: () => state.exchangeAddress,
     referenceCurrency: () => state.referenceCurrency,
     fee: () => state.exchangeFee,
+    time: () => state.time,
   }
 }
