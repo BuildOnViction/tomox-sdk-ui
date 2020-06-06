@@ -97,8 +97,8 @@ const OrdersTradesTabs = _ => (
     onChange={() => {}}
     renderTabBar={()=><ScrollableInkTabBar />}
     renderTabContent={()=><TabContent />}>            
-    <TabPane tab='Order Book' key="1"><LendingOrderBook /></TabPane>  
-    <TabPane tab='Market Contracts' key="2"><LendingTradesTable /></TabPane>  
+    <TabPane tab={<FormattedMessage id="dapp.spot.book" />} key="1"><LendingOrderBook /></TabPane>  
+    <TabPane tab={<FormattedMessage id="dapp.marketContracts" />} key="2"><LendingTradesTable /></TabPane>  
   </MainTabs>
 )
 

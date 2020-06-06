@@ -238,5 +238,8 @@
   "dapp.spot.marketTrades": "Piyasa İşlemleri",
   "dapp.menu.home": "Giriş",
   "dapp.menu.trade": "Trade",
-  "dapp.menu.account": "Hesap"
+  "dapp.menu.account": "Hesap",
+  "dapp.switchToSpot": "Borsa'ya Geç",
+  "dapp.switchToLending": "P2P Kredi'ye Geç",
+  "dapp.marketContracts": "Piyasa Kontratlar"
 }

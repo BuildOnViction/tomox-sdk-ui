@@ -238,5 +238,8 @@
   "dapp.spot.marketTrades": "Lịch sử giao dịch",
   "dapp.menu.home": "Trang chủ",
   "dapp.menu.trade": "Giao dịch",
-  "dapp.menu.account": "Tài khoản"
+  "dapp.menu.account": "Tài khoản",
+  "dapp.switchToSpot": "Chuyển tới giao dịch",
+  "dapp.switchToLending": "Chuyển tới cho vay p2p",
+  "dapp.marketContracts": "Hợp đồng"
 }

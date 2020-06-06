@@ -238,5 +238,8 @@
   "dapp.spot.marketTrades": "Market Trades",
   "dapp.menu.home": "Home",
   "dapp.menu.trade": "Trade",
-  "dapp.menu.account": "Account"
+  "dapp.menu.account": "Account",
+  "dapp.switchToSpot": "Switch to Spot",
+  "dapp.switchToLending": "Switch to Lending",
+  "dapp.marketContracts": "Market contracts"
 }
