@@ -29,7 +29,7 @@
   "notifications.noNotifications": "Bildirim yok",
   "mainMenuPage.markets": "Piyasalar",
   "mainMenuPage.spot": "Borsa",
-  "mainMenuPage.lending": "Borç Verme",
+  "mainMenuPage.lending": "P2P Kredi",
   "mainMenuPage.portfolio": "Portfolyo",
   "mainMenuPage.docsFaq": "Dökümanlar/SSS",
   "priceBoard.lastPrice": "Son Fiyat",
@@ -235,5 +235,8 @@
   "dapp.appStore": "App store",
   "dapp.googleStore": "Google play",
   "dapp.spot.book": "Tahta",
-  "dapp.spot.marketTrades": "Piyasa İşlemleri"
+  "dapp.spot.marketTrades": "Piyasa İşlemleri",
+  "dapp.menu.home": "Giriş",
+  "dapp.menu.trade": "Trade",
+  "dapp.menu.account": "Hesap"
 }

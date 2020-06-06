@@ -235,5 +235,8 @@
   "dapp.appStore": "de App store",
   "dapp.googleStore": "Google play",
   "dapp.spot.book": "Book",
-  "dapp.spot.marketTrades": "Market Trades"
+  "dapp.spot.marketTrades": "Market Trades",
+  "dapp.menu.home": "Home",
+  "dapp.menu.trade": "Trade",
+  "dapp.menu.account": "Account"
 }

@@ -235,5 +235,8 @@
   "dapp.appleStore": "App store",
   "dapp.googleStore": "Google play",
   "dapp.spot.book": "Sổ lệnh",
-  "dapp.spot.marketTrades": "Lịch sử giao dịch"
+  "dapp.spot.marketTrades": "Lịch sử giao dịch",
+  "dapp.menu.home": "Trang chủ",
+  "dapp.menu.trade": "Giao dịch",
+  "dapp.menu.account": "Tài khoản"
 }
