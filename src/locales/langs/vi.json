@@ -1,10 +1,12 @@
 {
+  "app.noOrders": "Không có dữ liệu",
   "app.wallet": "Địa chỉ",
   "app.closeWallet": "Thoát",
   "app.volume": "Khối lượng: {volume}",
   "app.mustLogin1": "Bạn phải",
   "app.mustLogin2": "mở khóa ví của bạn",
   "app.mustLogin3": "để xem nội dung này",
+  "notifications.copyData": "Dữ liệu đã được sao chép",
   "notifications.title": "Thông báo",
   "notifications.markAllAsRead": "Đánh dấu tất cả là đã đọc",
   "notifications.markAsRead": "Đánh dấu là đã đọc",
@@ -105,6 +107,7 @@
   "createWalletPage.confirmMnemonic.confirm": "Xác nhận",
   "createWalletPage.privateKeyBackupInstruction": "Sao lưu khóa cá nhân của bạn và giữ nó ở nơi bí mật và an toàn.",
   "createWalletPage.modalPrivateKey.title": "Khóa cá nhân của bạn",
+  "createWalletPage.mnemonicErrorMessage": "Mnemonic Phrase không chính xác. Xin hãy thử lại.",
   "marketsPage.favorites": "Danh sách yêu thích",
   "marketsPage.all": "Tất cả",
   "marketsPage.search": "Tìm kiếm",
@@ -199,6 +202,10 @@
   "exchangeLendingPage.orders.actions.topUp": "Top up",
   "exchangeLendingPage.orders.actions.repay": "Trả nợ",
   "exchangeLendingPage.orders.actions.details": "Chi tiết",
+  "exchangeLendingPage.orders.orderType": "Loại lệnh",
+  "exchangeLendingPage.orders.topUpType": "Loại TopUp",
+  "exchangeLendingPage.orders.liqInfor1": "Đồng thế chấp/ Đồng cho vay",
+  "exchangeLendingPage.orders.liqInfor2": "Trỏ vào giá để xem chi tiết",
   "portfolioPage.send": "Gửi",
   "portfolioPage.receive": "Nhận",
   "portfolioPage.hideZeroAmounts": "Ẩn số dư bằng 0",
@@ -241,5 +248,6 @@
   "dapp.menu.account": "Tài khoản",
   "dapp.switchToSpot": "Chuyển tới giao dịch",
   "dapp.switchToLending": "Chuyển tới cho vay p2p",
-  "dapp.marketContracts": "Hợp đồng"
+  "dapp.marketContracts": "Hợp đồng",
+  "dapp.contracts": "Kontratlar"
 }

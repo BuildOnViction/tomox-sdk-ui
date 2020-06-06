@@ -172,7 +172,7 @@ const WalletConfirmMnemonicStep = props => {
               })
             }
           </ConfirmMnemonicWrapper>
-          <ErrorMessage>{mnemonicErrorMessage}</ErrorMessage>
+          <ErrorMessage>{mnemonicErrorMessage && <FormattedMessage id="createWalletPage.mnemonicErrorMessage" />}</ErrorMessage>
         </MarginWrapper>
         
         <Paragraph textAlign="center">

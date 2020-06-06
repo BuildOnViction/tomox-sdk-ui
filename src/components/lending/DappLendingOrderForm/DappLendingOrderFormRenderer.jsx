@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs } from "@blueprintjs/core"
+import { FormattedMessage } from 'react-intl'
 
 import {
   SpinnerContainer,
@@ -17,8 +18,8 @@ function OrderFormRenderer(props) {
   return (
     <Container>
       <Tabs id="order-tabs" onChange={handleTabChange} selectedTabId={selectedTabId}>
-        <Tab id="borrow" title="Borrow" panel={<DappBorrowOrderForm {...props} />} />
-        <Tab id="lend" title="Lend" panel={<DappLendOrderForm {...props} />} />
+        <Tab id="borrow" title={<FormattedMessage id="exchangeLendingPage.orderPlace.btnBorrow" />} panel={<DappBorrowOrderForm {...props} />} />
+        <Tab id="lend" title={<FormattedMessage id="exchangeLendingPage.orderPlace.btnLend" />} panel={<DappLendOrderForm {...props} />} />
       </Tabs>
 
       {props.loading && <SpinnerContainer />}

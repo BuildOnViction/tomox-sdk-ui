@@ -1,10 +1,12 @@
 {
+  "app.noOrders": "No orders",
   "app.wallet": "Wallet",
   "app.closeWallet": "Close Wallet",
   "app.volume": "Volume: {volume}",
   "app.mustLogin1": "Vous devais être",
   "app.mustLogin2": "débloquer le wallet",
   "app.mustLogin3": "pour voir ce contenu",
+  "notifications.copyData": "The data is copied",
   "notifications.title": "Notifications",
   "notifications.markAllAsRead": "Tout marqué comme lu",
   "notifications.markAsRead": "Marqué comme lu",
@@ -105,6 +107,7 @@
   "createWalletPage.confirmMnemonic.confirm": "Confirmer",
   "createWalletPage.privateKeyBackupInstruction": "Sauvegardez votre clé privée sur papier et conservez-la dans un endroit secret et sûr.",
   "createWalletPage.modalPrivateKey.title": "Votre clé privée",
+  "createWalletPage.mnemonicErrorMessage": "Incorrect Mnemonic Phrase order. Please try again.",
   "marketsPage.favorites": "Favoris",
   "marketsPage.all": "Tout",
   "marketsPage.search": "Recherche",
@@ -199,6 +202,10 @@
   "exchangeLendingPage.orders.actions.topUp": "Recharger",
   "exchangeLendingPage.orders.actions.repay": "Rembourser",
   "exchangeLendingPage.orders.actions.details": "Détails",
+  "exchangeLendingPage.orders.orderType": "Order type",
+  "exchangeLendingPage.orders.topUpType": "TopUp type",
+  "exchangeLendingPage.orders.liqInfor1": "Collateral token / Lending token",
+  "exchangeLendingPage.orders.liqInfor2": "Hover on liquidating price to see details",
   "portfolioPage.send": "Envoyer",
   "portfolioPage.receive": "Recevoir",
   "portfolioPage.hideZeroAmounts": "Masquer les montants nuls",
@@ -241,5 +248,6 @@
   "dapp.menu.account": "Account",
   "dapp.switchToSpot": "Switch to Spot",
   "dapp.switchToLending": "Switch to Lending",
-  "dapp.marketContracts": "Market contracts"
+  "dapp.marketContracts": "Market contracts",
+  "dapp.contracts": "Kontratlar"
 }

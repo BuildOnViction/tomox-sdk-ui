@@ -609,7 +609,7 @@ const TypeInfoPopover = _ => (
 
 const TypeInfoContent = _ => (
   <Info>
-    <span>Order type-TopUp type</span>
+    <span><FormattedMessage id="exchangeLendingPage.orders.orderType" />-<FormattedMessage id="exchangeLendingPage.orders.topUpType" /></span>
   </Info>
 )
 
@@ -627,8 +627,8 @@ const LiqInfoPopover = _ => (
 
 const LiqInfoContent = _ => (
   <Info>
-    <div>Collateral token / Lending token</div>
-    <div>Hover on liquidating price to see details</div>
+    <div><FormattedMessage id="exchangeLendingPage.orders.liqInfor1" /></div>
+    <div><FormattedMessage id="exchangeLendingPage.orders.liqInfor2" /></div>
   </Info>
 )
 

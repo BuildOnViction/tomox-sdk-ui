@@ -14,7 +14,7 @@ import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon } from '../Common'
-import { formatDate, capitalizeFirstLetter } from '../../utils/helpers'
+import { formatDate } from '../../utils/helpers'
 import type { Order } from '../../types/orders'
 import tickUrl from '../../assets/images/tick.svg'
 import FundsTable from '../FundsTable'
@@ -44,6 +44,11 @@ const STATUS = {
 const ORDERTYPES = {
   'LO': <FormattedMessage id='exchangePage.limit' />,
   'MO': <FormattedMessage id='exchangePage.market' />,
+}
+
+const ORDERSIDES = {
+  'BUY': <FormattedMessage id='exchangePage.buy' />,
+  'SELL': <FormattedMessage id='exchangePage.sell' />,
 }
 
 const rowHeight = 45
@@ -244,7 +249,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumns[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
+          {order.side && ORDERSIDES[order.side.toUpperCase()]}
         </Cell>
         <Cell width={widthColumns[4]} title={order.price} muted>
           {order.type === 'LO' ? BigNumber(order.price).toFormat() : 'Market'}
@@ -324,7 +329,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumnsOrderHistory[3]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
+          {order.side && ORDERSIDES[order.side.toUpperCase()]}
         </Cell>
         <Cell width={widthColumnsOrderHistory[4]} title={order.price} muted>
           {order.type === 'LO' ? BigNumber(order.price).toFormat() : 'Market'}
@@ -408,7 +413,7 @@ const TradeHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={widthColumnsTradeHistory[6]} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
+          {order.side && ORDERSIDES[order.side.toUpperCase()]}
         </Cell>
         <Cell width={widthColumnsTradeHistory[3]} title={order.price} className={`${order.side && order.side.toLowerCase() === "buy" ? "up" : "down"}`} muted>
           {order.type === 'LO' ? BigNumber(order.price).toFormat() : 'Market'}

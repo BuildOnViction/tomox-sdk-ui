@@ -39,8 +39,8 @@ const DappLendingOrdersTableRenderer = (props: Props ) => {
 
   return (
     <PanelTabs id="orders-contracts" onChange={handleChangePanel} selectedPanel={selectedPanel}>
-      <Tab id="orders" title="Orders" panel={<OrdersPanel {...rest} />} />
-      <Tab id="contracts" title="Contracts" panel={<TradesPanel {...rest} />} />
+      <Tab id="orders" title={<FormattedMessage id="dapp.orders" />} panel={<OrdersPanel {...rest} />} />
+      <Tab id="contracts" title={<FormattedMessage id="dapp.contracts" />} panel={<TradesPanel {...rest} />} />
     </PanelTabs>
   )
 }
@@ -157,7 +157,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(orders.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       {(orders.length > 0) &&
         (<ListBodyWrapper>
@@ -218,7 +218,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
         <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.filledAmount" />/<FormattedMessage id="exchangePage.amount" /></HeaderCell>
       </ListHeader>
 
-      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(orders.length === 0) && (<NoOrders><CenteredMessage  message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       {(orders.length > 0) && 
         (<ListBodyWrapper className="list">
@@ -272,7 +272,7 @@ const OpenTradesTable = ({
         <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
       </ListHeader>
 
-      {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(items.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       <DetailsDrawer
         actions={true}
@@ -332,7 +332,7 @@ const CloseTradesTable = ({
         <HeaderCell textAlign="right" width={"30%"}><FormattedMessage id="exchangePage.amount" /></HeaderCell>
       </ListHeader>
 
-      {(items.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(items.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       <DetailsDrawer 
         item={selectedTrade}

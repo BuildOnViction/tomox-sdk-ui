@@ -12,6 +12,7 @@ import { Theme } from '../../../components/Common'
 import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import DappLendingOrderBook from '../../../components/lending/DappLendingOrderBook'
+import { FormattedMessage } from 'react-intl'
 
 type State = {
   chartTadId: string,
@@ -61,7 +62,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
               <Cell><DappLendingOrderBook /></Cell>
             </Grid>
           <Cell>
-            <Title>Market Contracts</Title>
+            <Title><FormattedMessage id="dapp.marketContracts" /></Title>
             <LendingTradesTable />
           </Cell>
         </Grid>
@@ -75,7 +76,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
             <OrdersLink to="/dapp/lending/orders">
               <i className="fa fa-file-text-o" aria-hidden="true"></i>
-              <Typo>Orders</Typo>
+              <Typo><FormattedMessage id="dapp.orders" /></Typo>
             </OrdersLink>
           </Header>)}
       </OrderFormCell>
