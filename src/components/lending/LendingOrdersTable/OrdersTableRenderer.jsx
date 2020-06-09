@@ -42,8 +42,8 @@ const ORDERTYPES = {
 }
 
 const TOPUPTYPES = {
-  '0': 'Manual',
-  '1': 'Auto',
+  '0': <FormattedMessage id='exchangeLendingPage.orders.topUpManual' />,
+  '1': <FormattedMessage id='exchangeLendingPage.orders.topUpAuto' />,
 }
 
 const rowHeight = 45
