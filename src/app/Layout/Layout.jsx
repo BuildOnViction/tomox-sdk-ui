@@ -87,7 +87,7 @@ class Default extends React.PureComponent<Props, State> {
   componentDidMount = async () => {
     const { createProvider, authenticated, queryAccountData } = this.props
 
-    if (isTomoWallet()) {
+    if (isTomoWallet() || isMobile()) {
       await this.props.loginWithMetamask()
     }
 

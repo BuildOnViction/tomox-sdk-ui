@@ -2,20 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 import QRCode from 'qrcode.react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 function AccountRenderer({ intl, address }) {
   if (!address) return null
 
   return (
     <Wrapper>
-      <Title>Your address</Title>
+      <Title><FormattedMessage id="app.wallet" /></Title>
       <AlignCenter><QRCode value={address} size={200} includeMargin={true} /></AlignCenter> 
       <AlignCenter>{address}</AlignCenter>
       <AlignCenter>
         <CopyToClipboard text={address}>
           <CopyButton title={intl.formatMessage({ id: "portfolioPage.receiveModal.copyAddress" })}>
-            <Typo>Copy</Typo>
+            <Typo><FormattedMessage id="createWalletPage.copyAddress" /></Typo>
             <i className="fa fa-clone" aria-hidden="true"></i>
           </CopyButton> 
         </CopyToClipboard>

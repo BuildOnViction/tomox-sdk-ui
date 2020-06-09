@@ -56,7 +56,7 @@ export default function DetailsDrawer({
 
     return (
         <Drawer
-            title="Details"
+            title={<FormattedMessage id="exchangeLendingPage.orders.actions.details" />}
             onClose={onClose}
             autoFocus={true}
             canOutsideClickClose={true}
@@ -77,7 +77,7 @@ export default function DetailsDrawer({
                                 <Tabs onChange={handleTabChange} selectedTabId={selectedTabId}>
                                     <Tab 
                                         id="topup" 
-                                        title="TopUp" 
+                                        title={<FormattedMessage id="exchangeLendingPage.orders.actions.topUp" />}
                                         panel={<TopUp 
                                                     item={item} 
                                                     topUpAmount={topUpAmount} 
@@ -89,7 +89,7 @@ export default function DetailsDrawer({
                                     />
                                     <Tab 
                                         id="repay" 
-                                        title="Repay" 
+                                        title={<FormattedMessage id="exchangeLendingPage.orders.actions.repay" />}
                                         panel={<Repay 
                                                 item={item} 
                                                 lendingToken={lendingToken}
@@ -105,7 +105,7 @@ export default function DetailsDrawer({
                     </Main>
 
                     <ButtonLink href={`${TOMOSCAN_URL}/lending/trades/${item.hash}`} target="_blank">
-                        View on TomoScan <Icon iconSize='10px' icon="document-share" />
+                        <FormattedMessage id="notifications.tomoScan" /> <Icon iconSize='10px' icon="document-share" />
                     </ButtonLink>
                 </Container>
             )}
@@ -165,7 +165,7 @@ function TopUp({item, onTopUp, onChangeAmount, topUpAmount, selectAllAvailableBa
     return (
         <>
             <ActionBody>
-                <Label>Amount</Label>
+                <Label><FormattedMessage id="exchangePage.amount" /></Label>
                 <StyledInputGroup
                     error={error ? 1 : 0}
                     name="amount-collateral"
@@ -177,7 +177,7 @@ function TopUp({item, onTopUp, onChangeAmount, topUpAmount, selectAllAvailableBa
                 />
                 <Error color={TmColors.RED}>{error && error.message}</Error>
                 <div>
-                    <div>Avbl</div>
+                    <div><FormattedMessage id="exchangeLendingPage.orders.repayModal.availableBalance" /></div>
                     <Value onClick={selectAllAvailableBalance}>
                         {item.collateral && BigNumber(item.collateral.availableBalance).toFormat(8)} {item.collateral && item.collateral.symbol}
                     </Value>
@@ -187,7 +187,7 @@ function TopUp({item, onTopUp, onChangeAmount, topUpAmount, selectAllAvailableBa
             <ButtonGroup>
                 <AcceptButton
                     width="100%"
-                    text="Top Up"
+                    text={<FormattedMessage id="exchangeLendingPage.orders.actions.topUp" />}
                     onClick={() => onTopUp(item.hash)} 
                 />
             </ButtonGroup>
@@ -199,34 +199,34 @@ function Repay({item, onRepay, lendingToken, realInterest, totalRepay, errorRepa
     return (
         <>
             <ActionBody>
-                <Typo>Loan: 
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.loan" />
                     <span>
                         <Value>{BigNumber(item.amount).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
                     </span>
                 </Typo>
-                <Typo>Interest: 
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.interest" />
                     <span>
                         <Value>{BigNumber(realInterest).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
                     </span>
                 </Typo>
-                <Typo>Total repay: 
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.total" /> 
                     <Highlight>
                         {BigNumber(totalRepay).toFormat(lendingAmountPrecision)} {lendingToken.symbol}
                     </Highlight>
                 </Typo>
-                <Typo>Avbl: 
+                <Typo><FormattedMessage id="exchangeLendingPage.orders.repayModal.availableBalance" />
                     <span>
                         <Value>{BigNumber(lendingToken.availableBalance).toFormat(lendingAmountPrecision)}</Value> {lendingToken.symbol}
                     </span>
                 </Typo>
-                {errorRepay && (<Highlight color={TmColors.RED}>Your balance, not enough</Highlight>)}
+                {errorRepay && (<Highlight color={TmColors.RED}><FormattedMessage id="exchangeLendingPage.orders.repayModal.errorNotEnoughBalance" /></Highlight>)}
             </ActionBody>
 
             <ButtonGroup>
                 <AcceptButton 
                     width="100%"
                     onClick={onRepay} 
-                    text="Yes, I want to repay" 
+                    text={<FormattedMessage id="exchangeLendingPage.orders.repayModal.yesReplay" />} 
                 />
             </ButtonGroup>
         </>

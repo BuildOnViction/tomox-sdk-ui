@@ -198,8 +198,8 @@
   "exchangeLendingPage.orders.topUpModal.title": "Top up collateral to secure your loan",
   "exchangeLendingPage.orders.topUpModal.availableBalance": "Available balance",
   "exchangeLendingPage.orders.topUpModal.cancel": "Cancel",
-  "exchangeLendingPage.orders.topUpModal.topUp": "Top Up",
-  "exchangeLendingPage.orders.actions.topUp": "Top up",
+  "exchangeLendingPage.orders.topUpModal.topUp": "TopUp",
+  "exchangeLendingPage.orders.actions.topUp": "TopUp",
   "exchangeLendingPage.orders.actions.repay": "Repay",
   "exchangeLendingPage.orders.actions.details": "Details",
   "exchangeLendingPage.orders.orderType": "Order type",
@@ -249,5 +249,5 @@
   "dapp.switchToSpot": "Switch to Spot",
   "dapp.switchToLending": "Switch to Lending",
   "dapp.marketContracts": "Market contracts",
-  "dapp.contracts": "Kontratlar"
+  "dapp.contracts": "Contracts"
 }
