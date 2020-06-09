@@ -3,10 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import 'rc-tabs/assets/index.css'
-import { Link, Redirect } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Icon } from '@blueprintjs/core'
 
-import { isTomoWallet, isWeb3 } from '../../../utils/helpers'
 import { Theme } from '../../../components/Common'
 
 import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
