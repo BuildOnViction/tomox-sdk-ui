@@ -45,7 +45,6 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   render() {
     const { currentPairName } = this.props
-    if (!isTomoWallet() && !isWeb3()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
 
     return (     
       <OrderFormCell isShow={true}>
