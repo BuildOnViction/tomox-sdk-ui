@@ -239,7 +239,7 @@ const PricePrecisionsDropdown = (props: Array<number>) => {
       popoverProps={{ minimal: true, popoverClassName: 'precision-menu', position: PopoverPosition.BOTTOM_RIGHT, usePortal: false }}
     >
       <PrecisionButton>
-        <span>{selectedItem.title}</span> 
+        <PrecisionTitle>{selectedItem.title}</PrecisionTitle> 
         <span className="arrow-down"></span>
       </PrecisionButton>
     </DecimalsSelect>
@@ -280,6 +280,10 @@ const PrecisionMenuItem = styled.li`
   &:hover {
     background: ${props => props.theme.decimalsMenuHoverBg} !important;
   }
+`
+
+const PrecisionTitle = styled.span`
+  font-size: ${Theme.FONT_SIZE_XS};
 `
 
 const Wrapper = styled.div`
