@@ -344,8 +344,6 @@ export const account = createReducer(action => {
       return accountEvents.exchangeFeeUpdated(payload.exchangeFee)
     case layoutActionTypes.updateReferenceCurrency:
       return accountEvents.referenceCurrencyUpdated(payload.referenceCurrency)
-    case layoutActionTypes.showSessionPasswordModal:
-      return accountEvents.showSessionPasswordModalUpdated(payload.showSessionPasswordModal)
     case logoutPageActionTypes.logout:
       return accountEvents.accountRemoved()
     case accountActionTypes.updateCurrentBlock:

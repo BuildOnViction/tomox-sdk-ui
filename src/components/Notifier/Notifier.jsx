@@ -79,7 +79,7 @@ const NotificationFactory = (type, intl, options: NotificationOptions) => {
       }
     case 'copied': 
       return {
-        message: 'The data is copied',
+        message: intl.formatMessage({id: "notifications.copyData"}),
         icon: 'tick',
         intent: 'success',
         timeout: 2000,

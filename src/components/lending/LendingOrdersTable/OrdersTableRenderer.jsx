@@ -42,8 +42,8 @@ const ORDERTYPES = {
 }
 
 const TOPUPTYPES = {
-  '0': 'Manual',
-  '1': 'Auto',
+  '0': <FormattedMessage id='exchangeLendingPage.orders.topUpManual' />,
+  '1': <FormattedMessage id='exchangeLendingPage.orders.topUpAuto' />,
 }
 
 const rowHeight = 45
@@ -609,7 +609,7 @@ const TypeInfoPopover = _ => (
 
 const TypeInfoContent = _ => (
   <Info>
-    <span>Order type-TopUp type</span>
+    <span><FormattedMessage id="exchangeLendingPage.orders.orderType" />-<FormattedMessage id="exchangeLendingPage.orders.topUpType" /></span>
   </Info>
 )
 
@@ -627,8 +627,8 @@ const LiqInfoPopover = _ => (
 
 const LiqInfoContent = _ => (
   <Info>
-    <div>Collateral token / Lending token</div>
-    <div>Hover on liquidating price to see details</div>
+    <div><FormattedMessage id="exchangeLendingPage.orders.liqInfor1" /></div>
+    <div><FormattedMessage id="exchangeLendingPage.orders.liqInfor2" /></div>
   </Info>
 )
 

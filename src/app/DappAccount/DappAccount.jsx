@@ -6,6 +6,7 @@ import { Theme } from '../../components/Common'
 
 import AccountInfo from '../../components/AccountInfo'
 import DappWelcome from '../../components/DappWelcome'
+import { FormattedMessage } from 'react-intl'
 
 export default function DappFund({ authenticated }) {
 
@@ -14,7 +15,7 @@ export default function DappFund({ authenticated }) {
   return (
     <OrdersTableCell>
       <Header>
-        Account
+        <FormattedMessage id="dapp.menu.account" />
       </Header>
       <AccountInfo />
     </OrdersTableCell>

@@ -3,6 +3,7 @@ import React from 'react'
 import { Callout, Button, Intent, Spinner } from '@blueprintjs/core'
 import { Indent } from '../Common'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 type Props = {
   loading: boolean,
@@ -28,7 +29,7 @@ const SmallTxNotification = (props: Props) => {
                 <Indent /> {txName} pending
               </div>
               <Button minimal disabled>
-                View on TOMOscan
+                <FormattedMessage id="notifications.tomoScan" />
               </Button>
             </NotificationBox>
           </Callout>
@@ -41,7 +42,7 @@ const SmallTxNotification = (props: Props) => {
             <NotificationBox>
               {txName} successful
               <Button minimal disabled>
-                View on TOMOscan
+                <FormattedMessage id="notifications.tomoScan" />
               </Button>
             </NotificationBox>
           </Callout>
@@ -54,7 +55,7 @@ const SmallTxNotification = (props: Props) => {
             <NotificationBox>
               {txName} error
               <Button minimal disabled>
-                View on TOMOscan
+                <FormattedMessage id="notifications.tomoScan" />
               </Button>
             </NotificationBox>
           </Callout>

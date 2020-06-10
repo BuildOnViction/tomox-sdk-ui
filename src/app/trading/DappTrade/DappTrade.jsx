@@ -72,7 +72,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
             </Pair>
             <OrdersLink to="/dapp/spot/orders">
               <i className="fa fa-file-text-o" aria-hidden="true"></i>
-              <Typo><FormattedMessage id="dapp.spot.book" /></Typo>
+              <Typo><FormattedMessage id="dapp.orders" /></Typo>
             </OrdersLink>
           </Header>)}
       </OrderFormCell>

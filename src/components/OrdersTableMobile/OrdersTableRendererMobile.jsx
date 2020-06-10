@@ -159,7 +159,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
     <ListContainer>
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(orders.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       {(orders.length > 0) &&
         (<ListBodyWrapper>
@@ -216,7 +216,7 @@ const OrderHistoryTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeH
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(orders.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       {(orders.length > 0) &&
         (<>
@@ -255,7 +255,7 @@ const TradeHistoryTable = ({orders, isHideOtherPairs, handleChangeHideOtherPairs
     <ListContainer className="list-container">
       <CheckboxHidePairs checked={isHideOtherPairs} onChange={handleChangeHideOtherPairs} label="Hide other pairs" />
 
-      {(orders.length === 0) && (<NoOrders><CenteredMessage message="No orders" /></NoOrders>)}
+      {(orders.length === 0) && (<NoOrders><CenteredMessage message={<FormattedMessage id="app.noOrders" />} /></NoOrders>)}
 
       {(orders.length > 0) &&
         (<>

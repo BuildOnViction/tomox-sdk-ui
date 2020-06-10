@@ -6,6 +6,7 @@ import { Theme } from '../../components/Common'
 
 import DappFundTable from '../../components/DappFundsTable'
 import DappWelcome from '../../components/DappWelcome'
+import { FormattedMessage } from 'react-intl'
 
 export default function DappFund({ authenticated }) {
   if (!authenticated) return (<OrdersTableCell><DappWelcome /></OrdersTableCell>)
@@ -13,7 +14,7 @@ export default function DappFund({ authenticated }) {
   return (
     <OrdersTableCell>
       <Header>
-        Funds
+        <FormattedMessage id="exchangePage.funds" />
       </Header>
       <DappFundTable />
     </OrdersTableCell>

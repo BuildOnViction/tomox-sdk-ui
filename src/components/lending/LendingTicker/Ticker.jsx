@@ -61,7 +61,7 @@ const TickerRenderer = (props) => {
           </React.Fragment>
         )}
 
-        <DappSwitchProduct link="/dapp/spot" title="Switch to spot" />
+        <DappSwitchProduct link="/dapp/spot" title={<FormattedMessage id="dapp.switchToSpot" />} />
 
         <HeaderDivider />
 

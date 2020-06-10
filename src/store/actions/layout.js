@@ -1,10 +1,9 @@
 // @flow
-import type { UpdateReferenceCurrencyAction, ShowSessionPasswordModal } from '../../types/layout'
+import type { UpdateReferenceCurrencyAction } from '../../types/layout'
 import type { TokenPairs } from '../../types/tokens'
 
 const actionTypes = {
   updateReferenceCurrency: 'layout/UPDATE_REFERENCE_CURRENCY',
-  showSessionPasswordModal: 'layout/SHOW_SESSION_PASSWORD_MODAL',
   updateTokenPairs: 'layout/UPDATE_TOKEN_PAIRS',
   updateLoadingTokenPair: 'layout/UPDATE_LOADING_TOKEN_PAIR',
   updateExchangeAddress: 'layout/UPDATE_EXCHANGE_ADDRESS',
@@ -24,13 +23,6 @@ export function updateReferenceCurrency(referenceCurrency: string): UpdateRefere
   return {
     type: actionTypes.updateReferenceCurrency,
     payload: { referenceCurrency },
-  }
-}
-
-export function showSessionPasswordModal(showSessionPasswordModal: Boolean): ShowSessionPasswordModal {
-  return {
-    type: actionTypes.showSessionPasswordModal,
-    payload: { showSessionPasswordModal },
   }
 }
 

@@ -8,8 +8,6 @@ import layoutSelector, {
   queryAppData,
   queryAccountData,
   releaseResource,
-  closeSessionPasswordModal,
-  unlockWalletWithSessionPassword,
 } from '../../store/models/layout'
 import type { State } from '../../types'
 import type { Props as LayoutProps } from './Layout'
@@ -35,8 +33,6 @@ const mapDispatchToProps = {
   releaseResource,
   markNotificationRead,
   logout,
-  closeSessionPasswordModal,
-  unlockWalletWithSessionPassword,
   loginWithMetamask,
 }
 
