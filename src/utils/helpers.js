@@ -279,7 +279,11 @@ export const isMobile = () => {
 }
 
 export const isWeb3 = () => {
-  return window.web3 && window.web3.currentProvider
+  return window.web3
+}
+
+export const isPantograph = () => {
+  return window.tomoWeb3
 }
 
 export const isTomoWallet = () => {
