@@ -162,9 +162,10 @@ const DappBorrowOrderForm = props => {
       {!authenticated && (
         <BuyButton
           intent="success"
-          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForDappBrowser" />}
           name="order"
           fill
+          disabled
         />
       )}
     </Wrapper>

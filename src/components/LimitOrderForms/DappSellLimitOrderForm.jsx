@@ -150,9 +150,10 @@ const DappSellLimitOrderForm = props => {
       {!authenticated && (
         <SellButton
           intent="danger"
-          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForTomoWallet" />}
+          text={<FormattedMessage id="exchangeLendingPage.orderPlace.onlyForDappBrowser" />}
           name="order"
           fill
+          disabled
         />
       )}
     </SellLimitOrderContainer>

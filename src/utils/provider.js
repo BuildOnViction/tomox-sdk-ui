@@ -25,13 +25,29 @@ export const createProvider = (
         name: undefined,
       })
     case 'web3':
-      return new providers.Web3Provider(window.web3.currentProvider, {
-        chainId: networkId,
-      })
+      if (window.web3) {
+        if (window.web3.currentProvider) {
+          return new providers.Web3Provider(window.web3.currentProvider, {
+            chainId: networkId,
+          })
+        }
+          
+        return window.web3
+      }
+
+      break
     case 'web3-p':
-      return new providers.Web3Provider(window.tomoWeb3.currentProvider, {
-        chainId: networkId,
-      })
+      if (window.tomoWeb3) {
+        if (window.tomoWeb3.currentProvider) {
+          return new providers.Web3Provider(window.tomoWeb3.currentProvider, {
+            chainId: networkId,
+          })
+        } 
+        
+        return window.tomoWeb3
+      }
+
+      break
     case 'rpc':
     default:
       return new providers.JsonRpcProvider(url, {
