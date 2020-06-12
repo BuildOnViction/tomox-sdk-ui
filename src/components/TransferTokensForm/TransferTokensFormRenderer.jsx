@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, InputGroup, Label, FormGroup } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import TokenSelect from '../TokenSelect'
-import GasSettings from '../GasSettings'
+// import GasSettings from '../GasSettings'
 import TxNotification from '../TxNotification'
 import { TmColors, Theme } from '../Common'
 
@@ -30,9 +30,7 @@ const TransferTokensFormRenderer = (props: Props) => {
     loading,
     status,
     statusMessage,
-    gas,
-    estimatedGas,
-    gasPrice,
+    transferFee,
     hash,
     receipt,
     tokens,
@@ -44,6 +42,8 @@ const TransferTokensFormRenderer = (props: Props) => {
     handleSubmit,
     intl,
     isInvalidInput,
+    sendMaxAmount,
+    error,
   } = props
 
   return (
@@ -57,8 +57,13 @@ const TransferTokensFormRenderer = (props: Props) => {
         />
       </StyledFormGroup>
       
-      <Label helpertext="(in ether or in token decimals)" text="Amount to Send"> 
-        <FormattedMessage id="portfolioPage.transferTokensModal.amount" />         
+      <Label helpertext="(in ether or in token decimals)" text="Amount to Send">
+        <LabelContent>
+          <FormattedMessage id="portfolioPage.transferTokensModal.amount" />
+          <AvailableBalance onClick={() => sendMaxAmount(token)}>
+            <FormattedMessage id="portfolioPage.transferTokensModal.max" />
+          </AvailableBalance>
+        </LabelContent>
         <InputGroupWrapper
           icon="filter"
           placeholder=""
@@ -79,16 +84,17 @@ const TransferTokensFormRenderer = (props: Props) => {
         />
       </Label>
 
-      <GasSettings gas={gas} gasPrice={gasPrice} handleChange={handleChange} />
+      {/* <GasSettings gas={gas} gasPrice={gasPrice} handleChange={handleChange} /> */}
 
       <TxNotificationBox>
         <TxNotification
+          symbol={token.symbol}
           loading={loading}
           hash={hash}
           receipt={receipt}
           status={status}
           statusMessage={statusMessage}
-          estimatedGas={estimatedGas}
+          transferFee={Number(transferFee)}
         />
       </TxNotificationBox>
 
@@ -99,7 +105,7 @@ const TransferTokensFormRenderer = (props: Props) => {
         type="submit"
         fill
         onClick={handleSubmit}
-        disabled={loading || (receipt !== null) || isInvalidInput}
+        disabled={loading || (receipt !== null) || isInvalidInput || error}
       />
     </div>
   )
@@ -116,6 +122,20 @@ const StyledFormGroup = styled(FormGroup)`
   .bp3-popover-wrapper,
   .bp3-popover-target {
     display: block;
+  }
+`
+
+const LabelContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const AvailableBalance = styled.span`
+  cursor: pointer;
+  font-size: ${Theme.FONT_SIZE_SM};
+
+  &:hover {
+    color: ${props => props.theme.menuColorHover};
   }
 `
 

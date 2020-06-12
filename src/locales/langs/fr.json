@@ -238,6 +238,7 @@
   "portfolioPage.transferTokensModal.blockHash": "Block Hash",
   "portfolioPage.transferTokensModal.blockNumber": "Numéro de Block",
   "portfolioPage.transferTokensModal.gasUsed": "Gas utilisé",
+  "portfolioPage.transferTokensModal.max": "Max",
   "dapp.orders": "Ordres",
   "dapp.instruction": "Please use a dapp browser for this action.",
   "dapp.or": "ou",

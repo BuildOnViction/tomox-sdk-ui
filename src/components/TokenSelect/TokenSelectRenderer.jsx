@@ -45,7 +45,7 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
     <StyledMenuItem
       active={modifiers.active}
       disabled={modifiers.disabled}
-      label={item.address}
+      label={item.availableBalance}
       key={item.rank}
       onClick={handleClick}
       title={item.address}
@@ -117,6 +117,7 @@ const StyledMenuItem = styled(MenuItem)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: right;
   }
 `
 
