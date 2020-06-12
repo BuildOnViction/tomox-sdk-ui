@@ -31,9 +31,9 @@ const TxNotification = (props: Props) => {
     case 'confirmed':
       return renderTxSuccessNotification(hash, receipt, title)
     case 'reverted':
-      return renderErrorNotification(statusMessage, receipt, title)
+      return renderErrorNotification(statusMessage, receipt, title, transferFee, symbol)
     case 'error':
-      return renderErrorNotification(statusMessage, receipt, title, transferFee)
+      return renderErrorNotification(statusMessage, receipt, title, transferFee, symbol)
     default:
       return null
   }
@@ -44,8 +44,8 @@ const renderLoader = () => {
   return <Spinner intent={Intent.SUCCESS} />
 }
 
-const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string, estimatedGas) => {
-  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} estimatedGas={estimatedGas} />
+const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string, transferFee, symbol) => {
+  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} transferFee={transferFee} symbol={symbol} />
 }
 
 const renderValidityNotification = (status: string, statusMessage: string, transferFee: number, symbol) => {

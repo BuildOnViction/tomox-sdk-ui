@@ -2,6 +2,7 @@
 import React from 'react'
 import { Callout } from '@blueprintjs/core'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
+import { FormattedMessage } from 'react-intl'
 
 type Props = {
   status: string,
@@ -22,16 +23,16 @@ const TxValidityNotification = (props: Props) => {
 
 const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
-    <Callout intent="warning" icon="warning-sign" title={statusMessage}>
-      Transaction Fee: {toDecimalFormString(transferFee)} {symbol}
+    <Callout intent="warning" icon="warning-sign" title={<FormattedMessage id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
+      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }
 
 const renderValidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
-    <Callout intent="success" title={statusMessage}>
-      Transaction Fee: {toDecimalFormString(transferFee)} {symbol}
+    <Callout intent="success" title={<FormattedMessage id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
+      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }

@@ -48,6 +48,11 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     if (this.state.token.symbol !== prevState.token.symbol || this.props.gas !== prevProps.gas) {
       this.setState({customGas: this.props.gas})
     }
+
+    const token = this.props.tokens.find(token => token.symbol === this.state.token.symbol)
+    if (token && token.availableBalance !== this.state.token.availableBalance) {
+      this.setState({ token })
+    }
   }
 
   componentWillUnmount() {

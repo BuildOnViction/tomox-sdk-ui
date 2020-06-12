@@ -61,7 +61,7 @@ export const validateEtherTx = ({
   return async (dispatch: Dispatch, getState: GetState) => {
     try {
       const transferFee = BigNumber(gas).multipliedBy(gasPrice).div(10 ** 18).toNumber()
-      dispatch(actionCreators.validateTx('Transaction Valid', transferFee))
+      dispatch(actionCreators.validateTx('transactionValid', transferFee))
     } catch (error) {
       console.log(error)
       const errorMessage = parseTransferEtherError(error)
@@ -92,7 +92,7 @@ export const sendEtherTx = ({
 
       const receipt = await signer.provider.waitForTransaction(tx.hash)
       if (receipt.status === 0) {
-        dispatch(actionCreators.revertTx('Transaction Failed', receipt))
+        dispatch(actionCreators.revertTx('transactionFailed', receipt))
         dispatch(
           notificationActionCreators.addErrorNotification({
             message: 'Token transfer failed.',
@@ -125,7 +125,7 @@ export const validateTransferTokensTx = (
       let transferFee = await token.minFee()
 
       transferFee = BigNumber(transferFee).div(10**tokenDecimals).toFixed(18)
-      dispatch(actionCreators.validateTx('Transaction Valid', transferFee))
+      dispatch(actionCreators.validateTx('transactionValid', transferFee))
     } catch (error) {
       console.log(error)
       const errorMessage = parseTransferTokensError(error)
