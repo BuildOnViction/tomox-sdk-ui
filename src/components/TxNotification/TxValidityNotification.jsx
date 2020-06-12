@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Callout } from '@blueprintjs/core'
+import toDecimalFormString from 'number-to-decimal-form-string-x'
 
 type Props = {
   status: string,
@@ -22,7 +23,7 @@ const TxValidityNotification = (props: Props) => {
 const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
     <Callout intent="warning" icon="warning-sign" title={statusMessage}>
-      Transaction Fee: {transferFee} {symbol}
+      Transaction Fee: {toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }
@@ -30,7 +31,7 @@ const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => 
 const renderValidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
     <Callout intent="success" title={statusMessage}>
-      Transaction Fee: {transferFee} {symbol}
+      Transaction Fee: {toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }

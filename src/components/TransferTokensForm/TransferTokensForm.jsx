@@ -137,21 +137,16 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   sendMaxAmount = async (token) => {
-    if (!this.state.receiver || (Number(token.availableBalance) === 0)) return
+    if (Number(token.availableBalance) === 0) return
 
-    const { amount, receiver } = this.state
     const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
 
     if (token.address === NATIVE_TOKEN_ADDRESS) {
 
       await validateEtherTx({ gas, gasPrice })
-    } else if (token && amount && receiver) {
+    } else {
 
       await validateTransferTokensTx({ 
-        amount, 
-        receiver, 
-        gas, 
-        gasPrice, 
         tokenAddress: token.address, 
         tokenDecimals: token.decimals,
       })
@@ -159,7 +154,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
 
     if (Number(token.availableBalance) < Number(this.props.transferFee)) return
 
-    const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toNumber()    
+    const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toFixed(8)    
     this.setState({ amount: Number(amountWithoutFee) })
   }
 
