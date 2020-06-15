@@ -90,14 +90,11 @@ const Wrapper = styled.div.attrs({
   .header {  
     height: 16px;    
   }
-  .content {
-    height: calc(100% - 46px) !important;
-    overflow: hidden;
-  }
 
   @media only screen and (max-width: 680px) {
     .tomo-wallet & .content {
-      height: 396px;
+      height: calc(100% - 46px) !important;
+      overflow: hidden;
     }
   }
 `
