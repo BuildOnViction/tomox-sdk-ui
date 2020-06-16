@@ -161,7 +161,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   sendMaxAmount = (token) => {
-    if (Number(token.availableBalance) === 0 || Number(token.availableBalance) < Number(this.props.transferFee)) return
+    if (Number(token.availableBalance) === 0 || Number(token.availableBalance) < Number(this.props.transferFee)) return this.setState({ amount: 0 })
 
     const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toFixed(8)
     
