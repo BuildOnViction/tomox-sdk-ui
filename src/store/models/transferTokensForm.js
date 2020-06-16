@@ -70,15 +70,20 @@ export const estimateTransferTomoFee = ({
 }
 
 export const validateEtherTx = ({
+  gas,
   gasPrice,
   receiver,
+  amount,
 }: TOMOTxParams): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     try {
       const signer = getSigner()
 
       const tx = {
+        gasLimit: parseFloat(gas),
+        gasPrice: parseFloat(gasPrice),
         to: receiver,
+        value: utils.parseEther(amount.toString()),
       }
 
       let estimatedGas = await signer.provider.estimateGas(tx)

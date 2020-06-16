@@ -170,7 +170,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       const { amount, receiver } = this.state
 
       if (token.address === NATIVE_TOKEN_ADDRESS && receiver) {
-        validateEtherTx({ gas, gasPrice })
+        validateEtherTx({ gas, gasPrice, amount, receiver })
       } else if (receiver) {                
         validateTransferTokensTx({
           amount,
