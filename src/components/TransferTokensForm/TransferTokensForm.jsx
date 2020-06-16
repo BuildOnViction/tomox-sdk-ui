@@ -7,6 +7,8 @@ import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens'
 import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm'
 import type { Token } from '../../types/tokens'
 
+BigNumber.config({ ROUNDING_MODE: 1 })
+
 type State = {
   token: Token,
   amount: number,
@@ -42,6 +44,17 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     sender: '',
     customGas: this.props.gas,
     customGasPrice: this.props.gasPrice,
+  }
+
+  componentDidMount() {
+    const { address, decimals } = this.state.token
+    const { gasPrice } = this.props
+
+    if (address === NATIVE_TOKEN_ADDRESS) {
+      this.props.estimateTransferTomoFee({ gasPrice })
+    } else {
+      this.props.estimateTransferTokensFee({ address, decimals })
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -92,12 +105,18 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     })
   }
 
-  handleTokenChange = (token: Object) => {    
-    this.setState({ token }, () => {
-      const { amount, receiver, token } = this.state
-      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx, resetForm } = this.props
+  handleTokenChange = (token: Object) => {
+    this.props.resetForm()
 
-      resetForm()
+    this.setState({ token }, async () => {
+      const { amount, receiver, token } = this.state
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+
+      if (token.address === NATIVE_TOKEN_ADDRESS) {
+        await this.props.estimateTransferTomoFee({ gasPrice })
+      } else {      
+        await this.props.estimateTransferTokensFee({ address: token.address, decimals: token.decimals })
+      }
 
       if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice })
@@ -141,26 +160,26 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     return !amount || !receiver
   }
 
-  sendMaxAmount = async (token) => {
-    if (Number(token.availableBalance) === 0) return
+  sendMaxAmount = (token) => {
+    if (Number(token.availableBalance) === 0 || Number(token.availableBalance) < Number(this.props.transferFee)) return
 
-    const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+    const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toFixed(8)
+    
+    this.setState({ amount: Number(amountWithoutFee) }, () => {
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+      const { amount, receiver } = this.state
 
-    if (token.address === NATIVE_TOKEN_ADDRESS) {
-
-      await validateEtherTx({ gas, gasPrice })
-    } else {
-
-      await validateTransferTokensTx({ 
-        tokenAddress: token.address, 
-        tokenDecimals: token.decimals,
-      })
-    }
-
-    if (Number(token.availableBalance) < Number(this.props.transferFee)) return
-
-    const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toFixed(8)    
-    this.setState({ amount: Number(amountWithoutFee) })
+      if (token.address === NATIVE_TOKEN_ADDRESS && receiver) {
+        validateEtherTx({ gas, gasPrice })
+      } else if (receiver) {                
+        validateTransferTokensTx({
+          amount,
+          receiver,
+          tokenAddress: token.address, 
+          tokenDecimals: token.decimals,
+        })
+      }
+    })
   }
 
   render() {

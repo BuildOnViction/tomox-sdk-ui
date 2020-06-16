@@ -19,6 +19,7 @@ const actionTypes = {
   confirmTx: 'transferTokensForm/CONFIRM',
   revertTx: 'transferTokensForm/REVERT',
   resetForm: 'transferTokensForm/RESET_FORM',
+  updateTransferFee: 'transferTokensForm/UPDATE_TRANSFER_FEE',
 }
 
 export function txError(status: TxStatus, statusMessage: string): TxErrorAction {
@@ -35,10 +36,10 @@ export function invalidateTx(statusMessage: string): InvalidateTxAction {
   }
 }
 
-export function validateTx(statusMessage: string, transferFee): ValidateTxAction {
+export function validateTx(statusMessage: string, estimatedGas): ValidateTxAction {
   return {
     type: actionTypes.validateTx,
-    payload: { statusMessage, transferFee },
+    payload: { statusMessage, estimatedGas },
   }
 }
 
@@ -66,6 +67,13 @@ export function confirmTx(receipt: TxReceipt): ConfirmTxAction {
 export function resetForm(): ResetFormAction {
   return {
     type: actionTypes.resetForm,
+  }
+}
+
+export function updateTransferFee(transferFee) {
+  return {
+    type: actionTypes.updateTransferFee,
+    payload: { transferFee },
   }
 }
 

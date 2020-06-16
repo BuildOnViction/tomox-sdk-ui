@@ -54,14 +54,37 @@ export default function sendEtherSelector(state: State) {
   }
 }
 
-export const validateEtherTx = ({
-  gas,
+export const estimateTransferTomoFee = ({
   gasPrice,
 }: TOMOTxParams): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     try {
-      const transferFee = BigNumber(gas).multipliedBy(gasPrice).div(10 ** 18).toNumber()
-      dispatch(actionCreators.validateTx('transactionValid', transferFee))
+      const gasLimit = 21000
+      const transferFee = BigNumber(gasLimit).multipliedBy(gasPrice).div(10 ** 18).toNumber()
+
+      dispatch(actionCreators.updateTransferFee(transferFee))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const validateEtherTx = ({
+  gasPrice,
+  receiver,
+}: TOMOTxParams): ThunkAction => {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    try {
+      const signer = getSigner()
+
+      const tx = {
+        to: receiver,
+      }
+
+      let estimatedGas = await signer.provider.estimateGas(tx)
+      estimatedGas = estimatedGas.toNumber()
+
+      dispatch(actionCreators.validateTx('transactionValid', estimatedGas))
     } catch (error) {
       console.log(error)
       const errorMessage = parseTransferEtherError(error)
@@ -81,8 +104,8 @@ export const sendEtherTx = ({
       const signer = getSigner()
 
       const rawTx = {
-        gasLimit: parseFloat(gas) || 0,
-        gasPrice: parseFloat(gasPrice) || 2 * 10e9,
+        gasLimit: parseFloat(gas),
+        gasPrice: parseFloat(gasPrice),
         to: receiver,
         value: utils.parseEther(amount.toString()),
       }
@@ -114,18 +137,39 @@ export const sendEtherTx = ({
   }
 }
 
+export const estimateTransferTokensFee = (
+  params: TransferTokensTxParams
+): ThunkAction => {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    try {
+      const { address, decimals } = params
+      const signer = getSigner()
+      const token = new Contract(address, TRC21, signer)
+
+      let transferFee = await token.minFee()
+      transferFee = BigNumber(transferFee).div(10**decimals).toFixed(18)
+
+      dispatch(actionCreators.updateTransferFee(transferFee))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const validateTransferTokensTx = (
   params: TransferTokensTxParams
 ): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     try {
-      const { tokenAddress, tokenDecimals } = params
+      const { receiver, amount, tokenAddress, tokenDecimals } = params
       const signer = getSigner()
       const token = new Contract(tokenAddress, TRC21, signer)
-      let transferFee = await token.minFee()
+      const amountTokens = BigNumber(amount).multipliedBy(10**tokenDecimals).toFixed(0)
 
-      transferFee = BigNumber(transferFee).div(10**tokenDecimals).toFixed(18)
-      dispatch(actionCreators.validateTx('transactionValid', transferFee))
+      let estimatedGas = await token.estimate.transfer(receiver, amountTokens) // Just to validate receiver, estimatedGas seem not work with metamask
+      estimatedGas = 2000000
+
+      dispatch(actionCreators.validateTx('transactionValid', estimatedGas))
     } catch (error) {
       console.log(error)
       const errorMessage = parseTransferTokensError(error)
@@ -163,7 +207,8 @@ export const sendTransferTokensTx = (
       
       if (amountWithFee > Number(tokenBalance.availableBalance)) throw new Error('')
 
-      const amountTokens = utils.parseUnits(amount.toString(), tokenDecimals)
+      const amountTokens = BigNumber(amount).multipliedBy(10**tokenDecimals).toFixed(0)
+
       const tx = await token.functions.transfer(receiver, amountTokens, txOpts)
 
       dispatch(actionCreators.sendTx(tx.hash))

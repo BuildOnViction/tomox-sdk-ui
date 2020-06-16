@@ -6,6 +6,8 @@ import getTransferTokensFormSelector, {
   validateEtherTx,
   validateTransferTokensTx,
   resetForm,
+  estimateTransferTomoFee,
+  estimateTransferTokensFee,
 } from '../../store/models/transferTokensForm'
 
 import type { State } from '../../types'
@@ -40,6 +42,8 @@ export const mapDispatchToProps = {
   validateTransferTokensTx,
   sendTransferTokensTx,
   resetForm,
+  estimateTransferTomoFee,
+  estimateTransferTokensFee,
 }
 
 export default connect(

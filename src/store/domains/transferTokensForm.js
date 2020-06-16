@@ -19,12 +19,13 @@ export const initialized = () => {
   return event
 }
 
-export const txValidated = (statusMessage, transferFee) => {
+export const txValidated = (statusMessage, estimatedGas) => {
   const event = (state: TransferTokensFormState) => ({
     ...state,
     status: 'valid',
     statusMessage,
-    transferFee,
+    estimatedGas,
+    gas: estimatedGas,
   })
   return event
 }
@@ -88,6 +89,15 @@ export const resetForm = () => {
     status: 'incomplete',
     hash: null,
     receipt: null,
+    transferFee: '',
+  })
+  return event
+}
+
+export const updateTransferFee = (transferFee) => {
+  const event = (state: TransferTokensFormState) => ({
+    ...state,
+    transferFee,
   })
   return event
 }
