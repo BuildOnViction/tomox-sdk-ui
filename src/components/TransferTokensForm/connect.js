@@ -6,6 +6,8 @@ import getTransferTokensFormSelector, {
   validateEtherTx,
   validateTransferTokensTx,
   resetForm,
+  estimateTransferTomoFee,
+  estimateTransferTokensFee,
 } from '../../store/models/transferTokensForm'
 
 import type { State } from '../../types'
@@ -30,6 +32,7 @@ export const mapStateToProps = (state: State, ownProps: Props) => {
     tokens: transferTokensFormSelector.tokens(),
     address: transferTokensFormSelector.getAddress(),
     estimatedGas: transferTokensFormSelector.getEstimatedGas(),
+    transferFee: transferTokensFormSelector.getTransferFee(),
   }
 }
 
@@ -39,6 +42,8 @@ export const mapDispatchToProps = {
   validateTransferTokensTx,
   sendTransferTokensTx,
   resetForm,
+  estimateTransferTomoFee,
+  estimateTransferTokensFee,
 }
 
 export default connect(

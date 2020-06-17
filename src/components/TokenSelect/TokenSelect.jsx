@@ -4,8 +4,9 @@ import TokenSelectRenderer from './TokenSelectRenderer'
 
 class TokenSelect extends React.Component {
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.props.token.address.toLowerCase() !== nextProps.token.address.toLowerCase()
+  shouldComponentUpdate(nextProps, nextState) {    
+    return (this.props.token.address.toLowerCase() !== nextProps.token.address.toLowerCase())
+            || (this.props.token.availableBalance !== nextProps.token.availableBalance)
   }
   
   render() {

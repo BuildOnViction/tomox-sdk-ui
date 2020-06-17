@@ -139,7 +139,7 @@ export const transferTokensForm = createReducer(action => {
     case transferTokensFormActionTypes.validateTx:
       return transferTokensFormEvents.txValidated(
         payload.statusMessage,
-        payload.estimatedGas
+        payload.estimatedGas,
       )
     case transferTokensFormActionTypes.invalidateTx:
       return transferTokensFormEvents.txInvalidated(payload.statusMessage)
@@ -154,6 +154,8 @@ export const transferTokensForm = createReducer(action => {
       return transferTokensFormEvents.txConfirmed(payload.receipt)
     case transferTokensFormActionTypes.resetForm:
       return transferTokensFormEvents.resetForm()
+    case transferTokensFormActionTypes.updateTransferFee: 
+      return transferTokensFormEvents.updateTransferFee(payload.transferFee)
     default:
       return transferTokensFormEvents.initialized()
   }

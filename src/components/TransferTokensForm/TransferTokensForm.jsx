@@ -1,14 +1,13 @@
 // @flow
 import React from 'react'
+import BigNumber from 'bignumber.js'
+
 import TransferTokensFormRenderer from './TransferTokensFormRenderer'
-
-// import {
-//   convertToWei
-// } from '../../utils/bignumber'
-
 import { NATIVE_TOKEN_ADDRESS } from '../../config/tokens'
 import type { TOMOTxParams, TransferTokensTxParams } from '../../types/transferTokensForm'
 import type { Token } from '../../types/tokens'
+
+BigNumber.config({ ROUNDING_MODE: 1 })
 
 type State = {
   token: Token,
@@ -47,9 +46,25 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     customGasPrice: this.props.gasPrice,
   }
 
+  componentDidMount() {
+    const { address, decimals } = this.state.token
+    const { gasPrice } = this.props
+
+    if (address === NATIVE_TOKEN_ADDRESS) {
+      this.props.estimateTransferTomoFee({ gasPrice })
+    } else {
+      this.props.estimateTransferTokensFee({ address, decimals })
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.token.symbol !== prevState.token.symbol || this.props.gas !== prevProps.gas) {
       this.setState({customGas: this.props.gas})
+    }
+
+    const token = this.props.tokens.find(token => token.symbol === this.state.token.symbol)
+    if (token && token.availableBalance !== this.state.token.availableBalance) {
+      this.setState({ token })
     }
   }
 
@@ -76,7 +91,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       gasPrice = customGasPrice
 
       if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
-        validateEtherTx({ amount, receiver, gas, gasPrice })
+        validateEtherTx({ amount, receiver, gas, gasPrice, tokenDecimals: token.decimals })
       } else if (amount && receiver && token) {
         validateTransferTokensTx({ 
           amount, 
@@ -91,11 +106,17 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
   }
 
   handleTokenChange = (token: Object) => {
-    this.setState({ token }, () => {
-      const { amount, receiver, token } = this.state
-      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx, resetForm } = this.props
+    this.props.resetForm()
 
-      resetForm()
+    this.setState({ token }, async () => {
+      const { amount, receiver, token } = this.state
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+
+      if (token.address === NATIVE_TOKEN_ADDRESS) {
+        await this.props.estimateTransferTomoFee({ gasPrice })
+      } else {      
+        await this.props.estimateTransferTokensFee({ address: token.address, decimals: token.decimals })
+      }
 
       if (token.address === NATIVE_TOKEN_ADDRESS && amount && receiver) {
         validateEtherTx({ amount, receiver, gas, gasPrice })
@@ -117,9 +138,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     let { address, gas, gasPrice, sendEtherTx, sendTransferTokensTx } = this.props
     gas = customGas
     gasPrice = customGasPrice
-          
-    // console.log(amount, receiver, gas, gasPrice, token)
-    
+              
     if (this.state.token.address === NATIVE_TOKEN_ADDRESS) {
       sendEtherTx({ amount, receiver, gas, gasPrice, address })
     } else {
@@ -130,19 +149,41 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
         gasPrice, 
         tokenAddress: token.address, 
         tokenDecimals: token.decimals,
+        tokenSymbol: token.symbol,
       })
     }
   }
 
   isInvalidInput = () => {
-    const { amount, receiver, customGas, customGasPrice } = this.state
-    const { estimatedGas } = this.props
+    const { amount, receiver } = this.state
 
-    return !amount || !receiver || !customGas || !customGasPrice || (Number(customGas) < Number(estimatedGas))
+    return !amount || !receiver
+  }
+
+  sendMaxAmount = (token) => {
+    if (Number(token.availableBalance) === 0 || Number(token.availableBalance) < Number(this.props.transferFee)) return this.setState({ amount: 0 })
+
+    const amountWithoutFee = BigNumber(token.availableBalance).minus(this.props.transferFee).toFixed(8)
+    
+    this.setState({ amount: Number(amountWithoutFee) }, () => {
+      const { gas, gasPrice, validateEtherTx, validateTransferTokensTx } = this.props
+      const { amount, receiver } = this.state
+
+      if (token.address === NATIVE_TOKEN_ADDRESS && receiver) {
+        validateEtherTx({ gas, gasPrice, amount, receiver })
+      } else if (receiver) {                
+        validateTransferTokensTx({
+          amount,
+          receiver,
+          tokenAddress: token.address, 
+          tokenDecimals: token.decimals,
+        })
+      }
+    })
   }
 
   render() {
-    let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt, estimatedGas } = this.props
+    let { tokens, loading, error, status, statusMessage, gas, gasPrice, hash, receipt, estimatedGas, transferFee } = this.props
     const { token, amount, receiver, customGas, customGasPrice } = this.state
     gas = customGas
     gasPrice = customGasPrice
@@ -166,6 +207,8 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
         amount={amount}
         receiver={receiver}
         isInvalidInput={this.isInvalidInput()}
+        sendMaxAmount={this.sendMaxAmount}
+        transferFee={transferFee}
       />
     )
   }

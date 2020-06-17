@@ -16,7 +16,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
-import { isTomoWallet, isMobile, isWeb3, isPantograph } from '../../utils/helpers'
+import { isTomoWallet, isMobile, isPantograph } from '../../utils/helpers'
 import { DEX_TITLE, DEX_LOGO, DEX_FAVICON } from '../../config/environment'
 import { locales, messsages } from '../../locales'
 import {

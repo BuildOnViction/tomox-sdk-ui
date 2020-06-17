@@ -1,36 +1,38 @@
 // @flow
 import React from 'react'
 import { Callout } from '@blueprintjs/core'
+import toDecimalFormString from 'number-to-decimal-form-string-x'
+import { FormattedMessage } from 'react-intl'
 
 type Props = {
   status: string,
   statusMessage: string,
-  gas: number
+  transferFee: number
 }
 
 const TxValidityNotification = (props: Props) => {
-  const { status, statusMessage, gas } = props
+  const { status, statusMessage, transferFee, symbol } = props
   if (status === 'invalid') {
-    return renderInvalidTx(gas, statusMessage)
+    return renderInvalidTx(transferFee, statusMessage, symbol)
   } else if (status === 'valid') {
-    return renderValidTx(gas, statusMessage)
+    return renderValidTx(transferFee, statusMessage, symbol)
   } 
     return null
   
 }
 
-const renderInvalidTx = (gas: number, statusMessage: string) => {
+const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
-    <Callout intent="warning" icon="warning-sign" title={statusMessage}>
-      {gas && `Required Gas: ${gas}`}
+    <Callout intent="warning" icon="warning-sign" title={<FormattedMessage defaultMessage="Transaction invalid" id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
+      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {transferFee && toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }
 
-const renderValidTx = (gas: number, statusMessage: string) => {
+const renderValidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
-    <Callout intent="success" title={statusMessage}>
-      Required Gas: {gas}
+    <Callout intent="success" title={<FormattedMessage defaultMessage="Transaction invalid" id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
+      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {transferFee && toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }

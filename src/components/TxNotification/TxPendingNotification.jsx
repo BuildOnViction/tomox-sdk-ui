@@ -1,6 +1,7 @@
 import React from 'react'
 import { Callout, Intent, Spinner } from '@blueprintjs/core'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 type Props = {
   hash: string,
@@ -10,7 +11,7 @@ type Props = {
 const TxPendingNotification = ({ hash, title }: Props) => (
   <Callout intent={Intent.SUCCESS} title={title}>
     <NotificationBox>
-      <h6>Transaction Hash:</h6>
+      <h6><FormattedMessage id="portfolioPage.transferTokensModal.txHash" />:</h6>
       <WordBreak>{hash}</WordBreak>
       <SpinnerBox>
         <Spinner intent={Intent.SUCCESS} />

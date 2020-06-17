@@ -13,26 +13,27 @@ type Props = {
   status: string,
   statusMessage: string,
   gas: number,
-  title: ?string
+  title: ?string,
+  symbol: string,
 }
 
 const TxNotification = (props: Props) => {
-  const { hash, receipt, status, statusMessage, estimatedGas, title } = props
+  const { hash, receipt, status, statusMessage, transferFee, title, symbol } = props
   switch (status) {
     case 'incomplete':
       return null
     case 'invalid':
-      return renderValidityNotification('invalid', statusMessage, estimatedGas)
+      return renderValidityNotification('invalid', statusMessage, transferFee, symbol)
     case 'valid':
-      return renderValidityNotification('valid', statusMessage, estimatedGas)
+      return renderValidityNotification('valid', statusMessage, transferFee, symbol)
     case 'sent':
       return renderTxPendingNotification(hash, title)
     case 'confirmed':
       return renderTxSuccessNotification(hash, receipt, title)
     case 'reverted':
-      return renderErrorNotification(statusMessage, receipt, title)
+      return renderErrorNotification(statusMessage, receipt, title, transferFee, symbol)
     case 'error':
-      return renderErrorNotification(statusMessage, receipt, title, estimatedGas)
+      return renderErrorNotification(statusMessage, receipt, title, transferFee, symbol)
     default:
       return null
   }
@@ -43,12 +44,12 @@ const renderLoader = () => {
   return <Spinner intent={Intent.SUCCESS} />
 }
 
-const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string, estimatedGas) => {
-  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} estimatedGas={estimatedGas} />
+const renderErrorNotification = (statusMessage: string, receipt: Object, title: ?string, transferFee, symbol) => {
+  return <TxErrorNotification error={statusMessage} receipt={receipt} title={title} transferFee={transferFee} symbol={symbol} />
 }
 
-const renderValidityNotification = (status: string, statusMessage: string, gas: number) => {
-  return <TxValidityNotification status={status} statusMessage={statusMessage} gas={gas} />
+const renderValidityNotification = (status: string, statusMessage: string, transferFee: number, symbol) => {
+  return <TxValidityNotification status={status} statusMessage={statusMessage} transferFee={transferFee} symbol={symbol} />
 }
 
 const renderTxPendingNotification = (hash: string, title: ?string) => {
