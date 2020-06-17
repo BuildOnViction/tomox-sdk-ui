@@ -3,19 +3,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon, Spinner, Intent } from '@blueprintjs/core'
 import { formatDistanceStrict } from 'date-fns'
-import { enUS, vi, fr, nl  } from 'date-fns/locale'
-import tr from 'date-fns/locale/tr'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { TOMOSCAN_URL } from '../../config/environment'
 import { Theme, TmColors } from '../../components/Common'
-
-const LANGUAGES = {
-  en: enUS,
-  tr,
-  vi,
-  fr,
-  nl,
-}
+import { LANGUAGES } from '../../locales'
 
 const MESSAGES = {
   'ORDER_ADDED': <FormattedMessage id='notifications.orderAdded' />,
