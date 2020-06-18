@@ -479,6 +479,8 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       (trades[i].lendingToken.toLowerCase() === pair.quoteTokenAddress)
     )
 
+    if (!pair) continue
+
     const liquidationPrice = parsePricepoint(trades[i].liquidationPrice, pair)
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
     const side = (trades[i].investor.toLowerCase() === userAddress.toLowerCase() 
