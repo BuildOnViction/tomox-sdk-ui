@@ -9,7 +9,7 @@ import ohlcvActionTypes from './actions/ohlcv'
 import tokenSearcherActionTypes from './actions/tokenSearcher'
 import tokensActionTypes from './actions/tokens'
 import accountActionTypes from './actions/account'
-import depositActionTypes from './actions/deposit'
+// import depositActionTypes from './actions/deposit'
 import depositFormActionTypes from './actions/depositForm'
 import getStartedModalActionTypes from './actions/getStartedModal'
 import settingsActionTypes from './actions/settings'
@@ -34,6 +34,7 @@ import lendingMarketsActionTypes from './actions/lending/lendingMarkets'
 import lendingTradePageActionTypes from './actions/lending/lendingTradePage'
 import lendingTokenSearcherActionTypes from './actions/lending/lendingTokenSearcher'
 import lendingOrderBookActionTypes from './actions/lending/lendingOrderBook'
+import depositPageActionTypes from './actions/depositPage'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -274,8 +275,12 @@ export const orders = createReducer(action => {
 })
 
 export const tokens = createReducer(action => {
-  const { type } = action
+  const { type, payload } = action
   switch (type) {
+    case depositPageActionTypes.updateBridgeTokenConfig:
+      return tokensEvents.updateBridgeTokenConfig(payload)
+    case depositPageActionTypes.updateBridgeDepositAddress:
+      return tokensEvents.updateBridgeDepositAddress(payload)
     default:
       return tokensEvents.initialized()
   }
@@ -290,8 +295,10 @@ export const tokenPairs = createReducerPersist({
   const { type, payload } = action
   switch (type) {
     case tradingPageActionTypes.updateCurrentPair:
-      return tokenPairsEvents.currentPairUpdated(payload.pair)
     case walletPageActionTypes.updateCurrentPair:
+    case tokenSearcherActionTypes.updateCurrentPair:
+    case marketsTableActionTypes.updateCurrentPair:
+    case depositPageActionTypes.updateCurrentPair:
       return tokenPairsEvents.currentPairUpdated(payload.pair)
     case layoutActionTypes.updateTokenPairs:
       return tokenPairsEvents.tokenPairsUpdated(payload.pairs)
@@ -305,14 +312,10 @@ export const tokenPairs = createReducerPersist({
         payload.code,
         payload.favorite
       )
-    case tokenSearcherActionTypes.updateCurrentPair:
-      return tokenPairsEvents.currentPairUpdated(payload.pair)
     case socketControllerActionTypes.updateTokenPairData:
       return tokenPairsEvents.tokenPairDataUpdated(payload.tokenPairData)
     case socketControllerActionTypes.updateSmallChartsData:
-      return tokenPairsEvents.updateSmallChartsData(payload.smallChartsData)
-    case marketsTableActionTypes.updateCurrentPair:
-      return tokenPairsEvents.currentPairUpdated(payload.pair)
+      return tokenPairsEvents.updateSmallChartsData(payload.smallChartsData)    
     case tokenPairsActionsTypes.updateCurrentPairData:
       return tokenPairsEvents.updateCurrentPairData(payload)
     case socketControllerActionTypes.updateLoadingTokenPair:
@@ -358,15 +361,20 @@ export const account = createReducer(action => {
 export const deposit = createReducer(action => {
   const { type, payload } = action
   switch (type) {
-    case depositActionTypes.updateAddressAssociation:
-      return depositEvents.addressAssociationUpdated(
-        payload.chain,
-        payload.addressAssociation
-      )
-    case depositActionTypes.updateAssociationTransactions:
-      return depositEvents.associationTransactionsUpdated(
-        payload.chain,
-        payload.txEnvelopes
+    // case depositActionTypes.updateAddressAssociation:
+    //   return depositEvents.addressAssociationUpdated(
+    //     payload.chain,
+    //     payload.addressAssociation
+    //   )
+    // case depositActionTypes.updateAssociationTransactions:
+    //   return depositEvents.associationTransactionsUpdated(
+    //     payload.chain,
+    //     payload.txEnvelopes
+    //   )
+    case depositPageActionTypes.updateRecentHistory: 
+      return depositEvents.updateRecentHistory(
+        payload.data,
+        payload.total
       )
     default:
       return depositEvents.initialized()

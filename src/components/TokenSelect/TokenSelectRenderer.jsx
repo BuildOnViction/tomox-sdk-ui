@@ -54,7 +54,9 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
   )
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button).attrs({
+  className: 'token-select-btn',
+})`
   height: 40px;
   background: ${props => props.theme.inputBackground} !important;
   box-shadow: none !important;

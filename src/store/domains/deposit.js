@@ -8,15 +8,17 @@ import type {
 } from '../../types/deposit'
 
 const initialState = {
-  blockchain: ['ethereum'],
-  transactions: { ethereum: [] },
-  byBlockchain: {
-    ethereum: {
-      protocolVersion: 0,
-      address: '',
-      signer: '',
-    },
-  },
+  // blockchain: ['ethereum'],
+  // transactions: { ethereum: [] },
+  // byBlockchain: {
+  //   ethereum: {
+  //     protocolVersion: 0,
+  //     address: '',
+  //     signer: '',
+  //   },
+  // },
+  data: [],
+  total: 0,
 }
 
 export const initialized = () => {
@@ -46,10 +48,22 @@ export const associationTransactionsUpdated = (
   return event
 }
 
+export const updateRecentHistory = (data: Array<Object>, total: number) => {
+  const event = (state: DepositState) => ({
+    ...state,
+    data,
+    total,
+  })
+
+  return event
+}
+
 export default function depositDomain(state: DepositState) {
   return {
     blockchain: () => state.blockchain,
     getAddressAssociation: (chain: Chain) => state.byBlockchain[chain],
     getAssocationTransactions: (chain: Chain) => state.transactions[chain],
+    getData: () => state.data,
+    getTotal: () => state.total,
   }
 }

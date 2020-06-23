@@ -12,6 +12,45 @@ export const initialized = () => {
   return event
 }
 
+export const updateBridgeTokenConfig = (tokens: Array<Object>) => {
+  const event = (state: TokenState) => {
+    const newByAddress = {...state.byAddress}
+    
+    tokens.map(token => {
+      if (newByAddress[token.wrapperAddress.toLowerCase()]) {
+        newByAddress[token.wrapperAddress.toLowerCase()] = {...newByAddress[token.wrapperAddress.toLowerCase()], ...token}
+      }
+      return null
+    })
+
+    return {
+      symbols: state.symbols,
+      byAddress: {
+        ...state.byAddress,
+        ...newByAddress,
+      },
+    }
+  }
+  return event
+}
+
+export const updateBridgeDepositAddress = (data: Object) => {
+  const event = (state: TokenState) => {
+    const tokens = Object.values(state.byAddress)
+    let token = tokens.find(token => token.symbol === data.coin)
+    if (token) token = {...token, ...data}
+
+    return {
+      symbols: state.symbols,
+      byAddress: {
+        ...state.byAddress,
+        [token.address.toLowerCase()]: token,
+      },
+    }
+  }
+  return event
+}
+
 export default function getTokenDomain(state: TokenState) {
   return {
     byAddress: () => state.byAddress,

@@ -11,7 +11,8 @@ let ENGINE_HTTP_URL,
   DEX_LOGO,
   DEX_FAVICON,
   DEX_DOCS_URL,
-  DEX_VERSION
+  DEX_VERSION,
+  ETHERSCAN_URL
 
 const env = window.env || process.env
 
@@ -44,6 +45,7 @@ if (env) {
   DEX_FAVICON = env.REACT_APP_FAVICON
   DEX_DOCS_URL = env.REACT_APP_DEX_DOCS_URL || 'https://docs.tomochain.com/tomodex'
   DEX_VERSION = env.REACT_APP_DEX_VERSION || '1.2.2'
+  ETHERSCAN_URL = env.REACT_APP_ETHERSCAN_URL || 'https://etherscan.io/'
 }
 
 export {
@@ -62,4 +64,5 @@ export {
   DEX_FAVICON,
   DEX_DOCS_URL,
   DEX_VERSION,
+  ETHERSCAN_URL,
 }

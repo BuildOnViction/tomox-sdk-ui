@@ -3,7 +3,7 @@ import React from 'react'
 import { Checkbox, InputGroup } from '@blueprintjs/core'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link as RouterLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 import {
@@ -19,7 +19,6 @@ import {
 } from '../Common'
 import { pricePrecision } from '../../config/tokens'
 import { TOMOSCAN_URL, TOMO_BRIDGE_URL } from '../../config/environment'
-// import { truncateZeroDecimal } from '../../utils/helpers'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
@@ -227,9 +226,9 @@ const QuoteTokenRows = (props: Props) => {
 
               {verified && (
                 <>
-                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
+                  <InternalLink to={`/wallet/deposit/${symbol}`}>
                     <FormattedMessage id="portfolioPage.deposit" />
-                  </ExternalLink>
+                  </InternalLink>
 
                   <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
                     <FormattedMessage id="portfolioPage.withdrawal" />
@@ -301,9 +300,9 @@ const BaseTokenRows = (props: Props) => {
 
               {verified && (
                 <>
-                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/wrap/${symbol.toLowerCase()}`}>
+                  <InternalLink to={`/wallet/deposit/${symbol}`}>
                     <FormattedMessage id="portfolioPage.deposit" />
-                  </ExternalLink>
+                  </InternalLink>
 
                   <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
                     <FormattedMessage id="portfolioPage.withdrawal" />
@@ -431,6 +430,18 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
 `
 
 const ExternalLink = styled.a`
+  display: inline-block;
+  padding: 5px 0;
+  cursor: pointer;
+  color: ${props => props.theme.textTable};
+  font-size: ${Theme.FONT_SIZE_MD};
+
+  &:hover {
+    color: ${TmColors.ORANGE};
+  }
+`
+
+const InternalLink = styled(RouterLink)`
   display: inline-block;
   padding: 5px 0;
   cursor: pointer;

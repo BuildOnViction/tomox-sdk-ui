@@ -91,7 +91,7 @@ class NotificationsRenderer extends React.PureComponent {
                   <div>{MESSAGES[notification.message.type]}</div>
                   <NotificationDate>
                       <Icon icon="time" iconSize="12" />
-                      <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date(), {locale: LANGUAGES[intl.locale]})}</DistanceDate>
+                      <DistanceDate>{formatDistanceStrict(new Date(notification.createdAt), new Date(), {addSuffix: true, locale: LANGUAGES[intl.locale]})}</DistanceDate>
                   </NotificationDate>
                   <IconsBox>
                     <TomoScanLink target="_blank" href={generateScanUrl(notification.message.type, notification.message.description)}>

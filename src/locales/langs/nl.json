@@ -242,6 +242,7 @@
   "portfolioPage.transferTokensModal.transactionFee": "Transaction Fee",
   "portfolioPage.transferTokensModal.transactionFailed": "Transaction Failed",
   "portfolioPage.transferTokensModal.transactionValid": "Transaction Valid",
+  "portfolioPage.deposit.copy": "Copy",
   "dapp.orders": "Orders",
   "dapp.instruction": "Please use a dapp browser for this action.",
   "dapp.or": "of",
