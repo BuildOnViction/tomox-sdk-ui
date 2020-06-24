@@ -1,8 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+
 import { formatDate } from '../../utils/helpers'
-import { ETHERSCAN_URL } from '../../config/environment'
 import { TmColors } from '../../components/Common'
+
+const STATUS = {
+    DEPOSITING: <FormattedMessage id="portfolioPage.deposit.status.depositing" />,
+    DEPOSITED: <FormattedMessage id="portfolioPage.deposit.status.deposited" />,
+}
 
 function renderHeader(columns, widths) {
     return (
@@ -26,7 +32,9 @@ function renderBody(columns, data, widths) {
                                             ? formatDate(Number(item[column.field]) * 1000, 'LL-dd HH:mm:ss')
                                             : column.field === 'txHash' 
                                                 ? <ExteralLink href={`${item.scanUrl}tx/${item[column.field]}`} target="_blank">{item[column.field]}</ExteralLink>
-                                                : item[column.field]
+                                                : column.field === 'status' 
+                                                    ? STATUS[item[column.field]]
+                                                    : item[column.field]
                                     }
                                 </Cell>
                             )

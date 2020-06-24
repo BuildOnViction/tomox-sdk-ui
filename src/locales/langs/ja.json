@@ -243,6 +243,8 @@
     "portfolioPage.transferTokensModal.transactionFailed": "Transaction Failed",
     "portfolioPage.transferTokensModal.transactionValid": "Transaction Valid",
     "portfolioPage.deposit.copy": "Copy",
+    "portfolioPage.deposit.status.depositing": "Processing",
+    "portfolioPage.deposit.status.deposited": "Completed",
     "dapp.orders": "注文",
     "dapp.instruction": "この動作にはTomoWalletをご利用ください",
     "dapp.or": "または",
