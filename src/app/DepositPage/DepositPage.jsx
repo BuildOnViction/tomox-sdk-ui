@@ -18,15 +18,9 @@ export default function Deposit({
     if (!authenticated) return <Redirect to="/unlock" />
 
     const { token: tokenParam } = useParams()
-    const [selectedToken, setSelectedToken] = useState(tokens[0])
-
-    useEffect(() => {
-        if (!tokenParam || (tokenParam.toLowerCase() === selectedToken.symbol.toLowerCase())) return
-
-        let defaultToken = tokens.find(token => token.symbol.toLowerCase() === tokenParam.toLowerCase())
-        defaultToken = defaultToken || tokens[0]
-        setSelectedToken(defaultToken)
-    })
+    let defaultToken = tokens.find(token => token.symbol.toLowerCase() === tokenParam.toLowerCase())
+    defaultToken = defaultToken || tokens[0]
+    const [selectedToken, setSelectedToken] = useState(defaultToken)
 
     useEffect(() => {
         getBridgeTokenConfig()
