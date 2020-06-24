@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, MenuItem, PopoverPosition } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import HighlightText from '../Common/HighlightText'
+import { Theme } from '../Common'
 
 type Props = {
   items: Array<Object>,
@@ -72,6 +73,7 @@ const StyledSelect = styled(Select)`
     height: 40px;
     background: ${props => props.theme.inputBackground2} !important;
     border: 1px solid ${props => props.theme.selectTokenSearchBorder};
+    color: ${props => props.theme.mainColor};
   }
 
   .bp3-input-group > .bp3-icon:first-child {
@@ -86,6 +88,10 @@ const StyledSelect = styled(Select)`
     max-height: 320px;
     overflow: auto;
     background: ${props => props.theme.inputBackground} !important;
+  }
+
+  .bp3-menu-item .bp3-menu-item-label {
+    font-family: ${Theme.FONT_FAMILY_UBUNTU};
   }
 `
 
