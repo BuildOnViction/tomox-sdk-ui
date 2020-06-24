@@ -20,7 +20,7 @@ export default function DepositRenderer({
     copyDataSuccess, 
     depositHistory,
     updateCurrentPair,
-}) {        
+}) {  
     const columns = [
         {
             title: 'Coin',

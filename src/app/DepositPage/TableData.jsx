@@ -25,7 +25,7 @@ function renderBody(columns, data, widths) {
                                         column.field === 'date' 
                                             ? formatDate(Number(item[column.field]) * 1000, 'LL-dd HH:mm:ss')
                                             : column.field === 'txHash' 
-                                                ? <ExteralLink href={`${ETHERSCAN_URL}/tx/${item[column.field]}`} target="_blank">{item[column.field]}</ExteralLink>
+                                                ? <ExteralLink href={`${item.scanUrl}tx/${item[column.field]}`} target="_blank">{item[column.field]}</ExteralLink>
                                                 : item[column.field]
                                     }
                                 </Cell>
