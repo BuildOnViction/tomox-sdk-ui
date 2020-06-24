@@ -25,28 +25,33 @@ export default function DepositRenderer({
         {
             title: 'Coin',
             field: 'coin',
-            width: '10%',
+            width: '8%',
         },
         {
             title: 'Status',
             field: 'status',
-            width: '20%',
+            width: '12%',
         },
         {
             title: 'Amount',
             field: 'amount',
-            width: '20%',
+            width: '15%',
         },
         {
             title: 'Date',
             field: 'date',
             parents: null,
-            width: '20%',
+            width: '15%',
         },
         {
             title: 'TxHash',
             field: 'txHash',
-            width: '30%',
+            width: '25%',
+        },
+        {
+            title: 'Deposit Address',
+            field: 'depositAddress',
+            width: '25%',
         },
     ]
 

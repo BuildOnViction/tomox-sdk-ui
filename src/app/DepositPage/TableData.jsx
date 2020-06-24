@@ -18,6 +18,21 @@ function renderHeader(columns, widths) {
     )
 }
 
+function renderCell(item, field) {
+    switch (field) {
+        case 'date':
+            return formatDate(Number(item[field]) * 1000, 'LL-dd HH:mm:ss')
+        case 'txHash':
+            return <ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">{item[field]}</ExteralLink>
+        case 'depositAddress':
+            return <ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">{item[field]}</ExteralLink>
+        case 'status':
+            return STATUS[item[field]]
+        default:
+            return item[field]
+    }
+}
+
 function renderBody(columns, data, widths) {
     return (
         data.map((item, index) => {
@@ -28,13 +43,7 @@ function renderBody(columns, data, widths) {
                             return (
                                 <Cell key={index} width={column.width}>
                                     {
-                                        column.field === 'date' 
-                                            ? formatDate(Number(item[column.field]) * 1000, 'LL-dd HH:mm:ss')
-                                            : column.field === 'txHash' 
-                                                ? <ExteralLink href={`${item.scanUrl}tx/${item[column.field]}`} target="_blank">{item[column.field]}</ExteralLink>
-                                                : column.field === 'status' 
-                                                    ? STATUS[item[column.field]]
-                                                    : item[column.field]
+                                        renderCell(item, column.field)
                                     }
                                 </Cell>
                             )

@@ -70,6 +70,7 @@ export const getBridgeDepositHistory = (address: string): ThunkAction => {
                 txHash: item.InTx.Hash,
                 confirmations: item.InTx.Confirmations,
                 date: item.CreatedAt,
+                depositAddress: item.InTx.To,
             }
         })
 
