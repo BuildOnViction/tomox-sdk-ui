@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { formatDate } from '../../utils/helpers'
+import { formatDate, truncateTripleText } from '../../utils/helpers'
 import { TmColors } from '../../components/Common'
 
 const STATUS = {
@@ -23,9 +23,9 @@ function renderCell(item, field) {
         case 'date':
             return formatDate(Number(item[field]) * 1000, 'LL-dd HH:mm:ss')
         case 'txHash':
-            return <ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">{item[field]}</ExteralLink>
+            return <ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">{truncateTripleText(item[field], 15)}</ExteralLink>
         case 'depositAddress':
-            return <ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">{item[field]}</ExteralLink>
+            return <ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">{truncateTripleText(item[field], 15)}</ExteralLink>
         case 'status':
             return STATUS[item[field]]
         default:
