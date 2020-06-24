@@ -55,7 +55,7 @@ class App extends React.PureComponent {
                 <Route exact path="/logout" component={LogoutPage} />
                 <Route exact path="/create" component={CreateWalletPage} />
                 <Route exact path="/wallet" component={WalletPage} />
-                <Route exact path="/wallet/deposit/:token?" component={DepositPage} />
+                <Route exact path="/wallet/deposit/:token" component={DepositPage} />
 
                 <Route exact path="/markets/trading" component={MarketsPage} />
                 <Route exact path="/trade/:pair?" component={TradingPage} />  
