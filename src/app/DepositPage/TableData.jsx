@@ -23,9 +23,13 @@ function renderCell(item, field) {
         case 'date':
             return formatDate(Number(item[field]) * 1000, 'LL-dd HH:mm:ss')
         case 'txHash':
-            return <ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">{truncateTripleText(item[field], 15)}</ExteralLink>
+            return (<ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">
+                        {truncateTripleText(item[field], 8)}
+                    </ExteralLink>)
         case 'depositAddress':
-            return <ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">{truncateTripleText(item[field], 15)}</ExteralLink>
+            return (<ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">
+                        {truncateTripleText(item[field], 8)}
+                    </ExteralLink>)
         case 'status':
             return STATUS[item[field]]
         default:
