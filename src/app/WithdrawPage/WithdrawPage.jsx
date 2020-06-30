@@ -75,6 +75,7 @@ export default function WithdrawPage({
                 || Number(value) < Number(minimumWithdrawal)
                 || Number(minimumWithdrawal) > Number(availableBalance)) {
                 setError({ ...error, amount: 'invalid' })
+                setWithdrawalAmountWithoutFee('')
                 setWithdrawalAmount(value)
                 return
             }
