@@ -66,7 +66,7 @@ export const getBridgeDepositHistory = (address: string): ThunkAction => {
             return {
                 coin: item.InTx.CoinType,
                 amount: item.InTx.Amount,
-                status: item.InTx.Status,
+                status: item.InTx.Status.toUpperCase() === 'DEPOSITED' ? 'COMPLETED' : 'PROCESSING',
                 txHash: item.InTx.Hash,
                 confirmations: item.InTx.Confirmations,
                 date: item.CreatedAt,

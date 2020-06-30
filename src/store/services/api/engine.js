@@ -831,3 +831,19 @@ export const getBridgeDepositHistory = async (address, page = 1, limit = 10) => 
   const data = await response.json()
   return data
 }
+
+export const getBridgeWithdrawHistory = async (address, page = 1, limit = 10) => {
+  const response = await request(`/api/transactions/getUnwrapTxs?address=${address}&page=${page}&limit=${limit}`, {}, TOMO_BRIDGE_URL)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const data = await response.json()
+  return data
+}

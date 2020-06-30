@@ -87,6 +87,7 @@
     "styled-css-grid": "^0.11.0",
     "styled-system": "^3.0.2",
     "trezor-connect": "^7.0.5",
+    "wallet-address-validator": "^0.2.4",
     "ws": "^5.2.2",
     "zxcvbn": "^4.4.2"
   },

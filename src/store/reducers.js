@@ -9,7 +9,6 @@ import ohlcvActionTypes from './actions/ohlcv'
 import tokenSearcherActionTypes from './actions/tokenSearcher'
 import tokensActionTypes from './actions/tokens'
 import accountActionTypes from './actions/account'
-// import depositActionTypes from './actions/deposit'
 import depositFormActionTypes from './actions/depositForm'
 import getStartedModalActionTypes from './actions/getStartedModal'
 import settingsActionTypes from './actions/settings'
@@ -35,6 +34,7 @@ import lendingTradePageActionTypes from './actions/lending/lendingTradePage'
 import lendingTokenSearcherActionTypes from './actions/lending/lendingTokenSearcher'
 import lendingOrderBookActionTypes from './actions/lending/lendingOrderBook'
 import depositPageActionTypes from './actions/depositPage'
+import withdrawPageActionTypes from './actions/withdrawPage'
 
 import * as accountBalancesEvents from './domains/accountBalances'
 import * as transferTokensFormEvents from './domains/transferTokensForm'
@@ -61,6 +61,7 @@ import * as lendingPairsEvents from './domains/lending/lendingPairs'
 import * as lendingTokensEvents from './domains/lending/lendingTokens'
 import * as lendingOrdersEvents from './domains/lending/lendingOrders'
 import * as lendingOhlcvEvents from './domains/lending/lendingOhlcv'
+import * as withdrawEvents from './domains/withdraw'
 
 export const loginPage = createReducer(action => {
   const { type, payload } = action
@@ -278,6 +279,7 @@ export const tokens = createReducer(action => {
   const { type, payload } = action
   switch (type) {
     case depositPageActionTypes.updateBridgeTokenConfig:
+    case withdrawPageActionTypes.updateBridgeTokenConfig:
       return tokensEvents.updateBridgeTokenConfig(payload)
     case depositPageActionTypes.updateBridgeDepositAddress:
       return tokensEvents.updateBridgeDepositAddress(payload)
@@ -361,16 +363,6 @@ export const account = createReducer(action => {
 export const deposit = createReducer(action => {
   const { type, payload } = action
   switch (type) {
-    // case depositActionTypes.updateAddressAssociation:
-    //   return depositEvents.addressAssociationUpdated(
-    //     payload.chain,
-    //     payload.addressAssociation
-    //   )
-    // case depositActionTypes.updateAssociationTransactions:
-    //   return depositEvents.associationTransactionsUpdated(
-    //     payload.chain,
-    //     payload.txEnvelopes
-    //   )
     case depositPageActionTypes.updateRecentHistory: 
       return depositEvents.updateRecentHistory(
         payload.data,
@@ -378,6 +370,19 @@ export const deposit = createReducer(action => {
       )
     default:
       return depositEvents.initialized()
+  }
+})
+
+export const withdraw = createReducer(action => {
+  const { type, payload } = action
+  switch (type) {
+    case withdrawPageActionTypes.updateRecentHistory: 
+      return withdrawEvents.updateRecentHistory(
+        payload.data,
+        payload.total
+      )
+    default:
+      return withdrawEvents.initialized()
   }
 })
 

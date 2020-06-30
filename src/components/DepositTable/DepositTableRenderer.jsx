@@ -18,7 +18,7 @@ import {
   Centered,
 } from '../Common'
 import { pricePrecision } from '../../config/tokens'
-import { TOMOSCAN_URL, TOMO_BRIDGE_URL } from '../../config/environment'
+import { TOMOSCAN_URL } from '../../config/environment'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
@@ -230,9 +230,9 @@ const QuoteTokenRows = (props: Props) => {
                     <FormattedMessage id="portfolioPage.deposit" />
                   </InternalLink>
 
-                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
+                  <InternalLink to={`/wallet/withdraw/${symbol}`}>
                     <FormattedMessage id="portfolioPage.withdrawal" />
-                  </ExternalLink>
+                  </InternalLink>
                 </>
               )}
             </ButtonWrapper>
@@ -304,9 +304,9 @@ const BaseTokenRows = (props: Props) => {
                     <FormattedMessage id="portfolioPage.deposit" />
                   </InternalLink>
 
-                  <ExternalLink  target="_blank" href={`${TOMO_BRIDGE_URL}/unwrap/${symbol.toLowerCase()}`}>
+                  <InternalLink to={`/wallet/withdraw/${symbol}`}>
                     <FormattedMessage id="portfolioPage.withdrawal" />
-                  </ExternalLink>
+                  </InternalLink>
                 </>
               )}             
             </ButtonWrapper>
@@ -424,18 +424,6 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
     cursor: default;
   }
   
-  &:hover {
-    color: ${TmColors.ORANGE};
-  }
-`
-
-const ExternalLink = styled.a`
-  display: inline-block;
-  padding: 5px 0;
-  cursor: pointer;
-  color: ${props => props.theme.textTable};
-  font-size: ${Theme.FONT_SIZE_MD};
-
   &:hover {
     color: ${TmColors.ORANGE};
   }

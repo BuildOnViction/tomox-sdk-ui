@@ -372,7 +372,7 @@ export const getLocaleTradingView = (locale) => {
 }
 
 export const truncateTripleText = (text, limit, symbol='...') => {
-  if (text.length <= limit*2) return text
+  if (!text || text.length <= limit*2) return text
 
   return `${text.slice(0, limit)}${symbol}${text.slice(-limit)}`
 }
