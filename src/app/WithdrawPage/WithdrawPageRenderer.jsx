@@ -9,7 +9,7 @@ import { pricePrecision } from '../../config/tokens'
 import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
-import DataTable from './DataTable'
+import DataTableHistory from '../../components/DataTableHistory'
 
 export default function WithdrawPageRenderer({ 
     token, 
@@ -142,7 +142,7 @@ export default function WithdrawPageRenderer({
 
             <History>
                 <SubTitle>Recent withdrawal history</SubTitle>
-                <DataTable columns={columns} data={withdrawHistory} />
+                <DataTableHistory columns={columns} data={withdrawHistory} />
             </History>
         </Container>
     )

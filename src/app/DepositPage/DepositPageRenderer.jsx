@@ -11,7 +11,7 @@ import { pricePrecision } from '../../config/tokens'
 import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
-import TableData from './TableData'
+import DataTableHistory from '../../components/DataTableHistory'
 
 export default function DepositRenderer({ 
     token, 
@@ -112,7 +112,7 @@ export default function DepositRenderer({
 
             <DepositHistory>
                 <SubTitle>Recent deposit history</SubTitle>
-                <TableData columns={columns} data={depositHistory} />
+                <DataTableHistory columns={columns} data={depositHistory} />
             </DepositHistory>
         </Container>
     )
