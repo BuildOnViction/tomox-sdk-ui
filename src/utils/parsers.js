@@ -466,7 +466,7 @@ export const parseLendingOrders = (orders, tokens: Object[]) => {
   return parsed
 }
 
-export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades, pairs) => {
+export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades, tokens) => {
 
   const parsed = []
   
@@ -474,20 +474,18 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
     if (userAddress.toLowerCase() === trades[i].borrower.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].borrowingRelayer.toLowerCase()) continue
     if (userAddress.toLowerCase() === trades[i].investor.toLowerCase() && exchangeAddress.toLowerCase() !== trades[i].investingRelayer.toLowerCase()) continue
 
-    const pair = pairs.find(pair => 
-      (trades[i].collateralToken.toLowerCase() === pair.baseTokenAddress) && 
-      (trades[i].lendingToken.toLowerCase() === pair.quoteTokenAddress)
-    )
+    const collateralToken = tokens[trades[i].collateralToken.toLowerCase()]
+    const lendingToken = tokens[trades[i].lendingToken.toLowerCase()]
 
-    if (!pair) continue
+    if (!collateralToken || !lendingToken) continue
 
-    const liquidationPrice = parsePricepoint(trades[i].liquidationPrice, pair)
+    const liquidationPrice = parsePricepoint(trades[i].liquidationPrice, { quoteTokenDecimals: lendingToken.decimals })
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
     const side = (trades[i].investor.toLowerCase() === userAddress.toLowerCase() 
                   && trades[i].investor.toLowerCase() !== trades[i].borrower.toLowerCase()) ? 'LEND' : 'BORROW'
 
     const tradeParsed = {
-      amount: parseLendingAmount(trades[i].amount, pair.quoteTokenDecimals),
+      amount: parseLendingAmount(trades[i].amount, lendingToken.decimals),
       borrower: trades[i].borrower.toLowerCase(),
       isBorrower: trades[i].borrower.toLowerCase() === userAddress.toLowerCase(),
       borrowingFee: trades[i].borrowingFee,
@@ -495,7 +493,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       borrowRelayer: trades[i].borrowRelayer,
       collateralPrice: trades[i].collateralPrice,
       collateralToken: trades[i].collateralToken.toLowerCase(),
-      collateralLockedAmount: parseLendingAmount(trades[i].collateralLockedAmount, pair.baseTokenDecimals),
+      collateralLockedAmount: parseLendingAmount(trades[i].collateralLockedAmount, collateralToken.decimals),
       createdAt: trades[i].createdAt,
       depositRate: trades[i].depositRate,
       hash: trades[i].hash,
