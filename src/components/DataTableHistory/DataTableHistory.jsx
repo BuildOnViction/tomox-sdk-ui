@@ -6,8 +6,8 @@ import { formatDate, truncateTripleText } from '../../utils/helpers'
 import { TmColors } from '../../components/Common'
 
 const STATUS = {
-    PROCESSING: <FormattedMessage id="portfolioPage.deposit.status.processing" />,
-    COMPLETED: <FormattedMessage id="portfolioPage.deposit.status.completed" />,
+    PROCESSING: <FormattedMessage id="portfolioPage.depositWithdraw.status.processing" />,
+    COMPLETED: <FormattedMessage id="portfolioPage.depositWithdraw.status.completed" />,
 }
 
 function renderHeader(columns, widths) {
@@ -42,7 +42,7 @@ function renderCell(item, field) {
 }
 
 function renderBody(columns, data, widths) {
-    if (data.length === 0) return (<NoData>No data</NoData>)
+    if (data.length === 0) return (<NoData><FormattedMessage id="exchangePage.noData" /></NoData>)
 
     return (
         data.map((item, index) => {

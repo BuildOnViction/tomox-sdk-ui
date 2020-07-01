@@ -27,33 +27,33 @@ export default function WithdrawPageRenderer({
 }) {  
     const columns = [
         {
-            title: 'Coin',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.coin" />,
             field: 'coin',
             width: '8%',
         },
         {
-            title: 'Status',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.status" />,
             field: 'status',
             width: '12%',
         },
         {
-            title: 'Amount',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.amount" />,
             field: 'amount',
             width: '15%',
         },
         {
-            title: 'Date',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.date" />,
             field: 'date',
             parents: null,
             width: '15%',
         },
         {
-            title: 'TxHash',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.txHash" />,
             field: 'txHash',
             width: '25%',
         },
         {
-            title: 'Withdraw Address',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.withdrawalAddress" />,
             field: 'withdrawalAddress',
             width: '25%',
         },
@@ -90,14 +90,17 @@ export default function WithdrawPageRenderer({
                     </BalanceRow>
 
                     <NoteBox intent="danger">
-                        <NoteItem>Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.</NoteItem>
-                        <NoteItem>Coins will be withdrawing after 30 network confirmations</NoteItem>
+                        <NoteItem><FormattedMessage id="portfolioPage.withdraw.warning1" /></NoteItem>
+                        <NoteItem><FormattedMessage id="portfolioPage.withdraw.warning2" /></NoteItem>
                     </NoteBox>
                 </Cell>
                 <Cell>
                     <InputBox>
                         <InputLabel>
-                            Recipient's {token.symbol} address
+                            <FormattedMessage 
+                                id="portfolioPage.withdraw.recipientAddress"
+                                values={{symbol: token.symbol}}
+                            />
                         </InputLabel>
 
                         <InputGroupWrapper
@@ -110,7 +113,7 @@ export default function WithdrawPageRenderer({
 
                     <InputBox>
                         <InputLabel>
-                            Amount
+                            <FormattedMessage id="portfolioPage.withdraw.amount" />
                         </InputLabel>
 
                         <InputGroupWrapper
@@ -122,11 +125,11 @@ export default function WithdrawPageRenderer({
                         />
                     </InputBox>
                     <WithdrawInfo>
-                        <SmallText>Minimum withdraw: <BalanceValue>{token.minimumWithdrawal}</BalanceValue> {token.symbol}</SmallText>
-                        <SmallText>Available amount: <BalanceValue>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</BalanceValue> {token.symbol}</SmallText>
+                        <SmallText><FormattedMessage id="portfolioPage.withdraw.minimumWithdrawal" />: <BalanceValue>{token.minimumWithdrawal}</BalanceValue> {token.symbol}</SmallText>
+                        <SmallText><FormattedMessage id="portfolioPage.availableAmount" />: <BalanceValue>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</BalanceValue> {token.symbol}</SmallText>
                     </WithdrawInfo>
-                    <TextRow><SmallText>Withdraw fee: <BalanceValue>{token.withdrawFee}</BalanceValue> {token.symbol}</SmallText></TextRow>
-                    <TextRow><SmallText>You will get: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
+                    <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.withdrawalFee" />: <BalanceValue>{token.withdrawFee}</BalanceValue> {token.symbol}</SmallText></TextRow>
+                    <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
                     
                     <ButtonWrapper
                         text="Withdraw"
@@ -141,7 +144,7 @@ export default function WithdrawPageRenderer({
             </Grid>
 
             <History>
-                <SubTitle>Recent withdrawal history</SubTitle>
+                <SubTitle><FormattedMessage id="portfolioPage.withdraw.recentWithdrawal" /></SubTitle>
                 <DataTableHistory columns={columns} data={withdrawHistory} />
             </History>
         </Container>

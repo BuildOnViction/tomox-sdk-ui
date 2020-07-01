@@ -23,33 +23,33 @@ export default function DepositRenderer({
 }) {  
     const columns = [
         {
-            title: 'Coin',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.coin" />,
             field: 'coin',
             width: '8%',
         },
         {
-            title: 'Status',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.status" />,
             field: 'status',
             width: '12%',
         },
         {
-            title: 'Amount',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.amount" />,
             field: 'amount',
             width: '15%',
         },
         {
-            title: 'Date',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.date" />,
             field: 'date',
             parents: null,
             width: '15%',
         },
         {
-            title: 'TxHash',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.txHash" />,
             field: 'txHash',
             width: '25%',
         },
         {
-            title: 'Deposit Address',
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.depositAddress" />,
             field: 'depositAddress',
             width: '25%',
         },
@@ -86,7 +86,7 @@ export default function DepositRenderer({
                     </BalanceRow>
 
                     <TradeBox>
-                        <TradeTitle>Go to trade:</TradeTitle>
+                        <TradeTitle><FormattedMessage id="portfolioPage.deposit.goToTrade" />:</TradeTitle>
                         <div>
                             {
                                 token.pairs.map((pair, index) => <PairLink key={index} onClick={() => updateCurrentPair(pair)}>{pair}</PairLink>)
@@ -95,7 +95,12 @@ export default function DepositRenderer({
                     </TradeBox>
                 </Cell>
                 <Cell>
-                    <AddressRow>Send { token.symbol } to the address below</AddressRow>
+                    <AddressRow>
+                        <FormattedMessage
+                            id="portfolioPage.deposit.sendToAddress"
+                            values={{ symbol: token.symbol }}
+                        />
+                    </AddressRow>
                     <AddressBox>
                         <AddressRow>{token.depositAddress && <QRCode value={token.depositAddress} size={150} includeMargin={true} />}</AddressRow>
                         <AddressRow><Address>{token.depositAddress}</Address></AddressRow>
@@ -104,14 +109,19 @@ export default function DepositRenderer({
                         </CopyToClipboard>
                     </AddressBox>
                     <NoteBox intent="danger" title="Note">
-                        <NoteItem>Minimum deposit is <strong style={{fontFamily: 'Ubuntu'}}>{token.minimumWithdrawal && token.minimumWithdrawal}</strong> { token.symbol }</NoteItem>
-                        <NoteItem>You might not receive TRC Token if you deposit below minimum deposit amount of { token.symbol }</NoteItem>
+                        <NoteItem><FormattedMessage id="portfolioPage.deposit.warning1" /> <strong style={{fontFamily: 'Ubuntu'}}>{token.minimumWithdrawal && token.minimumWithdrawal}</strong> { token.symbol }</NoteItem>
+                        <NoteItem>
+                            <FormattedMessage 
+                                id="portfolioPage.deposit.warning2" 
+                                values={{ symbol: token.symbol }}
+                            />
+                        </NoteItem>
                     </NoteBox>
                 </Cell>
             </Grid>
 
             <DepositHistory>
-                <SubTitle>Recent deposit history</SubTitle>
+                <SubTitle><FormattedMessage id="portfolioPage.deposit.recentDeposit" /></SubTitle>
                 <DataTableHistory columns={columns} data={depositHistory} />
             </DepositHistory>
         </Container>
