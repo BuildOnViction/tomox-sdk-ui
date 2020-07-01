@@ -56,7 +56,7 @@ export default function WithdrawPageRenderer({
             width: '25%',
         },
         {
-            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.withdrawalAddress" />,
+            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.recipientAddress" />,
             field: 'withdrawalAddress',
             width: '25%',
         },

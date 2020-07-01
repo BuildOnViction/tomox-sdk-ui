@@ -250,7 +250,7 @@
   "portfolioPage.depositWithdraw.table.amount": "Amount",
   "portfolioPage.depositWithdraw.table.date": "Date",
   "portfolioPage.depositWithdraw.table.txHash": "TxHash",
-  "portfolioPage.depositWithdraw.table.withdrawalAddress": "Withdrawal Address",
+  "portfolioPage.depositWithdraw.table.recipientAddress": "Recipient's Address",
   "portfolioPage.depositWithdraw.table.depositAddress": "Deposit Address",
   "portfolioPage.withdraw": "Withdraw",
   "portfolioPage.withdraw.warning1": "Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.",

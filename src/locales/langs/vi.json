@@ -250,7 +250,7 @@
   "portfolioPage.depositWithdraw.table.amount": "Số lượng",
   "portfolioPage.depositWithdraw.table.date": "Ngày giờ",
   "portfolioPage.depositWithdraw.table.txHash": "TxHash",
-  "portfolioPage.depositWithdraw.table.withdrawalAddress": "Địa chỉ nhận",
+  "portfolioPage.depositWithdraw.table.recipientAddress": "Địa chỉ nhận",
   "portfolioPage.depositWithdraw.table.depositAddress": "Địa chỉ nạp",
   "portfolioPage.withdraw": "Rút",
   "portfolioPage.withdraw.warning1": "Đừng rút trực tiếp về một địa chỉ ICO hoặc gọi vốn cộng đồng, bởi tài khoản của bạn sẽ không được ghi nhận token từ hoạt động này.",
