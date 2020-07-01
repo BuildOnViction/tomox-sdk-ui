@@ -6,6 +6,7 @@ import QRCode from 'qrcode.react'
 import BigNumber from 'bignumber.js'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Callout } from "@blueprintjs/core"
+import { Link } from 'react-router-dom'
 
 import { pricePrecision } from '../../config/tokens'
 import { Theme, TmColors } from '../../components/Common'
@@ -60,7 +61,10 @@ export default function DepositRenderer({
 
     return (
         <Container>
-            <MainTitle><FormattedMessage id="portfolioPage.deposit" /></MainTitle>
+            <MainTitle>
+                <FormattedMessage id="portfolioPage.deposit" />
+                <InternalLink to={`/wallet/withdraw/${token.symbol}`}><FormattedMessage id="portfolioPage.withdraw" /></InternalLink>
+            </MainTitle>
 
             <Grid
                 columns={"1fr 1fr"} 
@@ -162,6 +166,23 @@ const SubTitle = styled.h1`
     font-weight: 400;
     margin-top: 30px;
     margin-bottom: 25px;
+`
+
+const InternalLink = styled(Link)`
+    font-size: ${Theme.FONT_SIZE_SM};
+    color: ${props => props.theme.mainColorHover};
+
+    &:hover {
+        color: ${TmColors.ORANGE};
+    }
+
+    &::before {
+        content: "";
+        border-right: 1px solid ${props => props.theme.borderColor};
+        height: 40px;
+        margin: 0 25px;
+        color: ${props => props.theme.mainColor};
+    }
 `
 
 const CoinBox = styled.div`

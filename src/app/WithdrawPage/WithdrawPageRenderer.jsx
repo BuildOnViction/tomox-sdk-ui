@@ -4,6 +4,7 @@ import { Grid, Cell } from 'styled-css-grid'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { Callout, InputGroup, Button } from "@blueprintjs/core"
+import { Link } from 'react-router-dom'
 
 import { pricePrecision } from '../../config/tokens'
 import { Theme, TmColors } from '../../components/Common'
@@ -64,7 +65,10 @@ export default function WithdrawPageRenderer({
 
     return (
         <Container>
-            <MainTitle><FormattedMessage id="portfolioPage.withdraw" /></MainTitle>
+            <MainTitle>
+                <FormattedMessage id="portfolioPage.withdraw" />
+                <InternalLink to={`/wallet/deposit/${token.symbol}`}><FormattedMessage id="portfolioPage.deposit" /></InternalLink>
+            </MainTitle>
 
             <Grid
                 columns={"1fr 1fr"} 
@@ -188,6 +192,23 @@ const SubTitle = styled.h1`
     font-weight: 400;
     margin-top: 30px;
     margin-bottom: 25px;
+`
+
+const InternalLink = styled(Link)`
+    font-size: ${Theme.FONT_SIZE_SM};
+    color: ${props => props.theme.mainColorHover};
+
+    &:hover {
+        color: ${TmColors.ORANGE};
+    }
+
+    &::before {
+        content: "";
+        border-right: 1px solid ${props => props.theme.borderColor};
+        height: 40px;
+        margin: 0 25px;
+        color: ${props => props.theme.mainColor};
+    }
 `
 
 const SmallText = styled.span`
