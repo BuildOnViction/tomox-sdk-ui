@@ -104,7 +104,7 @@ export default function WithdrawPage({
         }
 
         return function cleanup() {
-            clearInterval(window.withdrawalTimer)
+            if (window.withdrawalTimer) clearInterval(window.withdrawalTimer)
         }
     }, [currentPage])
 

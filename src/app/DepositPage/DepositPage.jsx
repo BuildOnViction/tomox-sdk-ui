@@ -14,6 +14,7 @@ export default function Deposit({
     authenticated,
     updateCurrentPair,
     history,
+    total,
 }) {
     if (!authenticated) return <Redirect to="/unlock" />
 
@@ -24,13 +25,6 @@ export default function Deposit({
 
     useEffect(() => {
         getBridgeTokenConfig()
-
-        getBridgeDepositHistory(userAddress)
-        const depositTimer = setInterval(() => getBridgeDepositHistory(userAddress), 5000)
-
-        return function cleanup() {
-            clearInterval(depositTimer)
-        }
     }, [tokens.length])
 
     useEffect(() => {
@@ -47,6 +41,27 @@ export default function Deposit({
         history.push(`/wallet/deposit/${token.symbol}`)
     }
 
+    const [currentPage, setCurrentPage] = useState(1)
+
+    useEffect(() => {
+        if (window.depositTimer) clearInterval(window.depositTimer)
+
+        if (currentPage === 1) {
+            getBridgeDepositHistory(userAddress, currentPage, 5)
+            window.depositTimer = setInterval(() => getBridgeDepositHistory(userAddress, currentPage, 5), 5000)
+        } else {
+            getBridgeDepositHistory(userAddress, currentPage, 5)
+        }
+
+        return function cleanup() {
+            if (window.depositTimer) clearInterval(window.depositTimer)
+        }
+    }, [currentPage])
+
+    function handleChangePage(page) {        
+        setCurrentPage(page)
+    }
+
     return <DepositPageRenderer 
                 token={selectedToken}
                 tokens={tokens}
@@ -54,5 +69,7 @@ export default function Deposit({
                 copyDataSuccess={copyDataSuccess}
                 depositHistory={depositHistory}
                 updateCurrentPair={updateCurrentPair}
+                total={total}
+                handleChangePage={handleChangePage}
             />
 }

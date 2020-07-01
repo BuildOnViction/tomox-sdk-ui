@@ -36,11 +36,14 @@ export default function depositPageSelector(state: State) {
         return deposit
     })
 
+    const total = getDepositDomain(state).getTotal()
+
     return {
         tokens,
         userAddress,
         depositHistory,
         authenticated,
+        total,
     }
 }
 
@@ -58,9 +61,9 @@ export const getBridgeDepositAddress = (payload): ThunkAction => {
     }
 }
 
-export const getBridgeDepositHistory = (address: string): ThunkAction => {
+export const getBridgeDepositHistory = (address: string, page, limit): ThunkAction => {
     return async (dispatch, getState, { api }) => {
-        const result = await api.getBridgeDepositHistory(address)
+        const result = await api.getBridgeDepositHistory(address, page, limit)
         
         const data = result.Data.map(item => {
             return {
@@ -74,7 +77,7 @@ export const getBridgeDepositHistory = (address: string): ThunkAction => {
             }
         })
 
-        dispatch(actionCreators.updateRecentHistory({ data, total: result.total }))
+        dispatch(actionCreators.updateRecentHistory({ data, total: result.Total }))
     }
 }
 

@@ -12,6 +12,7 @@ import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
 import DataTableHistory from '../../components/DataTableHistory'
+import Pagination from '../../components/Pagination'
 
 export default function DepositRenderer({ 
     token, 
@@ -20,6 +21,8 @@ export default function DepositRenderer({
     copyDataSuccess, 
     depositHistory,
     updateCurrentPair,
+    total,
+    handleChangePage,
 }) {  
     const columns = [
         {
@@ -123,6 +126,11 @@ export default function DepositRenderer({
             <DepositHistory>
                 <SubTitle><FormattedMessage id="portfolioPage.deposit.recentDeposit" /></SubTitle>
                 <DataTableHistory columns={columns} data={depositHistory} />
+                <Pagination
+                    totalItems={total}
+                    itemsPerPage={5}
+                    onChangePage={handleChangePage}
+                />
             </DepositHistory>
         </Container>
     )
