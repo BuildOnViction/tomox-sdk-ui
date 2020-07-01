@@ -816,7 +816,7 @@ export const getBridgeDepositAddress = async (payload) => {
   return data
 }
 
-export const getBridgeDepositHistory = async (address, page = 1, limit = 10) => {
+export const getBridgeDepositHistory = async (address, page = 1, limit = 5) => {
   const response = await request(`/api/transactions/getWrapTxs?address=${address}&page=${page}&limit=${limit}`, {}, TOMO_BRIDGE_URL)
 
   if (response.status === 400) {
@@ -832,7 +832,7 @@ export const getBridgeDepositHistory = async (address, page = 1, limit = 10) => 
   return data
 }
 
-export const getBridgeWithdrawHistory = async (address, page = 1, limit = 10) => {
+export const getBridgeWithdrawHistory = async (address, page = 1, limit = 5) => {
   const response = await request(`/api/transactions/getUnwrapTxs?address=${address}&page=${page}&limit=${limit}`, {}, TOMO_BRIDGE_URL)
 
   if (response.status === 400) {

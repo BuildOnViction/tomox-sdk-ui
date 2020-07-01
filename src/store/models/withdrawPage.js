@@ -37,12 +37,14 @@ export default function depositPageSelector(state: State) {
 
         return deposit
     })
+    const total = getWithDrawDomain(state).getTotal()
 
     return {
         tokens,
         userAddress,
         withdrawHistory,
         authenticated,
+        total,
     }
 }
 
@@ -53,9 +55,9 @@ export const getBridgeTokenConfig = (): ThunkAction => {
     }
 }
 
-export const getBridgeWithdrawHistory = (address: string): ThunkAction => {
+export const getBridgeWithdrawHistory = (address: string, page, limit): ThunkAction => {
     return async (dispatch, getState, { api }) => {
-        const result = await api.getBridgeWithdrawHistory(address)
+        const result = await api.getBridgeWithdrawHistory(address, page, limit)
         
         const data = result.Data.map(item => {
             return {
@@ -63,30 +65,12 @@ export const getBridgeWithdrawHistory = (address: string): ThunkAction => {
                 amount: item.InTx.Amount,
                 status: item.OutTx.Status.toUpperCase() === 'WITHDRAWED' ? 'COMPLETED' : 'PROCESSING',
                 txHash: item.OutTx.Hash,
-                // confirmations: result.Data[i].OutTx.Confirmations,
                 date: item.CreatedAt,
                 withdrawalAddress: item.InTx.To,
             }
         })
-        // const data = []
 
-        // for (let i = 0; i < result.Data.length; i++) {
-        //     if (!result.Data[i].OutTx.Hash) continue
-
-        //     const item = {
-        //         coin: result.Data[i].InTx.CoinType.replace('TOMO', ''),
-        //         amount: result.Data[i].InTx.Amount,
-        //         status: result.Data[i].OutTx.Status.toUpperCase() === 'WITHDRAWED' ? 'COMPLETED' : 'PROCESSING',
-        //         txHash: result.Data[i].OutTx.Hash,
-        //         // confirmations: result.Data[i].OutTx.Confirmations,
-        //         date: result.Data[i].CreatedAt,
-        //         withdrawalAddress: result.Data[i].InTx.To,
-        //     }
-
-        //     data.push(item)
-        // }
-
-        dispatch(actionCreators.updateRecentHistory({ data, total: result.total }))
+        dispatch(actionCreators.updateRecentHistory({ data, total: result.Total }))
     }
 }
 

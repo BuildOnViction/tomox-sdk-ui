@@ -10,6 +10,7 @@ import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
 import DataTableHistory from '../../components/DataTableHistory'
+import Pagination from '../../components/Pagination'
 
 export default function WithdrawPageRenderer({ 
     token, 
@@ -24,6 +25,8 @@ export default function WithdrawPageRenderer({
     withdrawalAmount,
     withdrawalAmountWithoutFee,
     error,
+    total,
+    handleChangePage,
 }) {  
     const columns = [
         {
@@ -132,7 +135,7 @@ export default function WithdrawPageRenderer({
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
                     
                     <ButtonWrapper
-                        text="Withdraw"
+                        text={<FormattedMessage id="portfolioPage.withdraw" />}
                         intent="primary"
                         large
                         type="submit"
@@ -145,7 +148,15 @@ export default function WithdrawPageRenderer({
 
             <History>
                 <SubTitle><FormattedMessage id="portfolioPage.withdraw.recentWithdrawal" /></SubTitle>
-                <DataTableHistory columns={columns} data={withdrawHistory} />
+                <DataTableHistory 
+                    columns={columns} 
+                    data={withdrawHistory}
+                />
+                <Pagination
+                    totalItems={total}
+                    itemsPerPage={5}
+                    onChangePage={handleChangePage}
+                />
             </History>
         </Container>
     )

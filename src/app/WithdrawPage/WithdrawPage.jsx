@@ -13,6 +13,7 @@ export default function WithdrawPage({
     withdrawToken,
     getBridgeWithdrawHistory,
     withdrawHistory,
+    total,
 }) {
     if (!authenticated) return <Redirect to="/unlock" />
 
@@ -23,13 +24,6 @@ export default function WithdrawPage({
 
     useEffect(() => {
         getBridgeTokenConfig()
-
-        getBridgeWithdrawHistory(userAddress)
-        const depositTimer = setInterval(() => getBridgeWithdrawHistory(userAddress), 5000)
-
-        return function cleanup() {
-            clearInterval(depositTimer)
-        }
     }, [tokens.length])
 
     useEffect(() => {
@@ -94,7 +88,29 @@ export default function WithdrawPage({
             withdrawalAmount, 
             tokenDecimals: selectedToken.decimals,
         })
-    }    
+    }
+
+    
+    const [currentPage, setCurrentPage] = useState(1)
+
+    useEffect(() => {
+        if (window.withdrawalTimer) clearInterval(window.withdrawalTimer)
+
+        if (currentPage === 1) {
+            getBridgeWithdrawHistory(userAddress, currentPage, 5)
+            window.withdrawalTimer = setInterval(() => getBridgeWithdrawHistory(userAddress, currentPage, 5), 5000)
+        } else {
+            getBridgeWithdrawHistory(userAddress, currentPage, 5)
+        }
+
+        return function cleanup() {
+            clearInterval(window.withdrawalTimer)
+        }
+    }, [currentPage])
+
+    function handleChangePage(page) {        
+        setCurrentPage(page)
+    }
 
     return <WithdrawPageRenderer 
                 token={selectedToken}
@@ -107,5 +123,7 @@ export default function WithdrawPage({
                 withdrawalAmount={withdrawalAmount}
                 withdrawalAmountWithoutFee={withdrawalAmountWithoutFee}
                 error={error}
+                total={total}
+                handleChangePage={handleChangePage}
             />
 }
