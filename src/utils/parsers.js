@@ -512,7 +512,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       term: trades[i].term,
       tradeID: trades[i].tradeID,
       updatedAt: trades[i].updatedAt,
-      time: trades[i].updatedAt,
+      time: trades[i].createdAt,
       type: trades[i].type || 'LO',
       side,
       autoTopUp: trades[i].autoTopUp,
