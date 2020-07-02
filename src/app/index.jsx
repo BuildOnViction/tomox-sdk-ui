@@ -15,6 +15,8 @@ const LoginPage = lazy(_ => import('./LoginPage'))
 const LogoutPage = lazy(_ => import('./LogoutPage'))
 const CreateWalletPage = lazy(_ => import('./CreateWalletPage'))
 const WalletPage = lazy(_ => import('./WalletPage'))
+const DepositPage = lazy(_ => import('./DepositPage'))
+const WithdrawPage = lazy(_ => import('./WithdrawPage'))
 
 const TradingPage = lazy(_ => import('./trading/TradingPage'))
 const MarketsPage = lazy(_ => import('./trading/MarketsPage'))
@@ -54,6 +56,8 @@ class App extends React.PureComponent {
                 <Route exact path="/logout" component={LogoutPage} />
                 <Route exact path="/create" component={CreateWalletPage} />
                 <Route exact path="/wallet" component={WalletPage} />
+                <Route exact path="/wallet/deposit/:token" component={DepositPage} />
+                <Route exact path="/wallet/withdraw/:token" component={WithdrawPage} />
 
                 <Route exact path="/markets/trading" component={MarketsPage} />
                 <Route exact path="/trade/:pair?" component={TradingPage} />  

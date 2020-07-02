@@ -1,5 +1,5 @@
 // @flow
-import { ENGINE_HTTP_URL, TOMOTOKENS_URL } from '../../../config/environment'
+import { ENGINE_HTTP_URL, TOMOTOKENS_URL, TOMO_BRIDGE_URL } from '../../../config/environment'
 import type { Token } from '../../types/tokens'
 import { utils } from 'ethers'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
@@ -20,8 +20,8 @@ import { NATIVE_TOKEN_SYMBOL, NATIVE_TOKEN_ADDRESS } from '../../../config/token
 
 const qs = require('querystringify')
 
-const request = (endpoint, options) => {
-  return fetch(`${ENGINE_HTTP_URL}${endpoint}`, {
+const request = (endpoint, options, engine = ENGINE_HTTP_URL) => {
+  return fetch(`${engine}${endpoint}`, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
@@ -774,5 +774,76 @@ export const repayLendingOrder = async (payload) => {
   }
 
   const { data } = await response.json()
+  return data
+}
+
+export const getBridgeTokenConfig = async () => {
+  const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const data = await response.json()
+  return data
+}
+
+export const getBridgeDepositAddress = async (payload) => {
+  const response = await request(
+    '/api/wrap/getAddress', 
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }, 
+    TOMO_BRIDGE_URL
+  )
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const data = await response.json()
+  return data
+}
+
+export const getBridgeDepositHistory = async (address, page = 1, limit = 5) => {
+  const response = await request(`/api/transactions/getWrapTxs?address=${address}&page=${page}&limit=${limit}`, {}, TOMO_BRIDGE_URL)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const data = await response.json()
+  return data
+}
+
+export const getBridgeWithdrawHistory = async (address, page = 1, limit = 5) => {
+  const response = await request(`/api/transactions/getUnwrapTxs?address=${address}&page=${page}&limit=${limit}`, {}, TOMO_BRIDGE_URL)
+
+  if (response.status === 400) {
+    const { error } = await response.json()
+    throw new Error(error)
+  }
+
+  if (response.status !== 200) {
+    throw new Error('Server error')
+  }
+
+  const data = await response.json()
   return data
 }

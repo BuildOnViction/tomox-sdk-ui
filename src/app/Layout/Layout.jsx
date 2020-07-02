@@ -205,6 +205,8 @@ class Default extends React.PureComponent<Props, State> {
               exact 
               path={[
                 "/wallet",
+                "/wallet/deposit/:token",
+                "/wallet/withdraw/:token",
                 "/markets/trading",
                 "/trade/:pair?",
                 "/markets/lending",

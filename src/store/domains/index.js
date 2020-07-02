@@ -18,12 +18,15 @@ import tradesDomain from './trades'
 import ordersDomain from './orders'
 import depositDomain from './deposit'
 import connectionDomain from './connection'
+
 import lendingOrderBookDomain from './lending/lendingOrderBook'
 import lendingTradesDomain from './lending/lendingTrades'
 import lendingPairsDomain from './lending/lendingPairs'
 import lendingTokensDomain from './lending/lendingTokens'
 import lendingOrdersDomain from './lending/lendingOrders'
 import lendingOhlcvDomain from './lending/lendingOhlcv'
+
+import withdrawDomain from './withdraw'
 
 export const getAccountDomain = state => accountDomain(state.account)
 export const getAccountBalancesDomain = state =>
@@ -57,3 +60,5 @@ export const getLendingPairsDomain = state => lendingPairsDomain(state.lendingPa
 export const getLendingTokensDomain = state => lendingTokensDomain(state.lendingTokens)
 export const getLendingOrdersDomain = state => lendingOrdersDomain(state.lendingOrders)
 export const getLendingOhlcvDomain = state => lendingOhlcvDomain(state.lendingOhlcv)
+
+export const getWithDrawDomain = state => withdrawDomain(state.withdraw)
