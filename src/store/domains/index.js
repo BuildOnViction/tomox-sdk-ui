@@ -1,7 +1,6 @@
 import accountDomain from './account'
 import accountBalancesDomain from './accountBalances'
 import depositFormDomain from './depositForm'
-import getStartedModalDomain from './getStartedModal'
 import tomoBalanceDomain from './tomoBalance'
 import transferTokensFormDomain from './transferTokensForm'
 import loginPageDomain from './loginPage'
@@ -31,8 +30,6 @@ export const getAccountBalancesDomain = state =>
   accountBalancesDomain(state.accountBalances)
 export const getDepositFormDomain = state =>
   depositFormDomain(state.depositForm)
-export const getGetStartedModalDomain = state =>
-  getStartedModalDomain(state.getStartedModal)
 export const getTomoBalanceDomain = state =>
   tomoBalanceDomain(state.tomoBalance)
 export const getTransferTokensFormDomain = state =>
