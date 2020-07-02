@@ -119,17 +119,20 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
           balance: null,
           inOrders: null,
           availableBalance: null,
+          usdBalance: null,
         }
       }
 
       const balance = state[symbol].balance
       const inOrders = state[symbol].inOrders
       const availableBalance = state[symbol].availableBalance
+      const usdBalance = state[symbol].usdBalance
       
       return {
         balance,
         inOrders,
         availableBalance,
+        usdBalance,
       }
     },
     numericTokenBalance(symbol: string): ?number {
@@ -221,6 +224,9 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
           balance: BigNumber(item.balance).toFormat(pricePrecision),
         }
       })
+    },
+    getTotalBalance() {
+      return (Object.values(state): any).reduce((result, item) => BigNumber(result).plus(item.usdBalance).toFixed(2), 0)
     },
   }
 }

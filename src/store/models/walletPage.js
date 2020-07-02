@@ -31,6 +31,7 @@ export default function walletPageSelector(state: State) {
   const lendingTokensDomain = getLendingTokensDomain(state)
   const lendingTokenSymbols = lendingTokensDomain.tokenSymbols()
   const collateralTokenSymbols = lendingTokensDomain.collateralSymbols()
+  const totalBalance = accountBalancesDomain.getTotalBalance()
 
   return {
     tomoBalance: accountBalancesDomain.formattedTomoBalance(),
@@ -47,6 +48,7 @@ export default function walletPageSelector(state: State) {
     mode,
     lendingTokenSymbols,
     collateralTokenSymbols,
+    totalBalance,
   }
 }
 

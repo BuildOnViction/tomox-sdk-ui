@@ -109,6 +109,7 @@ class DepositTable extends React.PureComponent<Props, State> {
         mode,
         lendingTokenSymbols,
         collateralTokenSymbols,
+        totalBalance,
       },
       state: {
         isSendModalOpen,
@@ -163,6 +164,7 @@ class DepositTable extends React.PureComponent<Props, State> {
           notifyCopiedSuccess={this.notifyCopiedSuccess}
           lendingTokenSymbols={lendingTokenSymbols}
           collateralTokenSymbols={collateralTokenSymbols}
+          totalBalance={totalBalance}
         />
         <TransferTokensModal
           isOpen={isSendModalOpen}
