@@ -490,7 +490,8 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: ${props => props.muted ? TmColors.GRAY : 'inherit'}
+  color: ${props => props.muted ? TmColors.GRAY : 'inherit'};
+  font-size: ${props => props.muted ? Theme.FONT_SIZE_SM : 'inherit'};
 `
 
 const DoubleArrowsUpIcon = styled.img`
