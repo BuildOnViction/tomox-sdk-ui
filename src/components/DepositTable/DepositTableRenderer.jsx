@@ -121,7 +121,7 @@ const TOMORow = (props: Props) => {
 
   if (!TOMOTokenData) return null
 
-  const { address, symbol, balance, inOrders, availableBalance } = TOMOTokenData  
+  const { address, symbol, balance, inOrders, availableBalance, usdBalance } = TOMOTokenData
 
   return (
     <Row key="TOMO">
@@ -133,6 +133,7 @@ const TOMORow = (props: Props) => {
       </Cell>
       <Cell width="20%">
         <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
+        <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
       </Cell>
       <Cell width="20%">
         <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
@@ -182,7 +183,7 @@ const QuoteTokenRows = (props: Props) => {
   if (!quoteTokensData) return null
 
   return quoteTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, address, verified }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, address, verified, usdBalance }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
@@ -193,6 +194,7 @@ const QuoteTokenRows = (props: Props) => {
           </Cell>
           <Cell width="20%">
             <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
           </Cell>
           <Cell width="20%">
             <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
@@ -256,7 +258,7 @@ const BaseTokenRows = (props: Props) => {
   if (!baseTokensData) return null
 
   return baseTokensData.map(
-    ({ symbol, balance, inOrders, availableBalance, address, verified }, index) => {
+    ({ symbol, balance, inOrders, availableBalance, address, verified, usdBalance }, index) => {
       return (
         <Row key={index}>
           <Cell width="18%">
@@ -267,6 +269,7 @@ const BaseTokenRows = (props: Props) => {
           </Cell>
           <Cell width="20%">
             <Ellipsis title={BigNumber(balance).toFormat(pricePrecision)}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
           </Cell>
           <Cell width="20%">
             <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
@@ -487,6 +490,7 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${props => props.muted ? TmColors.GRAY : 'inherit'}
 `
 
 const DoubleArrowsUpIcon = styled.img`

@@ -32,15 +32,18 @@ export function updated(accountBalances: AccountBalances) {
     const newState = {}
 
     for (const key in accountBalances) {
-      const { balance, availableBalance, inOrderBalance, decimals, symbol } = accountBalances[key]      
+      const { balance, inUsdBalance, availableBalance, inOrderBalance, decimals, symbol } = accountBalances[key]
+
       const tokenBalance = {
         balance: parseBalance(balance, decimals),
+        usdBalance: Number(inUsdBalance).toFixed(2),
         inOrders: parseBalance(inOrderBalance, decimals),
         availableBalance: parseBalance(availableBalance, decimals),
         symbol,
         address: key,
         decimals,
       }
+
       newState[symbol] = tokenBalance
     }
 
@@ -173,6 +176,9 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
           availableBalance: state[token.symbol]
             ? state[token.symbol].availableBalance
             : null,
+          usdBalance: state[token.symbol]
+            ? state[token.symbol].usdBalance
+            : null,
         }
       })
     },
@@ -183,17 +189,20 @@ export default function accountBalancesDomain(state: AccountBalancesState) {
             balance: null,
             inOrders: null,
             availableBalance: null,
+            usdBalance: null,
           }
         }
 
         const balance = state[symbol].balance
         const inOrders = state[symbol].inOrders
         const availableBalance = state[symbol].availableBalance
+        const usdBalance = state[symbol].usdBalance
 
         return {
           balance,
           inOrders,
           availableBalance,
+          usdBalance,
         }
       })
     },
