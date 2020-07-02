@@ -264,7 +264,7 @@
   "portfolioPage.deposit.goToTrade": "Bắt đầu giao dịch",
   "portfolioPage.deposit.sendToAddress": "Gửi { symbol } tới địa chỉ dưới đây",
   "portfolioPage.deposit.warning1": "Số lượng nạp tối thiểu là",
-  "portfolioPage.deposit.warning2": "Bạn có thể ko nhận được TRC token nếu nạp ít hơn số lượng { symbol } tối thiểu",
+  "portfolioPage.deposit.warning2": "Bạn có thể ko nhận được TRC21 {symbol} token nếu nạp ít hơn số lượng {symbol} tối thiểu",
   "portfolioPage.deposit.recentDeposit": "Lịch sử nạp gần đây",
   "dapp.orders": "Lệnh",
   "dapp.instruction": "Hãy sử dụng trình duyệt dapp để giao dịch.",
