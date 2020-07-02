@@ -50,7 +50,7 @@ const DepositTableRenderer = (props: Props) => {
   } = props
   return (
     <React.Fragment>
-      <MainTitle>Balance <SmallText muted>&asymp; ${BigNumber(totalBalance).toFormat(2)}</SmallText></MainTitle>
+      <MainTitle><FormattedMessage id="portfolioPage.balance" /> <SmallText muted>&asymp; ${BigNumber(totalBalance).toFormat(2)}</SmallText></MainTitle>
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>

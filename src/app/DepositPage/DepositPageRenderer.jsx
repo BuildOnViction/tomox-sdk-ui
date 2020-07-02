@@ -34,7 +34,7 @@ export default function DepositRenderer({
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.status" />,
             field: 'status',
-            width: '12%',
+            width: '16%',
         },
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.amount" />,
@@ -50,12 +50,12 @@ export default function DepositRenderer({
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.txHash" />,
             field: 'txHash',
-            width: '25%',
+            width: '23%',
         },
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.depositAddress" />,
             field: 'depositAddress',
-            width: '25%',
+            width: '23%',
         },
     ]
 

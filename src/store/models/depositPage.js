@@ -32,6 +32,7 @@ export default function depositPageSelector(state: State) {
         const decimals = token ? token.decimals : amountPrecision
         deposit.amount = BigNumber(deposit.amount).dividedBy(10**decimals).toFixed(8)
         deposit.scanUrl = token.explorerUrl
+        deposit.tokenConfirmations = token.confirmations
 
         return deposit
     })

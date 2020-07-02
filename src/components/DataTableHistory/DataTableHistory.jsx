@@ -35,7 +35,11 @@ function renderCell(item, field) {
                         {truncateTripleText(item[field], 8)}
                     </ExteralLink>)
         case 'status':
-            return STATUS[item[field]]
+            if (item.tokenConfirmations && item['status'] === 'PROCESSING') {
+                return (<span>{STATUS[item['status']]} {`(${item.confirmations}/${item.tokenConfirmations})`}</span>)
+            }
+            
+            return STATUS[item['status']]
         default:
             return item[field]
     }

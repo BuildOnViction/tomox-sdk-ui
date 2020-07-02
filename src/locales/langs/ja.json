@@ -208,6 +208,7 @@
   "exchangeLendingPage.orders.topUpManual": "マニュアル",
   "exchangeLendingPage.orders.liqInfor1": "担保トークン／貸出トークン",
   "exchangeLendingPage.orders.liqInfor2": "清算価格にカーソルを合わせると詳細が表示されます",
+  "portfolioPage.balance": "Balance",
   "portfolioPage.send": "送信",
   "portfolioPage.receive": "受信",
   "portfolioPage.hideZeroAmounts": "0で金額を非表示",

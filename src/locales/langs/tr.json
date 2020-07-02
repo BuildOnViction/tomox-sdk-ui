@@ -208,6 +208,7 @@
   "exchangeLendingPage.orders.topUpManual": "Manuel",
   "exchangeLendingPage.orders.liqInfor1": "Teminatlanmış Token / Borç Verilmiş Token",
   "exchangeLendingPage.orders.liqInfor2": "Ayrıntıları görmek için likitide fiyatının üzerine gelin",
+  "portfolioPage.balance": "Balance",
   "portfolioPage.send": "Gönder",
   "portfolioPage.receive": "Al",
   "portfolioPage.hideZeroAmounts": "Sıfır tutarları gizle",

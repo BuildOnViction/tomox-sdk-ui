@@ -208,6 +208,7 @@
   "exchangeLendingPage.orders.topUpManual": "Manual",
   "exchangeLendingPage.orders.liqInfor1": "Collateral token / Lending token",
   "exchangeLendingPage.orders.liqInfor2": "Hover on liquidating price to see details",
+  "portfolioPage.balance": "Balance",
   "portfolioPage.send": "Send",
   "portfolioPage.receive": "Receive",
   "portfolioPage.hideZeroAmounts": "Hide zero amounts",

@@ -208,6 +208,7 @@
   "exchangeLendingPage.orders.topUpManual": "Tự TopUp",
   "exchangeLendingPage.orders.liqInfor1": "Đồng thế chấp/ Đồng cho vay",
   "exchangeLendingPage.orders.liqInfor2": "Trỏ vào giá để xem chi tiết",
+  "portfolioPage.balance": "Số dư",
   "portfolioPage.send": "Gửi",
   "portfolioPage.receive": "Nhận",
   "portfolioPage.hideZeroAmounts": "Ẩn số dư bằng 0",
