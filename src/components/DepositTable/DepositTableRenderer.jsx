@@ -16,6 +16,7 @@ import {
   Text,
   UtilityIcon,
   Centered,
+  SmallText,
 } from '../Common'
 import { pricePrecision } from '../../config/tokens'
 import { TOMOSCAN_URL } from '../../config/environment'
@@ -45,9 +46,11 @@ const DepositTableRenderer = (props: Props) => {
     tokenDataLength,
     openReceiveDialog,
     openSendModal,
+    totalBalance,
   } = props
   return (
     <React.Fragment>
+      <MainTitle><FormattedMessage id="portfolioPage.balance" /> <SmallText muted>&asymp; ${BigNumber(totalBalance).toFormat(2)}</SmallText></MainTitle>
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
@@ -319,6 +322,12 @@ const BaseTokenRows = (props: Props) => {
     }
   )
 }
+
+const MainTitle = styled.h1`
+  font-size: ${Theme.FONT_SIZE_H1};
+  font-weight: 400;
+  margin-bottom: 20px;
+`
 
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {

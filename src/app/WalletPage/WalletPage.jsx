@@ -43,6 +43,7 @@ class WalletPage extends React.PureComponent<Props> {
       mode,
       lendingTokenSymbols,
       collateralTokenSymbols,
+      totalBalance,
     } = this.props
 
     if (!authenticated) return <Redirect to="/unlock" />
@@ -67,6 +68,7 @@ class WalletPage extends React.PureComponent<Props> {
         mode={mode}
         lendingTokenSymbols={lendingTokenSymbols}
         collateralTokenSymbols={collateralTokenSymbols}
+        totalBalance={totalBalance}
       />
     )
   }
