@@ -124,15 +124,25 @@ function Info({item, renderSideIcon}) {
                 <Label><FormattedMessage id="exchangeLendingPage.orders.openDate" /></Label>
                 <Value>{formatDate(item.time, 'LL-dd HH:mm:ss')}</Value>
             </Row>
-            <Row>
-                <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label> 
-                {(item.status.toUpperCase() === "OPEN") && 
-                    (<Value>{formatDate(Number(item.liquidationTime)*1000, 'LL-dd HH:mm:ss')}</Value>)
-                }
-                {(item.status.toUpperCase() !== "OPEN") && 
-                    (<Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>)
-                }
-            </Row>
+
+            {(item.status.toUpperCase() === "OPEN") &&
+                (<Row>                
+                    <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label> 
+                    <Value>{formatDate(Number(item.liquidationTime)*1000, 'LL-dd HH:mm:ss')}</Value>                    
+                </Row>)
+            }
+            {(item.status.toUpperCase() !== "OPEN") && 
+                (<Row>
+                    <Label><FormattedMessage id="exchangeLendingPage.orders.trade.closedContract" /></Label> 
+                    <Value>{formatDate(item.updatedAt, 'LL-dd HH:mm:ss')}</Value>
+                </Row>)
+            }
+            {(item.status.toUpperCase() !== "OPEN") && 
+                (<Row>
+                    <Label><FormattedMessage id="exchangeLendingPage.orders.closeDate" /></Label>
+                    <Value>{formatDate(Number(item.liquidationTime)*1000, 'LL-dd HH:mm:ss')}</Value>
+                </Row>)
+            }
             <Row>
                 <Label><FormattedMessage id="exchangePage.type" /></Label>
                 <Value>{ORDERTYPES[item.type]}-{TOPUPTYPES[item.autoTopUp]}</Value>
