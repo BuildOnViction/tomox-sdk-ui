@@ -278,5 +278,6 @@
   "dapp.switchToSpot": "Borsa'ya Geç",
   "dapp.switchToLending": "P2P Kredi'ye Geç",
   "dapp.marketContracts": "Piyasa Kontratlar",
-  "dapp.contracts": "Kontratlar"
+  "dapp.contracts": "Kontratlar",
+  "dapp.orders.estProfit": "Est profit"
 }

@@ -278,5 +278,6 @@
   "dapp.switchToSpot": "スポットへの切り替え",
   "dapp.switchToLending": "レンディングに切り替える",
   "dapp.marketContracts": "マーケットコントラクト",
-  "dapp.contracts": "コントラクト"
+  "dapp.contracts": "コントラクト",
+  "dapp.orders.estProfit": "Est profit"
 }

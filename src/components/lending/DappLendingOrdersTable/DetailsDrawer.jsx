@@ -144,6 +144,12 @@ function Info({item, renderSideIcon}) {
                 <Label><FormattedMessage id="exchangePage.amount" /></Label> 
                 <Value>{BigNumber(item.amount).toFormat()} {item.lendingTokenSymbol}</Value>
             </Row>
+            {item.estimatedProfit &&
+                (<Row>
+                    <Label><FormattedMessage id="dapp.orders.estProfit" /></Label>
+                    <Value><Highlight>{item.estimatedProfit}</Highlight> {item.lendingTokenSymbol}</Value>
+                </Row>)
+            }
             <Row>
                 <Label><FormattedMessage id="exchangeLendingPage.orders.collateral" /></Label> 
                 <Value>{BigNumber(item.collateralLockedAmount).toFormat()} {item.collateralTokenSymbol}</Value>

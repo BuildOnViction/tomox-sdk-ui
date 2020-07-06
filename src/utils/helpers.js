@@ -376,3 +376,15 @@ export const truncateTripleText = (text, limit, symbol='...') => {
 
   return `${text.slice(0, limit)}${symbol}${text.slice(-limit)}`
 }
+
+export const calcProfit = (amount, interest, term, pricePrecision = 8) => {
+  if (!Number(amount) || !Number(interest) || !Number(term)) return ''
+
+  const termDays = (Number(term)/60/60/24)
+  const rate = BigNumber(interest).div(100)
+  const profitPerYear = rate.times(amount)
+  const profitPerDay = profitPerYear.div(365)
+  const profit = profitPerDay.times(termDays).toFixed(pricePrecision)
+  console.log(amount, interest, term, profit, '=======================================')
+  return profit
+}

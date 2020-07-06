@@ -2,7 +2,7 @@
 import { utils } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
-import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName } from './helpers'
+import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName, calcProfit } from './helpers'
 
 import {
   pricePrecision,
@@ -483,9 +483,16 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
     const { pricePrecision: liquidationPricePrecision } = calcPrecision(liquidationPrice)
     const side = (trades[i].investor.toLowerCase() === userAddress.toLowerCase() 
                   && trades[i].investor.toLowerCase() !== trades[i].borrower.toLowerCase()) ? 'LEND' : 'BORROW'
+    const amount = parseLendingAmount(trades[i].amount, lendingToken.decimals)
+    const interest = parseInterest(trades[i].interest)
+    let estimatedProfit
 
+    if (side === 'LEND' && trades[i].status.toUpperCase() === 'OPEN') {
+      estimatedProfit = calcProfit(amount, interest, trades[i].term)
+    }
+    
     const tradeParsed = {
-      amount: parseLendingAmount(trades[i].amount, lendingToken.decimals),
+      amount,
       borrower: trades[i].borrower.toLowerCase(),
       isBorrower: trades[i].borrower.toLowerCase() === userAddress.toLowerCase(),
       borrowingFee: trades[i].borrowingFee,
@@ -497,7 +504,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       createdAt: trades[i].createdAt,
       depositRate: trades[i].depositRate,
       hash: trades[i].hash,
-      interest: parseInterest(trades[i].interest),
+      interest,
       investingFee: trades[i].investingFee,
       investingOrderHash: trades[i].investingOrderHash,
       investingRelayer: trades[i].investingRelayer,
@@ -516,6 +523,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       type: trades[i].type || 'LO',
       side,
       autoTopUp: trades[i].autoTopUp,
+      estimatedProfit,
     }
 
     parsed.push(tradeParsed)
