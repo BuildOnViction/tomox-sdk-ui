@@ -48,6 +48,16 @@ const TransferTokensFormRenderer = (props: Props) => {
 
   return (
     <div>
+      <Label text="Receiver Address" helpertext="(should start with 0x)">
+        <FormattedMessage id="portfolioPage.transferTokensModal.receiver" />
+        <InputGroupWrapper
+          placeholder={intl.formatMessage({id: "portfolioPage.transferTokensModal.receiverPlaceholder"})}
+          name="receiver"
+          value={receiver}
+          onChange={handleChange}
+        />
+      </Label>
+
       <StyledFormGroup>
         <Label><FormattedMessage id="portfolioPage.transferTokensModal.select" /></Label>
         <TokenSelect
@@ -71,16 +81,6 @@ const TransferTokensFormRenderer = (props: Props) => {
           value={amount}
           onChange={handleChange}
           autoComplete="off"
-        />
-      </Label>
-
-      <Label text="Receiver Address" helpertext="(should start with 0x)">
-        <FormattedMessage id="portfolioPage.transferTokensModal.receiver" />
-        <InputGroupWrapper
-          placeholder={intl.formatMessage({id: "portfolioPage.transferTokensModal.receiverPlaceholder"})}
-          name="receiver"
-          value={receiver}
-          onChange={handleChange}
         />
       </Label>
 
