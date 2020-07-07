@@ -144,10 +144,32 @@ function Info({item, renderSideIcon}) {
                 <Label><FormattedMessage id="exchangePage.amount" /></Label> 
                 <Value>{BigNumber(item.amount).toFormat()} {item.lendingTokenSymbol}</Value>
             </Row>
+            <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orderPlace.interest" /></Label> 
+                <Value>{BigNumber(item.interest).toFormat()}%</Value>
+            </Row>
             {item.estimatedProfit &&
                 (<Row>
                     <Label><FormattedMessage id="dapp.orders.estProfit" /></Label>
-                    <Value><Highlight>{item.estimatedProfit}</Highlight> {item.lendingTokenSymbol}</Value>
+                    <Value>
+                        <Highlight
+                            fontWeight={700}
+                            color={TmColors.GREEN}>
+                            +{BigNumber(item.estimatedProfit).toFormat()}
+                        </Highlight> {item.lendingTokenSymbol}
+                    </Value>
+                </Row>)
+            }
+            {item.profit &&
+                (<Row>
+                    <Label><FormattedMessage id="dapp.orders.estProfit" /></Label>
+                    <Value>
+                        <Highlight
+                            fontWeight={700}
+                            color={TmColors.GREEN}>
+                            +{BigNumber(item.profit).toFormat()}
+                        </Highlight> {item.lendingTokenSymbol}
+                    </Value>
                 </Row>)
             }
             <Row>

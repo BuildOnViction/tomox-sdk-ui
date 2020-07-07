@@ -8,7 +8,7 @@ import type { Side } from '../../../types/orders'
 import { getEstimatedCollateral } from '../../../store/services/api/engine'
 // import { isTomoWallet, isMobile } from '../../../utils/helpers'
 import {pricePrecision as defaultPricePrecision} from '../../../config/tokens'
-import { isMobile, calcProfit } from '../../../utils/helpers'
+import { isMobile, estimateProfit } from '../../../utils/helpers'
 
 type Props = {
   side: Side,
@@ -111,7 +111,7 @@ function withOrderFormLogic(WrappedComponent) {
       const { currentPair: { termValue }} = this.props
 
       if (order.side === 'BORROW') {
-        const profit = (type === 'amount') ? calcProfit(interest, total, termValue) : ''
+        const profit = (type === 'amount') ? estimateProfit(interest, total, termValue) : ''
         
         this.setState({
           borrowInterest: interest,
@@ -227,7 +227,7 @@ function withOrderFormLogic(WrappedComponent) {
 
         const { lendInterest } = this.state
         const { currentPair: { termValue }} = this.props
-        const profit = calcProfit(lendInterest, amount, termValue)
+        const profit = estimateProfit(lendInterest, amount, termValue)
 
         this.setState({ profit, lendAmount: amount })
       }
@@ -285,7 +285,7 @@ function withOrderFormLogic(WrappedComponent) {
         const { lendInterest } = this.state
         const lendAmount = (BigNumber(lendingToken.availableBalance).div(100)).times(fraction).toFixed(8)
         const { currentPair: { termValue }} = this.props
-        const profit = calcProfit(lendInterest, lendAmount, termValue)
+        const profit = estimateProfit(lendInterest, lendAmount, termValue)
 
         this.setState({
           profit,

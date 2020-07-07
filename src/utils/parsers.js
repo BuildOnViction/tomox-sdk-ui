@@ -2,8 +2,9 @@
 import { utils } from 'ethers'
 import { BigNumber } from 'bignumber.js'
 import { unformat } from 'accounting-js'
-import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName, calcProfit } from './helpers'
+import { differenceInSeconds } from 'date-fns'
 
+import { isFloat, isInteger, round, computeChange, calcPrecision, getLendingPairName, estimateProfit } from './helpers'
 import {
   pricePrecision,
   amountPrecision,
@@ -485,10 +486,19 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
                   && trades[i].investor.toLowerCase() !== trades[i].borrower.toLowerCase()) ? 'LEND' : 'BORROW'
     const amount = parseLendingAmount(trades[i].amount, lendingToken.decimals)
     const interest = parseInterest(trades[i].interest)
-    let estimatedProfit
+    let estimatedProfit, profit
 
     if (side === 'LEND' && trades[i].status.toUpperCase() === 'OPEN') {
-      estimatedProfit = calcProfit(amount, interest, trades[i].term)
+      estimatedProfit = estimateProfit(amount, interest, trades[i].term)
+    }
+
+    if (side === 'LEND' && trades[i].status.toUpperCase() === 'CLOSED') {
+      const realTimeLending = differenceInSeconds(
+                                new Date(trades[i].updatedAt),
+                                new Date(trades[i].createdAt)
+                              )
+      const timeToGetProfit = BigNumber(realTimeLending).plus(trades[i].term).div(2*365*24*60*60)
+      profit = BigNumber(amount).multipliedBy(interest/100).multipliedBy(timeToGetProfit).toFixed(8)
     }
     
     const tradeParsed = {
@@ -524,6 +534,7 @@ export const parseLendingTradesByAddress = (userAddress, exchangeAddress, trades
       side,
       autoTopUp: trades[i].autoTopUp,
       estimatedProfit,
+      profit,
     }
 
     parsed.push(tradeParsed)
