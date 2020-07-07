@@ -24,7 +24,6 @@ const TxValidityNotification = (props: Props) => {
 const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
     <Callout intent="warning" icon="warning-sign" title={<FormattedMessage defaultMessage="Transaction invalid" id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
-      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {transferFee && toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }
@@ -32,7 +31,6 @@ const renderInvalidTx = (transferFee: number, statusMessage: string, symbol) => 
 const renderValidTx = (transferFee: number, statusMessage: string, symbol) => {
   return (
     <Callout intent="success" title={<FormattedMessage defaultMessage="Transaction invalid" id={`portfolioPage.transferTokensModal.${statusMessage}`} />}>
-      <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {transferFee && toDecimalFormString(transferFee)} {symbol}
     </Callout>
   )
 }

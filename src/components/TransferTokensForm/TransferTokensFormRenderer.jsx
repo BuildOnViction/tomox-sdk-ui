@@ -3,10 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, InputGroup, Label, FormGroup } from '@blueprintjs/core'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import toDecimalFormString from 'number-to-decimal-form-string-x'
+import BigNumber from 'bignumber.js'
+
 import TokenSelect from '../TokenSelect'
 // import GasSettings from '../GasSettings'
 import TxNotification from '../TxNotification'
-import { TmColors, Theme } from '../Common'
+import { TmColors, Theme, SmallText } from '../Common'
 
 type Props = {
   loading: boolean,
@@ -44,6 +47,7 @@ const TransferTokensFormRenderer = (props: Props) => {
     isInvalidInput,
     sendMaxAmount,
     error,
+    balanceError,
   } = props
 
   return (
@@ -84,19 +88,34 @@ const TransferTokensFormRenderer = (props: Props) => {
         />
       </Label>
 
+      <LabelContent>
+        <SmallText muted>
+          <FormattedMessage id="portfolioPage.transferTokensModal.transactionFee" />: {transferFee && toDecimalFormString(transferFee)} {token.symbol}
+        </SmallText>
+        <SmallText muted>
+          <FormattedMessage id="portfolioPage.available" />: {BigNumber(token.availableBalance).toFormat()} {token.symbol}
+        </SmallText>
+      </LabelContent>
+
+      { balanceError && 
+        <Row><SmallText color={TmColors.RED}>
+          <FormattedMessage id="exchangeLendingPage.orders.repayModal.errorNotEnoughBalance" />
+        </SmallText></Row> 
+      }
+
       {/* <GasSettings gas={gas} gasPrice={gasPrice} handleChange={handleChange} /> */}
 
-      <TxNotificationBox>
-        <TxNotification
-          symbol={token.symbol}
-          loading={loading}
-          hash={hash}
-          receipt={receipt}
-          status={status}
-          statusMessage={statusMessage}
-          transferFee={Number(transferFee)}
-        />
-      </TxNotificationBox>
+      { !balanceError && 
+        <TxNotificationBox>
+          <TxNotification
+            loading={loading}
+            hash={hash}
+            receipt={receipt}
+            status={status}
+            statusMessage={statusMessage}
+          />
+        </TxNotificationBox>
+      }
 
       <ButtonWrapper
         text={<FormattedMessage id="portfolioPage.transferTokensModal.btnTitle" />}
@@ -145,6 +164,8 @@ const InputGroupWrapper = styled(InputGroup)`
     background: ${props => props.theme.inputBackground} !important;
   }
 `
+
+const Row = styled.div``
 
 const ButtonWrapper = styled(Button)`
   display: block;

@@ -38,6 +38,8 @@ export const SmallText = styled.span`
       ? Colors[props.intent]
       : props.muted
       ? TmColors.GRAY
+      : props.color
+      ? props.color
       : Colors.TEXT};
 `;
 
