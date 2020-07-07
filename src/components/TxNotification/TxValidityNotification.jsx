@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Callout } from '@blueprintjs/core'
-import toDecimalFormString from 'number-to-decimal-form-string-x'
 import { FormattedMessage } from 'react-intl'
 
 type Props = {
