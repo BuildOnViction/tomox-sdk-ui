@@ -54,9 +54,11 @@ const DepositTableRenderer = (props: Props) => {
   return (
     
     <React.Fragment>
-      <MainTitle>
-        <FormattedMessage id="portfolioPage.balance" /> 
-        <SmallText muted>&asymp; {showBalance ? '$' + BigNumber(totalBalance).toFormat(2) : '********'}</SmallText>
+      <HeaderPage>
+        <MainTitle>
+          <FormattedMessage id="portfolioPage.balance" /> 
+          <SmallText muted>&asymp; {showBalance ? '$' + BigNumber(totalBalance).toFormat(2) : '********'}</SmallText>
+        </MainTitle>
 
         <ShowHideBalance onClick={() => updateShowHideBalance(!showBalance)}>
           <SmallText>
@@ -70,7 +72,8 @@ const DepositTableRenderer = (props: Props) => {
           }
           </SmallText>
         </ShowHideBalance>
-      </MainTitle>
+      </HeaderPage>
+
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
@@ -346,11 +349,17 @@ const BaseTokenRows = (props: Props) => {
   )
 }
 
+const HeaderPage = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const MainTitle = styled.h1`
   font-size: ${Theme.FONT_SIZE_H1};
   font-weight: 400;
   margin-bottom: 20px;
 `
+
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
     color: ${TmColors.LIGHT_GRAY};
@@ -484,10 +493,10 @@ const ShowHideBalance = styled(MarginButton)`
     display: inline-block;
     border: 1px solid ${TmColors.GRAY};
     color: ${TmColors.GRAY};
-    padding: 5px;
+    padding: 2px 5px;
     border-radius: 5px;
     margin-left: 30px;
-    &:hover{
+    &:hover > span {
       color: ${TmColors.LIGHT_GRAY};
     }
     > span{
