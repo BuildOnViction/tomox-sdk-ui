@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import getWalletPageSelector, {
+  updateShowHideBalance,
   redirectToTradingPage,
   redirectToLendingPage,
 } from '../../store/models/walletPage'
@@ -19,6 +20,7 @@ export function mapStateToProps(state: State) {
 }
 
 export const mapDispatchToProps = {
+  updateShowHideBalance,
   removeNotification,
   redirectToTradingPage,
   redirectToLendingPage,

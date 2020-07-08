@@ -19,6 +19,7 @@ type Props = {
   quoteTokens: Array<string>,
   balancesLoading: boolean,
   mode: String,
+  showBalance: Boolean,
   lendingTokenSymbols: Array<string>,
   collateralTokenSymbols: Array<string>,
 }
@@ -41,9 +42,11 @@ class WalletPage extends React.PureComponent<Props> {
       balancesLoading,
       copyDataSuccess,
       mode,
+      showBalance,
       lendingTokenSymbols,
       collateralTokenSymbols,
       totalBalance,
+      updateShowHideBalance,
     } = this.props
 
     if (!authenticated) return <Redirect to="/unlock" />
@@ -66,9 +69,11 @@ class WalletPage extends React.PureComponent<Props> {
         isHelpModalOpen={isHelpModalOpen}
         copyDataSuccess={copyDataSuccess}
         mode={mode}
+        showBalance={showBalance}
         lendingTokenSymbols={lendingTokenSymbols}
         collateralTokenSymbols={collateralTokenSymbols}
         totalBalance={totalBalance}
+        updateShowHideBalance={updateShowHideBalance}
       />
     )
   }

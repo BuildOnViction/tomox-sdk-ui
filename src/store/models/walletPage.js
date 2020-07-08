@@ -28,6 +28,7 @@ export default function walletPageSelector(state: State) {
     .filter(symbol => quoteTokens.indexOf(symbol) !== -1)
   const tokenData = accountBalancesDomain.getBalancesAndAllowances(tokens)
   const mode = getSettingsDomain(state).getMode()
+  const showBalance = getSettingsDomain(state).getShowBalance()
   const lendingTokensDomain = getLendingTokensDomain(state)
   const lendingTokenSymbols = lendingTokensDomain.tokenSymbols()
   const collateralTokenSymbols = lendingTokensDomain.collateralSymbols()
@@ -46,6 +47,7 @@ export default function walletPageSelector(state: State) {
     gas: transferTokensFormDomain.getGas(),
     gasPrice: transferTokensFormDomain.getGasPrice(),
     mode,
+    showBalance,
     lendingTokenSymbols,
     collateralTokenSymbols,
     totalBalance,
@@ -76,5 +78,11 @@ export function redirectToLendingPage(symbol: string): ThunkAction {
     let lendingPair = lendingPairSymbols.find(pair => pair.pair.includes(symbol))
     lendingPair = lendingPair ? lendingPair : lendingPairSymbols[0]
     dispatch(push(`/lending/${lendingPair.pair.replace(' ', '_').replace('/', '-')}`))
+  }
+}
+
+export function updateShowHideBalance(showBalance: Boolean): ThunkAction {
+  return async (dispatch) => {
+    dispatch(actionCreators.updateShowHideBalance(showBalance))
   }
 }

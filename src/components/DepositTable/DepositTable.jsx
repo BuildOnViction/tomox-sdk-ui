@@ -107,9 +107,11 @@ class DepositTable extends React.PureComponent<Props, State> {
         redirectToLendingPage,
         accountAddress,
         mode,
+        showBalance,
         lendingTokenSymbols,
         collateralTokenSymbols,
         totalBalance,
+        updateShowHideBalance,
       },
       state: {
         isSendModalOpen,
@@ -165,6 +167,8 @@ class DepositTable extends React.PureComponent<Props, State> {
           lendingTokenSymbols={lendingTokenSymbols}
           collateralTokenSymbols={collateralTokenSymbols}
           totalBalance={totalBalance}
+          showBalance={showBalance}
+          updateShowHideBalance={updateShowHideBalance}
         />
         <TransferTokensModal
           isOpen={isSendModalOpen}
