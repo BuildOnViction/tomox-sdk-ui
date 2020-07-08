@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, MenuItem, PopoverPosition } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
+import BigNumber from 'bignumber.js'
+
 import HighlightText from '../Common/HighlightText'
 import { Theme } from '../Common'
 
@@ -46,7 +48,7 @@ const renderItem = (item, { handleClick, modifiers, query }) => {
     <StyledMenuItem
       active={modifiers.active}
       disabled={modifiers.disabled}
-      label={item.availableBalance}
+      label={BigNumber(item.availableBalance).toFormat()}
       key={item.rank}
       onClick={handleClick}
       title={item.address}
