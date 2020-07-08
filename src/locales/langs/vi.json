@@ -164,7 +164,7 @@
   "exchangeLendingPage.orderPlace.btnBorrow": "Vay",
   "exchangeLendingPage.orderPlace.interest": "Lãi suất(năm)",
   "exchangeLendingPage.orderPlace.selectCollateral": "Lựa chọn tài sản thế chấp",
-  "exchangeLendingPage.orderPlace.estimatedProfit": "Lợi nhuận ước tính",
+  "exchangeLendingPage.orderPlace.estimatedProfit": "Lợi nhuận dự tính",
   "exchangeLendingPage.orderPlace.collateralRequired": "Lượng thế chấp cần thiết",
   "exchangeLendingPage.orderPlace.onlyForDappBrowser": "Chỉ dành cho trình duyệt dapp",
   "exchangeLendingPage.orderbook.interest": "Lãi suất(năm)",
@@ -280,5 +280,6 @@
   "dapp.switchToSpot": "Chuyển tới giao dịch",
   "dapp.switchToLending": "Chuyển tới cho vay p2p",
   "dapp.marketContracts": "Hợp đồng",
-  "dapp.contracts": "Hợp đồng"
+  "dapp.contracts": "Hợp đồng",
+  "dapp.orders.estProfit": "Lợi nhuận dự tính"
 }
