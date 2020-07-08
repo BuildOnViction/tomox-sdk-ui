@@ -167,7 +167,6 @@ class DepositTable extends React.PureComponent<Props, State> {
           lendingTokenSymbols={lendingTokenSymbols}
           collateralTokenSymbols={collateralTokenSymbols}
           totalBalance={totalBalance}
-          onShowBalanceClick={this.onBalanceClick}
           showBalance={showBalance}
           updateShowHideBalance={updateShowHideBalance}
         />

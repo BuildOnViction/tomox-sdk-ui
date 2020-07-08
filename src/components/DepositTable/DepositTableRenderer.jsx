@@ -23,8 +23,6 @@ import { TOMOSCAN_URL } from '../../config/environment'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
-import eyeIconUrl from '../../assets/images/eye.svg'
-import eyeSlashIconUrl from '../../assets/images/eye-slash.svg'
 
 type Props = {
   baseTokensData: Array<TokenData>,
@@ -62,14 +60,14 @@ const DepositTableRenderer = (props: Props) => {
 
         <ShowHideBalance onClick={() => updateShowHideBalance(!showBalance)}>
           <SmallText>
-            {showBalance 
-              ? <DoubleArrowsUpIcon src={eyeIconUrl} alt="Show icon"></DoubleArrowsUpIcon>
-              : <DoubleArrowsUpIcon src={eyeSlashIconUrl} alt="Hide icon"></DoubleArrowsUpIcon>
-            }
-            {showBalance 
-              ? <FormattedMessage id="portfolioPage.showbalancetext" /> 
-              : <FormattedMessage id="portfolioPage.hidebalancetext" />
-            }
+          {!showBalance
+            ? (
+            <><i className="fa fa-eye" aria-hidden="true" /> <FormattedMessage id="portfolioPage.showbalancetext" /></>
+            )
+            : (
+            <><i className="fa fa-eye-slash" aria-hidden="true" /> <FormattedMessage id="portfolioPage.hidebalancetext" /></>
+            )
+          }
           </SmallText>
         </ShowHideBalance>
       </MainTitle>
@@ -486,7 +484,7 @@ const ShowHideBalance = styled(MarginButton)`
     display: inline-block;
     border: 1px solid ${TmColors.GRAY};
     color: ${TmColors.GRAY};
-    padding: 2px 5px;
+    padding: 5px;
     border-radius: 5px;
     margin-left: 30px;
     &:hover{
@@ -498,8 +496,7 @@ const ShowHideBalance = styled(MarginButton)`
       align-items: center;
       color: ${TmColors.GRAY};
     }
-    img{
-      width: 20px;
+    i{
       margin-right: 5px;
     }
 `

@@ -35,10 +35,6 @@ export const getDepositFormDomain = state =>
   depositFormDomain(state.depositForm)
 export const getTomoBalanceDomain = state =>
   tomoBalanceDomain(state.tomoBalance)
-
-export const getShowBalanceDomain = state =>
-  tomoBalanceDomain(state.tomoBalance)
-
 export const getTransferTokensFormDomain = state =>
   transferTokensFormDomain(state.transferTokensForm)
 export const getLoginPageDomain = state => loginPageDomain(state.loginPage)

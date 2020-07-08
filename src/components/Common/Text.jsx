@@ -40,17 +40,6 @@ export const SmallText = styled.span`
       ? TmColors.GRAY
       : Colors.TEXT};
 `;
-export const MediumText = styled.span`
-  ${space}
-  ${width}
-  font-size: ${Fonts.FONT_SIZE_LARGE}px !important;
-  color: ${props =>
-    props.intent
-      ? Colors[props.intent]
-      : props.muted
-      ? TmColors.GRAY
-      : Colors.TEXT};
-`;
 
 export const SmallTextDiv = styled.div`
   ${space}

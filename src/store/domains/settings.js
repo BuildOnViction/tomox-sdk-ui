@@ -60,7 +60,7 @@ export const changeMode = (mode: string) => {
 
   return event
 }
-// Update showBalance
+
 export const changeShowBalance = (showBalance: boolean) => {
   const event = (state: SettingsState) => ({
     ...state,
@@ -81,6 +81,6 @@ export default function model(state: SettingsState) {
     }),
     getLocale: () => state.locale,
     getMode: () => state.mode,
-    getShowBalance: () => state.showBalance, // add new
+    getShowBalance: () => state.showBalance,
   }
 }
