@@ -23,6 +23,9 @@ import { TOMOSCAN_URL } from '../../config/environment'
 import type { TokenData } from '../../types/tokens'
 import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
+import eyeIconUrl from '../../assets/images/eye.svg'
+import eyeSlashIconUrl from '../../assets/images/eye-slash.svg'
+// import { display } from 'styled-system'
 
 type Props = {
   baseTokensData: Array<TokenData>,
@@ -35,8 +38,8 @@ type Props = {
   openSendModal: string => void,
   toggleZeroBalanceToken: void => void,
   redirectToTradingPage: string => void,
+  showBalance: Boolean
 }
-
 const DepositTableRenderer = (props: Props) => {
   const {
     isHideZeroBalanceToken,
@@ -47,10 +50,30 @@ const DepositTableRenderer = (props: Props) => {
     openReceiveDialog,
     openSendModal,
     totalBalance,
+    showBalance,
+    updateShowHideBalance,
   } = props
+
   return (
+    
     <React.Fragment>
-      <MainTitle><FormattedMessage id="portfolioPage.balance" /> <SmallText muted>&asymp; ${BigNumber(totalBalance).toFormat(2)}</SmallText></MainTitle>
+      <MainTitle>
+        <FormattedMessage id="portfolioPage.balance" /> 
+        <SmallText muted>&asymp; {showBalance ? '$' + BigNumber(totalBalance).toFormat(2) : '********'}</SmallText>
+
+        <ShowHideBalance onClick={() => updateShowHideBalance(!showBalance)}>
+          <SmallText>
+            {showBalance 
+              ? <DoubleArrowsUpIcon src={eyeIconUrl} alt="Show icon"></DoubleArrowsUpIcon>
+              : <DoubleArrowsUpIcon src={eyeSlashIconUrl} alt="Hide icon"></DoubleArrowsUpIcon>
+            }
+            {showBalance 
+              ? <FormattedMessage id="portfolioPage.showbalancetext" /> 
+              : <FormattedMessage id="portfolioPage.hidebalancetext" />
+            }
+          </SmallText>
+        </ShowHideBalance>
+      </MainTitle>
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
@@ -120,6 +143,7 @@ const TOMORow = (props: Props) => {
     redirectToLendingPage,
     lendingTokenSymbols,
     collateralTokenSymbols,
+    showBalance,
   } = props
 
   if (!TOMOTokenData) return null
@@ -135,14 +159,14 @@ const TOMORow = (props: Props) => {
         </TokenNameWrapper>
       </Cell>
       <Cell width="20%">
-        <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
-        <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
+        <Ellipsis title={balance}>{showBalance ? BigNumber(balance).toFormat(pricePrecision) : '********'}</Ellipsis>
+        <Ellipsis muted>{showBalance ? '$' + BigNumber(usdBalance).toFormat(2) : '********'}</Ellipsis>
       </Cell>
       <Cell width="20%">
-        <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
+        <Ellipsis>{showBalance ? BigNumber(availableBalance).toFormat(pricePrecision) : '********'}</Ellipsis>
       </Cell>
       <Cell width="17%">
-        <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
+        <Ellipsis>{showBalance ? BigNumber(inOrders).toFormat(pricePrecision) : '********'}</Ellipsis>
       </Cell>
       <Cell width="25%">
         <ButtonWrapper>
@@ -181,6 +205,7 @@ const QuoteTokenRows = (props: Props) => {
     redirectToLendingPage,
     lendingTokenSymbols,
     collateralTokenSymbols,
+    showBalance,
   } = props
 
   if (!quoteTokensData) return null
@@ -196,14 +221,14 @@ const QuoteTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={balance}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
-            <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
+            <Ellipsis title={balance}>{showBalance ? BigNumber(balance).toFormat(pricePrecision) : '********'}</Ellipsis>
+            <Ellipsis muted>{showBalance ? '$' + BigNumber(usdBalance).toFormat(2) : '********'}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis>{showBalance ? BigNumber(availableBalance).toFormat(pricePrecision) : '********'}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis>{showBalance ? BigNumber(inOrders).toFormat(pricePrecision) : '********'}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
@@ -256,6 +281,7 @@ const BaseTokenRows = (props: Props) => {
     redirectToLendingPage,
     lendingTokenSymbols,
     collateralTokenSymbols,
+    showBalance,
   } = props
 
   if (!baseTokensData) return null
@@ -271,14 +297,14 @@ const BaseTokenRows = (props: Props) => {
             </TokenNameWrapper>
           </Cell>
           <Cell width="20%">
-            <Ellipsis title={BigNumber(balance).toFormat(pricePrecision)}>{BigNumber(balance).toFormat(pricePrecision)}</Ellipsis>
-            <Ellipsis muted>${BigNumber(usdBalance).toFormat(2)}</Ellipsis>
+            <Ellipsis title={BigNumber(balance).toFormat(pricePrecision)}>{showBalance ? BigNumber(balance).toFormat(pricePrecision) : '********'}</Ellipsis>
+            <Ellipsis muted>{showBalance ? '$' + BigNumber(usdBalance).toFormat(2) : '********'}</Ellipsis>
           </Cell>
           <Cell width="20%">
-            <Ellipsis>{BigNumber(availableBalance).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis>{showBalance ? BigNumber(availableBalance).toFormat(pricePrecision) : '********'}</Ellipsis>
           </Cell>
           <Cell width="17%">
-            <Ellipsis>{BigNumber(inOrders).toFormat(pricePrecision)}</Ellipsis>
+            <Ellipsis>{showBalance ? BigNumber(inOrders).toFormat(pricePrecision) : '********'}</Ellipsis>
           </Cell>
           <Cell width="25%">
             <ButtonWrapper>
@@ -328,7 +354,6 @@ const MainTitle = styled.h1`
   font-weight: 400;
   margin-bottom: 20px;
 `
-
 const SearchWrapper= styled(InputGroup)`
   .bp3-input {
     color: ${TmColors.LIGHT_GRAY};
@@ -458,7 +483,27 @@ const MarginButton = styled(OperationButton)`
   justify-content: center;
   margin-right: 25px;
 `
-
+const ShowHideBalance = styled(MarginButton)`
+    display: inline-block;
+    border: 1px solid ${TmColors.GRAY};
+    color: ${TmColors.GRAY};
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-left: 30px;
+    &:hover{
+      color: ${TmColors.LIGHT_GRAY};
+    }
+    > span{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: ${TmColors.GRAY};
+    }
+    img{
+      width: 20px;
+      margin-right: 5px;
+    }
+`
 const OperationButtonWrapper = styled.div`
   display: flex;
   align-items: center;

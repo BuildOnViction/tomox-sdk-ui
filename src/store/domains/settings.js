@@ -6,6 +6,7 @@ const initialState = {
   defaultGasPrice: 1000000000,
   pvtKeyLocked: true,
   locale: LOCALE,
+  showBalance: true,
   mode: 'dark',
   version: DEX_VERSION,
 }
@@ -59,6 +60,15 @@ export const changeMode = (mode: string) => {
 
   return event
 }
+// Update showBalance
+export const changeShowBalance = (showBalance: boolean) => {
+  const event = (state: SettingsState) => ({
+    ...state,
+    showBalance,
+  })
+
+  return event
+}
 
 export default function model(state: SettingsState) {
   return {
@@ -71,5 +81,6 @@ export default function model(state: SettingsState) {
     }),
     getLocale: () => state.locale,
     getMode: () => state.mode,
+    getShowBalance: () => state.showBalance, // add new
   }
 }

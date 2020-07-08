@@ -10,6 +10,7 @@ const actionTypes = {
   updateCurrentPair: 'walletPage/UPDATE_CURRENT_PAIR',
   updateShowHelpModal: 'walletPage/UPDATE_SHOW_HELP_MODAL',
   updateExchangeAddress: 'walletPage/UPDATE_EXCHANGE_ADDRESS',
+  updateShowHideBalance: 'walletPage/UPDATE_SHOW_HIDE_BALANCE',
 }
 
 export function updateExchangeAddress(
@@ -32,6 +33,13 @@ export function closeHelpModal() {
   return {
     type: actionTypes.updateShowHelpModal,
     payload: { showHelpModal: false },
+  }
+}
+// Action showHideBalance
+export function updateShowHideBalance(showBalance) {
+  return {
+    type: actionTypes.updateShowHideBalance,
+    payload: { showBalance },
   }
 }
 

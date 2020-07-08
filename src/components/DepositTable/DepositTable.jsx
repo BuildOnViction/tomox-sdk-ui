@@ -37,7 +37,20 @@ class DepositTable extends React.PureComponent<Props, State> {
     searchInput: '',
     isOpenReceiveDialog: false,
   }
-
+  // onBalanceClick = () => {
+  //   let currentShowBalance = this.props.showBalance;
+    
+  //   if(currentShowBalance === true){
+  //     currentShowBalance = false
+  //   }else{
+  //     currentShowBalance = true
+  //   }
+  //   console.log(currentShowBalance);
+  //   this.setState({
+  //     showBalance: currentShowBalance,
+  //   })
+    
+  // }
   openSendModal = (symbol: Symbol) => {
     const selectedToken = this.props.tokenData.filter(
       elem => elem.symbol === symbol
@@ -107,9 +120,11 @@ class DepositTable extends React.PureComponent<Props, State> {
         redirectToLendingPage,
         accountAddress,
         mode,
+        showBalance,
         lendingTokenSymbols,
         collateralTokenSymbols,
         totalBalance,
+        updateShowHideBalance,
       },
       state: {
         isSendModalOpen,
@@ -165,6 +180,9 @@ class DepositTable extends React.PureComponent<Props, State> {
           lendingTokenSymbols={lendingTokenSymbols}
           collateralTokenSymbols={collateralTokenSymbols}
           totalBalance={totalBalance}
+          onShowBalanceClick={this.onBalanceClick}
+          showBalance={showBalance}
+          updateShowHideBalance={updateShowHideBalance}
         />
         <TransferTokensModal
           isOpen={isSendModalOpen}

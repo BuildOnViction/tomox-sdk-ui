@@ -240,6 +240,7 @@ export const TmColors = {
   BLUE: '#2d3650',
   LIGHT_BLUE: '#394362',
   GRAY: '#6e7793',
+  DARK_GRAY: '#393e4c',
   LIGHT_GRAY: '#9ca4ba',
   WHITE: '#fff',
   ORANGE: '#ff9a4d',
