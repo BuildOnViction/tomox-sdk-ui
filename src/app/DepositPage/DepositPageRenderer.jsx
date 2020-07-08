@@ -109,7 +109,7 @@ export default function DepositRenderer({
                         />
                     </AddressRow>
                     <AddressBox>
-                        <AddressRow>{token.depositAddress && <QRCode value={token.depositAddress} size={150} includeMargin={true} />}</AddressRow>
+                        <QrRow>{token.depositAddress && <QRCode value={token.depositAddress} size={150} includeMargin={true} />}</QrRow>
                         <AddressRow><Address>{token.depositAddress}</Address></AddressRow>
                         <CopyToClipboard text={token.depositAddress} onCopy={copyDataSuccess}>
                             <CopyButton><i className="fa fa-clone" aria-hidden="true"></i> <FormattedMessage id="portfolioPage.deposit.copy" /></CopyButton>
@@ -215,6 +215,10 @@ const AddressBox = styled.div`
 `
 
 const AddressRow = styled(TextRow)``
+
+const QrRow = styled(TextRow)`
+    min-height: 150px;
+`
 
 const Address = styled.span`
     color: ${TmColors.ORANGE};
