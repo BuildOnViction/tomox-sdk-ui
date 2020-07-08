@@ -145,6 +145,34 @@ function Info({item, renderSideIcon}) {
                 <Value>{BigNumber(item.amount).toFormat()} {item.lendingTokenSymbol}</Value>
             </Row>
             <Row>
+                <Label><FormattedMessage id="exchangeLendingPage.orderPlace.interest" /></Label> 
+                <Value>{BigNumber(item.interest).toFormat()}%</Value>
+            </Row>
+            {item.estimatedProfit &&
+                (<Row>
+                    <Label><FormattedMessage id="dapp.orders.estProfit" /></Label>
+                    <Value>
+                        <Highlight
+                            fontWeight={700}
+                            color={TmColors.GREEN}>
+                            +{BigNumber(item.estimatedProfit).toFormat()}
+                        </Highlight> {item.lendingTokenSymbol}
+                    </Value>
+                </Row>)
+            }
+            {item.profit &&
+                (<Row>
+                    <Label><FormattedMessage id="dapp.orders.estProfit" /></Label>
+                    <Value>
+                        <Highlight
+                            fontWeight={700}
+                            color={TmColors.GREEN}>
+                            +{BigNumber(item.profit).toFormat()}
+                        </Highlight> {item.lendingTokenSymbol}
+                    </Value>
+                </Row>)
+            }
+            <Row>
                 <Label><FormattedMessage id="exchangeLendingPage.orders.collateral" /></Label> 
                 <Value>{BigNumber(item.collateralLockedAmount).toFormat()} {item.collateralTokenSymbol}</Value>
             </Row>

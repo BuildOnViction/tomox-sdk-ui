@@ -71,7 +71,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           gap="10px" 
           height="100%">
           <ChartsCell>
-            <LendingTvChart />
+            <LendingTvChart match={this.props.match} />
           </ChartsCell>
           <OrdersTableCell>
             <LendingOrdersTable />            
