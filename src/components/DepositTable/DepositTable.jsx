@@ -37,20 +37,7 @@ class DepositTable extends React.PureComponent<Props, State> {
     searchInput: '',
     isOpenReceiveDialog: false,
   }
-  // onBalanceClick = () => {
-  //   let currentShowBalance = this.props.showBalance;
-    
-  //   if(currentShowBalance === true){
-  //     currentShowBalance = false
-  //   }else{
-  //     currentShowBalance = true
-  //   }
-  //   console.log(currentShowBalance);
-  //   this.setState({
-  //     showBalance: currentShowBalance,
-  //   })
-    
-  // }
+
   openSendModal = (symbol: Symbol) => {
     const selectedToken = this.props.tokenData.filter(
       elem => elem.symbol === symbol

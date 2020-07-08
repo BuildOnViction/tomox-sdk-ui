@@ -25,7 +25,6 @@ import tickUrl from '../../assets/images/tick.svg'
 import doubleArrowsUpUrl from '../../assets/images/double_arrows_up.svg'
 import eyeIconUrl from '../../assets/images/eye.svg'
 import eyeSlashIconUrl from '../../assets/images/eye-slash.svg'
-// import { display } from 'styled-system'
 
 type Props = {
   baseTokensData: Array<TokenData>,
