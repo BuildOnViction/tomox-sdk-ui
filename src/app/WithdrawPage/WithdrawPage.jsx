@@ -47,7 +47,7 @@ export default function WithdrawPage({
         if (symbol === 'USDT') symbol = 'ETH'
 
         try {
-            return WAValidator.validate(address, selectedToken.symbol)
+            return WAValidator.validate(address, symbol)
         } catch (error) {
             console.log(error)
             return true
