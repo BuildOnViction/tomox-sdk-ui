@@ -26,6 +26,7 @@ export default function WithdrawPageRenderer({
     withdrawalAmount,
     withdrawalAmountWithoutFee,
     error,
+    dirty,
     total,
     handleChangePage,
 }) {  
@@ -111,6 +112,7 @@ export default function WithdrawPageRenderer({
                         </InputLabel>
 
                         <InputGroupWrapper
+                            status={error.address === 'invalid' && dirty.address ? 'invalid' : 'valid'}
                             name="address"
                             onChange={handleChangeInput}
                             value={receiverAddress}
@@ -124,6 +126,7 @@ export default function WithdrawPageRenderer({
                         </InputLabel>
 
                         <InputGroupWrapper
+                            status={error.amount === 'invalid' && dirty.amount ? 'invalid' : 'valid'}
                             name="amount"
                             type="number"
                             onChange={handleChangeInput}
@@ -269,6 +272,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
         height: unset;
         padding: 5px 10px;
         background-color: ${props => props.theme.inputBackground};
+        box-shadow: ${props => props.status === 'invalid' ? '0 0 0 1px '+ TmColors.RED + ' !important' : 'none'};
     }
 `
 

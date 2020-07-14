@@ -35,6 +35,7 @@ export default function WithdrawPage({
     const [withdrawalAmount, setWithdrawalAmount] = useState('')
     const [withdrawalAmountWithoutFee, setWithdrawalAmountWithoutFee] = useState('')
     const [error, setError] = useState({ address: 'invalid', amount: 'invalid' })
+    const [dirty, setDirty] = useState({ address: false, amount: false })
 
     function validateReceiverAddress(address) {
         let symbol = selectedToken.symbol
@@ -54,11 +55,13 @@ export default function WithdrawPage({
         const { availableBalance, minimumWithdrawal, withdrawFee } = selectedToken
         
         if (name === 'address') {
-            setReceiverAddress(value)            
+            setReceiverAddress(value)
+            setDirty({ ...dirty, address: true })          
             !validateReceiverAddress(value) 
                 ? setError({ ...error, address: 'invalid' })
                 : setError({ ...error, address: 'valid' })  
         } else {
+            setDirty({ ...dirty, amount: true })
             if (!value 
                 || Number(value) > Number(availableBalance)
                 || Number(value) < Number(minimumWithdrawal)
@@ -78,6 +81,7 @@ export default function WithdrawPage({
 
     function handleChangeToken(token) {
         setError({ address: 'invalid', amount: 'invalid' })
+        setDirty({ address: false, amount: false })
         setReceiverAddress('')
         setWithdrawalAmountWithoutFee('')
         setWithdrawalAmount('')
@@ -128,6 +132,7 @@ export default function WithdrawPage({
                 withdrawalAmount={withdrawalAmount}
                 withdrawalAmountWithoutFee={withdrawalAmountWithoutFee}
                 error={error}
+                dirty={dirty}
                 total={total}
                 handleChangePage={handleChangePage}
             />
