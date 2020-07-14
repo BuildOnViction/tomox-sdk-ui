@@ -80,6 +80,8 @@ export default function WithdrawPage({
     }
 
     function handleChangeToken(token) {
+        if (token.symbol === selectedToken.symbol) return
+        
         setError({ address: 'invalid', amount: 'invalid' })
         setDirty({ address: false, amount: false })
         setReceiverAddress('')
