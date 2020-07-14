@@ -28,6 +28,9 @@ export default function depositPageSelector(state: State) {
                     return {...token, ...tokensBalance[token.symbol], rank: index + 1, pairs}
                 })
 
+    const total = getWithDrawDomain(state).getTotal()
+    const hash = getWithDrawDomain(state).getHash()
+
     let withdrawHistory = JSON.parse(JSON.stringify(getWithDrawDomain(state).getData()))
     withdrawHistory = withdrawHistory.map(deposit => {
         const token = tokens.find(token => token.symbol === deposit.coin)
@@ -37,7 +40,6 @@ export default function depositPageSelector(state: State) {
 
         return deposit
     })
-    const total = getWithDrawDomain(state).getTotal()
 
     return {
         tokens,
@@ -45,6 +47,7 @@ export default function depositPageSelector(state: State) {
         withdrawHistory,
         authenticated,
         total,
+        hash,
     }
 }
 
@@ -57,7 +60,10 @@ export const getBridgeTokenConfig = (): ThunkAction => {
 
 export const getBridgeWithdrawHistory = (address: string, page, limit): ThunkAction => {
     return async (dispatch, getState, { api }) => {
+        const state = getState()
+        const currentHash = getWithDrawDomain(state).getHash()
         const result = await api.getBridgeWithdrawHistory(address, page, limit)
+
         
         const data = result.Data.map(item => {
             return {
@@ -71,6 +77,7 @@ export const getBridgeWithdrawHistory = (address: string, page, limit): ThunkAct
         })
 
         dispatch(actionCreators.updateRecentHistory({ data, total: result.Total }))
+        if (currentHash && currentHash === result.Data[0].InTx.Hash) dispatch(actionCreators.updateWithdrawalHash(''))
     }
 }
 
@@ -89,7 +96,7 @@ export const withdrawToken = ({ contractAddress, receiverAddress, withdrawalAmou
         const amount = BigNumber(withdrawalAmount).multipliedBy(10**tokenDecimals).toFixed(0)
         const to = string2byte(receiverAddress)
 
-        await contract.burn(
+        const result = await contract.burn(
             amount,
             to,
             {
@@ -97,5 +104,7 @@ export const withdrawToken = ({ contractAddress, receiverAddress, withdrawalAmou
                 gasPrice: 250000000,
             }
         )
+
+        dispatch(actionCreators.updateWithdrawalHash(result.hash))
     }
 }

@@ -14,6 +14,7 @@ export default function WithdrawPage({
     getBridgeWithdrawHistory,
     withdrawHistory,
     total,
+    hash,
 }) {
     if (!authenticated) return <Redirect to="/unlock" />
 
@@ -50,9 +51,18 @@ export default function WithdrawPage({
         }
     }
 
+    function validateAmount(value) {
+        const { availableBalance, minimumWithdrawal } = selectedToken
+
+        return (!value 
+            || Number(value) > Number(availableBalance)
+            || Number(value) < Number(minimumWithdrawal)
+            || Number(minimumWithdrawal) > Number(availableBalance))
+    }
+
     function handleChangeInput(e) {
         const { name, value } = e.target
-        const { availableBalance, minimumWithdrawal, withdrawFee } = selectedToken
+        const { withdrawFee } = selectedToken
         
         if (name === 'address') {
             setReceiverAddress(value)
@@ -62,10 +72,7 @@ export default function WithdrawPage({
                 : setError({ ...error, address: 'valid' })  
         } else {
             setDirty({ ...dirty, amount: true })
-            if (!value 
-                || Number(value) > Number(availableBalance)
-                || Number(value) < Number(minimumWithdrawal)
-                || Number(minimumWithdrawal) > Number(availableBalance)) {
+            if (validateAmount(value)) {
                 setError({ ...error, amount: 'invalid' })
                 setWithdrawalAmountWithoutFee('')
                 setWithdrawalAmount(value)
@@ -79,14 +86,18 @@ export default function WithdrawPage({
         }
     }
 
-    function handleChangeToken(token) {
-        if (token.symbol === selectedToken.symbol) return
-        
+    function resetState() {
         setError({ address: 'invalid', amount: 'invalid' })
         setDirty({ address: false, amount: false })
         setReceiverAddress('')
         setWithdrawalAmountWithoutFee('')
         setWithdrawalAmount('')
+    }
+
+    function handleChangeToken(token) {
+        if (token.symbol === selectedToken.symbol) return
+
+        resetState()
 
         setSelectedToken(token)
         history.push(`/wallet/withdraw/${token.symbol}`)
@@ -119,6 +130,10 @@ export default function WithdrawPage({
         }
     }, [currentPage])
 
+    useEffect(() => {        
+        resetState()
+    }, [hash])
+
     function handleChangePage(page) {        
         setCurrentPage(page)
     }
@@ -137,5 +152,6 @@ export default function WithdrawPage({
                 dirty={dirty}
                 total={total}
                 handleChangePage={handleChangePage}
+                hash={hash}
             />
 }

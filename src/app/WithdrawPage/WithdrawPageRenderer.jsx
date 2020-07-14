@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Callout, InputGroup, Button } from "@blueprintjs/core"
+import { Callout, InputGroup, Button, Spinner } from "@blueprintjs/core"
 import { Link } from 'react-router-dom'
 
 import { pricePrecision } from '../../config/tokens'
@@ -29,6 +29,7 @@ export default function WithdrawPageRenderer({
     dirty,
     total,
     handleChangePage,
+    hash,
 }) {  
     const columns = [
         {
@@ -142,12 +143,15 @@ export default function WithdrawPageRenderer({
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
                     
                     <ButtonWrapper
-                        text={<FormattedMessage id="portfolioPage.withdraw" />}
+                        text={<ButtonContent>
+                                <FormattedMessage id="portfolioPage.withdraw" /> 
+                                {hash && <SpinnerStyled intent="warning" size={Spinner.SIZE_SMALL} />}
+                            </ButtonContent>}
                         intent="primary"
                         large
                         type="submit"
                         fill
-                        disabled={(error.address === 'invalid') || (error.amount === 'invalid')}
+                        disabled={(error.address === 'invalid') || (error.amount === 'invalid') || !!hash}
                         onClick={handleWithdrawal}
                     />
                 </Cell>
@@ -298,7 +302,7 @@ const ButtonWrapper = styled(Button)`
 
     &.bp3-disabled {
         cursor: default !important;
-        background-color: ${TmColors.GRAY} !important;
+        background-color: ${TmColors.BLUE} !important;
     }
 
     .bp3-button-text {
@@ -306,7 +310,16 @@ const ButtonWrapper = styled(Button)`
     }
 `
 
+const ButtonContent = styled.div`
+    display: flex;
+`
+
 const AmountWithoutFee = styled(BalanceValue)`
     color: ${TmColors.ORANGE};
     font-weight: 600;
+    align-items: center;
+`
+
+const SpinnerStyled = styled(Spinner)`
+    margin-left: 15px;
 `
