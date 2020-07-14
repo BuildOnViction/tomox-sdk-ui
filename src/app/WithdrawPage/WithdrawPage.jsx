@@ -31,11 +31,6 @@ export default function WithdrawPage({
         if (updatedToken) setSelectedToken(updatedToken)
     })
 
-    function handleChangeToken(token) {
-        setSelectedToken(token)
-        history.push(`/wallet/withdraw/${token.symbol}`)
-    }
-
     const [receiverAddress, setReceiverAddress] = useState('')
     const [withdrawalAmount, setWithdrawalAmount] = useState('')
     const [withdrawalAmountWithoutFee, setWithdrawalAmountWithoutFee] = useState('')
@@ -79,6 +74,16 @@ export default function WithdrawPage({
             setWithdrawalAmount(value)
             setError({ ...error, amount: 'valid' })
         }
+    }
+
+    function handleChangeToken(token) {
+        setError({ address: 'invalid', amount: 'invalid' })
+        setReceiverAddress('')
+        setWithdrawalAmountWithoutFee('')
+        setWithdrawalAmount('')
+
+        setSelectedToken(token)
+        history.push(`/wallet/withdraw/${token.symbol}`)
     }
 
     function handleWithdrawal() {
