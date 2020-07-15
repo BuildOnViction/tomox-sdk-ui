@@ -43,7 +43,7 @@ export default class TVChart extends React.PureComponent {
 
   render() {
     const { currentPair: { pair }, loading, match: { params }} = this.props
-    const urlPair = params && params.pair.replace('_', ' ').replace('-', '/')
+    const urlPair = params && params.pair && params.pair.replace('_', ' ').replace('-', '/')
     
     if (!pair || loading || (pair !== urlPair)) return <Loading />
     
