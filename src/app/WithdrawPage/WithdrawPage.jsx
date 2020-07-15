@@ -54,7 +54,7 @@ export default function WithdrawPage({
     function validateAmount(value) {
         const { availableBalance, minimumWithdrawal } = selectedToken
 
-        return (!value 
+        return !(!value 
             || Number(value) > Number(availableBalance)
             || Number(value) < Number(minimumWithdrawal)
             || Number(minimumWithdrawal) > Number(availableBalance))
@@ -72,7 +72,7 @@ export default function WithdrawPage({
                 : setError({ ...error, address: 'valid' })  
         } else {
             setDirty({ ...dirty, amount: true })
-            if (validateAmount(value)) {
+            if (!validateAmount(value)) {
                 setError({ ...error, amount: 'invalid' })
                 setWithdrawalAmountWithoutFee('')
                 setWithdrawalAmount(value)
@@ -138,6 +138,17 @@ export default function WithdrawPage({
         setCurrentPage(page)
     }
 
+    function withdrawMaxAmount() {
+        const { availableBalance, withdrawFee } = selectedToken
+        if (!validateAmount(availableBalance)) return
+        
+        const withdrawalAmountWithoutFee = Number(availableBalance) - Number(withdrawFee)
+        setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
+        setWithdrawalAmount(availableBalance)
+        setDirty({ ...dirty, amount: true })
+        setError({ ...error, amount: 'valid' })
+    }
+
     return <WithdrawPageRenderer 
                 token={selectedToken}
                 tokens={tokens}
@@ -153,5 +164,6 @@ export default function WithdrawPage({
                 total={total}
                 handleChangePage={handleChangePage}
                 hash={hash}
+                withdrawMaxAmount={withdrawMaxAmount}
             />
 }

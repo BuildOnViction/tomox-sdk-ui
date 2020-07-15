@@ -30,6 +30,7 @@ export default function WithdrawPageRenderer({
     total,
     handleChangePage,
     hash,
+    withdrawMaxAmount,
 }) {  
     const columns = [
         {
@@ -137,7 +138,7 @@ export default function WithdrawPageRenderer({
                     </InputBox>
                     <WithdrawInfo>
                         <SmallText><FormattedMessage id="portfolioPage.withdraw.minimumWithdrawal" />: <BalanceValue>{token.minimumWithdrawal}</BalanceValue> {token.symbol}</SmallText>
-                        <SmallText><FormattedMessage id="portfolioPage.availableAmount" />: <BalanceValue>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</BalanceValue> {token.symbol}</SmallText>
+                        <SmallText><FormattedMessage id="portfolioPage.availableAmount" />: <AvlBalanceValue onClick={withdrawMaxAmount}>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</AvlBalanceValue> {token.symbol}</SmallText>
                     </WithdrawInfo>
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.withdrawalFee" />: <BalanceValue>{token.withdrawFee}</BalanceValue> {token.symbol}</SmallText></TextRow>
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
@@ -242,6 +243,13 @@ const BalanceTitle = styled.span`
 
 const BalanceValue = styled.span`
     font-family: ${Theme.FONT_FAMILY_UBUNTU};
+`
+
+const AvlBalanceValue = styled(BalanceValue)`
+    &:hover {
+        cursor: pointer;
+        color: ${TmColors.ORANGE};
+    }
 `
 
 const NoteBox = styled(Callout)`
