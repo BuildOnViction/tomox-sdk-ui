@@ -105,7 +105,7 @@ export default function DepositRenderer({
                     <AddressRow>
                         <FormattedMessage
                             id="portfolioPage.deposit.sendToAddress"
-                            values={{ symbol: token.symbol }}
+                            values={{ symbol: token.symbol === "USDT" ? `${token.symbol} (ERC20)` : token.symbol }}
                         />
                     </AddressRow>
                     <AddressBox>
