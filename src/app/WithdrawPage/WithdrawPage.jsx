@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
 import WAValidator from 'wallet-address-validator'
+import BigNumber from 'bignumber.js'
 
 import WithdrawPageRenderer from './WithdrawPageRenderer'
 
@@ -79,7 +80,7 @@ export default function WithdrawPage({
                 return
             }
             
-            const withdrawalAmountWithoutFee = Number(value) - Number(withdrawFee)
+            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFixed(8)
             setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
             setWithdrawalAmount(value)
             setError({ ...error, amount: 'valid' })
@@ -142,7 +143,7 @@ export default function WithdrawPage({
         const { availableBalance, withdrawFee } = selectedToken
         if (!validateAmount(availableBalance)) return
         
-        const withdrawalAmountWithoutFee = Number(availableBalance) - Number(withdrawFee)
+        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFixed(8)
         setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
         setWithdrawalAmount(availableBalance)
         setDirty({ ...dirty, amount: true })
