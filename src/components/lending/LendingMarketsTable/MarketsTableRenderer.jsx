@@ -47,6 +47,8 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
       change,
       volume,
       favorited,
+      termByDay,
+      lendingTokenSymbol,
     } = pairs[index]
 
     return (
@@ -55,7 +57,7 @@ class MarketsTableRenderer extends React.PureComponent<Props> {
           <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
         </Cell>
         <Cell>
-          <PairTitle>{pair}</PairTitle>
+          <PairTitle>{termByDay} {termByDay < 1 ? <FormattedMessage id="app.day" /> : <FormattedMessage id="app.days" />}/{lendingTokenSymbol}</PairTitle>
         </Cell>
         <Cell width="25%">
           <PriceNumber>

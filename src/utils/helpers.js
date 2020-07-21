@@ -341,6 +341,10 @@ export const getTermSymbol = (term) => {
   }
 }
 
+export const getTermByDay = (term) => {
+  return Math.floor(Number(term)/60/60/24)
+}
+
 export const getLendingPairName = (lendingPair) => {
   const [term, lendingToken] = lendingPair.split('::')
   const termSymbol = getTermSymbol(term)

@@ -1,5 +1,5 @@
 //@flow
-import { getTermSymbol } from '../../../utils/helpers'
+import { getTermSymbol, getTermByDay } from '../../../utils/helpers'
 
 import type {
   TokenPair,
@@ -35,6 +35,7 @@ export const updatePairs = (pairs) => {
   const event = (state) => {
     const byPair = pairs.reduce(
       (result, pair) => {
+        const termByDay = getTermByDay(pair.term)
         const termSymbol = getTermSymbol(pair.term)
         const pairSymbol = `${termSymbol}/${pair.lendingTokenSymbol}`
         const pairValueAddress = `${pair.term}/${pair.lendingTokenAddress}`
@@ -47,6 +48,7 @@ export const updatePairs = (pairs) => {
           termSymbol,
           pair: pairSymbol,
           pairValueAddress,
+          termByDay,
         }
 
         return result

@@ -57,13 +57,15 @@ const BorrowOrderForm = props => {
     estimateCollateral,
   } = props
 
+  const termUnit = currentPair.termByDay < 1 ? <FormattedMessage id="exchangeLendingPage.orderPlace.day" /> : <FormattedMessage id="exchangeLendingPage.orderPlace.days" />
+
   return (
     <Wrapper>
       <HeaderRow>
         <BaseToken>
           <FormattedMessage 
             id="exchangeLendingPage.orderPlace.borrow"
-            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
+            values={{lendingSymbol: currentPair.lendingTokenSymbol, termByDay: currentPair.termByDay, termUnit}} />
         </BaseToken>
       </HeaderRow>
 

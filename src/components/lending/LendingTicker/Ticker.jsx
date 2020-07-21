@@ -46,7 +46,10 @@ const TickerRenderer = (props) => {
               position={Position.BOTTOM_LEFT}
               minimal>
               <TokenPairsDropDown>
-                <span>{`${currentPair.termSymbol}/${currentPair.lendingTokenSymbol}`}</span> 
+                <span>
+                  {currentPair.termByDay}&nbsp;{currentPair.termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+                  /{currentPair.lendingTokenSymbol}
+                </span> 
                 <i className="arrow"></i>
               </TokenPairsDropDown>
             </TokenSearcherPopover>
@@ -54,7 +57,10 @@ const TickerRenderer = (props) => {
             {/* For mobile */}
             {!isShowTokenSearcher && (
               <TokenPairsDropDownMobile onClick={() => toggleLendingTokenSearcherDapp(true)}>
-                <span>{currentPair.pair}</span> 
+                <span>
+                  {currentPair.termByDay}&nbsp;{currentPair.termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+                  /{currentPair.lendingTokenSymbol}  
+                </span> 
                 <i className="arrow"></i>
               </TokenPairsDropDownMobile>
             )}
