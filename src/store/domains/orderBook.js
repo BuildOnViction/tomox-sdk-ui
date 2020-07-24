@@ -5,6 +5,8 @@ import BigNumber from 'bignumber.js'
 import { round } from '../../utils/helpers'
 import { pricePrecision, amountPrecision } from '../../config/tokens'
 
+BigNumber.config({ ROUNDING_MODE: 1 })
+
 const initialState: OrderBookState = {
   selected: null,
   bids: {},
@@ -180,7 +182,7 @@ export default function domain(state: OrderBookState) {
       const newSortedAsks = new SortedArray([], (a, b) => a - b)
       
       let formatedBids = JSON.parse(JSON.stringify(Object.values(state.bids))).map(bid => {
-        bid.price = BigNumber(bid.price).toFixed(state.decimals, 2)
+        bid.price = BigNumber(bid.price).toFixed(state.decimals)
         return bid
       })
 
@@ -200,7 +202,7 @@ export default function domain(state: OrderBookState) {
       }, {})
 
       let formatedAsks = JSON.parse(JSON.stringify(Object.values(state.asks))).map(ask => {
-        ask.price = BigNumber(ask.price).toFixed(state.decimals, 2)
+        ask.price = BigNumber(ask.price).toFixed(state.decimals)
         return ask
       })
 
