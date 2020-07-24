@@ -190,6 +190,7 @@ const BuyOrder = (props: SingleOrderProps) => {
   const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
     <Row update={order.update}>
+      { order.userOrder && <MarkUserOrder /> }
       <BuyRowBackground amount={order.relativeTotal} />
       <RowContentWrapper>
         <RowContent>
@@ -205,6 +206,7 @@ const SellOrder = (props: SingleOrderProps) => {
   const { order, currentPricePrecision, amountPrecision, onClick } = props
   return (
     <Row update={order.update}>
+      { order.userOrder && <MarkUserOrder /> }
       <SellRowBackGround amount={order.relativeTotal} />
       <RowContentWrapper>
         <RowContent>
@@ -413,7 +415,7 @@ const Cell = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none;
-  padding: 3.5px 0;
+  padding: 3.5px 0 3.5px 5px;
 
   &:hover {
     font-weight: 700;
@@ -511,6 +513,17 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const MarkUserOrder = styled.i.attrs({
+  className: "fa fa-caret-right",
+  ariaHidden: "true"
+})`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: ${TmColors.ORANGE};
 `
 
 export default DappOrderBookRenderer
