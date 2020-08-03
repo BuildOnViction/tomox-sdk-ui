@@ -79,8 +79,8 @@ class DappFundsTableRenderer extends React.PureComponent {
           </HeaderRow>
           
           <HeaderRow>
-            <HighlightButton>Deposit</HighlightButton>
-            <HighlightButton>Withdraw</HighlightButton>
+            <HighlightButton to="/dapp/lending/fund/deposit"><FormattedMessage id="portfolioPage.deposit" /></HighlightButton>
+            <HighlightButton><FormattedMessage id="portfolioPage.withdraw" /></HighlightButton>
           </HeaderRow>
         </HeaderPage>
 
@@ -382,7 +382,7 @@ const ShowHideBalance = styled.span`
   margin-left: 25px;
 `
 
-const HighlightButton = styled.span`
+const HighlightButton = styled(InternalLink)`
   padding: 2px 15px;
   margin-right: 25px;
   border: 1px solid ${TmColors.ORANGE};
