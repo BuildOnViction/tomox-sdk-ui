@@ -490,24 +490,24 @@ const MarginButton = styled(OperationButton)`
   margin-right: 25px;
 `
 const ShowHideBalance = styled(MarginButton)`
-    display: inline-block;
-    border: 1px solid ${TmColors.GRAY};
+  display: inline-block;
+  border: 1px solid ${TmColors.GRAY};
+  color: ${TmColors.GRAY};
+  padding: 2px 5px;
+  border-radius: 5px;
+  margin-left: 30px;
+  &:hover > span {
+    color: ${TmColors.LIGHT_GRAY};
+  }
+  > span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: ${TmColors.GRAY};
-    padding: 2px 5px;
-    border-radius: 5px;
-    margin-left: 30px;
-    &:hover > span {
-      color: ${TmColors.LIGHT_GRAY};
-    }
-    > span{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: ${TmColors.GRAY};
-    }
-    i{
-      margin-right: 5px;
-    }
+  }
+  i{
+    margin-right: 5px;
+  }
 `
 const OperationButtonWrapper = styled.div`
   display: flex;

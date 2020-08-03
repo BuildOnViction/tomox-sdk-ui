@@ -9,6 +9,7 @@ import {
   Text,
   UtilityIcon,
   Centered,
+  SmallText,
 } from '../Common'
 import styled from 'styled-components'
 import { withRouter, Link as InternalLink } from 'react-router-dom'
@@ -55,10 +56,34 @@ class DappFundsTableRenderer extends React.PureComponent {
       toggleZeroBalanceToken,
       tokenDataLength,
       authenticated,
+      showBalance,
+      totalBalance,
+      updateShowHideBalance,
     } = this.props
 
     return (
       <Wrapper>
+        <HeaderPage>
+          <HeaderRow>
+            <MainTitle>
+              <FormattedMessage id="portfolioPage.balance" /> 
+              <SmallText muted>&asymp; {showBalance ? '$' + BigNumber(totalBalance).toFormat(2) : '********'}</SmallText>
+            </MainTitle>
+
+            <ShowHideBalance onClick={() => updateShowHideBalance(!showBalance)}>
+              {!showBalance
+                ? <i className="fa fa-eye" aria-hidden="true" />
+                : <i className="fa fa-eye-slash" aria-hidden="true" />
+              }
+            </ShowHideBalance>
+          </HeaderRow>
+          
+          <HeaderRow>
+            <HighlightButton>Deposit</HighlightButton>
+            <HighlightButton>Withdraw</HighlightButton>
+          </HeaderRow>
+        </HeaderPage>
+
         <CheckboxWrapper
           label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
           checked={isHideZeroBalanceToken}  
@@ -113,7 +138,7 @@ const NoItems = () => {
 }
 
 const TOMORow = (props: Props) => {
-  const { accountAddress, TOMOTokenData } = props
+  const { accountAddress, TOMOTokenData, showBalance } = props
 
   if (!TOMOTokenData) return null
 
@@ -125,24 +150,24 @@ const TOMORow = (props: Props) => {
         <Link href={`${TOMOSCAN_URL}/address/${accountAddress}`} target="_blank">{symbol}</Link>
       </Cell>
       <CellXsHidden width={WidthColums[1]}>
-        <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
+        <Ellipsis title={balance}>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</Ellipsis>
       </CellXsHidden>
       <CellXsHidden width={WidthColums[2]}>
-        <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
+        <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</Ellipsis>
       </CellXsHidden>
       <CellXs width="65%">
-        <TotalBalance>{truncateZeroDecimal(BigNumber(balance).toFormat())}</TotalBalance>
-        <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span> 
+        <TotalBalance>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</TotalBalance>
+        <span>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</span> 
       </CellXs>
       <Cell width={WidthColums[3]}>
-        <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
+        <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(inOrders).toFormat()) : '******'}</Ellipsis>
       </Cell>
     </Row>
   )
 }
 
 const QuoteTokenRows = (props: Props) => {
-  const { accountAddress, quoteTokensData } = props
+  const { accountAddress, quoteTokensData, showBalance } = props
 
   if (!quoteTokensData) return null
 
@@ -154,17 +179,17 @@ const QuoteTokenRows = (props: Props) => {
           <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
-            <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
+            <Ellipsis title={balance}>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</Ellipsis>
           </CellXsHidden>
           <CellXsHidden width={WidthColums[2]}>
-            <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
+            <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</Ellipsis>
           </CellXsHidden>
           <CellXs width="65%">
-            <TotalBalance>{truncateZeroDecimal(BigNumber(balance).toFormat())}</TotalBalance>
-            <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span>
+            <TotalBalance>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</TotalBalance>
+            <span>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</span>
           </CellXs>
           <Cell width={WidthColums[3]}>
-            <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
+            <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(inOrders).toFormat()) : '******'}</Ellipsis>
           </Cell>
         </Row>
       )
@@ -173,7 +198,7 @@ const QuoteTokenRows = (props: Props) => {
 }
 
 const BaseTokenRows = (props: Props) => {
-  const { accountAddress, baseTokensData } = props
+  const { accountAddress, baseTokensData, showBalance } = props
 
   if (!baseTokensData) return null
 
@@ -185,17 +210,17 @@ const BaseTokenRows = (props: Props) => {
             <Link href={`${TOMOSCAN_URL}/tokens/${address}/trc21/${accountAddress}`} target="_blank">{symbol}</Link>
           </Cell>
           <CellXsHidden width={WidthColums[1]}>
-            <Ellipsis title={balance}>{truncateZeroDecimal(BigNumber(balance).toFormat())}</Ellipsis>
+            <Ellipsis title={balance}>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</Ellipsis>
           </CellXsHidden>
           <CellXsHidden width={WidthColums[2]}>
-            <Ellipsis>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</Ellipsis>
+            <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</Ellipsis>
           </CellXsHidden>
           <CellXs width="65%">
-            <TotalBalance>{truncateZeroDecimal(BigNumber(balance).toFormat())}</TotalBalance>
-            <span>{truncateZeroDecimal(BigNumber(availableBalance).toFormat())}</span>
+            <TotalBalance>{showBalance ? truncateZeroDecimal(BigNumber(balance).toFormat()) : '******'}</TotalBalance>
+            <span>{showBalance ? truncateZeroDecimal(BigNumber(availableBalance).toFormat()) : '******'}</span>
           </CellXs>
           <Cell width={WidthColums[3]}>
-            <Ellipsis>{truncateZeroDecimal(BigNumber(inOrders).toFormat())}</Ellipsis>
+            <Ellipsis>{showBalance ? truncateZeroDecimal(BigNumber(inOrders).toFormat()) : '******'}</Ellipsis>
           </Cell>
         </Row>
       )
@@ -333,6 +358,37 @@ const LoginLink = styled(InternalLink)`
   &:hover {
       color: ${TmColors.DARK_ORANGE};
   }
+`
+
+const HeaderPage = styled.div`
+  padding: 0 10px;
+  margin-bottom: 25px;
+`
+
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const MainTitle = styled.h1`
+  font-size: ${Theme.FONT_SIZE_H4};
+  font-weight: 400;
+  margin-bottom: 15px;
+`
+
+const ShowHideBalance = styled.span`
+  color: ${TmColors.GRAY};
+  padding: 2px 5px;
+  margin-left: 25px;
+`
+
+const HighlightButton = styled.span`
+  padding: 2px 15px;
+  margin-right: 25px;
+  border: 1px solid ${TmColors.ORANGE};
+  border-radius: 3px;
+  color: ${TmColors.ORANGE};
+  font-size: ${TmColors.FONT_SIZE_XS};
 `
 
 export default withRouter(DappFundsTableRenderer)

@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
-import getWalletPageSelector from '../../store/models/walletPage'
+import getWalletPageSelector, { updateShowHideBalance } from '../../store/models/walletPage'
 
 import type { State } from '../../types'
 
@@ -12,7 +12,11 @@ export function mapStateToProps(state: State) {
   }
 }
 
+export const mapDispatchToProps = {
+  updateShowHideBalance,
+}
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )
