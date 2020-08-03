@@ -36,6 +36,7 @@ const DappLendingSelectPairs = lazy(_ => import('./lending/DappLendingSelectPair
 
 const DappFund = lazy(_ => import('./DappFund'))
 const DappDeposit = lazy(_ => import('./DappDeposit'))
+const DappWithdrawal = lazy(_ => import('./DappWithdrawal'))
 const DappAccount = lazy(_ => import('./DappAccount'))
 
 const theme = {
@@ -70,6 +71,7 @@ class App extends React.PureComponent {
                 
                 <Route exact path={["/dapp/lending/fund", "/dapp/spot/fund"]} component={DappFund} />
                 <Route exact path={["/dapp/lending/fund/deposit", "/dapp/spot/fund/deposit"]} component={DappDeposit} />
+                <Route exact path={["/dapp/lending/fund/withdrawal", "/dapp/spot/fund/withdrawal"]} component={DappWithdrawal} />
                 <Route exact path={["/dapp/lending/account", "/dapp/spot/account"]} component={DappAccount} />
 
                 <Route exact path="/dapp/lending/pairs" component={DappLendingSelectPairs} />
