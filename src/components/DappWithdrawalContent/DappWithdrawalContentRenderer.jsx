@@ -113,7 +113,7 @@ export default function WithdrawPageRenderer({
                 <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.withdrawalFee" />: <BalanceValue>{token.withdrawFee}</BalanceValue> {token.symbol}</SmallText></TextRow>
                 <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
                 
-                <NoteBox intent="danger">
+                <NoteBox intent="danger" icon={null}>
                     <NoteItem><FormattedMessage id="portfolioPage.withdraw.warning1" /></NoteItem>
                     <NoteItem><FormattedMessage id="portfolioPage.withdraw.warning2" /></NoteItem>
                     <NoteItem><FormattedMessage id="portfolioPage.withdraw.minimumWithdrawal" />: <BalanceValue>{token.minimumWithdrawal}</BalanceValue> {token.symbol}</NoteItem>

@@ -115,7 +115,7 @@ export default function DepositRenderer({
                             <CopyButton><i className="fa fa-clone" aria-hidden="true"></i> <FormattedMessage id="portfolioPage.deposit.copy" /></CopyButton>
                         </CopyToClipboard>
                     </AddressBox>
-                    <NoteBox intent="danger" title="Note">
+                    <NoteBox intent="danger">
                         <NoteItem><FormattedMessage id="portfolioPage.deposit.warning1" /> <strong style={{fontFamily: 'Ubuntu'}}>{token.minimumWithdrawal && token.minimumWithdrawal}</strong> { token.symbol }</NoteItem>
                         <NoteItem>
                             <FormattedMessage 

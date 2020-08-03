@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, useParams } from 'react-router-dom'
 import WAValidator from 'wallet-address-validator'
 import BigNumber from 'bignumber.js'
 
