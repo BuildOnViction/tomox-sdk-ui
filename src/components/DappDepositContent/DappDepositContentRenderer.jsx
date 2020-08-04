@@ -8,7 +8,7 @@ import { Callout } from "@blueprintjs/core"
 import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
-import DataTableHistory from '../../components/DataTableHistory'
+import DappDataTableHistory from '../../components/DappDataTableHistory'
 import Pagination from '../../components/Pagination'
 
 export default function DepositRenderer({ 
@@ -25,17 +25,17 @@ export default function DepositRenderer({
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.coin" />,
             field: 'coin',
-            width: '20%',
+            width: '50%',
         },
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.status" />,
             field: 'status',
-            width: '40%',
+            width: '35%',
         },
         {
-            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.amount" />,
-            field: 'amount',
-            width: '40%',
+            title: '',
+            field: 'txHash',
+            width: '15%',
         },
     ]
 
@@ -77,7 +77,7 @@ export default function DepositRenderer({
             </Row>
             <DepositHistory>
                 <SubTitle><FormattedMessage id="portfolioPage.deposit.recentDeposit" /></SubTitle>
-                <DataTableHistory columns={columns} data={depositHistory} />
+                <DappDataTableHistory columns={columns} data={depositHistory} />
                 <Pagination
                     totalItems={total}
                     itemsPerPage={5}

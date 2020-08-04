@@ -8,7 +8,7 @@ import { pricePrecision } from '../../config/tokens'
 import { Theme, TmColors } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
-import DataTableHistory from '../../components/DataTableHistory'
+import DappDataTableHistory from '../../components/DappDataTableHistory'
 import Pagination from '../../components/Pagination'
 
 export default function WithdrawPageRenderer({ 
@@ -34,34 +34,18 @@ export default function WithdrawPageRenderer({
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.coin" />,
             field: 'coin',
-            width: '20%',
+            width: '50%',
         },
         {
             title: <FormattedMessage id="portfolioPage.depositWithdraw.table.status" />,
             field: 'status',
-            width: '40%',
+            width: '35%',
         },
         {
-            title: <FormattedMessage id="portfolioPage.depositWithdraw.table.amount" />,
-            field: 'amount',
-            width: '40%',
+            title: '',
+            field: 'txHash',
+            width: '15%',
         },
-        // {
-        //     title: <FormattedMessage id="portfolioPage.depositWithdraw.table.date" />,
-        //     field: 'date',
-        //     parents: null,
-        //     width: '15%',
-        // },
-        // {
-        //     title: <FormattedMessage id="portfolioPage.depositWithdraw.table.txHash" />,
-        //     field: 'txHash',
-        //     width: '25%',
-        // },
-        // {
-        //     title: <FormattedMessage id="portfolioPage.depositWithdraw.table.recipientAddress" />,
-        //     field: 'withdrawalAddress',
-        //     width: '25%',
-        // },
     ]
 
     return (
@@ -135,7 +119,7 @@ export default function WithdrawPageRenderer({
 
             <History>
                 <SubTitle><FormattedMessage id="portfolioPage.withdraw.recentWithdrawal" /></SubTitle>
-                <DataTableHistory 
+                <DappDataTableHistory 
                     columns={columns} 
                     data={withdrawHistory}
                 />

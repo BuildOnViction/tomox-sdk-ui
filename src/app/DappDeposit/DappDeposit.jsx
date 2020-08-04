@@ -15,7 +15,6 @@ export default function DappFund({ authenticated, history }) {
   return (
     <OrdersTableCell>
       <Header>
-        <span onClick={() => history.goBack()}>back</span>
         <BackButton 
           icon="arrow-left"
           onClick={() => history.goBack()}
