@@ -2,18 +2,23 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from '@blueprintjs/core'
 
 import { Theme } from '../../components/Common'
 
 import DappWelcome from '../../components/DappWelcome'
 import DappWithdrawalContent from '../../components/DappWithdrawalContent'
 
-export default function DappFund({ authenticated }) {
+export default function DappFund({ authenticated, history }) {
   if (!authenticated) return (<OrdersTableCell><DappWelcome /></OrdersTableCell>)
 
   return (
     <OrdersTableCell>
       <Header>
+        <BackButton 
+          icon="arrow-left"
+          onClick={() => history.goBack()}
+        />
         <FormattedMessage id="portfolioPage.withdrawal" />
       </Header>
       <DappWithdrawalContent />
@@ -48,6 +53,13 @@ const Header = styled.div`
   height: 35px;
   background-color: #2d3650;
   font-size: ${Theme.FONT_SIZE_MD};
+`
+
+const BackButton = styled(Icon)`
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 `
 
 

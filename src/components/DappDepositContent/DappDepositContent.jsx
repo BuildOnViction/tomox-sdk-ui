@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, useParams } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import DappDepositContentRenderer from './DappDepositContentRenderer'
 
@@ -13,13 +13,10 @@ export default function Deposit({
     depositHistory,
     authenticated,
     updateCurrentPair,
-    history,
     total,
-}) {
+}) {    
     if (!authenticated) return <Redirect to="/unlock" />
 
-    // const { token: tokenParam } = useParams()
-    // let defaultToken = tokens.find(token => token.symbol.toLowerCase() === tokenParam.toLowerCase())
     const defaultToken = tokens[0]
     const [selectedToken, setSelectedToken] = useState(defaultToken)
 
@@ -43,18 +40,7 @@ export default function Deposit({
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-        // if (window.depositTimer) clearInterval(window.depositTimer)
-
-        // if (currentPage === 1) {
-        //     getBridgeDepositHistory(userAddress, currentPage, 5)
-        //     window.depositTimer = setInterval(() => getBridgeDepositHistory(userAddress, currentPage, 5), 5000)
-        // } else {
-            getBridgeDepositHistory(userAddress, currentPage, 5)
-        // }
-
-        // return function cleanup() {
-        //     if (window.depositTimer) clearInterval(window.depositTimer)
-        // }
+        getBridgeDepositHistory(userAddress, currentPage, 5)
     }, [currentPage])
 
     function handleChangePage(page) {        

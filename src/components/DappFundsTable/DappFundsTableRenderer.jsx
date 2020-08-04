@@ -79,8 +79,8 @@ class DappFundsTableRenderer extends React.PureComponent {
           </HeaderRow>
           
           <HeaderRow>
-            <HighlightButton to="/dapp/lending/fund/deposit"><FormattedMessage id="portfolioPage.deposit" /></HighlightButton>
-            <HighlightButton to="/dapp/lending/fund/withdrawal"><FormattedMessage id="portfolioPage.withdraw" /></HighlightButton>
+            <HighlightButton to="/dapp/fund/deposit"><FormattedMessage id="portfolioPage.deposit" /></HighlightButton>
+            <HighlightButton to="/dapp/fund/withdrawal"><FormattedMessage id="portfolioPage.withdraw" /></HighlightButton>
           </HeaderRow>
         </HeaderPage>
 
