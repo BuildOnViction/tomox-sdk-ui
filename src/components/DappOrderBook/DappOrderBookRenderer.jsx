@@ -371,6 +371,10 @@ const Row = styled.li.attrs({
   &:hover {
     background-color: ${props => props.theme.orderbookHover};
   }
+
+  @media (max-width: 320px) {
+    font-size: 11px;
+  }
 `
 
 const RowContentWrapper = styled.div`
