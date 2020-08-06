@@ -195,7 +195,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     </div>
                   </Cell>
                   <Cell width="30%">
-                  {order.cancelAble && (<CancelButton onClick={() => cancelOrder(order.hash)}>Cancel</CancelButton>)}
+                  {order.cancelAble && (<CancelButton onClick={() => cancelOrder(order.hash)}><FormattedMessage id="exchangePage.cancel" /></CancelButton>)}
                   </Cell>
                 </ChildRow> 
               </Cell>

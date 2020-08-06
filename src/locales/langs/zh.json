@@ -160,6 +160,7 @@
     "exchangePage.rejected": "被拒绝",
     "exchangePage.orderPlace.buy": "购买{baseTokenSymbol}",
     "exchangePage.orderPlace.sell": "售出{baseTokenSymbol}",
+    "exchangePage.cancel": "取消",
     "exchangeLendingPage.orderPlace.day": "day",
     "exchangeLendingPage.orderPlace.days": "days",
     "exchangeLendingPage.orderPlace.lend": "通过{termByDay} {termUnit}借出{lendingSymbol}",

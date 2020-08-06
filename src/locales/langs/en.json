@@ -160,6 +160,7 @@
   "exchangePage.rejected": "Rejected",
   "exchangePage.orderPlace.buy": "Buy {baseTokenSymbol}",
   "exchangePage.orderPlace.sell": "Sell {baseTokenSymbol}",
+  "exchangePage.cancel": "Cancel",
   "exchangeLendingPage.orderPlace.day": "day",
   "exchangeLendingPage.orderPlace.days": "days",
   "exchangeLendingPage.orderPlace.lend": "Lend {lendingSymbol} for {termByDay} {termUnit}",
