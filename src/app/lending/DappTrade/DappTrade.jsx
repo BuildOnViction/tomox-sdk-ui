@@ -30,7 +30,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if ((!prevProps.isConnected && this.props.isConnected)
-      || (this.props.currentPairName !== prevProps.currentPairName)
+      || (this.props.currentPair.pair !== prevProps.currentPair.pair)
       || (this.props.authenticated && !prevProps.authenticated)) {
       this.props.queryDappTradePageData()
     }
