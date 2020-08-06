@@ -30,6 +30,16 @@ type Props = {
   }
 }
 
+const ORDERTYPES = {
+  'LO': <FormattedMessage id='exchangePage.limit' />,
+  'MO': <FormattedMessage id='exchangePage.market' />,
+}
+
+const ORDERSIDES = {
+  'BORROW': <FormattedMessage id='exchangeLendingPage.orderPlace.btnBorrow' />,
+  'LEND': <FormattedMessage id='exchangeLendingPage.orderPlace.btnLend' />,
+}
+
 const DappLendingOrdersTableRenderer = (props: Props ) => {
   const {
     selectedPanel,
@@ -164,7 +174,9 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {orders.map((order, index) => (
             <Row key={index}>
               <CenterCell width={"25%"} muted>  
-                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BORROW' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
+                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BORROW' ? TmColors.GREEN : TmColors.RED}>
+                  {ORDERSIDES[order.side.toUpperCase()]} {ORDERTYPES[order.type]}
+                </FieldValue>
                 <div style={{width: "40px"}}>
                   <CircularProgressbar 
                     value={calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}
@@ -597,10 +609,13 @@ const FieldTitle = styled.span`
   color: ${props => props.color || TmColors.LIGHT_GRAY};
 `
 
-const FieldValue = styled.span`
+const FieldValue = styled.div`
   display: inline-block;
   font-size: 10px;
-  color: ${props => props.color || TmColors.WHITE};
+
+  span {
+    color: ${props => props.color || TmColors.WHITE} !important;
+  }
 `
 
 export default DappLendingOrdersTableRenderer

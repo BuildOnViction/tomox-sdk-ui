@@ -46,6 +46,11 @@ const TOPUPTYPES = {
   '1': <FormattedMessage id='exchangeLendingPage.orders.topUpAuto' />,
 }
 
+const ORDERSIDES = {
+  'BORROW': <FormattedMessage id='exchangeLendingPage.orderPlace.btnBorrow' />,
+  'LEND': <FormattedMessage id='exchangeLendingPage.orderPlace.btnLend' />,
+}
+
 const rowHeight = 45
 const overscanRowCount = 5
 const columnsOpenOrder = {
@@ -235,7 +240,7 @@ const OpenOrderTable = ({
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={columnsOpenOrder["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
+          {order.side && ORDERSIDES[order.side.toUpperCase()]}
         </Cell>
         <Cell width={columnsOpenOrder["interest"]} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;
