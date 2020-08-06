@@ -142,7 +142,7 @@ const TOMORow = (props: Props) => {
     redirectToTradingPage,
     redirectToLendingPage,
     lendingTokenSymbols,
-    collateralTokenSymbols,
+    // collateralTokenSymbols,
     showBalance,
   } = props
 
@@ -183,13 +183,13 @@ const TOMORow = (props: Props) => {
               )
             }
 
-            {
+            {/* {
               (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                 <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                   <FormattedMessage id="portfolioPage.borrow" />
                 </OperationButton>
               )
-            }
+            } */}
           </OperationsBox>
         </ButtonWrapper>
       </Cell>
@@ -204,7 +204,7 @@ const QuoteTokenRows = (props: Props) => {
     redirectToTradingPage,
     redirectToLendingPage,
     lendingTokenSymbols,
-    collateralTokenSymbols,
+    // collateralTokenSymbols,
     showBalance,
   } = props
 
@@ -245,13 +245,13 @@ const QuoteTokenRows = (props: Props) => {
                   )
                 }
 
-                {
+                {/* {
                   (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.borrow" />
                     </OperationButton>
                   )
-                }
+                } */}
               </OperationsBox>
 
               {verified && (
@@ -280,7 +280,7 @@ const BaseTokenRows = (props: Props) => {
     redirectToTradingPage,
     redirectToLendingPage,
     lendingTokenSymbols,
-    collateralTokenSymbols,
+    // collateralTokenSymbols,
     showBalance,
   } = props
 
@@ -321,13 +321,13 @@ const BaseTokenRows = (props: Props) => {
                   )
                 }
 
-                {
+                {/* {
                   (!lendingTokenSymbols.includes(symbol) && collateralTokenSymbols.includes(symbol)) && (
                     <OperationButton onClick={() => redirectToLendingPage(symbol)}>
                       <FormattedMessage id="portfolioPage.borrow" />
                     </OperationButton>
                   )
-                }
+                } */}
               </OperationsBox>
 
               {verified && (
