@@ -19,7 +19,7 @@ import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon, LendingLabelSide } from '../../Common'
-import { formatDate, capitalizeFirstLetter, formatAmount } from '../../../utils/helpers'
+import { formatDate, formatAmount } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
 

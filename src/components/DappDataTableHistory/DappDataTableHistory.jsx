@@ -109,6 +109,7 @@ const CellHeader = styled(Cell)``
 const NoData = styled.div`
     text-align: center;
     margin-top: 45px;
+    margin-bottom: 45px;
 `
 
 const SmallText = styled.span`
