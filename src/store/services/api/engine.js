@@ -778,7 +778,7 @@ export const repayLendingOrder = async (payload) => {
 }
 
 export const getBridgeTokenConfig = async () => {
-  const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
+  const response = await request('/api/config/getTokenConfig', {}, TOMO_BRIDGE_URL)
 
   if (response.status === 400) {
     const { error } = await response.json()
