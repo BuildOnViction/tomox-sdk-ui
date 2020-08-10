@@ -80,7 +80,7 @@ export default function WithdrawPage({
                 return
             }
             
-            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFixed(8)
+            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFormat(8)
             setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
             setWithdrawalAmount(value)
             setError({ ...error, amount: 'valid' })
@@ -143,7 +143,7 @@ export default function WithdrawPage({
         const { availableBalance, withdrawFee } = selectedToken
         if (!validateAmount(availableBalance)) return
         
-        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFixed(8)
+        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFormat(8)
         setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
         setWithdrawalAmount(availableBalance)
         setDirty({ ...dirty, amount: true })
