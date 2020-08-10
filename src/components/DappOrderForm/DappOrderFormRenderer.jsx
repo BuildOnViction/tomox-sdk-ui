@@ -105,8 +105,8 @@ const LimitOrderPanel = props => {
 const MarketOrderPanel = props => {
   return (
     <Tabs id="mo-order-tabs">
-      <Tab id="mo-buy" title="Buy" panel={<DappBuyMarketOrderForm {...props} />} />
-      <Tab id="mo-sell" title="Sell" panel={<DappSellMarketOrderForm {...props} />} />
+      <Tab id="mo-buy" title={<FormattedMessage id="exchangePage.buy" />} panel={<DappBuyMarketOrderForm {...props} />} />
+      <Tab id="mo-sell" title={<FormattedMessage id="exchangePage.sell" />} panel={<DappSellMarketOrderForm {...props} />} />
     </Tabs>
   )
 }

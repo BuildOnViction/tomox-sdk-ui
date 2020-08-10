@@ -17,7 +17,7 @@ const MarketsPageRenderer = (props: Props) => {
     intl,
     smallChartsData,
   } = props
-
+  
   return (
     <WalletPageBox>
       <React.Fragment>
@@ -46,7 +46,7 @@ const StatsBox = ({code, change, price, volume, data, intl, fiatCurrency}) => {
             <SmallText>{change > 0 ? `+${BigNumber(change).toFormat(2)}` : BigNumber(change).toFormat(2)}%</SmallText>
           </StatsChange>
         </StatsRow>
-
+        
         <StatsRow>
           <StatsPrice color={change >=0 ? '#00C38C' : '#f94d5c'}>{BigNumber(price).toFormat(2)} {fiatCurrency.toUpperCase()}</StatsPrice>
           <StatsVolume title={intl.formatMessage({id: "app.volume"}, {volume: BigNumber(volume).toFormat(2)})}>

@@ -379,6 +379,8 @@ export const withdraw = createReducer(action => {
         payload.data,
         payload.total
       )
+    case withdrawPageActionTypes.updateWithdrawalHash:
+      return withdrawEvents.updateWithdrawalHash(payload.hash)
     default:
       return withdrawEvents.initialized()
   }

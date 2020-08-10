@@ -144,7 +144,8 @@ const SearchResult = ({ items, changeSelectedToken }) => {
         className={Classes.POPOVER_DISMISS}
         onClick={() => changeSelectedToken(items[index])}
       >
-        {items[index].pair}
+        {items[index].termByDay}&nbsp;{items[index].termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+        /{items[index].lendingTokenSymbol}        
       </SearchResultItem>
     )
   }
@@ -234,7 +235,7 @@ const TokenRow = ({
   isFavoriteTokensList,
   changeSelectedToken,
 }: TokenRowProps) => {
-  const { favorited, close, change, pair } = token
+  const { favorited, close, change, pair, termByDay, lendingTokenSymbol } = token
 
   return (
     <Row>
@@ -242,7 +243,8 @@ const TokenRow = ({
         <UtilityIcon name={favorited ? "FavoriteSolid" : "Favorite"} width={12} height={12} />
       </Cell>
       <Cell width="35%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
-        {pair}
+        {termByDay}&nbsp;{termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+        /{lendingTokenSymbol}
       </Cell>
       <Cell width="30%" className={Classes.POPOVER_DISMISS} onClick={() => changeSelectedToken(token)}>
         {BigNumber(close).toFormat(2)}&#37;

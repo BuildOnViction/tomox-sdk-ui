@@ -91,7 +91,7 @@ class MarketsTable extends React.PureComponent<Props, State> {
       filter,
       order,
     } = this.state
-
+    
     const filteredPairs = this.filterTokens(pairs)
     const tabs = ['Favorites', ...quoteTokens, 'All']
 

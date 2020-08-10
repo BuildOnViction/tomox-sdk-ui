@@ -368,7 +368,7 @@ export const Theme = {
   FONT_SIZE_SM: '12px',
   FONT_SIZE_XS: '10px',
   FONT_SIZE_H4: '18px',
-  FONT_SIZE_H2: '20px',
-  FONT_SIZE_H1: '24px',
+  FONT_SIZE_H2: '22px',
+  FONT_SIZE_H1: '28px',
   FONT_FAMILY_UBUNTU: "'Ubuntu', sans-serif",
 }

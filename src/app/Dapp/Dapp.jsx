@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 import { TmColors, UtilityIcon } from '../../components/Common'
 
@@ -9,12 +10,12 @@ function Dapp() {
         <Wrapper>
             <LinkBtn to="/dapp/spot">
                 <UtilityIcon color="#fff" name="spot" />
-                <Title>Spot</Title>
+                <Title><FormattedMessage id="mainMenuPage.spot" /></Title>
             </LinkBtn>
-            <Divider>Or</Divider>
+            <Divider><FormattedMessage id="dapp.or" /></Divider>
             <LinkBtn to="/dapp/lending">
                 <UtilityIcon color="#fff" name="lending" /> 
-                <Title>Lending</Title>
+                <Title><FormattedMessage id="mainMenuPage.lending" /></Title>
             </LinkBtn>
         </Wrapper>
     )

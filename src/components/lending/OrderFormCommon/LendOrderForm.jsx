@@ -54,13 +54,15 @@ const LendOrderForm = props => {
     lendingToken,
   } = props
 
+  const termUnit = currentPair.termByDay < 1 ? <FormattedMessage id="exchangeLendingPage.orderPlace.day" /> : <FormattedMessage id="exchangeLendingPage.orderPlace.days" />
+
   return (
     <Wrapper>
       <HeaderRow>
         <BaseToken>
           <FormattedMessage 
             id="exchangeLendingPage.orderPlace.lend"
-            values={{lendingSymbol: currentPair.lendingTokenSymbol, termSymbol: currentPair.termSymbol}} />
+            values={{lendingSymbol: currentPair.lendingTokenSymbol, termByDay: currentPair.termByDay, termUnit}} />
         </BaseToken>
       </HeaderRow>
       <InputBox>

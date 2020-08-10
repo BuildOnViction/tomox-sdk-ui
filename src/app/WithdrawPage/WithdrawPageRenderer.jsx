@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Grid, Cell } from 'styled-css-grid'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Callout, InputGroup, Button } from "@blueprintjs/core"
+import { Callout, InputGroup, Button, Spinner } from "@blueprintjs/core"
 import { Link } from 'react-router-dom'
 
 import { pricePrecision } from '../../config/tokens'
@@ -26,8 +26,11 @@ export default function WithdrawPageRenderer({
     withdrawalAmount,
     withdrawalAmountWithoutFee,
     error,
+    dirty,
     total,
     handleChangePage,
+    hash,
+    withdrawMaxAmount,
 }) {  
     const columns = [
         {
@@ -111,6 +114,7 @@ export default function WithdrawPageRenderer({
                         </InputLabel>
 
                         <InputGroupWrapper
+                            status={error.address === 'invalid' && dirty.address ? 'invalid' : 'valid'}
                             name="address"
                             onChange={handleChangeInput}
                             value={receiverAddress}
@@ -124,6 +128,7 @@ export default function WithdrawPageRenderer({
                         </InputLabel>
 
                         <InputGroupWrapper
+                            status={error.amount === 'invalid' && dirty.amount ? 'invalid' : 'valid'}
                             name="amount"
                             type="number"
                             onChange={handleChangeInput}
@@ -133,18 +138,21 @@ export default function WithdrawPageRenderer({
                     </InputBox>
                     <WithdrawInfo>
                         <SmallText><FormattedMessage id="portfolioPage.withdraw.minimumWithdrawal" />: <BalanceValue>{token.minimumWithdrawal}</BalanceValue> {token.symbol}</SmallText>
-                        <SmallText><FormattedMessage id="portfolioPage.availableAmount" />: <BalanceValue>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</BalanceValue> {token.symbol}</SmallText>
+                        <SmallText><FormattedMessage id="portfolioPage.availableAmount" />: <AvlBalanceValue onClick={withdrawMaxAmount}>{BigNumber(token.availableBalance).toFormat(pricePrecision)}</AvlBalanceValue> {token.symbol}</SmallText>
                     </WithdrawInfo>
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.withdrawalFee" />: <BalanceValue>{token.withdrawFee}</BalanceValue> {token.symbol}</SmallText></TextRow>
                     <TextRow><SmallText><FormattedMessage id="portfolioPage.withdraw.youWillGet" />: <AmountWithoutFee>{withdrawalAmountWithoutFee}</AmountWithoutFee> {token.symbol}</SmallText></TextRow>
                     
                     <ButtonWrapper
-                        text={<FormattedMessage id="portfolioPage.withdraw" />}
+                        text={<ButtonContent>
+                                <FormattedMessage id="portfolioPage.withdraw" /> 
+                                {hash && <SpinnerStyled intent="warning" size={Spinner.SIZE_SMALL} />}
+                            </ButtonContent>}
                         intent="primary"
                         large
                         type="submit"
                         fill
-                        disabled={(error.address === 'invalid') || (error.amount === 'invalid')}
+                        disabled={(error.address === 'invalid') || (error.amount === 'invalid') || !!hash}
                         onClick={handleWithdrawal}
                     />
                 </Cell>
@@ -237,6 +245,13 @@ const BalanceValue = styled.span`
     font-family: ${Theme.FONT_FAMILY_UBUNTU};
 `
 
+const AvlBalanceValue = styled(BalanceValue)`
+    &:hover {
+        cursor: pointer;
+        color: ${TmColors.ORANGE};
+    }
+`
+
 const NoteBox = styled(Callout)`
     margin-top: 45px;
 
@@ -269,6 +284,7 @@ const InputGroupWrapper = styled(InputGroup).attrs({
         height: unset;
         padding: 5px 10px;
         background-color: ${props => props.theme.inputBackground};
+        box-shadow: ${props => props.status === 'invalid' ? '0 0 0 1px '+ TmColors.RED + ' !important' : 'none'};
     }
 `
 
@@ -294,7 +310,7 @@ const ButtonWrapper = styled(Button)`
 
     &.bp3-disabled {
         cursor: default !important;
-        background-color: ${TmColors.GRAY} !important;
+        background-color: ${TmColors.BLUE} !important;
     }
 
     .bp3-button-text {
@@ -302,7 +318,16 @@ const ButtonWrapper = styled(Button)`
     }
 `
 
+const ButtonContent = styled.div`
+    display: flex;
+`
+
 const AmountWithoutFee = styled(BalanceValue)`
     color: ${TmColors.ORANGE};
     font-weight: 600;
+    align-items: center;
+`
+
+const SpinnerStyled = styled(Spinner)`
+    margin-left: 15px;
 `

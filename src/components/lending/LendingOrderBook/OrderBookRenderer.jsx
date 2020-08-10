@@ -176,6 +176,7 @@ const BuyOrder = (props: SingleOrderProps) => {
   const { order, onClick } = props
   return (
     <Row update={order.update}>
+      { order.userOrder && <MarkUserOrder /> }
       <BuyRowBackground amount={order.relativeTotal} />
       <RowContentWrapper>
         <RowContent>
@@ -192,6 +193,7 @@ const SellOrder = (props: SingleOrderProps) => {
   const { order, onClick } = props
   return (
     <Row update={order.update}>
+      { order.userOrder && <MarkUserOrder /> }
       <SellRowBackGround amount={order.relativeTotal} />
       <RowContentWrapper>
         <RowContent>
@@ -455,6 +457,17 @@ const Ellipsis = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const MarkUserOrder = styled.i.attrs({
+  className: "fa fa-caret-right",
+  ariaHidden: "true"
+})`
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  color: ${TmColors.ORANGE};
 `
 
 export default OrderBookRenderer

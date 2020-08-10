@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
 import WAValidator from 'wallet-address-validator'
+import BigNumber from 'bignumber.js'
 
 import WithdrawPageRenderer from './WithdrawPageRenderer'
 
@@ -14,6 +15,7 @@ export default function WithdrawPage({
     getBridgeWithdrawHistory,
     withdrawHistory,
     total,
+    hash,
 }) {
     if (!authenticated) return <Redirect to="/unlock" />
 
@@ -31,15 +33,11 @@ export default function WithdrawPage({
         if (updatedToken) setSelectedToken(updatedToken)
     })
 
-    function handleChangeToken(token) {
-        setSelectedToken(token)
-        history.push(`/wallet/withdraw/${token.symbol}`)
-    }
-
     const [receiverAddress, setReceiverAddress] = useState('')
     const [withdrawalAmount, setWithdrawalAmount] = useState('')
     const [withdrawalAmountWithoutFee, setWithdrawalAmountWithoutFee] = useState('')
     const [error, setError] = useState({ address: 'invalid', amount: 'invalid' })
+    const [dirty, setDirty] = useState({ address: false, amount: false })
 
     function validateReceiverAddress(address) {
         let symbol = selectedToken.symbol
@@ -47,38 +45,63 @@ export default function WithdrawPage({
         if (symbol === 'USDT') symbol = 'ETH'
 
         try {
-            return WAValidator.validate(address, selectedToken.symbol)
+            return WAValidator.validate(address, symbol)
         } catch (error) {
             console.log(error)
             return true
         }
     }
 
+    function validateAmount(value) {
+        const { availableBalance, minimumWithdrawal } = selectedToken
+
+        return !(!value 
+            || Number(value) > Number(availableBalance)
+            || Number(value) < Number(minimumWithdrawal)
+            || Number(minimumWithdrawal) > Number(availableBalance))
+    }
+
     function handleChangeInput(e) {
         const { name, value } = e.target
-        const { availableBalance, minimumWithdrawal, withdrawFee } = selectedToken
+        const { withdrawFee } = selectedToken
         
         if (name === 'address') {
-            setReceiverAddress(value)            
+            setReceiverAddress(value)
+            setDirty({ ...dirty, address: true })          
             !validateReceiverAddress(value) 
                 ? setError({ ...error, address: 'invalid' })
                 : setError({ ...error, address: 'valid' })  
         } else {
-            if (!value 
-                || Number(value) > Number(availableBalance)
-                || Number(value) < Number(minimumWithdrawal)
-                || Number(minimumWithdrawal) > Number(availableBalance)) {
+            setDirty({ ...dirty, amount: true })
+            if (!validateAmount(value)) {
                 setError({ ...error, amount: 'invalid' })
                 setWithdrawalAmountWithoutFee('')
                 setWithdrawalAmount(value)
                 return
             }
             
-            const withdrawalAmountWithoutFee = Number(value) - Number(withdrawFee)
+            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFixed(8)
             setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
             setWithdrawalAmount(value)
             setError({ ...error, amount: 'valid' })
         }
+    }
+
+    function resetState() {
+        setError({ address: 'invalid', amount: 'invalid' })
+        setDirty({ address: false, amount: false })
+        setReceiverAddress('')
+        setWithdrawalAmountWithoutFee('')
+        setWithdrawalAmount('')
+    }
+
+    function handleChangeToken(token) {
+        if (token.symbol === selectedToken.symbol) return
+
+        resetState()
+
+        setSelectedToken(token)
+        history.push(`/wallet/withdraw/${token.symbol}`)
     }
 
     function handleWithdrawal() {
@@ -108,8 +131,23 @@ export default function WithdrawPage({
         }
     }, [currentPage])
 
+    useEffect(() => {        
+        resetState()
+    }, [hash])
+
     function handleChangePage(page) {        
         setCurrentPage(page)
+    }
+
+    function withdrawMaxAmount() {
+        const { availableBalance, withdrawFee } = selectedToken
+        if (!validateAmount(availableBalance)) return
+        
+        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFixed(8)
+        setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
+        setWithdrawalAmount(availableBalance)
+        setDirty({ ...dirty, amount: true })
+        setError({ ...error, amount: 'valid' })
     }
 
     return <WithdrawPageRenderer 
@@ -123,7 +161,10 @@ export default function WithdrawPage({
                 withdrawalAmount={withdrawalAmount}
                 withdrawalAmountWithoutFee={withdrawalAmountWithoutFee}
                 error={error}
+                dirty={dirty}
                 total={total}
                 handleChangePage={handleChangePage}
+                hash={hash}
+                withdrawMaxAmount={withdrawMaxAmount}
             />
 }

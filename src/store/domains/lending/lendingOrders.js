@@ -111,8 +111,7 @@ export default function ordersDomain(state: OrdersState) {
       const orders: Orders = getOrders(state)
       const history = orders.filter(
         order =>
-          ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) ===
-          -1,
+          ['CANCELLED', 'FILLED', 'PARTIALLY_FILLED'].indexOf(order.status) === 1
       )
       return history
     },
@@ -120,7 +119,7 @@ export default function ordersDomain(state: OrdersState) {
     current: (): Orders => {
       const orders: Orders = getOrders(state)
       const current = orders.filter(
-        order => ['NEW', 'OPEN'].indexOf(order.status) === -1,
+        order => ['NEW', 'OPEN'].indexOf(order.status) === 1
       )
       return current
     },
