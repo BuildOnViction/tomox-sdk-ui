@@ -33,6 +33,11 @@ const ORDERTYPES = {
   'MO': <FormattedMessage id='exchangePage.market' />,
 }
 
+const ORDERSIDES = {
+  'BUY': <FormattedMessage id='exchangePage.buy' />,
+  'SELL': <FormattedMessage id='exchangePage.sell' />,
+}
+
 const OrdersTableRendererMobile = (props: Props) => {
   const {
     loading,
@@ -166,7 +171,9 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
           {orders.map((order, index) => (
             <Row key={index}>
               <CenterCell width={"25%"} muted>  
-                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BUY' ? TmColors.GREEN : TmColors.RED}>{order.side} {order.type}</FieldValue>
+                <FieldValue style={{marginBottom: "7px"}} color={order.side === 'BUY' ? TmColors.GREEN : TmColors.RED}>
+                  {ORDERSIDES[order.side.toUpperCase()]} {ORDERTYPES[order.type]}
+                </FieldValue>
                 <div style={{width: "40px"}}>
                   <CircularProgressbar 
                     value={calcPercent(order.filled, order.amount, amountPrecision).toFixed(0)}
@@ -199,7 +206,7 @@ const OpenOrderTable = ({orders, cancelOrder, isHideOtherPairs, handleChangeHide
                     </div>
                   </Cell>
                   <Cell width="30%">
-                  {order.cancelAble && (<CancelButton onClick={() => cancelOrder(order.hash)}>Cancel</CancelButton>)}
+                  {order.cancelAble && (<CancelButton onClick={() => cancelOrder(order.hash)}><FormattedMessage id="exchangePage.cancel" /></CancelButton>)}
                   </Cell>
                 </ChildRow> 
               </Cell>
@@ -498,9 +505,12 @@ const FieldTitle = styled.span`
   color: ${props => props.color || TmColors.LIGHT_GRAY};
 `
 
-const FieldValue = styled.span`
+const FieldValue = styled.div`
   display: inline-block;
-  color: ${props => props.color || TmColors.WHITE};
+  
+  span {
+    color: ${props => props.color || TmColors.WHITE} !important;
+  }
 `
 
 export default OrdersTableRendererMobile

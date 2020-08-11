@@ -39,13 +39,13 @@ export default class DappOrders extends React.PureComponent<Props, State> {
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
   render() {
-    const { currentPairName } = this.props
-    if (!isTomoWallet() && !isWeb3()) return <Redirect to={`/dapp/${currentPairName.replace('/', '-')}`} />
+    const { currentPair } = this.props
+    if (!isTomoWallet() && !isWeb3()) return <Redirect to={`/dapp/${currentPair.pair.replace('/', '-')}`} />
 
     return (      
       <OrdersTableCell>
         <DappLendingOrdersTable />
-        {currentPairName && <BackButton to={`/dapp/lending/trade/${currentPairName.replace(' ', '_').replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>}
+        {currentPair.pair && <BackButton to={`/dapp/lending/trade/${currentPair.pair.replace(' ', '_').replace('/', '-')}`}><Icon icon="arrow-left" color={TmColors.WHITE} /></BackButton>}
       </OrdersTableCell>
     )
   }

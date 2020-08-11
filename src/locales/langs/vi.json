@@ -160,6 +160,7 @@
   "exchangePage.rejected": "Rejected",
   "exchangePage.orderPlace.buy": "Mua {baseTokenSymbol}",
   "exchangePage.orderPlace.sell": "Bán {baseTokenSymbol}",
+  "exchangePage.cancel": "Hủy",
   "exchangeLendingPage.orderPlace.day": "ngày",
   "exchangeLendingPage.orderPlace.days": "ngày",
   "exchangeLendingPage.orderPlace.lend": "Cho vay {lendingSymbol} trong {termByDay} {termUnit}",

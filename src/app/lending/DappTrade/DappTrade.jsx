@@ -30,7 +30,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if ((!prevProps.isConnected && this.props.isConnected)
-      || (this.props.currentPairName !== prevProps.currentPairName)
+      || (this.props.currentPair.pair !== prevProps.currentPair.pair)
       || (this.props.authenticated && !prevProps.authenticated)) {
       this.props.queryDappTradePageData()
     }
@@ -43,7 +43,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
   render() {
-    const { currentPairName } = this.props
+    const { currentPair } = this.props
 
     return (     
       <OrderFormCell isShow={true}>
@@ -65,10 +65,11 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
           </Cell>
         </Grid>
 
-        {currentPairName && 
+        {currentPair.pair && 
           (<Header>
             <Pair to="/dapp/lending/pairs">
-              <PairName>{currentPairName}</PairName>
+              <PairName>{currentPair.termByDay}&nbsp;{currentPair.termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+                  /{currentPair.lendingTokenSymbol}</PairName>
               <Icon icon="caret-down" />
             </Pair>
 

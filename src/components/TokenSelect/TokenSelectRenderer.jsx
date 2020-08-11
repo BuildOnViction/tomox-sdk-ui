@@ -69,6 +69,10 @@ const StyledSelect = styled(Select)`
   .bp3-popover-content {
     background: ${props => props.theme.inputBackground} !important;
     width: 450px;
+
+    @media (max-width: 450px) {
+      width: 320px;
+    }
   }
 
   .bp3-input-group input {

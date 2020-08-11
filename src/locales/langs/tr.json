@@ -160,6 +160,7 @@
   "exchangePage.rejected": "Reddedildi",
   "exchangePage.orderPlace.buy": "{baseTokenSymbol} Al",
   "exchangePage.orderPlace.sell": "{baseTokenSymbol} Sat",
+  "exchangePage.cancel": "İptal",
   "exchangeLendingPage.orderPlace.day": "gün",
   "exchangeLendingPage.orderPlace.days": "gün",
   "exchangeLendingPage.orderPlace.lend": "{termByDay} {termUnit} için {lendingSymbol} borç ver",

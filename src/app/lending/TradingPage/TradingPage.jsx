@@ -45,7 +45,7 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if ((!prevProps.isConnected && this.props.isConnected)
-      || (this.props.currentPairName !== prevProps.currentPairName)) {      
+      || (this.props.currentPair.pair !== prevProps.currentPair.pair)) {      
           
       const {queryTradingPageData, match: {params: {pair}}} = this.props
       queryTradingPageData(pair)

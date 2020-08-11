@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, useParams } from 'react-router-dom'
 import WAValidator from 'wallet-address-validator'
 import BigNumber from 'bignumber.js'
 
-import WithdrawPageRenderer from './WithdrawPageRenderer'
+import DappWithdrawalContentRenderer from './DappWithdrawalContentRenderer'
 
 export default function WithdrawPage({ 
     userAddress, 
@@ -17,11 +16,8 @@ export default function WithdrawPage({
     total,
     hash,
 }) {
-    if (!authenticated) return <Redirect to="/unlock" />
 
-    const { token: tokenParam } = useParams()
-    let defaultToken = tokens.find(token => token.symbol.toLowerCase() === tokenParam.toLowerCase())
-    defaultToken = defaultToken || tokens[0]
+    const defaultToken = tokens[0]
     const [selectedToken, setSelectedToken] = useState(defaultToken)
 
     useEffect(() => {
@@ -80,7 +76,7 @@ export default function WithdrawPage({
                 return
             }
             
-            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFormat(8)
+            const withdrawalAmountWithoutFee = BigNumber(value).minus(withdrawFee).toFixed(8)
             setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
             setWithdrawalAmount(value)
             setError({ ...error, amount: 'valid' })
@@ -101,7 +97,6 @@ export default function WithdrawPage({
         resetState()
 
         setSelectedToken(token)
-        history.push(`/wallet/withdraw/${token.symbol}`)
     }
 
     function handleWithdrawal() {
@@ -117,18 +112,7 @@ export default function WithdrawPage({
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-        if (window.withdrawalTimer) clearInterval(window.withdrawalTimer)
-
-        if (currentPage === 1) {
-            getBridgeWithdrawHistory(userAddress, currentPage, 5)
-            window.withdrawalTimer = setInterval(() => getBridgeWithdrawHistory(userAddress, currentPage, 5), 5000)
-        } else {
-            getBridgeWithdrawHistory(userAddress, currentPage, 5)
-        }
-
-        return function cleanup() {
-            if (window.withdrawalTimer) clearInterval(window.withdrawalTimer)
-        }
+        getBridgeWithdrawHistory(userAddress, currentPage, 5)
     }, [currentPage])
 
     useEffect(() => {        
@@ -143,14 +127,14 @@ export default function WithdrawPage({
         const { availableBalance, withdrawFee } = selectedToken
         if (!validateAmount(availableBalance)) return
         
-        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFormat(8)
+        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFixed(8)
         setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
         setWithdrawalAmount(availableBalance)
         setDirty({ ...dirty, amount: true })
         setError({ ...error, amount: 'valid' })
     }
 
-    return <WithdrawPageRenderer 
+    return <DappWithdrawalContentRenderer 
                 token={selectedToken}
                 tokens={tokens}
                 handleChangeToken={handleChangeToken}

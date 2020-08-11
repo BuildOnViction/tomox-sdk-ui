@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { formatDate, truncateTripleText } from '../../utils/helpers'
-import { TmColors } from '../../components/Common'
+import { formatDate } from '../../utils/helpers'
+import { TmColors, Theme } from '../../components/Common'
 
 const STATUS = {
     PROCESSING: <FormattedMessage id="portfolioPage.depositWithdraw.status.processing" />,
@@ -20,26 +20,23 @@ function renderHeader(columns, widths) {
 
 function renderCell(item, field) {
     switch (field) {
-        case 'date':
-            return formatDate(Number(item[field]) * 1000, 'Y-LL-dd HH:mm:ss')
         case 'txHash':
             return (<ExteralLink href={`${item.scanUrl}tx/${item[field]}`} target="_blank">
-                        {truncateTripleText(item[field], 8)}
+                        <i className="fa fa-external-link" aria-hidden="true" />
                     </ExteralLink>)
-        case 'depositAddress':
-            return (<ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">
-                        {truncateTripleText(item[field], 8)}
-                    </ExteralLink>)
-        case 'withdrawalAddress':
-            return (<ExteralLink href={`${item.scanUrl}address/${item[field]}`} target="_blank">
-                        {truncateTripleText(item[field], 8)}
-                    </ExteralLink>)
+        case 'coin':
+            return (
+                <>
+                    <MainInfo>{item[field]} {item['amount']}</MainInfo>
+                    <Date><SmallText>{formatDate(Number(item['date']) * 1000, 'Y-LL-dd HH:mm:ss')}</SmallText></Date>
+                </>
+            )
         case 'status':
             if (item.tokenConfirmations && item['status'] === 'PROCESSING') {
-                return (<span>{STATUS[item['status']]} {`(${item.confirmations}/${item.tokenConfirmations})`}</span>)
+                return (<SmallText>{STATUS[item['status']]} {`(${item.confirmations}/${item.tokenConfirmations})`}</SmallText>)
             }
             
-            return STATUS[item['status']]
+            return <SmallText>{STATUS[item['status']]}</SmallText>
         default:
             return item[field]
     }
@@ -112,4 +109,15 @@ const CellHeader = styled(Cell)``
 const NoData = styled.div`
     text-align: center;
     margin-top: 45px;
+    margin-bottom: 45px;
 `
+
+const SmallText = styled.span`
+    font-size: ${Theme.FONT_SIZE_XS};
+`
+
+const MainInfo = styled.div`
+    color: ${TmColors.WHITE};
+`
+
+const Date = styled.div``

@@ -160,6 +160,7 @@
   "exchangePage.rejected": "却下",
   "exchangePage.orderPlace.buy": "{baseTokenSymbol}を購入",
   "exchangePage.orderPlace.sell": "{baseTokenSymbol}を売却",
+  "exchangePage.cancel": "キャンセル",
   "exchangeLendingPage.orderPlace.day": "day",
   "exchangeLendingPage.orderPlace.days": "days",
   "exchangeLendingPage.orderPlace.lend": "{termByDay} {termUnit}で{lendingSymbol}を貸す",

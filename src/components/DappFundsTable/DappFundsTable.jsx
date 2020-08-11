@@ -49,6 +49,9 @@ class DappFundsTable extends React.PureComponent<Props, State> {
       quoteTokens,
       baseTokens,
       authenticated,
+      showBalance,
+      totalBalance,
+      updateShowHideBalance,
     } = this.props
 
     if (!authenticated) return null
@@ -90,6 +93,9 @@ class DappFundsTable extends React.PureComponent<Props, State> {
         toggleZeroBalanceToken={this.toggleZeroBalanceToken}
         handleSearchInputChange={this.handleSearchInputChange}
         accountAddress={accountAddress}
+        showBalance={showBalance}
+        totalBalance={totalBalance}
+        updateShowHideBalance={updateShowHideBalance}
       />
     )
   }

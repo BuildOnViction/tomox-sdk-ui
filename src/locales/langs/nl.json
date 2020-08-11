@@ -160,6 +160,7 @@
   "exchangePage.rejected": "Afgewezen",
   "exchangePage.orderPlace.buy": "Koop {baseTokenSymbol}",
   "exchangePage.orderPlace.sell": "Verkoop {baseTokenSymbol}",
+  "exchangePage.cancel": "Annuleren",
   "exchangeLendingPage.orderPlace.day": "day",
   "exchangeLendingPage.orderPlace.days": "days",
   "exchangeLendingPage.orderPlace.lend": "Uitlenen {lendingSymbol} voor {termByDay} {termUnit}",

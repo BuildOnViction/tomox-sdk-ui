@@ -19,7 +19,7 @@ import { Link as InternalLink } from 'react-router-dom'
 
 import { TOMOSCAN_URL } from '../../../config/environment'
 import { Colors, Loading, TmColors, Theme, Link, Centered, Text, UtilityIcon, LendingLabelSide } from '../../Common'
-import { formatDate, capitalizeFirstLetter, formatAmount } from '../../../utils/helpers'
+import { formatDate, formatAmount } from '../../../utils/helpers'
 import tickUrl from '../../../assets/images/tick.svg'
 import FundsTable from '../../FundsTable'
 
@@ -44,6 +44,11 @@ const ORDERTYPES = {
 const TOPUPTYPES = {
   '0': <FormattedMessage id='exchangeLendingPage.orders.topUpManual' />,
   '1': <FormattedMessage id='exchangeLendingPage.orders.topUpAuto' />,
+}
+
+const ORDERSIDES = {
+  'BORROW': <FormattedMessage id='exchangeLendingPage.orderPlace.btnBorrow' />,
+  'LEND': <FormattedMessage id='exchangeLendingPage.orderPlace.btnLend' />,
 }
 
 const rowHeight = 45
@@ -235,7 +240,7 @@ const OpenOrderTable = ({
           {ORDERTYPES[order.type]}
         </Cell>
         <Cell width={columnsOpenOrder["side"]} className={`${order.side && order.side.toLowerCase() === "borrow" ? "up" : "down"}`} muted>
-          {order.side && capitalizeFirstLetter(order.side)}
+          {order.side && ORDERSIDES[order.side.toUpperCase()]}
         </Cell>
         <Cell width={columnsOpenOrder["interest"]} muted>
           {BigNumber(order.interest).toFormat(2)}&#37;

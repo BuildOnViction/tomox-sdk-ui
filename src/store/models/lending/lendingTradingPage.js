@@ -31,7 +31,7 @@ export default function tradingPageSelector(state: State) {
   const authenticated = accountDomain.authenticated()
 
   return {
-    currentPairName: currentPair ? currentPair.pair : '',
+    currentPair,
     authenticated,
     isConnected,
     isInitiated,
