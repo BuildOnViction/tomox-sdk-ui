@@ -53,6 +53,7 @@ class DappOrderBook extends React.Component<Props, State> {
     this.setState({
       currentPricePrecision: precision.value,
     })
+    this.props.updateDecimals(precision.value)
   }
 
   render() {
@@ -85,7 +86,6 @@ class DappOrderBook extends React.Component<Props, State> {
     for (let i = 0; i <= pricePrecision; i++) {
       pricePrecisionsList.push(i)
     }
-
     return (
       <DappOrderBookRenderer 
         bids={bidsFilteredZeroAmount} 

@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import orderBookSelector from '../../store/models/orderBook'
-import { select } from '../../store/actions/orderBook'
+import { select, updateDecimals } from '../../store/actions/orderBook'
 
 import type { State } from '../../types'
 
@@ -12,6 +12,7 @@ export const mapStateToProps = (state: State) => {
 
 export const mapDispatchToProps = {
   select,
+  updateDecimals,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)
