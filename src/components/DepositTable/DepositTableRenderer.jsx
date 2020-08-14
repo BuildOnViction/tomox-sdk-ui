@@ -254,7 +254,7 @@ const QuoteTokenRows = (props: Props) => {
                 } */}
               </OperationsBox>
 
-              {verified && (
+              {/* {verified && (
                 <>
                   <InternalLink to={`/wallet/deposit/${symbol}`}>
                     <FormattedMessage id="portfolioPage.deposit" />
@@ -264,7 +264,7 @@ const QuoteTokenRows = (props: Props) => {
                     <FormattedMessage id="portfolioPage.withdrawal" />
                   </InternalLink>
                 </>
-              )}
+              )} */}
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -330,7 +330,7 @@ const BaseTokenRows = (props: Props) => {
                 } */}
               </OperationsBox>
 
-              {verified && (
+              {/* {verified && (
                 <>
                   <InternalLink to={`/wallet/deposit/${symbol}`}>
                     <FormattedMessage id="portfolioPage.deposit" />
@@ -340,7 +340,7 @@ const BaseTokenRows = (props: Props) => {
                     <FormattedMessage id="portfolioPage.withdrawal" />
                   </InternalLink>
                 </>
-              )}             
+              )}              */}
             </ButtonWrapper>
           </Cell>
         </Row>
@@ -472,17 +472,17 @@ const OperationButton = styled.button.attrs(({ disabled }) => ({
   }
 `
 
-const InternalLink = styled(RouterLink)`
-  display: inline-block;
-  padding: 5px 0;
-  cursor: pointer;
-  color: ${props => props.theme.textTable};
-  font-size: ${Theme.FONT_SIZE_MD};
+// const InternalLink = styled(RouterLink)`
+//   display: inline-block;
+//   padding: 5px 0;
+//   cursor: pointer;
+//   color: ${props => props.theme.textTable};
+//   font-size: ${Theme.FONT_SIZE_MD};
 
-  &:hover {
-    color: ${TmColors.ORANGE};
-  }
-`
+//   &:hover {
+//     color: ${TmColors.ORANGE};
+//   }
+// `
 
 const MarginButton = styled(OperationButton)`
   display: flex;
