@@ -156,9 +156,9 @@ export default function WithdrawPageRenderer({
                         disabled={(error.address === 'invalid') || (error.amount === 'invalid') || !!hash}
                         onClick={handleWithdrawal}
                     />
-                    {!errorId && (<Error>
+                    {errorId && (<Error>
                         <FormattedMessage 
-                            id="error.configChain"
+                            id={errorId}
                             values={{
                                 link: (
                                     <a target="_blank" style={{color: "#f94d5c", textDecoration: "underline"}} rel="noopener noreferrer" href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network">tomochain</a>
