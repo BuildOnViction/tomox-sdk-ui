@@ -286,5 +286,6 @@
   "dapp.switchToLending": "P2P Kredi'ye Geç",
   "dapp.marketContracts": "Piyasa Kontratlar",
   "dapp.contracts": "Kontratlar",
-  "dapp.orders.estProfit": "Tahmini kâr"
+  "dapp.orders.estProfit": "Tahmini kâr",
+  "error.configChain": "Please make sure you are connected to the {link} network"
 }

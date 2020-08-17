@@ -31,6 +31,7 @@ export default function WithdrawPageRenderer({
     handleChangePage,
     hash,
     withdrawMaxAmount,
+    errorId,
 }) {  
     const columns = [
         {
@@ -155,6 +156,16 @@ export default function WithdrawPageRenderer({
                         disabled={(error.address === 'invalid') || (error.amount === 'invalid') || !!hash}
                         onClick={handleWithdrawal}
                     />
+                    {!errorId && (<Error>
+                        <FormattedMessage 
+                            id="error.configChain"
+                            values={{
+                                link: (
+                                    <a target="_blank" style={{color: "#f94d5c", textDecoration: "underline"}} rel="noopener noreferrer" href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network">tomochain</a>
+                                ),
+                            }}
+                        />
+                    </Error>)}
                 </Cell>
             </Grid>
 
@@ -330,4 +341,10 @@ const AmountWithoutFee = styled(BalanceValue)`
 
 const SpinnerStyled = styled(Spinner)`
     margin-left: 15px;
+`
+
+const Error = styled(SmallText)`
+    color: ${TmColors.RED};
+    margin-top: 7px;
+    display: block;
 `

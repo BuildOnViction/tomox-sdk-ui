@@ -104,13 +104,17 @@ export default function WithdrawPage({
         history.push(`/wallet/withdraw/${token.symbol}`)
     }
 
-    function handleWithdrawal() {
-        withdrawToken({
+    const [errorId, setErrorId] = useState('')
+
+    async function handleWithdrawal() {
+        const { errorId } = await withdrawToken({
             contractAddress: selectedToken.wrapperAddress, 
             receiverAddress, 
             withdrawalAmount, 
             tokenDecimals: selectedToken.decimals,
         })
+
+        setErrorId(errorId)
     }
 
     
@@ -166,5 +170,6 @@ export default function WithdrawPage({
                 handleChangePage={handleChangePage}
                 hash={hash}
                 withdrawMaxAmount={withdrawMaxAmount}
+                errorId={errorId}
             />
 }

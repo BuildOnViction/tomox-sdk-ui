@@ -286,5 +286,6 @@
   "dapp.switchToLending": "Chuyển tới cho vay p2p",
   "dapp.marketContracts": "Hợp đồng",
   "dapp.contracts": "Hợp đồng",
-  "dapp.orders.estProfit": "Lợi nhuận dự tính"
+  "dapp.orders.estProfit": "Lợi nhuận dự tính",
+  "error.configChain": "Hãy đảm bảo rằng bạn đã kết nối đến mạng {link}"
 }

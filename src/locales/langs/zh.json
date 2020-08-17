@@ -286,5 +286,6 @@
     "dapp.switchToLending": "切换到贷款",
     "dapp.marketContracts": "市场合约",
     "dapp.contracts": "合约",
-    "dapp.orders.estProfit": "估计的利润"
+    "dapp.orders.estProfit": "估计的利润",
+    "error.configChain": "Please make sure you are connected to the {link} network"
 }

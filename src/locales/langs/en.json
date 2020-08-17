@@ -286,5 +286,6 @@
   "dapp.switchToLending": "Switch to Lending",
   "dapp.marketContracts": "Market contracts",
   "dapp.contracts": "Contracts",
-  "dapp.orders.estProfit": "Est profit"
+  "dapp.orders.estProfit": "Est profit",
+  "error.configChain": "Please make sure you are connected to the {link} network"
 }

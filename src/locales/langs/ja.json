@@ -286,5 +286,6 @@
   "dapp.switchToLending": "レンディングに切り替える",
   "dapp.marketContracts": "マーケットコントラクト",
   "dapp.contracts": "コントラクト",
-  "dapp.orders.estProfit": "想定利益"
+  "dapp.orders.estProfit": "想定利益",
+  "error.configChain": "Please make sure you are connected to the {link} network"
 }
