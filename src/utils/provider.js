@@ -25,15 +25,15 @@ export const createProvider = (
         name: undefined,
       })
     case 'web3':
-      if (window.web3) {
-        if (window.web3.currentProvider) {
-          return new providers.Web3Provider(window.web3.currentProvider, {
+      // if (window.ethereum) {
+        if (window.ethereum) {
+          return new providers.Web3Provider(window.ethereum, {
             chainId: networkId,
           })
         }
           
-        return window.web3
-      }
+      //   return window.web3
+      // }
 
       break
     case 'web3-p':

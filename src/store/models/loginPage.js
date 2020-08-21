@@ -32,9 +32,9 @@ export function loginWithMetamask(): ThunkAction {
 
     try {
       dispatch(actionCreators.requestLogin())
-      if (typeof window.web3 === 'undefined')
+      if (typeof window.ethereum === 'undefined')
         throw new Error('Metamask not installed')
-      if (typeof window.web3.eth.defaultAccount === 'undefined')
+      if (window.ethereum.selectedAddress === null)
         throw new Error('Metamask account locked')
       const { address } = await createMetamaskSigner()
 

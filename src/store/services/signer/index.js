@@ -28,9 +28,9 @@ export const createSigner = async (params: UpdateSignerParams): any => {
     if (!custom) {
       switch (type) {
         case 'metamask':
-          if (typeof window.web3 === 'undefined')
+          if (typeof window.ethereum === 'undefined')
             throw new Error('Metamask not installed')
-          if (typeof window.web3.eth.defaultAccount === 'undefined')
+          if (window.ethereum.selectedAddress === null)
             throw new Error('Metamask account locked')
           address = await createMetamaskSigner()
           settings = { type: 'metamask', networkId }
@@ -63,9 +63,9 @@ export const createSigner = async (params: UpdateSignerParams): any => {
     } else {
       switch (type) {
         case 'metamask':
-          if (typeof window.web3 === 'undefined')
+          if (typeof window.ethereum === 'undefined')
             throw new Error('Metamask not installed')
-          if (typeof window.web3.eth.defaultAccount === 'undefined')
+          if (window.ethereum.selectedAddress === null)
             throw new Error('Metamask account locked')
           settings = { type }
           address = await createMetamaskSigner()
@@ -111,7 +111,7 @@ export const addMethodsToSigner = (signer: Signer) => {
 }
 
 export const createMetamaskSigner = async () => {
-  const networkId = Number(window.web3.version.network)
+  const networkId = Number(window.ethereum.networkVersion)
   const provider = createProvider('web3', networkId)
   const signer = provider.getSigner()
   addMethodsToSigner(signer)
