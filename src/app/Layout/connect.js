@@ -1,6 +1,6 @@
 //@flow
 import { connect } from 'react-redux'
-import { loginWithMetamask, loginWithPantograph } from '../../store/models/loginPage'
+import { loginWithMetamask, loginWithPantograph, loginWithTomoWallet } from '../../store/models/loginPage'
 import layoutSelector, {
   createProvider,
   changeLocale,
@@ -35,6 +35,7 @@ const mapDispatchToProps = {
   logout,
   loginWithMetamask,
   loginWithPantograph,
+  loginWithTomoWallet,
 }
 
 export default connect(

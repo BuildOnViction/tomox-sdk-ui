@@ -9,6 +9,7 @@ import {
   createLocalWalletSigner,
   createMetamaskSigner,
   createPantographSigner,
+  createTomoWalletSigner,
 } from '../services/signer'
 
 import type
@@ -28,15 +29,42 @@ export default function loginPageSelector(state: State) {
 
 export function loginWithMetamask(): ThunkAction {
   return async (dispatch, getState) => {
-    if (window.ethereum) await window.ethereum.enable()
+    if (window.ethereum) await window.ethereum.request({ method: 'eth_requestAccounts' })
 
     try {
       dispatch(actionCreators.requestLogin())
       if (typeof window.ethereum === 'undefined')
         throw new Error('Metamask not installed')
-      if (window.ethereum.selectedAddress === null)
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+      if (accounts.length === 0)
         throw new Error('Metamask account locked')
       const { address } = await createMetamaskSigner()
+
+      // Check account exist on backend yet? 
+      // Create account if not yet for get balance of account from backend
+      // Remove when connect direct to TomoX
+      const accountInfo = await fetchAccountInfo(address)
+      if (!accountInfo) { await createAccount(address) }
+
+      dispatch(actionCreators.loginWithMetamask(address))
+    } catch (e) {
+      dispatch(actionCreators.loginError(e.message))
+      return e
+    }
+  }
+}
+
+export function loginWithTomoWallet(): ThunkAction {
+  return async (dispatch, getState) => {
+    if (window.ethereum) await window.ethereum.request({ method: 'eth_requestAccounts' })
+
+    try {
+      dispatch(actionCreators.requestLogin())
+      if (typeof window.web3 === 'undefined')
+        throw new Error('TomoWallet not installed')
+      if (typeof window.web3.eth.defaultAccount === 'undefined')
+        throw new Error('TomoWallet account locked')
+      const { address } = await createTomoWalletSigner()
 
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend

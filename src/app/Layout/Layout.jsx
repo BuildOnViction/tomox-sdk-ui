@@ -90,7 +90,9 @@ class Default extends React.PureComponent<Props, State> {
     if (isMobile() && pathname.includes('/dapp')) {
       if (isPantograph()) {
         await this.props.loginWithPantograph()
-      } else {// TomoWallet or Metamask
+      } else if (isTomoWallet()) { // TomoWallet
+        await this.props.loginWithTomoWallet()
+      } else { // Metamask
         await this.props.loginWithMetamask()
       }
     }
