@@ -11,6 +11,7 @@ import PrivateKeyWallet from '../../components/PrivateKeyWallet'
 import MnemonicWallet from '../../components/MnemonicWallet'
 import LedgerWallet from '../../components/LedgerWallet'
 import Pantograph from '../../components/Pantograph'
+import WalletConnect from '../../components/WalletConnect'
 
 type Props = {
   selectedTabId: string,
@@ -52,7 +53,8 @@ class LoginPageRenderer extends React.PureComponent<Props> {
             <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab id="private-key" title="Private Key" panel={<PrivateKeyWallet />} />
-            <Tab id="seed-phrase" title="Mnemonic Phrase" panel={<MnemonicWallet />} />            
+            <Tab id="seed-phrase" title="Mnemonic Phrase" panel={<MnemonicWallet />} />
+            <Tab id="wallet-connect" title="Wallet Connect" panel={<WalletConnect />} />         
           </TabsWrapper>
       </Wrapper>
     )

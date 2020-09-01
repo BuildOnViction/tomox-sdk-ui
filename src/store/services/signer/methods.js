@@ -8,6 +8,7 @@ import type {
   OrderCancel,
 } from '../../../types/orders'
 import { amountPrecision, pricePrecision } from '../../../config/tokens'
+import { getSigner } from '.'
 
 export const createRawOrder = async function (params: any) {
   const order = {}

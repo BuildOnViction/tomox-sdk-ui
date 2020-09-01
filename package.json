@@ -32,6 +32,9 @@
     "@ledgerhq/hw-app-eth": "^4.60.3",
     "@ledgerhq/hw-transport-u2f": "^4.60.3",
     "@ledgerhq/hw-transport-webusb": "^4.60.3",
+    "@walletconnect/client": "^1.2.2",
+    "@walletconnect/qrcode-modal": "^1.2.2",
+    "@walletconnect/web3-provider": "^1.2.1",
     "accounting-js": "^1.1.1",
     "amcharts3": "^3.21.13",
     "bignumber.js": "^9.0.0",
@@ -88,6 +91,7 @@
     "styled-system": "^3.0.2",
     "trezor-connect": "^7.0.5",
     "wallet-address-validator": "^0.2.4",
+    "web3": "^1.2.11",
     "ws": "^5.2.2",
     "zxcvbn": "^4.4.2"
   },
