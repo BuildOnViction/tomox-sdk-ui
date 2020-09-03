@@ -50,11 +50,11 @@ class LoginPageRenderer extends React.PureComponent<Props> {
             renderActiveTabPanelOnly={true}>
             <Tab id="ledger" title="Ledger Nano S" panel={<LedgerWallet />} />
             <Tab id="pantograph" title="Pantograph" panel={<Pantograph />} />
+            <Tab id="wallet-connect" title="Wallet Connect" panel={<WalletConnect />} />
             <Tab id="metamask" title="MetaMask" panel={<MetaMask />} />
             <Tab id="trezor" title="Trezor" panel={<TrezorWallet />} />
             <Tab id="private-key" title="Private Key" panel={<PrivateKeyWallet />} />
             <Tab id="seed-phrase" title="Mnemonic Phrase" panel={<MnemonicWallet />} />
-            <Tab id="wallet-connect" title="Wallet Connect" panel={<WalletConnect />} />         
           </TabsWrapper>
       </Wrapper>
     )

@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { ButtonLogin } from '../Common'
+import { Centered, ButtonLogin } from '../Common'
+
+import walletConnectUrl from '../../assets/images/wallet-connect.svg'
 
 function WalletConnectRender({ unlockWallet }) {
     return (
         <WalletWrapper>
-            <ButtonLogin onClick={unlockWallet}>Connect to Wallet</ButtonLogin>
+            <Centered><img width="130px" src={walletConnectUrl} alt="Pantograph" /></Centered>
+            <ButtonLogin onClick={unlockWallet}><FormattedMessage id="unlockWalletPage.unlockWallet" /></ButtonLogin>
         </WalletWrapper>
     )
 }
