@@ -4,9 +4,8 @@ import { getSigner } from '../../store/services/signer'
 import { WalletConnectSigner } from '../../store/services/signer/walletConnect'
 import WalletConnectRenderer from './WalletConnectRenderer'
 
-function WalletConnect({ loginWithWalletConnect, logout }) {
+function WalletConnect({ loginWithWalletConnect, logout, loading }) {
     async function unlockWallet() {
-        localStorage.removeItem('walletconnect')
         new WalletConnectSigner()
         const signer = getSigner()
         await signer.walletConnectInit()
@@ -24,8 +23,8 @@ function WalletConnect({ loginWithWalletConnect, logout }) {
             }
           
             // Get provided accounts and chainId
-            const { accounts, chainId } = payload.params[0]
-            console.log(accounts, chainId, '===============================')
+            const { accounts } = payload.params[0]
+            // console.log(accounts, chainId, '===============================')
 
             signer.setAddress(accounts[0])
             loginWithWalletConnect(accounts[0])
@@ -37,8 +36,8 @@ function WalletConnect({ loginWithWalletConnect, logout }) {
             }
           
             // Get updated accounts and chainId
-            const { accounts, chainId } = payload.params[0]
-            console.log(accounts, chainId, '==================================')
+            // const { accounts, chainId } = payload.params[0]
+            // console.log(accounts, chainId, '==================================')
             
         })
 
@@ -53,7 +52,10 @@ function WalletConnect({ loginWithWalletConnect, logout }) {
         })
     }
 
-    return <WalletConnectRenderer unlockWallet={unlockWallet} />
+    return <WalletConnectRenderer 
+                unlockWallet={unlockWallet}
+                loading={loading}
+            />
 }
 
 export default WalletConnect

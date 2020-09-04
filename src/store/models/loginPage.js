@@ -224,13 +224,14 @@ export function loginWithLedgerWallet(address: Object): ThunkAction {
 export function loginWithWalletConnect(address: String): ThunkAction {
   return async (dispatch, getState) => {
     try {
+      dispatch(actionCreators.requestLogin())
       // Check account exist on backend yet? 
       // Create account if not yet for get balance of account from backend
       // Remove when connect direct to TomoX
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.loginWithLedgerWallet(address))
+      dispatch(actionCreators.loginWithWalletConnect(address))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
