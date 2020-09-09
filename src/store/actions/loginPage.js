@@ -16,6 +16,7 @@ const actionTypes = {
   loginWithWallet: 'loginPage/LOGIN_WITH_WALLET',
   loginWithTrezorWallet: 'loginPage/LOGIN_WITH_TREZOR_WALLET',
   loginWithLedgerWallet: 'loginPage/LOGIN_WITH_LEDGER_WALLET',
+  loginWithWalletConnect: 'loginPage/LOGIN_WITH_WALLET_CONNECT',
   loginError: 'loginPage/LOGIN_ERROR',
   getPublicKey: 'loginPage/GET_PUBLIC_KEY',
   toggleSelectAddressModal: 'loginPage/TOGGLE_SELECT_ADDRESS_MODAL',
@@ -90,6 +91,16 @@ export function toggleSelectAddressModal(isOpen: boolean) {
   return {
     type: actionTypes.toggleSelectAddressModal,
     payload: isOpen,
+  }
+}
+
+export function loginWithWalletConnect(
+  address: string,
+  privateKey: string
+): LoginWithWalletAction {
+  return {
+    type: actionTypes.loginWithWalletConnect,
+    payload: { address },
   }
 }
 

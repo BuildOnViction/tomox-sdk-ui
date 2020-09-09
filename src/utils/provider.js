@@ -24,6 +24,14 @@ export const createProvider = (
         chainId: parseInt(DEFAULT_NETWORK_ID, 10),
         name: undefined,
       })
+    case 'metamask':
+      if (window.ethereum) {
+        return new providers.Web3Provider(window.ethereum, {
+          chainId: networkId,
+        })
+      }
+
+      break
     case 'web3':
       if (window.web3) {
         if (window.web3.currentProvider) {

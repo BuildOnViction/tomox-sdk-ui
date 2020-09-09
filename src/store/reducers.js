@@ -69,12 +69,10 @@ export const loginPage = createReducer(action => {
     case loginPageActionTypes.loginError:
       return loginPageEvents.loginFailed(payload.error)
     case loginPageActionTypes.loginWithMetamask:
-      return loginPageEvents.authenticated()
     case loginPageActionTypes.loginWithWallet:
-      return loginPageEvents.authenticated()
     case loginPageActionTypes.loginWithTrezorWallet:
-      return loginPageEvents.authenticated()
     case loginPageActionTypes.loginWithLedgerWallet:
+    case loginPageActionTypes.loginWithWalletConnect:
       return loginPageEvents.authenticated()
     case loginPageActionTypes.getPublicKey:
       return loginPageEvents.getPublicKey(payload)
@@ -340,6 +338,7 @@ export const account = createReducer(action => {
     case loginPageActionTypes.loginWithTrezorWallet:
       return accountEvents.accountUpdated(payload.address, '')
     case loginPageActionTypes.loginWithLedgerWallet:
+    case loginPageActionTypes.loginWithWalletConnect:
       return accountEvents.accountUpdated(payload.address, '')
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)

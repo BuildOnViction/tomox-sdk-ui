@@ -28,9 +28,10 @@ export const createSigner = async (params: UpdateSignerParams): any => {
     if (!custom) {
       switch (type) {
         case 'metamask':
-          if (typeof window.web3 === 'undefined')
+          if (typeof window.ethereum === 'undefined')
             throw new Error('Metamask not installed')
-          if (typeof window.web3.eth.defaultAccount === 'undefined')
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' }) 
+          if (accounts.length === 0)
             throw new Error('Metamask account locked')
           address = await createMetamaskSigner()
           settings = { type: 'metamask', networkId }
@@ -63,9 +64,10 @@ export const createSigner = async (params: UpdateSignerParams): any => {
     } else {
       switch (type) {
         case 'metamask':
-          if (typeof window.web3 === 'undefined')
+          if (typeof window.ethereum === 'undefined')
             throw new Error('Metamask not installed')
-          if (typeof window.web3.eth.defaultAccount === 'undefined')
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' }) 
+          if (accounts.length === 0)
             throw new Error('Metamask account locked')
           settings = { type }
           address = await createMetamaskSigner()
@@ -111,13 +113,25 @@ export const addMethodsToSigner = (signer: Signer) => {
 }
 
 export const createMetamaskSigner = async () => {
-  const networkId = Number(window.web3.version.network)
-  const provider = createProvider('web3', networkId)
+  const networkId = await window.ethereum.request({ method: 'net_version' })
+  const provider = createProvider('metamask', +networkId)
   const signer = provider.getSigner()
   addMethodsToSigner(signer)
 
   const address = await signer.getAddress()
   window.signer = { instance: signer, type: 'metamask' }
+
+  return { address, networkId }
+}
+
+export const createTomoWalletSigner = async () => {
+  const networkId = Number(window.web3.version.network)
+  const provider = createProvider('web3', +networkId)
+  const signer = provider.getSigner()
+  addMethodsToSigner(signer)
+
+  const address = await signer.getAddress()
+  window.signer = { instance: signer, type: 'web3' }
 
   return { address, networkId }
 }

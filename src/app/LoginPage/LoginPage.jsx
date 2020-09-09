@@ -16,17 +16,27 @@ class LoginPage extends React.PureComponent<Props, State> {
 
   state = {
     selectedTabId: 'ledger',
+    selectedOtherWallet: '',
   }
 
   handleTabChange = (selectedTabId: string) => {
-    this.setState({ selectedTabId })
+    this.setState({ selectedTabId, selectedOtherWallet: '' })
   }
+
+  handleOtherWalletChange = (walletType: string) => {
+    this.setState({ selectedOtherWallet: walletType })
+  }
+
   render() {
 
     const {
       props: { authenticated },
-      state: { selectedTabId},
+      state: { 
+        selectedTabId,
+        selectedOtherWallet,
+      },
       handleTabChange,
+      handleOtherWalletChange,
     } = this
 
     if (authenticated) {
@@ -36,7 +46,10 @@ class LoginPage extends React.PureComponent<Props, State> {
     return (
       <LoginPageRenderer
         selectedTabId={selectedTabId}
-        handleTabChange={handleTabChange} />
+        handleTabChange={handleTabChange} 
+        selectedOtherWallet={selectedOtherWallet}
+        handleOtherWalletChange={handleOtherWalletChange}
+      />
     )
   }
 }

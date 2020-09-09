@@ -217,3 +217,24 @@ export const getTopupLendingHash = (order) => {
     ],
   )
 }
+
+export const getTxHash = (tx) => {
+  return utils.solidityKeccak256(
+    [
+      'uint256',
+      'bytes',
+      'bytes',
+      'uint256',
+      'uint256',
+      'uint256',
+    ],
+    [
+      tx.nonce,
+      tx.to,
+      tx.data,
+      tx.value,
+      tx.gasLimit,
+      tx.gasPrice,
+    ],
+  )
+}

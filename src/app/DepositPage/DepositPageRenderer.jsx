@@ -9,7 +9,7 @@ import { Callout } from "@blueprintjs/core"
 import { Link } from 'react-router-dom'
 
 import { pricePrecision } from '../../config/tokens'
-import { Theme, TmColors } from '../../components/Common'
+import { Theme, TmColors, Loading, Centered } from '../../components/Common'
 
 import TokenSelect from '../../components/TokenSelect'
 import DataTableHistory from '../../components/DataTableHistory'
@@ -109,11 +109,17 @@ export default function DepositRenderer({
                         />
                     </AddressRow>
                     <AddressBox>
-                        <QrRow>{token.depositAddress && <QRCode value={token.depositAddress} size={150} includeMargin={true} />}</QrRow>
-                        <AddressRow><Address>{token.depositAddress}</Address></AddressRow>
-                        <CopyToClipboard text={token.depositAddress} onCopy={copyDataSuccess}>
-                            <CopyButton><i className="fa fa-clone" aria-hidden="true"></i> <FormattedMessage id="portfolioPage.deposit.copy" /></CopyButton>
-                        </CopyToClipboard>
+                        {!token.depositAddress && <Centered><Loading /></Centered>}
+
+                        {token.depositAddress && (
+                            <>
+                                <QrRow>{token.depositAddress && <QRCode value={token.depositAddress} size={150} includeMargin={true} />}</QrRow>
+                                <AddressRow><Address>{token.depositAddress}</Address></AddressRow>
+                                <CopyToClipboard text={token.depositAddress} onCopy={copyDataSuccess}>
+                                    <CopyButton><i className="fa fa-clone" aria-hidden="true"></i> <FormattedMessage id="portfolioPage.deposit.copy" /></CopyButton>
+                                </CopyToClipboard>
+                            </>
+                        )}
                     </AddressBox>
                     <NoteBox intent="danger">
                         <NoteItem><FormattedMessage id="portfolioPage.deposit.warning1" /> <strong style={{fontFamily: 'Ubuntu'}}>{token.minimumWithdrawal && token.minimumWithdrawal}</strong> { token.symbol }</NoteItem>
@@ -212,6 +218,7 @@ const AddressBox = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 30px 0 20px 0;
+    min-height: 150px;
 `
 
 const AddressRow = styled(TextRow)``

@@ -37,7 +37,7 @@ describe('createProvider', () => {
     providers.Web3Provider.mockImplementation(() => providerMock)
   })
 
-  it('create metamask provider', async () => {
+  it.skip('create metamask provider', async () => {
     window.web3 = {
       version: {
         network: '8888',
