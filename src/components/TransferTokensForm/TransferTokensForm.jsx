@@ -54,7 +54,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
     if (address === NATIVE_TOKEN_ADDRESS) {
       this.props.estimateTransferTomoFee({ gasPrice })
     } else {
-      this.props.estimateTransferTokensFee({ address, decimals })
+      this.props.estimateTransferTokensFee({ address, decimals, amount: 0 })
     }
   }
 
@@ -119,7 +119,7 @@ class TransferTokensForm extends React.PureComponent<Props, State> {
       if (token.address === NATIVE_TOKEN_ADDRESS) {
         await this.props.estimateTransferTomoFee({ gasPrice })
       } else {      
-        await this.props.estimateTransferTokensFee({ address: token.address, decimals: token.decimals })
+        await this.props.estimateTransferTokensFee({ address: token.address, decimals: token.decimals, amount })
       }
 
       if (amount && (Number(amount) + Number(this.props.transferFee) > Number(token.availableBalance))) return (this.setState({ balanceError: true }))

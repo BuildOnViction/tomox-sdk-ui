@@ -115,6 +115,6 @@ export default function transferTokensFormDomain(
     getHash: () => state.hash,
     getReceipt: () => state.receipt,
     getEstimatedGas: () => state.estimatedGas,
-    getTransferFee: () => state.transferFee,
+    getTransferFee: () => state.transferFee || 0,
   }
 }

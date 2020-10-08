@@ -147,11 +147,12 @@ export const estimateTransferTokensFee = (
 ): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     try {
-      const { address, decimals } = params
+      const { address, decimals, amount } = params
       const signer = getSigner()
       const token = new Contract(address, TRC21, signer)
+      const amountWithDecimals = BigNumber(amount).multipliedBy(10**decimals).toNumber()
 
-      let transferFee = await token.minFee()
+      let transferFee = await token.estimateFee(amountWithDecimals)
       transferFee = BigNumber(transferFee).div(10**decimals).toFixed(18)
 
       dispatch(actionCreators.updateTransferFee(transferFee))
