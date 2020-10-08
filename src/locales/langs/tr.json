@@ -287,5 +287,5 @@
   "dapp.marketContracts": "Piyasa Kontratlar",
   "dapp.contracts": "Kontratlar",
   "dapp.orders.estProfit": "Tahmini kâr",
-  "error.configChain": "Please make sure you are connected to the {link} network"
+  "error.configChain": "Lütfen {link} ağına bağlı olduğundan emin ol"
 }
