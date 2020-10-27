@@ -398,7 +398,6 @@ const TokenSearchTabs = styled(Tabs)`
   @media only screen and (max-width: 680px) {
     .tomo-wallet & {
       .bp3-tab-panel {
-        height: unset;
         overflow: auto;
       }
     }
