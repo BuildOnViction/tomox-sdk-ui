@@ -6,6 +6,8 @@ import WalletConnectRenderer from './WalletConnectRenderer'
 
 function WalletConnect({ loginWithWalletConnect, logout, loading }) {
     async function unlockWallet() {
+        localStorage.removeItem('walletconnect')
+
         new WalletConnectSigner()
         const signer = getSigner()
         await signer.walletConnectInit()
