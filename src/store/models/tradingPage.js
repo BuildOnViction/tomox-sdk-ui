@@ -74,6 +74,10 @@ export const queryTradingPageData = (): ThunkAction => {
       pathname = pathname.includes('dapp/spot') ? 'dapp/spot' : 'trade'
       dispatch(push(`/${pathname}/${pairName.replace('/', '-')}`))
 
+      socket.subscribePrice(currentPair)
+      socket.subscribeTrades(currentPair)
+      socket.subscribeOrderBook(currentPair)
+
       const pairs = pairDomain.getPairsArray()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
@@ -104,10 +108,6 @@ export const queryTradingPageData = (): ThunkAction => {
         dispatch(actionCreators.updateOrdersTable(partialFilledOrders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       }
-
-      socket.subscribePrice(currentPair)
-      socket.subscribeTrades(currentPair)
-      socket.subscribeOrderBook(currentPair)
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
@@ -130,6 +130,10 @@ export const queryDappTradePageData = (): ThunkAction => {
       const pairDomain = getTokenPairsDomain(state)
       const currentPair = pairDomain.getCurrentPair()
 
+      socket.subscribePrice(currentPair)
+      socket.subscribeTrades(currentPair)
+      socket.subscribeOrderBook(currentPair)
+
       const pairs = pairDomain.getPairsArray()
       const accountDomain = getAccountDomain(state)
       const authenticated = accountDomain.authenticated()
@@ -160,10 +164,6 @@ export const queryDappTradePageData = (): ThunkAction => {
         dispatch(actionCreators.updateOrdersTable(partialFilledOrders))
         dispatch(actionCreators.updateTradesByAddress(tradesByAddress))
       }
-
-      socket.subscribePrice(currentPair)
-      socket.subscribeTrades(currentPair)
-      socket.subscribeOrderBook(currentPair)
     } catch (e) {
       console.log(e)
       dispatch(notifierActionCreators.addErrorNotification({ message: e.message }))
