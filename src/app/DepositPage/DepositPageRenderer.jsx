@@ -96,7 +96,7 @@ export default function DepositRenderer({
                         <TradeTitle><FormattedMessage id="portfolioPage.deposit.goToTrade" />:</TradeTitle>
                         <div>
                             {
-                                token.pairs.map((pair, index) => <PairLink key={index} onClick={() => updateCurrentPair(pair)}>{pair}</PairLink>)
+                                token.pairs.slice(0, 20).map((pair, index) => <PairLink key={index} onClick={() => updateCurrentPair(pair)}>{pair}</PairLink>)
                             }
                         </div>
                     </TradeBox>
@@ -259,8 +259,10 @@ const TradeTitle = styled.div`
 `
 
 const PairLink = styled.span`
+    display: inline-block;
     cursor: pointer;
     margin-right: 15px;
+    margin-bottom: 7px;
     text-decoration: underline;
 
     &:hover {
