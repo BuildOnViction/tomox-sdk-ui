@@ -54,8 +54,8 @@ export default function depositPageSelector(state: State) {
 
 export const getBridgeTokenConfig = (): ThunkAction => {
     return async (dispatch, getState, { api }) => {
-        const { swapCoin } = await api.getBridgeTokenConfig()
-        dispatch(actionCreators.updateBridgeTokenConfig(swapCoin))
+        const tokens = await api.getBridgeTokenConfig()
+        dispatch(actionCreators.updateBridgeTokenConfig(tokens))
     }
 }
 

@@ -778,19 +778,15 @@ export const repayLendingOrder = async (payload) => {
 }
 
 export const getBridgeTokenConfig = async () => {
-  const response = await request('/api/config/getTokenConfig', {}, TOMO_BRIDGE_URL)
-
-  if (response.status === 400) {
-    const { error } = await response.json()
-    throw new Error(error)
+  try {
+    const response = await fetch(`${TOMOTOKENS_URL}/wrapped-tokens.json`)
+    const data = await response.json()
+    return data
+  } catch (e) {
+    console.log(e)
+    return []
   }
-
-  if (response.status !== 200) {
-    throw new Error('Server error')
-  }
-
-  const data = await response.json()
-  return data
+  
 }
 
 export const getBridgeDepositAddress = async (payload) => {

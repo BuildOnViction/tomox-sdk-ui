@@ -32,7 +32,8 @@ export default function Deposit({
     }, [selectedToken.address])
 
     useEffect(() => {
-        const updatedToken = tokens.find(token => token.mainAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
+        const updatedToken = tokens.find(token => token.wrapperAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
+        
         if (updatedToken) setSelectedToken(updatedToken)
     })
 

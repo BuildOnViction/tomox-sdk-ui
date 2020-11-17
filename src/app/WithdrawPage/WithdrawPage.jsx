@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
 import WAValidator from 'wallet-address-validator'
 import BigNumber from 'bignumber.js'
+import { Contract } from 'ethers'
 
+import { WRAPPER_TOKEN_ABI } from '../../utils/abis/wrapper_token'
+import { getSigner } from '../../store/services/signer'
 import WithdrawPageRenderer from './WithdrawPageRenderer'
 
 export default function WithdrawPage({ 
@@ -23,15 +26,39 @@ export default function WithdrawPage({
     let defaultToken = tokens.find(token => token.symbol.toLowerCase() === tokenParam.toLowerCase())
     defaultToken = defaultToken || tokens[0]
     const [selectedToken, setSelectedToken] = useState(defaultToken)
+    const [withdrawFee, setWithdrawFee] = useState(0)
 
     useEffect(() => {
         getBridgeTokenConfig()
     }, [tokens.length])
 
     useEffect(() => {
-        const updatedToken = tokens.find(token => token.mainAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
-        if (updatedToken) setSelectedToken(updatedToken)
+        const updatedToken = tokens.find(token => token.wrapperAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
+
+        if (updatedToken) {
+            updatedToken.withdrawFee = withdrawFee
+            setSelectedToken(updatedToken)
+        }
     })
+
+    useEffect(() => {
+        async function fetchData() {
+            if (selectedToken.wrapperAddress) {
+                try {
+                    const signer = getSigner()
+                    const tokenContract = new Contract(selectedToken.wrapperAddress, WRAPPER_TOKEN_ABI, signer)
+                    const result = await tokenContract.WITHDRAW_FEE()
+                    const withdrawFee = BigNumber(result.toString()).div(10 ** selectedToken.decimals).toString()
+
+                    setWithdrawFee(withdrawFee)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
+
+        fetchData()
+    }, [selectedToken.wrapperAddress])
 
     const [receiverAddress, setReceiverAddress] = useState('')
     const [withdrawalAmount, setWithdrawalAmount] = useState('')
@@ -93,6 +120,7 @@ export default function WithdrawPage({
         setReceiverAddress('')
         setWithdrawalAmountWithoutFee('')
         setWithdrawalAmount('')
+        setWithdrawFee('')
     }
 
     function handleChangeToken(token) {
