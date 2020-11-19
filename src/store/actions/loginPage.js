@@ -32,38 +32,41 @@ export function createWallet(
   }
 }
 
-export function loginWithMetamask(address: string): LoginWithMetamaskAction {
+export function loginWithMetamask(address: string, type: string): LoginWithMetamaskAction {
   return {
     type: actionTypes.loginWithMetamask,
-    payload: { address },
+    payload: { address, type },
   }
 }
 
 export function loginWithWallet(
   address: string,
+  type: string,
   privateKey: string
 ): LoginWithWalletAction {
   return {
     type: actionTypes.loginWithWallet,
-    payload: { address, privateKey },
+    payload: { address, type, privateKey },
   }
 }
 
 export function loginWithTrezorWallet(
-  address: string
+  address: string, 
+  type: string
 ): LoginWithTrezorWalletAction {
   return {
     type: actionTypes.loginWithTrezorWallet,
-    payload: { address },
+    payload: { address, type },
   }
 }
 
 export function loginWithLedgerWallet(
-  address: string
+  address: string,
+  type: string
 ): LoginWithLedgerWalletAction {
   return {
     type: actionTypes.loginWithLedgerWallet,
-    payload: { address },
+    payload: { address, type },
   }
 }
 
@@ -96,11 +99,11 @@ export function toggleSelectAddressModal(isOpen: boolean) {
 
 export function loginWithWalletConnect(
   address: string,
-  privateKey: string
+  type: string
 ): LoginWithWalletAction {
   return {
     type: actionTypes.loginWithWalletConnect,
-    payload: { address },
+    payload: { address, type },
   }
 }
 

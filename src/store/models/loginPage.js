@@ -46,7 +46,7 @@ export function loginWithMetamask(): ThunkAction {
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.loginWithMetamask(address))
+      dispatch(actionCreators.loginWithMetamask(address, 'metamask'))
     } catch (e) {
       dispatch(actionCreators.loginError(e.message))
       return e
@@ -72,7 +72,7 @@ export function loginWithTomoWallet(): ThunkAction {
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.loginWithMetamask(address))
+      dispatch(actionCreators.loginWithMetamask(address, 'tomowallet'))
     } catch (e) {
       dispatch(actionCreators.loginError(e.message))
       return e
@@ -89,7 +89,7 @@ export function loginWithPantograph(): ThunkAction {
       if (typeof window.tomoWeb3 === 'undefined')
         throw new Error('Pantograph not installed')
       if (typeof window.tomoWeb3.eth.defaultAccount === 'undefined')
-        throw new Error('Metamask account locked')
+        throw new Error('Pantograph account locked')
       const { address } = await createPantographSigner()
 
       // Check account exist on backend yet? 
@@ -98,7 +98,7 @@ export function loginWithPantograph(): ThunkAction {
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.loginWithMetamask(address))
+      dispatch(actionCreators.loginWithMetamask(address, 'pantograph'))
     } catch (e) {
       dispatch(actionCreators.loginError(e.message))
       return e
@@ -123,7 +123,7 @@ export function loginWithWallet(wallet): ThunkAction {
       if (!accountInfo) { await createAccount(address) }
 
       dispatch(actionCreators.createWallet(wallet.address))
-      dispatch(actionCreators.loginWithWallet(address, privateKeyEncrypted))
+      dispatch(actionCreators.loginWithWallet(address, 'privateKey',privateKeyEncrypted))
     } catch (e) {
       console.log(e)
       dispatch(
@@ -189,7 +189,7 @@ export function loginWithTrezorWallet(address: Object): ThunkAction {
 
       dispatch(actionCreators.toggleSelectAddressModal(false))
       dispatch(actionCreators.requestLogin())
-      dispatch(actionCreators.loginWithTrezorWallet(address.addressString))
+      dispatch(actionCreators.loginWithTrezorWallet(address.addressString, 'trezor'))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
@@ -211,7 +211,7 @@ export function loginWithLedgerWallet(address: Object): ThunkAction {
       const signer = getSigner()
       signer.setAddress(address)
 
-      dispatch(actionCreators.loginWithLedgerWallet(address.addressString))
+      dispatch(actionCreators.loginWithLedgerWallet(address.addressString, 'ledger'))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })
@@ -231,7 +231,7 @@ export function loginWithWalletConnect(address: String): ThunkAction {
       const accountInfo = await fetchAccountInfo(address)
       if (!accountInfo) { await createAccount(address) }
 
-      dispatch(actionCreators.loginWithWalletConnect(address))
+      dispatch(actionCreators.loginWithWalletConnect(address, 'walletConnect'))
     } catch (e) {
       dispatch(
         notifierActionCreators.addNotification({ message: 'Login error' })

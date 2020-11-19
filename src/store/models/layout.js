@@ -43,6 +43,7 @@ export default function createSelector(state: State) {
   const currentBlock = accountDomain.currentBlock()
   const accountLoading = !TomoBalance
   const referenceCurrency = accountDomain.referenceCurrency()
+  const typeUnlock = accountDomain.type()
   const locale = settingsDomain.getLocale()
   const mode = settingsDomain.getMode()
   const currentPair = tokenPairs.getCurrentPair()
@@ -68,6 +69,7 @@ export default function createSelector(state: State) {
     newNotifications,
     lendingCurrentPair,
     lendingCurrentPairData,
+    typeUnlock,
   }
 }
 

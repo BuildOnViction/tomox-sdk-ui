@@ -24,6 +24,7 @@ import {
   DarkMode,
   TmColors,
 } from '../../components/Common'
+import { getSigner } from '../../store/services/signer'
 
 import globeGrayUrl from '../../assets/images/globe_icon_gray.svg'
 import globeWhiteUrl from '../../assets/images/globe_icon_white.svg'
@@ -85,15 +86,25 @@ class Default extends React.PureComponent<Props, State> {
   }
 
   componentDidMount = async () => {
-    const { createProvider, authenticated, queryAccountData, pathname } = this.props
+    const { 
+      createProvider,
+      authenticated, 
+      queryAccountData, 
+      pathname, 
+      typeUnlock,
+      loginWithPantograph,
+      loginWithTomoWallet,
+      loginWithMetamask,
+    } = this.props
+    const signer = getSigner()
 
     if (isMobile() && pathname.includes('/dapp')) {
       if (isPantograph()) {
-        await this.props.loginWithPantograph()
+        await loginWithPantograph()
       } else if (isTomoWallet()) { // TomoWallet
-        await this.props.loginWithTomoWallet()
+        await loginWithTomoWallet()
       } else { // Metamask
-        await this.props.loginWithMetamask()
+        await loginWithMetamask()
       }
     }
 
@@ -101,7 +112,13 @@ class Default extends React.PureComponent<Props, State> {
       createProvider()
     }
 
-    if (authenticated) {
+    if (authenticated && !signer && typeUnlock === 'metamask') {
+      loginWithMetamask()
+      queryAccountData()
+    }
+
+    if (authenticated && !signer && typeUnlock === 'pantograph') {
+      loginWithPantograph()
       queryAccountData()
     }
   }

@@ -332,14 +332,14 @@ export const account = createReducer(action => {
     case signerSettingsActionTypes.updateSigner:
       return accountEvents.accountUpdated(payload.address, '')
     case loginPageActionTypes.loginWithMetamask:
-      return accountEvents.accountUpdated(payload.address, '')
+      return accountEvents.accountUpdated(payload.address, payload.type)
     case loginPageActionTypes.loginWithWallet:
-      return accountEvents.accountUpdated(payload.address, payload.privateKey)
+      return accountEvents.accountUpdated(payload.address, payload.type, payload.privateKey)
     case loginPageActionTypes.loginWithTrezorWallet:
-      return accountEvents.accountUpdated(payload.address, '')
+      return accountEvents.accountUpdated(payload.address, payload.type)
     case loginPageActionTypes.loginWithLedgerWallet:
     case loginPageActionTypes.loginWithWalletConnect:
-      return accountEvents.accountUpdated(payload.address, '')
+      return accountEvents.accountUpdated(payload.address, payload.type)
     case walletPageActionTypes.updateShowHelpModal:
       return accountEvents.showHelpModalUpdated(payload.showHelpModal)
     case layoutActionTypes.updateExchangeAddress:

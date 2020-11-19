@@ -9,6 +9,7 @@ const initialState = {
   exchangeAddress: '',
   referenceCurrency: { name: 'USD', symbol: '$' },
   time: new Date().getTime().toString(),
+  type: '',
 }
 
 export const initialized = () => {
@@ -16,10 +17,11 @@ export const initialized = () => {
   return event
 }
 
-export const accountUpdated = (address: string, privateKey: string) => {
+export const accountUpdated = (address: string, type: string, privateKey: string) => {
   const event = (state: AccountState) => ({
     ...state,
     address: address.toLowerCase(),
+    type,
     privateKey,
   })
   return event
@@ -99,5 +101,6 @@ export default function accountDomain(state: AccountState) {
     referenceCurrency: () => state.referenceCurrency,
     fee: () => state.exchangeFee,
     time: () => state.time,
+    type: () => state.type,
   }
 }
