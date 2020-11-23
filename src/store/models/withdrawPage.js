@@ -65,6 +65,7 @@ export const getBridgeWithdrawHistory = (address: string, page, limit): ThunkAct
         const currentHash = getWithDrawDomain(state).getHash()
         const result = await api.getBridgeWithdrawHistory(address, page, limit)
 
+        if (result.Data.length === 0) return
         
         const data = result.Data.map(item => {
             return {
