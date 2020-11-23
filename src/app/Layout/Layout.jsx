@@ -98,6 +98,7 @@ class Default extends React.PureComponent<Props, State> {
     } = this.props
     const signer = getSigner()
 
+    // for mobile
     if (isMobile() && pathname.includes('/dapp')) {
       if (isPantograph()) {
         await loginWithPantograph()
@@ -112,6 +113,12 @@ class Default extends React.PureComponent<Props, State> {
       createProvider()
     }
 
+    // after login
+    if (authenticated && signer) {
+      queryAccountData()
+    }
+
+    // for refresh browser
     if (authenticated && !signer && typeUnlock === 'metamask') {
       loginWithMetamask()
       queryAccountData()
@@ -123,9 +130,8 @@ class Default extends React.PureComponent<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.authenticated !== this.props.authenticated
-      && this.props.authenticated) {
+  componentDidUpdate(prevProps) {    
+    if (!prevProps.authenticated && this.props.authenticated) {
       this.props.queryAccountData()
     }
   }
