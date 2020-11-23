@@ -113,8 +113,6 @@ export const withdrawToken = ({ contractAddress, receiverAddress, withdrawalAmou
                 errorId: '',
             }
         } catch (error) {
-            // const signer = getSigner()
-            // const { chainId } = await signer.provider.getNetwork()
             console.log(error)
             return {
                 errorId: 'error.configChain',

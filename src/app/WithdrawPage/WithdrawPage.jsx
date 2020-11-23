@@ -27,6 +27,7 @@ export default function WithdrawPage({
     defaultToken = defaultToken || tokens[0]
     const [selectedToken, setSelectedToken] = useState(defaultToken)
     const [withdrawFee, setWithdrawFee] = useState(0)
+    const [errorId, setErrorId] = useState('')
 
     useEffect(() => {
         getBridgeTokenConfig()
@@ -52,6 +53,7 @@ export default function WithdrawPage({
 
                     setWithdrawFee(withdrawFee)
                 } catch (error) {
+                    setErrorId('error.configChain')
                     console.log(error)
                 }
             }
@@ -149,8 +151,6 @@ export default function WithdrawPage({
         setSelectedToken(token)
         history.push(`/wallet/withdraw/${token.symbol}`)
     }
-
-    const [errorId, setErrorId] = useState('')
 
     async function handleWithdrawal() {
         const { errorId } = await withdrawToken({
