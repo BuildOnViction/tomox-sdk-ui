@@ -484,7 +484,7 @@ const SearchResultItem = styled.div`
 `
 
 const TableBody = styled.div`
-  height: calc(100% - 35px);
+  height: calc(100% - 70px);
   overflow-y: auto;
 `
 
