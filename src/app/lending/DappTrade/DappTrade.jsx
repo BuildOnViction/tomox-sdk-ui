@@ -5,13 +5,15 @@ import { Grid, Cell } from 'styled-css-grid'
 import 'rc-tabs/assets/index.css'
 import { Link } from "react-router-dom"
 import { Icon } from '@blueprintjs/core'
+import { FormattedMessage } from 'react-intl'
 
 import { Theme } from '../../../components/Common'
 
 import DappLendingOrderForm from '../../../components/lending/DappLendingOrderForm'
 import LendingTradesTable from '../../../components/lending/LendingTradesTable'
 import DappLendingOrderBook from '../../../components/lending/DappLendingOrderBook'
-import { FormattedMessage } from 'react-intl'
+import DappWarningModal from './DappWarningModal'
+
 
 type State = {
   chartTadId: string,
@@ -20,6 +22,7 @@ type State = {
 export default class DappOrderPlace extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
+    isShowWarning: true,
   }
 
   componentDidMount() {
@@ -42,43 +45,48 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
+  hideWarning = () => this.setState({isShowWarning: false})
+
   render() {
     const { currentPair } = this.props
 
-    return (     
-      <OrderFormCell isShow={true}>
-        <Grid flow="column" 
-          columns={"1fr"} 
-          rows={"400px 500px"} 
-          gap="10px" 
-          height="100%">
-            <Grid flow="row" 
-              columns={"6fr 5fr"} 
-              gap="0px" 
-              height="100%">
-              <Cell><DappLendingOrderForm /></Cell>
-              <Cell><DappLendingOrderBook /></Cell>
-            </Grid>
-          <Cell>
-            <Title><FormattedMessage id="dapp.marketContracts" /></Title>
-            <LendingTradesTable />
-          </Cell>
-        </Grid>
+    return (    
+      <> 
+        <OrderFormCell isShow={true}>
+          <Grid flow="column" 
+            columns={"1fr"} 
+            rows={"400px 500px"} 
+            gap="10px" 
+            height="100%">
+              <Grid flow="row" 
+                columns={"6fr 5fr"} 
+                gap="0px" 
+                height="100%">
+                <Cell><DappLendingOrderForm /></Cell>
+                <Cell><DappLendingOrderBook /></Cell>
+              </Grid>
+            <Cell>
+              <Title><FormattedMessage id="dapp.marketContracts" /></Title>
+              <LendingTradesTable />
+            </Cell>
+          </Grid>
 
-        {currentPair.pair && 
-          (<Header>
-            <Pair to="/dapp/lending/pairs">
-              <PairName>{currentPair.termByDay}&nbsp;{currentPair.termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
-                  /{currentPair.lendingTokenSymbol}</PairName>
-              <Icon icon="caret-down" />
-            </Pair>
+          {currentPair.pair && 
+            (<Header>
+              <Pair to="/dapp/lending/pairs">
+                <PairName>{currentPair.termByDay}&nbsp;{currentPair.termByDay > 1 ? <FormattedMessage id="app.days" /> : <FormattedMessage id="app.day" />}
+                    /{currentPair.lendingTokenSymbol}</PairName>
+                <Icon icon="caret-down" />
+              </Pair>
 
-            <OrdersLink to="/dapp/lending/orders">
-              <i className="fa fa-file-text-o" aria-hidden="true"></i>
-              <Typo><FormattedMessage id="dapp.orders" /></Typo>
-            </OrdersLink>
-          </Header>)}
-      </OrderFormCell>
+              <OrdersLink to="/dapp/lending/orders">
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                <Typo><FormattedMessage id="dapp.orders" /></Typo>
+              </OrdersLink>
+            </Header>)}
+        </OrderFormCell>
+        {this.state.isShowWarning && <DappWarningModal hideWarning={this.hideWarning} />}
+      </>
     )
   }
 }

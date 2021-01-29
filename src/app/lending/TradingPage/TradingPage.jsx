@@ -5,6 +5,7 @@ import { Grid, Cell } from 'styled-css-grid'
 
 import { Theme } from '../../../components/Common'
 import arrowDownOrangeUrl from '../../../assets/images/arrow_down_orange.svg'
+import WarningModal from './WarningModal'
 
 import LendingOrdersTable from '../../../components/lending/LendingOrdersTable'
 import LendingOrderForm from '../../../components/lending/LendingOrderForm'
@@ -34,7 +35,7 @@ type State = {
 };
 
 export default class TradingPage extends React.PureComponent<Props, State> {
-  state = {chartTadId: 'tvchart'}
+  state = {chartTadId: 'tvchart', isShowWarning: true}
 
   componentDidMount() {    
     if (this.props.isConnected) {
@@ -57,6 +58,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
   }
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
+
+  hideWarning = () => this.setState({ isShowWarning: false })
 
   render() {
 
@@ -89,6 +92,8 @@ export default class TradingPage extends React.PureComponent<Props, State> {
           </OrderbooxTradesGrid>
           <OrderFormCell><LendingOrderForm /></OrderFormCell>
         </Grid>
+
+        <WarningModal open={this.state.isShowWarning}  hideWarning={this.hideWarning} />
       </Container>  
     )
   }
@@ -276,6 +281,3 @@ const OrderFormCell = styled(Cell).attrs({
     }
   }
 `
-
-
-

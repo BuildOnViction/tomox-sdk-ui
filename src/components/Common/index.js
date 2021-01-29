@@ -28,6 +28,7 @@ import {
   CancelButton,
   AcceptButton,
   ButtonGroup,
+  BaseButton,
 } from './Button'
 
 import {
@@ -35,7 +36,7 @@ import {
 } from './Blueprint'
 
 export { TmColors, DarkMode, LightMode, Theme } from './Colors'
-export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton, CancelButton, AcceptButton, ButtonGroup }
+export { GreenGlowingButton, RedGlowingButton, BlueGlowingButton, CancelButton, AcceptButton, ButtonGroup, BaseButton }
 export { default as ButtonLogin } from './ButtonLogin'
 
 export { Box, TextBox, DividerBox, Flex, FlexItem, FlexRow, FlexColumn }
