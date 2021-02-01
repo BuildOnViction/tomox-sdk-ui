@@ -28,7 +28,7 @@ export default function Sidebar ({ disabled, mode, onChangeTheme }) {
         </SidebarItemBox>
       </MarketsLink>
 
-      <LendingMarketsLink mode={mode} to="/markets/lending">
+      {/* <LendingMarketsLink mode={mode} to="/markets/lending">
         <SidebarItemBox>
           <Tooltip disabled={disabled} 
             portalClassName="sidebar-tooltip"
@@ -39,7 +39,7 @@ export default function Sidebar ({ disabled, mode, onChangeTheme }) {
           </Tooltip>
           <SidebarItemTitle><FormattedMessage id="mainMenuPage.lending" /></SidebarItemTitle>
         </SidebarItemBox>
-      </LendingMarketsLink>
+      </LendingMarketsLink> */}
 
       <PortfolioLink to="/wallet">
         <SidebarItemBox>
