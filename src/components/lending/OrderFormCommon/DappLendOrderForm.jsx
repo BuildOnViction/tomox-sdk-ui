@@ -45,6 +45,7 @@ const DappLendOrderForm = props => {
     profit,
     currentPair,
     lendingToken,
+    toggleWarning,
   } = props
 
   return (
@@ -136,7 +137,8 @@ const DappLendOrderForm = props => {
             intent="danger"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnLend" /> }
             name="order"
-            onClick={() => handleSendOrder("INVEST")}
+            // onClick={() => handleSendOrder("INVEST")}
+            onClick={toggleWarning}
             fill
           />
         </React.Fragment>

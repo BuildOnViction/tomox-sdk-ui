@@ -705,6 +705,7 @@ function withOrderFormLogic(WrappedComponent) {
           loading,
           collateralTokens,
           lendingToken,
+          toggleWarning,
         },
         onInputChange,
         onInputFocus,
@@ -769,6 +770,7 @@ function withOrderFormLogic(WrappedComponent) {
           currentPair={currentPair}
           lendingToken={lendingToken}
           estimateCollateral={estimateCollateral}
+          toggleWarning={toggleWarning}
         />
       )
     }

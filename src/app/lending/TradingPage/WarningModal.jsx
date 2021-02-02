@@ -13,10 +13,7 @@ export default function WarningModal({ open, hideWarning }) {
                     <Icon icon="warning-sign" color="#f94d5c" iconSize="30" />
                 </WarningRow>
                 <WarningRow>
-                    As the collateral rate is taken directly from TomoDEX Spot Market, lending/borrowing activities are now subject to higher risks due to low liquidity. Please make your investments cautiously.
-                </WarningRow>
-                <WarningRow>
-                    TomoDEX Lending will be temporarily closed from 8AM (UTC) 3 Feb 2021.
+                    TomoDEX Lending temporarily closed from 8 AM (UTC) 3 Feb 2021.
                 </WarningRow>
                 <WarningRow>
                     <UnderstandButton 

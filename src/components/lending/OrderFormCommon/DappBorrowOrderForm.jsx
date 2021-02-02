@@ -32,7 +32,7 @@ const DappBorrowOrderForm = props => {
     onInputChange,
     onInputFocus,
     onInputBlur,
-    handleSendOrder,
+    // handleSendOrder,
     // handleDecreasePrice,
     // handleIncreasePrice,
     // handleDecreaseAmount,
@@ -47,6 +47,7 @@ const DappBorrowOrderForm = props => {
     onCollateralSelect,
     currentPair,
     estimateCollateral,
+    toggleWarning,
   } = props
 
   return (
@@ -153,7 +154,8 @@ const DappBorrowOrderForm = props => {
             intent="success"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnBorrow" />}
             name="order"
-            onClick={() => handleSendOrder("BORROW")}
+            // onClick={() => handleSendOrder("BORROW")}
+            onClick={toggleWarning}
             fill
           />
         </React.Fragment>

@@ -39,7 +39,7 @@ const BorrowOrderForm = props => {
     onInputChange,
     onInputFocus,
     onInputBlur,
-    handleSendOrder,
+    // handleSendOrder,
     // handleDecreasePrice,
     // handleIncreasePrice,
     // handleDecreaseAmount,
@@ -55,6 +55,7 @@ const BorrowOrderForm = props => {
     onCollateralSelect,
     currentPair,
     estimateCollateral,
+    toggleWarning,
   } = props
 
   const termUnit = currentPair.termByDay < 1 ? <FormattedMessage id="exchangeLendingPage.orderPlace.day" /> : <FormattedMessage id="exchangeLendingPage.orderPlace.days" />
@@ -171,7 +172,8 @@ const BorrowOrderForm = props => {
             intent="success"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnBorrow" />}
             name="order"
-            onClick={() => handleSendOrder("BORROW")}
+            // onClick={() => handleSendOrder("BORROW")}
+            onClick={toggleWarning}
             fill
           />
         </React.Fragment>

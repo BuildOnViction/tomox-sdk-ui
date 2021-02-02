@@ -22,7 +22,7 @@ type State = {
 export default class DappOrderPlace extends React.PureComponent<Props, State> {
   state = {
     chartTadId: 'tvchart',
-    isShowWarning: true,
+    isShowWarning: false,
   }
 
   componentDidMount() {
@@ -45,7 +45,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
-  hideWarning = () => this.setState({isShowWarning: false})
+  toggleWarning = () => this.setState({isShowWarning: !this.state.isShowWarning})
 
   render() {
     const { currentPair } = this.props
@@ -62,7 +62,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
                 columns={"6fr 5fr"} 
                 gap="0px" 
                 height="100%">
-                <Cell><DappLendingOrderForm /></Cell>
+                <Cell><DappLendingOrderForm toggleWarning={this.toggleWarning} /></Cell>
                 <Cell><DappLendingOrderBook /></Cell>
               </Grid>
             <Cell>
@@ -85,7 +85,7 @@ export default class DappOrderPlace extends React.PureComponent<Props, State> {
               </OrdersLink>
             </Header>)}
         </OrderFormCell>
-        {this.state.isShowWarning && <DappWarningModal hideWarning={this.hideWarning} />}
+        {this.state.isShowWarning && <DappWarningModal hideWarning={this.toggleWarning} />}
       </>
     )
   }

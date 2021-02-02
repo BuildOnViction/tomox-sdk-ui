@@ -38,7 +38,7 @@ const LendOrderForm = props => {
     onInputChange,
     onInputFocus,
     onInputBlur,
-    handleSendOrder,
+    // handleSendOrder,
     // handleDecreasePrice,
     // handleIncreasePrice,
     // handleDecreaseAmount,
@@ -52,6 +52,7 @@ const LendOrderForm = props => {
     profit,
     currentPair,
     lendingToken,
+    toggleWarning,
   } = props
 
   const termUnit = currentPair.termByDay < 1 ? <FormattedMessage id="exchangeLendingPage.orderPlace.day" /> : <FormattedMessage id="exchangeLendingPage.orderPlace.days" />
@@ -152,7 +153,8 @@ const LendOrderForm = props => {
             intent="danger"
             text={<FormattedMessage id="exchangeLendingPage.orderPlace.btnLend" /> }
             name="order"
-            onClick={() => handleSendOrder("INVEST")}
+            // onClick={() => handleSendOrder("INVEST")}
+            onClick={toggleWarning}
             fill
           />
         </React.Fragment>

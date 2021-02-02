@@ -35,7 +35,7 @@ type State = {
 };
 
 export default class TradingPage extends React.PureComponent<Props, State> {
-  state = {chartTadId: 'tvchart', isShowWarning: true}
+  state = {chartTadId: 'tvchart', isShowWarning: false}
 
   componentDidMount() {    
     if (this.props.isConnected) {
@@ -59,7 +59,9 @@ export default class TradingPage extends React.PureComponent<Props, State> {
 
   handleTabsChartChange = (tabId) => this.setState({chartTadId: tabId})
 
-  hideWarning = () => this.setState({ isShowWarning: false })
+  toggleWarning = () => {
+    this.setState({ isShowWarning: !this.state.isShowWarning })
+  }
 
   render() {
 
@@ -90,10 +92,10 @@ export default class TradingPage extends React.PureComponent<Props, State> {
               <Cell width={1}><OrderBook /></Cell>
               <Cell width={1}><LendingTradesTable /></Cell>
           </OrderbooxTradesGrid>
-          <OrderFormCell><LendingOrderForm /></OrderFormCell>
+          <OrderFormCell><LendingOrderForm toggleWarning={this.toggleWarning} /></OrderFormCell>
         </Grid>
 
-        <WarningModal open={this.state.isShowWarning}  hideWarning={this.hideWarning} />
+        <WarningModal open={this.state.isShowWarning}  hideWarning={this.toggleWarning} />
       </Container>  
     )
   }
