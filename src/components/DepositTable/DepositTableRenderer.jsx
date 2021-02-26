@@ -77,14 +77,14 @@ const DepositTableRenderer = (props: Props) => {
       <TableSection>
         <RowSpaceBetween style={{ marginBottom: '10px' }}>
           <OperationButtonWrapper>
-            <MarginButton onClick={openSendModal}>
+            {/* <MarginButton onClick={openSendModal}>
               <DoubleArrowsUpIcon src={doubleArrowsUpUrl} alt="Send icon"></DoubleArrowsUpIcon>
               <FormattedMessage id="portfolioPage.send" />
             </MarginButton>
             <MarginButton onClick={openReceiveDialog}>
               <DoubleArrowsDownIcon src={doubleArrowsUpUrl} alt="Receive icon"></DoubleArrowsDownIcon>
               <FormattedMessage id="portfolioPage.receive" />
-            </MarginButton>
+            </MarginButton> */}
 
             <CheckboxWrapper
               label={<FormattedMessage id="portfolioPage.hideZeroAmounts" />}
