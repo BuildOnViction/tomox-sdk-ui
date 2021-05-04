@@ -273,6 +273,8 @@
   "portfolioPage.deposit.sendToAddress": "Send { symbol } to the address below",
   "portfolioPage.deposit.warning1": "Minimum deposit is",
   "portfolioPage.deposit.warning2": "You might not receive TRC21 {symbol} token if you deposit below minimum deposit amount of {symbol}",
+  "portfolioPage.deposit.warningERC20": "Only send your {symbol} on Ethereum to this address",
+  "portfolioPage.deposit.warningETH": "Only send your native ETH on Ethereum to this address",
   "portfolioPage.deposit.recentDeposit": "Recent deposit history",
   "dapp.orders": "Orders",
   "dapp.instruction": "Please use a dapp browser for this action.",

@@ -273,6 +273,8 @@
     "portfolioPage.deposit.sendToAddress": "请向以下的地址发送{symbol}",
     "portfolioPage.deposit.warning1": "最低存入额",
     "portfolioPage.deposit.warning2": "最低存入额若是比{symbol}的最低存入金额小的话，有可能会无法接收TRC21{symbol}",
+    "portfolioPage.deposit.warningERC20": "Only send your {symbol} on Ethereum to this address",
+    "portfolioPage.deposit.warningETH": "Only send your native ETH on Ethereum to this address",
     "portfolioPage.deposit.recentDeposit": "最近的收款记录",
     "dapp.orders": "订单",
     "dapp.instruction": "请使用dapp浏览器执行此操作",

@@ -273,6 +273,8 @@
   "portfolioPage.deposit.sendToAddress": "以下のアドレスに{ symbol } を送信してください",
   "portfolioPage.deposit.warning1": "最低デポジット額は",
   "portfolioPage.deposit.warning2": "{symbol}の最低デポジット額より小さくデポジットするとTRC21 {symbol}を受け取れない場合があります",
+  "portfolioPage.deposit.warningERC20": "Only send your {symbol} on Ethereum to this address",
+  "portfolioPage.deposit.warningETH": "Only send your native ETH on Ethereum to this address",
   "portfolioPage.deposit.recentDeposit": "最近の入金履歴",
   "dapp.orders": "注文",
   "dapp.instruction": "この動作にはTomoWalletをご利用ください",

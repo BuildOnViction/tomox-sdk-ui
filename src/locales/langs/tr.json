@@ -273,6 +273,8 @@
   "portfolioPage.deposit.sendToAddress": "Alttaki adrese { symbol } gönder",
   "portfolioPage.deposit.warning1": "Minimum yükleme miktarı",
   "portfolioPage.deposit.warning2": "Adrese minimum miktarda {symbol} yüklemezseniz, TRC21 {symbol} token alamayabilirsiniz",
+  "portfolioPage.deposit.warningERC20": "Only send your {symbol} on Ethereum to this address",
+  "portfolioPage.deposit.warningETH": "Only send your native ETH on Ethereum to this address",
   "portfolioPage.deposit.recentDeposit": "Yakın yükleme geçmişi",
   "dapp.orders": "Emirler",
   "dapp.instruction": "Bu işlem için dapp browserı kullanın",

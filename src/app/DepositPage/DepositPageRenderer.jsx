@@ -129,6 +129,17 @@ export default function DepositRenderer({
                                 values={{ symbol: token.symbol }}
                             />
                         </NoteItem>
+                        <NoteItem>
+                          {token.symbol.toUpperCase() === 'ETH' ?
+                            (<FormattedMessage 
+                              id="portfolioPage.deposit.warningETH" 
+                            />):
+                            (<FormattedMessage 
+                              id="portfolioPage.deposit.warningERC20" 
+                              values={{ symbol: token.symbol }}
+                            />)
+                          }
+                        </NoteItem>
                     </NoteBox>
                 </Cell>
             </Grid>
