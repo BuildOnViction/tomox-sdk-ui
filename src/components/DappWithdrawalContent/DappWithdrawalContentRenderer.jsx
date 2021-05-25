@@ -29,6 +29,7 @@ export default function WithdrawPageRenderer({
     handleChangePage,
     hash,
     withdrawMaxAmount,
+    chooseMaxBalance,
 }) {  
     const columns = [
         {
@@ -90,6 +91,11 @@ export default function WithdrawPageRenderer({
                         onChange={handleChangeInput}
                         value={withdrawalAmount}
                         autoComplete="off"
+                        rightElement={
+                          <span onClick={chooseMaxBalance}>
+                            <FormattedMessage id="portfolioPage.transferTokensModal.max" />
+                          </span>
+                        }
                     />
                 </InputBox>
 
@@ -220,6 +226,13 @@ const InputGroupWrapper = styled(InputGroup).attrs({
         background-color: ${props => props.theme.inputBackground};
         box-shadow: ${props => props.status === 'invalid' ? '0 0 0 1px '+ TmColors.RED + ' !important' : 'none'};
     }
+
+    .bp3-input-action {
+      top: 50% !important;
+      transform: translateY(-50%);
+      padding: 0 15px;
+      cursor: pointer;
+  }
 `
 
 const ButtonWrapper = styled(Button)`

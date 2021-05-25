@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import WAValidator from 'wallet-address-validator'
 import BigNumber from 'bignumber.js'
+import { Contract } from 'ethers'
 
+import { WRAPPER_TOKEN_ABI } from '../../utils/abis/wrapper_token'
+import { getSigner } from '../../store/services/signer'
 import DappWithdrawalContentRenderer from './DappWithdrawalContentRenderer'
 
 export default function WithdrawPage({ 
@@ -19,15 +22,41 @@ export default function WithdrawPage({
 
     const defaultToken = tokens[0]
     const [selectedToken, setSelectedToken] = useState(defaultToken)
+    const [withdrawFee, setWithdrawFee] = useState(0)
+    const [errorId, setErrorId] = useState('')
 
     useEffect(() => {
-        getBridgeTokenConfig()
+      getBridgeTokenConfig()
     }, [tokens.length])
 
     useEffect(() => {
-        const updatedToken = tokens.find(token => token.mainAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
-        if (updatedToken) setSelectedToken(updatedToken)
+      const updatedToken = tokens.find(token => token.wrapperAddress && (token.address.toLowerCase() === selectedToken.address.toLowerCase()))
+      
+      if (updatedToken) {
+        updatedToken.withdrawFee = withdrawFee
+        setSelectedToken(updatedToken)
+      }
     })
+
+    useEffect(() => {
+      async function fetchData() {
+          if (selectedToken.wrapperAddress) {
+              try {
+                  const signer = getSigner()
+                  const tokenContract = new Contract(selectedToken.wrapperAddress, WRAPPER_TOKEN_ABI, signer)
+                  const result = await tokenContract.WITHDRAW_FEE()
+                  const withdrawFee = BigNumber(result.toString()).div(10 ** selectedToken.decimals).toString()
+
+                  setWithdrawFee(withdrawFee)
+              } catch (error) {
+                  setErrorId('error.configChain')
+                  console.log(error)
+              }
+          }
+      }
+
+      fetchData()
+  }, [selectedToken.wrapperAddress])
 
     const [receiverAddress, setReceiverAddress] = useState('')
     const [withdrawalAmount, setWithdrawalAmount] = useState('')
@@ -83,12 +112,30 @@ export default function WithdrawPage({
         }
     }
 
+    function chooseMaxBalance() {
+      const { availableBalance } = selectedToken
+      setDirty({ ...dirty, amount: true })
+
+      if (!validateAmount(availableBalance)) {
+          setError({ ...error, amount: 'invalid' })
+          setWithdrawalAmountWithoutFee('')
+          setWithdrawalAmount(availableBalance)
+          return
+      }
+      
+      const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFormat(8)
+      setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
+      setWithdrawalAmount(availableBalance)
+      setError({ ...error, amount: 'valid' })
+    }
+
     function resetState() {
-        setError({ address: 'invalid', amount: 'invalid' })
-        setDirty({ address: false, amount: false })
-        setReceiverAddress('')
-        setWithdrawalAmountWithoutFee('')
-        setWithdrawalAmount('')
+      setError({ address: 'invalid', amount: 'invalid' })
+      setDirty({ address: false, amount: false })
+      setReceiverAddress('')
+      setWithdrawalAmountWithoutFee('')
+      setWithdrawalAmount('')
+      setWithdrawFee('')
     }
 
     function handleChangeToken(token) {
@@ -127,7 +174,7 @@ export default function WithdrawPage({
         const { availableBalance, withdrawFee } = selectedToken
         if (!validateAmount(availableBalance)) return
         
-        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFixed(8)
+        const withdrawalAmountWithoutFee = BigNumber(availableBalance).minus(withdrawFee).toFormat(8)
         setWithdrawalAmountWithoutFee(withdrawalAmountWithoutFee)
         setWithdrawalAmount(availableBalance)
         setDirty({ ...dirty, amount: true })
@@ -150,5 +197,7 @@ export default function WithdrawPage({
                 handleChangePage={handleChangePage}
                 hash={hash}
                 withdrawMaxAmount={withdrawMaxAmount}
+                errorId={errorId}
+                chooseMaxBalance={chooseMaxBalance}
             />
 }
