@@ -92,7 +92,7 @@
     "trezor-connect": "^7.0.5",
     "wallet-address-validator": "^0.2.4",
     "web3": "^1.2.11",
-    "ws": "^5.2.2",
+    "ws": "^7.4.6",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
