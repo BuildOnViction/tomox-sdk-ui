@@ -330,9 +330,21 @@ export const fetchAccountInfo = async (address: string) => {
 
 export const fetchVerifiedTokens = async () => {
   try {
-    const res = await fetch(`${TOMOTOKENS_URL}/bridge.json`)
-    const data = await res.json()
-    return { data }
+    const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
+
+    if (response.status === 400) {
+      const { error } = await response.json()
+      throw new Error(error)
+    }
+  
+    if (response.status !== 200) {
+      throw new Error('Server error')
+    }
+  
+    const data = await response.json()
+    const tokensOnBridge = data.swapCoin.map(token => token.wrapperAddress.toLowerCase())
+    
+    return { data: tokensOnBridge }
   } catch (error) {
     return { error }
   }
@@ -779,9 +791,20 @@ export const repayLendingOrder = async (payload) => {
 
 export const getBridgeTokenConfig = async () => {
   try {
-    const response = await fetch(`${TOMOTOKENS_URL}/wrapped-tokens.json`)
+    const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
+
+    if (response.status === 400) {
+      const { error } = await response.json()
+      throw new Error(error)
+    }
+  
+    if (response.status !== 200) {
+      throw new Error('Server error')
+    }
+  
     const data = await response.json()
-    return data
+
+    return data.swapCoin
   } catch (e) {
     console.log(e)
     return []
