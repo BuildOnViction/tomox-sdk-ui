@@ -254,7 +254,7 @@ const QuoteTokenRows = (props: Props) => {
                 } */}
               </OperationsBox>
 
-              {verified && (
+              {/* {verified && (
                 <>
                   <InternalLink to={`/wallet/deposit/${symbol}`}>
                     <FormattedMessage id="portfolioPage.deposit" />
@@ -264,7 +264,7 @@ const QuoteTokenRows = (props: Props) => {
                     <FormattedMessage id="portfolioPage.withdrawal" />
                   </InternalLink>
                 </>
-              )}
+              )} */}
             </ButtonWrapper>
           </Cell>
         </Row>

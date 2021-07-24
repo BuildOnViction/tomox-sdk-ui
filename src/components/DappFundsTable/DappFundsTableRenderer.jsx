@@ -78,10 +78,10 @@ class DappFundsTableRenderer extends React.PureComponent {
             </ShowHideBalance>
           </HeaderRow>
           
-          <HeaderRow>
+          {/* <HeaderRow>
             <HighlightButton to="/dapp/fund/deposit"><FormattedMessage id="portfolioPage.deposit" /></HighlightButton>
             <HighlightButton to="/dapp/fund/withdrawal"><FormattedMessage id="portfolioPage.withdraw" /></HighlightButton>
-          </HeaderRow>
+          </HeaderRow> */}
         </HeaderPage>
 
         <CheckboxWrapper

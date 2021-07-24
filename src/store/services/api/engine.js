@@ -1,5 +1,5 @@
 // @flow
-import { ENGINE_HTTP_URL, TOMOTOKENS_URL, TOMO_BRIDGE_URL } from '../../../config/environment'
+import { ENGINE_HTTP_URL, TOMO_BRIDGE_URL } from '../../../config/environment'
 import type { Token } from '../../types/tokens'
 import { utils } from 'ethers'
 import toDecimalFormString from 'number-to-decimal-form-string-x'
@@ -330,21 +330,23 @@ export const fetchAccountInfo = async (address: string) => {
 
 export const fetchVerifiedTokens = async () => {
   try {
-    const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
+    // disable deposit/withdrawal
+    // const response = await request('/api/config', {}, TOMO_BRIDGE_URL)
 
-    if (response.status === 400) {
-      const { error } = await response.json()
-      throw new Error(error)
-    }
+    // if (response.status === 400) {
+    //   const { error } = await response.json()
+    //   throw new Error(error)
+    // }
   
-    if (response.status !== 200) {
-      throw new Error('Server error')
-    }
+    // if (response.status !== 200) {
+    //   throw new Error('Server error')
+    // }
   
-    const data = await response.json()
-    const tokensOnBridge = data.swapCoin.map(token => token.wrapperAddress.toLowerCase())
+    // const data = await response.json()
+    // const tokensOnBridge = data.swapCoin.map(token => token.wrapperAddress.toLowerCase())
     
-    return { data: tokensOnBridge }
+    // return { data: tokensOnBridge }
+    return { data: [] }
   } catch (error) {
     return { error }
   }
