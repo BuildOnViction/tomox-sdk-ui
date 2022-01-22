@@ -110,7 +110,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "flow-bin": "^0.87.0",
     "husky": "^0.14.3",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^3.1.1",
     "react-hot-loader": "^4.3.11",
     "react-intl-cra": "^0.3.3",
     "sass": "^1.26.5"
